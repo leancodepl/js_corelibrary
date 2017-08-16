@@ -1,0 +1,21 @@
+{
+  "name": "@leancode/login-manager",
+  "version": "0.0.0-alpha.1",
+  "description": "Login manager",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "keywords": [
+    "login",
+    "auth",
+    "leancode"
+  ],
+  "publishConfig": {
+    "registry": "https://www.myget.org/F/leancode/npm/"
+  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.4.2"
+  }
+}
