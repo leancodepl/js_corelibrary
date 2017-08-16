@@ -1,8 +1,7 @@
 {
   "name": "@leancode/cqrs-client",
-  "version": "0.0.0-alpha.1",
+  "version": "0.0.0-this.is.set.automatically",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
-  "main": "./cqrs.js",
   "scripts": {
     "prepare": "tsc"
   },
