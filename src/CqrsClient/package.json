@@ -1,0 +1,22 @@
+{
+  "name": "@leancode/cqrs-client",
+  "version": "0.0.0-alpha.1",
+  "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
+  "main": "./cqrs.js",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "keywords": [
+    "cqrs",
+    "leancode"
+  ],
+  "publishConfig": {
+    "registry": "https://www.myget.org/F/leancode/npm/"
+  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "@leancode/login-manager": "^0.0.0-alpha.1"
+  }
+}

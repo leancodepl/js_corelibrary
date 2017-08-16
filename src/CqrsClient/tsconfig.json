@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "./",
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es6"
+    ],
+    "removeComments": false,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
