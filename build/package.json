@@ -1,13 +1,14 @@
 {
   "name": "core-js-build",
   "version": "0.2.0-alpha.6",
+  "description": "CoreJsLibrary publisher",
   "main": "index.js",
   "author": "LeanCode",
   "license": "MIT",
   "dependencies": {
-    "changelog-parser": "^2.0.5",
     "git-cli": "^0.10.0",
     "glob": "^7.1.2",
+    "parse-changelog": "^1.0.2",
     "semver": "^5.4.1"
   },
   "scripts": {

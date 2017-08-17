@@ -13,12 +13,6 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-changelog-parser@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/changelog-parser/-/changelog-parser-2.0.5.tgz#6011e598821c15164a8b5cd62513bd6f4d40322d"
-  dependencies:
-    line-reader "^0.2.4"
-
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -70,9 +64,13 @@ jsonfile@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-1.1.1.tgz#da4fd6ad77f1a255203ea63c7bc32dc31ef64433"
 
-line-reader@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/line-reader/-/line-reader-0.2.4.tgz#c4392b587dea38580c9678570e6e8e49fce52622"
+kramed@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/kramed/-/kramed-0.5.0.tgz#f166185c94623da03100f1cbdadd0794353a0d51"
+
+lodash@^3.9.3:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 minimatch@^3.0.4:
   version "3.0.4"
@@ -100,6 +98,14 @@ once@^1.3.0:
   dependencies:
     wrappy "1"
 
+parse-changelog@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/parse-changelog/-/parse-changelog-1.0.2.tgz#2a7fe6c33ae8960df8bb86e2bdc91f840f08e148"
+  dependencies:
+    kramed "0.5.0"
+    lodash "^3.9.3"
+    should "7.0.4"
+
 path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
@@ -113,6 +119,30 @@ rimraf@^2.2.8:
 semver@^5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
+
+should-equal@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/should-equal/-/should-equal-0.5.0.tgz#c797f135f3067feb69ebecdb306b1c3fe21b3e6f"
+  dependencies:
+    should-type "0.2.0"
+
+should-format@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/should-format/-/should-format-0.3.0.tgz#42007ec0aa1c86ea44914cc9111f1b9f27d3ceac"
+  dependencies:
+    should-type "0.2.0"
+
+should-type@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/should-type/-/should-type-0.2.0.tgz#6707ef95529d989dcc098fe0753ab1f9136bb7f6"
+
+should@7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/should/-/should-7.0.4.tgz#d75a180a5f8cbcd22de6fc7784780f84a1b36657"
+  dependencies:
+    should-equal "0.5.0"
+    should-format "0.3.0"
+    should-type "0.2.0"
 
 string@^1.8.1:
   version "1.9.1"
