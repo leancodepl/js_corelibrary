@@ -1,6 +1,6 @@
 {
   "name": "@leancode/cqrs-client",
-  "version": "0.0.0-this.is.set.automatically",
+  "version": "0.2.0-alpha.10",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
   "scripts": {
     "prepare": "tsc"
@@ -15,7 +15,7 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
-    "@leancode/login-manager": "^0.0.0-alpha.1"
+    "@leancode/login-manager": "^0.2.0-alpha.10",
+    "isomorphic-fetch": "^2.2.1"
   }
 }
