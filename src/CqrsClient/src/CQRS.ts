@@ -26,7 +26,7 @@ export class CQRS {
         private cqrsEndpoint: string,
         private loginManager?: LoginManager) {
     }
-    
+
     public executeQuery<TOutput>(type: string, dto: IRemoteQuery<TOutput>): Promise<TOutput> {
         const path = this.cqrsEndpoint + "/query/" + type;
         return this.makeRequest(path, dto, true);
@@ -77,7 +77,7 @@ export class CQRS {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        if (this.loginManager && this.loginManager) {
+        if (this.loginManager && this.loginManager.isSigned) {
             let token = await this.loginManager.getToken();
             headers.append("Authorization", "Bearer " + token);
         }

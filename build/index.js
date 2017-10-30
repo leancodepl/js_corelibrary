@@ -65,8 +65,22 @@ function searchAllPackages() {
 
 function setVersion(package, version) {
     console.log(`Setting version of ${package} to ${version}`);
+    return execute(new CliCommand(['npm'], ["view"]), { cwd: package })
+        .then(result => eval('(' + result + ')'))
+        .then(result => {
+            let dependecies = result.dependencies;
 
-    return execute(new CliCommand(['npm'], ["version", version, "--allow-same-version" ]), { cwd: package });
+            if (dependecies) {
+                let leancodeDependencies = Object.keys(dependecies)
+                    .filter(dependency => dependency.startsWith("@leancode"))
+                    .map(dependency => dependency + "@" + version);
+                
+                console.log(`Setting version of ${package}'s dependencies ${leancodeDependencies.join(", ")} to ${version}`);
+                return execute(new CliCommand(['npm'], ["install"].concat(leancodeDependencies).concat(["--save"])), { cwd: package });
+            }
+        }).then(() =>
+            execute(new CliCommand(['npm'], ["version", version, "--allow-same-version"]), { cwd: package })
+        );
 }
 
 function publishPackage(package) {

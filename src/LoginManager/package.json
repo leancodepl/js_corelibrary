@@ -1,6 +1,6 @@
 {
   "name": "@leancode/login-manager",
-  "version": "0.0.0-this.is.set.automatically",
+  "version": "0.2.0-alpha.10",
   "description": "Login manager",
   "scripts": {
     "prepare": "tsc"
@@ -16,6 +16,7 @@
   "author": "LeanCode",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "@types/facebook-js-sdk": "^2.8.3"
   }
 }

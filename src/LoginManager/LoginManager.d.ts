@@ -13,11 +13,13 @@ export declare class LoginManager {
     readonly isSigned: boolean;
     getToken(): Promise<string>;
     trySignIn(username: string, password: string): Promise<boolean>;
+    trySignInWithFacebook(accessToken: string): Promise<boolean>;
     tryRefreshToken(): Promise<boolean>;
     onChange(callback: () => void): void;
     removeOnChange(callback: () => void): void;
     private acquireToken(init);
     private buildSignInRequest(username, password);
+    private buildSignInWithFacebookRequest(accessToken);
     private buildRefreshRequest();
     private prepareHeaders();
     private notify();

@@ -41,6 +41,10 @@ export class LoginManager {
         return this.acquireToken(this.buildSignInRequest(username, password));
     }
 
+    public trySignInWithFacebook(accessToken: string): Promise<boolean> {
+        return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken));
+    }
+
     public async tryRefreshToken(): Promise<boolean> {
         return this.acquireToken(this.buildRefreshRequest());
     }
@@ -92,6 +96,19 @@ export class LoginManager {
         params.append("scope", this.scopes);
         params.append("username", username);
         params.append("password", password);
+
+        return {
+            method: "POST",
+            headers: this.prepareHeaders(),
+            body: params
+        };
+    }
+
+    private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
+        let params = new URLSearchParams();
+        params.append("grant_type", "facebook");
+        params.append("scope", this.scopes);
+        params.append("assertion", accessToken);
 
         return {
             method: "POST",
