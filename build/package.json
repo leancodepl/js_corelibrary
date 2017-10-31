@@ -9,6 +9,7 @@
     "@leancode/login-manager": "^0.2.0-alpha.10",
     "git-cli": "^0.10.0",
     "glob": "^7.1.2",
+    "node-cmd": "^3.0.0",
     "parse-changelog": "^1.0.2",
     "semver": "^5.4.1",
     "update-package-json": "0.0.0"

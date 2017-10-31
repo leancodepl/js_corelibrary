@@ -7,6 +7,7 @@ var CliCommand = require('git-cli/lib/cli-command');
 var execute = require('git-cli/lib/runner').execute;
 var Repository = require('git-cli').Repository;
 var update = require('update-package-json');
+var cmd = require('node-cmd');
 
 var cwd = path.resolve(__dirname + '/..');
 
@@ -95,14 +96,29 @@ function publishPackage(package) {
     console.log(`##teamcity[message text='Publishing package ${package}']`);
     console.log(`##teamcity[compilationStarted compiler='tsc' flowId='${package}']`);
     
-    return execute(new CliCommand(['npm'], ["publish"]), { cwd: package })
-        .then(output => {
-            console.log(`##teamcity[message text='${output}']`);
-        }).then(() => {
+    return new Promise((resolve, reject) => {
+        cmd.get(`cd "${package}" && npm publish`, (err, data, stderr) => {
+            lines = data.replace(/\'/g, '"').match(/[^\r\n]+/g);
+
+            if (stderr.length > 0) {
+                lines = lines.concat(stderr.replace(/\'/g, '"').match(/[^\r\n]+/g));
+            }
+
+            for (let line of lines) {
+                console.log(`##teamcity[message text='${line}' flowId='${package}']`);
+            }
+
             console.log(`##teamcity[compilationFinished compiler='tsc' flowId='${package}']`);
-            console.log(`##teamcity[message text='${output}' flowId='${package}']`);
             console.log(`##teamcity[message text='${package} published' flowId='${package}']`);
+
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
         });
+    });
 }
 
 getNextVersion().then(version =>
