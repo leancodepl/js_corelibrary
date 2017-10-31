@@ -6,6 +6,7 @@ var semver = require('semver');
 var CliCommand = require('git-cli/lib/cli-command');
 var execute = require('git-cli/lib/runner').execute;
 var Repository = require('git-cli').Repository;
+var update = require('update-package-json');
 
 var cwd = path.resolve(__dirname + '/..');
 
@@ -64,23 +65,29 @@ function searchAllPackages() {
 }
 
 function setVersion(package, version) {
-    console.log(`Setting version of ${package} to ${version}`);
-    return execute(new CliCommand(['npm'], ["view"]), { cwd: package })
-        .then(result => eval('(' + result + ')'))
-        .then(result => {
-            let dependecies = result.dependencies;
+    return new Promise((resolve, reject) => {
+        update(package + "/package.json", result => {
+            if (result && result.dependencies) {
+                for (let dependency in result.dependencies) {
+                    if (dependency.startsWith("@leancode")) {
+                        console.log(`Setting version of ${package}'s dependency ${dependency} to ${version}`);
 
-            if (dependecies) {
-                let leancodeDependencies = Object.keys(dependecies)
-                    .filter(dependency => dependency.startsWith("@leancode"))
-                    .map(dependency => dependency + "@" + version);
-                
-                console.log(`Setting version of ${package}'s dependencies ${leancodeDependencies.join(", ")} to ${version}`);
-                return execute(new CliCommand(['npm'], ["install"].concat(leancodeDependencies).concat(["--save"])), { cwd: package });
+                        result.dependencies[dependency] = version;
+                    }
+                }
             }
-        }).then(() =>
-            execute(new CliCommand(['npm'], ["version", version, "--allow-same-version"]), { cwd: package })
-        );
+
+            console.log(`Setting version of ${package} to ${version}`)
+            result.version = version;
+        }, err => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
 }
 
 function publishPackage(package) {
