@@ -70,17 +70,18 @@ function setVersion(package, version) {
             if (result && result.dependencies) {
                 for (let dependency in result.dependencies) {
                     if (dependency.startsWith("@leancode")) {
-                        console.log(`Setting version of ${package}'s dependency ${dependency} to ${version}`);
+                        console.log(`##teamcity[message text='Setting version of ${package}|'s dependency ${dependency} to ${version}' flowId='${package}']`);
 
                         result.dependencies[dependency] = version;
                     }
                 }
             }
-
-            console.log(`Setting version of ${package} to ${version}`)
+            
+            console.log(`##teamcity[message text='Setting version of ${package} to ${version}' flowId='${package}']`);
             result.version = version;
         }, err => {
             if (err) {
+                console.log(`##teamcity[message text='Couldn|'t set packages version' errorDetails='${JSON.stringify(err)}' status='ERROR' flowId='${package}']`);
                 reject(err);
             }
             else {
@@ -91,10 +92,17 @@ function setVersion(package, version) {
 }
 
 function publishPackage(package) {
-    console.log(`Publishing package ${package}`);
-
+    console.log(`##teamcity[message text='Publishing package ${package}']`);
+    console.log(`##teamcity[compilationStarted compiler='tsc' flowId='${package}']`);
+    
     return execute(new CliCommand(['npm'], ["publish"]), { cwd: package })
-        .then(() => console.log(`${package} published`));
+        .then(output => {
+            console.log(`##teamcity[message text='${output}']`);
+        }).then(() => {
+            console.log(`##teamcity[compilationFinished compiler='tsc' flowId='${package}']`);
+            console.log(`##teamcity[message text='${output}' flowId='${package}']`);
+            console.log(`##teamcity[message text='${package} published' flowId='${package}']`);
+        });
 }
 
 getNextVersion().then(version =>
