@@ -2,4 +2,6 @@ src
 tools
 .npmignore
 tsconfig.json
+package-lock.json
 yarn.lock
+*.tgz
