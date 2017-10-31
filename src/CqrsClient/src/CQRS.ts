@@ -1,5 +1,5 @@
 import { LoginManager, CannotRefreshToken } from "@leancode/login-manager/LoginManager";
-import "isomorphic-fetch"
+import "isomorphic-fetch";
 
 export interface IRemoteQuery<TOutput> { }
 export interface IRemoteCommand { }

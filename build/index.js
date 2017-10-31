@@ -66,11 +66,17 @@ function searchAllPackages() {
 }
 
 function setVersion(package, version) {
+    let dependencies = [];
+    let name = null;
+
     return new Promise((resolve, reject) => {
         update(package + "/package.json", result => {
+            name = result.name;
+
             if (result && result.dependencies) {
                 for (let dependency in result.dependencies) {
                     if (dependency.startsWith("@leancode")) {
+                        dependencies.push(dependency);
                         console.log(`##teamcity[message text='Setting version of ${package}|'s dependency ${dependency} to ${version}' flowId='${package}']`);
 
                         result.dependencies[dependency] = version;
@@ -86,35 +92,84 @@ function setVersion(package, version) {
                 reject(err);
             }
             else {
-                resolve();
+                resolve({ package, name, dependencies });
             }
         });
     });
 }
 
-function publishPackage(package) {
-    console.log(`##teamcity[message text='Publishing package ${package}']`);
-    console.log(`##teamcity[compilationStarted compiler='tsc' flowId='${package}']`);
+function printOutData(data, package, isError) {
+    if (data && data.length > 0) {
+        let lines = data.replace(/\'/g, '"').match(/[^\r\n]+/g);
+
+        for (let line of lines) {
+            console.log(`##teamcity[message text='${line}' flowId='${package}'${isError ? " status='ERROR'" : ""}]`);
+        }
+    }
+}
+
+function installPackage(package) {
+    console.log(`##teamcity[message text='installing package ${package}']`);
+    console.log(`##teamcity[compilationStarted compiler='npm' flowId='${package}']`);
     
     return new Promise((resolve, reject) => {
-        cmd.get(`cd "${package}" && npm publish`, (err, data, stderr) => {
-            lines = data.replace(/\'/g, '"').match(/[^\r\n]+/g);
+        cmd.get(`cd "${package}" && npm cache clean --force && npm install --dev --force`, (err, data, stderr) => {
+            printOutData(data, package);
+            printOutData(stderr, package, true);
 
-            if (stderr.length > 0) {
-                lines = lines.concat(stderr.replace(/\'/g, '"').match(/[^\r\n]+/g));
-            }
-
-            for (let line of lines) {
-                console.log(`##teamcity[message text='${line}' flowId='${package}']`);
-            }
-
-            console.log(`##teamcity[compilationFinished compiler='tsc' flowId='${package}']`);
-            console.log(`##teamcity[message text='${package} published' flowId='${package}']`);
+            console.log(`##teamcity[compilationFinished compiler='npm' flowId='${package}']`);
 
             if (err) {
-                reject(err);
+                printOutData(err.toString(), package, true);
+                reject();
             }
             else {
+                let tarball = data.substr(data.lastIndexOf("\n", data.length - 2) + 1).trim();
+                
+                console.log(`##teamcity[message text='${package} installed' flowId='${package}']`);
+                resolve(tarball);
+            }
+        });
+    });
+}
+
+function packPackage(package) {
+    console.log(`##teamcity[message text='Packing package ${package}']`);
+    
+    return new Promise((resolve, reject) => {
+        cmd.get(`cd "${package}" && npm pack`, (err, data, stderr) => {
+            printOutData(data, package);
+            printOutData(stderr, package, true);
+
+            if (err) {
+                printOutData(err.toString(), package, true);
+                reject();
+            }
+            else {
+                let tarball = data.substr(data.lastIndexOf("\n", data.length - 2) + 1).trim();
+                
+                console.log(`##teamcity[message text='${package} packed to ${tarball}' flowId='${package}']`);
+                console.log(`##teamcity[publishArtifacts '${package}/${tarball}']`);
+                resolve(tarball);
+            }
+        });
+    });
+}
+
+function publishPackage(package, tarball) {
+    console.log(`##teamcity[message text='Publishing package ${package}/${tarball}']`);
+    
+    return new Promise((resolve, reject) => {
+        cmd.get(`cd "${package}" && npm publish "${tarball}"`, (err, data, stderr) => {
+            printOutData(data, package);
+            printOutData(stderr, package, true);
+
+            if (err) {
+                printOutData(err.toString(), package, true);
+                resolve(err);
+            }
+            else {
+                console.log(`##teamcity[message text='${package} published' flowId='${package}']`);
                 resolve();
             }
         });
@@ -123,8 +178,51 @@ function publishPackage(package) {
 
 getNextVersion().then(version =>
     searchAllPackages()
-        .then(packages => Promise.all(packages
-            .map(package => path.resolve(cwd, package, '..'))
-            .map(package => setVersion(package, version).then(() => publishPackage(package))))
-        )
+        .then(packages => {
+            Promise.all(packages
+                .map(package => path.resolve(cwd, package, '..'))
+                .map(package => setVersion(package, version))
+            ).then(dependencies => {
+                let out = [];
+
+                for (let package of dependencies) {
+                    for (let i = 0; i <= out.length; i++) {
+                        if (i == out.length) {
+                            out.splice(i, 0, package);
+                            break;
+                        }
+                        else {
+                            if (out[i].dependencies.some(dep => dep === package.name)) {
+                                out.splice(i, 0, package);
+                                i++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                console.log(`##teamcity[message text='Resolved dependency tree to: ${out.map(d => d.name).join(" -> ")}']`);
+                function delay(miliseconds) {
+                    return new Promise(resolve => {
+                        setTimeout(resolve, miliseconds);
+                    });
+                }
+
+                const publish = (i) => {
+                    let package = out[i].package;
+
+                    return installPackage(package)
+                        .then(() => packPackage(package))
+                        .then(tarball => publishPackage(package, tarball))
+                        .then(() => {
+                            if (i + 1 < out.length) {
+                                return delay(30000)
+                                    .then(() => publish(i + 1));
+                            }
+                        })
+                }
+
+                return publish(0);
+            });
+        })
 );
