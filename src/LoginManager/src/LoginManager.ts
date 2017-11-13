@@ -1,4 +1,5 @@
 /// <reference path="../TokenStorage.d.ts" />
+import * as encode from "form-urlencoded";
 
 export class CannotRefreshToken extends Error { }
 
@@ -91,12 +92,12 @@ export class LoginManager {
     }
 
     private buildSignInRequest(username: string, password: string): RequestInit {
-        let params = new URLSearchParams();
-        params.append("grant_type", "password");
-        params.append("scope", this.scopes);
-        params.append("username", username);
-        params.append("password", password);
-
+        let params = encode({
+            "grant_type": "password",
+            "scope": this.scopes,
+            "username": username,
+            "password": password
+        });
         return {
             method: "POST",
             headers: this.prepareHeaders(),
@@ -105,11 +106,11 @@ export class LoginManager {
     }
 
     private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
-        let params = new URLSearchParams();
-        params.append("grant_type", "facebook");
-        params.append("scope", this.scopes);
-        params.append("assertion", accessToken);
-
+        let params = encode({
+            "grant_type": "facebook",
+            "scope": this.scopes,
+            "assertion": accessToken
+        });
         return {
             method: "POST",
             headers: this.prepareHeaders(),
@@ -118,10 +119,11 @@ export class LoginManager {
     }
 
     private buildRefreshRequest() {
-        let params = new URLSearchParams();
-        params.append("grant_type", "refresh_token");
-        params.append("scope", this.scopes);
-        params.append("refresh_token", this.storage.refreshToken || "");
+        let params = encode({
+            "grant_type": "refresh_token",
+            "scope": this.scopes,
+            "refresh_token": this.storage.refreshToken || ""
+        });
 
         return {
             method: "POST",
@@ -134,6 +136,7 @@ export class LoginManager {
         let headers = new Headers();
         let sec = btoa(this.client + ":" + this.secret);
         headers.append("Authorization", "Basic " + sec);
+        headers.append("Content-Type", "application/x-www-form-urlencoded");
         return headers;
     }
 
