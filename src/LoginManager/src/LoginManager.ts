@@ -11,7 +11,8 @@ export class LoginManager {
         private endpoint: string,
         private secret: string,
         private client: string,
-        private scopes: string) {
+        private scopes: string,
+        private additionalParams?: any) {
     }
 
     public signOut() {
@@ -92,12 +93,19 @@ export class LoginManager {
     }
 
     private buildSignInRequest(username: string, password: string): RequestInit {
-        let params = encode({
+        let data = {
             "grant_type": "password",
             "scope": this.scopes,
             "username": username,
             "password": password
-        });
+        };
+        if (this.additionalParams) {
+            data = {
+                ...this.additionalParams,
+                ...data
+            };
+        }
+        let params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
@@ -106,11 +114,18 @@ export class LoginManager {
     }
 
     private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
-        let params = encode({
+        let data = {
             "grant_type": "facebook",
             "scope": this.scopes,
             "assertion": accessToken
-        });
+        };
+        if (this.additionalParams) {
+            data = {
+                ...this.additionalParams,
+                ...data
+            };
+        }
+        let params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
