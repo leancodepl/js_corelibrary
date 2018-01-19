@@ -216,7 +216,7 @@ getNextVersion().then(version =>
                         .then(tarball => publishPackage(package, tarball))
                         .then(() => {
                             if (i + 1 < out.length) {
-                                return delay(60000)
+                                return delay(120000)
                                     .then(() => publish(i + 1));
                             }
                         })
