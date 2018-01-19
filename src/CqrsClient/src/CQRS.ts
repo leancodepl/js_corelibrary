@@ -1,8 +1,8 @@
 import { LoginManager, CannotRefreshToken } from "@leancode/login-manager/LoginManager";
 import "isomorphic-fetch";
 
-export interface IRemoteQuery<TOutput> { }
-export interface IRemoteCommand { }
+export interface IRemoteQuery<TContext, TOutput> { }
+export interface IRemoteCommand<TContext> { }
 
 export interface ValidationError {
     readonly PropertyName: string;
@@ -27,12 +27,12 @@ export class CQRS {
         private loginManager?: LoginManager) {
     }
 
-    public executeQuery<TOutput>(type: string, dto: IRemoteQuery<TOutput>): Promise<TOutput> {
+    public executeQuery<TOutput>(type: string, dto: IRemoteQuery<any, TOutput>): Promise<TOutput> {
         const path = this.cqrsEndpoint + "/query/" + type;
         return this.makeRequest(path, dto, true);
     }
 
-    public executeCommand(type: string, dto: IRemoteCommand): Promise<CommandResult> {
+    public executeCommand(type: string, dto: IRemoteCommand<any>): Promise<CommandResult> {
         const path = this.cqrsEndpoint + "/command/" + type;
         return this.makeRequest(path, dto, true);
     }
