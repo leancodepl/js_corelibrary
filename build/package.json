@@ -6,7 +6,6 @@
   "author": "LeanCode",
   "license": "MIT",
   "dependencies": {
-    "@leancode/login-manager": "^0.2.0-alpha.10",
     "git-cli": "^0.10.0",
     "glob": "^7.1.2",
     "node-cmd": "^3.0.0",
