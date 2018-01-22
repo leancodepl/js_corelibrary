@@ -59,3 +59,5 @@ typings/
 
 # custom
 /src/**/*.js
+/src/**/*.d.ts
+!/src/LoginManager/TokenStorage.d.ts

@@ -1,0 +1,4 @@
+{
+    "private": true,
+    "workspaces": ["src/CqrsClient", "src/LoginManager"]
+  }
