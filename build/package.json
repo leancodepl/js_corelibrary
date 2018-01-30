@@ -10,7 +10,6 @@
     "jake": "^8.0.15",
     "node-cmd": "^3.0.0",
     "parse-changelog": "^1.0.2",
-    "semver": "^5.4.1",
     "update-package-json": "0.0.0"
   },
   "scripts": {
