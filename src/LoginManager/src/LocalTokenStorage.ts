@@ -25,7 +25,7 @@ export class LocalTokenStorage implements TokenStorage {
 
     public get expirationDate(): Date | null {
         let exp = localStorage.getItem(this.expiryKey);
-        return exp ? new Date(exp) : null;
+        return exp ? new Date(Number(exp)) : null;
     }
 
     public set expirationDate(val: Date | null) {
