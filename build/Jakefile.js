@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var glob = require("glob")
 var parseChangelog = require('parse-changelog');
-var semver = require('semver');
 var CliCommand = require('git-cli/lib/cli-command');
 var execute = require('git-cli/lib/runner').execute;
 var Repository = require('git-cli').Repository;
@@ -124,7 +123,7 @@ task("get-changelog", async, function () {
 });
 
 desc("Gets next version based on changelog")
-task("get-next-version", ["get-changelog"], async, function() {
+task("get-next-version", ["get-changelog"], async, function () {
     var changelog = jake.Task["get-changelog"].value;
     var lastVersion = changelog.versions
         .map(v => v.tag)
@@ -133,23 +132,13 @@ task("get-next-version", ["get-changelog"], async, function() {
     
     jake.logger.log(`Last version from changelog is ${lastVersion}`);
     
-    var gitPath = cwd +'/.git';
+    var gitPath = cwd + '/.git';
     var repo = new Repository(gitPath);
     
-    repo.currentBranch()
-        .then(branch => {
-            if (branch === "master") {
-                return lastVersion;
-            }
-            else {
-                let nextVersion = semver.inc(lastVersion, "patch");
+    var command = new CliCommand(['git', 'rev-list'], ["HEAD", "--count"]);
 
-                var command = new CliCommand(['git', 'rev-list'], ["HEAD", "--count"]);
-
-                return execute(command, repo._getOptions())
-                    .then(count => nextVersion + "-alpha." + Number(count));
-            }
-        })
+    return execute(command, repo._getOptions())
+        .then(count => lastVersion.substring(0, lastVersion.lastIndexOf(".") + 1) + Number(count))
         .then(complete);
 });
 
