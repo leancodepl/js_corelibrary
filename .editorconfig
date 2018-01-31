@@ -1,0 +1,29 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.{cs, fs, fsx, java}]
+indent_size = 4
+
+[*.{ts, tsx, js}]
+indent_size = 4
+
+[*.{less, sass, scss}]
+indent_size = 4
+
+[*.{json, yml}]
+indent_size = 2
+
+[*.{xml, targets, csproj}]
+indent_size = 2
+
+[*.{tf, tfvars}]
+indent_size = 2
+
+[*.{cshtml, cstxt}]
+insert_final_newline = false
