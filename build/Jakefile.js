@@ -38,14 +38,16 @@ var dependencies = list.toArray()
         }
     });
 
+jake.logger.log(`Found dependencies: ${dependencies.map(d => d.path).join(", ")}`);
+
 dependencies.forEach(p => {
     var deps = Object.keys(p.package.dependencies)
         .filter(d => d.startsWith("@leancode"));
-    
+
     var name = p.package.name;
     var dir = path
         .resolve(__dirname, p.path, "..");
-    
+
     namespace(`${name}`, () => {
         desc(`Update ${name} version`);
         task(`version`, async, function () {
@@ -77,16 +79,16 @@ dependencies.forEach(p => {
             jake.logger.log(`Restore packages of ${name}`);
 
             var command = `yarn install --cwd "${dir}" --production=false --check-files --link`
-            
+
             runCommand(this, command, `Successfully restored packages of ${name}`);
         });
-    
+
         desc(`Build ${name}`);
         task(`build`, [`${name}:install`], async, function (params) {
             jake.logger.log(`Build ${name}`);
 
             var command = `yarn --cwd "${dir}" build`
-            
+
             runCommand(this, command, `Successfully built ${name}`)
         });
 
@@ -97,21 +99,21 @@ dependencies.forEach(p => {
             jake.logger.log(`Publishing package ${name}`);
 
             var command = `yarn publish --cwd "${dir}" --new-version "${version}"`
-            
+
             runCommand(this, command, `Successfully published ${name}`)
         });
-    });    
+    });
 });
 
 desc("Entry point for build tool");
 task("default", ["publish"], function (params) {
-    
+
 });
 
 desc("Gets version from changelog")
 task("get-changelog", async, function () {
     var changelog = path.resolve(cwd, 'CHANGELOG.md');
-    
+
     fs.readFile(changelog, { encoding: 'utf-8' }, (err, data) => {
         if (err) {
             error(data);
@@ -129,12 +131,12 @@ task("get-next-version", ["get-changelog"], async, function () {
         .map(v => v.tag)
         .filter(v => v.toLowerCase().indexOf("unreleased") === -1)
         .map(v => v.replace(/^\[|\]$|\s/g, ''))[0];
-    
+
     jake.logger.log(`Last version from changelog is ${lastVersion}`);
-    
+
     var gitPath = cwd + '/.git';
     var repo = new Repository(gitPath);
-    
+
     var command = new CliCommand(['git', 'rev-list'], ["HEAD", "--count"]);
 
     return execute(command, repo._getOptions())
