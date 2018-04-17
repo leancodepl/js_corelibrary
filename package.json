@@ -1,12 +1,7 @@
 {
   "private": true,
-  "scripts": {
-    "build": "yarn --cwd src/LoginManager build && yarn install && yarn --cwd src/CqrsClient build",
-    "test": "yarn --cwd test build && cd test/dist && node test.js"
-  },
   "workspaces": [
     "src/CqrsClient",
-    "src/LoginManager",
-    "test/"
+    "src/LoginManager"
   ]
 }
