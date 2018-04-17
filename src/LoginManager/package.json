@@ -20,6 +20,7 @@
     "@types/facebook-js-sdk": "^2.8.3"
   },
   "dependencies": {
-    "form-urlencoded": "^2.0.4"
+    "form-urlencoded": "^2.0.4",
+    "isomorphic-fetch": "^2.2.1"
   }
 }

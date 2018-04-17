@@ -1,5 +1,17 @@
 /// <reference path="../TokenStorage.d.ts" />
 import * as encode from "form-urlencoded";
+import "isomorphic-fetch";
+
+declare var require: any;
+let serialize: (str: string) => string;
+if (typeof btoa === "undefined") {
+    const Buffer = require("Buffer").Buffer;
+
+    serialize = str => new Buffer(str, "binary").toString("base64");
+}
+else {
+    serialize = btoa;
+}
 
 export class CannotRefreshToken extends Error { }
 
@@ -47,8 +59,23 @@ export class LoginManager {
         return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken));
     }
 
-    public async tryRefreshToken(): Promise<boolean> {
-        return this.acquireToken(this.buildRefreshRequest());
+    private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
+    private isRefreshingToken: boolean = false;
+
+    public tryRefreshToken(): Promise<boolean> {
+        if (!this.isRefreshingToken) {
+            this.isRefreshingToken = true;
+            this.acquireToken(this.buildRefreshRequest()).then(
+                success => {
+                    this.refreshTokenCallbacks.forEach(c => c(success));
+                    this.refreshTokenCallbacks = [];
+                }
+            );
+        }
+
+        return new Promise(resolve => {
+            this.refreshTokenCallbacks.push(resolve);
+        });
     }
 
     public onChange(callback: () => void) {
@@ -149,7 +176,7 @@ export class LoginManager {
 
     private prepareHeaders() {
         let headers = new Headers();
-        let sec = btoa(this.client + ":" + this.secret);
+        let sec = serialize(this.client + ":" + this.secret);
         headers.append("Authorization", "Basic " + sec);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         return headers;

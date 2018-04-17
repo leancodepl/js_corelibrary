@@ -1,0 +1,24 @@
+{
+  "name": "@leancode/core-js-tests",
+  "version": "0.0.0",
+  "description": "Test suite for CoreJS Library",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc"
+  },
+  "keywords": [
+    "tests",
+    "leancode"
+  ],
+  "private": true,
+  "author": "LeanCode",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "2.8.1",
+    "@types/node": "9.6.5"
+  },
+  "dependencies": {
+    "@leancode/login-manager": "0.0.0",
+    "@leancode/cqrs-client": "0.0.0",
+    "buffer": "5.1.0"
+  }
+}
