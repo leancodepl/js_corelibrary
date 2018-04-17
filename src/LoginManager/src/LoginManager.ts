@@ -5,7 +5,7 @@ import "isomorphic-fetch";
 declare var require: any;
 let serialize: (str: string) => string;
 if (typeof btoa === "undefined") {
-    const Buffer = require("Buffer").Buffer;
+    const Buffer = require("buffer").Buffer;
 
     serialize = str => new Buffer(str, "binary").toString("base64");
 }
