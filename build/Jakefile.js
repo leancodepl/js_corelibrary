@@ -76,7 +76,7 @@ dependencies.forEach(p => {
         task(`install`, [`${name}:version`].concat(deps.map(d => `${d}:build`)), async, function (params) {
             jake.logger.log(`Restore packages of ${name}`);
 
-            var command = `yarn install --cwd "${dir}" --production=false --check-files --link`
+            var command = `yarn install --cwd "${dir}" --production=false --check-files --pure-lockfile`
 
             runCommand(this, command, `Successfully restored packages of ${name}`);
         });

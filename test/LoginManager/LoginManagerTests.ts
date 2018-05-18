@@ -5,6 +5,7 @@ import { expect } from "chai";
 function createLoginManager() {
     return new LoginManager(new MemoryTokenStorage(), "", "", "", "");
 }
+
 describe("LoginManager", () => {
     it("should build signin request", () => {
         const loginManager = createLoginManager();
