@@ -16,9 +16,7 @@ function runCommand(task, command, msgOnSuccess) {
 
     cmd.get(command, (err, data, stderr) => {
         if (err) {
-            // jake.logger.error(stderr);
             jake.logger.error(err.toString());
-            // fail(err.toString());
         }
         else {
             msgOnSuccess && jake.logger.log(msgOnSuccess);

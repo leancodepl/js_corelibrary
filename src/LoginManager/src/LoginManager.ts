@@ -1,5 +1,5 @@
 /// <reference path="../TokenStorage.d.ts" />
-import * as encode from "form-urlencoded";
+import encode from "form-urlencoded";
 import "isomorphic-fetch";
 
 declare var require: any;
@@ -119,7 +119,7 @@ export class LoginManager {
         }
     }
 
-    private buildSignInRequest(username: string, password: string): RequestInit {
+    public buildSignInRequest(username: string, password: string): RequestInit {
         let data = {
             "grant_type": "password",
             "scope": this.scopes,

@@ -2,6 +2,10 @@
   "private": true,
   "workspaces": [
     "src/CqrsClient",
-    "src/LoginManager"
-  ]
+    "src/LoginManager",
+    "test"
+  ],
+  "scripts": {
+    "test": "yarn --cwd test test"
+  }
 }
