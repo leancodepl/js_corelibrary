@@ -45,7 +45,7 @@ export class LoginManager {
             throw new Error("Not signed in");
         }
         if (token.expirationDate < new Date()) {
-            if (!await this.tryRefreshToken(token)) {
+            if (!await this.tryRefreshTokenInternal(token)) {
                 throw new CannotRefreshToken("Cannot refresh access token after it has expired");
             }
         }
@@ -60,7 +60,16 @@ export class LoginManager {
         return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken));
     }
 
-    public tryRefreshToken(token: Token): Promise<boolean> {
+    public async tryRefreshToken() {
+        let token = await this.storage.getToken();
+        if (token !== null) {
+            return await this.tryRefreshTokenInternal(token);
+        } else {
+            return null;
+        }
+    }
+
+    private tryRefreshTokenInternal(token: Token): Promise<boolean> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
             this.acquireToken(this.buildRefreshRequest(token)).then(
