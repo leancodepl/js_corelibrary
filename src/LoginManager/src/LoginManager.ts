@@ -17,6 +17,9 @@ export class CannotRefreshToken extends Error { }
 
 export class LoginManager {
     private callbacks: (() => void)[] = [];
+    private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
+    private isRefreshingToken: boolean = false;
+
 
     constructor(
         private storage: TokenStorage,
@@ -27,28 +30,26 @@ export class LoginManager {
         private additionalParams?: any) {
     }
 
-    public signOut() {
-        this.storage.token = null;
-        this.storage.refreshToken = null;
-        this.storage.expirationDate = null;
-
+    public async signOut(): Promise<void> {
+        await this.storage.resetToken();
         this.notify();
     }
 
-    public get isSigned() {
-        return this.storage.token !== null;
+    public async isSigned() {
+        return await this.storage.getToken() !== null;
     }
 
     public async getToken() {
-        if (!this.storage.token) {
+        let token = await this.storage.getToken();
+        if (token === null) {
             throw new Error("Not signed in");
         }
-        if (this.storage.expirationDate && this.storage.expirationDate < new Date()) {
-            if (!await this.tryRefreshToken()) {
+        if (token.expirationDate < new Date()) {
+            if (!await this.tryRefreshToken(token)) {
                 throw new CannotRefreshToken("Cannot refresh access token after it has expired");
             }
         }
-        return this.storage.token;
+        return token.token;
     }
 
     public trySignIn(username: string, password: string): Promise<boolean> {
@@ -59,13 +60,10 @@ export class LoginManager {
         return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken));
     }
 
-    private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
-    private isRefreshingToken: boolean = false;
-
-    public tryRefreshToken(): Promise<boolean> {
+    public tryRefreshToken(token: Token): Promise<boolean> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
-            this.acquireToken(this.buildRefreshRequest()).then(
+            this.acquireToken(this.buildRefreshRequest(token)).then(
                 success => {
                     this.refreshTokenCallbacks.forEach(c => c(success));
                     this.refreshTokenCallbacks = [];
@@ -104,12 +102,13 @@ export class LoginManager {
 
             let tokenResult = await result.json();
 
-            this.storage.token = tokenResult.access_token;
-            this.storage.refreshToken = tokenResult.refresh_token;
-
             let expDate = new Date();
             expDate.setSeconds(new Date().getSeconds() + tokenResult.expires_in);
-            this.storage.expirationDate = expDate;
+            this.storage.storeToken({
+                token: tokenResult.access_token,
+                refreshToken: tokenResult.refresh_token,
+                expirationDate: expDate
+            });
 
             this.notify();
             return true;
@@ -160,11 +159,11 @@ export class LoginManager {
         };
     }
 
-    private buildRefreshRequest() {
+    private buildRefreshRequest(token: Token) {
         let params = encode({
             "grant_type": "refresh_token",
             "scope": this.scopes,
-            "refresh_token": this.storage.refreshToken || ""
+            "refresh_token": token.refreshToken || ""
         });
 
         return {

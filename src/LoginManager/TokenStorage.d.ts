@@ -1,5 +1,11 @@
+interface Token {
+    token: string;
+    refreshToken: string;
+    expirationDate: Date;
+}
+
 interface TokenStorage {
-    token: string | null;
-    refreshToken: string | null;
-    expirationDate: Date | null;
+    getToken(): Promise<Token | null>;
+    storeToken(token: Token): Promise<void>;
+    resetToken(): Promise<void>;
 }

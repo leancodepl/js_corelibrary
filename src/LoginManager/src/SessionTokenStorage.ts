@@ -3,42 +3,49 @@
 export class SessionTokenStorage implements TokenStorage {
     constructor(
         private tokenKey: string = "token",
-        private refreshKey = "refresh_token",
-        private expiryKey = "expiration_date") {
+        private refreshKey: string = "refresh_token",
+        private expiryKey: string = "expiration_date") {
     }
 
-    public get token(): string | null {
-        return sessionStorage.getItem(this.tokenKey);
-    }
-
-    public set token(val: string | null) {
-        this.setOrClearVar(this.tokenKey, val);
-    }
-
-    public get refreshToken(): string | null {
-        return sessionStorage.getItem(this.refreshKey);
-    }
-
-    public set refreshToken(val: string | null) {
-        this.setOrClearVar(this.refreshKey, val);
-    }
-
-    public get expirationDate(): Date | null {
-        let exp = sessionStorage.getItem(this.expiryKey);
-        return exp ? new Date(Number(exp)) : null;
-    }
-
-    public set expirationDate(val: Date | null) {
-        let exp = val ? val.getTime().toString() : null;
-        this.setOrClearVar(this.expiryKey, exp);
-    }
-
-    private setOrClearVar(key: string, val: string | null) {
-        if (val) {
-            sessionStorage.setItem(key, val);
+    public getToken(): Promise<Token | null> {
+        if (this.hasValue(this.tokenKey)) {
+            return Promise.resolve({
+                token: this.getValue(this.tokenKey),
+                refreshToken: this.getValue(this.getValue(this.refreshKey)),
+                expirationDate: new Date(Number(this.getValue(this.expiryKey)))
+            });
+        } else {
+            return Promise.resolve(null);
         }
-        else {
-            sessionStorage.removeItem(key);
-        }
+    }
+
+    public storeToken(token: Token): Promise<void> {
+        this.setValue(this.tokenKey, token.token);
+        this.setValue(this.refreshKey, token.refreshToken);
+        this.setValue(this.expiryKey, token.expirationDate.getTime().toString());
+        return Promise.resolve();
+    }
+
+    public resetToken(): Promise<void> {
+        this.remove(this.tokenKey);
+        this.remove(this.refreshKey);
+        this.remove(this.expiryKey);
+        return Promise.resolve();
+    }
+
+    private hasValue(key: string): boolean {
+        return sessionStorage.getItem(key) !== null;
+    }
+
+    private getValue(key: string): string {
+        return sessionStorage.getItem(key) as string;
+    }
+
+    private setValue(key: string, val: string) {
+        sessionStorage.setItem(key, val);
+    }
+
+    private remove(key: string) {
+        sessionStorage.removeItem(key);
     }
 }
