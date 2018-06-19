@@ -1,7 +1,23 @@
 /// <reference path="../TokenStorage.d.ts" />
 
 export class MemoryTokenStorage implements TokenStorage {
-    public token: string | null;
-    public refreshToken: string | null;
-    public expirationDate: Date | null;
+    private token: Token | null;
+
+    public getToken(): Promise<Token | null> {
+        return Promise.resolve(this.token);
+    }
+
+    public storeToken(token: Token): Promise<void> {
+        this.token = {
+            token: token.token,
+            refreshToken: token.refreshToken,
+            expirationDate: token.expirationDate
+        };
+        return Promise.resolve();
+    }
+
+    public resetToken(): Promise<void> {
+        this.token = null;
+        return Promise.resolve();
+    }
 }
