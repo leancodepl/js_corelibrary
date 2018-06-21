@@ -1,5 +1,5 @@
 import { LoginManager, CannotRefreshToken } from "@leancode/login-manager/LoginManager";
-import fetch from "cross-fetch";
+import "cross-fetch/polyfill";
 
 export interface IRemoteQuery<TContext, TOutput> { }
 export interface IRemoteCommand<TContext> { }
