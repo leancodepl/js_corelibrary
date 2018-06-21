@@ -16,7 +16,7 @@ else {
 export class CannotRefreshToken extends Error { }
 
 export class LoginManager {
-    private callbacks: (() => void)[] = [];
+    private callbacks: ((isSignedIn: boolean) => void)[] = [];
     private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
     private isRefreshingToken: boolean = false;
 
@@ -32,7 +32,7 @@ export class LoginManager {
 
     public async signOut(): Promise<void> {
         await this.storage.resetToken();
-        this.notify();
+        this.notify(false);
     }
 
     public async isSigned() {
@@ -69,6 +69,11 @@ export class LoginManager {
         }
     }
 
+    public async load() {
+        let isSignedIn = await this.isSigned();
+        this.notify(isSignedIn);
+    }
+
     private tryRefreshTokenInternal(token: Token): Promise<boolean> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
@@ -85,7 +90,7 @@ export class LoginManager {
         });
     }
 
-    public onChange(callback: () => void) {
+    public onChange(callback: (isSignedIn: boolean) => void) {
         this.callbacks.push(callback);
     }
 
@@ -119,7 +124,7 @@ export class LoginManager {
                 expirationDate: expDate
             });
 
-            this.notify();
+            this.notify(true);
             return true;
         } catch (e) {
             console.warn("Cannot call Auth server ", e);
@@ -190,9 +195,9 @@ export class LoginManager {
         return headers;
     }
 
-    private notify() {
+    private notify(isSignedIn: boolean) {
         for (let c of this.callbacks) {
-            c();
+            c(isSignedIn);
         }
     }
 }
