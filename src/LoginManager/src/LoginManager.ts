@@ -42,7 +42,7 @@ export class LoginManager {
     public async getToken() {
         let token = await this.storage.getToken();
         if (token === null) {
-            throw new Error("Not signed in");
+            return null;
         }
         if (token.expirationDate < new Date()) {
             if (!await this.tryRefreshTokenInternal(token)) {
