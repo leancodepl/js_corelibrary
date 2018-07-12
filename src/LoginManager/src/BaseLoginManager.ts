@@ -13,7 +13,7 @@ else {
     serialize = btoa;
 }
 
-export interface LoginManager<TStorage extends TokenStorage> extends BaseLoginManager<TStorage> {
+export interface LoginManager extends BaseLoginManager<TokenStorage> {
 
 }
 

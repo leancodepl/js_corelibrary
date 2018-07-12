@@ -3,7 +3,7 @@ import "cross-fetch/polyfill";
 import { BaseLoginManager, LoginManager } from "./BaseLoginManager";
 import { CannotRefreshToken } from "./CannotRefreshToken";
 
-export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> implements LoginManager<SyncTokenStorage> {
+export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> implements LoginManager {
     public signOut(): void {
         this.storage.resetToken();
         this.notify(false);

@@ -1,5 +1,7 @@
-import { LoginManager, CannotRefreshToken } from "@leancode/login-manager/LoginManager";
+import { LoginManager } from "@leancode/login-manager/BaseLoginManager";
+import { CannotRefreshToken } from "@leancode/login-manager/CannotRefreshToken";
 import "cross-fetch/polyfill";
+
 
 export interface IRemoteQuery<TContext, TOutput> { }
 export interface IRemoteCommand<TContext> { }
