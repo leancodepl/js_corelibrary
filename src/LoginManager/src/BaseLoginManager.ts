@@ -13,16 +13,17 @@ else {
     serialize = btoa;
 }
 
-export class CannotRefreshToken extends Error { }
+export interface LoginManager<TStorage extends TokenStorage> extends BaseLoginManager<TStorage> {
 
-export class LoginManager {
+}
+
+export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private callbacks: ((isSignedIn: boolean) => void)[] = [];
     private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
     private isRefreshingToken: boolean = false;
 
-
     constructor(
-        private storage: TokenStorage,
+        protected storage: TStorage,
         private endpoint: string,
         private secret: string,
         private client: string,
@@ -30,27 +31,11 @@ export class LoginManager {
         private additionalParams?: any) {
     }
 
-    public async signOut(): Promise<void> {
-        await this.storage.resetToken();
-        this.notify(false);
-    }
+    public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void;
 
-    public async isSigned() {
-        return await this.storage.getToken() !== null;
-    }
+    public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean;
 
-    public async getToken() {
-        let token = await this.storage.getToken();
-        if (token === null) {
-            return null;
-        }
-        if (token.expirationDate < new Date()) {
-            if (!await this.tryRefreshTokenInternal(token)) {
-                throw new CannotRefreshToken("Cannot refresh access token after it has expired");
-            }
-        }
-        return token.token;
-    }
+    public abstract getToken(): Promise<string | null>;
 
     public trySignIn(username: string, password: string): Promise<boolean> {
         return this.acquireToken(this.buildSignInRequest(username, password));
@@ -69,12 +54,7 @@ export class LoginManager {
         }
     }
 
-    public async load() {
-        let isSignedIn = await this.isSigned();
-        this.notify(isSignedIn);
-    }
-
-    private tryRefreshTokenInternal(token: Token): Promise<boolean> {
+    protected tryRefreshTokenInternal(token: Token): Promise<boolean> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
             this.acquireToken(this.buildRefreshRequest(token)).then(
@@ -196,7 +176,7 @@ export class LoginManager {
         return headers;
     }
 
-    private notify(isSignedIn: boolean) {
+    protected notify(isSignedIn: boolean) {
         for (let c of this.callbacks) {
             c(isSignedIn);
         }

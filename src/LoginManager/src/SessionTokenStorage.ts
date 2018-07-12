@@ -1,36 +1,34 @@
 /// <reference path="../TokenStorage.d.ts" />
 
-export class SessionTokenStorage implements TokenStorage {
+export class SessionTokenStorage implements SyncTokenStorage {
     constructor(
         private tokenKey: string = "token",
         private refreshKey: string = "refresh_token",
         private expiryKey: string = "expiration_date") {
     }
 
-    public getToken(): Promise<Token | null> {
+    public getToken(): Token | null {
         if (this.hasValue(this.tokenKey)) {
-            return Promise.resolve({
+            return {
                 token: this.getValue(this.tokenKey),
                 refreshToken: this.getValue(this.getValue(this.refreshKey)),
                 expirationDate: new Date(Number(this.getValue(this.expiryKey)))
-            });
+            };
         } else {
-            return Promise.resolve(null);
+            return null;
         }
     }
 
-    public storeToken(token: Token): Promise<void> {
+    public storeToken(token: Token): void {
         this.setValue(this.tokenKey, token.token);
         this.setValue(this.refreshKey, token.refreshToken);
         this.setValue(this.expiryKey, token.expirationDate.getTime().toString());
-        return Promise.resolve();
     }
 
-    public resetToken(): Promise<void> {
+    public resetToken(): void {
         this.remove(this.tokenKey);
         this.remove(this.refreshKey);
         this.remove(this.expiryKey);
-        return Promise.resolve();
     }
 
     private hasValue(key: string): boolean {

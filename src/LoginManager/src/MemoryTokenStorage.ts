@@ -1,10 +1,10 @@
 /// <reference path="../TokenStorage.d.ts" />
 
-export class MemoryTokenStorage implements TokenStorage {
+export class MemoryTokenStorage implements SyncTokenStorage {
     private token: Token | null;
 
-    public getToken(): Promise<Token | null> {
-        return Promise.resolve(this.token);
+    public getToken(): Token | null {
+        return this.token;
     }
 
     public storeToken(token: Token): Promise<void> {
