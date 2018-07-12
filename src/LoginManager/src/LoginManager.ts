@@ -1,6 +1,6 @@
 /// <reference path="../TokenStorage.d.ts" />
-import encode from "form-urlencoded";
 import "cross-fetch/polyfill";
+import encode from "form-urlencoded";
 
 declare var require: any;
 let serialize: (str: string) => string;
@@ -79,6 +79,7 @@ export class LoginManager {
             this.isRefreshingToken = true;
             this.acquireToken(this.buildRefreshRequest(token)).then(
                 success => {
+                    this.isRefreshingToken = false;
                     this.refreshTokenCallbacks.forEach(c => c(success));
                     this.refreshTokenCallbacks = [];
                 }
