@@ -11,7 +11,7 @@ export class SessionTokenStorage implements SyncTokenStorage {
         if (this.hasValue(this.tokenKey)) {
             return {
                 token: this.getValue(this.tokenKey),
-                refreshToken: this.getValue(this.getValue(this.refreshKey)),
+                refreshToken: this.getValue(this.refreshKey),
                 expirationDate: new Date(Number(this.getValue(this.expiryKey)))
             };
         } else {
