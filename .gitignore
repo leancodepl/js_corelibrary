@@ -58,6 +58,6 @@ typings/
 .env
 
 # custom
-/src/**/*.js
-/src/**/*.d.ts
-!/src/LoginManager/TokenStorage.d.ts
+/packages/**/*.js
+/packages/**/*.d.ts
+!/packages/LoginManager/TokenStorage.d.ts

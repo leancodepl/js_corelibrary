@@ -1,7 +1,14 @@
 {
   "private": true,
   "workspaces": [
-    "src/CqrsClient",
-    "src/LoginManager"
-  ]
+    "packages/CqrsClient",
+    "packages/LoginManager"
+  ],
+  "scripts": {
+    "init": "lerna init"
+  },
+  "devDependencies": {
+    "lerna": "2.11.0",
+    "typescript": "2.9.2"
+  }
 }
