@@ -1,9 +1,9 @@
 {
   "name": "@leancode/login-manager",
-  "version": "3.2.1",
+  "version": "3.2.59",
   "description": "Login manager",
   "scripts": {
-    "build": "./node_modules/.bin/tsc"
+    "prepare": "tsc"
   },
   "keywords": [
     "login",

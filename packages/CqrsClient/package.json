@@ -1,9 +1,9 @@
 {
   "name": "@leancode/cqrs-client",
-  "version": "3.2.1",
+  "version": "3.2.59",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
   "scripts": {
-    "build": "./node_modules/.bin/tsc"
+    "prepare": "tsc"
   },
   "keywords": [
     "cqrs",
@@ -15,7 +15,7 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/login-manager": "^3.2.1",
+    "@leancode/login-manager": "^3.2.59",
     "cross-fetch": "^2.2.1"
   }
 }
