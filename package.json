@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "build": "jake -f ./build/Jakefile.js build",
     "publish:ci": "jake -f ./build/Jakefile.js publish"
   },
