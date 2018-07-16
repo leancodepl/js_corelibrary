@@ -1,4 +1,4 @@
-/// <reference path="../TokenStorage.d.ts" />
+import { SyncTokenStorage, Token } from "./TokenStorage";
 
 export class MemoryTokenStorage implements SyncTokenStorage {
     private token: Token | null;

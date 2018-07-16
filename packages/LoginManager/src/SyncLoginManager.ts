@@ -1,7 +1,7 @@
-/// <reference path="../TokenStorage.d.ts" />
 import "cross-fetch/polyfill";
 import { BaseLoginManager, LoginManager } from "./BaseLoginManager";
 import { CannotRefreshToken } from "./CannotRefreshToken";
+import { SyncTokenStorage } from "./TokenStorage";
 
 export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> implements LoginManager {
     public signOut(): void {

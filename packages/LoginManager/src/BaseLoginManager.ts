@@ -1,6 +1,6 @@
-/// <reference path="../TokenStorage.d.ts" />
 import "cross-fetch/polyfill";
 import encode from "form-urlencoded";
+import { AsyncTokenStorage, Token, TokenStorage } from "./TokenStorage";
 
 declare var require: any;
 let serialize: (str: string) => string;
