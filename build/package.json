@@ -1,18 +1,15 @@
 {
   "name": "core-js-build",
-  "version": "0.2.0-alpha.6",
+  "version": "3.2.59",
   "description": "CoreJsLibrary publisher",
   "main": "index.js",
   "author": "LeanCode",
   "license": "MIT",
+  "private": true,
   "dependencies": {
     "git-cli": "^0.10.0",
-    "jake": "^8.0.15",
     "node-cmd": "^3.0.0",
-    "parse-changelog": "^1.0.2",
-    "update-package-json": "0.0.0"
+    "parse-changelog": "^1.0.2"
   },
-  "scripts": {
-    "build": "node ./index.js"
-  }
+  "gitHead": "bc63e46c1c661fe21f59b2f6e864a09917ed8222"
 }

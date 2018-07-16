@@ -1,14 +1,13 @@
 {
+  "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/CqrsClient",
-    "packages/LoginManager"
-  ],
   "scripts": {
-    "init": "lerna init"
+    "build": "jake -f ./build/Jakefile.js build",
+    "publish:ci": "jake -f ./build/Jakefile.js publish"
   },
   "devDependencies": {
-    "lerna": "2.11.0",
-    "typescript": "2.9.2"
+    "lerna": "3.0.0-beta.21",
+    "jake": "8.0.16",
+    "typescript": "3.0.0-rc"
   }
 }

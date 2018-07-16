@@ -25,86 +25,8 @@ function runCommand(task, command, msgOnSuccess) {
     });
 }
 
-var list = new jake.FileList();
-list.include('../src/*/package.json');
-
-var dependencies = list.toArray()
-    .map(package => {
-        return {
-            path: package,
-            package: JSON.parse(fs.readFileSync(package).toString())
-        }
-    });
-
-jake.logger.log(`Found dependencies: ${dependencies.map(d => d.path).join(", ")}`);
-
-dependencies.forEach(p => {
-    var deps = Object.keys(p.package.dependencies)
-        .filter(d => d.startsWith("@leancode"));
-
-    var name = p.package.name;
-    var dir = path
-        .resolve(__dirname, p.path, "..");
-
-    namespace(`${name}`, () => {
-        desc(`Update ${name} version`);
-        task(`version`, async, function () {
-            var version = jake.Task["get-next-version"].value;
-
-            update(p.path, result => {
-                if (result && result.dependencies) {
-                    for (let dependency in result.dependencies) {
-                        if (dependency.startsWith("@leancode")) {
-                            jake.logger.log(`Setting version of ${name}'s depenendency ${dependency} to ${version}`);
-
-                            result.dependencies[dependency] = version;
-                        }
-                    }
-                }
-                result.version = version;
-            }, err => {
-                if (err) {
-                    fail(err);
-                }
-                else {
-                    this.complete();
-                }
-            });
-        });
-
-        desc(`Restore packages of ${name}`);
-        task(`install`, [`${name}:version`].concat(deps.map(d => `${d}:build`)), async, function (params) {
-            jake.logger.log(`Restore packages of ${name}`);
-
-            var command = `yarn install --cwd "${dir}" --production=false --check-files --pure-lockfile`
-
-            runCommand(this, command, `Successfully restored packages of ${name}`);
-        });
-
-        desc(`Build ${name}`);
-        task(`build`, [`${name}:install`], async, function (params) {
-            jake.logger.log(`Build ${name}`);
-
-            var command = `yarn --cwd "${dir}" build`
-
-            runCommand(this, command, `Successfully built ${name}`)
-        });
-
-        desc(`Publish ${name}`);
-        task(`publish`, [`${name}:build`], function (params) {
-            var version = jake.Task["get-next-version"].value;
-
-            jake.logger.log(`Publishing package ${name}`);
-
-            var command = `yarn publish --cwd "${dir}" --new-version "${version}"`
-
-            runCommand(this, command, `Successfully published ${name}`)
-        });
-    });
-});
-
 desc("Entry point for build tool");
-task("default", ["publish"], function (params) {
+task("default", ["build"], function (params) {
 
 });
 
@@ -142,11 +64,28 @@ task("get-next-version", ["get-changelog"], async, function () {
         .then(complete);
 });
 
-desc("Publishes packages");
-task("publish", ["get-next-version"], function (params) {
-    jake.logger.log(`Current version to publish packages with is set to ${jake.Task["get-next-version"].value}`);
+desc("Bootstrap packages");
+task("bootstrap", async, function (params) {
+    var command = `lerna bootstrap`
 
-    dependencies
-        .map(d => `${d.package.name}:publish`)
-        .forEach(d => jake.Task[d].invoke());
+    runCommand(this, command, "Successfully bootstrapped packages");
+});
+
+desc("Build packages");
+task("build", ["bootstrap"], function (params) {
+    var command = `lerna run prepare`
+
+    runCommand(this, command, "Successfully built packages");
+});
+
+desc("Publishes packages");
+task("publish", ["bootstrap", "get-next-version"], function (params) {
+
+    var version = jake.Task["get-next-version"].value;
+
+    jake.logger.log(`Current version to publish packages with is set to ${version}`);
+
+    var command = `lerna publish --skip-git --repo-version "${version}" --registry "https://www.myget.org/F/leancode/npm/" --yes`
+
+    runCommand(this, command, "Successfully published packages");
 });
