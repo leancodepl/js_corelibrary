@@ -5,7 +5,6 @@ var parseChangelog = require('parse-changelog');
 var CliCommand = require('git-cli/lib/cli-command');
 var execute = require('git-cli/lib/runner').execute;
 var Repository = require('git-cli').Repository;
-var update = require('update-package-json');
 var cmd = require('node-cmd');
 
 var cwd = path.resolve(__dirname + '/..');
