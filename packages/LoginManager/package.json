@@ -3,7 +3,8 @@
   "version": "3.2.64",
   "description": "Login manager",
   "scripts": {
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "watch": "tsc -w"
   },
   "keywords": [
     "login",

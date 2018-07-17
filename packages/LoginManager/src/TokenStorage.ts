@@ -2,6 +2,7 @@ export interface Token {
     token: string;
     refreshToken: string;
     expirationDate: Date;
+    abc?: string;
 }
 
 export type TokenStorage = SyncTokenStorage | AsyncTokenStorage;

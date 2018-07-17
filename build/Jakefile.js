@@ -6,6 +6,7 @@ var CliCommand = require('git-cli/lib/cli-command');
 var execute = require('git-cli/lib/runner').execute;
 var Repository = require('git-cli').Repository;
 var cmd = require('node-cmd');
+var spawn = require('child_process').spawn;
 
 var cwd = path.resolve(__dirname + '/..');
 var async = { async: true };

@@ -3,7 +3,8 @@
   "version": "3.2.64",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
   "scripts": {
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "watch": "tsc -w"
   },
   "keywords": [
     "cqrs",
