@@ -79,7 +79,6 @@ task("build", ["bootstrap"], function (params) {
 
 desc("Publishes packages");
 task("publish", ["bootstrap", "get-next-version"], function (params) {
-
     var version = jake.Task["get-next-version"].value;
 
     jake.logger.log(`Current version to publish packages with is set to ${version}`);
@@ -88,3 +87,15 @@ task("publish", ["bootstrap", "get-next-version"], function (params) {
 
     runCommand(this, command, "Successfully published packages");
 });
+
+desc("Update local version of packages. Useful after bumping version in changelog.");
+task("update-local", ["get-next-version"], function (params) {
+    var version = jake.Task["get-next-version"].value;
+
+    jake.logger.log(`Current version to publish packages with is set to ${version}`);
+
+    var command = `lerna publish --skip-git --skip-npm --repo-version "${version}" --yes`
+
+    runCommand(this, command, "Successfully updated packages versions");
+});
+

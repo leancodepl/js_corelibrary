@@ -4,6 +4,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "jake -f ./build/Jakefile.js build",
+    "update-local": "jake -f ./build/Jakefile.js update-local",
     "publish:ci": "jake -f ./build/Jakefile.js publish"
   },
   "devDependencies": {
