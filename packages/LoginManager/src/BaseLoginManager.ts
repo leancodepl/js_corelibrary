@@ -13,8 +13,21 @@ else {
     serialize = btoa;
 }
 
-export interface LoginManager extends BaseLoginManager<TokenStorage> {
+export interface LoginSuccess {
+    readonly type: "success";
+}
 
+export interface LoginFailure {
+    readonly type: "failure";
+}
+
+export interface LoginNetworkError {
+    readonly type: "networkError";
+}
+
+export type LoginResult = LoginSuccess | LoginFailure | LoginNetworkError;
+
+export interface LoginManager extends BaseLoginManager<TokenStorage> {
 }
 
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
@@ -37,11 +50,11 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     public abstract getToken(): Promise<string | null>;
 
-    public trySignIn(username: string, password: string): Promise<boolean> {
+    public trySignIn(username: string, password: string): Promise<LoginResult> {
         return this.acquireToken(this.buildSignInRequest(username, password));
     }
 
-    public trySignInWithFacebook(accessToken: string): Promise<boolean> {
+    public trySignInWithFacebook(accessToken: string): Promise<LoginResult> {
         return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken));
     }
 
@@ -58,9 +71,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
             this.acquireToken(this.buildRefreshRequest(token)).then(
-                success => {
+                result => {
                     this.isRefreshingToken = false;
-                    this.refreshTokenCallbacks.forEach(c => c(success));
+                    this.refreshTokenCallbacks.forEach(c => c(result.type === "success"));
                     this.refreshTokenCallbacks = [];
                 }
             );
@@ -82,7 +95,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         }
     }
 
-    private async acquireToken(init: RequestInit) {
+    private async acquireToken(init: RequestInit): Promise<LoginResult> {
         try {
             let result = await fetch(this.endpoint + "/connect/token", init);
             if (!result.ok) {
@@ -92,7 +105,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
                 } else {
                     console.error("Auth server returned an unknown error: %d %s", result.status, result.statusText);
                 }
-                return false;
+                return { type: "failure" };
             }
 
             let tokenResult = await result.json();
@@ -106,10 +119,10 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             });
 
             this.notify(true);
-            return true;
+            return { type: "success" };
         } catch (e) {
-            console.warn("Cannot call Auth server ", e);
-            return false;
+            console.warn("Cannot call Auth server, error: ", e);
+            return { type: "networkError" };
         }
     }
 
