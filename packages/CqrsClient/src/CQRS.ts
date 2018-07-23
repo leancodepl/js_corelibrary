@@ -18,10 +18,34 @@ export interface CommandResult {
     readonly ValidationErrors: ReadonlyArray<ValidationError>;
 }
 
-export class MalformedRequest extends Error { }
-export class UnauthorizedRequest extends Error { }
-export class CommandQueryNotFound extends Error { }
-export class CommandQueryExecutionFailed extends Error {}
+export class MalformedRequest extends Error {
+    constructor(m: string) {
+        super(m);
+        Object.setPrototypeOf(this, MalformedRequest.prototype);
+    }
+}
+
+export class UnauthorizedRequest extends Error {
+    constructor(m: string) {
+        super(m);
+        Object.setPrototypeOf(this, UnauthorizedRequest.prototype);
+    }
+}
+
+export class CommandQueryNotFound extends Error {
+    constructor(m: string) {
+        super(m);
+        Object.setPrototypeOf(this, CommandQueryNotFound.prototype);
+    }
+}
+
+export class CommandQueryExecutionFailed extends Error {
+    constructor(m: string) {
+        super(m);
+        Object.setPrototypeOf(this, CommandQueryExecutionFailed.prototype);
+    }
+}
+
 
 export class CQRS {
     public constructor(
