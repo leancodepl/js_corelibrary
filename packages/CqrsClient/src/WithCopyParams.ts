@@ -1,12 +1,14 @@
 import { ClientType } from "./ClientType";
 
-export function withCopyParams<
-    TClientParams extends {[key in keyof TClientResults]: object },
-    TClientResults extends {[key in keyof TClientParams]: object },
-    TOptions>(client: ClientType<TClientParams, TClientResults, TOptions>) {
+export type CopyParamsOutputMapper<TClientParams, TOutputMapper extends { [K in keyof TOutputMapper]: any }, > = {
+    [K in keyof TClientParams]: { params: TClientParams[K] } & TOutputMapper[K]
+};
 
-    let clientWithParams: ClientType<TClientParams, {[key in keyof TClientResults]: { params: TClientParams[key] } & TClientResults[key]}, TOptions> = {} as any;
-    let key: keyof TClientParams & keyof TClientResults;
+export function withCopyParams<TClientParams, TOptions, TOutputMapper extends { [K in keyof TClientParams]: any }>(
+    client: ClientType<TClientParams, TOptions, TOutputMapper>) {
+    let clientWithParams: ClientType<TClientParams, TOptions, CopyParamsOutputMapper<TClientParams, TOutputMapper>> = {} as any;
+
+    let key: keyof TClientParams;
 
     for (key in client) {
         const base = client[key];

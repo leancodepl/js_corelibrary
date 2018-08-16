@@ -1,22 +1,7 @@
 import { LoginManager } from "@leancode/login-manager/BaseLoginManager";
 import { CannotRefreshToken } from "@leancode/login-manager/CannotRefreshToken";
 import "cross-fetch/polyfill";
-
-
-export interface IRemoteQuery<TContext, TOutput> { }
-export interface IRemoteCommand<TContext> { }
-
-export interface ValidationError {
-    readonly PropertyName: string;
-    readonly ErrorMessage: string;
-    readonly AttemptedValue: any;
-    readonly ErrorCode: number;
-}
-
-export interface CommandResult {
-    readonly WasSuccessful: boolean;
-    readonly ValidationErrors: ReadonlyArray<ValidationError>;
-}
+import { CommandResult, IRemoteCommand, IRemoteQuery } from "./ClientType";
 
 export class MalformedRequest extends Error {
     constructor(m: string) {

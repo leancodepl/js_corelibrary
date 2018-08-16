@@ -12,13 +12,15 @@ export type ApiError = {
 
 export type ApiResponse<TResult> = ApiSuccess<TResult> | ApiError;
 
-export function withErrorHandling<
-    TClientParams extends {[key in keyof TClientResults]: object },
-    TClientResults extends {[key in keyof TClientParams]: object },
-    TOptions>(client: ClientType<TClientParams, TClientResults, TOptions>) {
+export type ErrorHandledOutputMapper<TOutputMapper> = {
+    [K in keyof TOutputMapper]: ApiResponse<TOutputMapper[K]>;
+};
 
-    let handledClient: ClientType<TClientParams, {[key in keyof TClientResults]: ApiResponse<TClientResults[key]>}, TOptions> = {} as any;
-    let key: keyof TClientParams & keyof TClientResults;
+export function withErrorHandling<TClientParams, TOptions, TOutputMapper extends { [K in keyof TClientParams]: any }>(
+    client: ClientType<TClientParams, TOptions, TOutputMapper>) {
+    let handledClient: ClientType<TClientParams, TOptions, ErrorHandledOutputMapper<TOutputMapper>> = {} as any;
+
+    let key: keyof TClientParams;
 
     for (key in client) {
         const base = client[key];

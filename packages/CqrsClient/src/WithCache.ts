@@ -11,13 +11,11 @@ export interface CacheOptions {
     readonly cache: undefined | true | "force";
 }
 
-export function withCache<
-    TClientParams extends {[key in keyof TClientResults]: object },
-    TClientResults extends {[key in keyof TClientParams]: object },
-    TOptions>(client: ClientType<TClientParams, TClientResults, TOptions>) {
+export function withCache<TClientParams, TOptions, TOutputMapper extends { [K in keyof TClientParams]: any }> (
+    client: ClientType<TClientParams, TOptions, TOutputMapper>) {
 
-    let cachedClient: ClientType<TClientParams, TClientResults, TOptions & CacheOptions> = {} as any;
-    let key: keyof TClientParams & keyof TClientResults;
+    let cachedClient: ClientType<TClientParams, TOptions & CacheOptions, TOutputMapper> = {} as any;
+    let key: keyof TClientParams;
 
     for (key in client) {
         const base = client[key];
