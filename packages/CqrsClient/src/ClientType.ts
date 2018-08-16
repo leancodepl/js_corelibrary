@@ -24,6 +24,6 @@ export type BaseOutputMapper<TClientType> = {
     (TClientType[K]) extends IRemoteCommand<any> ? CommandResult : never
 };
 
-export type ClientType<TClientType, TOptions, TOutputMapper extends { [key in keyof TClientType]: any }> = {
+export type ClientType<TClientType, TOptions = never, TOutputMapper extends { [key in keyof TClientType]: any } = BaseOutputMapper<TClientType>> = {
     [K in keyof TClientType]: (dto: Break<TClientType[K]>, additionalOptions?: TOptions) => Promise<TOutputMapper[K]>;
 };
