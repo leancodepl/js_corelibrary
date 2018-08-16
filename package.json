@@ -9,7 +9,7 @@
     "dev": "lerna run watch --parallel"
   },
   "devDependencies": {
-    "lerna": "3.0.6",
+    "lerna": "3.0.0-beta.21",
     "jake": "8.0.16",
     "typescript": "3.0.1"
   }
