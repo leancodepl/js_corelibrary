@@ -1,5 +1,5 @@
-export class RemoteQuery<TContext, TOutput> { private _: TOutput; }
-export class RemoteCommand<TContext> { private _: TContext; }
+export class RemoteQuery<TContext, TOutput> { protected _: TOutput; }
+export class RemoteCommand<TContext> { protected _: TContext; }
 
 export interface IRemoteQuery<TContext, TOutput> extends RemoteQuery<TContext, TOutput> { }
 export interface IRemoteCommand<TContext> extends RemoteCommand<TContext> { }
