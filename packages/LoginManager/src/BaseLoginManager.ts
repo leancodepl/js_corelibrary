@@ -100,10 +100,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             let result = await fetch(this.endpoint + "/connect/token", init);
             if (!result.ok) {
                 if (result.status === 400) {
-                    console.warn("Cannot sign user in, invalid username or password/refresh token, user will need to sign-in again");
                     this.signOut();
-                } else {
-                    console.error("Auth server returned an unknown error: %d %s", result.status, result.statusText);
                 }
                 return { type: "failure" };
             }
