@@ -44,9 +44,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         private additionalParams?: any) {
     }
 
-    public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void;
+    public abstract signOut(): Promise<void>;
 
-    public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean;
+    public abstract isSigned(): Promise<boolean>;
 
     public abstract getToken(): Promise<string | null>;
 
@@ -100,7 +100,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             let result = await fetch(this.endpoint + "/connect/token", init);
             if (!result.ok) {
                 if (result.status === 400) {
-                    this.signOut();
+                    await this.signOut();
                 }
                 return { type: "failure" };
             }

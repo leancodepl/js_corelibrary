@@ -4,13 +4,13 @@ import { CannotRefreshToken } from "./CannotRefreshToken";
 import { SyncTokenStorage } from "./TokenStorage";
 
 export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> implements LoginManager {
-    public signOut(): void {
+    public async signOut() {
         this.storage.resetToken();
         this.notify(false);
     }
 
-    public isSigned() {
-        return this.storage.getToken() !== null;
+    public async isSigned() {
+        return new Promise<boolean>(resolve => resolve(this.storage.getToken() !== null));
     }
 
     public async getToken() {

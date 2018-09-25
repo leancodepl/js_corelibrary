@@ -88,7 +88,7 @@ export class CQRS {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        if (this.loginManager && this.loginManager.isSigned) {
+        if (this.loginManager && await this.loginManager.isSigned()) {
             let token = await this.loginManager.getToken();
             headers.append("Authorization", "Bearer " + token);
         }
