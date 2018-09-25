@@ -109,11 +109,16 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
             let expDate = new Date();
             expDate.setSeconds(new Date().getSeconds() + tokenResult.expires_in);
-            this.storage.storeToken({
+            
+            const token = this.storage.storeToken({
                 token: tokenResult.access_token,
                 refreshToken: tokenResult.refresh_token,
                 expirationDate: expDate
             });
+
+            if (!this.storage.sync) {
+                await token;
+            }
 
             this.notify(true);
             return { type: "success" };
