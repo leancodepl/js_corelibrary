@@ -44,9 +44,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         private additionalParams?: any) {
     }
 
-    public abstract signOut(): Promise<void>;
+    public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void
 
-    public abstract isSigned(): Promise<boolean>;
+    public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean
 
     public abstract getToken(): Promise<string | null>;
 
