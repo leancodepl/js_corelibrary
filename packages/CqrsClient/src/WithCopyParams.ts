@@ -1,6 +1,6 @@
 import { ClientType } from "./ClientType";
 
-export type CopyParamsOutputMapper<TClientParams, TOutputMapper extends { [K in keyof TOutputMapper]: any }, > = {
+export type CopyParamsOutputMapper<TClientParams, TOutputMapper extends { [K in keyof TClientParams]: any }, > = {
     [K in keyof TClientParams]: { params: TClientParams[K] } & TOutputMapper[K]
 };
 
