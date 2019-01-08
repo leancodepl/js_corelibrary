@@ -15,12 +15,12 @@ podTemplate(label: label, containers: [
                 sh 'npm install'
             }
 
-            stage('Build') {
-                sh 'npm run bootstrap'
-            }
-
             stage('Publish') {
-                sh 'npm run publish:ci'
+                withCredentials([string(credentialsId: 'LeanCodeNpmToken',
+                                        variable: 'NPM_TOKEN')]) {
+                    sh 'npm run bootstrap'
+                    sh 'npm run publish:ci'
+                }
             }
         }
     }
