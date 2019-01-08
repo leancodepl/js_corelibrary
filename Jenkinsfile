@@ -1,3 +1,4 @@
+def label = "core_js_library-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
     containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave'),
     containerTemplate(name: 'node', image: 'node:10-stretch',
