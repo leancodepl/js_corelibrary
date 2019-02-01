@@ -1,26 +1,23 @@
-def label = "core_js_library-${UUID.randomUUID().toString()}"
-podTemplate(label: label, containers: [
-    containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave'),
-    containerTemplate(name: 'node', image: 'node:10-stretch',
-                      command: 'cat', ttyEnabled: true)
-]) {
-    nodeSlack(label) {
-        stage('Checkout') {
-            checkout scm
-            leancode.configureMyGet()
+leancode.builder('core_js_library')
+    .withCustomJnlp()
+    .withNode(version: '10-stretch')
+    .run {
+    stage('Checkout') {
+        checkout scm
+    }
+
+    leancode.configureRepositories()
+
+    container('node') {
+        stage('Restore') {
+            sh 'npm install'
         }
 
-        container('node') {
-            stage('Restore') {
-                sh 'npm install'
-            }
-
-            stage('Publish') {
-                withCredentials([string(credentialsId: 'LeanCodeNpmToken',
-                                        variable: 'NPM_TOKEN')]) {
-                    sh 'npm run bootstrap'
-                    sh 'npm run publish:ci'
-                }
+        stage('Publish') {
+            withCredentials([string(credentialsId: 'LeanCodeNpmToken',
+                                    variable: 'NPM_TOKEN')]) {
+                sh 'npm run bootstrap'
+                sh 'npm run publish:ci'
             }
         }
     }
