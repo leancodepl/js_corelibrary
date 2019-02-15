@@ -38,12 +38,12 @@ export class CQRS {
         private loginManager?: LoginManager) {
     }
 
-    public executeQuery<TOutput>(type: string, dto: IRemoteQuery<any, TOutput>): Promise<TOutput> {
+    public executeQuery<TOutput>(type: string, dto: IRemoteQuery<TOutput>): Promise<TOutput> {
         const path = this.cqrsEndpoint + "/query/" + type;
         return this.makeRequest(path, dto, true);
     }
 
-    public executeCommand(type: string, dto: IRemoteCommand<any>): Promise<CommandResult> {
+    public executeCommand(type: string, dto: IRemoteCommand): Promise<CommandResult> {
         const path = this.cqrsEndpoint + "/command/" + type;
         return this.makeRequest(path, dto, true);
     }

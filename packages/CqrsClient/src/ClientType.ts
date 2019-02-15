@@ -1,8 +1,8 @@
-export class RemoteQuery<TContext, TOutput> { protected _: TOutput; }
-export class RemoteCommand<TContext> { protected _: TContext; }
+export class RemoteQuery<TOutput> { protected _: TOutput; }
+export class RemoteCommand { }
 
-export interface IRemoteQuery<TContext, TOutput> extends RemoteQuery<TContext, TOutput> { }
-export interface IRemoteCommand<TContext> extends RemoteCommand<TContext> { }
+export interface IRemoteQuery<TOutput> extends RemoteQuery<TOutput> { }
+export interface IRemoteCommand extends RemoteCommand { }
 
 export type Break<T> = { [K in keyof T]: T[K] };
 
@@ -20,8 +20,8 @@ export interface CommandResult {
 
 export type BaseOutputMapper<TClientType> = {
     [K in keyof TClientType]:
-    (TClientType[K]) extends IRemoteQuery<any, infer TOutput> ? TOutput :
-    (TClientType[K]) extends IRemoteCommand<any> ? CommandResult : never
+    (TClientType[K]) extends IRemoteQuery<infer TOutput> ? TOutput :
+    (TClientType[K]) extends IRemoteCommand ? CommandResult : never
 };
 
 export type ClientType<TClientType, TOptions = never, TOutputMapper extends { [key in keyof TClientType]: any } = BaseOutputMapper<TClientType>> = {
