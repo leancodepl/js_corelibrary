@@ -17,6 +17,13 @@ export class UnauthorizedRequest extends Error {
     }
 }
 
+export class ForbiddenRequest extends Error {
+    constructor(m: string) {
+        super(m);
+        Object.setPrototypeOf(this, ForbiddenRequest.prototype);
+    }
+}
+
 export class CommandQueryNotFound extends Error {
     constructor(m: string) {
         super(m);
@@ -74,7 +81,7 @@ export class CQRS {
                 }
             }
             if (result.status === 403) {
-                throw new UnauthorizedRequest("User is not authorized to execute the command/query");
+                throw new ForbiddenRequest("User is not authorized to execute the command/query");
             }
             if (result.status === 404) {
                 throw new CommandQueryNotFound("Command/query not found");
