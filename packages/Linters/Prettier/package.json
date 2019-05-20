@@ -1,0 +1,12 @@
+{
+  "name": "@leancode/prettier-config",
+  "version": "1.0.1",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "index.json",
+  "dependencies": {
+    "prettier": "1.16.4",
+    "prettier-eslint": "8.8.2",
+    "prettier-eslint-cli": "4.7.1"
+  }
+}

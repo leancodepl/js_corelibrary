@@ -1,0 +1,19 @@
+{
+  "plugins": ["stylelint-prettier", "stylelint-order", "stylelint-scss", "stylelint-config-rational-order/plugin"],
+  "rules": {
+      "prettier/prettier": true,
+
+      "length-zero-no-unit": true,
+
+      "order/order": ["custom-properties", "dollar-variables", "declarations", "rules", "at-rules"],
+      "order/properties-order": [],
+      "plugin/rational-order": [
+          true,
+          {
+              "border-in-box-model": false,
+              "empty-line-between-groups": true
+          }
+      ]
+  },
+  "extends": "stylelint-config-recommended-scss"
+}
