@@ -1,12 +1,12 @@
 {
   "name": "@leancode/linting",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": "LeanCode",
   "license": "ISC",
   "main": "prettier.json",
   "dependencies": {
-    "@leancode/eslint-config": "1.0.0",
-    "@leancode/prettier-config": "1.0.0",
-    "@leancode/stylelint-config": "1.0.0"
+    "@leancode/eslint-config": "1.0.2",
+    "@leancode/prettier-config": "1.0.1",
+    "@leancode/stylelint-config": "1.0.1"
   }
 }
