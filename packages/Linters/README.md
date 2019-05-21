@@ -24,6 +24,10 @@ Required extensions:
 }
 ```
 
+# Project dependencies
+
+Add `@leancode/linting` as dev dependency.
+
 # Prettier
 
 Add file `.prettierrc.js`  (where `package.json` is) with contents:
@@ -44,7 +48,7 @@ Add file `.eslintrc`  (where `package.json` is) with contents:
 
 # Stylelint
 
-Add file `.eslintrc`  (where `package.json` is) with contents:
+Add file `.stylelintrc`  (where `package.json` is) with contents:
 
 ```json
 {
@@ -52,7 +56,7 @@ Add file `.eslintrc`  (where `package.json` is) with contents:
 }
 ```
 
-or if you use `SASS`
+or if you use `SCSS`
 ```json
 {
     "extends": "@leancode/stylelint-config/scss"
