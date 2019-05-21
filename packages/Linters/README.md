@@ -47,14 +47,12 @@ It's recommended to enable automatic formating and organising imports on every s
   "[typescript]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   },
   "[typescriptreact]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
   },
 }
 ```
