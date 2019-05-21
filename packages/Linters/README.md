@@ -61,6 +61,8 @@ It's recommended to enable automatic formating and organising imports on every s
 
 Add `@leancode/linting` as dev dependency.
 
+You can run `npm view @leancode/linting` in order to see latest version of the package as tooling does not work well with myget.
+
 # Prettier
 
 Add file `.prettierrc.js`  (where `package.json` is) with contents:
