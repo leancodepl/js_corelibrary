@@ -1,15 +1,15 @@
 {
   "name": "@leancode/stylelint-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "LeanCode",
   "license": "ISC",
   "main": "index.json",
   "dependencies": {
-    "stylelint": "10.0.1",
+    "stylelint": "10.1.0",
     "stylelint-config-rational-order": "0.1.2",
     "stylelint-config-recommended-scss": "3.3.0",
     "stylelint-order": "3.0.0",
-    "stylelint-prettier": "1.0.6",
-    "stylelint-scss": "3.6.1"
+    "stylelint-prettier": "1.1.1",
+    "stylelint-scss": "3.8.0"
   }
 }
