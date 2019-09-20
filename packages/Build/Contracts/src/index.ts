@@ -1,5 +1,5 @@
 import { Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environmentCheck";
+import { EnvironmentContext } from "@leancode/build-base/environment";
 import webpack from "webpack";
 
 export default function contracts<TInCtx extends EnvironmentContext>(

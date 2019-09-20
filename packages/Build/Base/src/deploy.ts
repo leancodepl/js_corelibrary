@@ -4,7 +4,9 @@ export interface DeployContext extends BaseContext {
     deployDir: string;
 }
 
-export function deploy<TInCtx extends BaseContext>(deployDir: string): Configure<TInCtx, TInCtx & DeployContext> {
+export default function deploy<TInCtx extends BaseContext>(
+    deployDir: string,
+): Configure<TInCtx, TInCtx & DeployContext> {
     return ctx => {
         ctx.config.output = ctx.config.output || {};
 

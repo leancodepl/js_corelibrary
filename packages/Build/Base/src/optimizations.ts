@@ -1,6 +1,6 @@
 import { BaseContext, Configure } from "./configure";
 
-export function optimizations<TInCtx extends BaseContext>(): Configure<TInCtx, TInCtx> {
+export default function optimizations<TInCtx extends BaseContext>(): Configure<TInCtx, TInCtx> {
     return ctx => {
         ctx.config.optimization = ctx.config.optimization || {};
 

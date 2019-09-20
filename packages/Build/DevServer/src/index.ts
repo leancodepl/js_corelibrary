@@ -1,7 +1,7 @@
 import { Configure } from "@leancode/build-base/configure";
 import { DeployContext } from "@leancode/build-base/deploy";
 import { AppUrlContext } from "@leancode/build-base/entrypoint";
-import { EnvironmentContext } from "@leancode/build-base/environmentCheck";
+import { EnvironmentContext } from "@leancode/build-base/environment";
 
 export default function devServer<TInCtx extends EnvironmentContext & AppUrlContext & DeployContext>(
     port: number = 40112,

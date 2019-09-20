@@ -1,5 +1,5 @@
 import { Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environmentCheck";
+import { EnvironmentContext } from "@leancode/build-base/environment";
 import { parse } from "json2csv";
 import { StatsWriterPlugin } from "webpack-stats-plugin";
 

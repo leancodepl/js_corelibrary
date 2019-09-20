@@ -1,5 +1,5 @@
 import { Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environmentCheck";
+import { EnvironmentContext } from "@leancode/build-base/environment";
 
 export default function appConfig<TInCtx extends EnvironmentContext>(): Configure<TInCtx, TInCtx> {
     const svgoLoader = {

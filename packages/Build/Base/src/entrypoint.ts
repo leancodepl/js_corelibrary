@@ -4,7 +4,7 @@ export interface AppUrlContext extends BaseContext {
     appUrl: string;
 }
 
-export function entrypoint<TInCtx extends BaseContext>(
+export default function entrypoint<TInCtx extends BaseContext>(
     entrypoint: string,
     appUrl: string,
 ): Configure<TInCtx, TInCtx & AppUrlContext> {
