@@ -6,10 +6,7 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/node_modules": true,
-    "packages/*/*.d.ts": true,
-    "packages/CqrsClient/*/*.js": true,
-    "packages/LoginManager/*/*.js": true
+    "**/node_modules": true
   },
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

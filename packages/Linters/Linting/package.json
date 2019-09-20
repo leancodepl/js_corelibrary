@@ -1,12 +1,18 @@
 {
   "name": "@leancode/linting",
   "version": "1.0.4",
+  "publishConfig": {
+    "registry": "https://www.myget.org/F/leancode/npm/"
+  },
   "author": "LeanCode",
   "license": "ISC",
   "main": "prettier.json",
   "dependencies": {
-    "@leancode/eslint-config": "1.0.3",
-    "@leancode/prettier-config": "1.0.2",
-    "@leancode/stylelint-config": "1.0.2"
+    "@leancode/eslint-config": "^1.0.3",
+    "@leancode/prettier-config": "^1.0.2",
+    "@leancode/stylelint-config": "^1.0.2"
+  },
+  "devDependencies": {
+    "typescript": "3.6.3"
   }
 }

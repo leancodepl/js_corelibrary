@@ -1,0 +1,33 @@
+{
+  "name": "@leancode/build-typescript",
+  "version": "1.0.0",
+  "scripts": {
+    "prepare": "tsc",
+    "watch": "tsc -w"
+  },
+  "publishConfig": {
+    "registry": "https://www.myget.org/F/leancode/npm/"
+  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@leancode/build-base": "^1.0.0",
+    "babel-loader": "^8.0.6",
+    "core-js": "^3.2.1",
+    "eslint-loader": "^3.0.0",
+    "fork-ts-checker-webpack-plugin": "^1.5.0"
+  },
+  "devDependencies": {
+    "@leancode/eslint-config": "1.0.3",
+    "@leancode/prettier-config": "1.0.2",
+    "@types/fork-ts-checker-webpack-plugin": "0.4.5",
+    "@types/webpack": "4.39.1",
+    "typescript": "3.6.3"
+  }
+}

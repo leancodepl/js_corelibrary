@@ -1,0 +1,22 @@
+{
+  "name": "@leancode/build-base",
+  "version": "1.0.0",
+  "scripts": {
+    "prepare": "tsc",
+    "watch": "tsc -w"
+  },
+  "publishConfig": {
+    "registry": "https://www.myget.org/F/leancode/npm/"
+  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "peerDependencies": {
+    "webpack": "^4.0.0"
+  },
+  "devDependencies": {
+    "@leancode/eslint-config": "1.0.3",
+    "@leancode/prettier-config": "1.0.2",
+    "@types/webpack": "4.39.1",
+    "typescript": "3.6.3"
+  }
+}

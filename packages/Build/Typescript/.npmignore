@@ -1,8 +1,9 @@
 src
-tools
+.eslintrc
+.prettierrc.js
 .npmignore
+.npmrc
 tsconfig.json
 package-lock.json
-yarn.lock
 *.tgz
 .gitignore

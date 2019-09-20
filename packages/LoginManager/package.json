@@ -1,6 +1,6 @@
 {
   "name": "@leancode/login-manager",
-  "version": "3.2.64",
+  "version": "3.4.94",
   "description": "Login manager",
   "scripts": {
     "prepare": "tsc",
@@ -17,7 +17,8 @@
   "author": "LeanCode",
   "license": "ISC",
   "devDependencies": {
-    "@types/facebook-js-sdk": "2.8.3"
+    "@types/facebook-js-sdk": "2.8.3",
+    "typescript": "3.6.3"
   },
   "dependencies": {
     "cross-fetch": "2.2.1",
