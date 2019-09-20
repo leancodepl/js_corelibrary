@@ -1,6 +1,6 @@
 {
   "name": "@leancode/linting",
-  "version": "3.4.96",
+  "version": "3.4.97",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
@@ -10,7 +10,7 @@
   "dependencies": {
     "@leancode/eslint-config": "^3.4.95",
     "@leancode/prettier-config": "^3.4.95",
-    "@leancode/stylelint-config": "^3.4.96"
+    "@leancode/stylelint-config": "^3.4.97"
   },
   "devDependencies": {
     "typescript": "3.6.3"
