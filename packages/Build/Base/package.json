@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-base",
-  "version": "1.0.0",
+  "version": "3.4.95",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,8 +14,8 @@
     "webpack": "^4.0.0"
   },
   "devDependencies": {
-    "@leancode/eslint-config": "1.0.3",
-    "@leancode/prettier-config": "1.0.2",
+    "@leancode/eslint-config": "^3.4.95",
+    "@leancode/prettier-config": "^3.4.95",
     "@types/webpack": "4.39.1",
     "typescript": "3.6.3"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/eslint-config",
-  "version": "1.0.3",
+  "version": "3.4.95",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },

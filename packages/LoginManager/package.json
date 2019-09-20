@@ -1,6 +1,6 @@
 {
   "name": "@leancode/login-manager",
-  "version": "3.4.94",
+  "version": "3.4.95",
   "description": "Login manager",
   "scripts": {
     "prepare": "tsc",

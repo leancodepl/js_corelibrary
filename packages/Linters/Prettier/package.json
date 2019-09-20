@@ -1,6 +1,6 @@
 {
   "name": "@leancode/prettier-config",
-  "version": "1.0.2",
+  "version": "3.4.95",
   "author": "LeanCode",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
