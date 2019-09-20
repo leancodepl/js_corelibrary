@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-base",
-  "version": "3.4.95",
+  "version": "3.4.96",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"

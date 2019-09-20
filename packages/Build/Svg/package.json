@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-svg",
-  "version": "3.4.95",
+  "version": "3.4.96",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,10 +14,10 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^3.4.95",
+    "@leancode/build-base": "^3.4.96",
+    "file-loader": "^4.2.0",
     "svg-react-loader": "0.4.6",
-    "svgo-loader": "^2.2.1",
-    "file-loader": "^4.2.0"
+    "svgo-loader": "^2.2.1"
   },
   "devDependencies": {
     "typescript": "3.6.3"
