@@ -8,5 +8,6 @@
     "**/.DS_Store": true,
     "**/node_modules": true
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
 }

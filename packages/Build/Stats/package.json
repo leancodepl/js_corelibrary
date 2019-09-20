@@ -1,5 +1,5 @@
 {
-  "name": "@leancode/build-base",
+  "name": "@leancode/build-stats-writer",
   "version": "3.4.95",
   "scripts": {
     "prepare": "tsc",
@@ -13,8 +13,13 @@
   "peerDependencies": {
     "webpack": "^4.0.0"
   },
+  "dependencies": {
+    "@leancode/build-base": "^3.4.95",
+    "json2csv": "4.5.3",
+    "webpack-stats-plugin": "0.3.0"
+  },
   "devDependencies": {
-    "@types/webpack": "4.39.1",
+    "@types/json2csv": "4.5.0",
     "typescript": "3.6.3"
   }
 }

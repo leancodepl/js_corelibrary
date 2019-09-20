@@ -18,7 +18,12 @@ export function entrypoint<TInCtx extends BaseContext>(
                     ctx.argv.inline && "webpack/hot/only-dev-server",
                     entrypoint,
                 ].filter(e => e),
+                resolve: {
+                    ...ctx.config.resolve,
+                    extensions: [...((ctx.config.resolve || {}).extensions || []), ".js"],
+                },
             },
+
             appUrl,
         };
     };

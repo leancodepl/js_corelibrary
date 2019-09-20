@@ -1,5 +1,5 @@
 {
-  "name": "@leancode/build-base",
+  "name": "@leancode/build-static-files",
   "version": "3.4.95",
   "scripts": {
     "prepare": "tsc",
@@ -13,8 +13,11 @@
   "peerDependencies": {
     "webpack": "^4.0.0"
   },
+  "dependencies": {
+    "@leancode/build-base": "^3.4.95",
+    "file-loader": "^4.2.0"
+  },
   "devDependencies": {
-    "@types/webpack": "4.39.1",
     "typescript": "3.6.3"
   }
 }

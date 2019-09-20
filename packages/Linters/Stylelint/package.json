@@ -8,7 +8,7 @@
   "license": "ISC",
   "main": "index.json",
   "dependencies": {
-    "stylelint": "11.0.0",
+    "stylelint": "10.0.0",
     "stylelint-config-rational-order": "0.1.2",
     "stylelint-config-recommended-scss": "3.3.0",
     "stylelint-order": "3.1.1",

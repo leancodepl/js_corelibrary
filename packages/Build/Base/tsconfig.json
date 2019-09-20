@@ -5,20 +5,13 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": [
-      "dom",
-      "es6"
-    ],
+    "lib": ["dom", "es6"],
     "removeComments": false,
-    "noImplicitAny": true,
+    "esModuleInterop": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
     "declaration": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["src"]
 }

@@ -1,9 +1,5 @@
 src
-.eslintrc
-.prettierrc.js
-.npmignore
 .npmrc
 tsconfig.json
 package-lock.json
 *.tgz
-.gitignore

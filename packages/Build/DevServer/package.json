@@ -1,5 +1,5 @@
 {
-  "name": "@leancode/build-base",
+  "name": "@leancode/build-dev-server",
   "version": "3.4.95",
   "scripts": {
     "prepare": "tsc",
@@ -10,11 +10,12 @@
   },
   "author": "LeanCode",
   "license": "ISC",
-  "peerDependencies": {
-    "webpack": "^4.0.0"
+  "dependencies": {
+    "@leancode/build-base": "^3.4.95",
+    "webpack-dev-server": "^3.8.1"
   },
   "devDependencies": {
-    "@types/webpack": "4.39.1",
+    "@types/webpack-dev-server": "3.1.7",
     "typescript": "3.6.3"
   }
 }
