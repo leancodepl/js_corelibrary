@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-css",
-  "version": "3.4.97",
+  "version": "3.4.99",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
