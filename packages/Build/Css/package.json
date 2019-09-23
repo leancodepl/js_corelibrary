@@ -1,5 +1,5 @@
 {
-  "name": "@leancode/build-sass",
+  "name": "@leancode/build-css",
   "version": "3.4.97",
   "scripts": {
     "prepare": "tsc",
@@ -10,12 +10,17 @@
   },
   "author": "LeanCode",
   "license": "ISC",
+  "peerDependencies": {
+    "webpack": "^4.0.0"
+  },
   "dependencies": {
     "@leancode/build-base": "^3.4.97",
-    "@leancode/build-css": "^3.4.97",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.0",
-    "sass-resources-loader": "^2.0.1"
+    "css-loader": "^3.2.0",
+    "css-modules-typescript-loader": "^3.0.1",
+    "cssnano": "^4.1.10",
+    "mini-css-extract-plugin": "^0.8.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0"
   },
   "devDependencies": {
     "@types/webpack": "4.39.1",

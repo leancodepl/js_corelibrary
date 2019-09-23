@@ -1,5 +1,5 @@
 {
-  "name": "@leancode/build-sass",
+  "name": "@leancode/build-less",
   "version": "3.4.97",
   "scripts": {
     "prepare": "tsc",
@@ -13,9 +13,7 @@
   "dependencies": {
     "@leancode/build-base": "^3.4.97",
     "@leancode/build-css": "^3.4.97",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.0",
-    "sass-resources-loader": "^2.0.1"
+    "less-loader": "^5.0.0"
   },
   "devDependencies": {
     "@types/webpack": "4.39.1",
