@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-less",
-  "version": "3.4.99",
+  "version": "3.4.100",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
