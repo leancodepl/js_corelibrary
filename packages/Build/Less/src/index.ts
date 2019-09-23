@@ -8,11 +8,25 @@ export default function less<TInCtx extends CssContext & EnvironmentContext>(opt
 
         ctx.config.module.rules.push({
             test: /\.less$/,
-            use: [
-                ...ctx.styleLoader(2),
+            oneOf: [
                 {
-                    loader: "less-loader",
-                    options,
+                    resourceQuery: /global/,
+                    use: [
+                        ...ctx.styleLoader(1, false),
+                        {
+                            loader: "less-loader",
+                            options,
+                        },
+                    ],
+                },
+                {
+                    use: [
+                        ...ctx.styleLoader(1, true),
+                        {
+                            loader: "less-loader",
+                            options,
+                        },
+                    ],
                 },
             ],
         });
