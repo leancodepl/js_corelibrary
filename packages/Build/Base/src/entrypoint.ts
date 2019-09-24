@@ -14,7 +14,7 @@ export default function entrypoint<TInCtx extends BaseContext>(
             config: {
                 ...ctx.config,
                 entry: [
-                    ctx.argv.inline && "webpack-dev-server/client?https://web.local.lncd.pl",
+                    ctx.argv.inline && `webpack-dev-server/client?${appUrl}`,
                     ctx.argv.inline && "webpack/hot/only-dev-server",
                     entrypoint,
                 ].filter(e => e),
