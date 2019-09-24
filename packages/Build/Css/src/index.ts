@@ -96,7 +96,7 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
                     use: styleLoader(0, ctx.isProduction, false),
                 },
                 {
-                    use: styleLoader(0, ctx.isProduction, false),
+                    use: styleLoader(0, ctx.isProduction, true),
                 },
             ],
         });

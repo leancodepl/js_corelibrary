@@ -3,10 +3,15 @@ import { EnvironmentContext } from "@leancode/build-base/environment";
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 
+export interface BabelContext {
+    babelPresets: any[];
+    babelPlugins: any[];
+}
+
 export default function typescript<TInCtx extends EnvironmentContext>(
     tsConfig: string,
     src: string,
-): Configure<TInCtx, TInCtx> {
+): Configure<TInCtx, TInCtx & BabelContext> {
     function extractTsAliases() {
         const mappings: { [key: string]: string } = {};
         const tsconfig = require(tsConfig);
@@ -46,6 +51,22 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             }),
         );
 
+        const babelPresets: any[] = [
+            "@babel/react",
+            "@babel/typescript",
+            [
+                "@babel/env",
+                {
+                    modules: false,
+                    useBuiltIns: "usage",
+                    corejs: 3,
+                    targets: "cover 99.5% in PL",
+                },
+            ],
+        ];
+
+        const babelPlugins: any[] = ["@babel/plugin-proposal-class-properties", "@babel/plugin-syntax-dynamic-import"];
+
         ctx.config.module.rules.push(
             {
                 test: /\.[jt]sx?$/,
@@ -62,28 +83,11 @@ export default function typescript<TInCtx extends EnvironmentContext>(
                         options: {
                             babelrc: false,
                             sourceMaps: true,
-                            presets: [
-                                "@babel/react",
-                                "@babel/typescript",
-                                [
-                                    "@babel/env",
-                                    {
-                                        modules: false,
-                                        useBuiltIns: "usage",
-                                        corejs: 3,
-                                        targets: "cover 99.5% in PL",
-                                    },
-                                ],
-                            ],
-                            plugins: [
-                                "@babel/plugin-proposal-class-properties",
-                                // isProd && "babel-plugin-jsx-remove-data-test-id",
-                                "@babel/plugin-syntax-dynamic-import",
-                            ].filter(p => p),
+                            presets: babelPresets,
+                            plugins: babelPlugins,
                         },
                     },
-                    // isStorybook && "react-docgen-typescript-loader",
-                ].filter(Boolean),
+                ],
             },
         );
 
@@ -93,6 +97,10 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             ...extractTsAliases(),
         };
 
-        return ctx;
+        return {
+            ...ctx,
+            babelPresets,
+            babelPlugins,
+        };
     };
 }
