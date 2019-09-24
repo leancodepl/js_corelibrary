@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-html",
-  "version": "3.4.102",
+  "version": "3.4.103",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -11,7 +11,7 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/build-base": "^3.4.102",
+    "@leancode/build-base": "^3.4.103",
     "favicons-webpack-plugin": "^1.0.2",
     "html-webpack-plugin": "^3.2.0"
   },

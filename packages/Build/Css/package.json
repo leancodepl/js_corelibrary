@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-css",
-  "version": "3.4.102",
+  "version": "3.4.103",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,7 +14,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^3.4.102",
+    "@leancode/build-base": "^3.4.103",
     "css-loader": "^3.2.0",
     "css-modules-typescript-loader": "^3.0.1",
     "cssnano": "^4.1.10",
