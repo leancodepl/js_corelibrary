@@ -1,7 +1,7 @@
 import { LoginManager } from "@leancode/login-manager/BaseLoginManager";
 import { CannotRefreshToken } from "@leancode/login-manager/CannotRefreshToken";
 import "cross-fetch/polyfill";
-import { CommandResult, IRemoteCommand, IRemoteQuery } from "./ClientType";
+import { ApiResponse, CommandResult, IRemoteCommand, IRemoteQuery } from "./ClientType";
 
 export class MalformedRequest extends Error {
     constructor(m: string) {
@@ -38,21 +38,37 @@ export class CommandQueryExecutionFailed extends Error {
     }
 }
 
-
 export class CQRS {
-    public constructor(
-        private cqrsEndpoint: string,
-        private loginManager?: LoginManager) {
-    }
+    public constructor(private cqrsEndpoint: string, private loginManager?: LoginManager) {}
 
-    public executeQuery<TOutput>(type: string, dto: IRemoteQuery<TOutput>): Promise<TOutput> {
+    public executeQuery<TResult>(type: string, dto: IRemoteQuery<TResult>): Promise<ApiResponse<TResult>> {
         const path = this.cqrsEndpoint + "/query/" + type;
-        return this.makeRequest(path, dto, true);
+
+        return this.checkForError(path, dto);
     }
 
-    public executeCommand(type: string, dto: IRemoteCommand): Promise<CommandResult> {
+    public executeCommand<TErrorCodes extends { [name: string]: number }>(
+        type: string,
+        dto: IRemoteCommand,
+    ): Promise<ApiResponse<CommandResult<TErrorCodes>>> {
         const path = this.cqrsEndpoint + "/command/" + type;
-        return this.makeRequest(path, dto, true);
+
+        return this.checkForError(path, dto);
+    }
+
+    private async checkForError(path: string, dto: any): Promise<ApiResponse<any>> {
+        try {
+            const result = await this.makeRequest(path, dto, true);
+            return {
+                isSuccess: true,
+                result,
+            };
+        } catch (error) {
+            return {
+                isSuccess: false,
+                error,
+            };
+        }
     }
 
     private async makeRequest(url: string, dto: any, firstRequest: boolean): Promise<any> {
@@ -68,15 +84,18 @@ export class CQRS {
             if (result.status === 401) {
                 if (this.loginManager) {
                     if (firstRequest) {
-                        if (!await this.loginManager.tryRefreshToken()) {
-                            throw new CannotRefreshToken("Cannot refresh access token after the server returned 401 Unauthorized");
+                        if (!(await this.loginManager.tryRefreshToken())) {
+                            throw new CannotRefreshToken(
+                                "Cannot refresh access token after the server returned 401 Unauthorized",
+                            );
                         }
                         return await this.makeRequest(url, dto, false);
                     } else {
-                        throw new UnauthorizedRequest("The request has not been authorized and token refresh did not help");
+                        throw new UnauthorizedRequest(
+                            "The request has not been authorized and token refresh did not help",
+                        );
                     }
-                }
-                else {
+                } else {
                     throw new UnauthorizedRequest("User need to be authenticated to execute the command/query");
                 }
             }
@@ -86,7 +105,9 @@ export class CQRS {
             if (result.status === 404) {
                 throw new CommandQueryNotFound("Command/query not found");
             }
-            throw new CommandQueryExecutionFailed(`Cannot execute command/query, server returned a ${result.status} code`);
+            throw new CommandQueryExecutionFailed(
+                `Cannot execute command/query, server returned a ${result.status} code`,
+            );
         }
         return await result.json();
     }
@@ -95,7 +116,7 @@ export class CQRS {
         let headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        if (this.loginManager && await this.loginManager.isSigned()) {
+        if (this.loginManager && (await this.loginManager.isSigned())) {
             let token = await this.loginManager.getToken();
             headers.append("Authorization", "Bearer " + token);
         }
@@ -103,7 +124,7 @@ export class CQRS {
         return {
             method: "POST",
             body: JSON.stringify(dto),
-            headers: headers
+            headers: headers,
         };
     }
 }

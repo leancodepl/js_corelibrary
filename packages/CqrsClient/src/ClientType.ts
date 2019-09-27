@@ -1,29 +1,30 @@
-export class RemoteQuery<TOutput> { protected _: TOutput; }
-export class RemoteCommand { }
+export interface IRemoteQuery<TResult> {}
+export interface IRemoteCommand {}
 
-export interface IRemoteQuery<TOutput> extends RemoteQuery<TOutput> { }
-export interface IRemoteCommand extends RemoteCommand { }
-
-export type Break<T> = { [K in keyof T]: T[K] };
-
-export interface ValidationError {
+export type ValidationError<TErrorCodes extends { [name: string]: number }> = {
     readonly PropertyName: string;
     readonly ErrorMessage: string;
     readonly AttemptedValue: any;
-    readonly ErrorCode: number;
-}
-
-export interface CommandResult {
-    readonly WasSuccessful: boolean;
-    readonly ValidationErrors: ReadonlyArray<ValidationError>;
-}
-
-export type BaseOutputMapper<TClientType> = {
-    [K in keyof TClientType]:
-    (TClientType[K]) extends IRemoteQuery<infer TOutput> ? TOutput :
-    (TClientType[K]) extends IRemoteCommand ? CommandResult : never
+    readonly ErrorCode: TErrorCodes[keyof TErrorCodes];
 };
 
-export type ClientType<TClientType, TOptions = never, TOutputMapper extends { [key in keyof TClientType]: any } = BaseOutputMapper<TClientType>> = {
-    [K in keyof TClientType]: (dto: Break<TClientType[K]>, additionalOptions?: TOptions) => Promise<TOutputMapper[K]>;
+export type CommandResult<TErrorCodes extends { [name: string]: number }> =
+    | {
+          readonly WasSuccessful: true;
+      }
+    | {
+          readonly WasSuccessful: false;
+          readonly ValidationErrors: ValidationError<TErrorCodes>[];
+      };
+
+export type ApiSuccess<TResult> = {
+    readonly isSuccess: true;
+    readonly result: TResult;
 };
+
+export type ApiError = {
+    readonly isSuccess: false;
+    readonly error: any;
+};
+
+export type ApiResponse<TResult> = ApiSuccess<TResult> | ApiError;
