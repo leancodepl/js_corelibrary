@@ -1,47 +1,46 @@
-import { BaseContext, ConfigFunc, Configure } from "./configure";
+import { Configure } from "./configure";
 
-export function applyConfig<TCtx1>(config1: Configure<BaseContext, TCtx1>): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2>(
-    config1: Configure<BaseContext, TCtx1>,
+export function merge<TCtx0, TCtx1, TCtx2>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx2>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx3>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx4>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
     config5: Configure<TCtx4, TCtx5>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx5>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
     config5: Configure<TCtx4, TCtx5>,
     config6: Configure<TCtx5, TCtx6>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx6>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
     config5: Configure<TCtx4, TCtx5>,
     config6: Configure<TCtx5, TCtx6>,
     config7: Configure<TCtx6, TCtx7>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx7>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -49,9 +48,9 @@ export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCt
     config6: Configure<TCtx5, TCtx6>,
     config7: Configure<TCtx6, TCtx7>,
     config8: Configure<TCtx7, TCtx8>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx8>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -60,9 +59,9 @@ export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCt
     config7: Configure<TCtx6, TCtx7>,
     config8: Configure<TCtx7, TCtx8>,
     config9: Configure<TCtx8, TCtx9>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx9>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -72,9 +71,9 @@ export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCt
     config8: Configure<TCtx7, TCtx8>,
     config9: Configure<TCtx8, TCtx9>,
     config10: Configure<TCtx9, TCtx10>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10, TCtx11>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx10>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10, TCtx11>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -85,9 +84,9 @@ export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCt
     config9: Configure<TCtx8, TCtx9>,
     config10: Configure<TCtx9, TCtx10>,
     config11: Configure<TCtx10, TCtx11>,
-): ConfigFunc;
-export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10, TCtx11, TCtx12>(
-    config1: Configure<BaseContext, TCtx1>,
+): Configure<TCtx0, TCtx11>;
+export function merge<TCtx0, TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCtx8, TCtx9, TCtx10, TCtx11, TCtx12>(
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -99,8 +98,9 @@ export function applyConfig<TCtx1, TCtx2, TCtx3, TCtx4, TCtx5, TCtx6, TCtx7, TCt
     config10: Configure<TCtx9, TCtx10>,
     config11: Configure<TCtx10, TCtx11>,
     config12: Configure<TCtx11, TCtx12>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx12>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -115,7 +115,7 @@ export function applyConfig<
     TCtx12,
     TCtx13
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -128,8 +128,9 @@ export function applyConfig<
     config11: Configure<TCtx10, TCtx11>,
     config12: Configure<TCtx11, TCtx12>,
     config13: Configure<TCtx12, TCtx13>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx13>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -145,7 +146,7 @@ export function applyConfig<
     TCtx13,
     TCtx14
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -159,8 +160,9 @@ export function applyConfig<
     config12: Configure<TCtx11, TCtx12>,
     config13: Configure<TCtx12, TCtx13>,
     config14: Configure<TCtx13, TCtx14>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx14>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -177,7 +179,7 @@ export function applyConfig<
     TCtx14,
     TCtx15
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -192,8 +194,9 @@ export function applyConfig<
     config13: Configure<TCtx12, TCtx13>,
     config14: Configure<TCtx13, TCtx14>,
     config15: Configure<TCtx14, TCtx15>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx15>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -211,7 +214,7 @@ export function applyConfig<
     TCtx15,
     TCtx16
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -227,8 +230,9 @@ export function applyConfig<
     config14: Configure<TCtx13, TCtx14>,
     config15: Configure<TCtx14, TCtx15>,
     config16: Configure<TCtx15, TCtx16>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx16>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -247,7 +251,7 @@ export function applyConfig<
     TCtx16,
     TCtx17
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -264,8 +268,9 @@ export function applyConfig<
     config15: Configure<TCtx14, TCtx15>,
     config16: Configure<TCtx15, TCtx16>,
     config17: Configure<TCtx16, TCtx17>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx17>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -285,7 +290,7 @@ export function applyConfig<
     TCtx17,
     TCtx18
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -303,8 +308,9 @@ export function applyConfig<
     config16: Configure<TCtx15, TCtx16>,
     config17: Configure<TCtx16, TCtx17>,
     config18: Configure<TCtx17, TCtx18>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx18>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -325,7 +331,7 @@ export function applyConfig<
     TCtx18,
     TCtx19
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -344,8 +350,9 @@ export function applyConfig<
     config17: Configure<TCtx16, TCtx17>,
     config18: Configure<TCtx17, TCtx18>,
     config19: Configure<TCtx17, TCtx19>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx19>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -367,7 +374,7 @@ export function applyConfig<
     TCtx19,
     TCtx20
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -387,8 +394,9 @@ export function applyConfig<
     config18: Configure<TCtx17, TCtx18>,
     config19: Configure<TCtx18, TCtx19>,
     config20: Configure<TCtx19, TCtx20>,
-): ConfigFunc;
-export function applyConfig<
+): Configure<TCtx0, TCtx20>;
+export function merge<
+    TCtx0,
     TCtx1,
     TCtx2,
     TCtx3,
@@ -410,7 +418,7 @@ export function applyConfig<
     TCtx19,
     TCtx20
 >(
-    config1: Configure<BaseContext, TCtx1>,
+    config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
     config3: Configure<TCtx2, TCtx3>,
     config4: Configure<TCtx3, TCtx4>,
@@ -431,12 +439,7 @@ export function applyConfig<
     config19: Configure<TCtx18, TCtx19>,
     config20: Configure<TCtx19, TCtx20>,
     ...configs: Configure<any, any>[]
-): ConfigFunc;
-export function applyConfig(...configs: Configure<any, any>[]): ConfigFunc {
-    return (env: any, argv: any) =>
-        configs.reduce((ctx, config) => config(ctx), {
-            env,
-            argv,
-            config: {},
-        }).config;
+): Configure<TCtx0, any>;
+export function merge(...configs: Configure<any, any>[]): Configure<any, any> {
+    return configs.slice(1).reduce((prev, config) => (ctx: any) => config(prev(ctx)), configs[0]);
 }

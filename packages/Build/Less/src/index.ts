@@ -12,7 +12,11 @@ export default function less<TInCtx extends CssContext & EnvironmentContext>(opt
                 {
                     resourceQuery: /global/,
                     use: [
-                        ...ctx.styleLoader(1, false),
+                        ...ctx.styleLoader({
+                            additionalLoaders: 1,
+                            dontUseCssModules: true,
+                            dontUseTypescript: ctx.isProduction, // there is a problem with verify mode in node_modules
+                        }),
                         {
                             loader: "less-loader",
                             options,
@@ -21,7 +25,10 @@ export default function less<TInCtx extends CssContext & EnvironmentContext>(opt
                 },
                 {
                     use: [
-                        ...ctx.styleLoader(1, true),
+                        ...ctx.styleLoader({
+                            additionalLoaders: 1,
+                            dontUseTypescript: ctx.isProduction, // there is a problem with verify mode in node_modules
+                        }),
                         {
                             loader: "less-loader",
                             options,

@@ -4,30 +4,42 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 type WebpackLoader = import("webpack").Loader;
 
+export type StyleLoaderParams = {
+    additionalLoaders: number;
+    dontUseCssModules?: boolean;
+    dontUseTypescript?: boolean;
+};
 export interface CssContext extends BaseContext {
-    styleLoader: (additionalLoaders: number, useCssModules?: boolean) => WebpackLoader[];
+    styleLoader: (params: StyleLoaderParams) => WebpackLoader[];
 }
 
 export default function css<TInCtx extends EnvironmentContext>(): Configure<TInCtx, TInCtx & CssContext> {
-    function styleLoader(additionalLoaders: number, isProd: boolean, useCssModules: boolean = true) {
+    function styleLoader({
+        additionalLoaders,
+        isProd,
+        dontUseCssModules,
+        dontUseTypescript,
+    }: StyleLoaderParams & { isProd: boolean }) {
         let loaders: WebpackLoader[];
         let postCssPlugins: any[] = [];
         let cssLoaderOptions: any = {};
 
         if (isProd) {
-            loaders = [
-                MiniCssExtractPlugin.loader,
-                {
+            loaders = [MiniCssExtractPlugin.loader];
+
+            if (!dontUseTypescript) {
+                loaders.push({
                     loader: "css-modules-typescript-loader",
                     options: {
                         mode: "verify",
                     },
-                },
-            ];
+                });
+            }
+
             cssLoaderOptions = {
                 modules: {
                     localIdentName: "[hash:base64:20]",
-                    mode: useCssModules ? "local" : "global",
+                    mode: dontUseCssModules ? "global" : "local",
                 },
             };
             postCssPlugins = [
@@ -36,19 +48,21 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
                 }),
             ];
         } else {
-            loaders = [
-                "style-loader",
-                {
+            loaders = ["style-loader"];
+
+            if (!dontUseTypescript) {
+                loaders.push({
                     loader: "css-modules-typescript-loader",
                     options: {
                         mode: "emit",
                     },
-                },
-            ];
+                });
+            }
+
             cssLoaderOptions = {
                 modules: {
                     localIdentName: "[folder]__[name]__[local]",
-                    mode: useCssModules ? "local" : "global",
+                    mode: dontUseCssModules ? "global" : "local",
                 },
                 sourceMap: true,
             };
@@ -93,18 +107,23 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
             oneOf: [
                 {
                     resourceQuery: /global/,
-                    use: styleLoader(0, ctx.isProduction, false),
+                    use: styleLoader({
+                        additionalLoaders: 0,
+                        isProd: ctx.isProduction,
+                        dontUseCssModules: true,
+                        dontUseTypescript: true,
+                    }),
                 },
                 {
-                    use: styleLoader(0, ctx.isProduction, true),
+                    use: styleLoader({ additionalLoaders: 0, isProd: ctx.isProduction }),
                 },
             ],
         });
 
         return {
             ...ctx,
-            styleLoader: (additionalLoaders, useCssModules) =>
-                styleLoader(additionalLoaders, ctx.isProduction, useCssModules),
+            styleLoader: ({ additionalLoaders, dontUseCssModules, dontUseTypescript }: StyleLoaderParams) =>
+                styleLoader({ additionalLoaders, isProd: ctx.isProduction, dontUseCssModules, dontUseTypescript }),
         };
     };
 }

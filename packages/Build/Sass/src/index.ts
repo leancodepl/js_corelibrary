@@ -11,7 +11,10 @@ export default function sass<TInCtx extends CssContext & EnvironmentContext>(
         ctx.config.module.rules.push({
             test: /\.(sass|scss)$/,
             use: [
-                ...ctx.styleLoader(2),
+                ...ctx.styleLoader({
+                    additionalLoaders: 2,
+                    dontUseTypescript: ctx.isProduction, // there is a problem with verify in node_modules
+                }),
                 "sass-loader",
                 {
                     loader: "sass-resources-loader",
