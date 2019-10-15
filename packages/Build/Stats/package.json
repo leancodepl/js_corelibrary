@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-stats-writer",
-  "version": "3.4.103",
+  "version": "4.0.0-alpha.1",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,7 +14,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^3.4.103",
+    "@leancode/build-base": "^4.0.0-alpha.1",
     "json2csv": "4.5.3",
     "webpack-stats-plugin": "0.3.0"
   },
