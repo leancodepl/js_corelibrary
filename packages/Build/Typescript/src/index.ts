@@ -8,10 +8,10 @@ export interface BabelContext {
     babelPlugins: any[];
 }
 
-export default function typescript(
+export default function typescript<TInCtx extends EnvironmentContext>(
     tsConfig: string,
     src: string,
-): Configure<EnvironmentContext, EnvironmentContext & BabelContext> {
+): Configure<TInCtx, TInCtx & BabelContext> {
     return ctx => {
         ctx.config.plugins = ctx.config.plugins || [];
         ctx.config.module = ctx.config.module || { rules: [] };
