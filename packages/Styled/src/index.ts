@@ -79,6 +79,8 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
         };
     }
 
+    const intrinsicsSet = new Set<string>(intrinsics);
+
     return function mkStyled<TKeys extends string>(styles: StylesObject<TKeys>): Styled<TKeys> {
         const mapClassesToString = mkMapClassesToString(styles);
 
@@ -136,11 +138,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
         if (typeof Proxy === "function") {
             proxiedStyled = new Proxy(styled, {
                 get: (styled, prop) => {
-                    if (
-                        typeof prop === "string" &&
-                        !(prop in styled) &&
-                        (intrinsics as readonly string[]).includes(prop)
-                    ) {
+                    if (typeof prop === "string" && !(prop in styled) && intrinsicsSet.has(prop)) {
                         (styled as any)[prop] = styled(prop as any);
                     }
                     return (styled as any)[prop];
