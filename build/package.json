@@ -1,6 +1,6 @@
 {
   "name": "core-js-build",
-  "version": "3.4.95",
+  "version": "4.0.0",
   "description": "CoreJsLibrary publisher",
   "main": "index.js",
   "author": "LeanCode",

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-less",
-  "version": "4.0.0-alpha.1",
+  "version": "4.0.0",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -11,8 +11,8 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/build-base": "^4.0.0-alpha.1",
-    "@leancode/build-css": "^4.0.0-alpha.1",
+    "@leancode/build-base": "^4.0.0",
+    "@leancode/build-css": "^4.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0"
   },
