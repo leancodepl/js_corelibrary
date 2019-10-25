@@ -74,8 +74,12 @@ export default function typescript<TInCtx extends EnvironmentContext>(
         ctx.config.resolve.alias = {
             ...ctx.config.resolve.alias,
         };
-        delete process.env.TS_NODE_PROJECT;
-        delete ctx.env.TS_NODE_PROJECT;
+        if (process && process.env) {
+            delete process.env.TS_NODE_PROJECT;
+        }
+        if (ctx && ctx.env) {
+            delete ctx.env.TS_NODE_PROJECT;
+        }
         ctx.config.resolve.plugins.push(new TsConfigPathsPlugin({ configFile: tsConfig }));
 
         return {
