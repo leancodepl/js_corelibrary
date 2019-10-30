@@ -10,7 +10,7 @@ export interface BabelContext {
 
 export default function typescript<TInCtx extends EnvironmentContext>(
     tsConfig: string,
-    src: string,
+    ...src: string[]
 ): Configure<TInCtx, TInCtx & BabelContext> {
     return ctx => {
         ctx.config.plugins = ctx.config.plugins || [];
@@ -55,7 +55,7 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             },
             {
                 test: /\.tsx?$/,
-                include: [src],
+                include: src,
                 use: [
                     {
                         loader: "babel-loader",
