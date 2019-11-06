@@ -1,6 +1,6 @@
 {
   "name": "@leancode/stylelint-config",
-  "version": "4.1.0-alpha.0",
+  "version": "4.1.0-alpha.2",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
