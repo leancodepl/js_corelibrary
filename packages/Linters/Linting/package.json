@@ -11,8 +11,5 @@
     "@leancode/eslint-config": "^4.0.0",
     "@leancode/prettier-config": "^4.0.0",
     "@leancode/stylelint-config": "^4.0.0"
-  },
-  "devDependencies": {
-    "typescript": "3.6.3"
   }
 }
