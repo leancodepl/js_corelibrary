@@ -1,6 +1,6 @@
 {
   "name": "@leancode/linting",
-  "version": "4.1.0-alpha.0",
+  "version": "4.1.0-alpha.1",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
@@ -8,7 +8,7 @@
   "license": "ISC",
   "main": "prettier.json",
   "dependencies": {
-    "@leancode/eslint-config": "^4.1.0-alpha.0",
+    "@leancode/eslint-config": "^4.1.0-alpha.1",
     "@leancode/prettier-config": "^4.1.0-alpha.0",
     "@leancode/stylelint-config": "^4.1.0-alpha.0"
   }

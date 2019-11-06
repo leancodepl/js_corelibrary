@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-typescript",
-  "version": "4.0.2",
+  "version": "4.1.0-alpha.1",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
