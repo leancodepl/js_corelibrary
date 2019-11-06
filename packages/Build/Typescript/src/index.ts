@@ -44,7 +44,19 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             ],
         ];
 
-        const babelPlugins: any[] = ["@babel/plugin-proposal-class-properties", "@babel/plugin-syntax-dynamic-import"];
+        const babelPlugins: any[] = [
+            ["@babel/plugin-proposal-decorators", { legacy: true }],
+            "@babel/plugin-proposal-nullish-coalescing-operator",
+            "@babel/plugin-proposal-optional-chaining",
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-syntax-dynamic-import",
+            [
+                "const-enum",
+                {
+                    transform: "removeConst",
+                },
+            ],
+        ];
 
         ctx.config.module.rules.push(
             {
