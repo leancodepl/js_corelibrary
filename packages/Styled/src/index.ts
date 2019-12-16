@@ -10,7 +10,7 @@ class RawStyle {
 
 type PropsOf<T extends import("react").ElementType<any>> = T extends import("react").ElementType<infer P>
     ? P
-    : T extends JSX.IntrinsicElements
+    : T extends keyof JSX.IntrinsicElements
     ? import("react").PropsWithChildren<JSX.IntrinsicElements[T]>
     : never;
 
