@@ -6,7 +6,7 @@ export default function staticFiles<TInCtx extends BaseContext>(): Configure<TIn
 
         ctx.config.module.rules.push(
             {
-                test: /\.(ttf|eot|woff|woff2)(\?[\s\S]+)?$/,
+                test: /\.(ttf|eot|woff|woff2|otf)(\?[\s\S]+)?$/,
                 loader: "file-loader",
                 options: {
                     name: "fonts/[name].[ext]",
