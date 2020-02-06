@@ -1,6 +1,6 @@
 {
   "name": "@leancode/styled",
-  "version": "4.1.0-alpha.4",
+  "version": "4.1.0",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
   "scripts": {
     "prepare": "tsc",

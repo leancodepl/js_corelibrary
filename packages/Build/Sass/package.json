@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-sass",
-  "version": "4.1.0-alpha.4",
+  "version": "4.1.0",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -11,8 +11,8 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/build-base": "^4.1.0-alpha.4",
-    "@leancode/build-css": "^4.1.0-alpha.4",
+    "@leancode/build-base": "^4.1.0",
+    "@leancode/build-css": "^4.1.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "sass-resources-loader": "^2.0.1"
