@@ -8,6 +8,6 @@
   "license": "ISC",
   "main": "index.json",
   "dependencies": {
-    "prettier": "https://github.com/prettier/prettier.git"
+    "prettier": "1.19.1"
   }
 }

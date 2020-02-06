@@ -14,7 +14,7 @@ Create file  `extensions.json` under `.vscode` as follows:
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "shinnn.stylelint"
+    "stylelint.vscode-stylelint"
   ]
 }
 ```
@@ -22,18 +22,25 @@ Create file  `extensions.json` under `.vscode` as follows:
 vscode's `settings.json`. It's recommended to add these settings per workspace (then your settings will be consistent across entire team).
 ```json
 {
-  "prettier.eslintIntegration": true,
-  "prettier.stylelintIntegration": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+
+  "eslint.enable": true,
+  "eslint.format.enable": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",
     "typescript",
     "typescriptreact"
   ],
-  "css.validate": false,
-  "less.validate": false,
-  "scss.validate": false,
-  "eslint.enable": true
+
+  // If you have multiple packages in one repository
+  "eslint.workingDirectories": ["Workspace1", "Workspace2"],
+  
 }
 ```
 
@@ -85,6 +92,8 @@ Add file `.eslintrc`  (where `package.json` is) with contents:
 
 This is required only if you are using css/scss/sass.
 
+## CSS
+
 Add file `.stylelintrc`  (where `package.json` is) with contents:
 
 ```json
@@ -93,10 +102,41 @@ Add file `.stylelintrc`  (where `package.json` is) with contents:
 }
 ```
 
-or if you use `SCSS`
+Configure stylelint in `settings.json`:
+
+```json
+{
+  "css.validate": false,
+
+  "[css]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+    }
+  },
+}
+```
+
+## SCSS
+
+`.stylelintrc`
+
 ```json
 {
     "extends": "@leancode/stylelint-config/scss"
+}
+```
+
+`settings.json`:
+
+```json
+{
+  "scss.validate": false,
+
+  "[scss]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+    }
+  },
 }
 ```
 
@@ -104,6 +144,7 @@ or if you use `SCSS`
 
 After you add these settings you'd need to manually format every file. If you want to lint your entire codebase at once you can run
 ```sh
-npx prettier-eslint-cli "src/**/*.{ts,tsx}"
+npx eslint --fix src/**/*.{js,jsx,ts,tsx}
+npx stylelint --fix src/**/*.{scss,css}
 ```
 where your `package.json` file is located considering that your project's source code is located under `src` (if not change the glob pattern accordingly).
