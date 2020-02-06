@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-app-config",
-  "version": "4.0.0",
+  "version": "4.1.0-alpha.4",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,7 +14,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.0.0",
+    "@leancode/build-base": "^4.1.0-alpha.4",
     "html-webpack-include-assets-plugin": "^2.0.0"
   },
   "devDependencies": {
