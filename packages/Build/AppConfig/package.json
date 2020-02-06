@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@leancode/build-base": "^4.0.0",
-    "html-webpack-include-assets-plugin": "2.0.0"
+    "html-webpack-include-assets-plugin": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "@leancode/build-base": "^4.0.0",
-    "file-loader": "^4.2.0",
-    "svg-react-loader": "0.4.6",
+    "file-loader": "^5.0.2",
+    "svg-react-loader": "^0.4.6",
     "svgo-loader": "^2.2.1"
   },
   "devDependencies": {
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "@leancode/build-base": "^4.0.0",
-    "json2csv": "4.5.3",
-    "webpack-stats-plugin": "0.3.0"
+    "json2csv": "^4.5.4",
+    "webpack-stats-plugin": "^0.3.1"
   },
   "devDependencies": {
     "@types/json2csv": "4.5.0",
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -17,9 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "@leancode/login-manager": "^4.0.0",
-    "cross-fetch": "^2.2.1"
+    "cross-fetch": "^3.0.4"
   },
   "devDependencies": {
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -14,7 +14,7 @@
     "webpack": "^4.0.0"
   },
   "devDependencies": {
-    "@types/webpack": "4.39.1",
-    "typescript": "3.6.3"
+    "@types/webpack": "^4.39.1",
+    "typescript": "~3.7.5"
   }
 }

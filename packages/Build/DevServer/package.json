@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@types/webpack-dev-server": "3.1.7",
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

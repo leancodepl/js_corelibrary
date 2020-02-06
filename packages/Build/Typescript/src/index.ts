@@ -25,7 +25,6 @@ export default function typescript<TInCtx extends EnvironmentContext>(
                 checkSyntacticErrors: true,
                 tsconfig: tsConfig,
                 useTypescriptIncrementalApi: !ctx.isProduction,
-                workers: ctx.isProduction ? ForkTsCheckerPlugin.TWO_CPUS_FREE : ForkTsCheckerPlugin.ONE_CPU,
                 async: !ctx.isProduction,
             }),
         );

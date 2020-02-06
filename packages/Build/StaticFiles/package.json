@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@leancode/build-base": "^4.0.0",
-    "file-loader": "^4.2.0"
+    "file-loader": "^5.0.2"
   },
   "devDependencies": {
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }
