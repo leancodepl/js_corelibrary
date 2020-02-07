@@ -4,20 +4,25 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev": "lerna run watch --parallel",
+    "test": "jest",
     "publish": "lerna publish --no-verify-access"
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@leancode/eslint-config": "^3.4.95",
-    "@leancode/prettier-config": "^3.4.95",
+    "@types/jest": "22.2.3",
     "husky": "4.2.1",
+    "jest": "25.1.0",
+    "jest-junit": "10.0.0",
+    "jest-runner-eslint": "0.7.6",
     "lerna": "3.20.2",
+    "ts-jest": "25.2.0",
     "typescript": "~3.7.5"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  }
+  },
+  "dependencies": {}
 }
