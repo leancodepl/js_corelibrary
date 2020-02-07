@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-contracts",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -14,10 +14,10 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.0.0"
+    "@leancode/build-base": "^4.1.0"
   },
   "devDependencies": {
     "@types/webpack": "4.39.1",
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-less",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w"
@@ -11,13 +11,13 @@
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/build-base": "^4.0.0",
-    "@leancode/build-css": "^4.0.0",
+    "@leancode/build-base": "^4.1.0",
+    "@leancode/build-css": "^4.1.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0"
   },
   "devDependencies": {
     "@types/webpack": "4.39.1",
-    "typescript": "3.6.3"
+    "typescript": "~3.7.5"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/prettier-config",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "author": "LeanCode",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
@@ -8,11 +8,6 @@
   "license": "ISC",
   "main": "index.json",
   "dependencies": {
-    "prettier": "1.18.2",
-    "prettier-eslint": "9.0.0",
-    "prettier-eslint-cli": "5.0.0"
-  },
-  "devDependencies": {
-    "typescript": "3.6.3"
+    "prettier": "^1.19.1"
   }
 }
