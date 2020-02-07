@@ -1,4 +1,17 @@
 {
   "version": "4.1.0",
   "packages": ["packages/**/*"],
+  "command": {
+    "publish": {
+      "noVerifyAccess": true
+    },
+    "version": {
+      "allowBranch": "master",
+      "exact": true,
+      "message": "chore(release): %s",
+
+      "conventionalCommits": true,
+      "changelogPreset": "angular-bitbucket"
+    }
+  }
 }
