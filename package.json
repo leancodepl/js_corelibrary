@@ -4,18 +4,21 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev": "lerna run watch --parallel",
-    "test": "jest",
-    "publish": "lerna publish --no-verify-access"
+    "publish": "lerna publish --no-verify-access",
+    "test": "jest"
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@types/jest": "22.2.3",
+    "@leancode/linting": "4.1.0-alpha.5",
+    "@types/jest": "25.1.2",
     "husky": "4.2.1",
     "jest": "25.1.0",
     "jest-junit": "10.0.0",
     "jest-runner-eslint": "0.7.6",
     "lerna": "3.20.2",
+    "rollup": "1.31.0",
+    "rollup-plugin-typescript2": "0.25.3",
     "ts-jest": "25.2.0",
     "typescript": "~3.7.5"
   },

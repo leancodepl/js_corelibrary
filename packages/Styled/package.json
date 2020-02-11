@@ -2,10 +2,11 @@
   "name": "@leancode/styled",
   "version": "4.1.0",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
-  "scripts": {
-    "prepare": "tsc",
-    "watch": "tsc -w"
-  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "cqrs",
     "leancode"
@@ -13,8 +14,17 @@
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
-  "author": "LeanCode",
-  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepare": "rollup -c=../../rollup.config.js",
+    "watch": "tsc -w --noEmit"
+  },
   "peerDependencies": {
     "react": "^16.0.0"
   },

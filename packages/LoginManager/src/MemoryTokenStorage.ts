@@ -11,7 +11,7 @@ export class MemoryTokenStorage implements SyncTokenStorage {
         this.token = {
             token: token.token,
             refreshToken: token.refreshToken,
-            expirationDate: token.expirationDate
+            expirationDate: token.expirationDate,
         };
         return Promise.resolve();
     }

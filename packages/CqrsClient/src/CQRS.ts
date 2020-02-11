@@ -1,5 +1,4 @@
-import { LoginManager } from "@leancode/login-manager/BaseLoginManager";
-import { CannotRefreshToken } from "@leancode/login-manager/CannotRefreshToken";
+import { CannotRefreshToken, LoginManager } from "@leancode/login-manager";
 import "cross-fetch/polyfill";
 import { ApiResponse, CommandResult, IRemoteCommand, IRemoteQuery } from "./ClientType";
 

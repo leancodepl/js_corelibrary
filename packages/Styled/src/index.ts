@@ -2,7 +2,7 @@ import React from "react";
 
 type MergeRight<T, U> = T & Omit<U, keyof T>;
 
-class RawStyle {
+export class RawStyle {
     constructor(public className?: string) {
         this.className = className;
     }

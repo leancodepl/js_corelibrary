@@ -1,5 +1,5 @@
+import webpack from "webpack";
 import { BaseContext, Configure } from "./configure";
-import webpack = require("webpack");
 
 export interface EnvironmentContext extends BaseContext {
     isProduction: boolean;

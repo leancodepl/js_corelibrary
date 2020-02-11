@@ -1,5 +1,4 @@
-import { BaseContext, Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environment";
+import { BaseContext, Configure, EnvironmentContext } from "@leancode/build-base";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 type WebpackLoader = import("webpack").Loader;
