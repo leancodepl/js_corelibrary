@@ -3,14 +3,10 @@ image: node:12.16.0
 pipelines:
   default:
     - step:
-        name: Restore dependencies
+        name: Restore & test
         caches:
           - node
         script:
-          - npm ci
-          - npx lerna bootstrap
-
-    - step:
-        name: Test
-        script:
-          - npm t
+          - npm install
+          - npx lerna bootstrap --no-ci
+          - npm test
