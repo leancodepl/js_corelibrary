@@ -1,0 +1,16 @@
+image: node:12.16.0
+
+pipelines:
+  default:
+    - step:
+        name: Restore dependencies
+        caches:
+          - node
+        script:
+          - npm ci
+          - npx lerna bootstrap
+
+    - step:
+        name: Test
+        script:
+          - npm t
