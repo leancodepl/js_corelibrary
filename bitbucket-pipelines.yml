@@ -8,5 +8,5 @@ pipelines:
           - node
         script:
           - npm install
-          - npx lerna bootstrap --no-ci
+          - npx lerna bootstrap --no-ci --ignore-scripts
           - npm test
