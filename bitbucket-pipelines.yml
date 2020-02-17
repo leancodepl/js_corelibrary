@@ -1,28 +1,24 @@
 image: node:12.16.0
 
-definitions:
-  steps:
-    -step: &build-test
-
 pipelines:
   default:
     - step:
-      name: Build and test
-      script:
-        - npm ci
-        - npx lerna bootstrap --ignore-scripts
-        - npm test
+        name: Build and test
+        script:
+          - npm ci
+          - npx lerna bootstrap --ignore-scripts
+          - npm test
 
   tags:
     v*:
       - step:
-        name: Build and test
-        script:
-          - npm ci
-          - npx lerna bootstrap
-          - npm test
-        artifacts:
-          - packages/**/lib/**
+          name: Build and test
+          script:
+            - npm ci
+            - npx lerna bootstrap
+            - npm test
+          artifacts:
+            - packages/**/lib/**
       - step:
           name: Publish to MyGet
           trigger: manual
