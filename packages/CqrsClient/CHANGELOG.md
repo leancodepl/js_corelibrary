@@ -1,3 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="4.1.1"></a>
+## [4.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.0&sourceBranch=refs%2Ftags%2Fv4.1.1) (2020-02-17)
+
+**Note:** Version bump only for package @leancode/cqrs-client
+
+
+
+
+
 ## 4.1.0 (2020-02-17)
 
 * chore(build): setup rollup ([bc78013](https://bitbucket.org/leancode-team/core-js-library/commits/bc78013))
@@ -52,6 +66,3 @@
 * Throw ForbiddenRequest for 403 status code ([a167f5c](https://bitbucket.org/leancode-team/core-js-library/commits/a167f5c))
 * Use npm instead of yarn ([0ff29ce](https://bitbucket.org/leancode-team/core-js-library/commits/0ff29ce))
 * v3.4.95 ([c84752b](https://bitbucket.org/leancode-team/core-js-library/commits/c84752b))
-
-
-

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-css",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -24,7 +24,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.1.0",
+    "@leancode/build-base": "^4.1.1",
     "css-loader": "^3.2.0",
     "css-modules-typescript-loader": "^4.0.0",
     "cssnano": "^4.1.10",

@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-svg",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -24,7 +24,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.1.0",
+    "@leancode/build-base": "^4.1.1",
     "file-loader": "^5.0.2",
     "svg-react-loader": "^0.4.6",
     "svgo-loader": "^2.2.1"
