@@ -3,20 +3,24 @@ image: node:12.16.0
 definitions:
   steps:
     -step: &build-test
-      name: Build and test
-      script:
-        - npm ci
-        - npx lerna bootstrap
-        - npm test
 
 pipelines:
   default:
-    - step: *build-test
+    - step:
+      name: Build and test
+      script:
+        - npm ci
+        - npx lerna bootstrap --ignore-scripts
+        - npm test
 
   tags:
     v*:
       - step:
-        <<: *build-test
+        name: Build and test
+        script:
+          - npm ci
+          - npx lerna bootstrap
+          - npm test
         artifacts:
           - packages/**/lib/**
       - step:
@@ -24,4 +28,4 @@ pipelines:
           trigger: manual
           deployment: production
           script:
-            - npx lerna publish
+            - npx lerna publish from-git --no-verify-access
