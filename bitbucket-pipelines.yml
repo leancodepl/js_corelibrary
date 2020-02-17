@@ -18,7 +18,9 @@ pipelines:
             - npx lerna bootstrap
             - npm test
           artifacts:
-            - packages/**/lib/**
+            - packages/*/lib/**
+            - packages/Linters/*/lib/**
+            - packages/Build/*/lib/**
       - step:
           name: Publish to MyGet
           trigger: manual

@@ -1,12 +1,18 @@
 {
   "name": "@leancode/stylelint-config",
   "version": "4.1.1",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.json",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
-  "author": "LeanCode",
-  "license": "ISC",
-  "main": "index.json",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "stylelint": "^12.0.0",
     "stylelint-config-prettier": "^8.0.1",
