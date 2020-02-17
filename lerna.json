@@ -6,9 +6,8 @@
       "noVerifyAccess": true
     },
     "version": {
-      "allowBranch": "master",
-      "exact": true,
       "message": "chore(release): %s",
+      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/jest.config.js"],
 
       "conventionalCommits": true,
       "changelogPreset": "angular-bitbucket"

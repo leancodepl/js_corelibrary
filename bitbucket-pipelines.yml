@@ -1,12 +1,27 @@
 image: node:12.16.0
 
+definitions:
+  steps:
+    -step: &build-test
+      name: Build and test
+      script:
+        - npm ci
+        - npx lerna bootstrap
+        - npm test
+
 pipelines:
   default:
-    - step:
-        name: Restore & test
-        caches:
-          - node
-        script:
-          - npm install
-          - npx lerna bootstrap --no-ci --ignore-scripts
-          - npm test
+    - step: *build-test
+
+  tags:
+    v*:
+      - step:
+        <<: *build-test
+        artifacts:
+          - packages/**/lib/**
+      - step:
+          name: Publish to MyGet
+          trigger: manual
+          deployment: production
+          script:
+            - npx lerna publish
