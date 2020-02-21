@@ -8,8 +8,7 @@ if (typeof btoa === "undefined") {
     const Buffer = require("buffer").Buffer;
 
     serialize = str => new Buffer(str, "binary").toString("base64");
-}
-else {
+} else {
     serialize = btoa;
 }
 
@@ -27,8 +26,7 @@ export interface LoginNetworkError {
 
 export type LoginResult = LoginSuccess | LoginFailure | LoginNetworkError;
 
-export interface LoginManager extends BaseLoginManager<TokenStorage> {
-}
+export interface LoginManager extends BaseLoginManager<TokenStorage> {}
 
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private callbacks: ((isSignedIn: boolean) => void)[] = [];
@@ -41,12 +39,12 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         private secret: string,
         private client: string,
         private scopes: string,
-        private additionalParams?: any) {
-    }
+        private additionalParams?: any,
+    ) {}
 
-    public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void
+    public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void;
 
-    public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean
+    public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean;
 
     public abstract getToken(): Promise<string | null>;
 
@@ -70,13 +68,11 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     protected tryRefreshTokenInternal(token: Token): Promise<boolean> {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
-            this.acquireToken(this.buildRefreshRequest(token)).then(
-                result => {
-                    this.isRefreshingToken = false;
-                    this.refreshTokenCallbacks.forEach(c => c(result.type === "success"));
-                    this.refreshTokenCallbacks = [];
-                }
-            );
+            this.acquireToken(this.buildRefreshRequest(token)).then(result => {
+                this.isRefreshingToken = false;
+                this.refreshTokenCallbacks.forEach(c => c(result.type === "success"));
+                this.refreshTokenCallbacks = [];
+            });
         }
 
         return new Promise(resolve => {
@@ -109,11 +105,11 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
             let expDate = new Date();
             expDate.setSeconds(new Date().getSeconds() + tokenResult.expires_in);
-            
+
             const token = await this.storage.storeToken({
                 token: tokenResult.access_token,
                 refreshToken: tokenResult.refresh_token,
-                expirationDate: expDate
+                expirationDate: expDate,
             });
 
             this.notify(true);
@@ -126,56 +122,56 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     public buildSignInRequest(username: string, password: string): RequestInit {
         let data = {
-            "grant_type": "password",
-            "scope": this.scopes,
-            "username": username,
-            "password": password
+            grant_type: "password",
+            scope: this.scopes,
+            username: username,
+            password: password,
         };
         if (this.additionalParams) {
             data = {
                 ...this.additionalParams,
-                ...data
+                ...data,
             };
         }
         let params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
-            body: params
+            body: params,
         };
     }
 
     private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
         let data = {
-            "grant_type": "facebook",
-            "scope": this.scopes,
-            "assertion": accessToken
+            grant_type: "facebook",
+            scope: this.scopes,
+            assertion: accessToken,
         };
         if (this.additionalParams) {
             data = {
                 ...this.additionalParams,
-                ...data
+                ...data,
             };
         }
         let params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
-            body: params
+            body: params,
         };
     }
 
     private buildRefreshRequest(token: Token) {
         let params = encode({
-            "grant_type": "refresh_token",
-            "scope": this.scopes,
-            "refresh_token": token.refreshToken || ""
+            grant_type: "refresh_token",
+            scope: this.scopes,
+            refresh_token: token.refreshToken || "",
         });
 
         return {
             method: "POST",
             headers: this.prepareHeaders(),
-            body: params
+            body: params,
         };
     }
 

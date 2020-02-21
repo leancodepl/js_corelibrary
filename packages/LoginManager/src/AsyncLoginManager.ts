@@ -10,7 +10,7 @@ export class AsyncLoginManager extends BaseLoginManager<AsyncTokenStorage> imple
     }
 
     public async isSigned() {
-        return await this.storage.getToken() !== null;
+        return (await this.storage.getToken()) !== null;
     }
 
     public async getToken() {
@@ -19,7 +19,7 @@ export class AsyncLoginManager extends BaseLoginManager<AsyncTokenStorage> imple
             return null;
         }
         if (token.expirationDate < new Date()) {
-            if (!await this.tryRefreshTokenInternal(token)) {
+            if (!(await this.tryRefreshTokenInternal(token))) {
                 throw new CannotRefreshToken("Cannot refresh access token after it has expired");
             }
         }

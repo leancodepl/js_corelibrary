@@ -4,15 +4,15 @@ export class LocalTokenStorage implements SyncTokenStorage {
     constructor(
         private tokenKey: string = "token",
         private refreshKey: string = "refresh_token",
-        private expiryKey: string = "expiration_date") {
-    }
+        private expiryKey: string = "expiration_date",
+    ) {}
 
     public getToken(): Token | null {
         if (this.hasValue(this.tokenKey)) {
             return {
                 token: this.getValue(this.tokenKey),
                 refreshToken: this.getValue(this.refreshKey),
-                expirationDate: new Date(Number(this.getValue(this.expiryKey)))
+                expirationDate: new Date(Number(this.getValue(this.expiryKey))),
             };
         } else {
             return null;

@@ -1,4 +1,4 @@
-import { BaseContext, Configure } from "@leancode/build-base/configure";
+import { BaseContext, Configure } from "@leancode/build-base";
 import FaviconsWebpackPlugin from "favicons-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 

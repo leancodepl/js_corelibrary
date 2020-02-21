@@ -1,31 +1,18 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+<a name="4.1.2"></a>
+## [4.1.2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.1&sourceBranch=refs%2Ftags%2Fv4.1.2) (2020-02-17)
 
-## 3.4.0
-Throw ForbiddenRequest error for 403 status code
+**Note:** Version bump only for package root
 
-## 3.3.0
-Remove references to `TContext` from `ClientType`s.
 
-## 3.2.0
-Split `LoginManager` to sync and async version
 
-## 3.1.0
-Migrate `LoginManager` to async storage
 
-## 3.0.0
-Update version to v3
-## 0.2.1
-Use jake as build tool
-## 0.2.0
-Update CQRS to v3 core library
-## 0.1.1
-Add facebook login flow
-## 0.1.0
-Initial release with base packages
-Basic CQRS and authentication
-## 0.0.1
-Project initiation. No released packages.
+
+<a name="4.1.1"></a>
+## [4.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.0&sourceBranch=refs%2Ftags%2Fv4.1.1) (2020-02-17)
+
+**Note:** Version bump only for package root

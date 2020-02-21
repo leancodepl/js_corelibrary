@@ -1,20 +1,30 @@
 {
   "name": "@leancode/build-static-files",
-  "version": "4.1.0",
-  "scripts": {
-    "prepare": "tsc",
-    "watch": "tsc -w"
-  },
+  "version": "4.1.1",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
-  "author": "LeanCode",
-  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepare": "rollup -c=../../../rollup.config.js",
+    "watch": "tsc -w --noEmit"
+  },
   "peerDependencies": {
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.1.0",
+    "@leancode/build-base": "^4.1.1",
     "file-loader": "^5.0.2"
   },
   "devDependencies": {

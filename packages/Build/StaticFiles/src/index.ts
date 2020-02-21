@@ -1,4 +1,4 @@
-import { BaseContext, Configure } from "@leancode/build-base/configure";
+import { BaseContext, Configure } from "@leancode/build-base";
 
 export default function staticFiles<TInCtx extends BaseContext>(): Configure<TInCtx, TInCtx> {
     return ctx => {

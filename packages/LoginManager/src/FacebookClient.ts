@@ -1,11 +1,8 @@
-class Facebook {
+export class FacebookClient {
     public isSignedIn?: boolean;
     private token: string;
 
-    constructor(
-        private facebookAppId: string,
-        private facebookPermissions: string
-    ) {
+    constructor(private facebookAppId: string, private facebookPermissions: string) {
         this.isSignedIn = undefined;
         this.token = "";
     }
@@ -15,7 +12,8 @@ class Facebook {
     }
 
     public setup(loginCallback?: (accessToken: string) => Promise<void>): void {
-        let js, ref = document.getElementsByTagName("script")[0];
+        let js,
+            ref = document.getElementsByTagName("script")[0];
         let id = "facebook-jssdk";
 
         if (document.getElementById(id)) {
@@ -38,21 +36,24 @@ class Facebook {
     }
 
     public login(callback?: (accessToken: string) => Promise<void>) {
-        FB.login((response) => {
-            if (response.status === "connected") {
-                this.isSignedIn = true;
-                this.token = response.authResponse.accessToken;
-                if (callback) {
-                    callback(response.authResponse.accessToken);
+        FB.login(
+            response => {
+                if (response.status === "connected") {
+                    this.isSignedIn = true;
+                    this.token = response.authResponse.accessToken;
+                    if (callback) {
+                        callback(response.authResponse.accessToken);
+                    }
+                } else {
+                    this.isSignedIn = false;
                 }
-            } else {
-                this.isSignedIn = false;
-            }
-        }, { scope: this.facebookPermissions });
+            },
+            { scope: this.facebookPermissions },
+        );
     }
 
     private getLoginStatus(callback?: (accessToken: string) => Promise<void>) {
-        FB.getLoginStatus((response) => {
+        FB.getLoginStatus(response => {
             if (response.status === "connected") {
                 this.isSignedIn = true;
                 this.token = response.authResponse.accessToken;
@@ -69,7 +70,7 @@ class Facebook {
         FB.init({
             appId: this.facebookAppId,
             xfbml: true,
-            version: "v2.9"
+            version: "v2.9",
         });
     }
 }

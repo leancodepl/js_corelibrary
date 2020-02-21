@@ -1,0 +1,52 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="4.1.1"></a>
+## [4.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.0&sourceBranch=refs%2Ftags%2Fv4.1.1) (2020-02-17)
+
+**Note:** Version bump only for package @leancode/styled
+
+
+
+
+
+## 4.1.0 (2020-02-17)
+
+* chore(build): setup rollup ([bc78013](https://bitbucket.org/leancode-team/core-js-library/commits/bc78013))
+
+
+
+## 4.1.0 (2020-02-06)
+
+* Merge tag 'v4.0.4' into feature/lib-upgrade ([22129c5](https://bitbucket.org/leancode-team/core-js-library/commits/22129c5))
+* v4.1.0-alpha.6 ([b8f6eb1](https://bitbucket.org/leancode-team/core-js-library/commits/b8f6eb1))
+
+
+
+## 4.1.0-alpha.4 (2020-02-06)
+
+* Upgrade dependencies ([080af01](https://bitbucket.org/leancode-team/core-js-library/commits/080af01))
+* v4.1.0-alpha.4 ([d778eb6](https://bitbucket.org/leancode-team/core-js-library/commits/d778eb6))
+
+
+
+## <small>4.0.4 (2019-12-16)</small>
+
+* Fix broken `PropsOf` for intrinsics ([4dcd933](https://bitbucket.org/leancode-team/core-js-library/commits/4dcd933))
+* v4.0.4 ([2360e96](https://bitbucket.org/leancode-team/core-js-library/commits/2360e96))
+
+
+
+## 4.0.0 (2019-10-23)
+
+* Make styled intrinsic check use set instead of array for performance ([563623e](https://bitbucket.org/leancode-team/core-js-library/commits/563623e))
+* v4.0.0 ([1d5b7a4](https://bitbucket.org/leancode-team/core-js-library/commits/1d5b7a4))
+
+
+
+## <small>3.4.98 (2019-09-23)</small>
+
+* Add styled ([1cd9abc](https://bitbucket.org/leancode-team/core-js-library/commits/1cd9abc))
+* v3.4.98 ([8c0e283](https://bitbucket.org/leancode-team/core-js-library/commits/8c0e283))

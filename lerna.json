@@ -1,7 +1,21 @@
 {
-  "version": "4.1.0",
+  "version": "4.1.2",
   "packages": [
-    "build",
     "packages/**/*"
-  ]
+  ],
+  "command": {
+    "publish": {
+      "noVerifyAccess": true
+    },
+    "version": {
+      "message": "chore(release): %s",
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md",
+        "**/jest.config.js"
+      ],
+      "conventionalCommits": true,
+      "changelogPreset": "angular-bitbucket"
+    }
+  }
 }

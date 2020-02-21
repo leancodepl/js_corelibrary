@@ -1,12 +1,18 @@
 {
   "name": "@leancode/prettier-config",
-  "version": "4.1.0",
+  "version": "4.1.2",
   "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.json",
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
-  "license": "ISC",
-  "main": "index.json",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "prettier": "^1.19.1"
   }

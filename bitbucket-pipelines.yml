@@ -1,0 +1,29 @@
+image: node:12.16.0
+
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        script:
+          - npm ci
+          - npx lerna bootstrap --ignore-scripts
+          - npm test
+
+  tags:
+    v*:
+      - step:
+          name: Build and test
+          script:
+            - npm ci
+            - npx lerna bootstrap
+            - npm test
+          artifacts:
+            - packages/*/lib/**
+            - packages/Linters/*/lib/**
+            - packages/Build/*/lib/**
+      - step:
+          name: Publish to MyGet
+          trigger: manual
+          deployment: production
+          script:
+            - npx lerna publish from-git --no-verify-access

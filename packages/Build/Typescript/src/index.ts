@@ -1,5 +1,4 @@
-import { Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environment";
+import { Configure, EnvironmentContext } from "@leancode/build-base";
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
 import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 

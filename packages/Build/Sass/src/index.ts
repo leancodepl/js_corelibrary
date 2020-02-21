@@ -1,5 +1,4 @@
-import { Configure } from "@leancode/build-base/configure";
-import { EnvironmentContext } from "@leancode/build-base/environment";
+import { Configure, EnvironmentContext } from "@leancode/build-base";
 import { CssContext } from "@leancode/build-css";
 import webpack from "webpack";
 
@@ -33,7 +32,7 @@ export default function sass<TInCtx extends CssContext & EnvironmentContext>(
                             dontUseTypescript: ctx.isProduction,
                         }),
                         ...additionalLoaders,
-                    ]
+                    ],
                 },
                 {
                     use: [
@@ -43,8 +42,8 @@ export default function sass<TInCtx extends CssContext & EnvironmentContext>(
                             dontUseTypescript: ctx.isProduction,
                         }),
                         ...additionalLoaders,
-                    ]
-                }
+                    ],
+                },
             ],
         });
 

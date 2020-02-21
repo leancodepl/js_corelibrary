@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "alwaysStrict": true,
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "noLib": false,
+    "target": "ESNext",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": ["es6"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

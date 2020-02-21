@@ -1,11 +1,12 @@
 {
   "name": "@leancode/login-manager",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Login manager",
-  "scripts": {
-    "prepare": "tsc",
-    "watch": "tsc -w"
-  },
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "login",
     "auth",
@@ -14,8 +15,17 @@
   "publishConfig": {
     "registry": "https://www.myget.org/F/leancode/npm/"
   },
-  "author": "LeanCode",
-  "license": "ISC",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepare": "rollup -c=../../rollup.config.js",
+    "watch": "tsc -w --noEmit"
+  },
   "dependencies": {
     "cross-fetch": "^3.0.4",
     "form-urlencoded": "^4.1.1"
