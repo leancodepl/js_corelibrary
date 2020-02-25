@@ -4,6 +4,7 @@ module.exports = packageRoot => {
     const packageJson = require(path.join(packageRoot, "package.json"));
 
     return {
+        // rootDir: "<rootDir>",
         displayName: packageJson.name,
         transform: {
             "^.+\\.tsx?$": "ts-jest",

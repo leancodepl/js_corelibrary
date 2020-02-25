@@ -3,64 +3,62 @@ import { createIntl, createIntlCache, FormattedMessage, IntlShape, RawIntlProvid
 
 type FormattedMessageProps = import("react-intl/dist/components/message").Props;
 
-const languageChangedEvent = "LanguageChanged";
+const localeChangedEvent = "LocaleChanged";
 
-export function getDefaultLanguage<TSupportedLanguage extends string>(
-    supportedLanguages: TSupportedLanguage[],
-    fallbackLanguage?: TSupportedLanguage,
-): TSupportedLanguage;
-export function getDefaultLanguage(): string;
-export function getDefaultLanguage(supportedLanguages?: string[], fallbackLanguage?: string) {
-    const navigatorLanguage = navigator.language.substr(0, 2).toLowerCase();
+export function getDefaultLocale<TSupportedLocale extends string>(
+    supportedLanguages: TSupportedLocale[],
+    fallbackLanguage?: TSupportedLocale,
+): TSupportedLocale;
+export function getDefaultLocale(): string;
+export function getDefaultLocale(supportedLocales?: string[], fallbackLocale?: string) {
+    const navigatorLocale = navigator.language.substr(0, 2).toLowerCase();
 
-    if (supportedLanguages) {
-        if (supportedLanguages.includes(navigatorLanguage)) {
-            return navigatorLanguage;
+    if (supportedLocales) {
+        if (supportedLocales.includes(navigatorLocale)) {
+            return navigatorLocale;
         }
 
-        if (fallbackLanguage) {
-            return fallbackLanguage;
+        if (fallbackLocale) {
+            return fallbackLocale;
         }
 
-        throw new Error(`Navigator language (${navigatorLanguage}) is not supported`);
+        throw new Error(`Navigator locale (${navigatorLocale}) is not supported`);
     }
 
-    return navigatorLanguage;
+    return navigatorLocale;
 }
 
 declare global {
     interface Window {
-        currentLanguage?: string;
+        currentLocale?: string;
     }
 }
 
-export default function mkI18n<TSupportedLanguage extends string, TTerm extends string>(
-    locales: {
-        [TKey in TSupportedLanguage]: () => Promise<Record<TTerm, string>>;
-    },
-    defaultLanguage: TSupportedLanguage,
+export default function mkI18n<TSupportedLocale extends string, TTerm extends string>(
+    locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>,
+    defaultLocale: TSupportedLocale,
 ) {
-    window.currentLanguage = defaultLanguage;
+    window.currentLocale = defaultLocale;
 
     const cache = createIntlCache();
 
-    const messagesCache: Partial<{ [TKey in TSupportedLanguage]: Record<TTerm, string> }> = {};
+    const messagesCache: Partial<{ [TKey in TSupportedLocale]: Record<TTerm, string> }> = {};
 
     return {
         Localize: (props: FormattedMessageProps & { id: TTerm }) => <FormattedMessage {...props} />,
-        useIntl: useIntl as () => IntlShape & { messages: TTerm[] },
+        useIntl: useIntl as () => IntlShape & { messages: Record<TTerm, string> },
         Provider({ children }: { children?: ReactNode }) {
-            const [currentLanguage, setCurrentLanguage] = useState<TSupportedLanguage>(
-                () => window.currentLanguage! as TSupportedLanguage,
+            const [currentLocale, setCurrentLocale] = useState<TSupportedLocale>(
+                () => window.currentLocale! as TSupportedLocale,
             );
 
-            const currentLanguageRef = useRef(currentLanguage);
+            const currentLocaleRef = useRef(currentLocale);
 
             const [intl, setIntl] = useState(() =>
                 createIntl(
                     {
-                        locale: currentLanguage!,
-                        messages: messagesCache[currentLanguage!],
+                        locale: currentLocale!,
+                        messages: messagesCache[currentLocale!],
                     },
                     cache,
                 ),
@@ -68,39 +66,41 @@ export default function mkI18n<TSupportedLanguage extends string, TTerm extends 
 
             useEffect(() => {
                 const handler = () => {
-                    setCurrentLanguage(window.currentLanguage as TSupportedLanguage);
-                    currentLanguageRef.current = window.currentLanguage as TSupportedLanguage;
+                    setCurrentLocale(window.currentLocale as TSupportedLocale);
+                    currentLocaleRef.current = window.currentLocale as TSupportedLocale;
                 };
 
-                window.addEventListener(languageChangedEvent, handler);
+                window.addEventListener(localeChangedEvent, handler);
 
-                return () => window.removeEventListener(languageChangedEvent, handler);
+                return () => window.removeEventListener(localeChangedEvent, handler);
             }, []);
 
             useEffect(() => {
-                const cachedMessages = messagesCache[currentLanguage];
+                const cachedMessages = messagesCache[currentLocale];
 
                 if (cachedMessages) {
                     setIntl(
                         createIntl(
                             {
-                                locale: currentLanguage!,
+                                locale: currentLocale!,
                                 messages: cachedMessages,
                             },
                             cache,
                         ),
                     );
+                    return;
                 }
+
                 (async () => {
-                    const messages = await locales[currentLanguage]();
+                    const messages = await locales[currentLocale]();
 
-                    messagesCache[currentLanguage] = messages;
+                    messagesCache[currentLocale] = messages;
 
-                    if (currentLanguageRef.current === currentLanguage) {
+                    if (currentLocaleRef.current === currentLocale) {
                         setIntl(
                             createIntl(
                                 {
-                                    locale: currentLanguage!,
+                                    locale: currentLocale!,
                                     messages,
                                 },
                                 cache,
@@ -108,13 +108,13 @@ export default function mkI18n<TSupportedLanguage extends string, TTerm extends 
                         );
                     }
                 })();
-            }, [currentLanguage]);
+            }, [currentLocale]);
 
             return <RawIntlProvider value={intl}>{children}</RawIntlProvider>;
         },
-        changeLocale(language: TSupportedLanguage) {
-            window.currentLanguage = language;
-            window.dispatchEvent(new Event(languageChangedEvent));
+        changeLocale(locale: TSupportedLocale) {
+            window.currentLocale = locale;
+            window.dispatchEvent(new Event(localeChangedEvent));
         },
     };
 }

@@ -1,8 +1,12 @@
 import typescript from "rollup-plugin-typescript2";
 import path from "path";
+import fs from "fs";
 
 const PACKAGE_ROOT_PATH = process.cwd();
-const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, "src/index.ts");
+let INPUT_FILE = path.join(PACKAGE_ROOT_PATH, "src/index.tsx");
+if (!fs.existsSync(INPUT_FILE)) {
+    INPUT_FILE = path.join(PACKAGE_ROOT_PATH, "src/index.ts");
+}
 const TSCONFIG_FILE = path.join(PACKAGE_ROOT_PATH, "tsconfig.json");
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, "lib");
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, "package.json"));
