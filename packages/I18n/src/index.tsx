@@ -1,13 +1,12 @@
+import { FormatXMLElementFn, PrimitiveType } from "intl-messageformat";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { createIntl, createIntlCache, FormattedMessage, IntlShape, RawIntlProvider, useIntl } from "react-intl";
 
-type FormattedMessageProps = import("react-intl/dist/components/message").Props;
-
 const localeChangedEvent = "LocaleChanged";
 
-export function getDefaultLocale<TSupportedLocale extends string>(
-    supportedLanguages: TSupportedLocale[],
-    fallbackLanguage?: TSupportedLocale,
+export function getDefaultLocale<TSupportedLocale extends string, TFallbackLocale extends TSupportedLocale>(
+    supportedLocales: TSupportedLocale[],
+    fallbackLocale?: TFallbackLocale,
 ): TSupportedLocale;
 export function getDefaultLocale(): string;
 export function getDefaultLocale(supportedLocales?: string[], fallbackLocale?: string) {
@@ -34,19 +33,48 @@ declare global {
     }
 }
 
-export default function mkI18n<TSupportedLocale extends string, TTerm extends string>(
-    locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>,
-    defaultLocale: TSupportedLocale,
-) {
+export default function mkI18n<
+    TSupportedLocale extends string,
+    TDefaultLocale extends TSupportedLocale,
+    TTerm extends string
+>(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
+    type StronglyTypedMessageDescriptor = {
+        id?: TTerm | number;
+        description?: string | object;
+        defaultMessage?: string;
+    };
+
+    type StronglyTypedIntlShape = Omit<IntlShape, "formatMessage" | "formatHTMLMessage" | "messages"> & {
+        messages: Record<TTerm, string>;
+        formatMessage(descriptor: StronglyTypedMessageDescriptor, values?: Record<string, PrimitiveType>): string;
+        formatMessage(
+            descriptor: StronglyTypedMessageDescriptor,
+            values?: Record<string, PrimitiveType | React.ReactElement | FormatXMLElementFn>,
+        ): string | React.ReactNodeArray;
+        formatHTMLMessage(
+            descriptor: StronglyTypedMessageDescriptor,
+            values?: Record<string, PrimitiveType>,
+        ): React.ReactNode;
+    };
+
+    type StronglyTypedFormattedMessageProps<V extends Record<string, any> = Record<string, React.ReactNode>> = {
+        values?: V;
+        tagName?: React.ElementType<any>;
+        children?(...nodes: React.ReactNodeArray): React.ReactNode;
+    } & StronglyTypedMessageDescriptor;
+
     window.currentLocale = defaultLocale;
 
     const cache = createIntlCache();
 
     const messagesCache: Partial<{ [TKey in TSupportedLocale]: Record<TTerm, string> }> = {};
 
+    const intlInstance: { current?: StronglyTypedIntlShape } = {};
+
     return {
-        Localize: (props: FormattedMessageProps & { id: TTerm }) => <FormattedMessage {...props} />,
-        useIntl: useIntl as () => IntlShape & { messages: Record<TTerm, string> },
+        Localize: FormattedMessage as React.ComponentClass<StronglyTypedFormattedMessageProps>,
+        useIntl: useIntl as () => StronglyTypedIntlShape,
+        intl: intlInstance,
         Provider({ children }: { children?: ReactNode }) {
             const [currentLocale, setCurrentLocale] = useState<TSupportedLocale>(
                 () => window.currentLocale! as TSupportedLocale,
@@ -54,15 +82,7 @@ export default function mkI18n<TSupportedLocale extends string, TTerm extends st
 
             const currentLocaleRef = useRef(currentLocale);
 
-            const [intl, setIntl] = useState(() =>
-                createIntl(
-                    {
-                        locale: currentLocale!,
-                        messages: messagesCache[currentLocale!],
-                    },
-                    cache,
-                ),
-            );
+            const [intl, setIntl] = useState<StronglyTypedIntlShape>();
 
             useEffect(() => {
                 const handler = () => {
@@ -79,15 +99,15 @@ export default function mkI18n<TSupportedLocale extends string, TTerm extends st
                 const cachedMessages = messagesCache[currentLocale];
 
                 if (cachedMessages) {
-                    setIntl(
-                        createIntl(
-                            {
-                                locale: currentLocale!,
-                                messages: cachedMessages,
-                            },
-                            cache,
-                        ),
-                    );
+                    intlInstance.current = createIntl(
+                        {
+                            locale: currentLocale,
+                            defaultLocale: defaultLocale,
+                            messages: cachedMessages,
+                        },
+                        cache,
+                    ) as StronglyTypedIntlShape;
+                    setIntl(intlInstance.current);
                     return;
                 }
 
@@ -97,18 +117,22 @@ export default function mkI18n<TSupportedLocale extends string, TTerm extends st
                     messagesCache[currentLocale] = messages;
 
                     if (currentLocaleRef.current === currentLocale) {
-                        setIntl(
-                            createIntl(
-                                {
-                                    locale: currentLocale!,
-                                    messages,
-                                },
-                                cache,
-                            ),
-                        );
+                        intlInstance.current = createIntl(
+                            {
+                                locale: currentLocale,
+                                defaultLocale: defaultLocale,
+                                messages: messages,
+                            },
+                            cache,
+                        ) as StronglyTypedIntlShape;
+                        setIntl(intlInstance.current);
                     }
                 })();
             }, [currentLocale]);
+
+            if (!intl) {
+                return null;
+            }
 
             return <RawIntlProvider value={intl}>{children}</RawIntlProvider>;
         },
