@@ -1,0 +1,33 @@
+{
+  "name": "@leancode/tools-rollup",
+  "version": "4.2.0",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "private": true,
+  "keywords": [
+    "rollup",
+    "leancode"
+  ],
+  "bin": {
+    "leancode-rollup": "./bin/index.js"
+  },
+  "directories": {
+    "bin": "bin",
+    "test": "__tests__"
+  },
+  "scripts": {
+    "build": ""
+  },
+  "dependencies": {
+    "rollup": "2.2.0",
+    "rollup-plugin-clear": "2.0.7",
+    "rollup-plugin-typescript2": "0.27.0"
+  },
+  "devDependencies": {
+    "typescript": "3.7.5"
+  },
+  "peerDependencies": {
+    "typescript": ">=3.0.0"
+  }
+}

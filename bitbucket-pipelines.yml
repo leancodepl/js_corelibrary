@@ -5,18 +5,18 @@ pipelines:
     - step:
         name: Build and test
         script:
-          - npm ci
-          - npx lerna bootstrap --ignore-scripts
-          - npm test
+          - yarn install --frozen-lockfile
+          - yarn test
+          - yarn lerna run build
 
   tags:
     v*:
       - step:
           name: Build and test
           script:
-            - npm ci
-            - npx lerna bootstrap
-            - npm test
+            - yarn install --frozen-lockfile
+            - yarn test
+            - yarn lerna run build
           artifacts:
             - packages/*/lib/**
             - packages/Linters/*/lib/**
@@ -26,4 +26,4 @@ pipelines:
           trigger: manual
           deployment: production
           script:
-            - npx lerna publish from-git --no-verify-access
+            - yarn lerna publish from-git --no-verify-access --yes

@@ -1,0 +1,44 @@
+{
+  "name": "@leancode/sample-app",
+  "version": "4.2.0",
+  "description": "Sample app demonstrating use of libs",
+  "author": "LeanCode",
+  "license": "ISC",
+  "private": true,
+  "keywords": [
+    "leancode",
+    "sample",
+    "react",
+    "mobx"
+  ],
+  "scripts": {
+    "build": "",
+    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts"
+  },
+  "dependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@leancode/build-app-config": "4.2.0",
+    "@leancode/build-base": "4.2.0",
+    "@leancode/build-css": "4.2.0",
+    "@leancode/build-dev-server": "4.2.0",
+    "@leancode/build-html": "4.2.0",
+    "@leancode/build-sass": "4.2.0",
+    "@leancode/build-static-files": "4.2.0",
+    "@leancode/build-svg": "4.2.0",
+    "@leancode/build-typescript": "4.2.0",
+    "@leancode/linting": "4.2.0",
+    "@types/node": "12",
+    "@types/react": "16.9.31",
+    "cross-env": "7.0.1",
+    "dotenv": "8.2.0",
+    "prettier": "1.19.1",
+    "ts-node": "8.6.2",
+    "typescript": "3.7.5",
+    "webpack": "4.42.0",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
+  }
+}

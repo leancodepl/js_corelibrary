@@ -6,9 +6,6 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "publishConfig": {
-    "registry": "https://www.myget.org/F/leancode/npm/"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,7 +14,7 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
@@ -39,8 +36,15 @@
     "tsconfig-paths-webpack-plugin": "^3.2.0"
   },
   "devDependencies": {
-    "@types/fork-ts-checker-webpack-plugin": "0.4.5",
-    "@types/webpack": "4.39.1",
-    "typescript": "~3.7.5"
+    "@leancode/tools-rollup": "4.2.0",
+    "@types/node": "12",
+    "@types/webpack": "4.41.9",
+    "eslint": "6.8.0",
+    "typescript": "3.7.5",
+    "webpack": "^4.0.0"
+  },
+  "peerDependencies": {
+    "eslint": "^6.8.0",
+    "webpack": "^4.0.0"
   }
 }

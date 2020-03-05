@@ -1,5 +1,0 @@
-src
-.npmrc
-tsconfig.json
-package-lock.json
-*.tgz
