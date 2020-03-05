@@ -1,0 +1,40 @@
+{
+  "name": "@leancode/sample-app",
+  "version": "4.1.1",
+  "description": "Sample app demonstrating use of libs",
+  "author": "LeanCode",
+  "license": "ISC",
+  "private": true,
+  "keywords": [
+    "leancode",
+    "sample",
+    "react",
+    "mobx"
+  ],
+  "scripts": {
+    "start-local-repository": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio",
+    "publish-local-packages": "cd .. && lerna publish from-package --ignore-scripts --no-git-reset --skip-git --registry localhost:4873",
+    "publish-packages": "node .local-repo/publish-packages.js",
+    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@leancode/build-app-config": "4.1.1",
+    "@leancode/build-base": "4.1.1",
+    "@leancode/build-css": "4.1.1",
+    "@leancode/build-dev-server": "4.1.1",
+    "@leancode/build-sass": "4.1.1",
+    "@leancode/build-static-files": "4.1.1",
+    "@leancode/build-svg": "4.1.1",
+    "@leancode/build-typescript": "4.1.1",
+    "@leancode/i18n": "4.1.1",
+    "@types/react": "16.9.23",
+    "cross-env": "7.0.1",
+    "dotenv": "8.2.0",
+    "ts-node": "8.6.2",
+    "typescript": "~3.7.5",
+    "webpack": "4.42.0",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
+  }
+}

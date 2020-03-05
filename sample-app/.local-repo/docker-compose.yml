@@ -1,0 +1,11 @@
+version: "3.6"
+services:
+  registry:
+    image: verdaccio/verdaccio
+    ports:
+      - "4873:4873"
+
+  publish:
+    build:
+      context: ../..
+      dockerfile: sample-app/.local-repo/publish.dockerfile

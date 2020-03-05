@@ -4,9 +4,6 @@
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
-  "publishConfig": {
-    "registry": "https://www.myget.org/F/leancode/npm/"
-  },
   "directories": {
     "lib": "lib"
   },

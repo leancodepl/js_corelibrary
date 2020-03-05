@@ -1,0 +1,6 @@
+.git/
+.gitignore
+.gitattributes
+**/node_modules/
+test-results/
+

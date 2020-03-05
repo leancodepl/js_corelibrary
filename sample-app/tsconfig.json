@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": ["es6", "dom", "esnext"],
+    "target": "esnext",
+    "module": "esNext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": false,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUmdGlobalAccess": true,
+    "experimentalDecorators": true,
+    "baseUrl": "src"
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}
