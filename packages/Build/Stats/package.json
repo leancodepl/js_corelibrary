@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-stats-writer",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -24,7 +24,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.1.1",
+    "@leancode/build-base": "^4.2.0",
     "json2csv": "^4.5.4",
     "webpack-stats-plugin": "^0.3.1"
   },

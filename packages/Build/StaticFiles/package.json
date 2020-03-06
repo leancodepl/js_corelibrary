@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-static-files",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -24,7 +24,7 @@
     "webpack": "^4.0.0"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.1.1",
+    "@leancode/build-base": "^4.2.0",
     "file-loader": "^5.0.2"
   },
   "devDependencies": {
