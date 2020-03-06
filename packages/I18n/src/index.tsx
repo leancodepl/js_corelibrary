@@ -10,7 +10,7 @@ export function getDefaultLocale<TSupportedLocale extends string, TFallbackLocal
 ): TSupportedLocale;
 export function getDefaultLocale(): string;
 export function getDefaultLocale(supportedLocales?: string[], fallbackLocale?: string) {
-    const navigatorLocale = navigator.language.substr(0, 2).toLowerCase();
+    const navigatorLocale = navigator.language.split("-")[0].toLowerCase();
 
     if (supportedLocales) {
         if (supportedLocales.includes(navigatorLocale)) {
