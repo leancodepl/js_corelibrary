@@ -2,6 +2,7 @@ import appConfig from "@leancode/build-app-config";
 import { applyConfig, Configure, deploy, entrypoint, environment, optimizations } from "@leancode/build-base";
 import css from "@leancode/build-css";
 import devServer from "@leancode/build-dev-server";
+import html from "@leancode/build-html";
 import sass from "@leancode/build-sass";
 import staticFiles from "@leancode/build-static-files";
 import svg from "@leancode/build-svg";
@@ -50,6 +51,7 @@ const config = applyConfig(
     optimizations(),
 
     environment(),
+    html(paths.htmlTemplate),
     staticFiles(),
 
     typescript(paths.tsConfig, paths.src),

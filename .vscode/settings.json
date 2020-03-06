@@ -24,12 +24,8 @@
 
   "eslint.enable": true,
   "eslint.format.enable": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.workingDirectories": [".", "sample-app"],
 
   "typescript.tsdk": "node_modules/typescript/lib"
 }

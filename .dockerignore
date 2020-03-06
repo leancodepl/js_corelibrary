@@ -3,4 +3,4 @@
 .gitattributes
 **/node_modules/
 test-results/
-
+**/.npmrc

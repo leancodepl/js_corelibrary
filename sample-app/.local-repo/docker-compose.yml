@@ -9,3 +9,9 @@ services:
     build:
       context: ../..
       dockerfile: sample-app/.local-repo/publish.dockerfile
+    environment:
+      - NPM_USER=admin
+      - NPM_PASS=admin
+      - NPM_EMAIL=admin@leancode.pl
+      - NPM_REGISTRY=http://registry:4873
+      - NPM_SCOPE=leancode

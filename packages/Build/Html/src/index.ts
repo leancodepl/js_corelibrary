@@ -3,7 +3,7 @@ import FaviconsWebpackPlugin from "favicons-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default function html<TInCtx extends BaseContext>(
-    template: string,
+    template?: string,
     favicon?: string,
 ): Configure<TInCtx, TInCtx> {
     return ctx => {
