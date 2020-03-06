@@ -5,9 +5,7 @@ module.exports = packageRoot => {
 
     return {
         displayName: packageJson.name,
-        transform: {
-            "^.+\\.tsx?$": "ts-jest",
-        },
+        preset: "ts-jest",
         testRegex: "(/__tests__/.*\\.spec)\\.(jsx?|tsx?)$",
         transformIgnorePatterns: ["<rootDir>/node_modules/"],
         moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],

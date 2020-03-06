@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "module": "ESNext",
     "alwaysStrict": true,
     "declaration": true,
@@ -13,5 +14,5 @@
     "esModuleInterop": true,
     "lib": ["es6"]
   },
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.spec.tsx"]
 }

@@ -1,0 +1,93 @@
+import "@testing-library/jest-dom";
+import { act, render, wait, waitForElement } from "@testing-library/react";
+import { renderHook } from "@testing-library/react-hooks";
+import React from "react";
+import mkI18n from "../src";
+
+function createLocale<TLocale extends string, TTerm extends string>(locale: TLocale, messages: Record<TTerm, string>) {
+    return {
+        [locale]: () => Promise.resolve(messages),
+    } as Record<TLocale, () => Promise<Record<TTerm, string>>>;
+}
+
+describe("i18n", () => {
+    it("renders localized message", async () => {
+        const { Provider, Localize } = mkI18n(
+            {
+                ...createLocale("en", { "test.key": "I18n is awesome" }),
+            },
+            "en",
+        );
+
+        const { getByTestId, container } = render(
+            <Provider>
+                <div data-testid="test">
+                    <Localize id="test.key" />
+                </div>
+            </Provider>,
+        );
+
+        const message = await waitForElement(() => getByTestId("test"), { container });
+
+        expect(message.textContent).toBe("I18n is awesome");
+    });
+
+    it("renders localized message after language switch", async () => {
+        const { Provider, Localize, changeLocale } = mkI18n(
+            {
+                ...createLocale("en", { "test.key": "I18n is awesome" }),
+                ...createLocale("pl", { "test.key": "I18n jest super" }),
+            },
+            "en",
+        );
+
+        const { getByText, container } = render(
+            <Provider>
+                <Localize id="test.key" />
+            </Provider>,
+        );
+
+        await waitForElement(() => getByText("I18n is awesome"), { container });
+
+        act(() => changeLocale("pl"));
+
+        await waitForElement(() => getByText("I18n jest super"), { container });
+    });
+
+    it("formats localized message using hooks", async () => {
+        const { Provider, useIntl } = mkI18n(
+            {
+                ...createLocale("en", { "test.key": "I18n is awesome" }),
+            },
+            "en",
+        );
+        const wrapper = ({ children }) => <Provider>{children}</Provider>;
+
+        const { result, waitForNextUpdate } = renderHook(() => useIntl(), { wrapper });
+
+        await waitForNextUpdate();
+
+        const message = result.current.formatMessage({ id: "test.key" });
+
+        expect(message).toBe("I18n is awesome");
+    });
+
+    it("provides localized message globally", async () => {
+        const { intl, Provider } = mkI18n(
+            {
+                ...createLocale("en", { "test.key": "I18n is awesome" }),
+            },
+            "en",
+        );
+
+        render(<Provider />); // Provider needs to be mounted in order to manage localization
+
+        await wait(() => {
+            if (intl.current === undefined) throw new Error();
+        });
+
+        const message = intl.current!.formatMessage({ id: "test.key" });
+
+        expect(message).toBe("I18n is awesome");
+    });
+});

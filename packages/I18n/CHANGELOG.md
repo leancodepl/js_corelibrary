@@ -17,21 +17,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **i18n:** add base i18n ([6f28ca9](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/6f28ca9))
 * **i18n:** implement i18n global instance and add tests ([deb5b22](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/deb5b22))
 * **i18n:** implement translation factory ([393dc37](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/393dc37))
-
-
-
-
-
-<a name="4.1.2"></a>
-## [4.1.2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.1&sourceBranch=refs%2Ftags%2Fv4.1.2) (2020-02-17)
-
-**Note:** Version bump only for package root
-
-
-
-
-
-<a name="4.1.1"></a>
-## [4.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.0&sourceBranch=refs%2Ftags%2Fv4.1.1) (2020-02-17)
-
-**Note:** Version bump only for package root
