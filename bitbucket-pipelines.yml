@@ -26,4 +26,4 @@ pipelines:
           trigger: manual
           deployment: production
           script:
-            - npx lerna publish from-git --no-verify-access
+            - npx lerna publish from-git --no-verify-access --yes
