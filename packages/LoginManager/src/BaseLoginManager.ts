@@ -26,7 +26,7 @@ export interface LoginNetworkError {
 
 export type LoginResult = LoginSuccess | LoginFailure | LoginNetworkError;
 
-export interface LoginManager extends BaseLoginManager<TokenStorage> {}
+export interface LoginManager extends BaseLoginManager<TokenStorage> { }
 
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private callbacks: ((isSignedIn: boolean) => void)[] = [];
@@ -36,11 +36,17 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     constructor(
         protected storage: TStorage,
         private endpoint: string,
-        private secret: string,
-        private client: string,
+        private clientSecret: string | undefined,
+        private clientId: string,
         private scopes: string,
-        private additionalParams?: any,
-    ) {}
+        private additionalParams?: any) {
+        if (!clientSecret) {
+            this.additionalParams = {
+                ...additionalParams,
+                "client_id": clientId,
+            }
+        }
+    }
 
     public abstract signOut(): TStorage extends AsyncTokenStorage ? Promise<void> : void;
 
@@ -126,13 +132,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             scope: this.scopes,
             username: username,
             password: password,
+            ...this.additionalParams,
         };
-        if (this.additionalParams) {
-            data = {
-                ...this.additionalParams,
-                ...data,
-            };
-        }
+
         let params = encode(data);
         return {
             method: "POST",
@@ -146,13 +148,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             grant_type: "facebook",
             scope: this.scopes,
             assertion: accessToken,
+            ...this.additionalParams,
         };
-        if (this.additionalParams) {
-            data = {
-                ...this.additionalParams,
-                ...data,
-            };
-        }
+
         let params = encode(data);
         return {
             method: "POST",
@@ -166,6 +164,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             grant_type: "refresh_token",
             scope: this.scopes,
             refresh_token: token.refreshToken || "",
+            ...this.additionalParams,
         });
 
         return {
@@ -177,8 +176,11 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     private prepareHeaders() {
         let headers = new Headers();
-        let sec = serialize(this.client + ":" + this.secret);
-        headers.append("Authorization", "Basic " + sec);
+        if (this.clientSecret) {
+            let sec = serialize(this.clientId + ":" + this.clientSecret);
+            headers.append("Authorization", "Basic " + sec);
+        }
+
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         return headers;
     }
