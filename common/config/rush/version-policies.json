@@ -9,22 +9,6 @@
   * to a set of projects that are specified using the "versionPolicyName" field in rush.json.
   */
 [
-  {
-    "definitionName": "lockStepVersion",
-    "policyName": "BuildVersionPolicy",
-    "version": "4.2.0",
-    "nextBump": "minor"
-  },
-  {
-    "definitionName": "lockStepVersion",
-    "policyName": "LintersVersionPolicy",
-    "version": "4.2.0",
-    "nextBump": "patch"
-  },
-  {
-    "definitionName": "individualVersion",
-    "policyName": "UtilsVersionPolicy"
-  }
   // {
   //   /**
   //    * (Required) Indicates the kind of version policy being defined ("lockStepVersion" or "individualVersion").
