@@ -1,1 +1,1 @@
-module.exports = require("@leancode/prettier-config");
+module.exports = require("@leancode/prettier-config"); 

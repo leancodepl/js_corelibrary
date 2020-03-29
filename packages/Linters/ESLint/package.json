@@ -4,6 +4,9 @@
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
+  "scripts": {
+    "build": ""
+  },
   "directories": {
     "lib": "lib"
   },

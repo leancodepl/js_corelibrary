@@ -25,8 +25,8 @@
     "html-webpack-include-assets-plugin": "^2.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^4.2.0",
+    "@leancode/tools-rollup": "4.2.0",
     "tslib": "*",
-    "typescript": "~3.7.5"
+    "typescript": "3.7.5"
   }
 }

@@ -51,7 +51,6 @@
      * The default value is "local".
      */
     // "pnpmStore": "local",
-
     /**
      * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
      * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
@@ -63,8 +62,6 @@
      * It is strongly recommended to set strictPeerDependencies=true.
      */
     // "strictPeerDependencies": true,
-
-
     /**
      * Configures the strategy used to select versions during installation.
      *
@@ -91,16 +88,16 @@
   "nodeSupportedVersionRange": ">=12.0.0 <13.0.0",
 
   /**
-  * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
-  * spend six months in a stabilization period before the first Long Term Support (LTS) version.
-  * For example, 8.9.0 was the first LTS version of Node.js 8.  Pre-LTS versions are not recommended
-  * for production usage because they frequently have bugs.  They may cause Rush itself
-  * to malfunction.
-  *
-  * Rush normally prints a warning if it detects a pre-LTS Node.js version.  If you are testing
-  * pre-LTS versions in preparation for supporting the first LTS version, you can use this setting
-  * to disable Rush's warning.
-  */
+   * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
+   * spend six months in a stabilization period before the first Long Term Support (LTS) version.
+   * For example, 8.9.0 was the first LTS version of Node.js 8.  Pre-LTS versions are not recommended
+   * for production usage because they frequently have bugs.  They may cause Rush itself
+   * to malfunction.
+   *
+   * Rush normally prints a warning if it detects a pre-LTS Node.js version.  If you are testing
+   * pre-LTS versions in preparation for supporting the first LTS version, you can use this setting
+   * to disable Rush's warning.
+   */
   // "suppressNodeLtsWarning": false,
 
   /**
@@ -108,13 +105,13 @@
    * uncomment this line. This is effectively similar to running "rush check" before any
    * of the following commands:
    *
-   *   rush install, rush update, rush link, rush version, rush publish 
+   *   rush install, rush update, rush link, rush version, rush publish
    *
    * In some cases you may want this turned on, but need to allow certain packages to use a different
    * version. In those cases, you will need to add an entry to the "allowedAlternativeVersions"
    * section of the common-versions.json.
    */
-   // "ensureConsistentVersions": true,
+  // "ensureConsistentVersions": true,
 
   /**
    * Large monorepos can become intimidating for newcomers if project folder paths don't follow
@@ -168,7 +165,7 @@
   //     "tools",      // non-shipping projects that are part of the developer toolchain
   //     "prototypes"  // experiments that should mostly be ignored by the review process
   //   ],
-  // 
+  //
   //   /**
   //    * A list of NPM package scopes that will be excluded from review.
   //    * We recommend to exclude TypeScript typings (the "@types" scope), because
@@ -198,14 +195,12 @@
     //   "[^@]+@users\\.noreply\\.github\\.com",
     //   "travis@example\\.org"
     // ],
-
     /**
      * When Rush reports that the address is malformed, the notice can include an example
      * of a recommended email.  Make sure it conforms to one of the allowedEmailRegExps
      * expressions.
      */
     // "sampleEmail": "mrexample@users.noreply.github.com",
-
     /**
      * The commit message to use when committing changes during 'rush publish'.
      *
@@ -232,7 +227,7 @@
      * your PR branch, and in this situation "rush change" will also automatically invoke "git fetch"
      * to retrieve the latest activity for the remote master branch.
      */
-    "url": "https://www.myget.org/F/leancode/npm/",
+    "url": "https://www.myget.org/F/leancode/npm/"
 
     /**
      * The default branch name. This tells "rush change" which remote branch to compare against.
@@ -297,7 +292,7 @@
     //    * The folder name for this variant.
     //    */
     //   "variantName": "old-sdk",
-    // 
+    //
     //   /**
     //    * An informative description
     //    */
@@ -333,52 +328,90 @@
   "projects": [
     {
       "packageName": "@leancode/build-app-config",
-      "projectFolder": "packages/Build/AppConfig",
-      "versionPolicyName": "BuildVersionPolicy"
+      "projectFolder": "packages/Build/AppConfig"
     },
     {
       "packageName": "@leancode/build-base",
-      "projectFolder": "packages/Build/Base",
-      "versionPolicyName": "BuildVersionPolicy"
+      "projectFolder": "packages/Build/Base"
     },
     {
       "packageName": "@leancode/build-css",
-      "projectFolder": "packages/Build/Css",
-      "versionPolicyName": "BuildVersionPolicy"
+      "projectFolder": "packages/Build/Css"
     },
     {
       "packageName": "@leancode/build-dev-server",
-      "projectFolder": "packages/Build/DevServer",
-      "versionPolicyName": "BuildVersionPolicy"
+      "projectFolder": "packages/Build/DevServer"
     },
     {
       "packageName": "@leancode/build-html",
-      "projectFolder": "packages/Build/Html",
-      "versionPolicyName": "BuildVersionPolicy"
+      "projectFolder": "packages/Build/Html"
+    },
+    {
+      "packageName": "@leancode/build-less",
+      "projectFolder": "packages/Build/Less"
+    },
+    {
+      "packageName": "@leancode/build-sass",
+      "projectFolder": "packages/Build/Sass"
+    },
+    {
+      "packageName": "@leancode/build-static-files",
+      "projectFolder": "packages/Build/StaticFiles"
+    },
+    {
+      "packageName": "@leancode/build-stats-writer",
+      "projectFolder": "packages/Build/Stats"
+    },
+    {
+      "packageName": "@leancode/build-svg",
+      "projectFolder": "packages/Build/Svg"
+    },
+    {
+      "packageName": "@leancode/build-typescript",
+      "projectFolder": "packages/Build/Typescript"
     },
     {
       "packageName": "@leancode/tools-rollup",
-      "projectFolder": "tools/rollup",
-      "versionPolicyName": "UtilsVersionPolicy"
+      "projectFolder": "tools/rollup"
+    },
+    {
+      "packageName": "@leancode/linting",
+      "projectFolder": "packages/Linters/Linting"
+    },
+    {
+      "packageName": "@leancode/eslint-config",
+      "projectFolder": "packages/Linters/ESLint"
+    },
+    {
+      "packageName": "@leancode/prettier-config",
+      "projectFolder": "packages/Linters/Prettier"
+    },
+    {
+      "packageName": "@leancode/stylelint-config",
+      "projectFolder": "packages/Linters/Stylelint"
+    },
+    {
+      "packageName": "@leancode/sample-app",
+      "projectFolder": "sample-app"
     }
     // {
     //   /**
     //    * The NPM package name of the project (must match package.json)
     //    */
     //   "packageName": "my-app",
-    // 
+    //
     //   /**
     //    * The path to the project folder, relative to the rush.json config file.
     //    */
     //   "projectFolder": "apps/my-app",
-    // 
+    //
     //   /**
     //    * An optional category for usage in the "browser-approved-packages.json"
     //    * and "nonbrowser-approved-packages.json" files.  The value must be one of the
     //    * strings from the "reviewCategories" defined above.
     //    */
     //   "reviewCategory": "production",
-    // 
+    //
     //   /**
     //    * A list of local projects that appear as devDependencies for this project, but cannot be
     //    * locally linked because it would create a cyclic dependency; instead, the last published
@@ -387,20 +420,20 @@
     //   "cyclicDependencyProjects": [
     //     // "my-toolchain"
     //   ],
-    // 
+    //
     //   /**
     //    * If true, then this project will be ignored by the "rush check" command.
     //    * The default value is false.
     //    */
     //   // "skipRushCheck": false,
-    // 
+    //
     //   /**
     //    * A flag indicating that changes to this project will be published to npm, which affects
     //    * the Rush change and publish workflows. The default value is false.
     //    * NOTE: "versionPolicyName" and "shouldPublish" are alternatives; you cannot specify them both.
     //    */
     //   // "shouldPublish": false,
-    // 
+    //
     //   /**
     //    * An optional version policy associated with the project.  Version policies are defined
     //    * in "version-policies.json" file.  See the "rush publish" documentation for more info.
@@ -408,13 +441,13 @@
     //    */
     //   // "versionPolicyName": ""
     // },
-    // 
+    //
     // {
     //   "packageName": "my-controls",
     //   "projectFolder": "libraries/my-controls",
     //   "reviewCategory": "production"
     // },
-    // 
+    //
     // {
     //   "packageName": "my-toolchain",
     //   "projectFolder": "tools/my-toolchain",

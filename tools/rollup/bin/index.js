@@ -2,7 +2,6 @@ const typescript = require("rollup-plugin-typescript2");
 const clear = require("rollup-plugin-clear");
 const path = require("path");
 const fs = require("fs");
-const analyze = require("rollup-plugin-analyzer");
 const rollup = require("rollup");
 
 const formats = [
@@ -19,7 +18,7 @@ const tsconfigFile = path.join(packageRootPath, "tsconfig.json");
 const outputDir = path.join(packageRootPath, "lib");
 const packageJsonFile = require(path.join(packageRootPath, "package.json"));
 
-/** @type {[rollup.RollupOptions, rollup.OutputOptions][]} */
+/** @type {[rollup.RollupOptions, rollup.OutputOptions][]} */ 
 const config = formats.map(format => ({
     plugins: [
         typescript({
@@ -28,17 +27,14 @@ const config = formats.map(format => ({
         }),
         clear({
             targets: ["lib"],
-        }),
-        analyze({
-            summaryOnly: true,
-        }),
+        })
     ],
     input: inputFile,
     external: [...Object.keys(packageJsonFile.dependencies || {}), ...Object.keys(packageJsonFile.peerDependencies || {})],
     output: {
         file: path.join(outputDir, `index${format.name ? `.${format.name}` : ""}.js`),
         format: format.format,
-        sourcemap: true,
+        sourcemap: true, 
         name: packageJsonFile.name,
         exports: "named",
     }
