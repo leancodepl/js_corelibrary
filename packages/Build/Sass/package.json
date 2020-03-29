@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-sass",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,8 +18,8 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.2.0",
-    "@leancode/build-css": "^4.2.0",
+    "@leancode/build-base": "^4.2.1",
+    "@leancode/build-css": "^4.2.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "sass-resources-loader": "^2.0.1"

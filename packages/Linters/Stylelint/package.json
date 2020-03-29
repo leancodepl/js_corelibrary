@@ -1,6 +1,6 @@
 {
   "name": "@leancode/stylelint-config",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.json",

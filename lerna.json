@@ -1,6 +1,8 @@
 {
-  "version": "4.2.0",
-  "packages": ["packages/**/*"],
+  "version": "4.2.1",
+  "packages": [
+    "packages/**/*"
+  ],
   "command": {
     "publish": {
       "noVerifyAccess": true,
@@ -8,7 +10,11 @@
     },
     "version": {
       "message": "chore(release): %s",
-      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/jest.config.js"],
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md",
+        "**/jest.config.js"
+      ],
       "conventionalCommits": true,
       "changelogPreset": "angular-bitbucket"
     }

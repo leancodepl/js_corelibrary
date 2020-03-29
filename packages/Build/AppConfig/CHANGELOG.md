@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.2.1"></a>
+## [4.2.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.2.0&sourceBranch=refs%2Ftags%2Fv4.2.1) (2020-03-29)
+
+**Note:** Version bump only for package @leancode/build-app-config
+
+
+
+
+
 <a name="4.2.0"></a>
 # [4.2.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.2&sourceBranch=refs%2Ftags%2Fv4.2.0) (2020-03-06)
 
