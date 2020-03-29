@@ -14,7 +14,7 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
@@ -22,7 +22,9 @@
     "webpack-dev-server": "^3.8.1"
   },
   "devDependencies": {
+    "@leancode/tools-rollup": "^4.2.0",
     "@types/webpack-dev-server": "3.1.7",
+    "tslib": "*",
     "typescript": "~3.7.5"
   }
 }
