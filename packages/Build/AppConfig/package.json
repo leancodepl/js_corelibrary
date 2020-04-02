@@ -17,16 +17,14 @@
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
-  "peerDependencies": {
-    "webpack": "^4.0.0"
-  },
   "dependencies": {
     "@leancode/build-base": "^4.2.0",
     "html-webpack-include-assets-plugin": "^2.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "4.2.0",
-    "tslib": "*",
-    "typescript": "3.7.5"
+    "@leancode/tools-rollup": "4.2.0"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0"
   }
 }

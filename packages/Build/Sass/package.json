@@ -27,7 +27,9 @@
   "devDependencies": {
     "@leancode/tools-rollup": "4.2.0",
     "@types/webpack": "4.41.9",
-    "tslib": "*",
-    "typescript": "3.7.5"
+    "webpack": "^4.0.0"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0"
   }
 }

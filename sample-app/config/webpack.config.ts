@@ -19,6 +19,7 @@ const paths = (() => {
     const nodeModules = path.join(appRoot, "node_modules");
     const favicon = path.join(configRoot, "favicon.png");
     const styles = path.join(src, "styles");
+    const indexHtml = path.join(appRoot, "index.html");
 
     return {
         appRoot,
@@ -27,6 +28,7 @@ const paths = (() => {
         nodeModules,
         favicon,
         styles,
+        indexHtml,
         config: (env: "production" | "development") => path.join(src, "configuration", `config.${env}.ts`),
     };
 })();
@@ -49,7 +51,9 @@ const config = applyConfig(
     optimizations(),
 
     environment(),
-    html(),
+    html({
+        template: paths.indexHtml,
+    }),
     staticFiles(),
 
     typescript(paths.tsConfig, paths.src),

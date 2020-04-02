@@ -29,10 +29,10 @@ export default function typescript<TInCtx extends EnvironmentContext>(
         );
 
         const babelPresets: any[] = [
-            "@babel/react",
-            "@babel/typescript",
+            require.resolve("@babel/preset-react"),
+            require.resolve("@babel/preset-typescript"),
             [
-                "@babel/env",
+                require.resolve("@babel/preset-env"),
                 {
                     modules: false,
                     useBuiltIns: "usage",
@@ -43,13 +43,13 @@ export default function typescript<TInCtx extends EnvironmentContext>(
         ];
 
         const babelPlugins: any[] = [
-            ["@babel/plugin-proposal-decorators", { legacy: true }],
-            "@babel/plugin-proposal-nullish-coalescing-operator",
-            "@babel/plugin-proposal-optional-chaining",
-            "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-syntax-dynamic-import",
+            [require.resolve("@babel/plugin-proposal-decorators"), { legacy: true }],
+            require.resolve("@babel/plugin-proposal-nullish-coalescing-operator"),
+            require.resolve("@babel/plugin-proposal-optional-chaining"),
+            require.resolve("@babel/plugin-proposal-class-properties"),
+            require.resolve("@babel/plugin-syntax-dynamic-import"),
             [
-                "const-enum",
+                require.resolve("babel-plugin-const-enum"),
                 {
                     transform: "removeConst",
                 },
@@ -61,14 +61,14 @@ export default function typescript<TInCtx extends EnvironmentContext>(
                 test: /\.[jt]sx?$/,
                 enforce: "pre",
                 exclude: /node_modules/,
-                loader: "eslint-loader",
+                loader: require.resolve("eslint-loader"),
             },
             {
                 test: /\.tsx?$/,
                 include: src,
                 use: [
                     {
-                        loader: "babel-loader",
+                        loader: require.resolve("babel-loader"),
                         options: {
                             babelrc: false,
                             sourceMaps: true,

@@ -1,5 +1,5 @@
 {
-  "extends": ["@leancode/stylelint-config/scss", "stylelint-rscss/config"],
+  "extends": ["@leancode/stylelint-config/lib/scss", "stylelint-rscss/config"],
   "rules": {
     "rscss/no-descendant-combinator": false,
 

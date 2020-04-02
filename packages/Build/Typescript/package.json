@@ -39,7 +39,12 @@
     "@leancode/tools-rollup": "4.2.0",
     "@types/node": "12",
     "@types/webpack": "4.41.9",
-    "tslib": "*",
-    "typescript": "3.7.5"
+    "eslint": "6.8.0",
+    "typescript": "3.7.5",
+    "webpack": "^4.0.0"
+  },
+  "peerDependencies": {
+    "eslint": "^6.8.0",
+    "webpack": "^4.0.0"
   }
 }
