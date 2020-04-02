@@ -21,8 +21,8 @@
     "@leancode/build-base": "^4.2.0",
     "file-loader": "^5.0.2",
     "svg-react-loader": "^0.4.6",
-    "svgo-loader": "^2.2.1",
-    "svgo": "^1.3.2"
+    "svgo": "^1.3.2",
+    "svgo-loader": "^2.2.1"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "4.2.0",

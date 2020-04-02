@@ -30,11 +30,11 @@
       "mode": "auto"
     }
   ],
-  "eslint.packageManager": "pnpm",
+  "eslint.packageManager": "yarn",
 
-  "prettier.packageManager": "pnpm",
+  "prettier.packageManager": "yarn",
 
-  "stylelint.packageManager": "pnpm",
+  "stylelint.packageManager": "yarn",
 
   "typescript.tsdk": "node_modules/typescript/lib"
 }

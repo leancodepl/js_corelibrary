@@ -11,19 +11,22 @@
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-lerna-scopes": "8.3.4",
-    "@leancode/eslint-config": "4.2.0",
-    "@leancode/prettier-config": "4.2.0",
     "@leancode/linting": "4.2.0",
+    "@leancode/tools-testing": "4.2.0",
     "conventional-changelog-angular-bitbucket": "1.2.0",
     "husky": "4.2.3",
-    "lerna": "3.20.2",
-    "prettier": "1.19.1",
-    "tslib": "*",
-    "typescript": "3.7.5"
+    "lerna": "3.20.2"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  }
+  },
+  "workspaces": [
+    "packages/*",
+    "packages/Build/*",
+    "packages/Linters/*",
+    "tools/*",
+    "sample-app"
+  ]
 }

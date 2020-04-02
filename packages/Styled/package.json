@@ -19,14 +19,15 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "peerDependencies": {
     "react": "^16.0.0"
   },
   "devDependencies": {
+    "@leancode/tools-rollup": "4.2.0",
     "@types/react": "^16.0.0",
-    "typescript": "~3.7.5"
+    "typescript": "3.7.5"
   }
 }

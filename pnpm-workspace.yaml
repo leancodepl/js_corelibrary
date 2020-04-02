@@ -1,5 +1,0 @@
-packages:
-  - "packages/Build/*"
-  - "packages/Linters/*"
-  - "tools/rollup"
-  - "sample-app"

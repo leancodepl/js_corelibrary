@@ -16,8 +16,8 @@
     "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts"
   },
   "dependencies": {
-    "react": "16.13.0",
-    "react-dom": "16.13.0"
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   },
   "devDependencies": {
     "@leancode/build-app-config": "4.2.0",
@@ -31,7 +31,7 @@
     "@leancode/build-typescript": "4.2.0",
     "@leancode/linting": "4.2.0",
     "@types/node": "12",
-    "@types/react": "16.9.23",
+    "@types/react": "16.9.31",
     "cross-env": "7.0.1",
     "dotenv": "8.2.0",
     "prettier": "1.19.1",
