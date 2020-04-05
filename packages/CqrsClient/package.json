@@ -23,11 +23,11 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/login-manager": "^4.2.0",
+    "@leancode/login-manager": "4.2.0",
     "cross-fetch": "^3.0.4"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "4.2.0",
-    "typescript": "3.7.5"
+    "typescript": "^3.7.5"
   }
 }

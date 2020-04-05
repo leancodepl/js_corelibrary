@@ -29,7 +29,8 @@
   },
   "devDependencies": {
     "@leancode/tools-rollup": "4.2.0",
-    "@types/facebook-js-sdk": "3.3.0",
-    "typescript": "~3.7.5"
+    "@leancode/tools-testing": "4.2.0",
+    "@types/facebook-js-sdk": "^3.3.0",
+    "typescript": "^3.7.5"
   }
 }

@@ -18,5 +18,11 @@
     "stylelint-order": "^4.0.0",
     "stylelint-prettier": "^1.1.2",
     "stylelint-scss": "^3.14.2"
+  },
+  "devDependencies": {
+    "prettier": "1.19.1"
+  },
+  "peerDependencies": {
+    "prettier": "^1.19.1"
   }
 }

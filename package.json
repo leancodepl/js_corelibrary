@@ -2,10 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "",
-    "bootstrap": "lerna bootstrap",
     "dev": "lerna run watch --parallel",
-    "publish": "lerna publish --no-verify-access",
     "test": "jest"
   },
   "devDependencies": {

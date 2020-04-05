@@ -1,7 +1,12 @@
+import Container from "components/Container";
 import React from "react";
 
 const App: React.FunctionComponent = () => {
-    return <div>hello world</div>;
+    return (
+        <Container>
+            <div>hello world</div>
+        </Container>
+    );
 };
 
 export default App;

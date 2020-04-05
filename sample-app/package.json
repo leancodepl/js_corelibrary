@@ -12,10 +12,12 @@
     "mobx"
   ],
   "scripts": {
-    "build": "",
-    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts"
+    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts",
+    "fmt:stylelint": "stylelint --fix src/**/*.{scss,css}",
+    "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
+    "@leancode/cx": "4.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
@@ -29,15 +31,16 @@
     "@leancode/build-static-files": "4.2.0",
     "@leancode/build-svg": "4.2.0",
     "@leancode/build-typescript": "4.2.0",
-    "@leancode/linting": "4.2.0",
-    "@types/node": "12",
-    "@types/react": "16.9.31",
+    "@leancode/prettier-config": "4.2.0",
+    "@leancode/eslint-config": "4.2.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "16.9.32",
     "cross-env": "7.0.1",
     "dotenv": "8.2.0",
-    "prettier": "1.19.1",
-    "ts-node": "8.6.2",
+    "stylelint-rscss": "0.4.0",
+    "ts-node": "8.8.2",
     "typescript": "3.7.5",
-    "webpack": "4.42.0",
+    "webpack": "4.42.1",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   }

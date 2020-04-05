@@ -1,6 +1,7 @@
 import { BaseContext, Configure } from "@leancode/build-base";
 import FaviconsWebpackPlugin from "favicons-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import webpack from "webpack";
 
 export default function html<TInCtx extends BaseContext>({
     favicon,
@@ -11,7 +12,8 @@ export default function html<TInCtx extends BaseContext>({
     return ctx => {
         ctx.config.plugins = ctx.config.plugins || [];
 
-        ctx.config.plugins.push(new HtmlWebpackPlugin(htmlPluginOptions));
+        const p: webpack.Plugin = new HtmlWebpackPlugin(htmlPluginOptions);
+        ctx.config.plugins.push(p);
 
         if (favicon) {
             ctx.config.plugins.push(new FaviconsWebpackPlugin(favicon));

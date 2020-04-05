@@ -60,7 +60,7 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             {
                 test: /\.[jt]sx?$/,
                 enforce: "pre",
-                exclude: /node_modules/,
+                include: src,
                 loader: require.resolve("eslint-loader"),
             },
             {

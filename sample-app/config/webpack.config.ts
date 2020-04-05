@@ -60,7 +60,7 @@ const config = applyConfig(
     babelLoaders(),
 
     css(),
-    sass([path.join(paths.styles, "_variables.scss"), path.join(paths.styles, "_mixins.scss")]),
+    sass([path.join(paths.styles, "_variables.scss")]),
     svg(),
 
     appConfig(paths.config),

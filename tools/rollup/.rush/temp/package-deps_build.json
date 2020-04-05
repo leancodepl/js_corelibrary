@@ -1,8 +1,0 @@
-{
-  "files": {
-    "tools/rollup/bin/index.js": "def55122ce0786230fe9553d722ed8c1fb89d294",
-    "tools/rollup/package.json": "951be3cdf73cffcb1a5367fb66786e2a1cf6a649",
-    "tools/rollup/.rush/temp/shrinkwrap-deps.json": "15ed3113fb2750453541be968b973e2fc7c7456c"
-  },
-  "arguments": ""
-}
