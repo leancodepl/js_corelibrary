@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@leancode/build-base": "^4.2.0",
-    "html-webpack-include-assets-plugin": "^2.0.0"
+    "html-webpack-tags-plugin": "^2.0.17"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "4.2.0"

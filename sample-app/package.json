@@ -12,12 +12,14 @@
     "mobx"
   ],
   "scripts": {
-    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts",
+    "start": "cross-env TS_NODE_PROJECT=config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts",
+    "build": "cross-env TS_NODE_PROJECT=config/tsconfig.json webpack --mode=production --config ./config/webpack.config.ts",
     "fmt:stylelint": "stylelint --fix src/**/*.{scss,css}",
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
     "@leancode/cx": "4.2.0",
+    "@leancode/i18n": "4.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },
@@ -35,7 +37,8 @@
     "@leancode/eslint-config": "4.2.0",
     "@types/node": "^12.0.0",
     "@types/react": "16.9.32",
-    "cross-env": "7.0.1",
+    "babel-plugin-react-intl": "6.1.0",
+    "cross-env": "7.0.2",
     "dotenv": "8.2.0",
     "ts-node": "8.8.2",
     "typescript": "3.7.5",

@@ -26,5 +26,9 @@
     "packages/Linters/*",
     "tools/*",
     "sample-app"
-  ]
+  ],
+  "resolutions": {
+    "@types/node": "12.12.34",
+    "stylelint": "13.3.0"
+  }
 }

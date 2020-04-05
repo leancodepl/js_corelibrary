@@ -1,5 +1,5 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
-import HtmlWebpackIncludeAssetsPlugin from "html-webpack-include-assets-plugin";
+import HtmlWebpackTagsPlugin from "html-webpack-tags-plugin";
 
 export default function appConfig<TInCtx extends EnvironmentContext>(
     configFile: (env: "production" | "development") => string,
@@ -11,8 +11,8 @@ export default function appConfig<TInCtx extends EnvironmentContext>(
 
         if (ctx.isProduction) {
             ctx.config.plugins.push(
-                new HtmlWebpackIncludeAssetsPlugin({
-                    assets: ["config.js"],
+                new HtmlWebpackTagsPlugin({
+                    tags: ["config.js"],
                     append: false,
                 }),
             );

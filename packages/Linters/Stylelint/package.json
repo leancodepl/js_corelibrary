@@ -11,7 +11,7 @@
     "lib"
   ],
   "dependencies": {
-    "stylelint": "^12.0.0",
+    "stylelint": "^13.3.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-recommended-scss": "^4.2.0",
@@ -21,9 +21,9 @@
     "stylelint-scss": "^3.14.2"
   },
   "devDependencies": {
-    "prettier": "1.19.1"
+    "prettier": "^2.0.2"
   },
   "peerDependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.2"
   }
 }

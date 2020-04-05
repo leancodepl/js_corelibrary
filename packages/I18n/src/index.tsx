@@ -35,8 +35,8 @@ declare global {
 
 export default function mkI18n<
     TSupportedLocale extends string,
-    TDefaultLocale extends TSupportedLocale,
-    TTerm extends string
+    TTerm extends string,
+    TDefaultLocale extends TSupportedLocale = TSupportedLocale
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
         id?: TTerm | number;

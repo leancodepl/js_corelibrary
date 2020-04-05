@@ -18,8 +18,10 @@ module.exports = {
         },
     },
     rules: {
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "error",
+        "no-var": "off",
+        "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
+        "max-params": ["error", { max: 4 }],
+
         "prettier/prettier": "warn",
 
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -33,6 +35,7 @@ module.exports = {
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-inferrable-types": "off",
+
         "react/prop-types": "off",
         "react/display-name": "off",
         "react/jsx-sort-props": [
@@ -46,8 +49,8 @@ module.exports = {
                 reservedFirst: true,
             },
         ],
-        "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
-        "max-params": ["error", { max: 4 }],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "error",
     },
     settings: {
         react: {

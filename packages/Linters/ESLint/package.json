@@ -20,11 +20,11 @@
     "eslint-plugin-react-hooks": "^3.0.0"
   },
   "devDependencies": {
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "typescript": "^3.7.5"
   },
   "peerDependencies": {
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "typescript": "^3.7.5"
   }
 }
