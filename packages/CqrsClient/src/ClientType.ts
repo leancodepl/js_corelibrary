@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
+
 export interface IRemoteQuery<TResult> {}
 export interface IRemoteCommand {}
 

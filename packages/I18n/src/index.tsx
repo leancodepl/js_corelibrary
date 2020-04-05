@@ -77,7 +77,7 @@ export default function mkI18n<
         intl: intlInstance,
         Provider({ children }: { children?: ReactNode }) {
             const [currentLocale, setCurrentLocale] = useState<TSupportedLocale>(
-                () => window.currentLocale! as TSupportedLocale,
+                () => window.currentLocale! as TSupportedLocale, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             );
 
             const currentLocaleRef = useRef(currentLocale);

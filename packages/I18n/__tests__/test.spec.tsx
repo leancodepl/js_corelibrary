@@ -86,7 +86,7 @@ describe("i18n", () => {
             if (intl.current === undefined) throw new Error();
         });
 
-        const message = intl.current!.formatMessage({ id: "test.key" });
+        const message = intl.current!.formatMessage({ id: "test.key" }); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
         expect(message).toBe("I18n is awesome");
     });

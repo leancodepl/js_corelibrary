@@ -145,7 +145,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
                 },
             });
         } else {
-            for (let styledIntrinsic of intrinsics) {
+            for (const styledIntrinsic of intrinsics) {
                 (styled as any)[styledIntrinsic] = styled(styledIntrinsic);
             }
         }

@@ -13142,7 +13142,7 @@ stylelint-prettier@^1.1.2:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-stylelint-rscss@0.4.0:
+stylelint-rscss@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/stylelint-rscss/-/stylelint-rscss-0.4.0.tgz#ea77c478e1c703dbda878c00f53bbc002b2d07b7"
   integrity sha1-6nfEeOHHA9vah4wA9Tu8ACstB7c=

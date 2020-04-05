@@ -2,7 +2,6 @@ import "cross-fetch/polyfill";
 import encode from "form-urlencoded";
 import { AsyncTokenStorage, Token, TokenStorage } from "./TokenStorage";
 
-declare var require: any;
 let serialize: (str: string) => string;
 if (typeof btoa === "undefined") {
     const Buffer = require("buffer").Buffer;
@@ -26,25 +25,27 @@ export interface LoginNetworkError {
 
 export type LoginResult = LoginSuccess | LoginFailure | LoginNetworkError;
 
-export interface LoginManager extends BaseLoginManager<TokenStorage> { }
+export interface LoginManager extends BaseLoginManager<TokenStorage> {}
 
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private callbacks: ((isSignedIn: boolean) => void)[] = [];
     private refreshTokenCallbacks: ((success: boolean) => void)[] = [];
     private isRefreshingToken: boolean = false;
 
+    /* eslint-disable-next-line max-params */
     constructor(
         protected storage: TStorage,
         private endpoint: string,
         private clientSecret: string | undefined,
         private clientId: string,
         private scopes: string,
-        private additionalParams?: any) {
+        private additionalParams?: any,
+    ) {
         if (!clientSecret) {
             this.additionalParams = {
                 ...additionalParams,
-                "client_id": clientId,
-            }
+                client_id: clientId,
+            };
         }
     }
 
@@ -63,7 +64,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     public async tryRefreshToken() {
-        let token = await this.storage.getToken();
+        const token = await this.storage.getToken();
         if (token !== null) {
             return await this.tryRefreshTokenInternal(token);
         } else {
@@ -91,7 +92,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     public removeOnChange(callback: () => void) {
-        let idx = this.callbacks.indexOf(callback);
+        const idx = this.callbacks.indexOf(callback);
         if (idx !== -1) {
             this.callbacks.splice(idx, 1);
         }
@@ -99,7 +100,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     private async acquireToken(init: RequestInit): Promise<LoginResult> {
         try {
-            let result = await fetch(this.endpoint + "/connect/token", init);
+            const result = await fetch(this.endpoint + "/connect/token", init);
             if (!result.ok) {
                 if (result.status === 400) {
                     await this.signOut();
@@ -107,12 +108,12 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
                 return { type: "failure" };
             }
 
-            let tokenResult = await result.json();
+            const tokenResult = await result.json();
 
-            let expDate = new Date();
+            const expDate = new Date();
             expDate.setSeconds(new Date().getSeconds() + tokenResult.expires_in);
 
-            const token = await this.storage.storeToken({
+            await this.storage.storeToken({
                 token: tokenResult.access_token,
                 refreshToken: tokenResult.refresh_token,
                 expirationDate: expDate,
@@ -134,8 +135,13 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             password: password,
             ...this.additionalParams,
         };
-
-        let params = encode(data);
+        if (this.additionalParams) {
+            data = {
+                ...this.additionalParams,
+                ...data,
+            };
+        }
+        const params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
@@ -150,8 +156,13 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             assertion: accessToken,
             ...this.additionalParams,
         };
-
-        let params = encode(data);
+        if (this.additionalParams) {
+            data = {
+                ...this.additionalParams,
+                ...data,
+            };
+        }
+        const params = encode(data);
         return {
             method: "POST",
             headers: this.prepareHeaders(),
@@ -160,7 +171,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     private buildRefreshRequest(token: Token) {
-        let params = encode({
+        const params = encode({
             grant_type: "refresh_token",
             scope: this.scopes,
             refresh_token: token.refreshToken || "",
@@ -175,9 +186,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     private prepareHeaders() {
-        let headers = new Headers();
+        const headers = new Headers();
         if (this.clientSecret) {
-            let sec = serialize(this.clientId + ":" + this.clientSecret);
+            const sec = serialize(this.clientId + ":" + this.clientSecret);
             headers.append("Authorization", "Basic " + sec);
         }
 
@@ -186,7 +197,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     protected notify(isSignedIn: boolean) {
-        for (let c of this.callbacks) {
+        for (const c of this.callbacks) {
             c(isSignedIn);
         }
     }

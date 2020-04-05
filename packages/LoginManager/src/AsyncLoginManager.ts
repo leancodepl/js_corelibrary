@@ -14,7 +14,7 @@ export class AsyncLoginManager extends BaseLoginManager<AsyncTokenStorage> imple
     }
 
     public async getToken() {
-        let token = await this.storage.getToken();
+        const token = await this.storage.getToken();
         if (token === null) {
             return null;
         }
@@ -27,7 +27,7 @@ export class AsyncLoginManager extends BaseLoginManager<AsyncTokenStorage> imple
     }
 
     public async load() {
-        let isSignedIn = await this.isSigned();
+        const isSignedIn = await this.isSigned();
         this.notify(isSignedIn);
     }
 }

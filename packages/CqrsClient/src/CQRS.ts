@@ -71,8 +71,8 @@ export class CQRS {
     }
 
     private async makeRequest(url: string, dto: any, firstRequest: boolean): Promise<any> {
-        let init = await this.prepareRequest(dto);
-        let result = await fetch(url, init);
+        const init = await this.prepareRequest(dto);
+        const result = await fetch(url, init);
 
         // 422 UnprocessableEntity means that command validation failed
         if (!result.ok && result.status !== 422) {
@@ -112,11 +112,11 @@ export class CQRS {
     }
 
     private async prepareRequest(dto: any): Promise<RequestInit> {
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append("Content-Type", "application/json");
 
         if (this.loginManager && (await this.loginManager.isSigned())) {
-            let token = await this.loginManager.getToken();
+            const token = await this.loginManager.getToken();
             headers.append("Authorization", "Bearer " + token);
         }
 

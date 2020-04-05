@@ -4,11 +4,11 @@ import { StatsWriterPlugin } from "webpack-stats-plugin";
 
 export default function appConfig<TInCtx extends EnvironmentContext>(filename: string): Configure<TInCtx, TInCtx> {
     function transformStats(data: any) {
-        let fields: any[] = [];
-        let assets: any = {};
+        const fields: any[] = [];
+        const assets: any = {};
 
-        for (let entrypoint in data.entrypoints) {
-            for (let asset of data.entrypoints[entrypoint].assets) {
+        for (const entrypoint in data.entrypoints) {
+            for (const asset of data.entrypoints[entrypoint].assets) {
                 fields.push(asset);
                 assets[asset] = data.assets.find(a => a.name === asset).size;
             }
