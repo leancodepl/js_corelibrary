@@ -35,11 +35,7 @@ const paths = (() => {
 
 function babelLoaders<TInCtx extends BabelContext>(): Configure<TInCtx, TInCtx> {
     return ctx => {
-        const classPropertiesIndex = ctx.babelPlugins.indexOf("@babel/plugin-proposal-class-properties");
-
-        if (classPropertiesIndex >= 0) {
-            ctx.babelPlugins[classPropertiesIndex] = ["@babel/plugin-proposal-class-properties", { loose: true }];
-        }
+        ctx.babelPlugins.push(["react-intl", { additionalComponentNames: ["Localize"] }]);
 
         return ctx;
     };

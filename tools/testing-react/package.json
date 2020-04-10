@@ -1,6 +1,6 @@
 {
   "name": "@leancode/tools-testing-react",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "author": "LeanCode",
   "license": "ISC",
   "private": true,
@@ -11,8 +11,8 @@
     "leancode"
   ],
   "dependencies": {
-    "@testing-library/jest-dom": "5.1.1",
-    "@testing-library/react": "9.4.1",
+    "@testing-library/jest-dom": "5.5.0",
+    "@testing-library/react": "10.0.2",
     "@testing-library/react-hooks": "3.2.1",
     "react-test-renderer": "16.13.1"
   }

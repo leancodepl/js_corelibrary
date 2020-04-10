@@ -35,8 +35,8 @@ declare global {
 
 export default function mkI18n<
     TSupportedLocale extends string,
-    TDefaultLocale extends TSupportedLocale,
-    TTerm extends string
+    TTerm extends string,
+    TDefaultLocale extends TSupportedLocale = TSupportedLocale
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
         id?: TTerm | number;
@@ -49,7 +49,10 @@ export default function mkI18n<
         formatMessage(descriptor: StronglyTypedMessageDescriptor, values?: Record<string, PrimitiveType>): string;
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | React.ReactElement | FormatXMLElementFn>,
+            values?: Record<
+                string,
+                PrimitiveType | React.ReactElement | FormatXMLElementFn<React.ReactNode, ReactNode>
+            >,
         ): string | React.ReactNodeArray;
         formatHTMLMessage(
             descriptor: StronglyTypedMessageDescriptor,
@@ -77,7 +80,7 @@ export default function mkI18n<
         intl: intlInstance,
         Provider({ children }: { children?: ReactNode }) {
             const [currentLocale, setCurrentLocale] = useState<TSupportedLocale>(
-                () => window.currentLocale! as TSupportedLocale,
+                () => window.currentLocale! as TSupportedLocale, // eslint-disable-line @typescript-eslint/no-non-null-assertion
             );
 
             const currentLocaleRef = useRef(currentLocale);

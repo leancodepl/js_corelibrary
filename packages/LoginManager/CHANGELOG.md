@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.3.0"></a>
+# [4.3.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.2.0&sourceBranch=refs%2Ftags%2Fv4.3.0) (2020-04-10)
+
+
+### Features
+
+* **eslint-config:** iterate linters config ([88dac1f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/88dac1f))
+* **login-manager:** Do not require client secret to be used in auth request, pass client id in form data in that case ([51b4a69](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/51b4a69))
+
+
+
+
+
 <a name="4.2.0"></a>
 # [4.2.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.1.2&sourceBranch=refs%2Ftags%2Fv4.2.0) (2020-03-06)
 

@@ -90,10 +90,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
             const addClasses: StyledReturn<Tag> = <TStyledData = undefined>(
                 ...classes: ParameterType<TKeys, TStyledData>[]
             ): StyledComponent<PropsOf<Tag>, TStyledData> => {
-                const parsedClasses = classes
-                    .map(mapClassesToString)
-                    .filter(Boolean)
-                    .join(" ");
+                const parsedClasses = classes.map(mapClassesToString).filter(Boolean).join(" ");
 
                 const parsedFunctions = classes.filter(
                     (c): c is ParameterFunction<TKeys, TStyledData> => c instanceof Function,
@@ -145,7 +142,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
                 },
             });
         } else {
-            for (let styledIntrinsic of intrinsics) {
+            for (const styledIntrinsic of intrinsics) {
                 (styled as any)[styledIntrinsic] = styled(styledIntrinsic);
             }
         }

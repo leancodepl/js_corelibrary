@@ -65,3 +65,5 @@ typings/
 packages/**/lib
 
 test-results/
+
+sample-app/deploy

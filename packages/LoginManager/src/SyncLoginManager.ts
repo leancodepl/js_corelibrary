@@ -14,7 +14,7 @@ export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> impleme
     }
 
     public async getToken() {
-        let token = this.storage.getToken();
+        const token = this.storage.getToken();
         if (token === null) {
             return null;
         }

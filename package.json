@@ -8,10 +8,8 @@
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-lerna-scopes": "8.3.4",
-    "@leancode/linting": "4.2.0",
-    "@leancode/tools-testing": "4.2.0",
     "conventional-changelog-angular-bitbucket": "1.2.0",
-    "husky": "4.2.3",
+    "husky": "4.2.5",
     "lerna": "3.20.2"
   },
   "husky": {
@@ -25,5 +23,9 @@
     "packages/Linters/*",
     "tools/*",
     "sample-app"
-  ]
+  ],
+  "resolutions": {
+    "@types/node": "12.12.34",
+    "stylelint": "13.3.1"
+  }
 }

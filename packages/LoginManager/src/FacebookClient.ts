@@ -12,9 +12,8 @@ export class FacebookClient {
     }
 
     public setup(loginCallback?: (accessToken: string) => Promise<void>): void {
-        let js,
-            ref = document.getElementsByTagName("script")[0];
-        let id = "facebook-jssdk";
+        const ref = document.getElementsByTagName("script")[0];
+        const id = "facebook-jssdk";
 
         if (document.getElementById(id)) {
             this.initializeSDK();
@@ -22,7 +21,7 @@ export class FacebookClient {
             return;
         }
 
-        js = document.createElement("script");
+        const js = document.createElement("script");
         js.id = id;
         js.async = true;
         js.src = "//connect.facebook.net/pl_PL/sdk.js";

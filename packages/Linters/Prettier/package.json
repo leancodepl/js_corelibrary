@@ -1,6 +1,6 @@
 {
   "name": "@leancode/prettier-config",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.json",
@@ -11,6 +11,6 @@
     "lib"
   ],
   "dependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.4"
   }
 }
