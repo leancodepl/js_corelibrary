@@ -22,7 +22,7 @@ pipelines:
             - packages/Linters/*/lib/**
             - packages/Build/*/lib/**
       - step:
-          name: Publish to MyGet
+          name: Publish
           trigger: manual
           deployment: production
           script:
