@@ -49,7 +49,10 @@ export default function mkI18n<
         formatMessage(descriptor: StronglyTypedMessageDescriptor, values?: Record<string, PrimitiveType>): string;
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | React.ReactElement | FormatXMLElementFn>,
+            values?: Record<
+                string,
+                PrimitiveType | React.ReactElement | FormatXMLElementFn<React.ReactNode, ReactNode>
+            >,
         ): string | React.ReactNodeArray;
         formatHTMLMessage(
             descriptor: StronglyTypedMessageDescriptor,

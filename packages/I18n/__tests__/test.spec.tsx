@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, render, wait, waitForElement } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import mkI18n from "../src";
@@ -19,7 +19,7 @@ describe("i18n", () => {
             "en",
         );
 
-        const { getByTestId, container } = render(
+        const { findByTestId } = render(
             <Provider>
                 <div data-testid="test">
                     <Localize id="test.key" />
@@ -27,7 +27,7 @@ describe("i18n", () => {
             </Provider>,
         );
 
-        const message = await waitForElement(() => getByTestId("test"), { container });
+        const message = await findByTestId("test");
 
         expect(message.textContent).toBe("I18n is awesome");
     });
@@ -41,17 +41,17 @@ describe("i18n", () => {
             "en",
         );
 
-        const { getByText, container } = render(
+        const { findByText } = render(
             <Provider>
                 <Localize id="test.key" />
             </Provider>,
         );
 
-        await waitForElement(() => getByText("I18n is awesome"), { container });
+        await findByText("I18n is awesome");
 
         act(() => changeLocale("pl"));
 
-        await waitForElement(() => getByText("I18n jest super"), { container });
+        await findByText("I18n jest super");
     });
 
     it("formats localized message using hooks", async () => {
@@ -82,7 +82,7 @@ describe("i18n", () => {
 
         render(<Provider />); // Provider needs to be mounted in order to manage localization
 
-        await wait(() => {
+        await waitFor(() => {
             if (intl.current === undefined) throw new Error();
         });
 
