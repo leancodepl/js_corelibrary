@@ -31,6 +31,6 @@
     "@leancode/tools-rollup": "4.2.0",
     "@leancode/tools-testing": "4.2.0",
     "@types/facebook-js-sdk": "^3.3.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   }
 }

@@ -12,7 +12,7 @@
     "@leancode/prettier-config": "4.2.0",
     "@leancode/tools-testing": "4.2.0",
     "conventional-changelog-angular-bitbucket": "1.2.0",
-    "husky": "4.2.3",
+    "husky": "4.2.5",
     "lerna": "3.20.2"
   },
   "husky": {
@@ -29,6 +29,6 @@
   ],
   "resolutions": {
     "@types/node": "12.12.34",
-    "stylelint": "13.3.0"
+    "stylelint": "13.3.1"
   }
 }
