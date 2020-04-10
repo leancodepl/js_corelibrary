@@ -5,7 +5,7 @@
   "command": {
     "publish": {
       "noVerifyAccess": true,
-      "registry": "http://localhost:4873"
+      "registry": "https://f.feedz.io/leancode/corelibrary/npm"
     },
     "version": {
       "message": "chore(release): %s",

@@ -30,7 +30,8 @@ pipelines:
           trigger: manual
           deployment: production
           script:
-            - yarn install --frozen-lockfile
-            - yarn lerna publish from-git --no-verify-access --yes
+            - yarn config set //https://f.feedz.io/leancode/corelibrary/npm/:_authToken ${NPM_TOKEN}
+            - yarn install --frozen-lockfile --verbose
+            - yarn lerna publish from-git --yes
           caches:
             - node
