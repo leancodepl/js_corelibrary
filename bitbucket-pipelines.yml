@@ -8,6 +8,8 @@ pipelines:
           - yarn install --frozen-lockfile
           - yarn test
           - yarn lerna run build
+        caches:
+          - node
 
   tags:
     v*:
@@ -21,9 +23,14 @@ pipelines:
             - packages/*/lib/**
             - packages/Linters/*/lib/**
             - packages/Build/*/lib/**
+          caches:
+            - node
       - step:
           name: Publish
           trigger: manual
           deployment: production
           script:
+            - yarn install --frozen-lockfile
             - yarn lerna publish from-git --no-verify-access --yes
+          caches:
+            - node
