@@ -1,0 +1,29 @@
+{
+  "name": "@leancode/cx",
+  "version": "4.2.0",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "classnames",
+    "cx",
+    "leancode"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "leancode-rollup",
+    "watch": "tsc -w --noEmit"
+  },
+  "devDependencies": {
+    "@leancode/tools-rollup": "4.2.0",
+    "typescript": "^3.7.5"
+  }
+}

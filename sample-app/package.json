@@ -1,0 +1,47 @@
+{
+  "name": "@leancode/sample-app",
+  "version": "4.2.0",
+  "description": "Sample app demonstrating use of libs",
+  "author": "LeanCode",
+  "license": "ISC",
+  "private": true,
+  "keywords": [
+    "leancode",
+    "sample",
+    "react",
+    "mobx"
+  ],
+  "scripts": {
+    "start": "cross-env TS_NODE_PROJECT=./config/tsconfig.json webpack-dev-server --mode=development --config ./config/webpack.config.ts",
+    "fmt:stylelint": "stylelint --fix src/**/*.{scss,css}",
+    "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
+  },
+  "dependencies": {
+    "@leancode/cx": "4.2.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "@leancode/build-app-config": "4.2.0",
+    "@leancode/build-base": "4.2.0",
+    "@leancode/build-css": "4.2.0",
+    "@leancode/build-dev-server": "4.2.0",
+    "@leancode/build-html": "4.2.0",
+    "@leancode/build-sass": "4.2.0",
+    "@leancode/build-static-files": "4.2.0",
+    "@leancode/build-svg": "4.2.0",
+    "@leancode/build-typescript": "4.2.0",
+    "@leancode/prettier-config": "4.2.0",
+    "@leancode/eslint-config": "4.2.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "16.9.32",
+    "cross-env": "7.0.1",
+    "dotenv": "8.2.0",
+    "stylelint-rscss": "0.4.0",
+    "ts-node": "8.8.2",
+    "typescript": "3.7.5",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
+  }
+}

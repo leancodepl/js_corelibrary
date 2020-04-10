@@ -11,9 +11,6 @@
     "cqrs",
     "leancode"
   ],
-  "publishConfig": {
-    "registry": "https://www.myget.org/F/leancode/npm/"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,14 +19,15 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/login-manager": "^4.2.0",
+    "@leancode/login-manager": "4.2.0",
     "cross-fetch": "^3.0.4"
   },
   "devDependencies": {
-    "typescript": "~3.7.5"
+    "@leancode/tools-rollup": "4.2.0",
+    "typescript": "^3.7.5"
   }
 }

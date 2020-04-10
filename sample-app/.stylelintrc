@@ -1,0 +1,41 @@
+{
+  "extends": ["@leancode/stylelint-config/lib/scss", "stylelint-rscss/config"],
+  "rules": {
+    "rscss/no-descendant-combinator": false,
+
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+
+    "order/order": [
+      "custom-properties",
+      "dollar-variables",
+      {
+        "type": "at-rule",
+        "name": "extend"
+      },
+      {
+        "type": "at-rule",
+        "name": "include",
+        "hasBlock": false
+      },
+      {
+        "type": "at-rule",
+        "name": "mixin",
+        "hasBlock": false
+      },
+      "declarations",
+      {
+        "type": "at-rule",
+        "name": "include",
+        "hasBlock": true
+      },
+      {
+        "type": "at-rule",
+        "name": "mixin",
+        "hasBlock": true
+      },
+      "rules",
+      "at-rules"
+    ]
+  }
+}

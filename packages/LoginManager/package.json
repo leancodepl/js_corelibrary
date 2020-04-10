@@ -12,9 +12,6 @@
     "auth",
     "leancode"
   ],
-  "publishConfig": {
-    "registry": "https://www.myget.org/F/leancode/npm/"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -23,7 +20,7 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
@@ -31,7 +28,9 @@
     "form-urlencoded": "^4.1.1"
   },
   "devDependencies": {
-    "@types/facebook-js-sdk": "3.3.0",
-    "typescript": "~3.7.5"
+    "@leancode/tools-rollup": "4.2.0",
+    "@leancode/tools-testing": "4.2.0",
+    "@types/facebook-js-sdk": "^3.3.0",
+    "typescript": "^3.7.5"
   }
 }

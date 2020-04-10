@@ -6,9 +6,6 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "publishConfig": {
-    "registry": "https://www.myget.org/F/leancode/npm/"
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,19 +14,21 @@
     "lib"
   ],
   "scripts": {
-    "prepare": "rollup -c=../../../rollup.config.js",
+    "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
-  },
-  "peerDependencies": {
-    "webpack": "^4.0.0"
   },
   "dependencies": {
     "@leancode/build-base": "^4.2.0",
     "file-loader": "^5.0.2",
     "svg-react-loader": "^0.4.6",
+    "svgo": "^1.3.2",
     "svgo-loader": "^2.2.1"
   },
   "devDependencies": {
-    "typescript": "~3.7.5"
+    "@leancode/tools-rollup": "4.2.0",
+    "webpack": "^4.0.0"
+  },
+  "peerDependencies": {
+    "webpack": "^4.0.0"
   }
 }
