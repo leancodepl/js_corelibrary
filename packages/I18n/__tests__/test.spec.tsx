@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { act, render } from "@testing-library/react";
+import { act, render, wait } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import mkI18n from "../src";
@@ -82,7 +82,7 @@ describe("i18n", () => {
 
         render(<Provider />); // Provider needs to be mounted in order to manage localization
 
-        await waitFor(() => {
+        await wait(() => {
             if (intl.current === undefined) throw new Error();
         });
 
