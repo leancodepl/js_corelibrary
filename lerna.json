@@ -1,5 +1,5 @@
 {
-  "version": "4.2.0",
+  "version": "4.3.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
@@ -9,7 +9,11 @@
     },
     "version": {
       "message": "chore(release): %s",
-      "ignoreChanges": ["**/__tests__/**", "**/*.md", "**/jest.config.js"],
+      "ignoreChanges": [
+        "**/__tests__/**",
+        "**/*.md",
+        "**/jest.config.js"
+      ],
       "conventionalCommits": true,
       "changelogPreset": "angular-bitbucket"
     }
