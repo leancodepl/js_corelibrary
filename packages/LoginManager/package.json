@@ -1,6 +1,6 @@
 {
   "name": "@leancode/login-manager",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "Login manager",
   "author": "LeanCode",
   "license": "ISC",
@@ -28,8 +28,8 @@
     "form-urlencoded": "^4.1.1"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^4.3.0",
-    "@leancode/tools-testing": "^4.3.0",
+    "@leancode/tools-rollup": "^4.3.1",
+    "@leancode/tools-testing": "^4.3.1",
     "@types/facebook-js-sdk": "^3.3.0",
     "typescript": "^3.8.3"
   }
