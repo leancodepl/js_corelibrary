@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.3.1"></a>
+## [4.3.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.3.0&sourceBranch=refs%2Ftags%2Fv4.3.1) (2020-04-20)
+
+
+### Bug Fixes
+
+* change tsconfig target to cope with jest properly ([fcf85d2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/fcf85d2))
+* **login-manager:** fix the same bug in `SyncLoginManager` ([5d648b2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/5d648b2))
+* **login-manager:** fix token refresh flow in `AsyncLoginManager` ([c8ca540](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/c8ca540))
+* **login-manager:** fix types in fixed `getToken`s ([68a4a2c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/68a4a2c))
+
+
+
+
+
 <a name="4.3.0"></a>
 # [4.3.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.2.0&sourceBranch=refs%2Ftags%2Fv4.3.0) (2020-04-10)
 
