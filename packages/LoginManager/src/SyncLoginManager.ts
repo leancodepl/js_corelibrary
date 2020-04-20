@@ -19,7 +19,7 @@ export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> impleme
             return null;
         } else if (token.expirationDate < new Date()) {
             if (await this.tryRefreshTokenInternal(token)) {
-                return (this.storage.getToken())?.token || null;
+                return this.storage.getToken()?.token ?? null;
             } else {
                 throw new CannotRefreshToken("Cannot refresh access token after it has expired");
             }

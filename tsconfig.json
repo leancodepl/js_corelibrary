@@ -8,7 +8,7 @@
     "removeComments": true,
     "strictNullChecks": true,
     "noLib": false,
-    "target": "ESNext",
+    "target": "ES2019",
     "sourceMap": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
