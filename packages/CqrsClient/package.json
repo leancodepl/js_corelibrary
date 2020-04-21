@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@leancode/login-manager": "^4.3.1",
-    "cross-fetch": "^3.0.4"
+    "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^4.3.1",
