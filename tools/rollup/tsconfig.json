@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "rootDir": "bin",
+    "outDir": "./unused",
+    "types": ["node"],
+    "lib": ["es6"]
+  },
+  "include": ["./bin"]
+}

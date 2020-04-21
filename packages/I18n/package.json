@@ -1,6 +1,6 @@
 {
   "name": "@leancode/i18n",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "description": "Internationalization helpers for React apps",
   "author": "LeanCode",
   "license": "ISC",
@@ -27,9 +27,9 @@
     "react-intl": "^4.3.1"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^4.3.1",
-    "@leancode/tools-testing": "^4.3.1",
-    "@leancode/tools-testing-react": "^4.3.1",
+    "@leancode/tools-rollup": "^4.3.2",
+    "@leancode/tools-testing": "^4.3.2",
+    "@leancode/tools-testing-react": "^4.3.2",
     "@types/react": "^16.9.0",
     "react": "^16.10.0",
     "typescript": "^3.8.3"

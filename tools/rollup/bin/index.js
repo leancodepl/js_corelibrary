@@ -6,9 +6,10 @@ const path = require("path");
 const fs = require("fs");
 const rollup = require("rollup");
 
+/** @type {{ format: rollup.InternalModuleFormat, target: string, name: string | undefined  }[]} */
 const formats = [
     { format: "umd", target: "es5", name: undefined },
-    { format: "esm", target: "esnext", name: "esm" },
+    { format: "es", target: "es2019", name: "esm" },
 ];
 
 const packageRootPath = process.cwd();
@@ -20,8 +21,7 @@ const tsconfigFile = path.join(packageRootPath, "tsconfig.json");
 const outputDir = path.join(packageRootPath, "lib");
 const packageJsonFile = require(path.join(packageRootPath, "package.json"));
 
-/** @type {[rollup.RollupOptions, rollup.OutputOptions][]} */
-
+/** @type {rollup.RollupOptions[]} */
 const config = formats.map(format => ({
     plugins: [
         typescript({
@@ -48,8 +48,25 @@ const config = formats.map(format => ({
 
 (async () => {
     for (const options of config) {
-        const bundle = await rollup.rollup(options);
+        try {
+            const bundle = await rollup.rollup(options);
 
-        await bundle.write(options.output);
+            /** @type {rollup.OutputOptions[]} */
+            let outputOptions = [];
+
+            if (options.output) {
+                if (Array.isArray(options.output)) {
+                    outputOptions = options.output;
+                } else {
+                    outputOptions = [options.output];
+                }
+            }
+
+            for (const outputOption of outputOptions) {
+                await bundle.write(outputOption);
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 })();

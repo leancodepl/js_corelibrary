@@ -1,5 +1,5 @@
 import { CannotRefreshToken, LoginManager } from "@leancode/login-manager";
-import "cross-fetch/polyfill";
+import "whatwg-fetch";
 import { ApiResponse, CommandResult, IRemoteCommand, IRemoteQuery } from "./ClientType";
 
 export class MalformedRequest extends Error {

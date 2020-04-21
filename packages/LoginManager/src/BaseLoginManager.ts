@@ -1,5 +1,5 @@
-import "cross-fetch/polyfill";
 import encode from "form-urlencoded";
+import "whatwg-fetch";
 import { AsyncTokenStorage, Token, TokenStorage } from "./TokenStorage";
 
 let serialize: (str: string) => string;

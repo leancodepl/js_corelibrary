@@ -1,4 +1,3 @@
-import "cross-fetch/polyfill";
 import { BaseLoginManager, LoginManager } from "./BaseLoginManager";
 import { CannotRefreshToken } from "./CannotRefreshToken";
 import { AsyncTokenStorage } from "./TokenStorage";
