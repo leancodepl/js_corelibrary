@@ -20,6 +20,7 @@
   "dependencies": {
     "@leancode/cx": "^4.3.1",
     "@leancode/i18n": "^4.3.1",
+    "@leancode/login-manager": "^4.3.1",
     "react": "16.13.1",
     "react-dom": "16.13.1"
   },

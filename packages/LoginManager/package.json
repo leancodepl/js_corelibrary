@@ -24,8 +24,8 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "cross-fetch": "^3.0.4",
-    "form-urlencoded": "^4.1.1"
+    "form-urlencoded": "^4.1.1",
+    "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^4.3.1",
