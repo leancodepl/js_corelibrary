@@ -1,0 +1,72 @@
+export type ValidationError<
+    TErrorCodes extends {
+        [name: string]: number;
+    }
+> = {
+    ErrorCode: TErrorCodes[keyof TErrorCodes];
+};
+
+type ReducerDescription<THandlerResult, TReturnValue = THandlerResult> = {
+    reducer: (prev: TReturnValue, cur: THandlerResult) => TReturnValue;
+    initialValue: TReturnValue;
+};
+
+export type ValidationErrorsHandlerFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
+    <THandledErrors extends keyof TErrorsToHandle, TResult>(
+        validationErrors: THandledErrors | THandledErrors[],
+        handler: (error: THandledErrors) => TResult,
+    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
+};
+
+export interface ValidationErrorsHandler<TRemainingErrors extends Record<string, number>, TResult> {
+    handle: ValidationErrorsHandlerFunc<TRemainingErrors, TResult>;
+    check: {} extends TRemainingErrors
+        ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
+        : never;
+}
+
+export default function handleValidationErrors<TAllErrors extends Record<string, number>, TInResult = never>(
+    validationErrors: ValidationError<TAllErrors>[],
+    command: { ErrorCodes: TAllErrors },
+    validationResults: TInResult[] = [],
+): ValidationErrorsHandler<TAllErrors, TInResult> {
+    const handle: ValidationErrorsHandlerFunc<TAllErrors, TInResult> = <
+        THandledErrors extends keyof TAllErrors,
+        TResult
+    >(
+        validationErrorsToHandle: THandledErrors | THandledErrors[],
+        handler: (error: THandledErrors) => TResult,
+    ) => {
+        let result: TResult | undefined = undefined;
+
+        for (const validationErrorToHandle of Array.isArray(validationErrorsToHandle)
+            ? validationErrorsToHandle
+            : [validationErrorsToHandle]) {
+            if (validationErrors.some(ve => ve.ErrorCode === command.ErrorCodes[validationErrorToHandle])) {
+                result = handler(validationErrorToHandle);
+                break;
+            }
+        }
+
+        let nextResult: (TInResult | TResult)[] = validationResults;
+
+        if (result !== undefined) {
+            nextResult = [...nextResult, result];
+        }
+
+        return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
+            validationErrors as any,
+            command,
+            nextResult,
+        );
+    };
+
+    return {
+        handle,
+        check: (<TReturnValue>(reducer?: ReducerDescription<TInResult, TReturnValue>) => {
+            if (reducer) {
+                return validationResults.reduce(reducer.reducer, reducer.initialValue);
+            }
+        }) as any,
+    };
+}

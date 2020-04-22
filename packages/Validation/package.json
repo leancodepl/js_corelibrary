@@ -1,0 +1,27 @@
+{
+  "name": "@leancode/validation",
+  "version": "4.3.2",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "validation",
+    "leancode"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "leancode-rollup"
+  },
+  "devDependencies": {
+    "@leancode/tools-rollup": "^4.3.2",
+    "typescript": "^3.8.3"
+  }
+}
