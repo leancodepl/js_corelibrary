@@ -1,15 +1,13 @@
 {
-  "name": "@leancode/login-manager",
+  "name": "@leancode/validation",
   "version": "4.4.0",
-  "description": "Login manager",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "keywords": [
-    "login",
-    "auth",
+    "validation",
     "leancode"
   ],
   "directories": {
@@ -20,17 +18,10 @@
     "lib"
   ],
   "scripts": {
-    "build": "leancode-rollup",
-    "watch": "tsc -w --noEmit"
-  },
-  "dependencies": {
-    "form-urlencoded": "^4.1.1",
-    "whatwg-fetch": "3.0.0"
+    "build": "leancode-rollup"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^4.4.0",
-    "@leancode/tools-testing": "^4.4.0",
-    "@types/facebook-js-sdk": "^3.3.0",
     "typescript": "^3.8.3"
   }
 }
