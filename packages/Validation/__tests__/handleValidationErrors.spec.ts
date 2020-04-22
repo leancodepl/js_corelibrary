@@ -30,14 +30,18 @@ describe("handleValidationErrors", () => {
 
     it("calls single validation handler if there is single error", () => {
         const handleError1 = sinon.spy(emptyHandler);
+        const handleError2 = sinon.spy(emptyHandler);
+        const handleError3 = sinon.spy(emptyHandler);
 
         handleValidationErrors([{ ErrorCode: 1 }], commandUnderTest)
             .handle("Error1", handleError1)
-            .handle("Error2", emptyHandler)
-            .handle("Error3", emptyHandler)
+            .handle("Error2", handleError2)
+            .handle("Error3", handleError3)
             .check();
 
         expect(handleError1.called).toBeTruthy();
+        expect(handleError2.called).toBeFalsy();
+        expect(handleError3.called).toBeFalsy();
     });
 
     it("calls multiple validation handlers if there are multiple errors", () => {
