@@ -11,21 +11,21 @@ type ReducerDescription<THandlerResult, TReturnValue = THandlerResult> = {
     initialValue: TReturnValue;
 };
 
-export type ValidationErrorsHandlerFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
+export type ValidationErrorsHandlerFunc<TErrorsToHandle extends { [name: string]: number }, TInResult> = {
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
         validationErrors: THandledErrors | THandledErrors[],
         handler: (error: THandledErrors) => TResult,
     ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
 };
 
-export interface ValidationErrorsHandler<TRemainingErrors extends Record<string, number>, TResult> {
+export interface ValidationErrorsHandler<TRemainingErrors extends { [name: string]: number }, TResult> {
     handle: ValidationErrorsHandlerFunc<TRemainingErrors, TResult>;
     check: {} extends TRemainingErrors
         ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
         : never;
 }
 
-export default function handleValidationErrors<TAllErrors extends Record<string, number>, TInResult = never>(
+export default function handleValidationErrors<TAllErrors extends { [name: string]: number }, TInResult = never>(
     validationErrors: ValidationError<TAllErrors>[],
     command: { ErrorCodes: TAllErrors },
     validationResults: TInResult[] = [],
