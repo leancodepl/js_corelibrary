@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-less",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,13 +18,13 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^4.4.0",
-    "@leancode/build-css": "^4.4.0",
+    "@leancode/build-base": "^4.4.1",
+    "@leancode/build-css": "^4.4.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^4.4.0",
+    "@leancode/tools-rollup": "^4.4.1",
     "@types/webpack": "^4.0.0",
     "webpack": "^4.0.0"
   },
