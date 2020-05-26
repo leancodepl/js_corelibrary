@@ -6,7 +6,7 @@ export type ValidationError<
     ErrorCode: TErrorCodes[keyof TErrorCodes];
 };
 
-type ReducerDescription<THandlerResult, TReturnValue = THandlerResult> = {
+export type ReducerDescription<THandlerResult, TReturnValue = THandlerResult> = {
     reducer: (prev: TReturnValue, cur: THandlerResult) => TReturnValue;
     initialValue: TReturnValue;
 };
@@ -22,7 +22,7 @@ export interface ValidationErrorsHandler<TRemainingErrors extends { [name: strin
     handle: ValidationErrorsHandlerFunc<TRemainingErrors, TResult>;
     check: {} extends TRemainingErrors
         ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
-        : never;
+        : unknown;
 }
 
 export default function handleValidationErrors<TAllErrors extends { [name: string]: number }, TInResult = never>(
