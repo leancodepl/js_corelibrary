@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
     parser: "@typescript-eslint/parser",
     plugins: ["@typescript-eslint", "prettier", "react-hooks"],
