@@ -1,5 +1,7 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
+import { CLIEngineOptions } from "fork-ts-checker-webpack-plugin/lib/eslint-reporter/types/eslint";
+import path from "path";
 import TsConfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 export interface BabelContext {
@@ -7,10 +9,18 @@ export interface BabelContext {
     babelPlugins: any[];
 }
 
-export default function typescript<TInCtx extends EnvironmentContext>(
-    tsConfig: string,
-    ...src: string[]
-): Configure<TInCtx, TInCtx & BabelContext> {
+export type TypeScriptConfig = {
+    tsConfig: string;
+    src: string[];
+    profile?: boolean;
+    eslintOptions?: CLIEngineOptions;
+};
+export default function typescript<TInCtx extends EnvironmentContext>({
+    tsConfig,
+    src,
+    profile,
+    eslintOptions,
+}: TypeScriptConfig): Configure<TInCtx, TInCtx & BabelContext> {
     return ctx => {
         ctx.config.plugins = ctx.config.plugins || [];
         ctx.config.module = ctx.config.module || { rules: [] };
@@ -21,16 +31,27 @@ export default function typescript<TInCtx extends EnvironmentContext>(
 
         ctx.config.plugins.push(
             new ForkTsCheckerPlugin({
-                checkSyntacticErrors: true,
-                tsconfig: tsConfig,
-                useTypescriptIncrementalApi: !ctx.isProduction,
+                eslint: {
+                    files: src.map(src => path.join(src, "**/*.{ts,tsx,js,jsx}")),
+                    options: eslintOptions,
+                },
+                typescript: {
+                    configFile: tsConfig,
+                    mode: "write-references",
+                    profile,
+                },
                 async: !ctx.isProduction,
             }),
         );
 
         const babelPresets: any[] = [
             require.resolve("@babel/preset-react"),
-            require.resolve("@babel/preset-typescript"),
+            [
+                require.resolve("@babel/preset-typescript"),
+                {
+                    onlyRemoveTypeImports: true,
+                },
+            ],
             [
                 require.resolve("@babel/preset-env"),
                 {
@@ -56,29 +77,21 @@ export default function typescript<TInCtx extends EnvironmentContext>(
             ],
         ];
 
-        ctx.config.module.rules.push(
-            {
-                test: /\.[jt]sx?$/,
-                enforce: "pre",
-                include: src,
-                loader: require.resolve("eslint-loader"),
-            },
-            {
-                test: /\.tsx?$/,
-                include: src,
-                use: [
-                    {
-                        loader: require.resolve("babel-loader"),
-                        options: {
-                            babelrc: false,
-                            sourceMaps: true,
-                            presets: babelPresets,
-                            plugins: babelPlugins,
-                        },
+        ctx.config.module.rules.push({
+            test: /\.tsx?$/,
+            include: src,
+            use: [
+                {
+                    loader: require.resolve("babel-loader"),
+                    options: {
+                        babelrc: false,
+                        sourceMaps: true,
+                        presets: babelPresets,
+                        plugins: babelPlugins,
                     },
-                ],
-            },
-        );
+                },
+            ],
+        });
 
         ctx.config.resolve.extensions.push(".ts", ".tsx");
         ctx.config.resolve.alias = {

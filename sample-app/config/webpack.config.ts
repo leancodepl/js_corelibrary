@@ -51,8 +51,11 @@ const config = applyConfig(
         template: paths.indexHtml,
     }),
     staticFiles(),
+    typescript({
+        tsConfig: paths.tsConfig,
+        src: [paths.src],
+    }),
 
-    typescript(paths.tsConfig, paths.src),
     babelLoaders(),
 
     css(),
