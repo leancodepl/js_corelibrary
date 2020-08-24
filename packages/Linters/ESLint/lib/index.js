@@ -36,6 +36,7 @@ module.exports = {
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
 
         "react/prop-types": "off",
         "react/display-name": "off",

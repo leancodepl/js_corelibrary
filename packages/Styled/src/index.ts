@@ -27,7 +27,7 @@ type StyledComponentElements<TInProps, TStyledData, TElements> = {
     elements: ElementsFn<TInProps, TStyledData, TElements>;
 } & TElements;
 
-type StyledComponent<TInProps, TStyledData = undefined, TElements = {}> = React.FunctionComponent<
+type StyledComponent<TInProps, TStyledData = undefined, TElements = unknown> = React.FunctionComponent<
     TInProps & StyleDataProp<TStyledData>
 > &
     StyledComponentElements<TInProps, TStyledData, TElements> &

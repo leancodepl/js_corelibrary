@@ -20,7 +20,7 @@ export type ValidationErrorsHandlerFunc<TErrorsToHandle extends { [name: string]
 
 export interface ValidationErrorsHandler<TRemainingErrors extends { [name: string]: number }, TResult> {
     handle: ValidationErrorsHandlerFunc<TRemainingErrors, TResult>;
-    check: {} extends TRemainingErrors
+    check: unknown extends TRemainingErrors
         ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
         : unknown;
 }

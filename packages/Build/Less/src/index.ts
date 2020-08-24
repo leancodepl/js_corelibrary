@@ -1,7 +1,10 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
 import { CssContext } from "@leancode/build-css";
+import { RuleSetQuery } from "webpack";
 
-export default function less<TInCtx extends CssContext & EnvironmentContext>(options?: {}): Configure<TInCtx, TInCtx> {
+export default function less<TInCtx extends CssContext & EnvironmentContext>(
+    options?: RuleSetQuery,
+): Configure<TInCtx, TInCtx> {
     return ctx => {
         ctx.config.module = ctx.config.module || { rules: [] };
 
