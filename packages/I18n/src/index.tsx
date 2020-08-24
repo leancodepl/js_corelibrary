@@ -40,7 +40,7 @@ export default function mkI18n<
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
         id?: TTerm | number;
-        description?: string | object;
+        description?: string;
         defaultMessage?: string;
     };
 

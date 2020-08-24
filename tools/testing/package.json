@@ -1,6 +1,6 @@
 {
   "name": "@leancode/tools-testing",
-  "version": "4.5.0",
+  "version": "5.0.0",
   "author": "LeanCode",
   "license": "ISC",
   "private": true,
@@ -10,12 +10,16 @@
     "leancode"
   ],
   "dependencies": {
-    "@types/jest": "^25.2.1",
-    "@types/sinon": "^9.0.0",
-    "jest": "^25.4.0",
-    "jest-junit": "^10.0.0",
-    "jest-runner-eslint": "^0.7.6",
-    "sinon": "^9.0.2",
-    "ts-jest": "^25.4.0"
+    "@types/jest": "^26.0.10",
+    "@types/sinon": "^9.0.5",
+    "jest": "^26.4.2",
+    "jest-junit": "^11.1.0",
+    "jest-runner-eslint": "^0.10.0",
+    "sinon": "^9.0.3",
+    "ts-jest": "^26.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "typescript": "^4.0.0"
   }
 }
