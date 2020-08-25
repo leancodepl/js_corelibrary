@@ -1,6 +1,6 @@
 {
   "name": "@leancode/validation",
-  "version": "5.0.0",
+  "version": "5.0.1-alpha.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",

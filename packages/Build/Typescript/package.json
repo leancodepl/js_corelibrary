@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-typescript",
-  "version": "5.0.1-alpha.0",
+  "version": "5.0.1-alpha.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",

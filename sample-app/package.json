@@ -1,6 +1,6 @@
 {
   "name": "@leancode/sample-app",
-  "version": "5.0.1-alpha.0",
+  "version": "5.0.1-alpha.1",
   "description": "Sample app demonstrating use of libs",
   "author": "LeanCode",
   "license": "ISC",
@@ -33,8 +33,8 @@
     "@leancode/build-sass": "^5.0.0",
     "@leancode/build-static-files": "^5.0.0",
     "@leancode/build-svg": "^5.0.0",
-    "@leancode/build-typescript": "^5.0.1-alpha.0",
-    "@leancode/eslint-config": "^5.0.1-alpha.0",
+    "@leancode/build-typescript": "^5.0.1-alpha.1",
+    "@leancode/eslint-config": "^5.0.1-alpha.1",
     "@leancode/prettier-config": "^5.0.0",
     "@types/node": "^12.0.0",
     "@types/react": "16.9.32",
