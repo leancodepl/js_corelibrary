@@ -92,6 +92,10 @@ export default function typescript<TInCtx extends EnvironmentContext>(
         }
         ctx.config.resolve.plugins.push(new TsConfigPathsPlugin({ configFile: tsConfig }));
 
+        if (!ctx.isProduction) {
+            ctx.config.devtool = "eval-source-map";
+        }
+
         return {
             ...ctx,
             babelPresets,
