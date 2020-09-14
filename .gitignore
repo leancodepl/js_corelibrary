@@ -67,3 +67,6 @@ packages/**/lib
 test-results/
 
 sample-app/deploy
+
+# OSX
+.DS_Store
