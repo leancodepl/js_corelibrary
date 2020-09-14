@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.0.1"></a>
+## [5.0.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.0.0&sourceBranch=refs%2Ftags%2Fv5.0.1) (2020-09-14)
+
+
+### Bug Fixes
+
+* tests ([a48ec0f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/a48ec0f))
+
+
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv4.5.0&sourceBranch=refs%2Ftags%2Fv5.0.0) (2020-08-24)
 
