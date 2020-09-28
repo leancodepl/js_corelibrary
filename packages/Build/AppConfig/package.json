@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-app-config",
-  "version": "5.0.1",
+  "version": "5.0.2-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,11 +18,11 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^5.0.1",
+    "@leancode/build-base": "^5.0.2-alpha.0",
     "html-webpack-tags-plugin": "^2.0.17"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.0.1"
+    "@leancode/tools-rollup": "^5.0.2-alpha.0"
   },
   "peerDependencies": {
     "webpack": "^4.0.0"

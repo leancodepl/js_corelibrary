@@ -1,6 +1,6 @@
 {
   "name": "@leancode/login-manager",
-  "version": "5.0.1",
+  "version": "5.0.2-alpha.0",
   "description": "Login manager",
   "author": "LeanCode",
   "license": "ISC",
@@ -28,8 +28,8 @@
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.0.1",
-    "@leancode/tools-testing": "^5.0.1",
+    "@leancode/tools-rollup": "^5.0.2-alpha.0",
+    "@leancode/tools-testing": "^5.0.2-alpha.0",
     "@types/facebook-js-sdk": "^3.3.0",
     "typescript": "^4.0.0"
   }
