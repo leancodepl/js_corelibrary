@@ -24,7 +24,7 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "react-intl": "^4.3.1"
+    "react-intl": "^5.8.3"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.0.1",

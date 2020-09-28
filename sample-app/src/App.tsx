@@ -10,7 +10,7 @@ const App: React.FunctionComponent = () => {
                 <Localize id="header.title" />
             </Container>
             <SplitComponent>
-                <SplitComponent.A>A implementation</SplitComponent.A>
+                <SplitComponent.A sampleProp="sample">A implementation</SplitComponent.A>
                 <SplitComponent.B>B implementation</SplitComponent.B>
                 <SplitComponent.C>C implementation</SplitComponent.C>
             </SplitComponent>

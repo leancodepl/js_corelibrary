@@ -12,8 +12,8 @@
   ],
   "dependencies": {
     "@testing-library/jest-dom": "5.11.4",
-    "@testing-library/react": "10.4.9",
-    "@testing-library/react-hooks": "3.4.1",
+    "@testing-library/react": "11.0.4",
+    "@testing-library/react-hooks": "3.4.2",
     "react-test-renderer": "16.13.1"
   },
   "devDependencies": {

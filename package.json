@@ -6,12 +6,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
-    "@commitlint/config-lerna-scopes": "8.3.4",
+    "@commitlint/cli": "11.0.0",
+    "@commitlint/config-conventional": "11.0.0",
+    "@commitlint/config-lerna-scopes": "11.0.0",
     "conventional-changelog-angular-bitbucket": "1.2.0",
-    "husky": "4.2.5",
-    "lerna": "3.20.2"
+    "husky": "4.3.0",
+    "lerna": "3.22.1"
   },
   "husky": {
     "hooks": {
@@ -27,6 +27,6 @@
   ],
   "resolutions": {
     "@types/node": "12.12.34",
-    "stylelint": "13.6.1"
+    "stylelint": "13.7.2"
   }
 }

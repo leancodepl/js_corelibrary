@@ -8,7 +8,7 @@ type PredicateToElementMap<T extends ComponentPredicate[]> = {
 
 export default function splitChildrenByPredicates<T extends ComponentPredicate[]>(...predicates: T) {
     return (children: ReactNode | ReactNode[]) => {
-        const buckets = new Array(predicates.length).map(() => [] as any[]) as [
+        const buckets = [...new Array(predicates.length)].map(() => [] as any[]) as [
             ...PredicateToElementMap<T>,
             ReactNode[],
         ];

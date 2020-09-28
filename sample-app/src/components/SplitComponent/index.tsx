@@ -5,7 +5,7 @@ import splitChildrenByTypes from "utils/composableChildren/splitChildrenByTypes"
 export type SplitComponentProps = {};
 
 const SplitComponent: React.FunctionComponent<SplitComponentProps> & {
-    A: MarkerComponent<{ sampleProp?: boolean }>;
+    A: MarkerComponent<{ sampleProp?: string }>;
     B: MarkerComponent;
     C: MarkerComponent;
 } = ({ children }) => {
