@@ -1,6 +1,6 @@
 {
   "name": "@leancode/cqrs-client",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
   "author": "LeanCode",
   "license": "ISC",
@@ -23,11 +23,11 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/login-manager": "^5.0.1",
+    "@leancode/login-manager": "^5.0.2",
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.0.1",
+    "@leancode/tools-rollup": "^5.0.2",
     "typescript": "^4.0.0"
   }
 }
