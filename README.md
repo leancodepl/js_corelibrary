@@ -26,4 +26,4 @@ $ npm config set always-auth true
 5. Once your CI build succeeds, the PR gets enough approvals and is overall ready to be merged, version the changes running `yarn lerna version`. See `yarn lerna version --help` for what kind of version bump suits your changes best. Lerna will version the packages, add a git tag and generate changelogs, and then push them to remote.
 6. The PR can be merged now (--no-ff)
 7. Once the PR is merged, build the packages before publishing `yarn lerna run build`
-8. Publish the packages `yarn lerna publish`
+8. Publish the packages `yarn lerna publish from-git`
