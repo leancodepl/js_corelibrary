@@ -2,19 +2,30 @@ import Container from "components/Container";
 import SplitComponent from "components/SplitComponent";
 import { I18nProvider, Localize } from "i18n";
 import React from "react";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import routes from "routes";
 
 const App: React.FunctionComponent = () => {
     return (
-        <I18nProvider>
-            <Container>
-                <Localize id="header.title" />
-            </Container>
-            <SplitComponent>
-                <SplitComponent.A sampleProp="sample">A implementation</SplitComponent.A>
-                <SplitComponent.B>B implementation</SplitComponent.B>
-                <SplitComponent.C>C implementation</SplitComponent.C>
-            </SplitComponent>
-        </I18nProvider>
+        <BrowserRouter>
+            <Switch>
+                <Route path={routes.home.pattern}>
+                    <Link to={routes.splitComponent()}>SplitComponent</Link>
+                </Route>
+                <Route path={routes.splitComponent.pattern}>
+                    <I18nProvider>
+                        <Container>
+                            <Localize id="header.title" />
+                        </Container>
+                        <SplitComponent>
+                            <SplitComponent.A sampleProp="sample">A implementation</SplitComponent.A>
+                            <SplitComponent.B>B implementation</SplitComponent.B>
+                            <SplitComponent.C>C implementation</SplitComponent.C>
+                        </SplitComponent>
+                    </I18nProvider>
+                </Route>
+            </Switch>
+        </BrowserRouter>
     );
 };
 

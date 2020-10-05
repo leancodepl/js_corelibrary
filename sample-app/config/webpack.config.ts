@@ -3,6 +3,7 @@ import { applyConfig, Configure, deploy, entrypoint, environment, optimizations 
 import css from "@leancode/build-css";
 import devServer from "@leancode/build-dev-server";
 import html from "@leancode/build-html";
+import less from "@leancode/build-less";
 import sass from "@leancode/build-sass";
 import staticFiles from "@leancode/build-static-files";
 import svg from "@leancode/build-svg";
@@ -60,6 +61,7 @@ const config = applyConfig(
 
     css(),
     sass([path.join(paths.styles, "_variables.scss")]),
+    less(),
     svg(),
 
     appConfig(paths.config),
