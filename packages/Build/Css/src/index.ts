@@ -79,8 +79,9 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
             {
                 loader: "postcss-loader",
                 options: {
-                    ident: "postcss",
-                    plugins: () => [require("autoprefixer"), ...postCssPlugins],
+                    postcssOptions: {
+                        plugins: [require("autoprefixer"), ...postCssPlugins],
+                    },
                 },
             },
         ];
