@@ -21,15 +21,14 @@
     "@leancode/build-base": "^5.0.2",
     "@leancode/build-css": "^5.0.2",
     "node-sass": "^4.14.1",
-    "sass-loader": "^10.0.2",
+    "sass-loader": "^10.0.3",
     "sass-resources-loader": "^2.1.1"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.0.2",
-    "@types/webpack": "^4.0.0",
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   },
   "peerDependencies": {
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   }
 }

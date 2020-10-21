@@ -19,15 +19,13 @@
   },
   "dependencies": {
     "@leancode/build-base": "^5.0.2",
-    "webpack-dev-server": "^3.8.1"
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.0.2",
-    "@types/webpack": "^4.0.0",
-    "@types/webpack-dev-server": "3.10.1",
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   },
   "peerDependencies": {
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   }
 }
