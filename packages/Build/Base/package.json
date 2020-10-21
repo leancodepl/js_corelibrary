@@ -18,10 +18,9 @@
     "watch": "tsc -w --noEmit"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.1.0",
-    "@types/webpack": "^4.0.0"
+    "@leancode/tools-rollup": "^5.1.0"
   },
   "peerDependencies": {
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   }
 }

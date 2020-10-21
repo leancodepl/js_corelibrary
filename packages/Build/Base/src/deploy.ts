@@ -13,7 +13,6 @@ export default function deploy<TInCtx extends BaseContext>(
         ctx.config.output = {
             ...ctx.config.output,
             path: deployDir,
-            filename: "[name].js",
             publicPath: "/",
         };
 

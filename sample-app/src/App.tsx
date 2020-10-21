@@ -8,10 +8,10 @@ import routes from "routes";
 const App: React.FunctionComponent = () => (
     <BrowserRouter>
         <Switch>
-            <Route path={routes.home.pattern}>
+            <Route exact path={routes.home.pattern}>
                 <Link to={routes.splitComponent()}>SplitComponent</Link>
             </Route>
-            <Route path={routes.splitComponent.pattern}>
+            <Route exact path={routes.splitComponent.pattern}>
                 <I18nProvider>
                     <Container>
                         <Localize id="header.title" />
