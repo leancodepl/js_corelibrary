@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-sass",
-  "version": "5.0.2",
+  "version": "5.1.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,14 +18,14 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^5.0.2",
-    "@leancode/build-css": "^5.0.2",
+    "@leancode/build-base": "^5.1.0-alpha.0",
+    "@leancode/build-css": "^5.1.0-alpha.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.3",
     "sass-resources-loader": "^2.1.1"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.0.2",
+    "@leancode/tools-rollup": "^5.1.0-alpha.0",
     "webpack": "^5.0.0"
   },
   "peerDependencies": {

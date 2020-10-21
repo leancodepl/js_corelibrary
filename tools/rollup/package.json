@@ -1,6 +1,6 @@
 {
   "name": "@leancode/tools-rollup",
-  "version": "5.0.2",
+  "version": "5.1.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
