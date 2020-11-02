@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.0.2&sourceBranch=refs%2Ftags%2Fv5.1.0) (2020-11-02)
+
+
+### Features
+
+* extend eslint rules ([018fae4](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/018fae4))
+
+
+
+
+
 <a name="5.0.2"></a>
 ## [5.0.2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.0.1&sourceBranch=refs%2Ftags%2Fv5.0.2) (2020-10-05)
 

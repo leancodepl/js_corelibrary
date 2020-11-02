@@ -4,8 +4,6 @@ import styles from "./styles.scss";
 
 const cx = mkCx(styles);
 
-const Container: React.FunctionComponent = ({ children }) => {
-    return <div className={cx("container-element")}>{children}</div>;
-};
+const Container: React.FunctionComponent = ({ children }) => <div className={cx("container-element")}>{children}</div>;
 
 export default Container;

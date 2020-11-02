@@ -22,6 +22,8 @@ module.exports = {
         "no-var": "off",
         "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
         "max-params": ["error", { max: 4 }],
+        "arrow-body-style": "error",
+        "no-useless-rename": "error",
 
         "prettier/prettier": "warn",
 
