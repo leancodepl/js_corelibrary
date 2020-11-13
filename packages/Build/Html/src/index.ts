@@ -12,7 +12,7 @@ export default function html<TInCtx extends BaseContext>({
     return ctx => {
         ctx.config.plugins = ctx.config.plugins || [];
 
-        const p: webpack.Plugin = new HtmlWebpackPlugin(htmlPluginOptions);
+        const p: webpack.WebpackPluginInstance = new HtmlWebpackPlugin(htmlPluginOptions);
         ctx.config.plugins.push(p);
 
         if (favicon) {
