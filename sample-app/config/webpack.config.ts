@@ -50,6 +50,7 @@ const config = applyConfig(
     environment(),
     html({
         template: paths.indexHtml,
+        favicon: paths.favicon,
     }),
     staticFiles(),
     typescript({
