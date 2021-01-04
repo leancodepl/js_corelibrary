@@ -6,7 +6,7 @@ module.exports = {
         {
             displayName: "ESLint",
             runner: "jest-runner-eslint",
-            roots: ["<rootDir>packages"],
+            roots: ["<rootDir>/packages"],
             testMatch: ["<rootDir>/packages/**/*.{ts,tsx}"],
             testPathIgnorePatterns: ["/node_modules", ".*/lib/.*"],
         },
