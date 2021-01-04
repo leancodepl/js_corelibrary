@@ -6,9 +6,10 @@ export default function sass<TInCtx extends CssContext & EnvironmentContext>(
     globalResources: string[],
 ): Configure<TInCtx, TInCtx> {
     return ctx => {
-        ctx.config.module = ctx.config.module || { rules: [] };
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
 
-        const additionalLoaders: webpack.Loader[] = ["sass-loader"];
+        const additionalLoaders: webpack.RuleSetUseItem[] = ["sass-loader"];
 
         if (globalResources.length) {
             additionalLoaders.push({
