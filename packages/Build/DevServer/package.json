@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-dev-server",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,16 +18,14 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^5.1.0",
-    "webpack-dev-server": "^3.8.1"
+    "@leancode/build-base": "^5.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.1.0",
-    "@types/webpack": "^4.0.0",
-    "@types/webpack-dev-server": "3.10.1",
-    "webpack": "^4.0.0"
+    "@leancode/tools-rollup": "^5.2.0",
+    "webpack": "^5.0.0"
   },
   "peerDependencies": {
-    "webpack": "^4.0.0"
+    "webpack": "^5.0.0"
   }
 }

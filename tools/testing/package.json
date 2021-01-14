@@ -1,6 +1,6 @@
 {
   "name": "@leancode/tools-testing",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "private": true,
@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "eslint": "^7.7.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.1.3"
   }
 }

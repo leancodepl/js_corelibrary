@@ -1,12 +1,14 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
 import { CssContext } from "@leancode/build-css";
-import { RuleSetQuery } from "webpack";
+
+type RuleSetLoaderOptions = string | { [index: string]: any };
 
 export default function less<TInCtx extends CssContext & EnvironmentContext>(
-    options?: RuleSetQuery,
+    options?: RuleSetLoaderOptions,
 ): Configure<TInCtx, TInCtx> {
     return ctx => {
-        ctx.config.module = ctx.config.module || { rules: [] };
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
 
         ctx.config.module.rules.push({
             test: /\.less$/,

@@ -2,7 +2,8 @@ import { BaseContext, Configure } from "@leancode/build-base";
 
 export default function staticFiles<TInCtx extends BaseContext>(): Configure<TInCtx, TInCtx> {
     return ctx => {
-        ctx.config.module = ctx.config.module || { rules: [] };
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
 
         ctx.config.module.rules.push(
             {

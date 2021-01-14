@@ -22,12 +22,13 @@ export default function typescript<TInCtx extends EnvironmentContext>({
     eslintOptions,
 }: TypeScriptConfig): Configure<TInCtx, TInCtx & BabelContext> {
     return ctx => {
-        ctx.config.plugins = ctx.config.plugins || [];
-        ctx.config.module = ctx.config.module || { rules: [] };
-        ctx.config.resolve = ctx.config.resolve || {};
-        ctx.config.resolve.alias = ctx.config.resolve.alias || {};
-        ctx.config.resolve.extensions = ctx.config.resolve.extensions || [];
-        ctx.config.resolve.plugins = ctx.config.resolve.plugins || [];
+        ctx.config.plugins ??= [];
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
+        ctx.config.resolve ??= {};
+        ctx.config.resolve.alias ??= {};
+        ctx.config.resolve.extensions ??= [];
+        ctx.config.resolve.plugins ??= [];
 
         ctx.config.plugins.push(
             new ForkTsCheckerPlugin({

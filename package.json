@@ -11,7 +11,8 @@
     "@commitlint/config-lerna-scopes": "11.0.0",
     "conventional-changelog-angular-bitbucket": "1.2.0",
     "husky": "4.3.0",
-    "lerna": "3.22.1"
+    "lerna": "3.22.1",
+    "jest-runner-eslint": "^0.10.0"
   },
   "husky": {
     "hooks": {

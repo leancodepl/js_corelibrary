@@ -9,7 +9,9 @@ export default function appConfig<TInCtx extends EnvironmentContext>(): Configur
     };
 
     return ctx => {
-        ctx.config.module = ctx.config.module || { rules: [] };
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
+
         ctx.config.module.rules.push({
             test: /\.svg$/,
             oneOf: [

@@ -1,7 +1,7 @@
 import { BaseContext, Configure, EnvironmentContext } from "@leancode/build-base";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
-type WebpackLoader = import("webpack").Loader;
+type WebpackLoader = import("webpack").RuleSetUseItem;
 
 export type StyleLoaderParams = {
     additionalLoaders: number;
@@ -90,8 +90,9 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
     }
 
     return ctx => {
-        ctx.config.plugins = ctx.config.plugins || [];
-        ctx.config.module = ctx.config.module || { rules: [] };
+        ctx.config.plugins ??= [];
+        ctx.config.module ??= {};
+        ctx.config.module.rules ??= [];
 
         if (ctx.isProduction) {
             ctx.config.plugins.push(
