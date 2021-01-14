@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.2.0"></a>
+# [5.2.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.1.0&sourceBranch=refs%2Ftags%2Fv5.2.0) (2021-01-14)
+
+
+### Bug Fixes
+
+* **build-html:** webpack 5 types ([1d72860](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/1d72860))
+
+
+### Features
+
+* update webpack to 5 ([b66df3f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/b66df3f))
+
+
+
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.0.2&sourceBranch=refs%2Ftags%2Fv5.1.0) (2020-11-02)
 
