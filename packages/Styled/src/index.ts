@@ -82,7 +82,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
     const intrinsicsSet = new Set<string>(intrinsics);
 
     return function mkStyled<TKeys extends string>(styles: StylesObject<TKeys>): Styled<TKeys> {
-        const mapClassesToString = mkMapClassesToString(styles);
+        const mapClassesToString = mkMapClassesToString<TKeys, any>(styles);
 
         type StyledReturn<Tag extends React.ElementType> = StyledPartiallyApplied<TKeys, PropsOf<Tag>>;
 
@@ -112,7 +112,7 @@ export default function configureMkStyled<TIntrinsics extends keyof JSX.Intrinsi
                     return React.createElement(tag, { ...elemProps, className, ref });
                 };
                 styledComponent.displayName = `Styled(${parsedClasses})`;
-                const refForwarded = (React.forwardRef(styledComponent) as any) as StyledComponent<
+                const refForwarded = React.forwardRef(styledComponent) as any as StyledComponent<
                     PropsOf<Tag>,
                     TStyledData
                 >;

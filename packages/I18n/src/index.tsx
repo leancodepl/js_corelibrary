@@ -36,7 +36,7 @@ declare global {
 export default function mkI18n<
     TSupportedLocale extends string,
     TTerm extends string,
-    TDefaultLocale extends TSupportedLocale = TSupportedLocale
+    TDefaultLocale extends TSupportedLocale = TSupportedLocale,
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
         id?: TTerm | number;
@@ -75,7 +75,7 @@ export default function mkI18n<
     const intlInstance: { current?: StronglyTypedIntlShape } = {};
 
     return {
-        Localize: FormattedMessage as React.ComponentClass<StronglyTypedFormattedMessageProps>,
+        Localize: FormattedMessage as unknown as React.ComponentClass<StronglyTypedFormattedMessageProps>,
         useIntl: useIntl as () => StronglyTypedIntlShape,
         intl: intlInstance,
         Provider({ children }: { children?: ReactNode }) {

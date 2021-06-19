@@ -1,36 +1,36 @@
 {
   "name": "@leancode/login-manager",
-  "version": "5.2.0",
   "description": "Login manager",
+  "version": "5.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "login",
-    "auth",
-    "leancode"
+  "files": [
+    "lib"
   ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "form-urlencoded": "^4.1.1",
-    "whatwg-fetch": "3.0.0"
+    "form-urlencoded": "^6.0.0",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.2.0",
     "@leancode/tools-testing": "^5.2.0",
     "@types/facebook-js-sdk": "^3.3.0",
-    "typescript": "^4.1.3"
-  }
+    "typescript": "^4.3.0"
+  },
+  "keywords": [
+    "auth",
+    "leancode",
+    "login"
+  ]
 }

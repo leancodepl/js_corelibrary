@@ -9,7 +9,8 @@ const App: React.FunctionComponent = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path={routes.home.pattern}>
-                <Link to={routes.splitComponent()}>SplitComponent</Link>
+                <Link to={routes.splitComponent({}, {})}>SplitComponent</Link>
+                <Link to={routes.test()}>Test Link</Link>
             </Route>
             <Route exact path={routes.splitComponent.pattern}>
                 <I18nProvider>

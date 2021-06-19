@@ -4,12 +4,12 @@
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.json",
-  "directories": {
-    "lib": "lib"
-  },
   "files": [
     "lib"
   ],
+  "directories": {
+    "lib": "lib"
+  },
   "dependencies": {
     "prettier": "^2.1.2"
   }

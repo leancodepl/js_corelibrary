@@ -113,7 +113,7 @@ export function merge<
     TCtx10,
     TCtx11,
     TCtx12,
-    TCtx13
+    TCtx13,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -144,7 +144,7 @@ export function merge<
     TCtx11,
     TCtx12,
     TCtx13,
-    TCtx14
+    TCtx14,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -177,7 +177,7 @@ export function merge<
     TCtx12,
     TCtx13,
     TCtx14,
-    TCtx15
+    TCtx15,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -212,7 +212,7 @@ export function merge<
     TCtx13,
     TCtx14,
     TCtx15,
-    TCtx16
+    TCtx16,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -249,7 +249,7 @@ export function merge<
     TCtx14,
     TCtx15,
     TCtx16,
-    TCtx17
+    TCtx17,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -288,7 +288,7 @@ export function merge<
     TCtx15,
     TCtx16,
     TCtx17,
-    TCtx18
+    TCtx18,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -329,7 +329,7 @@ export function merge<
     TCtx16,
     TCtx17,
     TCtx18,
-    TCtx19
+    TCtx19,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -372,7 +372,7 @@ export function merge<
     TCtx17,
     TCtx18,
     TCtx19,
-    TCtx20
+    TCtx20,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -416,7 +416,7 @@ export function merge<
     TCtx17,
     TCtx18,
     TCtx19,
-    TCtx20
+    TCtx20,
 >(
     config1: Configure<TCtx0, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,

@@ -113,7 +113,7 @@ export function applyConfig<
     TCtx10,
     TCtx11,
     TCtx12,
-    TCtx13
+    TCtx13,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -143,7 +143,7 @@ export function applyConfig<
     TCtx11,
     TCtx12,
     TCtx13,
-    TCtx14
+    TCtx14,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -175,7 +175,7 @@ export function applyConfig<
     TCtx12,
     TCtx13,
     TCtx14,
-    TCtx15
+    TCtx15,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -209,7 +209,7 @@ export function applyConfig<
     TCtx13,
     TCtx14,
     TCtx15,
-    TCtx16
+    TCtx16,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -245,7 +245,7 @@ export function applyConfig<
     TCtx14,
     TCtx15,
     TCtx16,
-    TCtx17
+    TCtx17,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -283,7 +283,7 @@ export function applyConfig<
     TCtx15,
     TCtx16,
     TCtx17,
-    TCtx18
+    TCtx18,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -323,7 +323,7 @@ export function applyConfig<
     TCtx16,
     TCtx17,
     TCtx18,
-    TCtx19
+    TCtx19,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -365,7 +365,7 @@ export function applyConfig<
     TCtx17,
     TCtx18,
     TCtx19,
-    TCtx20
+    TCtx20,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,
@@ -408,7 +408,7 @@ export function applyConfig<
     TCtx17,
     TCtx18,
     TCtx19,
-    TCtx20
+    TCtx20,
 >(
     config1: Configure<BaseContext, TCtx1>,
     config2: Configure<TCtx1, TCtx2>,

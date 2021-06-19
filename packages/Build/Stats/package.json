@@ -6,13 +6,13 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
@@ -22,11 +22,11 @@
     "json2csv": "^5.0.3",
     "webpack-stats-plugin": "^1.0.1"
   },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.2.0",
     "@types/json2csv": "5.0.1"
-  },
-  "peerDependencies": {
-    "webpack": "^5.0.0"
   }
 }

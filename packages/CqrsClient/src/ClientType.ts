@@ -1,4 +1,4 @@
-export interface IRemoteQuery<TResult> {}
+export interface IRemoteQuery<TResult> {} // eslint-disable-line @typescript-eslint/no-unused-vars
 export interface IRemoteCommand {}
 
 export type ValidationError<TErrorCodes extends { [name: string]: number }> = {

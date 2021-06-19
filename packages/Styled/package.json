@@ -6,27 +6,27 @@
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "styled",
-    "leancode"
+  "files": [
+    "lib"
   ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "peerDependencies": {
-    "react": "^16.10.0"
+    "react": "^17.0.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.2.0",
-    "@types/react": "^16.9.0",
-    "typescript": "^4.1.3"
-  }
+    "@types/react": "^17.0.0",
+    "typescript": "^4.3.0"
+  },
+  "keywords": [
+    "leancode",
+    "styled"
+  ]
 }

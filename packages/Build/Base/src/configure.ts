@@ -1,4 +1,5 @@
-type WebpackConfiguration = import("webpack").WebpackOptionsNormalized;
+type WebpackConfiguration = import("webpack").Configuration &
+    Pick<import("webpack").WebpackOptionsNormalized, "devServer">;
 
 export type BaseContext = {
     env: any;
