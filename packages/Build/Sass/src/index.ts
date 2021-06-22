@@ -15,8 +15,8 @@ export default function sass<TInCtx extends CssContext & EnvironmentContext>(
             additionalLoaders.push({
                 loader: "sass-resources-loader",
                 options: {
-                    sourceMap: !ctx.isProduction,
                     resources: globalResources,
+                    hoistUseStatements: true,
                 },
             });
         }

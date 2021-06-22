@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^5.2.0",
+    "@types/svgo": "2.3.0",
     "webpack": "^5.0.0"
   }
 }
