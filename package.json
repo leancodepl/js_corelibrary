@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "check:npm": "lerna exec 'npx npm-check -u'",
     "dev": "lerna run watch --parallel",
     "test": "jest",
     "test:watch": "jest --watch"
