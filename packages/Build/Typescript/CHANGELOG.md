@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.2.0&sourceBranch=refs%2Ftags%2Fv6.0.0) (2021-07-05)
+
+
+### Bug Fixes
+
+* fix mjs resolution ([b70b00b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/b70b00b))
+
+
+### Features
+
+* update dependencies ([0fed8db](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/0fed8db))
+
+
+
+
+
 <a name="5.2.0"></a>
 # [5.2.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.1.0&sourceBranch=refs%2Ftags%2Fv5.2.0) (2021-01-14)
 

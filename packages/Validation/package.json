@@ -1,6 +1,6 @@
 {
   "name": "@leancode/validation",
-  "version": "5.2.0",
+  "version": "6.0.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -17,7 +17,7 @@
     "build": "leancode-rollup"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.2.0",
+    "@leancode/tools-rollup": "^6.0.0",
     "typescript": "^4.3.0"
   },
   "keywords": [
