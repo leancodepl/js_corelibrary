@@ -7,7 +7,6 @@ module.exports = {
     rules: {
         "@typescript-eslint/no-unused-vars": "off",
 
-        "import/extensions": "error",
         "import/first": "error",
         "import/newline-after-import": "error",
         "import/no-anonymous-default-export": "error",
@@ -39,7 +38,7 @@ module.exports = {
         ],
         "import/prefer-default-export": "error",
 
-        "react/jsx-uses-react": "error",
+        "react/jsx-uses-react": "off",
         "react/jsx-uses-vars": "error",
 
         "unused-imports/no-unused-imports-ts": "error",
