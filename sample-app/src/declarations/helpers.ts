@@ -1,5 +1,6 @@
 type Intrinsics = keyof JSX.IntrinsicElements;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type PropsOf<T extends import("react").ElementType<any>> = T extends import("react").ElementType<infer P>
     ? P
     : T extends Intrinsics

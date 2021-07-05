@@ -1,10 +1,16 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
+import { extendDefaultPlugins } from "svgo";
 
 export default function appConfig<TInCtx extends EnvironmentContext>(): Configure<TInCtx, TInCtx> {
     const svgoLoader = {
         loader: "svgo-loader",
         options: {
-            plugins: [{ removeViewBox: false }],
+            plugins: extendDefaultPlugins([
+                {
+                    name: "removeViewBox",
+                    active: false,
+                },
+            ]),
         },
     };
 

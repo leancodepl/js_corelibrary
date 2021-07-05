@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require("path");
 
 module.exports = packageRoot => {
@@ -7,6 +8,9 @@ module.exports = packageRoot => {
         displayName: packageJson.name,
         preset: "ts-jest",
         testRegex: "(/__tests__/.*\\.spec)\\.(jsx?|tsx?)$",
+        transform: {
+            "\\.tsx?$": "ts-jest",
+        },
         transformIgnorePatterns: ["<rootDir>/node_modules/"],
         moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
     };

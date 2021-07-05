@@ -1,33 +1,33 @@
 {
   "name": "@leancode/build-less",
-  "version": "5.2.0",
+  "version": "6.0.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^5.2.0",
-    "@leancode/build-css": "^5.2.0",
-    "less": "^3.12.2",
-    "less-loader": "^7.0.2"
-  },
-  "devDependencies": {
-    "@leancode/tools-rollup": "^5.2.0",
-    "webpack": "^5.0.0"
+    "@leancode/build-base": "^6.0.0",
+    "@leancode/build-css": "^6.0.0",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.0"
   },
   "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
+  "devDependencies": {
+    "@leancode/tools-rollup": "^6.0.0",
     "webpack": "^5.0.0"
   }
 }

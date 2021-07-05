@@ -1,18 +1,20 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "target": "ES2019",
+    "lib": ["es2019"],
     "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
     "alwaysStrict": true,
     "declaration": true,
     "noImplicitAny": false,
     "removeComments": true,
     "strictNullChecks": true,
     "noLib": false,
-    "target": "ES2019",
+    "allowJs": true,
     "sourceMap": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "lib": ["es6"]
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.spec.tsx"]
 }

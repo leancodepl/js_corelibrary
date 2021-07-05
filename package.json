@@ -3,16 +3,21 @@
   "private": true,
   "scripts": {
     "dev": "lerna run watch --parallel",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@types/node": "^14.0.0",
+    "stylelint": "^13.12.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "11.0.0",
-    "@commitlint/config-conventional": "11.0.0",
-    "@commitlint/config-lerna-scopes": "11.0.0",
+    "@commitlint/cli": "12.1.1",
+    "@commitlint/config-conventional": "12.1.1",
+    "@commitlint/config-lerna-scopes": "12.1.1",
     "conventional-changelog-angular-bitbucket": "1.2.0",
-    "husky": "4.3.0",
-    "lerna": "3.22.1",
-    "jest-runner-eslint": "^0.10.0"
+    "husky": "6.0.0",
+    "jest-runner-eslint": "^0.10.0",
+    "lerna": "4.0.0"
   },
   "husky": {
     "hooks": {
@@ -25,9 +30,5 @@
     "packages/Linters/*",
     "tools/*",
     "sample-app"
-  ],
-  "resolutions": {
-    "@types/node": "12.12.34",
-    "stylelint": "13.7.2"
-  }
+  ]
 }

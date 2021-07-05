@@ -1,33 +1,33 @@
 {
   "name": "@leancode/cqrs-client",
-  "version": "5.2.0",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
+  "version": "6.0.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
-  "keywords": [
-    "cqrs",
-    "leancode"
+  "files": [
+    "lib"
   ],
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "lib"
-  ],
   "scripts": {
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/login-manager": "^5.2.0",
+    "@leancode/login-manager": "^6.0.0",
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^5.2.0",
-    "typescript": "^4.1.3"
-  }
+    "@leancode/tools-rollup": "^6.0.0",
+    "typescript": "^4.3.0"
+  },
+  "keywords": [
+    "cqrs",
+    "leancode"
+  ]
 }

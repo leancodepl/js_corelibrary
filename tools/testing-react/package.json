@@ -1,22 +1,22 @@
 {
   "name": "@leancode/tools-testing-react",
-  "version": "5.2.0",
+  "version": "6.0.0",
   "author": "LeanCode",
-  "license": "ISC",
   "private": true,
-  "keywords": [
-    "jest",
-    "testing",
-    "react",
-    "leancode"
-  ],
+  "license": "ISC",
   "dependencies": {
-    "@testing-library/jest-dom": "5.11.4",
-    "@testing-library/react": "11.0.4",
-    "@testing-library/react-hooks": "3.4.2",
-    "react-test-renderer": "16.13.1"
+    "@testing-library/jest-dom": "5.11.10",
+    "@testing-library/react": "11.2.6",
+    "@testing-library/react-hooks": "5.1.1",
+    "react-test-renderer": "17.0.2"
   },
   "devDependencies": {
-    "react": "^16.10.0"
-  }
+    "react": "^17.0.0"
+  },
+  "keywords": [
+    "jest",
+    "leancode",
+    "react",
+    "testing"
+  ]
 }

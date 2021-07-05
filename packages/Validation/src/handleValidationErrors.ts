@@ -1,7 +1,7 @@
 export type ValidationError<
     TErrorCodes extends {
         [name: string]: number;
-    }
+    },
 > = {
     ErrorCode: TErrorCodes[keyof TErrorCodes];
 };
@@ -32,7 +32,7 @@ export default function handleValidationErrors<TAllErrors extends { [name: strin
 ): ValidationErrorsHandler<TAllErrors, TInResult> {
     const handle: ValidationErrorsHandlerFunc<TAllErrors, TInResult> = <
         THandledErrors extends keyof TAllErrors,
-        TResult
+        TResult,
     >(
         validationErrorsToHandle: THandledErrors | THandledErrors[],
         handler: (error: THandledErrors) => TResult,

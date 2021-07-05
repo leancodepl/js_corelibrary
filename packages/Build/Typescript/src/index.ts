@@ -78,21 +78,29 @@ export default function typescript<TInCtx extends EnvironmentContext>({
             ],
         ];
 
-        ctx.config.module.rules.push({
-            test: /\.tsx?$/,
-            include: src,
-            use: [
-                {
-                    loader: require.resolve("babel-loader"),
-                    options: {
-                        babelrc: false,
-                        sourceMaps: true,
-                        presets: babelPresets,
-                        plugins: babelPlugins,
+        ctx.config.module.rules.push(
+            {
+                test: /\.tsx?$/,
+                include: src,
+                use: [
+                    {
+                        loader: require.resolve("babel-loader"),
+                        options: {
+                            babelrc: false,
+                            sourceMaps: true,
+                            presets: babelPresets,
+                            plugins: babelPlugins,
+                        },
                     },
+                ],
+            },
+            {
+                test: /\.m?js/,
+                resolve: {
+                    fullySpecified: false,
                 },
-            ],
-        });
+            },
+        );
 
         ctx.config.resolve.extensions.push(".ts", ".tsx");
         ctx.config.resolve.alias = {
