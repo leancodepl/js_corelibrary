@@ -1,0 +1,81 @@
+import ts from "typescript";
+import { GeneratorContext, GeneratorStatement, GeneratorTypesDictionary } from "../src/typesGeneration";
+import GeneratorType from "../src/typesGeneration/types/GeneratorType";
+
+export const typesDictionary: GeneratorTypesDictionary = {
+    interfaces: {},
+};
+
+export function printStatement(
+    generator: GeneratorStatement,
+    contextTransform?: (baseContext: GeneratorContext) => GeneratorContext,
+) {
+    return printFromContext(ctx => generator.generateStatements(ctx), contextTransform);
+}
+
+export function printType(
+    generator: GeneratorType,
+    contextTransform?: (baseContext: GeneratorContext) => GeneratorContext,
+) {
+    return printFromContext(
+        ctx => [
+            ts.factory.createVariableStatement(
+                /* modifiers */ undefined,
+                /* declarationList */ ts.factory.createVariableDeclarationList(
+                    /* declarations */ [
+                        ts.factory.createVariableDeclaration(
+                            /* name */ "variable",
+                            /* exclamationToken */ undefined,
+                            /* type */ generator.generateType(ctx),
+                            /* initializer */ undefined,
+                        ),
+                    ],
+                    /* flags */ undefined,
+                ),
+            ),
+        ],
+        contextTransform,
+    );
+}
+
+export function getBaseContext(printer: ts.Printer): GeneratorContext {
+    return {
+        printNode: node =>
+            printer.printNode(
+                ts.EmitHint.Unspecified,
+                node,
+                ts.factory.createSourceFile(
+                    [],
+                    ts.factory.createToken(ts.SyntaxKind.EndOfFileToken),
+                    ts.NodeFlags.Synthesized,
+                ),
+            ),
+    };
+}
+
+export function createPrinter() {
+    return ts.createPrinter({
+        newLine: ts.NewLineKind.LineFeed,
+    });
+}
+
+export function printRawStatements(statements: ts.Statement[], printer: ts.Printer) {
+    return printer.printFile(
+        ts.factory.createSourceFile(
+            statements,
+            ts.factory.createToken(ts.SyntaxKind.EndOfFileToken),
+            ts.NodeFlags.Synthesized,
+        ),
+    );
+}
+
+export function printFromContext(
+    statements: (context: GeneratorContext) => ts.Statement[],
+    contextTransform: (baseContext: GeneratorContext) => GeneratorContext = ctx => ctx,
+) {
+    const printer = createPrinter();
+
+    const context = contextTransform(getBaseContext(printer));
+
+    return printRawStatements(statements(context), printer);
+}

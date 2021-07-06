@@ -5204,7 +5204,7 @@ $root.leancode = (function() {
              * Properties of an Export.
              * @memberof leancode.contracts
              * @interface IExport
-             * @property {string|null} [basePath] Export basePath
+             * @property {string|null} [projectName] Export projectName
              * @property {Array.<leancode.contracts.IStatement>|null} [statements] Export statements
              * @property {Array.<leancode.contracts.ErrorCode.IGroup>|null} [knownErrorGroups] Export knownErrorGroups
              */
@@ -5227,12 +5227,12 @@ $root.leancode = (function() {
             }
 
             /**
-             * Export basePath.
-             * @member {string} basePath
+             * Export projectName.
+             * @member {string} projectName
              * @memberof leancode.contracts.Export
              * @instance
              */
-            Export.prototype.basePath = "";
+            Export.prototype.projectName = "";
 
             /**
              * Export statements.
@@ -5269,7 +5269,7 @@ $root.leancode = (function() {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.basePath = reader.string();
+                        message.projectName = reader.string();
                         break;
                     case 2:
                         if (!(message.statements && message.statements.length))
@@ -5316,9 +5316,9 @@ $root.leancode = (function() {
             Export.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.basePath != null && message.hasOwnProperty("basePath"))
-                    if (!$util.isString(message.basePath))
-                        return "basePath: string expected";
+                if (message.projectName != null && message.hasOwnProperty("projectName"))
+                    if (!$util.isString(message.projectName))
+                        return "projectName: string expected";
                 if (message.statements != null && message.hasOwnProperty("statements")) {
                     if (!Array.isArray(message.statements))
                         return "statements: array expected";
@@ -5352,8 +5352,8 @@ $root.leancode = (function() {
                 if (object instanceof $root.leancode.contracts.Export)
                     return object;
                 var message = new $root.leancode.contracts.Export();
-                if (object.basePath != null)
-                    message.basePath = String(object.basePath);
+                if (object.projectName != null)
+                    message.projectName = String(object.projectName);
                 if (object.statements) {
                     if (!Array.isArray(object.statements))
                         throw TypeError(".leancode.contracts.Export.statements: array expected");
@@ -5395,9 +5395,9 @@ $root.leancode = (function() {
                     object.knownErrorGroups = [];
                 }
                 if (options.defaults)
-                    object.basePath = "";
-                if (message.basePath != null && message.hasOwnProperty("basePath"))
-                    object.basePath = message.basePath;
+                    object.projectName = "";
+                if (message.projectName != null && message.hasOwnProperty("projectName"))
+                    object.projectName = message.projectName;
                 if (message.statements && message.statements.length) {
                     object.statements = [];
                     for (var j = 0; j < message.statements.length; ++j)

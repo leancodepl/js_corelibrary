@@ -1,19 +1,19 @@
+import { ESLint } from "eslint";
+import { promises } from "fs";
+import _ from "lodash";
+import { dirname, resolve } from "path";
 import ts, { addSyntheticLeadingComment } from "typescript";
-import { resolve, dirname } from "path";
 import { leancode } from "../src/protocol";
 import {
+    GeneratorCommand,
     GeneratorContext,
     GeneratorEnum,
-    GeneratorCommand,
     GeneratorInterface,
     GeneratorNamespace,
     GeneratorQuery,
     GeneratorStatement,
     GeneratorTypesDictionary,
 } from "../src/typesGeneration";
-import _ from "lodash";
-import { promises, PathLike } from "fs";
-import { ESLint, Linter } from "eslint";
 
 const { writeFile, readFile, mkdir } = promises;
 const { contracts } = leancode;

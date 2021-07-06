@@ -2,9 +2,9 @@ import ts from "typescript";
 import { leancode } from "../../protocol";
 import { ensureNotEmpty } from "../../utils/notEmpty";
 import GeneratorContext from "../GeneratorContext";
+import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 import GeneratorType from "./GeneratorType";
 import GeneratorTypeFactory from "./GeneratorTypeFactory";
-import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 
 export default class GeneratorKnownType implements GeneratorType {
     type;
@@ -24,7 +24,7 @@ export default class GeneratorKnownType implements GeneratorType {
         typesDictionary,
     }: {
         known: leancode.contracts.TypeRef.IKnown;
-        isNullable: boolean;
+        isNullable?: boolean;
         typesDictionary: GeneratorTypesDictionary;
     }) {
         const type = ensureNotEmpty(known.type);
@@ -34,7 +34,7 @@ export default class GeneratorKnownType implements GeneratorType {
 
         this.type = type;
         this.typeArguments = typeArguments;
-        this.isNullable = isNullable;
+        this.isNullable = isNullable ?? false;
     }
 
     generateType(context: GeneratorContext): ts.TypeNode {

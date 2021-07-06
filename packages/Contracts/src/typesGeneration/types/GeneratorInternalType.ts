@@ -1,11 +1,11 @@
 import ts from "typescript";
 import { leancode } from "../../protocol";
+import extractMinimalReferenceTypeName from "../../utils/extractMinimalReferenceTypeName";
 import { ensureNotEmpty } from "../../utils/notEmpty";
 import GeneratorContext from "../GeneratorContext";
+import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 import GeneratorType from "./GeneratorType";
 import GeneratorTypeFactory from "./GeneratorTypeFactory";
-import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
-import extractMinimalReferenceTypeName from "../../utils/extractMinimalReferenceTypeName";
 
 export default class GeneratorInternalType implements GeneratorType {
     name;
@@ -24,7 +24,7 @@ export default class GeneratorInternalType implements GeneratorType {
         typesDictionary,
     }: {
         internal: leancode.contracts.TypeRef.IInternal;
-        isNullable: boolean;
+        isNullable?: boolean;
         typesDictionary: GeneratorTypesDictionary;
     }) {
         const name = ensureNotEmpty(internal.name);
@@ -35,7 +35,7 @@ export default class GeneratorInternalType implements GeneratorType {
         this.#typesDictionary = typesDictionary;
         this.typeArguments = typeArguments;
         this.name = name;
-        this.isNullable = isNullable;
+        this.isNullable = isNullable ?? false;
     }
 
     generateType(context: GeneratorContext): ts.TypeNode {

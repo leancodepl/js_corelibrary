@@ -8,11 +8,11 @@ export default class GeneratorGenericType implements GeneratorType {
     isNullable;
     isAttribute = false;
 
-    constructor({ generic, isNullable }: { generic: leancode.contracts.TypeRef.IGeneric; isNullable: boolean }) {
+    constructor({ generic, isNullable }: { generic: leancode.contracts.TypeRef.IGeneric; isNullable?: boolean }) {
         const name = ensureNotEmpty(generic.name);
 
         this.name = name;
-        this.isNullable = isNullable;
+        this.isNullable = isNullable ?? false;
     }
 
     generateType(): ts.TypeNode {

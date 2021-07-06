@@ -2004,8 +2004,8 @@ export namespace leancode {
         /** Properties of an Export. */
         interface IExport {
 
-            /** Export basePath */
-            basePath?: (string|null);
+            /** Export projectName */
+            projectName?: (string|null);
 
             /** Export statements */
             statements?: (leancode.contracts.IStatement[]|null);
@@ -2023,8 +2023,8 @@ export namespace leancode {
              */
             constructor(properties?: leancode.contracts.IExport);
 
-            /** Export basePath. */
-            public basePath: string;
+            /** Export projectName. */
+            public projectName: string;
 
             /** Export statements. */
             public statements: leancode.contracts.IStatement[];
