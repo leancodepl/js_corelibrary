@@ -13,10 +13,10 @@ export default class GeneratorInternalType implements GeneratorType {
     typeArguments;
 
     get isAttribute() {
-        return this.#typesDictionary.interfaces[this.name].isAttribute;
+        return this.typesDictionary.interfaces[this.name].isAttribute;
     }
 
-    #typesDictionary;
+    private typesDictionary;
 
     constructor({
         internal,
@@ -32,7 +32,7 @@ export default class GeneratorInternalType implements GeneratorType {
             internal.arguments?.map(argument => GeneratorTypeFactory.createType({ type: argument, typesDictionary })) ??
             [];
 
-        this.#typesDictionary = typesDictionary;
+        this.typesDictionary = typesDictionary;
         this.typeArguments = typeArguments;
         this.name = name;
         this.isNullable = isNullable ?? false;

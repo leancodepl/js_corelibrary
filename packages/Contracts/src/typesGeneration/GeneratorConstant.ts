@@ -2,8 +2,8 @@ import ts from "typescript";
 import { leancode } from "../protocol";
 import { ensureNotEmpty } from "../utils/notEmpty";
 import GeneratorContext from "./GeneratorContext";
-import GeneratorValueFactory from "./values/GeneratorValueFactory";
 import prependJsDoc from "./prependJsDoc";
+import GeneratorValueFactory from "./values/GeneratorValueFactory";
 
 export default class GeneratorConstant {
     name;

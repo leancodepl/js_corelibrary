@@ -2,13 +2,13 @@ import ts from "typescript";
 import { leancode } from "../protocol";
 import { assertNotEmpty, ensureNotEmpty } from "../utils/notEmpty";
 import GeneratorAttribute from "./GeneratorAttribute";
-import GeneratorProperty from "./GeneratorProperty";
 import GeneratorConstant from "./GeneratorConstant";
-import GeneratorStatement from "./GeneratorStatement";
-import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
-import GeneratorTypesDictionary from "./GeneratorTypesDictionary";
 import GeneratorContext from "./GeneratorContext";
+import GeneratorProperty from "./GeneratorProperty";
+import GeneratorStatement from "./GeneratorStatement";
+import GeneratorTypesDictionary from "./GeneratorTypesDictionary";
 import prependJsDoc from "./prependJsDoc";
+import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
 
 export default class GeneratorInterface implements GeneratorStatement {
     name;

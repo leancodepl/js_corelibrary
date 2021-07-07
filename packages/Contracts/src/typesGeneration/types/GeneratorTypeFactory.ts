@@ -1,11 +1,11 @@
 import ts, { isIdentifier, isTypeReferenceNode } from "typescript";
 import { leancode } from "../../protocol";
 import GeneratorContext from "../GeneratorContext";
-import GeneratorType from "./GeneratorType";
 import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
-import GeneratorKnownType from "./GeneratorKnownType";
-import GeneratorInternalType from "./GeneratorInternalType";
 import GeneratorGenericType from "./GeneratorGenericType";
+import GeneratorInternalType from "./GeneratorInternalType";
+import GeneratorKnownType from "./GeneratorKnownType";
+import GeneratorType from "./GeneratorType";
 
 export default class GeneratorTypeFactory {
     static createType({

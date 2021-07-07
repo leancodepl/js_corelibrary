@@ -1,8 +1,8 @@
 import { leancode } from "../../protocol";
 import GeneratorBooleanValue from "./GeneratorBooleanValue";
-import GeneratorStringValue from "./GeneratorStringValue";
-import GeneratorNumberValue from "./GeneratorNumberValue";
 import GeneratorNullValue from "./GeneratorNullValue";
+import GeneratorNumberValue from "./GeneratorNumberValue";
+import GeneratorStringValue from "./GeneratorStringValue";
 
 export default class GeneratorValueFactory {
     static createValue(value: leancode.contracts.IValueRef) {

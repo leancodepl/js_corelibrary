@@ -1,9 +1,9 @@
 import ts from "typescript";
 import { leancode } from "../protocol";
 import { ensureNotEmpty } from "../utils/notEmpty";
+import GeneratorContext from "./GeneratorContext";
 import prependJsDoc from "./prependJsDoc";
 import GeneratorNumberValue from "./values/GeneratorNumberValue";
-import GeneratorContext from "./GeneratorContext";
 
 export default class GeneratorEnumMember {
     name;

@@ -1,10 +1,10 @@
 import ts from "typescript";
 import { leancode } from "../protocol";
 import { assertNotEmpty } from "../utils/notEmpty";
-import GeneratorEnumMember from "./GeneratorEnumMember";
-import prependJsDoc from "./prependJsDoc";
-import GeneratorStatement from "./GeneratorStatement";
 import GeneratorContext from "./GeneratorContext";
+import GeneratorEnumMember from "./GeneratorEnumMember";
+import GeneratorStatement from "./GeneratorStatement";
+import prependJsDoc from "./prependJsDoc";
 
 export default class GeneratorEnum implements GeneratorStatement {
     name;

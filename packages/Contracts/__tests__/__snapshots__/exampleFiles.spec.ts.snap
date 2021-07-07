@@ -1,4 +1,111 @@
-/*eslint-disable @typescript-eslint/no-namespace*/
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exampleFiles Example 1`] = `
+"/*eslint-disable @typescript-eslint/no-namespace*/
+export interface Auth {
+}
+/**
+ * This is a class-level comment.
+ *
+ */
+export interface PaginatedQuery<TResult> extends Query<PaginatedResult<TResult>> {
+    PageNumber: number;
+    PageSize: number;
+}
+/**
+ * This one is in XML.
+ *
+ */
+export interface PaginatedResult<TResult> {
+    /**
+     * And this is a property comment.
+     *
+     */
+    Items: TResult[];
+    TotalCount: number;
+}
+export namespace Auth {
+    export interface KnownClaims {
+    }
+    export const KnownClaims = {
+        UserId: \\"sub\\",
+        Role: \\"role\\"
+    } as const;
+    export interface Roles {
+    }
+    export const Roles = {
+        User: \\"user\\",
+        Admin: \\"admin\\",
+        System: \\"system\\"
+    } as const;
+}
+export namespace Security {
+    export interface ISomethingRelated {
+        SomethingId: string;
+    }
+    export interface WhenHasSomethingAccess {
+    }
+}
+export namespace Users {
+    export interface AllUsers extends PaginatedQuery<UserInfoDTO> {
+        PageNumber: number;
+        PageSize: number;
+    }
+    export interface EditUser extends Command, Security.ISomethingRelated {
+        UserId: string;
+        SomethingId: string;
+        List: number[];
+        Array: number[];
+        Dictionary: number[];
+        UserInfo: UserInfoDTO;
+    }
+    export namespace EditUser {
+        export const ErrorCodes = {
+            UserDoesNotExist: 1,
+            UserInfoIsNull: 2,
+            FirstnameIsNull: 1001,
+            SurnameIsNull: 1002,
+            UsernameIsNull: 1003,
+            FirstnameTooLong: 1004,
+            SurnameTooLong: 1005,
+            UsernameTooLong: 1006,
+            EmailAddressTooLong: 1007,
+            InvalidEmailAddress: 1009,
+            EmailIsTaken: 1010
+        } as const;
+        export type ErrorCodes = typeof ErrorCodes;
+    }
+    export interface UserById extends Query<UserInfoDTO> {
+    }
+    export interface UserInfoDTO {
+        Firstname: string;
+        Surname: string;
+        Username: string;
+        EmailAddress: string;
+    }
+    export interface UserSomething extends Query<number> {
+    }
+}
+"
+`;
+
+exports[`exampleFiles Example 2`] = `
+"/*eslint-disable prettier/prettier*/
+export default function (cqrsClient: CQRS) {
+    return {
+        Users: {
+            AllUsers: cqrsClient.createQuery<Users.AllUsers, PaginatedResult<Users.UserInfoDTO>>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.AllUsers\\"),
+            EditUser: cqrsClient.createCommand(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.EditUser\\"),
+            UserById: cqrsClient.createQuery<Users.UserById, Users.UserInfoDTO>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.UserById\\"),
+            UserSomething: cqrsClient.createQuery<Users.UserSomething, number>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.UserSomething\\")
+        }
+    };
+}
+"
+`;
+
+exports[`exampleFiles Mindy 1`] = `
+"/*eslint-disable @typescript-eslint/no-namespace*/
 export namespace Admin {
     export namespace Challenges {
         export interface ChallengeById extends Query<ChallengeDTO> {
@@ -54,7 +161,7 @@ export namespace Admin {
         }
         export namespace DefineChallenge {
             export const ErrorCodes = {
-                ChallengeDataIsNull: 1,
+                ChallengeDataIsNull: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -64,7 +171,7 @@ export namespace Admin {
         export namespace EditChallenge {
             export const ErrorCodes = {
                 ChallengeDataIsNull: 1,
-                CannotChangeChallengeType: 2,
+                CannotChangeChallengeType: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -76,7 +183,7 @@ export namespace Admin {
             export const ErrorCodes = {
                 ChallengeDoesNotExist: 1,
                 DataIsNull: 2,
-                LanguageIsNotSupported: 3,
+                LanguageIsNotSupported: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -106,7 +213,7 @@ export namespace Admin {
                 InternalNameIsTooShort: 2,
                 InternalNameIsTooLong: 3,
                 PhotoUrlIsInvalid: 4,
-                PhotoUrlDoesNotExist: 5,
+                PhotoUrlDoesNotExist: 5
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -117,7 +224,7 @@ export namespace Admin {
         export namespace AddCompanyCode {
             export const ErrorCodes = {
                 CompanyDoesNotExist: 1,
-                MaxUsesMustBeGreaterThanOrEqual0: 2,
+                MaxUsesMustBeGreaterThanOrEqual0: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -129,11 +236,12 @@ export namespace Admin {
             export const ErrorCodes = {
                 CompanyDoesNotExist: 1,
                 CountMustBeGreaterThan0: 2,
-                CountMustBeSmaller: 3,
+                CountMustBeSmaller: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
-        export interface CompaniesInfoList extends Query<CompanyInfoDTO[]> {}
+        export interface CompaniesInfoList extends Query<CompanyInfoDTO[]> {
+        }
         export interface CompaniesList extends SortablePaginatedQuery<CompanySummaryDTO, CompaniesListSortFieldDTO> {
             PageNumber: number;
             PageSize: number;
@@ -142,7 +250,7 @@ export namespace Admin {
             SortByDescending: boolean;
         }
         export enum CompaniesListSortFieldDTO {
-            InternalName = 0,
+            InternalName = 0
         }
         export interface CompanyById extends Query<CompanyDTO> {
             CompanyId: string;
@@ -161,7 +269,7 @@ export namespace Admin {
         export enum CompanyCodesSortFieldDTO {
             EntryCode = 0,
             Used = 1,
-            MaxUses = 2,
+            MaxUses = 2
         }
         export interface CompanyDTO {
             Id: string;
@@ -202,7 +310,7 @@ export namespace Admin {
                 InternalNameIsTooShort: 2,
                 InternalNameIsTooLong: 3,
                 PhotoUrlIsInvalid: 4,
-                PhotoUrlDoesNotExist: 5,
+                PhotoUrlDoesNotExist: 5
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -213,7 +321,7 @@ export namespace Admin {
         export namespace EditCompanyCode {
             export const ErrorCodes = {
                 CodeDoesNotExist: 1,
-                MaxUsesMustBeGreaterThanOrEqual0: 2,
+                MaxUsesMustBeGreaterThanOrEqual0: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -226,7 +334,7 @@ export namespace Admin {
                 CompanyDoesNotExist: 1,
                 DataIsNull: 2,
                 LanguageIsNotSupported: 3,
-                NameIsEmpty: 4,
+                NameIsEmpty: 4
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -263,7 +371,7 @@ export namespace Admin {
         export namespace RemoveCompanyCode {
             export const ErrorCodes = {
                 CodeDoesNotExist: 1,
-                CodeWasAlreadyUsed: 2,
+                CodeWasAlreadyUsed: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -273,7 +381,7 @@ export namespace Admin {
         }
         export namespace SetIsHiddenCompany {
             export const ErrorCodes = {
-                CompanyDoesNotExist: 1,
+                CompanyDoesNotExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -297,7 +405,7 @@ export namespace Admin {
             export namespace AddCollection {
                 export const ErrorCodes = {
                     CollectionDataNotProvided: 1,
-                    CollectionIdAlreadyUsed: 2,
+                    CollectionIdAlreadyUsed: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -321,9 +429,9 @@ export namespace Admin {
                 LanguageCode: string;
                 Title: string;
             }
-            export interface CollectionsInfoList extends Query<CollectionInfoDTO[]> {}
-            export interface CollectionsList
-                extends SortablePaginatedQuery<CollectionSummaryDTO, CollectionsListSortFieldDTO> {
+            export interface CollectionsInfoList extends Query<CollectionInfoDTO[]> {
+            }
+            export interface CollectionsList extends SortablePaginatedQuery<CollectionSummaryDTO, CollectionsListSortFieldDTO> {
                 PageNumber: number;
                 PageSize: number;
                 FilterBy?: string;
@@ -332,7 +440,7 @@ export namespace Admin {
             }
             export enum CollectionsListSortFieldDTO {
                 Order = 0,
-                InternalTitle = 1,
+                InternalTitle = 1
             }
             export interface CollectionSummaryDTO {
                 Id: string;
@@ -356,7 +464,7 @@ export namespace Admin {
             export namespace EditCollection {
                 export const ErrorCodes = {
                     InvalidCollectionId: 1,
-                    CollectionDataNotProvided: 2,
+                    CollectionDataNotProvided: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -371,7 +479,7 @@ export namespace Admin {
                     TitleTooLong: 2,
                     InvalidCollectionId: 3,
                     LanguageCodeNotProvided: 4,
-                    LanguageCodeNotSupported: 5,
+                    LanguageCodeNotSupported: 5
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -380,7 +488,7 @@ export namespace Admin {
             }
             export namespace RemoveCollection {
                 export const ErrorCodes = {
-                    InvalidCollectionId: 1,
+                    InvalidCollectionId: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -390,7 +498,7 @@ export namespace Admin {
             }
             export namespace SetIsHiddenCollection {
                 export const ErrorCodes = {
-                    CollectionDoesNotExist: 1,
+                    CollectionDoesNotExist: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -406,7 +514,7 @@ export namespace Admin {
                     PhotoUrlInvalid: 3,
                     PhotoDoesNotExist: 4,
                     AuthorPhotoUrlInvalid: 5,
-                    AuthorPhotoDoesNotExist: 6,
+                    AuthorPhotoDoesNotExist: 6
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -450,7 +558,8 @@ export namespace Admin {
                 LongDescription: string;
                 ShortDescription: string;
             }
-            export interface CoursesInfoList extends Query<CourseInfoDTO[]> {}
+            export interface CoursesInfoList extends Query<CourseInfoDTO[]> {
+            }
             export interface CoursesList extends SortablePaginatedQuery<CourseSummaryDTO, CoursesListSortFieldDTO> {
                 PageNumber: number;
                 PageSize: number;
@@ -461,7 +570,7 @@ export namespace Admin {
             export enum CoursesListSortFieldDTO {
                 Order = 0,
                 InternalTitle = 1,
-                Author = 2,
+                Author = 2
             }
             export interface CourseSubgroupDTO {
                 Id: string;
@@ -507,7 +616,7 @@ export namespace Admin {
                     PhotoUrlInvalid: 3,
                     PhotoDoesNotExist: 4,
                     AuthorPhotoUrlInvalid: 5,
-                    AuthorPhotoDoesNotExist: 6,
+                    AuthorPhotoDoesNotExist: 6
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -529,7 +638,7 @@ export namespace Admin {
                     ShortDescriptionNotProvided: 6,
                     ShortDescriptionTooLong: 7,
                     LongDescriptionNotProvided: 8,
-                    LongDescriptionTooLong: 9,
+                    LongDescriptionTooLong: 9
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -543,7 +652,7 @@ export namespace Admin {
             }
             export namespace RemoveCourse {
                 export const ErrorCodes = {
-                    InvalidCourseId: 1,
+                    InvalidCourseId: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -553,7 +662,7 @@ export namespace Admin {
             }
             export namespace SetIsHiddenCourse {
                 export const ErrorCodes = {
-                    CourseDoesNotExist: 1,
+                    CourseDoesNotExist: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -571,7 +680,7 @@ export namespace Admin {
                     PersonDataNotProvided: 1,
                     PersonIdAlreadyUsed: 2,
                     PhotoUrlInvalid: 3,
-                    PhotoDoesNotExist: 4,
+                    PhotoDoesNotExist: 4
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -584,7 +693,7 @@ export namespace Admin {
             }
             export enum RoleDTO {
                 Author = 0,
-                Lector = 1,
+                Lector = 1
             }
         }
         export namespace Sessions {
@@ -602,7 +711,7 @@ export namespace Admin {
                     AuthorPhotoUrlInvalid: 7,
                     AuthorPhotoDoesNotExist: 8,
                     DefaultAlreadySet: 9,
-                    SessionHiddenAndDefault: 10,
+                    SessionHiddenAndDefault: 10
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -613,7 +722,7 @@ export namespace Admin {
             export namespace AddSessionToCollection {
                 export const ErrorCodes = {
                     SessionDoesNotExist: 1,
-                    CollectionDoesNotExist: 2,
+                    CollectionDoesNotExist: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -625,7 +734,7 @@ export namespace Admin {
                     InvalidSessionId: 1,
                     SessionInCollections: 2,
                     SessionInCourses: 3,
-                    SessionIsDefault: 4,
+                    SessionIsDefault: 4
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -642,7 +751,7 @@ export namespace Admin {
                     RecordingDoesNotExist: 6,
                     AuthorPhotoUrlInvalid: 7,
                     AuthorPhotoDoesNotExist: 8,
-                    DefaultAlreadySet: 9,
+                    DefaultAlreadySet: 9
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -663,7 +772,7 @@ export namespace Admin {
                     QuoteTooLong: 6,
                     InvalidSessionId: 7,
                     LanguageCodeNotProvided: 8,
-                    LanguageCodeNotSupported: 9,
+                    LanguageCodeNotSupported: 9
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -680,7 +789,7 @@ export namespace Admin {
             export namespace RemoveSessionFromCollection {
                 export const ErrorCodes = {
                     SessionDoesNotExist: 1,
-                    CollectionDoesNotExist: 2,
+                    CollectionDoesNotExist: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -719,7 +828,8 @@ export namespace Admin {
                 SessionId: string;
                 Extension: string;
             }
-            export interface SessionsInfoList extends Query<SessionInfoDTO[]> {}
+            export interface SessionsInfoList extends Query<SessionInfoDTO[]> {
+            }
             export interface SessionsList extends SortablePaginatedQuery<SessionSummaryDTO, SessionsListSortFieldDTO> {
                 PageNumber: number;
                 PageSize: number;
@@ -730,7 +840,7 @@ export namespace Admin {
             export enum SessionsListSortFieldDTO {
                 Order = 0,
                 InternalTitle = 1,
-                Author = 2,
+                Author = 2
             }
             export interface SessionSummaryDTO {
                 Id: string;
@@ -765,7 +875,7 @@ export namespace Admin {
             }
             export namespace SetIsHiddenSession {
                 export const ErrorCodes = {
-                    SessionDoesNotExist: 1,
+                    SessionDoesNotExist: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -777,7 +887,7 @@ export namespace Admin {
             export namespace AddTag {
                 export const ErrorCodes = {
                     TagDataNotProvided: 1,
-                    TagIdAlreadyUsed: 2,
+                    TagIdAlreadyUsed: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -787,7 +897,7 @@ export namespace Admin {
             export namespace EditTag {
                 export const ErrorCodes = {
                     TagDataNotProvided: 1,
-                    TagIdAlreadyUsed: 2,
+                    TagIdAlreadyUsed: 2
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -802,7 +912,7 @@ export namespace Admin {
                     TitleTooLong: 2,
                     InvalidTagId: 3,
                     LanguageCodeNotProvided: 4,
-                    LanguageCodeNotSupported: 5,
+                    LanguageCodeNotSupported: 5
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -813,7 +923,7 @@ export namespace Admin {
                 export const ErrorCodes = {
                     InvalidTagId: 1,
                     TagInCollections: 2,
-                    TagInSessions: 3,
+                    TagInSessions: 3
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -823,7 +933,7 @@ export namespace Admin {
             }
             export namespace SetIsHiddenTag {
                 export const ErrorCodes = {
-                    TagDoesNotExist: 1,
+                    TagDoesNotExist: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -845,7 +955,8 @@ export namespace Admin {
                 LanguageCode: string;
                 Title: string;
             }
-            export interface TagsInfoList extends Query<TagInfoDTO[]> {}
+            export interface TagsInfoList extends Query<TagInfoDTO[]> {
+            }
             export interface TagsList extends SortablePaginatedQuery<TagSummaryDTO, TagsListSortFieldDTO> {
                 PageNumber: number;
                 PageSize: number;
@@ -855,7 +966,7 @@ export namespace Admin {
             }
             export enum TagsListSortFieldDTO {
                 Order = 0,
-                InternalTitle = 1,
+                InternalTitle = 1
             }
             export interface TagSummaryDTO {
                 Id: string;
@@ -877,7 +988,7 @@ export namespace Admin {
             }
             export namespace SetTodaysMeditation {
                 export const ErrorCodes = {
-                    SessionDoesntExist: 1,
+                    SessionDoesntExist: 1
                 } as const;
                 export type ErrorCodes = typeof ErrorCodes;
             }
@@ -902,7 +1013,7 @@ export namespace Admin {
         export namespace AddApplicationPage {
             export const ErrorCodes = {
                 InvalidPageCategory: 1,
-                PageIdAlreadyUsed: 2,
+                PageIdAlreadyUsed: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -916,7 +1027,7 @@ export namespace Admin {
                 CompanyDoesNotExist: 1,
                 CompanyPageAlreadyExists: 2,
                 InvalidPageCategory: 3,
-                PageIdAlreadyUsed: 4,
+                PageIdAlreadyUsed: 4
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -933,7 +1044,7 @@ export namespace Admin {
                 PageDoesNotExist: 1,
                 ContentIsNullOrEmpty: 2,
                 LanguageCodeNotProvided: 3,
-                LanguageCodeNotSupported: 4,
+                LanguageCodeNotSupported: 4
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -952,7 +1063,7 @@ export namespace Admin {
         }
         export namespace RemovePage {
             export const ErrorCodes = {
-                PageDoesNotExist: 1,
+                PageDoesNotExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -964,7 +1075,7 @@ export namespace Admin {
         }
         export namespace ActivateInternalSubscription {
             export const ErrorCodes = {
-                UserDoesNotExist: 1,
+                UserDoesNotExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -983,7 +1094,7 @@ export namespace Admin {
                 GoogleProductId2IsNull: 10002,
                 AppleProductId1IsEmpty: 10003,
                 AppleProductId2IsNull: 10004,
-                MaxUsesMustBeGreaterThanOrEqual0: 10005,
+                MaxUsesMustBeGreaterThanOrEqual0: 10005
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -992,7 +1103,7 @@ export namespace Admin {
         }
         export namespace DeactivateInternalSubscription {
             export const ErrorCodes = {
-                UserDoesNotExist: 1,
+                UserDoesNotExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1003,7 +1114,7 @@ export namespace Admin {
         export namespace EditPromoCodeMaxUses {
             export const ErrorCodes = {
                 CodeDoesNotExist: 1,
-                MaxUsesMustBeGreaterThanOrEqual0: 2,
+                MaxUsesMustBeGreaterThanOrEqual0: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1020,7 +1131,7 @@ export namespace Admin {
                 GoogleProductId2IsNull: 10002,
                 AppleProductId1IsEmpty: 10003,
                 AppleProductId2IsNull: 10004,
-                MaxUsesMustBeGreaterThanOrEqual0: 10005,
+                MaxUsesMustBeGreaterThanOrEqual0: 10005
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1037,8 +1148,7 @@ export namespace Admin {
             AppleProductId2: string;
             UsedBy: PromoCodeUsedByDTO[];
         }
-        export interface PromoCodesList
-            extends SortablePaginatedQuery<PromoCodeSummaryDTO, PromoCodesListSortFieldDTO> {
+        export interface PromoCodesList extends SortablePaginatedQuery<PromoCodeSummaryDTO, PromoCodesListSortFieldDTO> {
             PageNumber: number;
             PageSize: number;
             FilterBy?: string;
@@ -1057,7 +1167,7 @@ export namespace Admin {
             GoogleProductId1 = 3,
             GoogleProductId2 = 4,
             AppleProductId1 = 5,
-            AppleProductId2 = 6,
+            AppleProductId2 = 6
         }
         export interface PromoCodeSummaryDTO {
             CodeId: string;
@@ -1086,7 +1196,7 @@ export namespace Admin {
         export namespace RemovePromoCode {
             export const ErrorCodes = {
                 CodeDoesNotExist: 1,
-                CodeWasAlreadyUsed: 2,
+                CodeWasAlreadyUsed: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1100,7 +1210,7 @@ export namespace Admin {
             export const ErrorCodes = {
                 UserDoesNotExist: 1,
                 FriendUserDoesNotExist: 2,
-                CannotBefriendSelf: 3,
+                CannotBefriendSelf: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1111,7 +1221,7 @@ export namespace Admin {
         export namespace ChangeUserCompany {
             export const ErrorCodes = {
                 UserDoesNotExist: 1,
-                CompanyDoesNotExist: 2,
+                CompanyDoesNotExist: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1121,7 +1231,7 @@ export namespace Admin {
         export namespace DeleteUser {
             export const ErrorCodes = {
                 UserDoesNotExist: 1,
-                CannotDeleteSelf: 2,
+                CannotDeleteSelf: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1141,7 +1251,7 @@ export namespace Admin {
                 UsernameTooLong: 1006,
                 EmailAddressTooLong: 1007,
                 InvalidEmailAddress: 1009,
-                EmailIsTaken: 1010,
+                EmailIsTaken: 1010
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1157,7 +1267,7 @@ export namespace Admin {
         export namespace RemoveFriendFromUser {
             export const ErrorCodes = {
                 UserDoesNotExist: 1,
-                FriendUserDoesNotExist: 2,
+                FriendUserDoesNotExist: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1165,14 +1275,14 @@ export namespace Admin {
             IsActive: boolean;
             StartDate?: string;
             /**
-             * Not `null` when `IsActive` is `true`.
-             *     When `IsActive` is `false` it might be or might not be empty.
+             * Not \`null\` when \`IsActive\` is \`true\`.
+             *     When \`IsActive\` is \`false\` it might be or might not be empty.
              *
              */
             ExpirationDate?: string;
             /**
-             * Not `null` when `IsActive` is `true`.
-             *     When `IsActive` is `false` it might be or might not be empty.
+             * Not \`null\` when \`IsActive\` is \`true\`.
+             *     When \`IsActive\` is \`false\` it might be or might not be empty.
              *
              */
             ProductId?: string;
@@ -1182,7 +1292,7 @@ export namespace Admin {
         }
         export namespace ThrowUserOutOfCompany {
             export const ErrorCodes = {
-                UserDoesNotExist: 1,
+                UserDoesNotExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1193,7 +1303,7 @@ export namespace Admin {
         export namespace UpdateUserPassword {
             export const ErrorCodes = {
                 UserDoesNotExist: 1,
-                NewPasswordIsTooWeak: 2,
+                NewPasswordIsTooWeak: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1235,7 +1345,7 @@ export namespace Admin {
             Firstname = 1,
             Surname = 2,
             EmailAddress = 3,
-            AddedAt = 4,
+            AddedAt = 4
         }
         export interface UsersList extends SortablePaginatedQuery<UserSummaryDTO, UsersListSortFieldDTO> {
             PageNumber: number;
@@ -1250,7 +1360,7 @@ export namespace Admin {
             Surname = 2,
             EmailAddress = 3,
             IsPremium = 4,
-            RegisteredAt = 5,
+            RegisteredAt = 5
         }
         export interface UserSummaryDTO {
             Id: string;
@@ -1264,7 +1374,8 @@ export namespace Admin {
         }
     }
 }
-export interface Auth {}
+export interface Auth {
+}
 export interface PaginatedQuery<TResult> extends Query<PaginatedResult<TResult>> {
     PageNumber: number;
     PageSize: number;
@@ -1281,25 +1392,29 @@ export interface SortablePaginatedQuery<TResult, TBy> extends PaginatedQuery<TRe
     SortByDescending: boolean;
 }
 export namespace Auth {
-    export interface Clients {}
+    export interface Clients {
+    }
     export const Clients = {
-        AdminApp: "admin_app",
-        ClientApp: "client_app",
+        AdminApp: \\"admin_app\\",
+        ClientApp: \\"client_app\\"
     } as const;
-    export interface KnownClaims {}
+    export interface KnownClaims {
+    }
     export const KnownClaims = {
-        UserId: "sub",
-        Role: "role",
+        UserId: \\"sub\\",
+        Role: \\"role\\"
     } as const;
-    export interface Roles {}
+    export interface Roles {
+    }
     export const Roles = {
-        User: "user",
-        Admin: "admin",
-        System: "system",
+        User: \\"user\\",
+        Admin: \\"admin\\",
+        System: \\"system\\"
     } as const;
-    export interface Scopes {}
+    export interface Scopes {
+    }
     export const Scopes = {
-        InternalApi: "internal_api",
+        InternalApi: \\"internal_api\\"
     } as const;
 }
 export namespace Mobile {
@@ -1318,7 +1433,7 @@ export namespace Mobile {
             }
             export enum MeditatedStatsDayDTO {
                 Today = 0,
-                Yesterday = 1,
+                Yesterday = 1
             }
             export interface MeditatingBuddies extends Query<MeditatingBuddiesDTO> {
                 CalculateAt: string;
@@ -1355,7 +1470,7 @@ export namespace Mobile {
                 /**
                  * In months.
                  *  */
-                MaxTimeDifference: 12,
+                MaxTimeDifference: 12
             } as const;
             export interface TimedCompanyStatisticsDTO {
                 MindfulMinutes: number;
@@ -1396,7 +1511,7 @@ export namespace Mobile {
         }
         export enum ChallengeContendersTypeDTO {
             Friends = 0,
-            Buddies = 1,
+            Buddies = 1
         }
         export interface ChallengeDTO {
             Id: string;
@@ -1591,7 +1706,7 @@ export namespace Mobile {
         export namespace FinishSessionInCourse {
             export const ErrorCodes = {
                 CourseDoesNotExist: 1,
-                SessionDoesNotExist: 2,
+                SessionDoesNotExist: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1603,7 +1718,7 @@ export namespace Mobile {
         export namespace ListenToSession {
             export const ErrorCodes = {
                 SessionDoesNotExist: 1,
-                LengthMustBeGreaterThanZero: 2,
+                LengthMustBeGreaterThanZero: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1619,7 +1734,7 @@ export namespace Mobile {
         }
         export interface MyCalendar extends Query<CalendarDTO> {
             /**
-             * This date must be in the past and must be no older than `MaxTimeDifference` months.
+             * This date must be in the past and must be no older than \`MaxTimeDifference\` months.
              *
              */
             CalculateAt: string;
@@ -1628,9 +1743,10 @@ export namespace Mobile {
             /**
              * In months.
              *  */
-            MaxTimeDifference: 12,
+            MaxTimeDifference: 12
         } as const;
-        export interface MyStatistics extends Query<StatisticsDTO> {}
+        export interface MyStatistics extends Query<StatisticsDTO> {
+        }
         export interface StatisticsDTO {
             RegisteredAt: string;
             AllTime: AllTimeStatisticsDTO;
@@ -1655,7 +1771,7 @@ export namespace Mobile {
             Receipt: string;
             Currency?: string;
             /**
-             * We might use `decimal` here as Mobile treats it as `double` so we risk nothing.
+             * We might use \`decimal\` here as Mobile treats it as \`double\` so we risk nothing.
              *
              */
             Value?: number;
@@ -1664,7 +1780,7 @@ export namespace Mobile {
         export namespace ClaimApplePurchase {
             export const ErrorCodes = {
                 ReceiptIsInvalid: 2,
-                PurchaseAlreadyClaimed: 3,
+                PurchaseAlreadyClaimed: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1675,7 +1791,7 @@ export namespace Mobile {
         export namespace ClaimGooglePurchase {
             export const ErrorCodes = {
                 TokenIsInvalid: 2,
-                PurchaseAlreadyClaimed: 3,
+                PurchaseAlreadyClaimed: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1696,7 +1812,7 @@ export namespace Mobile {
             Invalid = 2,
             ClaimedByYou = 3,
             ClaimedByOther = 4,
-            Available = 5,
+            Available = 5
         }
         export interface PurchaseStatusResultDTO {
             Status: PurchaseStatusDTO;
@@ -1711,7 +1827,7 @@ export namespace Mobile {
         }
         export namespace AddFavoriteSession {
             export const ErrorCodes = {
-                SessionDoesntExist: 1,
+                SessionDoesntExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1721,7 +1837,7 @@ export namespace Mobile {
         export namespace AddFriend {
             export const ErrorCodes = {
                 FriendDoesntExist: 1,
-                CannotBefriendSelf: 2,
+                CannotBefriendSelf: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1732,7 +1848,7 @@ export namespace Mobile {
         export namespace ChangePassword {
             export const ErrorCodes = {
                 OldPasswordIsInvalid: 1,
-                NewPasswordTooWeak: 2,
+                NewPasswordTooWeak: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1742,7 +1858,8 @@ export namespace Mobile {
         export interface CheckUsername extends Query<UsernameCheckDTO> {
             Username: string;
         }
-        export interface DeleteAccount extends Command {}
+        export interface DeleteAccount extends Command {
+        }
         export interface EmailAddressCheckDTO {
             IsValid: boolean;
             IsNullOrEmpty: boolean;
@@ -1756,11 +1873,12 @@ export namespace Mobile {
             StreakLength: number;
             AvatarUrl: string;
         }
-        export interface FriendLink extends Query<string> {}
+        export interface FriendLink extends Query<string> {
+        }
         export enum GaugeLevelDTO {
             Low = 0,
             Medium = 1,
-            High = 2,
+            High = 2
         }
         export interface JoinCompany extends Command {
             Code: string;
@@ -1769,7 +1887,7 @@ export namespace Mobile {
             export const ErrorCodes = {
                 AlreadyInCompany: 1,
                 CodeIsInvalid: 2,
-                CodeAlreadyUsed: 3,
+                CodeAlreadyUsed: 3
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1807,7 +1925,7 @@ export namespace Mobile {
         export namespace RegisterAppleUser {
             export const ErrorCodes = {
                 UserInfoIsNull: 1,
-                TokenIsNull: 2,
+                TokenIsNull: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1818,7 +1936,7 @@ export namespace Mobile {
         export namespace RegisterFacebookUser {
             export const ErrorCodes = {
                 UserInfoIsNull: 1,
-                TokenIsNull: 2,
+                TokenIsNull: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1829,7 +1947,7 @@ export namespace Mobile {
         export namespace RegisterGoogleUser {
             export const ErrorCodes = {
                 UserInfoIsNull: 1,
-                TokenIsNull: 2,
+                TokenIsNull: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1840,7 +1958,7 @@ export namespace Mobile {
         export namespace RegisterUser {
             export const ErrorCodes = {
                 UserInfoIsNull: 1,
-                PasswordTooWeak: 2,
+                PasswordTooWeak: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1849,7 +1967,7 @@ export namespace Mobile {
         }
         export namespace RemoveFavoriteSession {
             export const ErrorCodes = {
-                SessionDoesntExist: 1,
+                SessionDoesntExist: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1865,7 +1983,7 @@ export namespace Mobile {
         export namespace ResetPassword {
             export const ErrorCodes = {
                 PasswordTooWeak: 1,
-                InvalidToken: 2,
+                InvalidToken: 2
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1875,7 +1993,7 @@ export namespace Mobile {
         }
         export namespace SetAppsflyerId {
             export const ErrorCodes = {
-                AppsflyerIdIsNullOrEmpty: 1,
+                AppsflyerIdIsNullOrEmpty: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1886,14 +2004,14 @@ export namespace Mobile {
             IsActive: boolean;
             StartDate?: string;
             /**
-             * Not `null` when `IsActive` is `true`.
-             *     When `IsActive` is `false` it might be or might not be empty.
+             * Not \`null\` when \`IsActive\` is \`true\`.
+             *     When \`IsActive\` is \`false\` it might be or might not be empty.
              *
              */
             ExpirationDate?: string;
             /**
-             * Not `null` when `IsActive` is `true`.
-             *     When `IsActive` is `false` it might be or might not be empty.
+             * Not \`null\` when \`IsActive\` is \`true\`.
+             *     When \`IsActive\` is \`false\` it might be or might not be empty.
              *
              */
             ProductId?: string;
@@ -1904,7 +2022,7 @@ export namespace Mobile {
         }
         export namespace UpdateProfile {
             export const ErrorCodes = {
-                UserInfoIsNull: 1,
+                UserInfoIsNull: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1920,19 +2038,20 @@ export namespace Security {
     export interface ISessionRelated {
         SessionId: string;
     }
-    export interface WhenHasSessionAccess {}
+    export interface WhenHasSessionAccess {
+    }
 }
 export namespace Shared {
     export namespace Pages {
         export enum ApplicationPageCategoryDTO {
-            AuthorsLectors = 0,
+            AuthorsLectors = 0
         }
         export enum CompanyPageCategoryDTO {
-            CompanyProgramInfo = 100,
+            CompanyProgramInfo = 100
         }
         export enum PageCategoryDTO {
             AuthorsLectors = 0,
-            CompanyProgramInfo = 100,
+            CompanyProgramInfo = 100
         }
     }
     export namespace Sessions {
@@ -1940,7 +2059,7 @@ export namespace Shared {
             Meditation = 0,
             Music = 1,
             Sleep = 2,
-            SleepMusic = 3,
+            SleepMusic = 3
         }
     }
     export namespace Users {
@@ -1961,7 +2080,7 @@ export namespace System {
         }
         export namespace RefreshApplePurchase {
             export const ErrorCodes = {
-                PurchaseIsInvalid: 1,
+                PurchaseIsInvalid: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
@@ -1976,9 +2095,208 @@ export namespace System {
         }
         export namespace RefreshGooglePurchase {
             export const ErrorCodes = {
-                PurchaseIsInvalid: 1,
+                PurchaseIsInvalid: 1
             } as const;
             export type ErrorCodes = typeof ErrorCodes;
         }
     }
 }
+"
+`;
+
+exports[`exampleFiles Mindy 2`] = `
+"/*eslint-disable prettier/prettier*/
+export default function (cqrsClient: CQRS) {
+    return {
+        Admin: {
+            Challenges: {
+                ChallengeById: cqrsClient.createQuery<Admin.Challenges.ChallengeById, Admin.Challenges.ChallengeDTO>(\\"Mindy.Core.Contracts.Admin.Challenges.ChallengeById\\"),
+                ChallengesList: cqrsClient.createQuery<Admin.Challenges.ChallengesList, PaginatedResult<Admin.Challenges.ChallengeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Challenges.ChallengesList\\"),
+                DefineChallenge: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.DefineChallenge\\"),
+                EditChallenge: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallenge\\"),
+                EditChallengeLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallengeLocalizedData\\")
+            },
+            Companies: {
+                AddCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddCompany\\"),
+                AddCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddCompanyCode\\"),
+                AddNewCompanyCodes: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddNewCompanyCodes\\"),
+                CompaniesInfoList: cqrsClient.createQuery<Admin.Companies.CompaniesInfoList, Admin.Companies.CompanyInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Companies.CompaniesInfoList\\"),
+                CompaniesList: cqrsClient.createQuery<Admin.Companies.CompaniesList, PaginatedResult<Admin.Companies.CompanySummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.CompaniesList\\"),
+                CompanyById: cqrsClient.createQuery<Admin.Companies.CompanyById, Admin.Companies.CompanyDTO>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyById\\"),
+                CompanyCodeByCode: cqrsClient.createQuery<Admin.Companies.CompanyCodeByCode, Admin.Companies.EntryCodeDTO>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyCodeByCode\\"),
+                CompanyCodes: cqrsClient.createQuery<Admin.Companies.CompanyCodes, PaginatedResult<Admin.Companies.EntryCodeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyCodes\\"),
+                EditCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompany\\"),
+                EditCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyCode\\"),
+                EditCompanyLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyLocalizedData\\"),
+                MembersList: cqrsClient.createQuery<Admin.Companies.MembersList, PaginatedResult<Admin.Companies.MemberDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.MembersList\\"),
+                RemoveCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.RemoveCompanyCode\\"),
+                SetIsHiddenCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.SetIsHiddenCompany\\")
+            },
+            ContentPhotoUploadLink: cqrsClient.createQuery<Admin.ContentPhotoUploadLink, Admin.UploadLinkDTO>(\\"Mindy.Core.Contracts.Admin.ContentPhotoUploadLink\\"),
+            Library: {
+                Collections: {
+                    AddCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.AddCollection\\"),
+                    CollectionById: cqrsClient.createQuery<Admin.Library.Collections.CollectionById, Admin.Library.Collections.CollectionDTO>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionById\\"),
+                    CollectionsInfoList: cqrsClient.createQuery<Admin.Library.Collections.CollectionsInfoList, Admin.Library.Collections.CollectionInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionsInfoList\\"),
+                    CollectionsList: cqrsClient.createQuery<Admin.Library.Collections.CollectionsList, PaginatedResult<Admin.Library.Collections.CollectionSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionsList\\"),
+                    EditCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollection\\"),
+                    EditCollectionLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollectionLocalizedData\\"),
+                    RemoveCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.RemoveCollection\\"),
+                    SetIsHiddenCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.SetIsHiddenCollection\\")
+                },
+                Courses: {
+                    AddCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.AddCourse\\"),
+                    CourseById: cqrsClient.createQuery<Admin.Library.Courses.CourseById, Admin.Library.Courses.CourseDTO>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CourseById\\"),
+                    CoursesInfoList: cqrsClient.createQuery<Admin.Library.Courses.CoursesInfoList, Admin.Library.Courses.CourseInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CoursesInfoList\\"),
+                    CoursesList: cqrsClient.createQuery<Admin.Library.Courses.CoursesList, PaginatedResult<Admin.Library.Courses.CourseSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CoursesList\\"),
+                    EditCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourse\\"),
+                    EditCourseLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourseLocalizedData\\"),
+                    RemoveCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.RemoveCourse\\"),
+                    SetIsHiddenCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.SetIsHiddenCourse\\")
+                },
+                Persons: {
+                    AddPerson: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Persons.AddPerson\\")
+                },
+                Sessions: {
+                    AddSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSession\\"),
+                    AddSessionToCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSessionToCollection\\"),
+                    ArchiveSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.ArchiveSession\\"),
+                    EditSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSession\\"),
+                    EditSessionLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSessionLocalizedData\\"),
+                    RemoveSessionFromCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.RemoveSessionFromCollection\\"),
+                    SessionById: cqrsClient.createQuery<Admin.Library.Sessions.SessionById, Admin.Library.Sessions.SessionDTO>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionById\\"),
+                    SessionRecordingUploadLink: cqrsClient.createQuery<Admin.Library.Sessions.SessionRecordingUploadLink, Admin.UploadLinkDTO>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionRecordingUploadLink\\"),
+                    SessionsInfoList: cqrsClient.createQuery<Admin.Library.Sessions.SessionsInfoList, Admin.Library.Sessions.SessionInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionsInfoList\\"),
+                    SessionsList: cqrsClient.createQuery<Admin.Library.Sessions.SessionsList, PaginatedResult<Admin.Library.Sessions.SessionSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionsList\\"),
+                    SetIsHiddenSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SetIsHiddenSession\\")
+                },
+                Tags: {
+                    AddTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.AddTag\\"),
+                    EditTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTag\\"),
+                    EditTagLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTagLocalizedData\\"),
+                    RemoveTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.RemoveTag\\"),
+                    SetIsHiddenTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.SetIsHiddenTag\\"),
+                    TagById: cqrsClient.createQuery<Admin.Library.Tags.TagById, Admin.Library.Tags.TagDTO>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagById\\"),
+                    TagsInfoList: cqrsClient.createQuery<Admin.Library.Tags.TagsInfoList, Admin.Library.Tags.TagInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagsInfoList\\"),
+                    TagsList: cqrsClient.createQuery<Admin.Library.Tags.TagsList, PaginatedResult<Admin.Library.Tags.TagSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagsList\\")
+                },
+                TodaysMeditations: {
+                    SetTodaysMeditation: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.TodaysMeditations.SetTodaysMeditation\\"),
+                    TodaysMeditationsList: cqrsClient.createQuery<Admin.Library.TodaysMeditations.TodaysMeditationsList, PaginatedResult<Admin.Library.TodaysMeditations.TodaysMeditationDTO>>(\\"Mindy.Core.Contracts.Admin.Library.TodaysMeditations.TodaysMeditationsList\\")
+                }
+            },
+            Pages: {
+                AddApplicationPage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.AddApplicationPage\\"),
+                AddCompanyPage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.AddCompanyPage\\"),
+                ApplicationPage: cqrsClient.createQuery<Admin.Pages.ApplicationPage, Admin.Pages.PageDTO>(\\"Mindy.Core.Contracts.Admin.Pages.ApplicationPage\\"),
+                EditPageLocalizedContent: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.EditPageLocalizedContent\\"),
+                RemovePage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.RemovePage\\")
+            },
+            Subscriptions: {
+                ActivateInternalSubscription: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.ActivateInternalSubscription\\"),
+                AddPromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.AddPromoCode\\"),
+                DeactivateInternalSubscription: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.DeactivateInternalSubscription\\"),
+                EditPromoCodeMaxUses: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.EditPromoCodeMaxUses\\"),
+                GeneratePromoCodes: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.GeneratePromoCodes\\"),
+                PromoCodeById: cqrsClient.createQuery<Admin.Subscriptions.PromoCodeById, Admin.Subscriptions.PromoCodeDTO>(\\"Mindy.Core.Contracts.Admin.Subscriptions.PromoCodeById\\"),
+                PromoCodesList: cqrsClient.createQuery<Admin.Subscriptions.PromoCodesList, PaginatedResult<Admin.Subscriptions.PromoCodeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Subscriptions.PromoCodesList\\"),
+                RemovePromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.RemovePromoCode\\")
+            },
+            Users: {
+                AddFriendToUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.AddFriendToUser\\"),
+                ChangeUserCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.ChangeUserCompany\\"),
+                DeleteUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.DeleteUser\\"),
+                EditUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.EditUser\\"),
+                RemoveFriendFromUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.RemoveFriendFromUser\\"),
+                ThrowUserOutOfCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.ThrowUserOutOfCompany\\"),
+                UpdateUserPassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.UpdateUserPassword\\"),
+                UserById: cqrsClient.createQuery<Admin.Users.UserById, Admin.Users.UserDTO>(\\"Mindy.Core.Contracts.Admin.Users.UserById\\"),
+                UserFriends: cqrsClient.createQuery<Admin.Users.UserFriends, PaginatedResult<Admin.Users.UserFriendDTO>>(\\"Mindy.Core.Contracts.Admin.Users.UserFriends\\"),
+                UsersList: cqrsClient.createQuery<Admin.Users.UsersList, PaginatedResult<Admin.Users.UserSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Users.UsersList\\")
+            }
+        },
+        Mobile: {
+            Game: {
+                B2B: {
+                    MeditatingBuddies: cqrsClient.createQuery<Mobile.Game.B2B.MeditatingBuddies, Mobile.Game.B2B.MeditatingBuddiesDTO>(\\"Mindy.Core.Contracts.Mobile.Game.B2B.MeditatingBuddies\\"),
+                    MyCompany: cqrsClient.createQuery<Mobile.Game.B2B.MyCompany, Mobile.Game.B2B.MyCompanyDTO>(\\"Mindy.Core.Contracts.Mobile.Game.B2B.MyCompany\\"),
+                    MyCompanyStatistics: cqrsClient.createQuery<Mobile.Game.B2B.MyCompanyStatistics, Mobile.Game.B2B.TimedCompanyStatisticsDTO>(\\"Mindy.Core.Contracts.Mobile.Game.B2B.MyCompanyStatistics\\")
+                },
+                B2C: {
+                    PersonalChallengeById: cqrsClient.createQuery<Mobile.Game.B2C.PersonalChallengeById, Mobile.Game.B2C.PersonalChallengeDTO>(\\"Mindy.Core.Contracts.Mobile.Game.B2C.PersonalChallengeById\\"),
+                    PersonalChallengesList: cqrsClient.createQuery<Mobile.Game.B2C.PersonalChallengesList, Mobile.Game.B2C.PersonalChallengeDTO[]>(\\"Mindy.Core.Contracts.Mobile.Game.B2C.PersonalChallengesList\\")
+                },
+                ChallengeContenders: cqrsClient.createQuery<Mobile.Game.ChallengeContenders, Mobile.Game.ChallengeContenderDTO[]>(\\"Mindy.Core.Contracts.Mobile.Game.ChallengeContenders\\")
+            },
+            Library: {
+                Collections: {
+                    CollectionsList: cqrsClient.createQuery<Mobile.Library.Collections.CollectionsList, Mobile.Library.Collections.CollectionDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Collections.CollectionsList\\")
+                },
+                Courses: {
+                    CourseById: cqrsClient.createQuery<Mobile.Library.Courses.CourseById, Mobile.Library.Courses.CourseDTO>(\\"Mindy.Core.Contracts.Mobile.Library.Courses.CourseById\\"),
+                    CoursesList: cqrsClient.createQuery<Mobile.Library.Courses.CoursesList, Mobile.Library.Courses.CourseSummaryDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Courses.CoursesList\\"),
+                    MyCourses: cqrsClient.createQuery<Mobile.Library.Courses.MyCourses, Mobile.Library.Courses.CourseSummaryDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Courses.MyCourses\\")
+                },
+                Sessions: {
+                    MyFavoriteSessions: cqrsClient.createQuery<Mobile.Library.Sessions.MyFavoriteSessions, Mobile.Library.Sessions.SessionInCollectionDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.MyFavoriteSessions\\"),
+                    MyListenedSessions: cqrsClient.createQuery<Mobile.Library.Sessions.MyListenedSessions, Mobile.Library.Sessions.SessionListenedDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.MyListenedSessions\\"),
+                    MyRecentSessions: cqrsClient.createQuery<Mobile.Library.Sessions.MyRecentSessions, Mobile.Library.Sessions.SessionSummaryDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.MyRecentSessions\\"),
+                    RandomSessionsFromCollection: cqrsClient.createQuery<Mobile.Library.Sessions.RandomSessionsFromCollection, Mobile.Library.Sessions.SessionSummaryDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.RandomSessionsFromCollection\\"),
+                    SessionById: cqrsClient.createQuery<Mobile.Library.Sessions.SessionById, Mobile.Library.Sessions.SessionDTO>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.SessionById\\"),
+                    SessionsByCollectionId: cqrsClient.createQuery<Mobile.Library.Sessions.SessionsByCollectionId, Mobile.Library.Sessions.SessionInCollectionDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.SessionsByCollectionId\\"),
+                    SessionsByCourseId: cqrsClient.createQuery<Mobile.Library.Sessions.SessionsByCourseId, Mobile.Library.Courses.SessionInCourseDTO[]>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.SessionsByCourseId\\"),
+                    TodaysSession: cqrsClient.createQuery<Mobile.Library.Sessions.TodaysSession, Mobile.Library.Sessions.SessionSummaryDTO>(\\"Mindy.Core.Contracts.Mobile.Library.Sessions.TodaysSession\\")
+                }
+            },
+            Pages: {
+                ApplicationPage: cqrsClient.createQuery<Mobile.Pages.ApplicationPage, Mobile.Pages.PageDTO>(\\"Mindy.Core.Contracts.Mobile.Pages.ApplicationPage\\"),
+                CompanyPage: cqrsClient.createQuery<Mobile.Pages.CompanyPage, Mobile.Pages.PageDTO>(\\"Mindy.Core.Contracts.Mobile.Pages.CompanyPage\\")
+            },
+            Progress: {
+                FinishSessionInCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Progress.FinishSessionInCourse\\"),
+                ListenToSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Progress.ListenToSession\\")
+            },
+            Statistics: {
+                MyCalendar: cqrsClient.createQuery<Mobile.Statistics.MyCalendar, Mobile.Statistics.CalendarDTO>(\\"Mindy.Core.Contracts.Mobile.Statistics.MyCalendar\\"),
+                MyStatistics: cqrsClient.createQuery<Mobile.Statistics.MyStatistics, Mobile.Statistics.StatisticsDTO>(\\"Mindy.Core.Contracts.Mobile.Statistics.MyStatistics\\")
+            },
+            Subscriptions: {
+                ApplePurchaseStatus: cqrsClient.createQuery<Mobile.Subscriptions.ApplePurchaseStatus, Mobile.Subscriptions.PurchaseStatusResultDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ApplePurchaseStatus\\"),
+                ClaimApplePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimApplePurchase\\"),
+                ClaimGooglePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimGooglePurchase\\"),
+                GooglePurchaseStatus: cqrsClient.createQuery<Mobile.Subscriptions.GooglePurchaseStatus, Mobile.Subscriptions.PurchaseStatusResultDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.GooglePurchaseStatus\\"),
+                PromoCodeById: cqrsClient.createQuery<Mobile.Subscriptions.PromoCodeById, Mobile.Subscriptions.PromoCodeDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.PromoCodeById\\"),
+                UsePromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.UsePromoCode\\")
+            },
+            Users: {
+                AddFavoriteSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.AddFavoriteSession\\"),
+                AddFriend: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.AddFriend\\"),
+                ChangePassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.ChangePassword\\"),
+                CheckEmailAddress: cqrsClient.createQuery<Mobile.Users.CheckEmailAddress, Mobile.Users.EmailAddressCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckEmailAddress\\"),
+                CheckUsername: cqrsClient.createQuery<Mobile.Users.CheckUsername, Mobile.Users.UsernameCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckUsername\\"),
+                DeleteAccount: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.DeleteAccount\\"),
+                FriendLink: cqrsClient.createQuery<Mobile.Users.FriendLink, string>(\\"Mindy.Core.Contracts.Mobile.Users.FriendLink\\"),
+                JoinCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.JoinCompany\\"),
+                Me: cqrsClient.createQuery<Mobile.Users.Me, Mobile.Users.MeDTO>(\\"Mindy.Core.Contracts.Mobile.Users.Me\\"),
+                MyFriends: cqrsClient.createQuery<Mobile.Users.MyFriends, Mobile.Users.FriendDTO[]>(\\"Mindy.Core.Contracts.Mobile.Users.MyFriends\\"),
+                RegisterAppleUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterAppleUser\\"),
+                RegisterFacebookUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterFacebookUser\\"),
+                RegisterGoogleUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterGoogleUser\\"),
+                RegisterUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterUser\\"),
+                RemoveFavoriteSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RemoveFavoriteSession\\"),
+                RequestPasswordReset: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RequestPasswordReset\\"),
+                ResetPassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.ResetPassword\\"),
+                SetAppsflyerId: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.SetAppsflyerId\\"),
+                UpdateProfile: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.UpdateProfile\\")
+            }
+        },
+        System: {
+            Subscriptions: {
+                RefreshApplePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshApplePurchase\\"),
+                RefreshGooglePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshGooglePurchase\\")
+            }
+        }
+    };
+}
+"
+`;

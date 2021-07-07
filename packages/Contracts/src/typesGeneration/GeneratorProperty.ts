@@ -2,10 +2,10 @@ import ts from "typescript";
 import { leancode } from "../protocol";
 import { ensureNotEmpty } from "../utils/notEmpty";
 import GeneratorAttribute from "./GeneratorAttribute";
-import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
-import GeneratorTypesDictionary from "./GeneratorTypesDictionary";
 import GeneratorContext from "./GeneratorContext";
+import GeneratorTypesDictionary from "./GeneratorTypesDictionary";
 import prependJsDoc from "./prependJsDoc";
+import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
 
 export default class GeneratorProperty {
     isNullable;
