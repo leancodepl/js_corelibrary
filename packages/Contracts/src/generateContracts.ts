@@ -13,6 +13,13 @@ import {
     GeneratorStatement,
     GeneratorTypesDictionary,
 } from "./typesGeneration";
+import {
+    ClientMethodFilter,
+    CustomTypesMap,
+    OverridableCustomType,
+    overridableCustomTypes,
+} from "./typesGeneration/GeneratorContext";
+import GeneratorInternalType from "./typesGeneration/types/GeneratorInternalType";
 
 const noNamespace = "--no-namespace--";
 
@@ -81,23 +88,69 @@ function extractNamespaces(
         .value();
 }
 
-type GenerateFileOptions = {
+export type GenerateFileOptions = {
     eslintExclusions?: string[] | "disable";
     writer: Writable;
 };
 
-interface GenerateContractsOptions {
+export type GenerateTypesFileOptions = GenerateFileOptions & {
+    preamble?: ts.Statement[];
+};
+
+export type GenerateClientFileOptions = GenerateFileOptions & {
+    include?: ClientMethodFilter;
+    exclude?: ClientMethodFilter;
+    preamble?: (referencedInternalTypes: Set<GeneratorInternalType>) => ts.Statement[];
+    cqrsClient?: string;
+};
+
+export type OverridableCustomTypeName = keyof {
+    [P in keyof typeof leancode.contracts.KnownType as typeof leancode.contracts.KnownType[P] extends OverridableCustomType
+        ? P
+        : never]: string;
+};
+
+export type CustomTypesDefinition = Partial<Record<OverridableCustomTypeName, string>>;
+
+export interface GenerateContractsOptions {
     baseNamespace?: string;
-    typesFile: GenerateFileOptions;
-    clientFiles: GenerateFileOptions[];
+    customTypes?: CustomTypesDefinition;
+    typesFile: GenerateTypesFileOptions;
+    clientFiles: GenerateClientFileOptions[];
     contracts: protobuf.Reader;
 }
 
+export function isOverridableCustomTypeName(name: string): name is OverridableCustomTypeName {
+    return overridableCustomTypes.includes(leancode.contracts.KnownType[name as any] as any);
+}
+
+export function ensureIsOverridableCustomTypeName(name: string): OverridableCustomTypeName {
+    if (!isOverridableCustomTypeName(name)) {
+        throw new Error(`${name} is not a valid overridable type`);
+    }
+
+    return name;
+}
+
+function mapCustomTypes(def: CustomTypesDefinition = {}) {
+    return Object.entries(def).reduce((typesMap, [name, typeOverride]) => {
+        if (!isOverridableCustomTypeName(name)) {
+            return typesMap;
+        }
+
+        return {
+            ...typesMap,
+            [leancode.contracts.KnownType[name]]: () => ts.factory.createTypeReferenceNode(typeOverride),
+        };
+    }, {} as CustomTypesMap);
+}
+
 export default async function generateContracts({
-    contracts,
     baseNamespace,
+    customTypes,
     clientFiles,
     typesFile,
+    contracts,
 }: GenerateContractsOptions) {
     const definition = leancode.contracts.Export.decode(contracts);
 
@@ -105,7 +158,7 @@ export default async function generateContracts({
         newLine: ts.NewLineKind.LineFeed,
     });
 
-    const baseContext: GeneratorContext = {
+    const baseContext: Omit<GeneratorContext, "referencedInternalTypes"> = {
         printNode: node =>
             printer.printNode(
                 ts.EmitHint.Unspecified,
@@ -119,53 +172,17 @@ export default async function generateContracts({
     };
 
     const namespaces = extractNamespaces(baseNamespace ?? noNamespace, definition.statements);
-    const types = namespaces.flatMap(s =>
-        s.generateStatements({
-            ...baseContext,
-            currentNamespace: baseNamespace,
-        }),
-    );
-
-    const client = ts.factory.createFunctionDeclaration(
-        /* decorators */ undefined,
-        /* modifiers */ [
-            ts.factory.createModifier(ts.SyntaxKind.ExportKeyword),
-            ts.factory.createModifier(ts.SyntaxKind.DefaultKeyword),
-        ],
-        /* asteriskToken */ undefined,
-        /* name */ undefined,
-        /* typeParameters */ undefined,
-        /* parameters */ [
-            ts.factory.createParameterDeclaration(
-                /* decorators */ undefined,
-                /* modifiers */ undefined,
-                /* dotDotDotToken */ undefined,
-                /* name */ ts.factory.createIdentifier("cqrsClient"),
-                /* questionToken */ undefined,
-                /* type */ ts.factory.createTypeReferenceNode("CQRS"),
-                /* initializer */ undefined,
-            ),
-        ],
-        /* type */ undefined,
-        /* body */ ts.factory.createBlock(
-            /* statements */ [
-                ts.factory.createReturnStatement(
-                    /* expression */ ts.factory.createObjectLiteralExpression(
-                        /* properties */ ts.factory.createNodeArray(
-                            /* elements */ namespaces.flatMap(s =>
-                                s.generateClient({
-                                    ...baseContext,
-                                    currentNamespace: baseNamespace,
-                                }),
-                            ),
-                        ),
-                        /* multiline */ true,
-                    ),
-                ),
-            ],
-            /* multiline */ true,
+    const types = [
+        ...(typesFile.preamble ?? []),
+        ...namespaces.flatMap(s =>
+            s.generateStatements({
+                ...baseContext,
+                referencedInternalTypes: new Set(),
+                customTypes: mapCustomTypes(customTypes),
+                currentNamespace: baseNamespace,
+            }),
         ),
-    );
+    ];
 
     const eslintExclusions = typesFile.eslintExclusions;
 
@@ -192,37 +209,98 @@ export default async function generateContracts({
 
     await Promise.all([
         promisify(cb => typesFile.writer.end(typesOutput, cb as any))(),
-        ...clientFiles.map(clientFile => {
-            const eslintExclusions = clientFile.eslintExclusions;
-            const clientCopy: typeof client = { ...client };
-
-            if (eslintExclusions) {
-                if (eslintExclusions === "disable") {
-                    addSyntheticLeadingComment(
-                        clientCopy,
-                        ts.SyntaxKind.MultiLineCommentTrivia,
-                        "eslint-disable",
-                        true,
-                    );
-                } else {
-                    addSyntheticLeadingComment(
-                        clientCopy,
-                        ts.SyntaxKind.MultiLineCommentTrivia,
-                        `eslint-disable ${eslintExclusions.join(" ")}`,
-                        true,
-                    );
-                }
-            }
-
-            const clientOutput = printer.printFile(
-                ts.factory.createSourceFile(
-                    [clientCopy],
-                    ts.factory.createToken(ts.SyntaxKind.EndOfFileToken),
-                    ts.NodeFlags.Synthesized,
-                ),
-            );
-
-            return promisify(cb => clientFile.writer.end(clientOutput, cb as any))();
-        }),
+        ...clientFiles.map(clientFile =>
+            generateClient({
+                clientFile,
+                namespaces,
+                baseContext,
+                baseNamespace,
+                printer,
+            }),
+        ),
     ]);
+}
+
+function generateClient({
+    clientFile: { writer, preamble, eslintExclusions, include, exclude },
+    namespaces,
+    baseContext,
+    baseNamespace,
+    printer,
+}: {
+    clientFile: GenerateClientFileOptions;
+    namespaces: GeneratorStatement[];
+    baseContext: Omit<GeneratorContext, "referencedInternalTypes">;
+    baseNamespace: string | undefined;
+    printer: ts.Printer;
+}) {
+    const context: GeneratorContext = {
+        ...baseContext,
+        referencedInternalTypes: new Set(),
+        include,
+        exclude,
+        currentNamespace: baseNamespace,
+    };
+
+    const clientProperties = namespaces.flatMap(s => s.generateClient(context));
+
+    const client = [
+        ...(preamble?.(context.referencedInternalTypes) ?? []),
+        ts.factory.createFunctionDeclaration(
+            /* decorators */ undefined,
+            /* modifiers */ [
+                ts.factory.createModifier(ts.SyntaxKind.ExportKeyword),
+                ts.factory.createModifier(ts.SyntaxKind.DefaultKeyword),
+            ],
+            /* asteriskToken */ undefined,
+            /* name */ undefined,
+            /* typeParameters */ undefined,
+            /* parameters */ [
+                ts.factory.createParameterDeclaration(
+                    /* decorators */ undefined,
+                    /* modifiers */ undefined,
+                    /* dotDotDotToken */ undefined,
+                    /* name */ ts.factory.createIdentifier("cqrsClient"),
+                    /* questionToken */ undefined,
+                    /* type */ ts.factory.createTypeReferenceNode("CQRS"),
+                    /* initializer */ undefined,
+                ),
+            ],
+            /* type */ undefined,
+            /* body */ ts.factory.createBlock(
+                /* statements */ [
+                    ts.factory.createReturnStatement(
+                        /* expression */ ts.factory.createObjectLiteralExpression(
+                            /* properties */ ts.factory.createNodeArray(/* elements */ clientProperties),
+                            /* multiline */ true,
+                        ),
+                    ),
+                ],
+                /* multiline */ true,
+            ),
+        ),
+    ];
+
+    if (eslintExclusions) {
+        if (eslintExclusions === "disable") {
+            addSyntheticLeadingComment(client[0], ts.SyntaxKind.MultiLineCommentTrivia, "eslint-disable", true);
+        } else {
+            addSyntheticLeadingComment(
+                client[0],
+                ts.SyntaxKind.MultiLineCommentTrivia,
+                `eslint-disable ${eslintExclusions.join(" ")}`,
+                true,
+            );
+        }
+    }
+
+    const clientOutput = printer.printFile(
+        ts.factory.createSourceFile(
+            client,
+            ts.factory.createToken(ts.SyntaxKind.EndOfFileToken),
+            ts.NodeFlags.Synthesized,
+        ),
+    );
+
+    return promisify(cb => writer.end(clientOutput, cb as any))();
 }

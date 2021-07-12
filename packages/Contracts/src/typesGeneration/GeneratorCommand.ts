@@ -46,6 +46,10 @@ export default class GeneratorCommand extends GeneratorInterface {
     }
 
     generateClient(context: GeneratorContext): ts.PropertyAssignment[] {
+        if (!(context.include?.(this.fullName, this) ?? true) || (context.exclude?.(this.fullName, this) ?? false)) {
+            return [];
+        }
+
         return [
             ts.factory.createPropertyAssignment(
                 /* name */ this.name,

@@ -6,6 +6,68 @@ import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 import GeneratorType from "./GeneratorType";
 import GeneratorTypeFactory from "./GeneratorTypeFactory";
 
+const defaultTypesMap: Record<
+    leancode.contracts.KnownType,
+    (config: { typeArguments: GeneratorType[]; context: GeneratorContext }) => ts.TypeNode | undefined
+> = {
+    [leancode.contracts.KnownType.Object]: () =>
+        ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Partial"), [
+            ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Record"), [
+                ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+                ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword),
+            ]),
+        ]),
+    [leancode.contracts.KnownType.String]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.Guid]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.Uri]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.Date]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.Time]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.DateTime]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.DateTimeOffset]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.Boolean]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword),
+    [leancode.contracts.KnownType.UInt8]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Int8]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.UInt16]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Int16]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.UInt32]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Int32]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.UInt64]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Int64]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Float]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Double]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Decimal]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+    [leancode.contracts.KnownType.Array]: ({ typeArguments, context }) =>
+        ts.factory.createArrayTypeNode(ensureNotEmpty(typeArguments[0]).generateType(context)),
+    [leancode.contracts.KnownType.Map]: ({ typeArguments, context }) => {
+        const keyType = ensureNotEmpty(typeArguments[0]);
+        const valueType = ensureNotEmpty(typeArguments[1]);
+
+        const isNullable = !!valueType.isNullable;
+
+        return ts.factory.createMappedTypeNode(
+            /* readonlyToken */ undefined,
+            /* typeParameter */ ts.factory.createTypeParameterDeclaration(
+                /* name */ "key",
+                /* constraint */ keyType.generateType(context),
+                /* defaultType */ undefined,
+            ),
+            /* typeNode */ undefined,
+            /* questionToken */ isNullable ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
+            /* type */ ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+        );
+    },
+    [leancode.contracts.KnownType.Query]: ({ typeArguments, context }) =>
+        ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Query"), [
+            ensureNotEmpty(typeArguments[0]).generateType(context),
+        ]),
+    [leancode.contracts.KnownType.Command]: () =>
+        ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Command")),
+    [leancode.contracts.KnownType.AuthorizeWhenAttribute]: () => undefined,
+    [leancode.contracts.KnownType.AuthorizeWhenHasAnyOfAttribute]: () => undefined,
+    [leancode.contracts.KnownType.QueryCacheAttribute]: () => undefined,
+    [leancode.contracts.KnownType.Attribute]: () => undefined,
+};
+
 export default class GeneratorKnownType implements GeneratorType {
     type;
     typeArguments;
@@ -38,65 +100,14 @@ export default class GeneratorKnownType implements GeneratorType {
     }
 
     generateType(context: GeneratorContext): ts.TypeNode {
-        switch (this.type) {
-            case leancode.contracts.KnownType.Object:
-                return ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Partial"), [
-                    ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Record"), [
-                        ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-                        ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword),
-                    ]),
-                ]);
-            case leancode.contracts.KnownType.String:
-            case leancode.contracts.KnownType.Guid:
-            case leancode.contracts.KnownType.Uri:
-            case leancode.contracts.KnownType.Date:
-            case leancode.contracts.KnownType.Time:
-            case leancode.contracts.KnownType.DateTime:
-            case leancode.contracts.KnownType.DateTimeOffset:
-                return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
-            case leancode.contracts.KnownType.Boolean:
-                return ts.factory.createKeywordTypeNode(ts.SyntaxKind.BooleanKeyword);
-            case leancode.contracts.KnownType.UInt8:
-            case leancode.contracts.KnownType.Int8:
-            case leancode.contracts.KnownType.UInt16:
-            case leancode.contracts.KnownType.Int16:
-            case leancode.contracts.KnownType.UInt32:
-            case leancode.contracts.KnownType.Int32:
-            case leancode.contracts.KnownType.UInt64:
-            case leancode.contracts.KnownType.Int64:
-            case leancode.contracts.KnownType.Float:
-            case leancode.contracts.KnownType.Double:
-            case leancode.contracts.KnownType.Decimal:
-                return ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword);
-            case leancode.contracts.KnownType.Array:
-                return ts.factory.createArrayTypeNode(ensureNotEmpty(this.typeArguments[0]).generateType(context));
-            case leancode.contracts.KnownType.Map: {
-                const keyType = ensureNotEmpty(this.typeArguments[0]);
-                const valueType = ensureNotEmpty(this.typeArguments[1]);
+        const typesMap = { ...defaultTypesMap, ...context.customTypes };
 
-                const isNullable = !!valueType.isNullable;
+        const outputType = typesMap[this.type]({ typeArguments: this.typeArguments, context });
 
-                return ts.factory.createMappedTypeNode(
-                    /* readonlyToken */ undefined,
-                    /* typeParameter */ ts.factory.createTypeParameterDeclaration(
-                        /* name */ "key",
-                        /* constraint */ keyType.generateType(context),
-                        /* defaultType */ undefined,
-                    ),
-                    /* typeNode */ undefined,
-                    /* questionToken */ isNullable ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
-                    /* type */ ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-                );
-            }
-            case leancode.contracts.KnownType.Query:
-                return ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Query"), [
-                    ensureNotEmpty(this.typeArguments[0]).generateType(context),
-                ]);
-            case leancode.contracts.KnownType.Command: {
-                return ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Command"));
-            }
+        if (outputType === undefined) {
+            throw new Error("Type not supported.");
         }
 
-        throw new Error("Type not supported.");
+        return outputType;
     }
 }

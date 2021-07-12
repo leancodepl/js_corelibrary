@@ -39,6 +39,8 @@ export default class GeneratorInternalType implements GeneratorType {
     }
 
     generateType(context: GeneratorContext): ts.TypeNode {
+        context.referencedInternalTypes.add(this);
+
         const name = extractMinimalReferenceTypeName(this.name, context.currentNamespace);
 
         return ts.factory.createTypeReferenceNode(

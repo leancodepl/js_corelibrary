@@ -102,6 +102,7 @@ export default class GeneratorInterface implements GeneratorStatement {
         return [interfaceStatement, ...constants];
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     generateClient(context: GeneratorContext): ts.PropertyAssignment[] {
         return [];
     }

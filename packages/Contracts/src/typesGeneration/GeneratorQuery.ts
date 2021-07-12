@@ -1,14 +1,13 @@
 import ts from "typescript";
-import { GeneratorInterface } from ".";
+import { GeneratorContext, GeneratorInterface } from ".";
 import { leancode } from "../protocol";
-import extractMinimalReferenceTypeName from "../utils/extractMinimalReferenceTypeName";
 import { ensureNotEmpty } from "../utils/notEmpty";
-import GeneratorContext from "./GeneratorContext";
 import GeneratorTypesDictionary from "./GeneratorTypesDictionary";
 import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
 
 export default class GeneratorQuery extends GeneratorInterface {
     returnType;
+    queryType;
 
     constructor({
         statement,
@@ -24,11 +23,23 @@ export default class GeneratorQuery extends GeneratorInterface {
             typesDictionary,
         });
 
+        const queryType = GeneratorTypeFactory.createType({
+            type: {
+                internal: {
+                    name: this.fullName,
+                },
+            },
+            typesDictionary,
+        });
+
         this.returnType = returnType;
+        this.queryType = queryType;
     }
 
     generateClient(context: GeneratorContext): ts.PropertyAssignment[] {
-        const queryName = extractMinimalReferenceTypeName(this.fullName, context.currentNamespace);
+        if (!(context.include?.(this.fullName, this) ?? true) || (context.exclude?.(this.fullName, this) ?? false)) {
+            return [];
+        }
 
         return [
             ts.factory.createPropertyAssignment(
@@ -38,10 +49,7 @@ export default class GeneratorQuery extends GeneratorInterface {
                         /* expression */ ts.factory.createIdentifier("cqrsClient"),
                         /* name */ "createQuery",
                     ),
-                    /* typeArguments */ [
-                        ts.factory.createTypeReferenceNode(queryName),
-                        this.returnType.generateType(context),
-                    ],
+                    /* typeArguments */ [this.queryType.generateType(context), this.returnType.generateType(context)],
                     /* argumentsArray */ [ts.factory.createStringLiteral(this.fullName)],
                 ),
             ),
