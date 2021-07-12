@@ -54,40 +54,5 @@ export default class GeneratorQuery extends GeneratorInterface {
                 ),
             ),
         ];
-
-        // return [
-        //     ts.factory.createPropertyAssignment(
-        //         /* name */ this.name,
-        //         /* initializer */ ts.factory.createArrowFunction(
-        //             /* modifiers */ undefined,
-        //             /* typeParameters */ undefined,
-        //             /* parameters */ [
-        //                 ts.factory.createParameterDeclaration(
-        //                     /* decorators */ undefined,
-        //                     /* modifiers */ undefined,
-        //                     /* dotDotDotToken */ undefined,
-        //                     /* name */ "dto",
-        //                     /* questionToken */ undefined,
-        //                     /* type */ ts.factory.createTypeReferenceNode(queryName),
-        //                     /* initializer */ undefined,
-        //                 ),
-        //             ],
-        //             /* type */ undefined,
-        //             /* equalsGreaterThanToken */ undefined,
-        //             /* body */
-        //             ts.factory.createCallExpression(
-        //                 /* expression */ ts.factory.createPropertyAccessExpression(
-        //                     /* expression */ ts.factory.createIdentifier("cqrsClient"),
-        //                     /* name */ "executeQuery",
-        //                 ),
-        //                 /* typeArguments */ [this.returnType.generateType(context)],
-        //                 /* argumentsArray */ [
-        //                     ts.factory.createStringLiteral(this.fullName),
-        //                     ts.factory.createIdentifier("dto"),
-        //                 ],
-        //             ),
-        //         ),
-        //     ),
-        // ];
     }
 }

@@ -5,12 +5,16 @@ import { ensureNotEmpty } from "../utils/notEmpty";
 export default class GeneratorErrorCodes {
     errorCodes;
 
+    get hasErrors() {
+        return this.errorCodes.length > 0;
+    }
+
     constructor({ errorCodes }: { errorCodes: leancode.contracts.IErrorCode[] }) {
         this.errorCodes = GeneratorErrorCodes.convertErrorCodes(errorCodes);
     }
 
     generateErrorCodes() {
-        if (this.errorCodes.length === 0) {
+        if (!this.hasErrors) {
             return undefined;
         }
 

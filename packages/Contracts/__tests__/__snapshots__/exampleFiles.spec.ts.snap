@@ -95,7 +95,7 @@ export default function (cqrsClient: CQRS) {
     return {
         Users: {
             AllUsers: cqrsClient.createQuery<Users.AllUsers, PaginatedResult<Users.UserInfoDTO>>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.AllUsers\\"),
-            EditUser: cqrsClient.createCommand(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.EditUser\\"),
+            EditUser: cqrsClient.createCommand<Users.EditUser, Users.EditUser.ErrorCodes>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.EditUser\\", Users.EditUser.ErrorCodes),
             UserById: cqrsClient.createQuery<Users.UserById, Users.UserInfoDTO>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.UserById\\"),
             UserSomething: cqrsClient.createQuery<Users.UserSomething, number>(\\"LeanCode.ContractsGeneratorV2.ExampleContracts.Users.UserSomething\\")
         }
@@ -2112,104 +2112,104 @@ export default function (cqrsClient: CQRS) {
             Challenges: {
                 ChallengeById: cqrsClient.createQuery<Admin.Challenges.ChallengeById, Admin.Challenges.ChallengeDTO>(\\"Mindy.Core.Contracts.Admin.Challenges.ChallengeById\\"),
                 ChallengesList: cqrsClient.createQuery<Admin.Challenges.ChallengesList, PaginatedResult<Admin.Challenges.ChallengeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Challenges.ChallengesList\\"),
-                DefineChallenge: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.DefineChallenge\\"),
-                EditChallenge: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallenge\\"),
-                EditChallengeLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallengeLocalizedData\\")
+                DefineChallenge: cqrsClient.createCommand<Admin.Challenges.DefineChallenge, Admin.Challenges.DefineChallenge.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Challenges.DefineChallenge\\", Admin.Challenges.DefineChallenge.ErrorCodes),
+                EditChallenge: cqrsClient.createCommand<Admin.Challenges.EditChallenge, Admin.Challenges.EditChallenge.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallenge\\", Admin.Challenges.EditChallenge.ErrorCodes),
+                EditChallengeLocalizedData: cqrsClient.createCommand<Admin.Challenges.EditChallengeLocalizedData, Admin.Challenges.EditChallengeLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Challenges.EditChallengeLocalizedData\\", Admin.Challenges.EditChallengeLocalizedData.ErrorCodes)
             },
             Companies: {
-                AddCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddCompany\\"),
-                AddCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddCompanyCode\\"),
-                AddNewCompanyCodes: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.AddNewCompanyCodes\\"),
+                AddCompany: cqrsClient.createCommand<Admin.Companies.AddCompany, Admin.Companies.AddCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.AddCompany\\", Admin.Companies.AddCompany.ErrorCodes),
+                AddCompanyCode: cqrsClient.createCommand<Admin.Companies.AddCompanyCode, Admin.Companies.AddCompanyCode.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.AddCompanyCode\\", Admin.Companies.AddCompanyCode.ErrorCodes),
+                AddNewCompanyCodes: cqrsClient.createCommand<Admin.Companies.AddNewCompanyCodes, Admin.Companies.AddNewCompanyCodes.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.AddNewCompanyCodes\\", Admin.Companies.AddNewCompanyCodes.ErrorCodes),
                 CompaniesInfoList: cqrsClient.createQuery<Admin.Companies.CompaniesInfoList, Admin.Companies.CompanyInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Companies.CompaniesInfoList\\"),
                 CompaniesList: cqrsClient.createQuery<Admin.Companies.CompaniesList, PaginatedResult<Admin.Companies.CompanySummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.CompaniesList\\"),
                 CompanyById: cqrsClient.createQuery<Admin.Companies.CompanyById, Admin.Companies.CompanyDTO>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyById\\"),
                 CompanyCodeByCode: cqrsClient.createQuery<Admin.Companies.CompanyCodeByCode, Admin.Companies.EntryCodeDTO>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyCodeByCode\\"),
                 CompanyCodes: cqrsClient.createQuery<Admin.Companies.CompanyCodes, PaginatedResult<Admin.Companies.EntryCodeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.CompanyCodes\\"),
-                EditCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompany\\"),
-                EditCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyCode\\"),
-                EditCompanyLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyLocalizedData\\"),
+                EditCompany: cqrsClient.createCommand<Admin.Companies.EditCompany, Admin.Companies.EditCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.EditCompany\\", Admin.Companies.EditCompany.ErrorCodes),
+                EditCompanyCode: cqrsClient.createCommand<Admin.Companies.EditCompanyCode, Admin.Companies.EditCompanyCode.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyCode\\", Admin.Companies.EditCompanyCode.ErrorCodes),
+                EditCompanyLocalizedData: cqrsClient.createCommand<Admin.Companies.EditCompanyLocalizedData, Admin.Companies.EditCompanyLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.EditCompanyLocalizedData\\", Admin.Companies.EditCompanyLocalizedData.ErrorCodes),
                 MembersList: cqrsClient.createQuery<Admin.Companies.MembersList, PaginatedResult<Admin.Companies.MemberDTO>>(\\"Mindy.Core.Contracts.Admin.Companies.MembersList\\"),
-                RemoveCompanyCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.RemoveCompanyCode\\"),
-                SetIsHiddenCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Companies.SetIsHiddenCompany\\")
+                RemoveCompanyCode: cqrsClient.createCommand<Admin.Companies.RemoveCompanyCode, Admin.Companies.RemoveCompanyCode.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.RemoveCompanyCode\\", Admin.Companies.RemoveCompanyCode.ErrorCodes),
+                SetIsHiddenCompany: cqrsClient.createCommand<Admin.Companies.SetIsHiddenCompany, Admin.Companies.SetIsHiddenCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Companies.SetIsHiddenCompany\\", Admin.Companies.SetIsHiddenCompany.ErrorCodes)
             },
             ContentPhotoUploadLink: cqrsClient.createQuery<Admin.ContentPhotoUploadLink, Admin.UploadLinkDTO>(\\"Mindy.Core.Contracts.Admin.ContentPhotoUploadLink\\"),
             Library: {
                 Collections: {
-                    AddCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.AddCollection\\"),
+                    AddCollection: cqrsClient.createCommand<Admin.Library.Collections.AddCollection, Admin.Library.Collections.AddCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Collections.AddCollection\\", Admin.Library.Collections.AddCollection.ErrorCodes),
                     CollectionById: cqrsClient.createQuery<Admin.Library.Collections.CollectionById, Admin.Library.Collections.CollectionDTO>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionById\\"),
                     CollectionsInfoList: cqrsClient.createQuery<Admin.Library.Collections.CollectionsInfoList, Admin.Library.Collections.CollectionInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionsInfoList\\"),
                     CollectionsList: cqrsClient.createQuery<Admin.Library.Collections.CollectionsList, PaginatedResult<Admin.Library.Collections.CollectionSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Collections.CollectionsList\\"),
-                    EditCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollection\\"),
-                    EditCollectionLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollectionLocalizedData\\"),
-                    RemoveCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.RemoveCollection\\"),
-                    SetIsHiddenCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Collections.SetIsHiddenCollection\\")
+                    EditCollection: cqrsClient.createCommand<Admin.Library.Collections.EditCollection, Admin.Library.Collections.EditCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollection\\", Admin.Library.Collections.EditCollection.ErrorCodes),
+                    EditCollectionLocalizedData: cqrsClient.createCommand<Admin.Library.Collections.EditCollectionLocalizedData, Admin.Library.Collections.EditCollectionLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Collections.EditCollectionLocalizedData\\", Admin.Library.Collections.EditCollectionLocalizedData.ErrorCodes),
+                    RemoveCollection: cqrsClient.createCommand<Admin.Library.Collections.RemoveCollection, Admin.Library.Collections.RemoveCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Collections.RemoveCollection\\", Admin.Library.Collections.RemoveCollection.ErrorCodes),
+                    SetIsHiddenCollection: cqrsClient.createCommand<Admin.Library.Collections.SetIsHiddenCollection, Admin.Library.Collections.SetIsHiddenCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Collections.SetIsHiddenCollection\\", Admin.Library.Collections.SetIsHiddenCollection.ErrorCodes)
                 },
                 Courses: {
-                    AddCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.AddCourse\\"),
+                    AddCourse: cqrsClient.createCommand<Admin.Library.Courses.AddCourse, Admin.Library.Courses.AddCourse.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Courses.AddCourse\\", Admin.Library.Courses.AddCourse.ErrorCodes),
                     CourseById: cqrsClient.createQuery<Admin.Library.Courses.CourseById, Admin.Library.Courses.CourseDTO>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CourseById\\"),
                     CoursesInfoList: cqrsClient.createQuery<Admin.Library.Courses.CoursesInfoList, Admin.Library.Courses.CourseInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CoursesInfoList\\"),
                     CoursesList: cqrsClient.createQuery<Admin.Library.Courses.CoursesList, PaginatedResult<Admin.Library.Courses.CourseSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Courses.CoursesList\\"),
-                    EditCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourse\\"),
-                    EditCourseLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourseLocalizedData\\"),
-                    RemoveCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.RemoveCourse\\"),
-                    SetIsHiddenCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Courses.SetIsHiddenCourse\\")
+                    EditCourse: cqrsClient.createCommand<Admin.Library.Courses.EditCourse, Admin.Library.Courses.EditCourse.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourse\\", Admin.Library.Courses.EditCourse.ErrorCodes),
+                    EditCourseLocalizedData: cqrsClient.createCommand<Admin.Library.Courses.EditCourseLocalizedData, Admin.Library.Courses.EditCourseLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Courses.EditCourseLocalizedData\\", Admin.Library.Courses.EditCourseLocalizedData.ErrorCodes),
+                    RemoveCourse: cqrsClient.createCommand<Admin.Library.Courses.RemoveCourse, Admin.Library.Courses.RemoveCourse.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Courses.RemoveCourse\\", Admin.Library.Courses.RemoveCourse.ErrorCodes),
+                    SetIsHiddenCourse: cqrsClient.createCommand<Admin.Library.Courses.SetIsHiddenCourse, Admin.Library.Courses.SetIsHiddenCourse.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Courses.SetIsHiddenCourse\\", Admin.Library.Courses.SetIsHiddenCourse.ErrorCodes)
                 },
                 Persons: {
-                    AddPerson: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Persons.AddPerson\\")
+                    AddPerson: cqrsClient.createCommand<Admin.Library.Persons.AddPerson, Admin.Library.Persons.AddPerson.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Persons.AddPerson\\", Admin.Library.Persons.AddPerson.ErrorCodes)
                 },
                 Sessions: {
-                    AddSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSession\\"),
-                    AddSessionToCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSessionToCollection\\"),
-                    ArchiveSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.ArchiveSession\\"),
-                    EditSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSession\\"),
-                    EditSessionLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSessionLocalizedData\\"),
-                    RemoveSessionFromCollection: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.RemoveSessionFromCollection\\"),
+                    AddSession: cqrsClient.createCommand<Admin.Library.Sessions.AddSession, Admin.Library.Sessions.AddSession.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSession\\", Admin.Library.Sessions.AddSession.ErrorCodes),
+                    AddSessionToCollection: cqrsClient.createCommand<Admin.Library.Sessions.AddSessionToCollection, Admin.Library.Sessions.AddSessionToCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.AddSessionToCollection\\", Admin.Library.Sessions.AddSessionToCollection.ErrorCodes),
+                    ArchiveSession: cqrsClient.createCommand<Admin.Library.Sessions.ArchiveSession, Admin.Library.Sessions.ArchiveSession.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.ArchiveSession\\", Admin.Library.Sessions.ArchiveSession.ErrorCodes),
+                    EditSession: cqrsClient.createCommand<Admin.Library.Sessions.EditSession, Admin.Library.Sessions.EditSession.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSession\\", Admin.Library.Sessions.EditSession.ErrorCodes),
+                    EditSessionLocalizedData: cqrsClient.createCommand<Admin.Library.Sessions.EditSessionLocalizedData, Admin.Library.Sessions.EditSessionLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.EditSessionLocalizedData\\", Admin.Library.Sessions.EditSessionLocalizedData.ErrorCodes),
+                    RemoveSessionFromCollection: cqrsClient.createCommand<Admin.Library.Sessions.RemoveSessionFromCollection, Admin.Library.Sessions.RemoveSessionFromCollection.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.RemoveSessionFromCollection\\", Admin.Library.Sessions.RemoveSessionFromCollection.ErrorCodes),
                     SessionById: cqrsClient.createQuery<Admin.Library.Sessions.SessionById, Admin.Library.Sessions.SessionDTO>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionById\\"),
                     SessionRecordingUploadLink: cqrsClient.createQuery<Admin.Library.Sessions.SessionRecordingUploadLink, Admin.UploadLinkDTO>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionRecordingUploadLink\\"),
                     SessionsInfoList: cqrsClient.createQuery<Admin.Library.Sessions.SessionsInfoList, Admin.Library.Sessions.SessionInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionsInfoList\\"),
                     SessionsList: cqrsClient.createQuery<Admin.Library.Sessions.SessionsList, PaginatedResult<Admin.Library.Sessions.SessionSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SessionsList\\"),
-                    SetIsHiddenSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SetIsHiddenSession\\")
+                    SetIsHiddenSession: cqrsClient.createCommand<Admin.Library.Sessions.SetIsHiddenSession, Admin.Library.Sessions.SetIsHiddenSession.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Sessions.SetIsHiddenSession\\", Admin.Library.Sessions.SetIsHiddenSession.ErrorCodes)
                 },
                 Tags: {
-                    AddTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.AddTag\\"),
-                    EditTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTag\\"),
-                    EditTagLocalizedData: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTagLocalizedData\\"),
-                    RemoveTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.RemoveTag\\"),
-                    SetIsHiddenTag: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.Tags.SetIsHiddenTag\\"),
+                    AddTag: cqrsClient.createCommand<Admin.Library.Tags.AddTag, Admin.Library.Tags.AddTag.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Tags.AddTag\\", Admin.Library.Tags.AddTag.ErrorCodes),
+                    EditTag: cqrsClient.createCommand<Admin.Library.Tags.EditTag, Admin.Library.Tags.EditTag.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTag\\", Admin.Library.Tags.EditTag.ErrorCodes),
+                    EditTagLocalizedData: cqrsClient.createCommand<Admin.Library.Tags.EditTagLocalizedData, Admin.Library.Tags.EditTagLocalizedData.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Tags.EditTagLocalizedData\\", Admin.Library.Tags.EditTagLocalizedData.ErrorCodes),
+                    RemoveTag: cqrsClient.createCommand<Admin.Library.Tags.RemoveTag, Admin.Library.Tags.RemoveTag.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Tags.RemoveTag\\", Admin.Library.Tags.RemoveTag.ErrorCodes),
+                    SetIsHiddenTag: cqrsClient.createCommand<Admin.Library.Tags.SetIsHiddenTag, Admin.Library.Tags.SetIsHiddenTag.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.Tags.SetIsHiddenTag\\", Admin.Library.Tags.SetIsHiddenTag.ErrorCodes),
                     TagById: cqrsClient.createQuery<Admin.Library.Tags.TagById, Admin.Library.Tags.TagDTO>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagById\\"),
                     TagsInfoList: cqrsClient.createQuery<Admin.Library.Tags.TagsInfoList, Admin.Library.Tags.TagInfoDTO[]>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagsInfoList\\"),
                     TagsList: cqrsClient.createQuery<Admin.Library.Tags.TagsList, PaginatedResult<Admin.Library.Tags.TagSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Library.Tags.TagsList\\")
                 },
                 TodaysMeditations: {
-                    SetTodaysMeditation: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Library.TodaysMeditations.SetTodaysMeditation\\"),
+                    SetTodaysMeditation: cqrsClient.createCommand<Admin.Library.TodaysMeditations.SetTodaysMeditation, Admin.Library.TodaysMeditations.SetTodaysMeditation.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Library.TodaysMeditations.SetTodaysMeditation\\", Admin.Library.TodaysMeditations.SetTodaysMeditation.ErrorCodes),
                     TodaysMeditationsList: cqrsClient.createQuery<Admin.Library.TodaysMeditations.TodaysMeditationsList, PaginatedResult<Admin.Library.TodaysMeditations.TodaysMeditationDTO>>(\\"Mindy.Core.Contracts.Admin.Library.TodaysMeditations.TodaysMeditationsList\\")
                 }
             },
             Pages: {
-                AddApplicationPage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.AddApplicationPage\\"),
-                AddCompanyPage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.AddCompanyPage\\"),
+                AddApplicationPage: cqrsClient.createCommand<Admin.Pages.AddApplicationPage, Admin.Pages.AddApplicationPage.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Pages.AddApplicationPage\\", Admin.Pages.AddApplicationPage.ErrorCodes),
+                AddCompanyPage: cqrsClient.createCommand<Admin.Pages.AddCompanyPage, Admin.Pages.AddCompanyPage.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Pages.AddCompanyPage\\", Admin.Pages.AddCompanyPage.ErrorCodes),
                 ApplicationPage: cqrsClient.createQuery<Admin.Pages.ApplicationPage, Admin.Pages.PageDTO>(\\"Mindy.Core.Contracts.Admin.Pages.ApplicationPage\\"),
-                EditPageLocalizedContent: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.EditPageLocalizedContent\\"),
-                RemovePage: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Pages.RemovePage\\")
+                EditPageLocalizedContent: cqrsClient.createCommand<Admin.Pages.EditPageLocalizedContent, Admin.Pages.EditPageLocalizedContent.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Pages.EditPageLocalizedContent\\", Admin.Pages.EditPageLocalizedContent.ErrorCodes),
+                RemovePage: cqrsClient.createCommand<Admin.Pages.RemovePage, Admin.Pages.RemovePage.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Pages.RemovePage\\", Admin.Pages.RemovePage.ErrorCodes)
             },
             Subscriptions: {
-                ActivateInternalSubscription: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.ActivateInternalSubscription\\"),
-                AddPromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.AddPromoCode\\"),
-                DeactivateInternalSubscription: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.DeactivateInternalSubscription\\"),
-                EditPromoCodeMaxUses: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.EditPromoCodeMaxUses\\"),
-                GeneratePromoCodes: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.GeneratePromoCodes\\"),
+                ActivateInternalSubscription: cqrsClient.createCommand<Admin.Subscriptions.ActivateInternalSubscription, Admin.Subscriptions.ActivateInternalSubscription.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.ActivateInternalSubscription\\", Admin.Subscriptions.ActivateInternalSubscription.ErrorCodes),
+                AddPromoCode: cqrsClient.createCommand<Admin.Subscriptions.AddPromoCode, Admin.Subscriptions.AddPromoCode.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.AddPromoCode\\", Admin.Subscriptions.AddPromoCode.ErrorCodes),
+                DeactivateInternalSubscription: cqrsClient.createCommand<Admin.Subscriptions.DeactivateInternalSubscription, Admin.Subscriptions.DeactivateInternalSubscription.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.DeactivateInternalSubscription\\", Admin.Subscriptions.DeactivateInternalSubscription.ErrorCodes),
+                EditPromoCodeMaxUses: cqrsClient.createCommand<Admin.Subscriptions.EditPromoCodeMaxUses, Admin.Subscriptions.EditPromoCodeMaxUses.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.EditPromoCodeMaxUses\\", Admin.Subscriptions.EditPromoCodeMaxUses.ErrorCodes),
+                GeneratePromoCodes: cqrsClient.createCommand<Admin.Subscriptions.GeneratePromoCodes, Admin.Subscriptions.GeneratePromoCodes.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.GeneratePromoCodes\\", Admin.Subscriptions.GeneratePromoCodes.ErrorCodes),
                 PromoCodeById: cqrsClient.createQuery<Admin.Subscriptions.PromoCodeById, Admin.Subscriptions.PromoCodeDTO>(\\"Mindy.Core.Contracts.Admin.Subscriptions.PromoCodeById\\"),
                 PromoCodesList: cqrsClient.createQuery<Admin.Subscriptions.PromoCodesList, PaginatedResult<Admin.Subscriptions.PromoCodeSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Subscriptions.PromoCodesList\\"),
-                RemovePromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Subscriptions.RemovePromoCode\\")
+                RemovePromoCode: cqrsClient.createCommand<Admin.Subscriptions.RemovePromoCode, Admin.Subscriptions.RemovePromoCode.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Subscriptions.RemovePromoCode\\", Admin.Subscriptions.RemovePromoCode.ErrorCodes)
             },
             Users: {
-                AddFriendToUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.AddFriendToUser\\"),
-                ChangeUserCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.ChangeUserCompany\\"),
-                DeleteUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.DeleteUser\\"),
-                EditUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.EditUser\\"),
-                RemoveFriendFromUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.RemoveFriendFromUser\\"),
-                ThrowUserOutOfCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.ThrowUserOutOfCompany\\"),
-                UpdateUserPassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Admin.Users.UpdateUserPassword\\"),
+                AddFriendToUser: cqrsClient.createCommand<Admin.Users.AddFriendToUser, Admin.Users.AddFriendToUser.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.AddFriendToUser\\", Admin.Users.AddFriendToUser.ErrorCodes),
+                ChangeUserCompany: cqrsClient.createCommand<Admin.Users.ChangeUserCompany, Admin.Users.ChangeUserCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.ChangeUserCompany\\", Admin.Users.ChangeUserCompany.ErrorCodes),
+                DeleteUser: cqrsClient.createCommand<Admin.Users.DeleteUser, Admin.Users.DeleteUser.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.DeleteUser\\", Admin.Users.DeleteUser.ErrorCodes),
+                EditUser: cqrsClient.createCommand<Admin.Users.EditUser, Admin.Users.EditUser.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.EditUser\\", Admin.Users.EditUser.ErrorCodes),
+                RemoveFriendFromUser: cqrsClient.createCommand<Admin.Users.RemoveFriendFromUser, Admin.Users.RemoveFriendFromUser.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.RemoveFriendFromUser\\", Admin.Users.RemoveFriendFromUser.ErrorCodes),
+                ThrowUserOutOfCompany: cqrsClient.createCommand<Admin.Users.ThrowUserOutOfCompany, Admin.Users.ThrowUserOutOfCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.ThrowUserOutOfCompany\\", Admin.Users.ThrowUserOutOfCompany.ErrorCodes),
+                UpdateUserPassword: cqrsClient.createCommand<Admin.Users.UpdateUserPassword, Admin.Users.UpdateUserPassword.ErrorCodes>(\\"Mindy.Core.Contracts.Admin.Users.UpdateUserPassword\\", Admin.Users.UpdateUserPassword.ErrorCodes),
                 UserById: cqrsClient.createQuery<Admin.Users.UserById, Admin.Users.UserDTO>(\\"Mindy.Core.Contracts.Admin.Users.UserById\\"),
                 UserFriends: cqrsClient.createQuery<Admin.Users.UserFriends, PaginatedResult<Admin.Users.UserFriendDTO>>(\\"Mindy.Core.Contracts.Admin.Users.UserFriends\\"),
                 UsersList: cqrsClient.createQuery<Admin.Users.UsersList, PaginatedResult<Admin.Users.UserSummaryDTO>>(\\"Mindy.Core.Contracts.Admin.Users.UsersList\\")
@@ -2253,8 +2253,8 @@ export default function (cqrsClient: CQRS) {
                 CompanyPage: cqrsClient.createQuery<Mobile.Pages.CompanyPage, Mobile.Pages.PageDTO>(\\"Mindy.Core.Contracts.Mobile.Pages.CompanyPage\\")
             },
             Progress: {
-                FinishSessionInCourse: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Progress.FinishSessionInCourse\\"),
-                ListenToSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Progress.ListenToSession\\")
+                FinishSessionInCourse: cqrsClient.createCommand<Mobile.Progress.FinishSessionInCourse, Mobile.Progress.FinishSessionInCourse.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Progress.FinishSessionInCourse\\", Mobile.Progress.FinishSessionInCourse.ErrorCodes),
+                ListenToSession: cqrsClient.createCommand<Mobile.Progress.ListenToSession, Mobile.Progress.ListenToSession.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Progress.ListenToSession\\", Mobile.Progress.ListenToSession.ErrorCodes)
             },
             Statistics: {
                 MyCalendar: cqrsClient.createQuery<Mobile.Statistics.MyCalendar, Mobile.Statistics.CalendarDTO>(\\"Mindy.Core.Contracts.Mobile.Statistics.MyCalendar\\"),
@@ -2262,38 +2262,38 @@ export default function (cqrsClient: CQRS) {
             },
             Subscriptions: {
                 ApplePurchaseStatus: cqrsClient.createQuery<Mobile.Subscriptions.ApplePurchaseStatus, Mobile.Subscriptions.PurchaseStatusResultDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ApplePurchaseStatus\\"),
-                ClaimApplePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimApplePurchase\\"),
-                ClaimGooglePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimGooglePurchase\\"),
+                ClaimApplePurchase: cqrsClient.createCommand<Mobile.Subscriptions.ClaimApplePurchase, Mobile.Subscriptions.ClaimApplePurchase.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimApplePurchase\\", Mobile.Subscriptions.ClaimApplePurchase.ErrorCodes),
+                ClaimGooglePurchase: cqrsClient.createCommand<Mobile.Subscriptions.ClaimGooglePurchase, Mobile.Subscriptions.ClaimGooglePurchase.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimGooglePurchase\\", Mobile.Subscriptions.ClaimGooglePurchase.ErrorCodes),
                 GooglePurchaseStatus: cqrsClient.createQuery<Mobile.Subscriptions.GooglePurchaseStatus, Mobile.Subscriptions.PurchaseStatusResultDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.GooglePurchaseStatus\\"),
                 PromoCodeById: cqrsClient.createQuery<Mobile.Subscriptions.PromoCodeById, Mobile.Subscriptions.PromoCodeDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.PromoCodeById\\"),
-                UsePromoCode: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Subscriptions.UsePromoCode\\")
+                UsePromoCode: cqrsClient.createCommand<Mobile.Subscriptions.UsePromoCode, unknown>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.UsePromoCode\\", {})
             },
             Users: {
-                AddFavoriteSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.AddFavoriteSession\\"),
-                AddFriend: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.AddFriend\\"),
-                ChangePassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.ChangePassword\\"),
+                AddFavoriteSession: cqrsClient.createCommand<Mobile.Users.AddFavoriteSession, Mobile.Users.AddFavoriteSession.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.AddFavoriteSession\\", Mobile.Users.AddFavoriteSession.ErrorCodes),
+                AddFriend: cqrsClient.createCommand<Mobile.Users.AddFriend, Mobile.Users.AddFriend.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.AddFriend\\", Mobile.Users.AddFriend.ErrorCodes),
+                ChangePassword: cqrsClient.createCommand<Mobile.Users.ChangePassword, Mobile.Users.ChangePassword.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.ChangePassword\\", Mobile.Users.ChangePassword.ErrorCodes),
                 CheckEmailAddress: cqrsClient.createQuery<Mobile.Users.CheckEmailAddress, Mobile.Users.EmailAddressCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckEmailAddress\\"),
                 CheckUsername: cqrsClient.createQuery<Mobile.Users.CheckUsername, Mobile.Users.UsernameCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckUsername\\"),
-                DeleteAccount: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.DeleteAccount\\"),
+                DeleteAccount: cqrsClient.createCommand<Mobile.Users.DeleteAccount, unknown>(\\"Mindy.Core.Contracts.Mobile.Users.DeleteAccount\\", {}),
                 FriendLink: cqrsClient.createQuery<Mobile.Users.FriendLink, string>(\\"Mindy.Core.Contracts.Mobile.Users.FriendLink\\"),
-                JoinCompany: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.JoinCompany\\"),
+                JoinCompany: cqrsClient.createCommand<Mobile.Users.JoinCompany, Mobile.Users.JoinCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.JoinCompany\\", Mobile.Users.JoinCompany.ErrorCodes),
                 Me: cqrsClient.createQuery<Mobile.Users.Me, Mobile.Users.MeDTO>(\\"Mindy.Core.Contracts.Mobile.Users.Me\\"),
                 MyFriends: cqrsClient.createQuery<Mobile.Users.MyFriends, Mobile.Users.FriendDTO[]>(\\"Mindy.Core.Contracts.Mobile.Users.MyFriends\\"),
-                RegisterAppleUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterAppleUser\\"),
-                RegisterFacebookUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterFacebookUser\\"),
-                RegisterGoogleUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterGoogleUser\\"),
-                RegisterUser: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RegisterUser\\"),
-                RemoveFavoriteSession: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RemoveFavoriteSession\\"),
-                RequestPasswordReset: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.RequestPasswordReset\\"),
-                ResetPassword: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.ResetPassword\\"),
-                SetAppsflyerId: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.SetAppsflyerId\\"),
-                UpdateProfile: cqrsClient.createCommand(\\"Mindy.Core.Contracts.Mobile.Users.UpdateProfile\\")
+                RegisterAppleUser: cqrsClient.createCommand<Mobile.Users.RegisterAppleUser, Mobile.Users.RegisterAppleUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterAppleUser\\", Mobile.Users.RegisterAppleUser.ErrorCodes),
+                RegisterFacebookUser: cqrsClient.createCommand<Mobile.Users.RegisterFacebookUser, Mobile.Users.RegisterFacebookUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterFacebookUser\\", Mobile.Users.RegisterFacebookUser.ErrorCodes),
+                RegisterGoogleUser: cqrsClient.createCommand<Mobile.Users.RegisterGoogleUser, Mobile.Users.RegisterGoogleUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterGoogleUser\\", Mobile.Users.RegisterGoogleUser.ErrorCodes),
+                RegisterUser: cqrsClient.createCommand<Mobile.Users.RegisterUser, Mobile.Users.RegisterUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterUser\\", Mobile.Users.RegisterUser.ErrorCodes),
+                RemoveFavoriteSession: cqrsClient.createCommand<Mobile.Users.RemoveFavoriteSession, Mobile.Users.RemoveFavoriteSession.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RemoveFavoriteSession\\", Mobile.Users.RemoveFavoriteSession.ErrorCodes),
+                RequestPasswordReset: cqrsClient.createCommand<Mobile.Users.RequestPasswordReset, unknown>(\\"Mindy.Core.Contracts.Mobile.Users.RequestPasswordReset\\", {}),
+                ResetPassword: cqrsClient.createCommand<Mobile.Users.ResetPassword, Mobile.Users.ResetPassword.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.ResetPassword\\", Mobile.Users.ResetPassword.ErrorCodes),
+                SetAppsflyerId: cqrsClient.createCommand<Mobile.Users.SetAppsflyerId, Mobile.Users.SetAppsflyerId.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.SetAppsflyerId\\", Mobile.Users.SetAppsflyerId.ErrorCodes),
+                UpdateProfile: cqrsClient.createCommand<Mobile.Users.UpdateProfile, Mobile.Users.UpdateProfile.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.UpdateProfile\\", Mobile.Users.UpdateProfile.ErrorCodes)
             }
         },
         System: {
             Subscriptions: {
-                RefreshApplePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshApplePurchase\\"),
-                RefreshGooglePurchase: cqrsClient.createCommand(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshGooglePurchase\\")
+                RefreshApplePurchase: cqrsClient.createCommand<System.Subscriptions.RefreshApplePurchase, System.Subscriptions.RefreshApplePurchase.ErrorCodes>(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshApplePurchase\\", System.Subscriptions.RefreshApplePurchase.ErrorCodes),
+                RefreshGooglePurchase: cqrsClient.createCommand<System.Subscriptions.RefreshGooglePurchase, System.Subscriptions.RefreshGooglePurchase.ErrorCodes>(\\"Mindy.Core.Contracts.System.Subscriptions.RefreshGooglePurchase\\", System.Subscriptions.RefreshGooglePurchase.ErrorCodes)
             }
         }
     };
