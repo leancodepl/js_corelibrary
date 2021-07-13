@@ -1,7 +1,7 @@
 /* eslint-env node */
 module.exports = {
     parser: "@typescript-eslint/parser",
-    plugins: ["@typescript-eslint", "prettier", "react-hooks"],
+    plugins: ["@typescript-eslint", "prettier", "react", "react-hooks"],
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
@@ -42,6 +42,8 @@ module.exports = {
 
         "react/prop-types": "off",
         "react/display-name": "off",
+        "react/jsx-curly-brace-presence": "warn",
+        "react/jsx-fragments": "warn",
         "react/jsx-sort-props": [
             "warn",
             {
@@ -53,6 +55,8 @@ module.exports = {
                 reservedFirst: true,
             },
         ],
+        "react/react-in-jsx-scope": "off",
+
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",
     },

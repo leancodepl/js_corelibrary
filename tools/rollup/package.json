@@ -24,6 +24,9 @@
   "bin": {
     "leancode-rollup": "./bin/index.js"
   },
+  "scripts": {
+    "fmt:eslint": "eslint --fix bin/**/*.{js,jsx,ts,tsx}"
+  },
   "keywords": [
     "leancode",
     "rollup"

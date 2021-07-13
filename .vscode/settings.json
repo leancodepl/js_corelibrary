@@ -22,7 +22,6 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
 
-  "eslint.enable": true,
   "eslint.format.enable": true,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.workingDirectories": [
@@ -31,9 +30,6 @@
     }
   ],
   "eslint.packageManager": "yarn",
-
-  "prettier.packageManager": "yarn",
-
   "stylelint.packageManager": "yarn",
 
   "typescript.tsdk": "node_modules/typescript/lib"

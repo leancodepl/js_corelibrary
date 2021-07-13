@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { BaseLoginManager, LoginManager } from "./BaseLoginManager";
 import { CannotRefreshToken } from "./CannotRefreshToken";
 import { AsyncTokenStorage } from "./TokenStorage";

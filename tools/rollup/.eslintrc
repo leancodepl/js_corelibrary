@@ -1,6 +1,0 @@
-{
-  "extends": "@leancode",
-  "env": {
-    "node": true
-  }
-}

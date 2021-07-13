@@ -14,7 +14,8 @@
     "test": "__tests__"
   },
   "scripts": {
-    "build": "leancode-rollup"
+    "build": "leancode-rollup",
+    "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.0.0",

@@ -1,7 +1,7 @@
+import React from "react";
 import Container from "components/Container";
 import SplitComponent from "components/SplitComponent";
 import { I18nProvider, Localize } from "i18n";
-import React from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import routes from "routes";
 

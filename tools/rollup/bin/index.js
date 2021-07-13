@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
-const typescript = require("rollup-plugin-typescript2");
-const clear = require("rollup-plugin-clear");
-const path = require("path");
+/* eslint-env node */
+
 const fs = require("fs");
+const path = require("path");
 const rollup = require("rollup");
+const clear = require("rollup-plugin-clear");
+const typescript = require("rollup-plugin-typescript2");
 
 /** @type {{ format: rollup.InternalModuleFormat, target: string, name: string | undefined  }[]} */
 const formats = [
@@ -66,7 +68,7 @@ const config = formats.map(format => ({
                 await bundle.write(outputOption);
             }
         } catch (e) {
-            console.log(e);
+            console.log(e); // eslint-disable-line no-console
         }
     }
 })();
