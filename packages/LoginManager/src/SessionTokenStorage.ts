@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { SyncTokenStorage, Token } from "./TokenStorage";
 
 export class SessionTokenStorage implements SyncTokenStorage {

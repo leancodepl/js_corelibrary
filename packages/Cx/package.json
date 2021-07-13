@@ -15,7 +15,8 @@
   },
   "scripts": {
     "build": "leancode-rollup",
-    "watch": "tsc -w --noEmit"
+    "watch": "tsc -w --noEmit",
+    "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.0.0",

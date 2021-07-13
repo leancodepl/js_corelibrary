@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export class FacebookClient {
     public isSignedIn?: boolean;
     private token: string;
