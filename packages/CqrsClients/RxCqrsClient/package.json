@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.0.0",
-    "typescript": "^4.3.0"
+    "typescript": "^4.3.0",
+    "xhr-mock": "^2.5.0"
   },
   "keywords": [
     "rxjs",
