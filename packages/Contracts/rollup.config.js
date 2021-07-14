@@ -1,11 +1,11 @@
 /* eslint-env node */
 
-const typescript = require("rollup-plugin-typescript2");
-const clear = require("rollup-plugin-clear");
-const path = require("path");
-const fs = require("fs");
-const rollup = require("rollup");
 const commonjs = require("@rollup/plugin-commonjs");
+const fs = require("fs");
+const path = require("path");
+const rollup = require("rollup"); // eslint-disable-line unused-imports/no-unused-vars-ts
+const clear = require("rollup-plugin-clear");
+const typescript = require("rollup-plugin-typescript2");
 
 const packageRootPath = __dirname;
 const inputFile = path.join(packageRootPath, "src/index.ts");

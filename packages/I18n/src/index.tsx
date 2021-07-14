@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
-import { FormatXMLElementFn, PrimitiveType } from "intl-messageformat"; // eslint-disable-line import/no-extraneous-dependencies
+import { FormatXMLElementFn, PrimitiveType } from "intl-messageformat";
 import { createIntl, createIntlCache, FormattedMessage, IntlShape, RawIntlProvider, useIntl } from "react-intl";
 
 const localeChangedEvent = "LocaleChanged";

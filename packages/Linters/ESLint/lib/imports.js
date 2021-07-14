@@ -12,7 +12,6 @@ module.exports = {
         "import/no-anonymous-default-export": "error",
         "import/no-duplicates": "error",
         "import/no-extraneous-dependencies": "error",
-        "import/no-named-as-default": "error",
         "import/no-named-default": "error",
         "import/no-self-import": "error",
         "import/no-useless-path-segments": [

@@ -82,7 +82,8 @@ describe("handleValidationErrors", () => {
     });
 
     it("calls joint validation handler only with first (most important) validation error", () => {
-        const handleError1_2 = sinon.spy((error: "Error1" | "Error2") => {}); // eslint-disable-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line unused-imports/no-unused-vars-ts
+        const handleError1_2 = sinon.spy((error: "Error1" | "Error2") => {});
 
         handleValidationErrors([{ ErrorCode: 2 }, { ErrorCode: 1 }], commandUnderTest)
             .handle(["Error1", "Error2"], handleError1_2)
