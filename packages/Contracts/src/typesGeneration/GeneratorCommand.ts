@@ -75,7 +75,7 @@ export default class GeneratorCommand extends GeneratorInterface {
                   },
                   typesDictionary: this.typesDictionary,
               }).generateType(context)
-            : ts.factory.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword);
+            : ts.factory.createTypeLiteralNode(/* members */ undefined);
 
         const errorCodesArgument = this.errorCodes.hasErrors
             ? ts.factory.createPropertyAccessExpression(

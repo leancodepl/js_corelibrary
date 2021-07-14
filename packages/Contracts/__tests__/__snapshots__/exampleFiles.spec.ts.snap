@@ -2266,7 +2266,7 @@ export default function (cqrsClient: CQRS) {
                 ClaimGooglePurchase: cqrsClient.createCommand<Mobile.Subscriptions.ClaimGooglePurchase, Mobile.Subscriptions.ClaimGooglePurchase.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.ClaimGooglePurchase\\", Mobile.Subscriptions.ClaimGooglePurchase.ErrorCodes),
                 GooglePurchaseStatus: cqrsClient.createQuery<Mobile.Subscriptions.GooglePurchaseStatus, Mobile.Subscriptions.PurchaseStatusResultDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.GooglePurchaseStatus\\"),
                 PromoCodeById: cqrsClient.createQuery<Mobile.Subscriptions.PromoCodeById, Mobile.Subscriptions.PromoCodeDTO>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.PromoCodeById\\"),
-                UsePromoCode: cqrsClient.createCommand<Mobile.Subscriptions.UsePromoCode, unknown>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.UsePromoCode\\", {})
+                UsePromoCode: cqrsClient.createCommand<Mobile.Subscriptions.UsePromoCode, {}>(\\"Mindy.Core.Contracts.Mobile.Subscriptions.UsePromoCode\\", {})
             },
             Users: {
                 AddFavoriteSession: cqrsClient.createCommand<Mobile.Users.AddFavoriteSession, Mobile.Users.AddFavoriteSession.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.AddFavoriteSession\\", Mobile.Users.AddFavoriteSession.ErrorCodes),
@@ -2274,7 +2274,7 @@ export default function (cqrsClient: CQRS) {
                 ChangePassword: cqrsClient.createCommand<Mobile.Users.ChangePassword, Mobile.Users.ChangePassword.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.ChangePassword\\", Mobile.Users.ChangePassword.ErrorCodes),
                 CheckEmailAddress: cqrsClient.createQuery<Mobile.Users.CheckEmailAddress, Mobile.Users.EmailAddressCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckEmailAddress\\"),
                 CheckUsername: cqrsClient.createQuery<Mobile.Users.CheckUsername, Mobile.Users.UsernameCheckDTO>(\\"Mindy.Core.Contracts.Mobile.Users.CheckUsername\\"),
-                DeleteAccount: cqrsClient.createCommand<Mobile.Users.DeleteAccount, unknown>(\\"Mindy.Core.Contracts.Mobile.Users.DeleteAccount\\", {}),
+                DeleteAccount: cqrsClient.createCommand<Mobile.Users.DeleteAccount, {}>(\\"Mindy.Core.Contracts.Mobile.Users.DeleteAccount\\", {}),
                 FriendLink: cqrsClient.createQuery<Mobile.Users.FriendLink, string>(\\"Mindy.Core.Contracts.Mobile.Users.FriendLink\\"),
                 JoinCompany: cqrsClient.createCommand<Mobile.Users.JoinCompany, Mobile.Users.JoinCompany.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.JoinCompany\\", Mobile.Users.JoinCompany.ErrorCodes),
                 Me: cqrsClient.createQuery<Mobile.Users.Me, Mobile.Users.MeDTO>(\\"Mindy.Core.Contracts.Mobile.Users.Me\\"),
@@ -2284,7 +2284,7 @@ export default function (cqrsClient: CQRS) {
                 RegisterGoogleUser: cqrsClient.createCommand<Mobile.Users.RegisterGoogleUser, Mobile.Users.RegisterGoogleUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterGoogleUser\\", Mobile.Users.RegisterGoogleUser.ErrorCodes),
                 RegisterUser: cqrsClient.createCommand<Mobile.Users.RegisterUser, Mobile.Users.RegisterUser.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RegisterUser\\", Mobile.Users.RegisterUser.ErrorCodes),
                 RemoveFavoriteSession: cqrsClient.createCommand<Mobile.Users.RemoveFavoriteSession, Mobile.Users.RemoveFavoriteSession.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.RemoveFavoriteSession\\", Mobile.Users.RemoveFavoriteSession.ErrorCodes),
-                RequestPasswordReset: cqrsClient.createCommand<Mobile.Users.RequestPasswordReset, unknown>(\\"Mindy.Core.Contracts.Mobile.Users.RequestPasswordReset\\", {}),
+                RequestPasswordReset: cqrsClient.createCommand<Mobile.Users.RequestPasswordReset, {}>(\\"Mindy.Core.Contracts.Mobile.Users.RequestPasswordReset\\", {}),
                 ResetPassword: cqrsClient.createCommand<Mobile.Users.ResetPassword, Mobile.Users.ResetPassword.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.ResetPassword\\", Mobile.Users.ResetPassword.ErrorCodes),
                 SetAppsflyerId: cqrsClient.createCommand<Mobile.Users.SetAppsflyerId, Mobile.Users.SetAppsflyerId.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.SetAppsflyerId\\", Mobile.Users.SetAppsflyerId.ErrorCodes),
                 UpdateProfile: cqrsClient.createCommand<Mobile.Users.UpdateProfile, Mobile.Users.UpdateProfile.ErrorCodes>(\\"Mindy.Core.Contracts.Mobile.Users.UpdateProfile\\", Mobile.Users.UpdateProfile.ErrorCodes)
