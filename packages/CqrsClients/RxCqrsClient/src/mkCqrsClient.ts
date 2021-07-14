@@ -46,6 +46,7 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider: TokenP
                     pluck("response"),
                 );
             }
+
             call.handle = (dto: TCommand) =>
                 call(dto).pipe(
                     map(
@@ -70,6 +71,8 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider: TokenP
                     }),
                     map(response => handleResponse(response, errorCodesMap)),
                 );
+
+            return call;
         },
     };
 }

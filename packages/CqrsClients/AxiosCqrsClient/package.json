@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@leancode/cqrs-client-base": "^6.0.0",
+    "@leancode/validation": "^6.0.0",
     "axios": "^0.21.0"
   },
   "devDependencies": {
