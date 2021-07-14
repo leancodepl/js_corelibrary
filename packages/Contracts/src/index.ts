@@ -1,11 +1,15 @@
+#!/usr/bin/env node
+
 import { exec } from "child_process";
 import { cosmiconfigSync } from "cosmiconfig";
 import { multipleValidOptions, validate } from "jest-validate";
 import { posix } from "path";
 import protobuf from "protobufjs";
 import generateContracts, { ensureIsOverridableCustomTypeName, OverridableCustomTypeName } from "./generateContracts";
+import getCommandTypePreamble from "./preambles/getCommandTypePreamble";
 import getCommonTypePreamble from "./preambles/getCommonTypePreamble";
 import getCustomTypesPreamble from "./preambles/getCustomTypesPreamble";
+import getQueryTypePreamble from "./preambles/getQueryTypePreamble";
 import getReferencedInternalTypesPreamble from "./preambles/getReferencedInternalTypesPreamble";
 import { leancode } from "./protocol";
 import { ClientMethodFilter, overridableCustomTypes } from "./typesGeneration/GeneratorContext";
@@ -14,6 +18,7 @@ import writeProcessor from "./utils/writeProcessor";
 
 const { join, resolve } = posix;
 
+const serverContractsGeneratorVersion = "1.0.2";
 const moduleName = "ts-generator";
 const config = cosmiconfigSync(moduleName).search()?.config;
 
@@ -66,11 +71,13 @@ export interface ContractsGeneratorConfiguration {
     input?: GeneratorInput;
     baseDir?: string;
     baseNamespace?: string;
-    query: CommonTypesConfiguration;
-    command: CommonTypesConfiguration;
+    query?: CommonTypesConfiguration;
+    command?: CommonTypesConfiguration;
     customTypes?: CustomTypesConfiguration;
     typesFile?: GenerateFileConfiguration;
     clientFile?: GenerateClientFileConfiguration | GenerateClientFileConfiguration[];
+    overrideGeneratorServerVersion?: string;
+    overrideGeneratorServerScript?: string;
 }
 
 function validateConfig(config: any): config is ContractsGeneratorConfiguration {
@@ -133,12 +140,13 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
                 baseNamespace: "LeanCode.ContractsGenerator.Example",
                 typesFile: exampleGenerateFileOptions,
                 clientFile: multipleValidOptions(exampleGenerateClientFileOptions, [exampleGenerateClientFileOptions]),
+                overrideGeneratorServerVersion: "1.0.2",
+                overrideGeneratorServerScript: "my-custom-generator.sh",
             },
         });
 
         return true;
     } catch (e) {
-        // eslint-disable-next-line no-console
         console.error(e.toString());
 
         return false;
@@ -157,23 +165,24 @@ const command = (() => {
         return input?.base ? join(input.base, path) : path;
     }
 
-    if (input?.file) {
-        params += ` --input ${withBase(input.file)}`;
-    }
-
-    if (input?.path) {
-        params += ` --path ${withBase(input.path)}`;
-    }
-
     if (input?.project) {
-        params += ` --project ${withBase(input.project)}`;
+        params = `project --project="${withBase(input.project)}"`;
+
+        if (input?.solution) {
+            params += ` --solution="${withBase(input.solution)}"`;
+        }
+    } else if (input?.file) {
+        params = `file --input="${withBase(input.file)}"`;
+    } else if (input?.path) {
+        params = `path --path="${withBase(input.path)}"`;
     }
 
-    if (input?.solution) {
-        params += ` --solution ${withBase(input.solution)}`;
-    }
+    params += ` --output=-`;
 
-    return "./abc.sh" + params;
+    const serverVersion = `SERVER_VERSION=${config.overrideGeneratorServerVersion ?? serverContractsGeneratorVersion}`;
+    const script = config.overrideGeneratorServerScript ?? resolve(__dirname, "generate.sh");
+
+    return `${serverVersion} "${script}" ${params}`;
 })();
 
 exec(
@@ -248,29 +257,30 @@ exec(
             ),
             typesFile: (() => ({
                 preamble: [
-                    getCommonTypePreamble({
-                        baseDir,
-                        isTypeOnly: true,
-                        typeName: "Query",
-                        fileLocation: typesFilename,
-                        commonTypeConfiguration: ensureDefined(config.query, "Query configuration must be provided"),
-                    }),
-                    getCommonTypePreamble({
-                        baseDir,
-                        isTypeOnly: true,
-                        typeName: "Command",
-                        fileLocation: typesFilename,
-                        commonTypeConfiguration: ensureDefined(
-                            config.command,
-                            "Command configuration must be provided",
-                        ),
-                    }),
                     ...getCustomTypesPreamble({
                         baseDir,
                         isTypeOnly: true,
                         fileLocation: typesFilename,
                         customTypes: config.customTypes,
                     }),
+                    config.query
+                        ? getCommonTypePreamble({
+                              baseDir,
+                              isTypeOnly: true,
+                              typeName: "Query",
+                              fileLocation: typesFilename,
+                              commonTypeConfiguration: config.query,
+                          })
+                        : getQueryTypePreamble(),
+                    config.command
+                        ? getCommonTypePreamble({
+                              baseDir,
+                              isTypeOnly: true,
+                              typeName: "Command",
+                              fileLocation: typesFilename,
+                              commonTypeConfiguration: config.command,
+                          })
+                        : getCommandTypePreamble(),
                 ],
                 eslintExclusions: typesEslintExclusions,
                 writer: writeProcessor(typesFilename),

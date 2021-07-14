@@ -193,7 +193,7 @@ export default async function generateContracts({
             addSyntheticLeadingComment(
                 types[0],
                 ts.SyntaxKind.MultiLineCommentTrivia,
-                `eslint-disable ${eslintExclusions.join(" ")}`,
+                `eslint-disable ${eslintExclusions.join(", ")}`,
                 true,
             );
         }
@@ -288,7 +288,7 @@ function generateClient({
             addSyntheticLeadingComment(
                 client[0],
                 ts.SyntaxKind.MultiLineCommentTrivia,
-                `eslint-disable ${eslintExclusions.join(" ")}`,
+                `eslint-disable ${eslintExclusions.join(", ")}`,
                 true,
             );
         }
