@@ -2,7 +2,4 @@
 
 const baseConfig = require("../../jest.config.base");
 
-module.exports = {
-    ...baseConfig(__dirname),
-    watchPathIgnorePatterns: ["/__tests__/test-out/"],
-};
+module.exports = baseConfig(__dirname);
