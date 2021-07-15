@@ -5,13 +5,19 @@ import { cosmiconfigSync } from "cosmiconfig";
 import { multipleValidOptions, validate } from "jest-validate";
 import { posix } from "path";
 import protobuf from "protobufjs";
-import generateContracts, { ensureIsOverridableCustomTypeName, OverridableCustomTypeName } from "./generateContracts";
+import generateContracts, { ensureIsOverridableCustomTypeName } from "./generateContracts";
 import getCommandTypePreamble from "./preambles/getCommandTypePreamble";
 import getCommonTypePreamble from "./preambles/getCommonTypePreamble";
 import getCustomTypesPreamble from "./preambles/getCustomTypesPreamble";
 import getQueryTypePreamble from "./preambles/getQueryTypePreamble";
 import getReferencedInternalTypesPreamble from "./preambles/getReferencedInternalTypesPreamble";
 import { leancode } from "./protocol";
+import {
+    ClientMethodFilterConfiguration,
+    ContractsGeneratorConfiguration,
+    GenerateClientFileConfiguration,
+    GenerateFileConfiguration,
+} from "./types";
 import { ClientMethodFilter, overridableCustomTypes } from "./typesGeneration/GeneratorContext";
 import ensureDefined from "./utils/ensureDefined";
 import writeProcessor from "./utils/writeProcessor";
@@ -25,59 +31,6 @@ const config = cosmiconfigSync(moduleName).search()?.config;
 if (!config) {
     console.error(`Couldn't find any ${moduleName} config file.`);
     process.exit(1);
-}
-
-export type GenerateFileConfiguration =
-    | {
-          eslintExclusions?: string[] | "disable";
-          filename?: string;
-      }
-    | string;
-
-export interface GeneratorInput {
-    base?: string;
-    file?: string;
-    path?: string;
-    project?: string;
-    solution?: string;
-}
-
-export type CustomTypeConfiguration = {
-    name: string;
-    location: string;
-    exportName?: string;
-};
-
-export type CommonTypesConfiguration =
-    | {
-          location: string;
-          exportName?: string;
-      }
-    | string;
-
-export type GenerateClientFileConfiguration = {
-    filename: string;
-    cqrsClient: CommonTypesConfiguration;
-    eslintExclusions?: string[] | "disable";
-    include?: ClientMethodFilterConfiguration;
-    exclude?: ClientMethodFilterConfiguration;
-};
-
-export type ClientMethodFilterConfiguration = string | string[] | ClientMethodFilter;
-
-export type CustomTypesConfiguration = Partial<Record<OverridableCustomTypeName, CustomTypeConfiguration>>;
-
-export interface ContractsGeneratorConfiguration {
-    input?: GeneratorInput;
-    baseDir?: string;
-    baseNamespace?: string;
-    query?: CommonTypesConfiguration;
-    command?: CommonTypesConfiguration;
-    customTypes?: CustomTypesConfiguration;
-    typesFile?: GenerateFileConfiguration;
-    clientFile?: GenerateClientFileConfiguration | GenerateClientFileConfiguration[];
-    overrideGeneratorServerVersion?: string;
-    overrideGeneratorServerScript?: string;
 }
 
 function validateConfig(config: any): config is ContractsGeneratorConfiguration {

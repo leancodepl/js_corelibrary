@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { CommonTypesConfiguration } from "..";
+import { CommonTypesConfiguration } from "../types";
 import resolveImport from "../utils/resolveImport";
 
 export default function getCommonTypePreamble({

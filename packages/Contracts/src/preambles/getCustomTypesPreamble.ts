@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { CustomTypesConfiguration } from "..";
+import { CustomTypesConfiguration } from "../types";
 import resolveImport from "../utils/resolveImport";
 
 export default function getCustomTypesPreamble({
