@@ -59,7 +59,6 @@ sources include:
     -   `path`  
         or
     -   `project`
-    -   `solution`
 
     For details on these options please refer to
     [Contracts Generator Server](https://github.com/leancodepl/contractsgenerator).

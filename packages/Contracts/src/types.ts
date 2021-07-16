@@ -12,8 +12,7 @@ export interface GeneratorInput {
     base?: string;
     file?: string;
     path?: string;
-    project?: string;
-    solution?: string;
+    project?: string | string[];
 }
 
 export type CustomTypeConfiguration = {

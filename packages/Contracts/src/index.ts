@@ -24,7 +24,7 @@ import writeProcessor from "./utils/writeProcessor";
 
 const { join, resolve } = posix;
 
-const serverContractsGeneratorVersion = "1.0.2";
+const serverContractsGeneratorVersion = "1.0.3";
 const moduleName = "ts-generator";
 const config = cosmiconfigSync(moduleName).search()?.config;
 
@@ -78,8 +78,10 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
                     },
                     {
                         base: "../../backend",
-                        project: "src/Contracts/Project.csproj",
-                        solution: "Solution.sln",
+                        project: multipleValidOptions("src/Contracts/Core/Project.csproj", [
+                            "src/Contracts/Core/Project.csproj",
+                            "src/Contracts/user/Project.csproj",
+                        ]),
                     },
                 ),
                 customTypes: Object.fromEntries(
@@ -119,11 +121,14 @@ const command = (() => {
     }
 
     if (input?.project) {
-        params = `project --project="${withBase(input.project)}"`;
-
-        if (input?.solution) {
-            params += ` --solution="${withBase(input.solution)}"`;
+        let projects;
+        if (Array.isArray(input.project)) {
+            projects = input.project.map(p => withBase(p));
+        } else {
+            projects = [withBase(input.project)];
         }
+
+        params = `project --project="${projects.join(";")}"`;
     } else if (input?.file) {
         params = `file --input="${withBase(input.file)}"`;
     } else if (input?.path) {

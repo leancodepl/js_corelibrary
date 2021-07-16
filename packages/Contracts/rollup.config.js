@@ -15,6 +15,8 @@ const tsconfigFile = path.join(packageRootPath, "tsconfig.json");
 const outputDir = path.join(packageRootPath, "lib");
 const packageJsonFile = require(path.join(packageRootPath, "package.json"));
 
+const generateShLocation = "https://raw.githubusercontent.com/leancodepl/contractsgenerator/main/tools/generate.sh";
+
 /** @returns {rollup.Plugin} */
 function chmod(mode) {
     return {
@@ -34,9 +36,7 @@ function getServerScript() {
     return {
         name: "chmod",
         async generateBundle() {
-            const generateSh = await download(
-                "https://raw.githubusercontent.com/leancodepl/contractsgenerator/main/server/generate.sh",
-            );
+            const generateSh = await download(generateShLocation);
 
             refId = this.emitFile({
                 type: "asset",
