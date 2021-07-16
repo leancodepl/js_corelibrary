@@ -42,7 +42,8 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
     const exampleClientMethodFilterConfiguration = multipleValidOptions(
         "LeanCode.Example",
         ["LeanCode.Example.Users", "LeanCode.Example.Admin"],
-        () => {},
+        // eslint-disable-next-line unused-imports/no-unused-vars-ts
+        (fullName: string, commandOrQuery: any) => false,
     );
 
     const exampleCustomTypeDefinition = {
@@ -89,6 +90,8 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
                         .filter(([, value]) => overridableCustomTypes.includes(value as any))
                         .map(([name]) => [name, exampleCustomTypeDefinition]),
                 ),
+                // eslint-disable-next-line unused-imports/no-unused-vars-ts
+                nameTransform: (name: string) => false,
                 query: exampleCommonTypeDefinition,
                 command: exampleCommonTypeDefinition,
                 baseDir: "./contracts",
@@ -164,6 +167,7 @@ exec(
 
         generateContracts({
             contracts: protobuf.Reader.create(stdout),
+            nameTransform: config.nameTransform,
             clientFiles: config.clientFile
                 ? (Array.isArray(config.clientFile) ? config.clientFile : [config.clientFile]).map(clientFile => {
                       const {

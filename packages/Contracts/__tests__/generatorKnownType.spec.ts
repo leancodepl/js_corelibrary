@@ -1,6 +1,8 @@
 import { leancode } from "../src/protocol";
 import GeneratorKnownType from "../src/typesGeneration/types/GeneratorKnownType";
-import { printType, typesDictionary } from "./testUtils";
+import { printType, mkTypesDictionary } from "./testUtils";
+
+const typesDictionary = mkTypesDictionary([]);
 
 const KnownType = leancode.contracts.KnownType;
 

@@ -1,9 +1,10 @@
 import { leancode } from "../src/protocol";
 import GeneratorInternalType from "../src/typesGeneration/types/GeneratorInternalType";
-import { printType, typesDictionary } from "./testUtils";
+import { mkTypesDictionary, printType } from "./testUtils";
 
 describe("GeneratorInternalType", () => {
     it("prints internal type correctly", () => {
+        const typesDictionary = mkTypesDictionary(["InternalType"]);
         const generator = new GeneratorInternalType({
             internal: {
                 name: "InternalType",
@@ -20,6 +21,7 @@ describe("GeneratorInternalType", () => {
     });
 
     it("prints generic internal type correctly", () => {
+        const typesDictionary = mkTypesDictionary(["GenericInternalType"]);
         const generator = new GeneratorInternalType({
             internal: {
                 name: "GenericInternalType",
@@ -41,6 +43,7 @@ describe("GeneratorInternalType", () => {
     });
 
     it("prints internal type correctly when nested", () => {
+        const typesDictionary = mkTypesDictionary(["A.B.C.InternalType"]);
         const generator = new GeneratorInternalType({
             internal: {
                 name: "A.B.C.InternalType",

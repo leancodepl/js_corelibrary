@@ -1,5 +1,6 @@
+import GeneratorEnum from "./GeneratorEnum";
 import GeneratorInterface from "./GeneratorInterface";
 
 export default interface GeneratorTypesDictionary {
-    interfaces: { [name: string]: GeneratorInterface };
+    statements: { [name: string]: GeneratorInterface | GeneratorEnum | undefined };
 }

@@ -1,20 +1,32 @@
 import ts from "typescript";
 import { leancode } from "../protocol";
-import { assertNotEmpty } from "../utils/notEmpty";
+import { ensureNotEmpty } from "../utils/notEmpty";
 import GeneratorContext from "./GeneratorContext";
 import GeneratorEnumMember from "./GeneratorEnumMember";
 import GeneratorStatement from "./GeneratorStatement";
 import prependJsDoc from "./prependJsDoc";
 
 export default class GeneratorEnum implements GeneratorStatement {
+    id;
+    fullName;
     name;
     members;
     comment;
 
-    constructor(statement: leancode.contracts.IStatement) {
-        const name = GeneratorEnum.getNameFromFullName(statement.name);
+    constructor({
+        statement,
+        nameTransform,
+    }: {
+        statement: leancode.contracts.IStatement;
+        nameTransform?: (name: string) => string;
+    }) {
+        const id = ensureNotEmpty(statement.name);
+        const fullName = nameTransform?.(id) ?? id;
+        const name = GeneratorEnum.getNameFromFullName(fullName);
         const members = statement.enum?.members?.map(member => new GeneratorEnumMember(member)) ?? [];
 
+        this.id = id;
+        this.fullName = fullName;
         this.name = name;
         this.members = members;
         this.comment = statement.comment ?? undefined;
@@ -47,9 +59,7 @@ export default class GeneratorEnum implements GeneratorStatement {
         return [];
     }
 
-    private static getNameFromFullName(name: string | null | undefined) {
-        assertNotEmpty(name);
-
+    private static getNameFromFullName(name: string) {
         const parts = name.split(".");
 
         return parts[parts.length - 1];

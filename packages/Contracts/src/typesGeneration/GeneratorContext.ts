@@ -13,7 +13,7 @@ export default interface GeneratorContext {
     referencedInternalTypes: Set<GeneratorInternalType>;
 }
 
-export type ClientMethodFilter = (fullName: string, commandOrQuery: GeneratorQuery | GeneratorCommand) => boolean;
+export type ClientMethodFilter = (id: string, commandOrQuery: GeneratorQuery | GeneratorCommand) => boolean;
 
 export type CustomTypesMap = Partial<Record<OverridableCustomType, () => ts.TypeNode>>;
 

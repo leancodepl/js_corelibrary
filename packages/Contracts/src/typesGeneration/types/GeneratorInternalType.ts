@@ -1,19 +1,29 @@
 import ts from "typescript";
 import { leancode } from "../../protocol";
+import ensureDefined from "../../utils/ensureDefined";
 import extractMinimalReferenceTypeName from "../../utils/extractMinimalReferenceTypeName";
 import { ensureNotEmpty } from "../../utils/notEmpty";
 import GeneratorContext from "../GeneratorContext";
+import GeneratorInterface from "../GeneratorInterface";
 import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 import GeneratorType from "./GeneratorType";
 import GeneratorTypeFactory from "./GeneratorTypeFactory";
 
 export default class GeneratorInternalType implements GeneratorType {
-    name;
+    id;
     isNullable;
     typeArguments;
 
     get isAttribute() {
-        return this.typesDictionary.interfaces[this.name].isAttribute;
+        if (this.relatedInterface instanceof GeneratorInterface) {
+            return this.relatedInterface.isAttribute;
+        }
+
+        return false;
+    }
+
+    get relatedInterface() {
+        return ensureDefined(this.typesDictionary.statements[this.id]);
     }
 
     private typesDictionary;
@@ -27,21 +37,21 @@ export default class GeneratorInternalType implements GeneratorType {
         isNullable?: boolean;
         typesDictionary: GeneratorTypesDictionary;
     }) {
-        const name = ensureNotEmpty(internal.name);
+        const id = ensureNotEmpty(internal.name);
         const typeArguments =
             internal.arguments?.map(argument => GeneratorTypeFactory.createType({ type: argument, typesDictionary })) ??
             [];
 
         this.typesDictionary = typesDictionary;
         this.typeArguments = typeArguments;
-        this.name = name;
+        this.id = id;
         this.isNullable = isNullable ?? false;
     }
 
     generateType(context: GeneratorContext): ts.TypeNode {
         context.referencedInternalTypes.add(this);
 
-        const name = extractMinimalReferenceTypeName(this.name, context.currentNamespace);
+        const name = extractMinimalReferenceTypeName(this.relatedInterface.fullName, context.currentNamespace);
 
         return ts.factory.createTypeReferenceNode(
             /* typeName */ name,

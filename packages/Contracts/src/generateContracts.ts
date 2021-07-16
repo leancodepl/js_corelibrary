@@ -20,28 +20,18 @@ import {
     overridableCustomTypes,
 } from "./typesGeneration/GeneratorContext";
 import GeneratorInternalType from "./typesGeneration/types/GeneratorInternalType";
+import pipe from "./utils/pipe";
 
 const noNamespace = "--no-namespace--";
 
-function extractNamespaces(
-    baseNamespace: string,
-    statements: leancode.contracts.IStatement[],
-    depth = 0,
-    typesDictionary: GeneratorTypesDictionary = {
-        interfaces: {},
-    },
-): GeneratorStatement[] {
+function extractNamespaces(statements: GeneratorStatement[], depth = 0): GeneratorStatement[] {
     return _(statements)
         .groupBy(statement => {
-            if (!statement.name) {
+            if (!statement.fullName) {
                 return noNamespace;
             }
 
-            const name = statement.name.startsWith(baseNamespace)
-                ? statement.name.substr(baseNamespace.length + 1)
-                : statement.name;
-
-            const parts = name.split(".");
+            const parts = statement.fullName.split(".");
 
             if (parts.length <= depth + 1) {
                 return noNamespace;
@@ -51,35 +41,13 @@ function extractNamespaces(
         })
         .mapValues<GeneratorStatement[]>((statements, name) => {
             if (name === noNamespace) {
-                return statements.map(statement => {
-                    if (statement.dto || statement.query || statement.command) {
-                        let generatorInterface: GeneratorInterface;
-
-                        if (statement.query) {
-                            generatorInterface = new GeneratorQuery({ statement, typesDictionary });
-                        } else if (statement.command) {
-                            generatorInterface = new GeneratorCommand({ statement, typesDictionary });
-                        } else {
-                            generatorInterface = new GeneratorInterface({ statement, typesDictionary });
-                        }
-
-                        typesDictionary.interfaces[generatorInterface.fullName] = generatorInterface;
-
-                        return generatorInterface;
-                    }
-
-                    if (statement.enum) {
-                        return new GeneratorEnum(statement);
-                    }
-
-                    throw new Error("Unkown statement type");
-                });
+                return statements;
             }
 
             return [
                 new GeneratorNamespace({
                     name,
-                    statements: extractNamespaces(baseNamespace, statements, depth + 1, typesDictionary),
+                    statements: extractNamespaces(statements, depth + 1),
                 }),
             ];
         })
@@ -118,6 +86,7 @@ export interface GenerateContractsOptions {
     typesFile: GenerateTypesFileOptions;
     clientFiles: GenerateClientFileOptions[];
     contracts: protobuf.Reader;
+    nameTransform?: (name: string) => string;
 }
 
 export function isOverridableCustomTypeName(name: string): name is OverridableCustomTypeName {
@@ -151,6 +120,7 @@ export default async function generateContracts({
     clientFiles,
     typesFile,
     contracts,
+    nameTransform,
 }: GenerateContractsOptions) {
     const definition = leancode.contracts.Export.decode(contracts);
 
@@ -171,7 +141,61 @@ export default async function generateContracts({
             ),
     };
 
-    const namespaces = extractNamespaces(baseNamespace ?? noNamespace, definition.statements);
+    const typesDictionary: GeneratorTypesDictionary = {
+        statements: {},
+    };
+
+    const emptyTransform = (name: string) => name;
+
+    const composedNameTransform = pipe(
+        nameTransform ?? emptyTransform,
+        baseNamespace
+            ? name => (name.startsWith(baseNamespace) ? name.substr(baseNamespace.length) : name)
+            : emptyTransform,
+        name => (name.startsWith(".") ? name.substr(1) : name),
+    );
+
+    const statements: GeneratorStatement[] = definition.statements.map(statement => {
+        if (statement.dto || statement.query || statement.command) {
+            let generatorInterface: GeneratorInterface;
+
+            if (statement.query) {
+                generatorInterface = new GeneratorQuery({
+                    statement,
+                    typesDictionary,
+                    nameTransform: composedNameTransform,
+                });
+            } else if (statement.command) {
+                generatorInterface = new GeneratorCommand({
+                    statement,
+                    typesDictionary,
+                    nameTransform: composedNameTransform,
+                });
+            } else {
+                generatorInterface = new GeneratorInterface({
+                    statement,
+                    typesDictionary,
+                    nameTransform: composedNameTransform,
+                });
+            }
+
+            typesDictionary.statements[generatorInterface.id] = generatorInterface;
+
+            return generatorInterface;
+        }
+
+        if (statement.enum) {
+            const generatorEnum = new GeneratorEnum({ statement, nameTransform: composedNameTransform });
+
+            typesDictionary.statements[generatorEnum.id] = generatorEnum;
+
+            return generatorEnum;
+        }
+
+        throw new Error("Unkown statement type");
+    });
+
+    const namespaces = extractNamespaces(statements);
     const types = [
         ...(typesFile.preamble ?? []),
         ...namespaces.flatMap(s =>
@@ -179,7 +203,6 @@ export default async function generateContracts({
                 ...baseContext,
                 referencedInternalTypes: new Set(),
                 customTypes: mapCustomTypes(customTypes),
-                currentNamespace: baseNamespace,
             }),
         ),
     ];

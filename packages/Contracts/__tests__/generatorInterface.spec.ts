@@ -1,6 +1,8 @@
 import { leancode } from "../src/protocol";
 import GeneratorInterface from "../src/typesGeneration/GeneratorInterface";
-import { printStatement, typesDictionary } from "./testUtils";
+import { mkTypesDictionary, printStatement } from "./testUtils";
+
+const typesDictionary = mkTypesDictionary([]);
 
 describe("GeneratorInterface", () => {
     it("prints empty interface", () => {

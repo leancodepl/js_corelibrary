@@ -12,11 +12,13 @@ export default class GeneratorQuery extends GeneratorInterface {
     constructor({
         statement,
         typesDictionary,
+        nameTransform,
     }: {
         statement: leancode.contracts.IStatement;
         typesDictionary: GeneratorTypesDictionary;
+        nameTransform?: (name: string) => string;
     }) {
-        super({ statement, typesDictionary });
+        super({ statement, typesDictionary, nameTransform });
 
         const returnType = GeneratorTypeFactory.createType({
             type: ensureNotEmpty(statement.query?.returnType),
@@ -26,7 +28,7 @@ export default class GeneratorQuery extends GeneratorInterface {
         const queryType = GeneratorTypeFactory.createType({
             type: {
                 internal: {
-                    name: this.fullName,
+                    name: this.id,
                 },
             },
             typesDictionary,
@@ -37,7 +39,7 @@ export default class GeneratorQuery extends GeneratorInterface {
     }
 
     generateClient(context: GeneratorContext): ts.PropertyAssignment[] {
-        if (!(context.include?.(this.fullName, this) ?? true) || (context.exclude?.(this.fullName, this) ?? false)) {
+        if (!(context.include?.(this.id, this) ?? true) || (context.exclude?.(this.id, this) ?? false)) {
             return [];
         }
 
@@ -50,7 +52,7 @@ export default class GeneratorQuery extends GeneratorInterface {
                         /* name */ "createQuery",
                     ),
                     /* typeArguments */ [this.queryType.generateType(context), this.returnType.generateType(context)],
-                    /* argumentsArray */ [ts.factory.createStringLiteral(this.fullName)],
+                    /* argumentsArray */ [ts.factory.createStringLiteral(this.id)],
                 ),
             ),
         ];

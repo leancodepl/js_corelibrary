@@ -17,11 +17,13 @@ export default class GeneratorCommand extends GeneratorInterface {
     constructor({
         statement,
         typesDictionary,
+        nameTransform,
     }: {
         statement: leancode.contracts.IStatement;
         typesDictionary: GeneratorTypesDictionary;
+        nameTransform?: (name: string) => string;
     }) {
-        super({ statement, typesDictionary });
+        super({ statement, typesDictionary, nameTransform });
 
         assertNotEmpty(statement.command);
 
@@ -30,7 +32,7 @@ export default class GeneratorCommand extends GeneratorInterface {
         const commandType = GeneratorTypeFactory.createType({
             type: {
                 internal: {
-                    name: this.fullName,
+                    name: this.id,
                 },
             },
             typesDictionary,
@@ -62,19 +64,18 @@ export default class GeneratorCommand extends GeneratorInterface {
     }
 
     generateClient(context: GeneratorContext): ts.PropertyAssignment[] {
-        if (!(context.include?.(this.fullName, this) ?? true) || (context.exclude?.(this.fullName, this) ?? false)) {
+        if (!(context.include?.(this.id, this) ?? true) || (context.exclude?.(this.id, this) ?? false)) {
             return [];
         }
 
         const errorCodesType = this.errorCodes.hasErrors
-            ? GeneratorTypeFactory.createType({
-                  type: {
-                      internal: {
-                          name: this.fullName + ".ErrorCodes",
-                      },
-                  },
-                  typesDictionary: this.typesDictionary,
-              }).generateType(context)
+            ? ts.factory.createTypeReferenceNode(
+                  /* typeName */ extractMinimalReferenceTypeName(
+                      this.fullName + ".ErrorCodes",
+                      context.currentNamespace,
+                  ),
+                  /* typeArguments */ undefined,
+              )
             : ts.factory.createTypeLiteralNode(/* members */ undefined);
 
         const errorCodesArgument = this.errorCodes.hasErrors
@@ -95,7 +96,7 @@ export default class GeneratorCommand extends GeneratorInterface {
                         /* name */ "createCommand",
                     ),
                     /* typeArguments */ [this.commandType.generateType(context), errorCodesType],
-                    /* argumentsArray */ [ts.factory.createStringLiteral(this.fullName), errorCodesArgument],
+                    /* argumentsArray */ [ts.factory.createStringLiteral(this.id), errorCodesArgument],
                 ),
             ),
         ];

@@ -25,7 +25,10 @@ export default function getReferencedInternalTypesPreamble({
     const referencedInternalTypesToImport = [
         ...new Set(
             [...referencedInternalTypes.values()].map(
-                internalType => extractMinimalReferenceTypeName(internalType.name, baseNamespace).split(".")[0],
+                internalType =>
+                    extractMinimalReferenceTypeName(internalType.relatedInterface.fullName, baseNamespace).split(
+                        ".",
+                    )[0],
             ),
         ).values(),
     ];

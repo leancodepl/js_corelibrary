@@ -1,10 +1,28 @@
 import ts from "typescript";
-import { GeneratorContext, GeneratorStatement, GeneratorTypesDictionary } from "../src/typesGeneration";
+import {
+    GeneratorContext,
+    GeneratorInterface,
+    GeneratorStatement,
+    GeneratorTypesDictionary,
+} from "../src/typesGeneration";
 import GeneratorType from "../src/typesGeneration/types/GeneratorType";
 
-export const typesDictionary: GeneratorTypesDictionary = {
-    interfaces: {},
-};
+export function mkTypesDictionary(interfaces: string[]) {
+    const typesDictionary: GeneratorTypesDictionary = {
+        statements: {},
+    };
+
+    interfaces.forEach(i => {
+        typesDictionary.statements[i] = new GeneratorInterface({
+            statement: {
+                name: i,
+            },
+            typesDictionary,
+        });
+    });
+
+    return typesDictionary;
+}
 
 export function printStatement(
     generator: GeneratorStatement,

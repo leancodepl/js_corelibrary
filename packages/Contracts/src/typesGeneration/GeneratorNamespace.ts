@@ -3,10 +3,14 @@ import GeneratorContext from "./GeneratorContext";
 import GeneratorStatement from "./GeneratorStatement";
 
 export default class GeneratorNamespace implements GeneratorStatement {
+    id;
+    fullName;
     name;
     statements;
 
     constructor({ name, statements }: { name: string; statements: GeneratorStatement[] }) {
+        this.id = name;
+        this.fullName = name;
         this.name = name;
         this.statements = statements;
     }

@@ -11,6 +11,7 @@ import prependJsDoc from "./prependJsDoc";
 import GeneratorTypeFactory from "./types/GeneratorTypeFactory";
 
 export default class GeneratorInterface implements GeneratorStatement {
+    id;
     name;
     fullName;
     genericParameters;
@@ -27,11 +28,14 @@ export default class GeneratorInterface implements GeneratorStatement {
     constructor({
         statement,
         typesDictionary,
+        nameTransform,
     }: {
         statement: leancode.contracts.IStatement;
         typesDictionary: GeneratorTypesDictionary;
+        nameTransform?: (name: string) => string;
     }) {
-        const fullName = ensureNotEmpty(statement.name);
+        const id = ensureNotEmpty(statement.name);
+        const fullName = nameTransform?.(id) ?? id;
         const genericParameters = statement.genericParameters?.map(p => ensureNotEmpty(p.name)) ?? [];
         const properties =
             statement.properties?.map(property => new GeneratorProperty({ property, typesDictionary })) ?? [];
@@ -42,6 +46,7 @@ export default class GeneratorInterface implements GeneratorStatement {
             ) ?? [];
         const constants = statement.constants?.map(constant => new GeneratorConstant(constant)) ?? [];
 
+        this.id = id;
         this.fullName = fullName;
         this.name = GeneratorInterface.getNameFromFullName(fullName);
         this.genericParameters = genericParameters;

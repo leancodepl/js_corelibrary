@@ -51,4 +51,5 @@ export interface ContractsGeneratorConfiguration {
     clientFile?: GenerateClientFileConfiguration | GenerateClientFileConfiguration[];
     overrideGeneratorServerVersion?: string;
     overrideGeneratorServerScript?: string;
+    nameTransform?: (name: string) => string;
 }
