@@ -51,6 +51,7 @@ $root.leancode = (function() {
          * @property {number} Time=201 Time value
          * @property {number} DateTime=202 DateTime value
          * @property {number} DateTimeOffset=203 DateTimeOffset value
+         * @property {number} TimeSpan=204 TimeSpan value
          * @property {number} Array=300 Array value
          * @property {number} Map=301 Map value
          * @property {number} Query=1000 Query value
@@ -82,6 +83,7 @@ $root.leancode = (function() {
             values[valuesById[201] = "Time"] = 201;
             values[valuesById[202] = "DateTime"] = 202;
             values[valuesById[203] = "DateTimeOffset"] = 203;
+            values[valuesById[204] = "TimeSpan"] = 204;
             values[valuesById[300] = "Array"] = 300;
             values[valuesById[301] = "Map"] = 301;
             values[valuesById[1000] = "Query"] = 1000;
@@ -1813,6 +1815,7 @@ $root.leancode = (function() {
                         case 201:
                         case 202:
                         case 203:
+                        case 204:
                         case 300:
                         case 301:
                         case 1000:
@@ -1927,6 +1930,10 @@ $root.leancode = (function() {
                     case "DateTimeOffset":
                     case 203:
                         message.type = 203;
+                        break;
+                    case "TimeSpan":
+                    case 204:
+                        message.type = 204;
                         break;
                     case "Array":
                     case 300:
@@ -4089,6 +4096,292 @@ $root.leancode = (function() {
             return ErrorCode;
         })();
 
+        contracts.TypeDescriptor = (function() {
+
+            /**
+             * Properties of a TypeDescriptor.
+             * @memberof leancode.contracts
+             * @interface ITypeDescriptor
+             * @property {Array.<leancode.contracts.ITypeRef>|null} ["extends"] TypeDescriptor extends
+             * @property {Array.<leancode.contracts.IGenericParameter>|null} [genericParameters] TypeDescriptor genericParameters
+             * @property {Array.<leancode.contracts.IPropertyRef>|null} [properties] TypeDescriptor properties
+             * @property {Array.<leancode.contracts.IConstantRef>|null} [constants] TypeDescriptor constants
+             */
+
+            /**
+             * Constructs a new TypeDescriptor.
+             * @memberof leancode.contracts
+             * @classdesc Represents a TypeDescriptor.
+             * @implements ITypeDescriptor
+             * @constructor
+             * @param {leancode.contracts.ITypeDescriptor=} [properties] Properties to set
+             */
+            function TypeDescriptor(properties) {
+                this["extends"] = [];
+                this.genericParameters = [];
+                this.properties = [];
+                this.constants = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * TypeDescriptor extends.
+             * @member {Array.<leancode.contracts.ITypeRef>} extends
+             * @memberof leancode.contracts.TypeDescriptor
+             * @instance
+             */
+            TypeDescriptor.prototype["extends"] = $util.emptyArray;
+
+            /**
+             * TypeDescriptor genericParameters.
+             * @member {Array.<leancode.contracts.IGenericParameter>} genericParameters
+             * @memberof leancode.contracts.TypeDescriptor
+             * @instance
+             */
+            TypeDescriptor.prototype.genericParameters = $util.emptyArray;
+
+            /**
+             * TypeDescriptor properties.
+             * @member {Array.<leancode.contracts.IPropertyRef>} properties
+             * @memberof leancode.contracts.TypeDescriptor
+             * @instance
+             */
+            TypeDescriptor.prototype.properties = $util.emptyArray;
+
+            /**
+             * TypeDescriptor constants.
+             * @member {Array.<leancode.contracts.IConstantRef>} constants
+             * @memberof leancode.contracts.TypeDescriptor
+             * @instance
+             */
+            TypeDescriptor.prototype.constants = $util.emptyArray;
+
+            /**
+             * Decodes a TypeDescriptor message from the specified reader or buffer.
+             * @function decode
+             * @memberof leancode.contracts.TypeDescriptor
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {leancode.contracts.TypeDescriptor} TypeDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TypeDescriptor.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.leancode.contracts.TypeDescriptor();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        if (!(message["extends"] && message["extends"].length))
+                            message["extends"] = [];
+                        message["extends"].push($root.leancode.contracts.TypeRef.decode(reader, reader.uint32()));
+                        break;
+                    case 2:
+                        if (!(message.genericParameters && message.genericParameters.length))
+                            message.genericParameters = [];
+                        message.genericParameters.push($root.leancode.contracts.GenericParameter.decode(reader, reader.uint32()));
+                        break;
+                    case 3:
+                        if (!(message.properties && message.properties.length))
+                            message.properties = [];
+                        message.properties.push($root.leancode.contracts.PropertyRef.decode(reader, reader.uint32()));
+                        break;
+                    case 4:
+                        if (!(message.constants && message.constants.length))
+                            message.constants = [];
+                        message.constants.push($root.leancode.contracts.ConstantRef.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Decodes a TypeDescriptor message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof leancode.contracts.TypeDescriptor
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {leancode.contracts.TypeDescriptor} TypeDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            TypeDescriptor.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a TypeDescriptor message.
+             * @function verify
+             * @memberof leancode.contracts.TypeDescriptor
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            TypeDescriptor.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message["extends"] != null && message.hasOwnProperty("extends")) {
+                    if (!Array.isArray(message["extends"]))
+                        return "extends: array expected";
+                    for (var i = 0; i < message["extends"].length; ++i) {
+                        var error = $root.leancode.contracts.TypeRef.verify(message["extends"][i]);
+                        if (error)
+                            return "extends." + error;
+                    }
+                }
+                if (message.genericParameters != null && message.hasOwnProperty("genericParameters")) {
+                    if (!Array.isArray(message.genericParameters))
+                        return "genericParameters: array expected";
+                    for (var i = 0; i < message.genericParameters.length; ++i) {
+                        var error = $root.leancode.contracts.GenericParameter.verify(message.genericParameters[i]);
+                        if (error)
+                            return "genericParameters." + error;
+                    }
+                }
+                if (message.properties != null && message.hasOwnProperty("properties")) {
+                    if (!Array.isArray(message.properties))
+                        return "properties: array expected";
+                    for (var i = 0; i < message.properties.length; ++i) {
+                        var error = $root.leancode.contracts.PropertyRef.verify(message.properties[i]);
+                        if (error)
+                            return "properties." + error;
+                    }
+                }
+                if (message.constants != null && message.hasOwnProperty("constants")) {
+                    if (!Array.isArray(message.constants))
+                        return "constants: array expected";
+                    for (var i = 0; i < message.constants.length; ++i) {
+                        var error = $root.leancode.contracts.ConstantRef.verify(message.constants[i]);
+                        if (error)
+                            return "constants." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a TypeDescriptor message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof leancode.contracts.TypeDescriptor
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {leancode.contracts.TypeDescriptor} TypeDescriptor
+             */
+            TypeDescriptor.fromObject = function fromObject(object) {
+                if (object instanceof $root.leancode.contracts.TypeDescriptor)
+                    return object;
+                var message = new $root.leancode.contracts.TypeDescriptor();
+                if (object["extends"]) {
+                    if (!Array.isArray(object["extends"]))
+                        throw TypeError(".leancode.contracts.TypeDescriptor.extends: array expected");
+                    message["extends"] = [];
+                    for (var i = 0; i < object["extends"].length; ++i) {
+                        if (typeof object["extends"][i] !== "object")
+                            throw TypeError(".leancode.contracts.TypeDescriptor.extends: object expected");
+                        message["extends"][i] = $root.leancode.contracts.TypeRef.fromObject(object["extends"][i]);
+                    }
+                }
+                if (object.genericParameters) {
+                    if (!Array.isArray(object.genericParameters))
+                        throw TypeError(".leancode.contracts.TypeDescriptor.genericParameters: array expected");
+                    message.genericParameters = [];
+                    for (var i = 0; i < object.genericParameters.length; ++i) {
+                        if (typeof object.genericParameters[i] !== "object")
+                            throw TypeError(".leancode.contracts.TypeDescriptor.genericParameters: object expected");
+                        message.genericParameters[i] = $root.leancode.contracts.GenericParameter.fromObject(object.genericParameters[i]);
+                    }
+                }
+                if (object.properties) {
+                    if (!Array.isArray(object.properties))
+                        throw TypeError(".leancode.contracts.TypeDescriptor.properties: array expected");
+                    message.properties = [];
+                    for (var i = 0; i < object.properties.length; ++i) {
+                        if (typeof object.properties[i] !== "object")
+                            throw TypeError(".leancode.contracts.TypeDescriptor.properties: object expected");
+                        message.properties[i] = $root.leancode.contracts.PropertyRef.fromObject(object.properties[i]);
+                    }
+                }
+                if (object.constants) {
+                    if (!Array.isArray(object.constants))
+                        throw TypeError(".leancode.contracts.TypeDescriptor.constants: array expected");
+                    message.constants = [];
+                    for (var i = 0; i < object.constants.length; ++i) {
+                        if (typeof object.constants[i] !== "object")
+                            throw TypeError(".leancode.contracts.TypeDescriptor.constants: object expected");
+                        message.constants[i] = $root.leancode.contracts.ConstantRef.fromObject(object.constants[i]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a TypeDescriptor message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof leancode.contracts.TypeDescriptor
+             * @static
+             * @param {leancode.contracts.TypeDescriptor} message TypeDescriptor
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            TypeDescriptor.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object["extends"] = [];
+                    object.genericParameters = [];
+                    object.properties = [];
+                    object.constants = [];
+                }
+                if (message["extends"] && message["extends"].length) {
+                    object["extends"] = [];
+                    for (var j = 0; j < message["extends"].length; ++j)
+                        object["extends"][j] = $root.leancode.contracts.TypeRef.toObject(message["extends"][j], options);
+                }
+                if (message.genericParameters && message.genericParameters.length) {
+                    object.genericParameters = [];
+                    for (var j = 0; j < message.genericParameters.length; ++j)
+                        object.genericParameters[j] = $root.leancode.contracts.GenericParameter.toObject(message.genericParameters[j], options);
+                }
+                if (message.properties && message.properties.length) {
+                    object.properties = [];
+                    for (var j = 0; j < message.properties.length; ++j)
+                        object.properties[j] = $root.leancode.contracts.PropertyRef.toObject(message.properties[j], options);
+                }
+                if (message.constants && message.constants.length) {
+                    object.constants = [];
+                    for (var j = 0; j < message.constants.length; ++j)
+                        object.constants[j] = $root.leancode.contracts.ConstantRef.toObject(message.constants[j], options);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this TypeDescriptor to JSON.
+             * @function toJSON
+             * @memberof leancode.contracts.TypeDescriptor
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            TypeDescriptor.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            return TypeDescriptor;
+        })();
+
         contracts.Statement = (function() {
 
             /**
@@ -4097,11 +4390,7 @@ $root.leancode = (function() {
              * @interface IStatement
              * @property {string|null} [name] Statement name
              * @property {string|null} [comment] Statement comment
-             * @property {Array.<leancode.contracts.ITypeRef>|null} ["extends"] Statement extends
-             * @property {Array.<leancode.contracts.IGenericParameter>|null} [genericParameters] Statement genericParameters
              * @property {Array.<leancode.contracts.IAttributeRef>|null} [attributes] Statement attributes
-             * @property {Array.<leancode.contracts.IPropertyRef>|null} [properties] Statement properties
-             * @property {Array.<leancode.contracts.IConstantRef>|null} [constants] Statement constants
              * @property {leancode.contracts.Statement.IDTO|null} [dto] Statement dto
              * @property {leancode.contracts.Statement.IEnum|null} ["enum"] Statement enum
              * @property {leancode.contracts.Statement.IQuery|null} [query] Statement query
@@ -4117,11 +4406,7 @@ $root.leancode = (function() {
              * @param {leancode.contracts.IStatement=} [properties] Properties to set
              */
             function Statement(properties) {
-                this["extends"] = [];
-                this.genericParameters = [];
                 this.attributes = [];
-                this.properties = [];
-                this.constants = [];
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -4145,44 +4430,12 @@ $root.leancode = (function() {
             Statement.prototype.comment = "";
 
             /**
-             * Statement extends.
-             * @member {Array.<leancode.contracts.ITypeRef>} extends
-             * @memberof leancode.contracts.Statement
-             * @instance
-             */
-            Statement.prototype["extends"] = $util.emptyArray;
-
-            /**
-             * Statement genericParameters.
-             * @member {Array.<leancode.contracts.IGenericParameter>} genericParameters
-             * @memberof leancode.contracts.Statement
-             * @instance
-             */
-            Statement.prototype.genericParameters = $util.emptyArray;
-
-            /**
              * Statement attributes.
              * @member {Array.<leancode.contracts.IAttributeRef>} attributes
              * @memberof leancode.contracts.Statement
              * @instance
              */
             Statement.prototype.attributes = $util.emptyArray;
-
-            /**
-             * Statement properties.
-             * @member {Array.<leancode.contracts.IPropertyRef>} properties
-             * @memberof leancode.contracts.Statement
-             * @instance
-             */
-            Statement.prototype.properties = $util.emptyArray;
-
-            /**
-             * Statement constants.
-             * @member {Array.<leancode.contracts.IConstantRef>} constants
-             * @memberof leancode.contracts.Statement
-             * @instance
-             */
-            Statement.prototype.constants = $util.emptyArray;
 
             /**
              * Statement dto.
@@ -4255,29 +4508,9 @@ $root.leancode = (function() {
                         message.comment = reader.string();
                         break;
                     case 3:
-                        if (!(message["extends"] && message["extends"].length))
-                            message["extends"] = [];
-                        message["extends"].push($root.leancode.contracts.TypeRef.decode(reader, reader.uint32()));
-                        break;
-                    case 4:
-                        if (!(message.genericParameters && message.genericParameters.length))
-                            message.genericParameters = [];
-                        message.genericParameters.push($root.leancode.contracts.GenericParameter.decode(reader, reader.uint32()));
-                        break;
-                    case 5:
                         if (!(message.attributes && message.attributes.length))
                             message.attributes = [];
                         message.attributes.push($root.leancode.contracts.AttributeRef.decode(reader, reader.uint32()));
-                        break;
-                    case 6:
-                        if (!(message.properties && message.properties.length))
-                            message.properties = [];
-                        message.properties.push($root.leancode.contracts.PropertyRef.decode(reader, reader.uint32()));
-                        break;
-                    case 7:
-                        if (!(message.constants && message.constants.length))
-                            message.constants = [];
-                        message.constants.push($root.leancode.contracts.ConstantRef.decode(reader, reader.uint32()));
                         break;
                     case 10:
                         message.dto = $root.leancode.contracts.Statement.DTO.decode(reader, reader.uint32());
@@ -4333,24 +4566,6 @@ $root.leancode = (function() {
                 if (message.comment != null && message.hasOwnProperty("comment"))
                     if (!$util.isString(message.comment))
                         return "comment: string expected";
-                if (message["extends"] != null && message.hasOwnProperty("extends")) {
-                    if (!Array.isArray(message["extends"]))
-                        return "extends: array expected";
-                    for (var i = 0; i < message["extends"].length; ++i) {
-                        var error = $root.leancode.contracts.TypeRef.verify(message["extends"][i]);
-                        if (error)
-                            return "extends." + error;
-                    }
-                }
-                if (message.genericParameters != null && message.hasOwnProperty("genericParameters")) {
-                    if (!Array.isArray(message.genericParameters))
-                        return "genericParameters: array expected";
-                    for (var i = 0; i < message.genericParameters.length; ++i) {
-                        var error = $root.leancode.contracts.GenericParameter.verify(message.genericParameters[i]);
-                        if (error)
-                            return "genericParameters." + error;
-                    }
-                }
                 if (message.attributes != null && message.hasOwnProperty("attributes")) {
                     if (!Array.isArray(message.attributes))
                         return "attributes: array expected";
@@ -4358,24 +4573,6 @@ $root.leancode = (function() {
                         var error = $root.leancode.contracts.AttributeRef.verify(message.attributes[i]);
                         if (error)
                             return "attributes." + error;
-                    }
-                }
-                if (message.properties != null && message.hasOwnProperty("properties")) {
-                    if (!Array.isArray(message.properties))
-                        return "properties: array expected";
-                    for (var i = 0; i < message.properties.length; ++i) {
-                        var error = $root.leancode.contracts.PropertyRef.verify(message.properties[i]);
-                        if (error)
-                            return "properties." + error;
-                    }
-                }
-                if (message.constants != null && message.hasOwnProperty("constants")) {
-                    if (!Array.isArray(message.constants))
-                        return "constants: array expected";
-                    for (var i = 0; i < message.constants.length; ++i) {
-                        var error = $root.leancode.contracts.ConstantRef.verify(message.constants[i]);
-                        if (error)
-                            return "constants." + error;
                     }
                 }
                 if (message.dto != null && message.hasOwnProperty("dto")) {
@@ -4435,26 +4632,6 @@ $root.leancode = (function() {
                     message.name = String(object.name);
                 if (object.comment != null)
                     message.comment = String(object.comment);
-                if (object["extends"]) {
-                    if (!Array.isArray(object["extends"]))
-                        throw TypeError(".leancode.contracts.Statement.extends: array expected");
-                    message["extends"] = [];
-                    for (var i = 0; i < object["extends"].length; ++i) {
-                        if (typeof object["extends"][i] !== "object")
-                            throw TypeError(".leancode.contracts.Statement.extends: object expected");
-                        message["extends"][i] = $root.leancode.contracts.TypeRef.fromObject(object["extends"][i]);
-                    }
-                }
-                if (object.genericParameters) {
-                    if (!Array.isArray(object.genericParameters))
-                        throw TypeError(".leancode.contracts.Statement.genericParameters: array expected");
-                    message.genericParameters = [];
-                    for (var i = 0; i < object.genericParameters.length; ++i) {
-                        if (typeof object.genericParameters[i] !== "object")
-                            throw TypeError(".leancode.contracts.Statement.genericParameters: object expected");
-                        message.genericParameters[i] = $root.leancode.contracts.GenericParameter.fromObject(object.genericParameters[i]);
-                    }
-                }
                 if (object.attributes) {
                     if (!Array.isArray(object.attributes))
                         throw TypeError(".leancode.contracts.Statement.attributes: array expected");
@@ -4463,26 +4640,6 @@ $root.leancode = (function() {
                         if (typeof object.attributes[i] !== "object")
                             throw TypeError(".leancode.contracts.Statement.attributes: object expected");
                         message.attributes[i] = $root.leancode.contracts.AttributeRef.fromObject(object.attributes[i]);
-                    }
-                }
-                if (object.properties) {
-                    if (!Array.isArray(object.properties))
-                        throw TypeError(".leancode.contracts.Statement.properties: array expected");
-                    message.properties = [];
-                    for (var i = 0; i < object.properties.length; ++i) {
-                        if (typeof object.properties[i] !== "object")
-                            throw TypeError(".leancode.contracts.Statement.properties: object expected");
-                        message.properties[i] = $root.leancode.contracts.PropertyRef.fromObject(object.properties[i]);
-                    }
-                }
-                if (object.constants) {
-                    if (!Array.isArray(object.constants))
-                        throw TypeError(".leancode.contracts.Statement.constants: array expected");
-                    message.constants = [];
-                    for (var i = 0; i < object.constants.length; ++i) {
-                        if (typeof object.constants[i] !== "object")
-                            throw TypeError(".leancode.contracts.Statement.constants: object expected");
-                        message.constants[i] = $root.leancode.contracts.ConstantRef.fromObject(object.constants[i]);
                     }
                 }
                 if (object.dto != null) {
@@ -4521,13 +4678,8 @@ $root.leancode = (function() {
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.arrays || options.defaults) {
-                    object["extends"] = [];
-                    object.genericParameters = [];
+                if (options.arrays || options.defaults)
                     object.attributes = [];
-                    object.properties = [];
-                    object.constants = [];
-                }
                 if (options.defaults) {
                     object.name = "";
                     object.comment = "";
@@ -4536,30 +4688,10 @@ $root.leancode = (function() {
                     object.name = message.name;
                 if (message.comment != null && message.hasOwnProperty("comment"))
                     object.comment = message.comment;
-                if (message["extends"] && message["extends"].length) {
-                    object["extends"] = [];
-                    for (var j = 0; j < message["extends"].length; ++j)
-                        object["extends"][j] = $root.leancode.contracts.TypeRef.toObject(message["extends"][j], options);
-                }
-                if (message.genericParameters && message.genericParameters.length) {
-                    object.genericParameters = [];
-                    for (var j = 0; j < message.genericParameters.length; ++j)
-                        object.genericParameters[j] = $root.leancode.contracts.GenericParameter.toObject(message.genericParameters[j], options);
-                }
                 if (message.attributes && message.attributes.length) {
                     object.attributes = [];
                     for (var j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.leancode.contracts.AttributeRef.toObject(message.attributes[j], options);
-                }
-                if (message.properties && message.properties.length) {
-                    object.properties = [];
-                    for (var j = 0; j < message.properties.length; ++j)
-                        object.properties[j] = $root.leancode.contracts.PropertyRef.toObject(message.properties[j], options);
-                }
-                if (message.constants && message.constants.length) {
-                    object.constants = [];
-                    for (var j = 0; j < message.constants.length; ++j)
-                        object.constants[j] = $root.leancode.contracts.ConstantRef.toObject(message.constants[j], options);
                 }
                 if (message.dto != null && message.hasOwnProperty("dto")) {
                     object.dto = $root.leancode.contracts.Statement.DTO.toObject(message.dto, options);
@@ -4601,6 +4733,7 @@ $root.leancode = (function() {
                  * Properties of a DTO.
                  * @memberof leancode.contracts.Statement
                  * @interface IDTO
+                 * @property {leancode.contracts.ITypeDescriptor|null} [typeDescriptor] DTO typeDescriptor
                  */
 
                 /**
@@ -4617,6 +4750,14 @@ $root.leancode = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * DTO typeDescriptor.
+                 * @member {leancode.contracts.ITypeDescriptor|null|undefined} typeDescriptor
+                 * @memberof leancode.contracts.Statement.DTO
+                 * @instance
+                 */
+                DTO.prototype.typeDescriptor = null;
 
                 /**
                  * Decodes a DTO message from the specified reader or buffer.
@@ -4636,6 +4777,9 @@ $root.leancode = (function() {
                     while (reader.pos < end) {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
+                        case 1:
+                            message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.decode(reader, reader.uint32());
+                            break;
                         default:
                             reader.skipType(tag & 7);
                             break;
@@ -4671,6 +4815,11 @@ $root.leancode = (function() {
                 DTO.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor")) {
+                        var error = $root.leancode.contracts.TypeDescriptor.verify(message.typeDescriptor);
+                        if (error)
+                            return "typeDescriptor." + error;
+                    }
                     return null;
                 };
 
@@ -4685,7 +4834,13 @@ $root.leancode = (function() {
                 DTO.fromObject = function fromObject(object) {
                     if (object instanceof $root.leancode.contracts.Statement.DTO)
                         return object;
-                    return new $root.leancode.contracts.Statement.DTO();
+                    var message = new $root.leancode.contracts.Statement.DTO();
+                    if (object.typeDescriptor != null) {
+                        if (typeof object.typeDescriptor !== "object")
+                            throw TypeError(".leancode.contracts.Statement.DTO.typeDescriptor: object expected");
+                        message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.fromObject(object.typeDescriptor);
+                    }
+                    return message;
                 };
 
                 /**
@@ -4697,8 +4852,15 @@ $root.leancode = (function() {
                  * @param {$protobuf.IConversionOptions} [options] Conversion options
                  * @returns {Object.<string,*>} Plain object
                  */
-                DTO.toObject = function toObject() {
-                    return {};
+                DTO.toObject = function toObject(message, options) {
+                    if (!options)
+                        options = {};
+                    var object = {};
+                    if (options.defaults)
+                        object.typeDescriptor = null;
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor"))
+                        object.typeDescriptor = $root.leancode.contracts.TypeDescriptor.toObject(message.typeDescriptor, options);
+                    return object;
                 };
 
                 /**
@@ -4886,6 +5048,7 @@ $root.leancode = (function() {
                  * Properties of a Query.
                  * @memberof leancode.contracts.Statement
                  * @interface IQuery
+                 * @property {leancode.contracts.ITypeDescriptor|null} [typeDescriptor] Query typeDescriptor
                  * @property {leancode.contracts.ITypeRef|null} [returnType] Query returnType
                  */
 
@@ -4903,6 +5066,14 @@ $root.leancode = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * Query typeDescriptor.
+                 * @member {leancode.contracts.ITypeDescriptor|null|undefined} typeDescriptor
+                 * @memberof leancode.contracts.Statement.Query
+                 * @instance
+                 */
+                Query.prototype.typeDescriptor = null;
 
                 /**
                  * Query returnType.
@@ -4931,6 +5102,9 @@ $root.leancode = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
+                            message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.decode(reader, reader.uint32());
+                            break;
+                        case 2:
                             message.returnType = $root.leancode.contracts.TypeRef.decode(reader, reader.uint32());
                             break;
                         default:
@@ -4968,6 +5142,11 @@ $root.leancode = (function() {
                 Query.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor")) {
+                        var error = $root.leancode.contracts.TypeDescriptor.verify(message.typeDescriptor);
+                        if (error)
+                            return "typeDescriptor." + error;
+                    }
                     if (message.returnType != null && message.hasOwnProperty("returnType")) {
                         var error = $root.leancode.contracts.TypeRef.verify(message.returnType);
                         if (error)
@@ -4988,6 +5167,11 @@ $root.leancode = (function() {
                     if (object instanceof $root.leancode.contracts.Statement.Query)
                         return object;
                     var message = new $root.leancode.contracts.Statement.Query();
+                    if (object.typeDescriptor != null) {
+                        if (typeof object.typeDescriptor !== "object")
+                            throw TypeError(".leancode.contracts.Statement.Query.typeDescriptor: object expected");
+                        message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.fromObject(object.typeDescriptor);
+                    }
                     if (object.returnType != null) {
                         if (typeof object.returnType !== "object")
                             throw TypeError(".leancode.contracts.Statement.Query.returnType: object expected");
@@ -5009,8 +5193,12 @@ $root.leancode = (function() {
                     if (!options)
                         options = {};
                     var object = {};
-                    if (options.defaults)
+                    if (options.defaults) {
+                        object.typeDescriptor = null;
                         object.returnType = null;
+                    }
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor"))
+                        object.typeDescriptor = $root.leancode.contracts.TypeDescriptor.toObject(message.typeDescriptor, options);
                     if (message.returnType != null && message.hasOwnProperty("returnType"))
                         object.returnType = $root.leancode.contracts.TypeRef.toObject(message.returnType, options);
                     return object;
@@ -5036,6 +5224,7 @@ $root.leancode = (function() {
                  * Properties of a Command.
                  * @memberof leancode.contracts.Statement
                  * @interface ICommand
+                 * @property {leancode.contracts.ITypeDescriptor|null} [typeDescriptor] Command typeDescriptor
                  * @property {Array.<leancode.contracts.IErrorCode>|null} [errorCodes] Command errorCodes
                  */
 
@@ -5054,6 +5243,14 @@ $root.leancode = (function() {
                             if (properties[keys[i]] != null)
                                 this[keys[i]] = properties[keys[i]];
                 }
+
+                /**
+                 * Command typeDescriptor.
+                 * @member {leancode.contracts.ITypeDescriptor|null|undefined} typeDescriptor
+                 * @memberof leancode.contracts.Statement.Command
+                 * @instance
+                 */
+                Command.prototype.typeDescriptor = null;
 
                 /**
                  * Command errorCodes.
@@ -5082,6 +5279,9 @@ $root.leancode = (function() {
                         var tag = reader.uint32();
                         switch (tag >>> 3) {
                         case 1:
+                            message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.decode(reader, reader.uint32());
+                            break;
+                        case 2:
                             if (!(message.errorCodes && message.errorCodes.length))
                                 message.errorCodes = [];
                             message.errorCodes.push($root.leancode.contracts.ErrorCode.decode(reader, reader.uint32()));
@@ -5121,6 +5321,11 @@ $root.leancode = (function() {
                 Command.verify = function verify(message) {
                     if (typeof message !== "object" || message === null)
                         return "object expected";
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor")) {
+                        var error = $root.leancode.contracts.TypeDescriptor.verify(message.typeDescriptor);
+                        if (error)
+                            return "typeDescriptor." + error;
+                    }
                     if (message.errorCodes != null && message.hasOwnProperty("errorCodes")) {
                         if (!Array.isArray(message.errorCodes))
                             return "errorCodes: array expected";
@@ -5145,6 +5350,11 @@ $root.leancode = (function() {
                     if (object instanceof $root.leancode.contracts.Statement.Command)
                         return object;
                     var message = new $root.leancode.contracts.Statement.Command();
+                    if (object.typeDescriptor != null) {
+                        if (typeof object.typeDescriptor !== "object")
+                            throw TypeError(".leancode.contracts.Statement.Command.typeDescriptor: object expected");
+                        message.typeDescriptor = $root.leancode.contracts.TypeDescriptor.fromObject(object.typeDescriptor);
+                    }
                     if (object.errorCodes) {
                         if (!Array.isArray(object.errorCodes))
                             throw TypeError(".leancode.contracts.Statement.Command.errorCodes: array expected");
@@ -5173,6 +5383,10 @@ $root.leancode = (function() {
                     var object = {};
                     if (options.arrays || options.defaults)
                         object.errorCodes = [];
+                    if (options.defaults)
+                        object.typeDescriptor = null;
+                    if (message.typeDescriptor != null && message.hasOwnProperty("typeDescriptor"))
+                        object.typeDescriptor = $root.leancode.contracts.TypeDescriptor.toObject(message.typeDescriptor, options);
                     if (message.errorCodes && message.errorCodes.length) {
                         object.errorCodes = [];
                         for (var j = 0; j < message.errorCodes.length; ++j)

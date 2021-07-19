@@ -68,24 +68,28 @@ describe("GeneratorInterface", () => {
         const generator = new GeneratorInterface({
             statement: {
                 name: "Interface",
-                properties: [
-                    {
-                        name: "numberProperty",
-                        type: {
-                            known: {
-                                type: leancode.contracts.KnownType.UInt32,
+                dto: {
+                    typeDescriptor: {
+                        properties: [
+                            {
+                                name: "numberProperty",
+                                type: {
+                                    known: {
+                                        type: leancode.contracts.KnownType.UInt32,
+                                    },
+                                },
                             },
-                        },
-                    },
-                    {
-                        name: "stringProperty",
-                        type: {
-                            known: {
-                                type: leancode.contracts.KnownType.String,
+                            {
+                                name: "stringProperty",
+                                type: {
+                                    known: {
+                                        type: leancode.contracts.KnownType.String,
+                                    },
+                                },
                             },
-                        },
+                        ],
                     },
-                ],
+                },
             },
             typesDictionary,
         });

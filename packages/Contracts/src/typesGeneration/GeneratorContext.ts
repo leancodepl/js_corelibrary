@@ -37,6 +37,7 @@ export const overridableCustomTypes = [
     leancode.contracts.KnownType.Time,
     leancode.contracts.KnownType.DateTime,
     leancode.contracts.KnownType.DateTimeOffset,
+    leancode.contracts.KnownType.TimeSpan,
 ] as const;
 
 export type OverridableCustomType = typeof overridableCustomTypes[number];

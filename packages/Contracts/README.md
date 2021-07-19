@@ -54,11 +54,11 @@ sources include:
     -   `base` - base path for your backend code source. If you provide that then all the other properties are relative
         to this directory.
 
-    You need to provide one of:
+    Then you can provide one of:
 
     -   `file`  
         or
-    -   `path`  
+    -   `include` and `exclude` - single globs or arrays of globs to match specific .cs files  
         or
     -   `project` - can be multiple
 
@@ -90,7 +90,7 @@ sources include:
 
 -   `customTypes` - dictionary of custom types configuration where keys are the name of Known Type and value is custom
     type definition. Valid custom types include: String, Guid, Uri, Boolean, UInt8, Int8, Int16, UInt16, Int32, UInt32,
-    Int64, UInt64, Float, Double, Decimal, Date, Time, DateTime, DateTimeOffset.
+    Int64, UInt64, Float, Double, Decimal, Date, Time, DateTime, DateTimeOffset, TimeSpan.
 
     Type definition includes properties:
 
