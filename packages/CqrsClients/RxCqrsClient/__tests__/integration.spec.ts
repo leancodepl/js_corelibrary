@@ -31,10 +31,7 @@ describe("integration", () => {
     });
 
     it("correctly fetches command response", async () => {
-        const client = mkCqrsClient("mock", {
-            getToken: () => Promise.resolve(undefined),
-            invalidateToken: () => Promise.resolve(false),
-        });
+        const client = mkCqrsClient("mock");
         const api = clientDef(client);
         const response = createCommandResponse(Users.EditUser.ErrorCodes);
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
@@ -52,10 +49,7 @@ describe("integration", () => {
     });
 
     it("correctly handles command response on validation error", async () => {
-        const client = mkCqrsClient("mock", {
-            getToken: () => Promise.resolve(undefined),
-            invalidateToken: () => Promise.resolve(false),
-        });
+        const client = mkCqrsClient("mock");
         const api = clientDef(client);
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.body(createCommandResponse(Users.EditUser.ErrorCodes, "EmailIsTaken")).status(200),
@@ -82,10 +76,7 @@ describe("integration", () => {
     });
 
     it("correctly handles command response on success", async () => {
-        const client = mkCqrsClient("mock", {
-            getToken: () => Promise.resolve(undefined),
-            invalidateToken: () => Promise.resolve(false),
-        });
+        const client = mkCqrsClient("mock");
         const api = clientDef(client);
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.body(createCommandResponse(Users.EditUser.ErrorCodes)).status(200),
@@ -112,10 +103,7 @@ describe("integration", () => {
     });
 
     it("correctly handles command response on failure", async () => {
-        const client = mkCqrsClient("mock", {
-            getToken: () => Promise.resolve(undefined),
-            invalidateToken: () => Promise.resolve(false),
-        });
+        const client = mkCqrsClient("mock");
         const api = clientDef(client);
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.status(500),

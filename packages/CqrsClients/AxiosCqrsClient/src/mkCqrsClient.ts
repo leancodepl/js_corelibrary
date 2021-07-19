@@ -16,13 +16,13 @@ function createError(error: any): ApiError {
     };
 }
 
-export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider: TokenProvider) {
+export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
     });
 
     apiAxios.interceptors.request.use(async config => {
-        const token = await tokenProvider.getToken();
+        const token = await tokenProvider?.getToken();
 
         if (token) {
             config.headers["Authorization"] = `Bearer ${token}`;
@@ -50,7 +50,7 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider: TokenP
                         );
                         break;
                     }
-                    if (!tokenProvider.invalidateToken) {
+                    if (!tokenProvider?.invalidateToken) {
                         response.data = createError("User need to be authenticated to execute the command/query");
                         break;
                     }
