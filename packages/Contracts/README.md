@@ -27,10 +27,11 @@ Directly:
 npx -p @leancode/contracts ts-generator
 ```
 
-One thing to remember is that TypeScript Contracts Generator relies on Contracts Generator Server. Consequently
-Contracts Generator Server needs `dotnet` as its runtime. That means in order for generator to work you need to have
-`dotnet` runtime installed. Another thing which also needs to be noted - currently TypeScript Contracts Generator works
-in POSIX shells (due to `generate.sh` script). This means **on Windows you need to be using Git Bash or alternative**.
+One thing to remember is that TypeScript Contracts Generator relies on
+[Contracts Generator Server](https://github.com/leancodepl/contractsgenerator). Consequently Contracts Generator Server
+needs `dotnet` as its runtime. That means in order for generator to work you need to have `dotnet` runtime installed.
+Another thing which also needs to be noted - currently TypeScript Contracts Generator works in POSIX shells (due to
+`generate.sh` script). This means **on Windows you need to be using Git Bash or alternative**.
 
 ### Configuration
 
@@ -45,8 +46,9 @@ sources include:
 
 ### Options
 
--   `input`**\*** - Configuration passed to Contracts Generator Server. All paths are relative to directory from your
-    current CWD. Unless you are using JavaScript files - in that case you can use `__dirname` and
+-   `input`**\*** - Configuration passed to
+    [Contracts Generator Server](https://github.com/leancodepl/contractsgenerator). All paths are relative to directory
+    from your current CWD. Unless you are using JavaScript files - in that case you can use `__dirname` and
     `path.join`/`path.resolve` for paths relative to configuration file.
 
     -   `base` - base path for your backend code source. If you provide that then all the other properties are relative
@@ -58,7 +60,7 @@ sources include:
         or
     -   `path`  
         or
-    -   `project`
+    -   `project` - can be multiple
 
     For details on these options please refer to
     [Contracts Generator Server](https://github.com/leancodepl/contractsgenerator).
@@ -90,7 +92,7 @@ sources include:
     type definition. Valid custom types include: String, Guid, Uri, Boolean, UInt8, Int8, Int16, UInt16, Int32, UInt32,
     Int64, UInt64, Float, Double, Decimal, Date, Time, DateTime, DateTimeOffset.
 
-    Type definition includes properites:
+    Type definition includes properties:
 
     -   `name`**\*** - name of the custom type,
     -   `location`**\*** - path to a file containing custom type definition (relative to CWD and/or `baseDir`)
@@ -108,7 +110,7 @@ sources include:
 
     -   `filename`**\*** and `eslintExclusion` which works the same way as in `typesFile`
     -   `cqrsClient`**\*** - implementation of specific `CQRS` client. Configuration is exactly the same as for `query`
-        and `command` options.
+        and `command` options. You can find ready to use clients implementations and examples in this repository.
     -   `include` and `exclude` - list of inclusions and/or exclusions based on object id (full name of the object
         **before** `nameTransform`). This can be configured as one of:
         -   single string, which the id of the object need to start with. e.g `LeanCode.Project.Core.Contracts.Users`.
@@ -120,7 +122,7 @@ sources include:
             source.
 
 -   `nameTransform` - function `(fullName: string) => string` which allows you to transform full name of the DTO (like
-    `LeanCode.Core.Contracts.User.UserDetailsDTO`). This is especially usefull when you want to map namespaces, for e.g.
+    `LeanCode.Core.Contracts.User.UserDetailsDTO`). This is especially useful when you want to map namespaces, for e.g.
     when you have conflicts, want to remove parts of the namespace (`LeanCode.Core.User.UserDetailsDTO` instead of
     `LeanCode.Core.`**`Contracts`**`.User.UserDetailsDTO`).
 
@@ -129,12 +131,78 @@ sources include:
     preserves backwards compatibility in terms of protobuf contract) and the TypeScript Contracts Generator hasn't been
     updated yet.
 
--   `overriderGeneratorServerScript` - you can even override default `generate.sh` script for some custom scenarios.
-    This is especially useful for testing when you want to mock implementation of backend or for example when you want
-    to run directly on Windows environment without using `generate.sh` and directly use pre downloaded Contracts
-    Generator Server binaries.
+-   `overrideGeneratorServerScript` - you can even override default `generate.sh` script for some custom scenarios. This
+    is especially useful for testing when you want to mock implementation of backend or for example when you want to run
+    directly on Windows environment without using `generate.sh` and directly use pre downloaded Contracts Generator
+    Server binaries.
 
 For specific TypeScript configuration object you can refer to [`src/types.ts`](./src/types.ts).
+
+### Example
+
+```js
+/* eslint-env node */
+
+/**
+ * @type {import("@leancode/contracts/lib/types").ContractsGeneratorConfiguration}
+ */
+module.exports = {
+    typesFile: {
+        eslintExclusions: ["@typescript-eslint/no-namespace", "unused-imports/no-unused-vars-ts"],
+        filename: "out/LeanCode.ts",
+    },
+    clientFile: [
+        {
+            eslintExclusions: ["import/no-anonymous-default-export", "prettier/prettier"],
+            filename: "out/LeanCodeClient.ts",
+            cqrsClient: {
+                location: "services/cqrsClient.ts",
+                exportName: "rxCqrs",
+            },
+            exclude: [
+                "LeanCode.ContractsGeneratorV2.ExampleContracts.Admin",
+                "LeanCode.ContractsGeneratorV2.ExampleContracts.Manager",
+            ],
+        },
+        {
+            eslintExclusions: ["import/no-anonymous-default-export", "prettier/prettier"],
+            filename: "out/LeanCodeAdminClient.ts",
+            cqrsClient: {
+                location: "services/cqrsClient.ts",
+                exportName: "rxCqrs",
+            },
+            include: {
+                "LeanCode.ContractsGeneratorV2.ExampleContracts.Admin",
+            }
+        },
+    ],
+    customTypes: {
+        DateTime: {
+            location: "../apiTime",
+            name: "ApiDateTime",
+        },
+        DateTimeOffset: {
+            location: "../apiTime",
+            name: "ApiDateTime",
+        },
+    },
+    baseNamespace: "LeanCode.ContractsGeneratorV2.ExampleContracts",
+    baseDir: "./src",
+    nameTransform: name => {
+        const parts = name.split(".");
+
+        return parts[parts.length - 1];
+    },
+    input: {
+        base: "../../../Project/backend",
+        project: [
+            "src/Core/Project.Core.Contracts/Project.Core.Contracts.csproj",
+            "src/Clients/Project.Clients.Contracts/Project.Clients.Contracts.csproj",
+            "src/Plans/Project.Plans.Contracts/Project.Plans.Contracts.csproj",
+        ],
+    },
+};
+```
 
 ## Development
 
@@ -155,6 +223,6 @@ Server and clients communicate using protobuf. Specific `.proto` contract file i
 repository to [`src/protocol/contracts.proto`](./src/protocol/contracts.proto). This is important to note that when
 contracts file is updated on the backend side then updating process is entirely manual. After you copy new
 `contracts.proto` file the [`src/procotol/index.js`](./src/protocol/index.js) and
-[`src/protocol/index.d.ts`](./src/protocol/index.js) need to be updated. Those files are automatically generated by
+[`src/protocol/index.d.ts`](./src/protocol/index.d.ts) need to be updated. Those files are automatically generated by
 running `npm run proto`. For details on how this works please refer to `scripts` section in
 [`package.json`](./package.json).

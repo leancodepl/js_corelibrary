@@ -64,7 +64,7 @@ describe("GeneratorInterface", () => {
         `);
     });
 
-    it("prints deprecated comment when interface is obsolete", () => {
+    it("prints interface with basic properties", () => {
         const generator = new GeneratorInterface({
             statement: {
                 name: "Interface",
