@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
+import React from "react";
 import { act, render, wait } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
-import React from "react";
 import mkI18n from "../src";
 
 function createLocale<TLocale extends string, TTerm extends string>(locale: TLocale, messages: Record<TTerm, string>) {

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "rootDir": "src",
+    "outDir": "./lib",
+  },
+  "include": ["./src"]
+}
