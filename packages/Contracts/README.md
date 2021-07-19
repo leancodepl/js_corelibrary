@@ -188,11 +188,8 @@ module.exports = {
     },
     baseNamespace: "LeanCode.ContractsGeneratorV2.ExampleContracts",
     baseDir: "./src",
-    nameTransform: name => {
-        const parts = name.split(".");
-
-        return parts[parts.length - 1];
-    },
+    // LeanCode.Clients.Contracts.Users.EditUser -> LeanCode.Clients.Users.EditUser
+    nameTransform: name => name.replace(/.Contracts/g, ""),
     input: {
         base: "../../../Project/backend",
         project: [
