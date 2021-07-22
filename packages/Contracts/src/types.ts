@@ -11,7 +11,8 @@ export type GenerateFileConfiguration =
 export interface GeneratorInput {
     base?: string;
     file?: string;
-    path?: string;
+    include?: string | string[];
+    exclude?: string | string[];
     project?: string | string[];
 }
 

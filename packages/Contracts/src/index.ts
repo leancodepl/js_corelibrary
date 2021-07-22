@@ -5,6 +5,8 @@ import { cosmiconfigSync } from "cosmiconfig";
 import { multipleValidOptions, validate } from "jest-validate";
 import { posix } from "path";
 import protobuf from "protobufjs";
+import { hideBin } from "yargs/helpers";
+import yargs from "yargs/yargs";
 import generateContracts, { ensureIsOverridableCustomTypeName } from "./generateContracts";
 import getCommandTypePreamble from "./preambles/getCommandTypePreamble";
 import getCommonTypePreamble from "./preambles/getCommonTypePreamble";
@@ -22,11 +24,22 @@ import { ClientMethodFilter, overridableCustomTypes } from "./typesGeneration/Ge
 import ensureDefined from "./utils/ensureDefined";
 import writeProcessor from "./utils/writeProcessor";
 
+const argv = yargs(hideBin(process.argv))
+    .option("config", {
+        alias: "c",
+        type: "string",
+        description: "Config file location",
+    })
+    .parseSync();
+
 const { join, resolve } = posix;
 
-const serverContractsGeneratorVersion = "1.0.3";
+const serverContractsGeneratorVersion = "0.1.0-alpha2";
 const moduleName = "ts-generator";
-const config = cosmiconfigSync(moduleName).search()?.config;
+
+const config = argv.config
+    ? cosmiconfigSync(moduleName).load(argv.config)?.config
+    : cosmiconfigSync(moduleName).search()?.config;
 
 if (!config) {
     console.error(`Couldn't find any ${moduleName} config file.`);
@@ -75,7 +88,8 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
                     },
                     {
                         base: "../../backend/src/Contracts",
-                        path: "**/*.cs",
+                        include: multipleValidOptions("**/*.cs", ["**/*.Plans.*/**/*.cs", "**/*.Users.*/**/*.cs"]),
+                        exclude: multipleValidOptions("**/*.cs", ["**/*.Plans.*/**/*.cs", "**/*.Users.*/**/*.cs"]),
                     },
                     {
                         base: "../../backend",
@@ -131,11 +145,25 @@ const command = (() => {
             projects = [withBase(input.project)];
         }
 
-        params = `project --project="${projects.join(";")}"`;
+        params = `project --project ${projects.map(p => `"${p}"`).join(" ")}`;
     } else if (input?.file) {
         params = `file --input="${withBase(input.file)}"`;
-    } else if (input?.path) {
-        params = `path --path="${withBase(input.path)}"`;
+    } else if (input) {
+        params = `path`;
+
+        if (input.base) {
+            params += ` --directory="${input.base}"`;
+        }
+
+        const include = input.include ? (Array.isArray(input.include) ? input.include : [input.include]) : ["**/*.cs"];
+
+        params += ` --include ${include.map(i => `"${i}"`).join(" ")}`;
+
+        if (input.exclude) {
+            params += ` --exclude ${(Array.isArray(input.exclude) ? input.exclude : [input.exclude])
+                .map(e => `"${e}"`)
+                .join(" ")}`;
+        }
     }
 
     params += ` --output=-`;

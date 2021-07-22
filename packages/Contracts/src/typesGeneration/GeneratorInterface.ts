@@ -34,17 +34,23 @@ export default class GeneratorInterface implements GeneratorStatement {
         typesDictionary: GeneratorTypesDictionary;
         nameTransform?: (name: string) => string;
     }) {
+        const typeDescriptor = {
+            ...statement.dto?.typeDescriptor,
+            ...statement.query?.typeDescriptor,
+            ...statement.command?.typeDescriptor,
+        };
+
         const id = ensureNotEmpty(statement.name);
         const fullName = nameTransform?.(id) ?? id;
-        const genericParameters = statement.genericParameters?.map(p => ensureNotEmpty(p.name)) ?? [];
+        const genericParameters = typeDescriptor?.genericParameters?.map(p => ensureNotEmpty(p.name)) ?? [];
         const properties =
-            statement.properties?.map(property => new GeneratorProperty({ property, typesDictionary })) ?? [];
+            typeDescriptor?.properties?.map(property => new GeneratorProperty({ property, typesDictionary })) ?? [];
         const attributes = statement.attributes?.map(attribute => new GeneratorAttribute({ attribute })) ?? [];
         const extendTypes =
-            statement.extends?.map(extendType =>
+            typeDescriptor?.extends?.map(extendType =>
                 GeneratorTypeFactory.createType({ type: extendType, typesDictionary }),
             ) ?? [];
-        const constants = statement.constants?.map(constant => new GeneratorConstant(constant)) ?? [];
+        const constants = typeDescriptor?.constants?.map(constant => new GeneratorConstant(constant)) ?? [];
 
         this.id = id;
         this.fullName = fullName;

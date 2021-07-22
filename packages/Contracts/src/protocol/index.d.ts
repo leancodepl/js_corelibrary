@@ -27,6 +27,7 @@ export namespace leancode {
             Time = 201,
             DateTime = 202,
             DateTimeOffset = 203,
+            TimeSpan = 204,
             Array = 300,
             Map = 301,
             Query = 1000,
@@ -1606,6 +1607,91 @@ export namespace leancode {
             }
         }
 
+        /** Properties of a TypeDescriptor. */
+        interface ITypeDescriptor {
+
+            /** TypeDescriptor extends */
+            "extends"?: (leancode.contracts.ITypeRef[]|null);
+
+            /** TypeDescriptor genericParameters */
+            genericParameters?: (leancode.contracts.IGenericParameter[]|null);
+
+            /** TypeDescriptor properties */
+            properties?: (leancode.contracts.IPropertyRef[]|null);
+
+            /** TypeDescriptor constants */
+            constants?: (leancode.contracts.IConstantRef[]|null);
+        }
+
+        /** Represents a TypeDescriptor. */
+        class TypeDescriptor implements ITypeDescriptor {
+
+            /**
+             * Constructs a new TypeDescriptor.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: leancode.contracts.ITypeDescriptor);
+
+            /** TypeDescriptor extends. */
+            public extends: leancode.contracts.ITypeRef[];
+
+            /** TypeDescriptor genericParameters. */
+            public genericParameters: leancode.contracts.IGenericParameter[];
+
+            /** TypeDescriptor properties. */
+            public properties: leancode.contracts.IPropertyRef[];
+
+            /** TypeDescriptor constants. */
+            public constants: leancode.contracts.IConstantRef[];
+
+            /**
+             * Decodes a TypeDescriptor message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns TypeDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): leancode.contracts.TypeDescriptor;
+
+            /**
+             * Decodes a TypeDescriptor message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns TypeDescriptor
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): leancode.contracts.TypeDescriptor;
+
+            /**
+             * Verifies a TypeDescriptor message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            public static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a TypeDescriptor message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns TypeDescriptor
+             */
+            public static fromObject(object: { [k: string]: any }): leancode.contracts.TypeDescriptor;
+
+            /**
+             * Creates a plain object from a TypeDescriptor message. Also converts values to other types if specified.
+             * @param message TypeDescriptor
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            public static toObject(message: leancode.contracts.TypeDescriptor, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this TypeDescriptor to JSON.
+             * @returns JSON object
+             */
+            public toJSON(): { [k: string]: any };
+        }
+
         /** Properties of a Statement. */
         interface IStatement {
 
@@ -1615,20 +1701,8 @@ export namespace leancode {
             /** Statement comment */
             comment?: (string|null);
 
-            /** Statement extends */
-            "extends"?: (leancode.contracts.ITypeRef[]|null);
-
-            /** Statement genericParameters */
-            genericParameters?: (leancode.contracts.IGenericParameter[]|null);
-
             /** Statement attributes */
             attributes?: (leancode.contracts.IAttributeRef[]|null);
-
-            /** Statement properties */
-            properties?: (leancode.contracts.IPropertyRef[]|null);
-
-            /** Statement constants */
-            constants?: (leancode.contracts.IConstantRef[]|null);
 
             /** Statement dto */
             dto?: (leancode.contracts.Statement.IDTO|null);
@@ -1658,20 +1732,8 @@ export namespace leancode {
             /** Statement comment. */
             public comment: string;
 
-            /** Statement extends. */
-            public extends: leancode.contracts.ITypeRef[];
-
-            /** Statement genericParameters. */
-            public genericParameters: leancode.contracts.IGenericParameter[];
-
             /** Statement attributes. */
             public attributes: leancode.contracts.IAttributeRef[];
-
-            /** Statement properties. */
-            public properties: leancode.contracts.IPropertyRef[];
-
-            /** Statement constants. */
-            public constants: leancode.contracts.IConstantRef[];
 
             /** Statement dto. */
             public dto?: (leancode.contracts.Statement.IDTO|null);
@@ -1740,6 +1802,9 @@ export namespace leancode {
 
             /** Properties of a DTO. */
             interface IDTO {
+
+                /** DTO typeDescriptor */
+                typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
             }
 
             /** Represents a DTO. */
@@ -1750,6 +1815,9 @@ export namespace leancode {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: leancode.contracts.Statement.IDTO);
+
+                /** DTO typeDescriptor. */
+                public typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
 
                 /**
                  * Decodes a DTO message from the specified reader or buffer.
@@ -1869,6 +1937,9 @@ export namespace leancode {
             /** Properties of a Query. */
             interface IQuery {
 
+                /** Query typeDescriptor */
+                typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
+
                 /** Query returnType */
                 returnType?: (leancode.contracts.ITypeRef|null);
             }
@@ -1881,6 +1952,9 @@ export namespace leancode {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: leancode.contracts.Statement.IQuery);
+
+                /** Query typeDescriptor. */
+                public typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
 
                 /** Query returnType. */
                 public returnType?: (leancode.contracts.ITypeRef|null);
@@ -1936,6 +2010,9 @@ export namespace leancode {
             /** Properties of a Command. */
             interface ICommand {
 
+                /** Command typeDescriptor */
+                typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
+
                 /** Command errorCodes */
                 errorCodes?: (leancode.contracts.IErrorCode[]|null);
             }
@@ -1948,6 +2025,9 @@ export namespace leancode {
                  * @param [properties] Properties to set
                  */
                 constructor(properties?: leancode.contracts.Statement.ICommand);
+
+                /** Command typeDescriptor. */
+                public typeDescriptor?: (leancode.contracts.ITypeDescriptor|null);
 
                 /** Command errorCodes. */
                 public errorCodes: leancode.contracts.IErrorCode[];
