@@ -70,3 +70,7 @@ sample-app/deploy
 
 # OSX
 .DS_Store
+
+# dotnet
+**/bin
+**/obj
