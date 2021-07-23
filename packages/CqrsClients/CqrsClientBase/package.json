@@ -1,5 +1,6 @@
 {
-  "name": "@leancode/validation",
+  "name": "@leancode/cqrs-client-base",
+  "description": "CQRS client base for all specific connectors.",
   "version": "6.0.0",
   "author": "LeanCode",
   "license": "ISC",
@@ -15,19 +16,15 @@
   },
   "scripts": {
     "build": "leancode-rollup",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
+    "watch": "tsc -w --noEmit"
   },
-  "dependencies": {
-    "@leancode/cqrs-client-base": "^6.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@leancode/tools-rollup": "^6.0.0",
     "typescript": "^4.3.0"
   },
   "keywords": [
-    "leancode",
-    "validation"
+    "cqrs",
+    "leancode"
   ]
 }

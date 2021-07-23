@@ -1,36 +1,19 @@
-import handleValidationErrors, { ValidationError } from "./handleValidationErrors";
+import { ApiResponse, CommandResult, ValidationError } from "@leancode/cqrs-client-base";
+import handleValidationErrors from "./handleValidationErrors";
 
 export type SuccessOrFailureMarker = { success: -1; failure: -2 };
 
-type CommandResult<TErrors extends { [name: string]: number }> =
-    | {
-          isSuccess: true;
-          result:
-              | {
-                    WasSuccessful: true;
-                }
-              | {
-                    WasSuccessful: false;
-                    ValidationErrors: ValidationError<TErrors>[];
-                };
-      }
-    | {
-          isSuccess: false;
-      };
-
 export default function handleResponse<TErrors extends Record<string, number>>(
-    response: CommandResult<TErrors>,
-    command: { ErrorCodes: TErrors },
+    response: ApiResponse<CommandResult<TErrors>>,
+    errorCodesMap: TErrors,
 ) {
-    const newCommand = {
-        ErrorCodes: {
-            ...command.ErrorCodes,
-            success: -1,
-            failure: -2,
-        },
+    const newErrorCodesMap = {
+        ...errorCodesMap,
+        success: -1,
+        failure: -2,
     } as const;
 
-    const validationErrors: ValidationError<TErrors & SuccessOrFailureMarker>[] = response.isSuccess
+    const validationErrors: ValidationError<typeof newErrorCodesMap>[] = response.isSuccess
         ? response.result.WasSuccessful
             ? [
                   {
@@ -50,5 +33,5 @@ export default function handleResponse<TErrors extends Record<string, number>>(
               },
           ] as any);
 
-    return handleValidationErrors(validationErrors, newCommand);
+    return handleValidationErrors(validationErrors, newErrorCodesMap);
 }

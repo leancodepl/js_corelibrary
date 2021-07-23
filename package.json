@@ -26,6 +26,7 @@
   },
   "workspaces": [
     "packages/*",
+    "packages/CqrsClients/*",
     "packages/Build/*",
     "packages/Linters/*",
     "tools/*",

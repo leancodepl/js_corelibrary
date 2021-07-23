@@ -6,8 +6,8 @@ pipelines:
         name: Build and test
         script:
           - yarn install --frozen-lockfile
-          - yarn test
           - yarn lerna run build
+          - yarn test
         caches:
           - node
 
@@ -17,8 +17,8 @@ pipelines:
           name: Build and test
           script:
             - yarn install --frozen-lockfile
-            - yarn test
             - yarn lerna run build
+            - yarn test
           artifacts:
             - packages/*/lib/**
             - packages/Linters/*/lib/**
