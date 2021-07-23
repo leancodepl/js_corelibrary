@@ -91,80 +91,6 @@ export interface A extends Command {
 }
 `;
 
-exports[`integration works for example project-aggregated-combined correctly 1`] = `
-Object {
-  "client.ts": "/*eslint-disable*/
-import CQRS from \\"./cqrsClient\\";
-import { A, B } from \\"./types\\";
-export default function (cqrsClient: CQRS) {
-    return {
-        A: {
-            Command: cqrsClient.createCommand<A.Command, {}>(\\"A.Command\\", {})
-        },
-        B: {
-            Query: cqrsClient.createQuery<B.Query, number>(\\"B.Query\\")
-        }
-    };
-}
-",
-  "types.ts": "/*eslint-disable*/
-export type Query<TResult> = {};
-export type Command = {};
-export namespace A {
-    /**
-     * @attribute LeanCode.CQRS.Security.AllowUnauthorizedAttribute
-     */
-    export interface Command extends Command {
-    }
-}
-export namespace B {
-    /**
-     * @attribute LeanCode.CQRS.Security.AllowUnauthorizedAttribute
-     */
-    export interface Query extends Query<number> {
-    }
-}
-",
-}
-`;
-
-exports[`integration works for example project-aggregated-multiple correctly 1`] = `
-Object {
-  "client.ts": "/*eslint-disable*/
-import CQRS from \\"./cqrsClient\\";
-import { A, B } from \\"./types\\";
-export default function (cqrsClient: CQRS) {
-    return {
-        A: {
-            Command: cqrsClient.createCommand<A.Command, {}>(\\"A.Command\\", {})
-        },
-        B: {
-            Query: cqrsClient.createQuery<B.Query, number>(\\"B.Query\\")
-        }
-    };
-}
-",
-  "types.ts": "/*eslint-disable*/
-export type Query<TResult> = {};
-export type Command = {};
-export namespace A {
-    /**
-     * @attribute LeanCode.CQRS.Security.AllowUnauthorizedAttribute
-     */
-    export interface Command extends Command {
-    }
-}
-export namespace B {
-    /**
-     * @attribute LeanCode.CQRS.Security.AllowUnauthorizedAttribute
-     */
-    export interface Query extends Query<number> {
-    }
-}
-",
-}
-`;
-
 exports[`integration works for example project-globs correctly 1`] = `
 Object {
   "client.ts": "/*eslint-disable*/
@@ -177,33 +103,6 @@ export default function (cqrsClient: CQRS) {
   "types.ts": "/*eslint-disable*/
 export type Query<TResult> = {};
 export type Command = {};
-",
-}
-`;
-
-exports[`integration works for example project-single correctly 1`] = `
-Object {
-  "client.ts": "/*eslint-disable*/
-import CQRS from \\"./cqrsClient\\";
-import { Single } from \\"./types\\";
-export default function (cqrsClient: CQRS) {
-    return {
-        Single: {
-            Command: cqrsClient.createCommand<Single.Command, {}>(\\"Single.Command\\", {})
-        }
-    };
-}
-",
-  "types.ts": "/*eslint-disable*/
-export type Query<TResult> = {};
-export type Command = {};
-export namespace Single {
-    /**
-     * @attribute LeanCode.CQRS.Security.AllowUnauthorizedAttribute
-     */
-    export interface Command extends Command {
-    }
-}
 ",
 }
 `;

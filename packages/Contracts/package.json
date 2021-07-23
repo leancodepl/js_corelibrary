@@ -30,6 +30,7 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
+    "@types/node": "^14.0.0",
     "cosmiconfig": "^7.0.0",
     "jest-validate": "^26.0.0",
     "lodash": "^4.0.0"
