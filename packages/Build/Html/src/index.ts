@@ -16,7 +16,12 @@ export default function html<TInCtx extends BaseContext>({
         ctx.config.plugins.push(p);
 
         if (favicon) {
-            ctx.config.plugins.push(new FaviconsWebpackPlugin(favicon));
+            ctx.config.plugins.push(
+                new FaviconsWebpackPlugin({
+                    logo: favicon,
+                    prefix: "static/favicon/",
+                }),
+            );
         }
 
         return ctx;

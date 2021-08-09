@@ -10,14 +10,14 @@ export default function staticFiles<TInCtx extends BaseContext>(): Configure<TIn
                 test: /\.(ttf|eot|woff|woff2|otf)(\?[\s\S]+)?$/,
                 loader: "file-loader",
                 options: {
-                    name: "fonts/[name].[ext]",
+                    name: "static/fonts/[name].[contenthash].[ext]",
                 },
             },
             {
-                test: /\.(jpg|png|gif)$/,
+                test: /\.(jpg|png|gif|pdf)$/,
                 loader: "file-loader",
                 options: {
-                    name: "images/[name]-[hash:5].[ext]",
+                    name: "static/media/[name].[contenthash].[ext]",
                 },
             },
         );

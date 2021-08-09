@@ -97,8 +97,7 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
         if (ctx.isProduction) {
             ctx.config.plugins.push(
                 new MiniCssExtractPlugin({
-                    filename: "[name].css",
-                    chunkFilename: "[id].css",
+                    filename: "static/css/[name].[contenthash].css",
                 }),
             );
         }
