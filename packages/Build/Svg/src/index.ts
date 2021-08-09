@@ -30,7 +30,7 @@ export default function appConfig<TInCtx extends EnvironmentContext>(): Configur
                         {
                             loader: "file-loader",
                             options: {
-                                name: "images/[name]-[hash:5].[ext]",
+                                name: "static/media/[name].[contenthash].[ext]",
                             },
                         },
                         svgoLoader,
