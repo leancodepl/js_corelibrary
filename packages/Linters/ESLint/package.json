@@ -1,6 +1,6 @@
 {
   "name": "@leancode/eslint-config",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -16,9 +16,9 @@
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.21.2",
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-unused-imports": "1.0.0"

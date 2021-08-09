@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.0"></a>
+# [6.1.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.0.0&sourceBranch=refs%2Ftags%2Fv6.1.0) (2021-08-09)
+
+
+### Bug Fixes
+
+* fix generation of create command when there's no error codes ([8820cd9](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/8820cd9))
+* fix generation of create command when there's no error codes ([2f62675](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/2f62675))
+
+
+### Features
+
+* add build caching ([027686f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/027686f))
+* add filtering, customTypes and imports configuration ([885dac4](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/885dac4))
+* add generator v2 ([3f78566](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/3f78566))
+* add pluggable eslint rules for imports ([1dc8351](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/1dc8351))
+* add possibility to transform object names on the fly ([06c49dc](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/06c49dc))
+* add server contracts generator fetching ([d9162ff](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/d9162ff))
+* integrate axios cqrs client with validation errors handling ([889fa2d](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/889fa2d))
+* make token provider optional in cqrs clients ([00e7f32](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/00e7f32))
+* propagate error codes to command ([1ba446b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/1ba446b))
+* split cqrs clients ([07fff4b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/07fff4b))
+* update contracts server to 0.1.0-alpha2 ([95a325f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/95a325f))
+* update contracts server to 1.0.3 ([a6e7819](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/a6e7819))
+
+
+
+
+
 <a name="6.0.0"></a>
 # [6.0.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.2.0&sourceBranch=refs%2Ftags%2Fv6.0.0) (2021-07-05)
 

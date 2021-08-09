@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-less",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,8 +19,8 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.0.0",
-    "@leancode/build-css": "^6.0.0",
+    "@leancode/build-base": "^6.1.0",
+    "@leancode/build-css": "^6.1.0",
     "less": "^4.1.1",
     "less-loader": "^10.0.0"
   },
@@ -28,7 +28,7 @@
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.0.0",
+    "@leancode/tools-rollup": "^6.1.0",
     "webpack": "^5.0.0"
   }
 }

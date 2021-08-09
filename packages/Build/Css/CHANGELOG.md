@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.0"></a>
+# [6.1.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.0.0&sourceBranch=refs%2Ftags%2Fv6.1.0) (2021-08-09)
+
+
+### Features
+
+* add build caching ([027686f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/027686f))
+
+
+
+
+
 <a name="6.0.0"></a>
 # [6.0.0](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv5.2.0&sourceBranch=refs%2Ftags%2Fv6.0.0) (2021-07-05)
 

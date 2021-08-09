@@ -1,7 +1,7 @@
 {
   "name": "@leancode/cqrs-client-base",
   "description": "CQRS client base for all specific connectors.",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,9 +18,8 @@
     "build": "leancode-rollup",
     "watch": "tsc -w --noEmit"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.0.0",
+    "@leancode/tools-rollup": "^6.1.0",
     "typescript": "^4.3.0"
   },
   "keywords": [
