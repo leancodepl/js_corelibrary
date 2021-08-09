@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-html",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,7 +19,7 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.0.0",
+    "@leancode/build-base": "^6.1.0",
     "favicons": "^6.2.1",
     "favicons-webpack-plugin": "^5.0.2",
     "html-webpack-plugin": "^5.3.1"
@@ -28,7 +28,7 @@
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.0.0",
+    "@leancode/tools-rollup": "^6.1.0",
     "webpack": "^5.0.0"
   }
 }
