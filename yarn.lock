@@ -3124,11 +3124,6 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
-"@types/svgo@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@types/svgo/-/svgo-2.3.0.tgz#16723e04f9892b20368ff6f43396557ab86a1f39"
-  integrity sha512-DrZoZNZr4DlJEpu+g71l1SOxJ5KzLdRV2h+JBOgMmsL5zU82G9WW0fPjUhNM6WbVuVYoJ6mUhAgLZfsh3TQxlw==
-
 "@types/testing-library__jest-dom@^5.9.1":
   version "5.14.1"
   resolved "https://registry.yarnpkg.com/@types/testing-library__jest-dom/-/testing-library__jest-dom-5.14.1.tgz#014162a5cee6571819d48e999980694e2f657c3c"
@@ -13320,7 +13315,7 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-svgo@^2.2.0, svgo@^2.3.0:
+svgo@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/svgo/-/svgo-2.3.1.tgz#603a69ce50311c0e36791528f549644ec1b3f4bc"
   integrity sha512-riDDIQgXpEnn0BEl9Gvhh1LNLIyiusSpt64IR8upJu7MwxnzetmF/Y57pXQD2NMX2lVyMRzXt5f2M5rO4wG7Dw==
