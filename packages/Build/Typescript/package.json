@@ -29,6 +29,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
     "@leancode/build-base": "^6.1.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "babel-loader": "^8.0.0",
     "babel-plugin-const-enum": "^1.0.0",
     "core-js": ">=3.0.0",

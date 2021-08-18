@@ -1,4 +1,5 @@
 import { Configure, EnvironmentContext } from "@leancode/build-base";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin";
 import { CLIEngineOptions } from "fork-ts-checker-webpack-plugin/lib/eslint-reporter/types/eslint";
 import path from "path";
@@ -14,12 +15,15 @@ export type TypeScriptConfig = {
     src: string[];
     profile?: boolean;
     eslintOptions?: CLIEngineOptions;
+    useReactFastRefresh?: boolean;
 };
+
 export default function typescript<TInCtx extends EnvironmentContext>({
     tsConfig,
     src,
     profile,
     eslintOptions,
+    useReactFastRefresh,
 }: TypeScriptConfig): Configure<TInCtx, TInCtx & BabelContext> {
     return ctx => {
         ctx.config.plugins ??= [];
@@ -44,6 +48,10 @@ export default function typescript<TInCtx extends EnvironmentContext>({
                 async: !ctx.isProduction,
             }),
         );
+
+        if (!ctx.isProduction && useReactFastRefresh) {
+            ctx.config.plugins.push(new ReactRefreshWebpackPlugin());
+        }
 
         const babelPresets: any[] = [
             require.resolve("@babel/preset-react"),
@@ -76,12 +84,14 @@ export default function typescript<TInCtx extends EnvironmentContext>({
                     transform: "removeConst",
                 },
             ],
+            ...(!ctx.isProduction && useReactFastRefresh ? [require.resolve("react-refresh/babel")] : []),
         ];
 
         ctx.config.module.rules.push(
             {
                 test: /\.tsx?$/,
                 include: src,
+                exclude: /node_modules/,
                 use: [
                     {
                         loader: require.resolve("babel-loader"),
