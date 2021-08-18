@@ -1,7 +1,7 @@
 {
   "name": "@leancode/axios-cqrs-client",
   "description": "Axios CQRS client for connecting with LeanCode apps using CQRS API.",
-  "version": "6.1.0",
+  "version": "6.2.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,12 +19,12 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/cqrs-client-base": "^6.1.0",
-    "@leancode/validation": "^6.1.0",
+    "@leancode/cqrs-client-base": "^6.2.0-alpha.0",
+    "@leancode/validation": "^6.2.0-alpha.0",
     "axios": "^0.21.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.0",
+    "@leancode/tools-rollup": "^6.2.0-alpha.0",
     "typescript": "^4.3.0"
   },
   "keywords": [

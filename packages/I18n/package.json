@@ -1,7 +1,7 @@
 {
   "name": "@leancode/i18n",
   "description": "Internationalization helpers for React apps",
-  "version": "6.1.0",
+  "version": "6.2.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -26,9 +26,9 @@
     "react": "^17.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.0",
-    "@leancode/tools-testing": "^6.1.0",
-    "@leancode/tools-testing-react": "^6.1.0",
+    "@leancode/tools-rollup": "^6.2.0-alpha.0",
+    "@leancode/tools-testing": "^6.2.0-alpha.0",
+    "@leancode/tools-testing-react": "^6.2.0-alpha.0",
     "@types/react": "^17.0.0",
     "react": "^17.0.0",
     "typescript": "^4.3.0"

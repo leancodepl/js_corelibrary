@@ -1,6 +1,6 @@
 {
   "name": "@leancode/contracts",
-  "version": "6.1.0",
+  "version": "6.2.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -42,8 +42,8 @@
     "typescript": "^4.3.0"
   },
   "devDependencies": {
-    "@leancode/eslint-config": "^6.1.0",
-    "@leancode/tools-rollup": "^6.1.0",
+    "@leancode/eslint-config": "^6.2.0-alpha.0",
+    "@leancode/tools-rollup": "^6.2.0-alpha.0",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@types/concat-stream": "^1.6.0",
     "@types/download": "^8.0.0",

@@ -1,7 +1,7 @@
 {
   "name": "@leancode/cqrs-client",
   "description": "CQRS client for connecting with LeanCode apps using CQRS API.",
-  "version": "6.1.0",
+  "version": "6.2.0-alpha.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -20,11 +20,11 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/login-manager": "^6.1.0",
+    "@leancode/login-manager": "^6.2.0-alpha.0",
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.0",
+    "@leancode/tools-rollup": "^6.2.0-alpha.0",
     "typescript": "^4.3.0"
   },
   "keywords": [
