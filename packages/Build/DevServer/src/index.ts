@@ -7,15 +7,17 @@ export default function devServer<TInCtx extends EnvironmentContext & AppUrlCont
         if (!ctx.isProduction) {
             ctx.config.devServer = {
                 hot: true,
-                contentBase: ctx.deployDir,
-                publicPath: "/",
-                disableHostCheck: true,
-                public: ctx.appUrl,
-                port,
-                compress: true,
-
-                host: "0.0.0.0",
                 historyApiFallback: true,
+                allowedHosts: "all",
+                port,
+                host: "0.0.0.0",
+
+                devMiddleware: {
+                    publicPath: "/",
+                },
+                static: {
+                    directory: ctx.deployDir,
+                },
             };
         }
 
