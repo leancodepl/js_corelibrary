@@ -1,7 +1,7 @@
 {
   "name": "@leancode/rx-cqrs-client",
   "description": "RxJs CQRS client for connecting with LeanCode apps using CQRS API.",
-  "version": "6.2.0-alpha.0",
+  "version": "6.2.0-alpha.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -21,12 +21,12 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@leancode/cqrs-client-base": "^6.2.0-alpha.0",
-    "@leancode/validation": "^6.2.0-alpha.0",
+    "@leancode/cqrs-client-base": "^6.2.0-alpha.1",
+    "@leancode/validation": "^6.2.0-alpha.1",
     "rxjs": "^7.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0-alpha.0",
+    "@leancode/tools-rollup": "^6.2.0-alpha.1",
     "typescript": "^4.3.0",
     "xhr-mock": "^2.5.0"
   },
