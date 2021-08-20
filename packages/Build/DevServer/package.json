@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-dev-server",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,14 +19,14 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.1.0",
+    "@leancode/build-base": "^6.1.1",
     "webpack-dev-server": "^3.11.0"
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.0",
+    "@leancode/tools-rollup": "^6.1.1",
     "webpack": "^5.0.0"
   }
 }

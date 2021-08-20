@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-typescript",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.0.0",
-    "@leancode/build-base": "^6.1.0",
+    "@leancode/build-base": "^6.1.1",
     "babel-loader": "^8.0.0",
     "babel-plugin-const-enum": "^1.0.0",
     "core-js": ">=3.0.0",
@@ -41,7 +41,7 @@
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.0",
+    "@leancode/tools-rollup": "^6.1.1",
     "@types/node": "^14.0.0",
     "eslint": "^7.28.0",
     "typescript": "^4.3.0",
