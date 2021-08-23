@@ -46,7 +46,12 @@ export default function typescript<TInCtx extends EnvironmentContext>({
         );
 
         const babelPresets: any[] = [
-            require.resolve("@babel/preset-react"),
+            [
+                require.resolve("@babel/preset-react"),
+                {
+                    runtime: "automatic",
+                },
+            ],
             [
                 require.resolve("@babel/preset-typescript"),
                 {
