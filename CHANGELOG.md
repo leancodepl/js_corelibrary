@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.2"></a>
+## [6.1.2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.1&sourceBranch=refs%2Ftags%2Fv6.1.2) (2021-08-23)
+
+
+### Bug Fixes
+
+* make use of automatic runtime for react ([18e3f71](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/18e3f71))
+
+
+
+
+
 <a name="6.1.1"></a>
 ## [6.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.0&sourceBranch=refs%2Ftags%2Fv6.1.1) (2021-08-20)
 
