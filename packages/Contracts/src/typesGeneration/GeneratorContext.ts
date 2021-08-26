@@ -33,6 +33,8 @@ export const overridableCustomTypes = [
     leancode.contracts.KnownType.Float,
     leancode.contracts.KnownType.Double,
     leancode.contracts.KnownType.Decimal,
+    leancode.contracts.KnownType.DateOnly,
+    leancode.contracts.KnownType.TimeOnly,
     leancode.contracts.KnownType.Date,
     leancode.contracts.KnownType.Time,
     leancode.contracts.KnownType.DateTime,

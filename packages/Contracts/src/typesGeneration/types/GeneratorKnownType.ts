@@ -20,6 +20,8 @@ const defaultTypesMap: Record<
     [leancode.contracts.KnownType.String]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     [leancode.contracts.KnownType.Guid]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     [leancode.contracts.KnownType.Uri]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.DateOnly]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+    [leancode.contracts.KnownType.TimeOnly]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     [leancode.contracts.KnownType.Date]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     [leancode.contracts.KnownType.Time]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     [leancode.contracts.KnownType.DateTime]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
