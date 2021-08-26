@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.3"></a>
+## [6.1.3](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.2&sourceBranch=refs%2Ftags%2Fv6.1.3) (2021-08-26)
+
+
+### Bug Fixes
+
+* bump generator to support dotnet 6 ([bbd9fd5](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/bbd9fd5))
+
+
+
+
+
 <a name="6.1.2"></a>
 ## [6.1.2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.1&sourceBranch=refs%2Ftags%2Fv6.1.2) (2021-08-23)
 
