@@ -26,7 +26,7 @@
     "test:watch": "jest --watch",
     "proto": "npm-run-all -s proto:generate proto:definitions",
     "proto:generate": "pbjs -t static-module -w commonjs -o src/protocol/index.js src/protocol/contracts.proto --no-create --no-encode --lint \"eslint-disable prettier/prettier,no-undef,no-prototype-builtins,no-redeclare\"",
-    "proto:definitions": "pbts -o src/protocol/index.d.ts src/protocol/index.js --lint \"siemka\"",
+    "proto:definitions": "pbts -o src/protocol/index.d.ts src/protocol/index.js",
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {

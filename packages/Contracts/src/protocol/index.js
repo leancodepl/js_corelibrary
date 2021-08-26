@@ -47,11 +47,13 @@ $root.leancode = (function() {
          * @property {number} Float=150 Float value
          * @property {number} Double=151 Double value
          * @property {number} Decimal=152 Decimal value
-         * @property {number} Date=200 Date value
-         * @property {number} Time=201 Time value
+         * @property {number} DateOnly=200 DateOnly value
+         * @property {number} TimeOnly=201 TimeOnly value
          * @property {number} DateTime=202 DateTime value
          * @property {number} DateTimeOffset=203 DateTimeOffset value
          * @property {number} TimeSpan=204 TimeSpan value
+         * @property {number} Date=205 Date value
+         * @property {number} Time=206 Time value
          * @property {number} Array=300 Array value
          * @property {number} Map=301 Map value
          * @property {number} Query=1000 Query value
@@ -79,11 +81,13 @@ $root.leancode = (function() {
             values[valuesById[150] = "Float"] = 150;
             values[valuesById[151] = "Double"] = 151;
             values[valuesById[152] = "Decimal"] = 152;
-            values[valuesById[200] = "Date"] = 200;
-            values[valuesById[201] = "Time"] = 201;
+            values[valuesById[200] = "DateOnly"] = 200;
+            values[valuesById[201] = "TimeOnly"] = 201;
             values[valuesById[202] = "DateTime"] = 202;
             values[valuesById[203] = "DateTimeOffset"] = 203;
             values[valuesById[204] = "TimeSpan"] = 204;
+            values[valuesById[205] = "Date"] = 205;
+            values[valuesById[206] = "Time"] = 206;
             values[valuesById[300] = "Array"] = 300;
             values[valuesById[301] = "Map"] = 301;
             values[valuesById[1000] = "Query"] = 1000;
@@ -1816,6 +1820,8 @@ $root.leancode = (function() {
                         case 202:
                         case 203:
                         case 204:
+                        case 205:
+                        case 206:
                         case 300:
                         case 301:
                         case 1000:
@@ -1915,11 +1921,11 @@ $root.leancode = (function() {
                     case 152:
                         message.type = 152;
                         break;
-                    case "Date":
+                    case "DateOnly":
                     case 200:
                         message.type = 200;
                         break;
-                    case "Time":
+                    case "TimeOnly":
                     case 201:
                         message.type = 201;
                         break;
@@ -1934,6 +1940,14 @@ $root.leancode = (function() {
                     case "TimeSpan":
                     case 204:
                         message.type = 204;
+                        break;
+                    case "Date":
+                    case 205:
+                        message.type = 205;
+                        break;
+                    case "Time":
+                    case 206:
+                        message.type = 206;
                         break;
                     case "Array":
                     case 300:
