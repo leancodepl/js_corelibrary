@@ -23,7 +23,10 @@ export default class GeneratorInternalType implements GeneratorType {
     }
 
     get relatedInterface() {
-        return ensureDefined(this.typesDictionary.statements[this.id]);
+        return ensureDefined(
+            this.typesDictionary.statements[this.id],
+            `Internal type with id ${this.id} couldn't be found in types dictionary`,
+        );
     }
 
     private typesDictionary;

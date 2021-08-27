@@ -58,10 +58,11 @@ $root.leancode = (function() {
          * @property {number} Map=301 Map value
          * @property {number} Query=1000 Query value
          * @property {number} Command=1001 Command value
-         * @property {number} AuthorizeWhenAttribute=1002 AuthorizeWhenAttribute value
-         * @property {number} AuthorizeWhenHasAnyOfAttribute=1003 AuthorizeWhenHasAnyOfAttribute value
-         * @property {number} QueryCacheAttribute=1004 QueryCacheAttribute value
-         * @property {number} Attribute=1005 Attribute value
+         * @property {number} CommandResult=1002 CommandResult value
+         * @property {number} Attribute=1100 Attribute value
+         * @property {number} AuthorizeWhenAttribute=1101 AuthorizeWhenAttribute value
+         * @property {number} AuthorizeWhenHasAnyOfAttribute=1102 AuthorizeWhenHasAnyOfAttribute value
+         * @property {number} QueryCacheAttribute=1103 QueryCacheAttribute value
          */
         contracts.KnownType = (function() {
             var valuesById = {}, values = Object.create(valuesById);
@@ -92,10 +93,11 @@ $root.leancode = (function() {
             values[valuesById[301] = "Map"] = 301;
             values[valuesById[1000] = "Query"] = 1000;
             values[valuesById[1001] = "Command"] = 1001;
-            values[valuesById[1002] = "AuthorizeWhenAttribute"] = 1002;
-            values[valuesById[1003] = "AuthorizeWhenHasAnyOfAttribute"] = 1003;
-            values[valuesById[1004] = "QueryCacheAttribute"] = 1004;
-            values[valuesById[1005] = "Attribute"] = 1005;
+            values[valuesById[1002] = "CommandResult"] = 1002;
+            values[valuesById[1100] = "Attribute"] = 1100;
+            values[valuesById[1101] = "AuthorizeWhenAttribute"] = 1101;
+            values[valuesById[1102] = "AuthorizeWhenHasAnyOfAttribute"] = 1102;
+            values[valuesById[1103] = "QueryCacheAttribute"] = 1103;
             return values;
         })();
 
@@ -1827,9 +1829,10 @@ $root.leancode = (function() {
                         case 1000:
                         case 1001:
                         case 1002:
-                        case 1003:
-                        case 1004:
-                        case 1005:
+                        case 1100:
+                        case 1101:
+                        case 1102:
+                        case 1103:
                             break;
                         }
                     if (message["arguments"] != null && message.hasOwnProperty("arguments")) {
@@ -1965,21 +1968,25 @@ $root.leancode = (function() {
                     case 1001:
                         message.type = 1001;
                         break;
-                    case "AuthorizeWhenAttribute":
+                    case "CommandResult":
                     case 1002:
                         message.type = 1002;
                         break;
+                    case "Attribute":
+                    case 1100:
+                        message.type = 1100;
+                        break;
+                    case "AuthorizeWhenAttribute":
+                    case 1101:
+                        message.type = 1101;
+                        break;
                     case "AuthorizeWhenHasAnyOfAttribute":
-                    case 1003:
-                        message.type = 1003;
+                    case 1102:
+                        message.type = 1102;
                         break;
                     case "QueryCacheAttribute":
-                    case 1004:
-                        message.type = 1004;
-                        break;
-                    case "Attribute":
-                    case 1005:
-                        message.type = 1005;
+                    case 1103:
+                        message.type = 1103;
                         break;
                     }
                     if (object["arguments"]) {
