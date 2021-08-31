@@ -12,6 +12,7 @@ import getCommandTypePreamble from "./preambles/getCommandTypePreamble";
 import getCommonTypePreamble from "./preambles/getCommonTypePreamble";
 import getCustomTypesPreamble from "./preambles/getCustomTypesPreamble";
 import getQueryTypePreamble from "./preambles/getQueryTypePreamble";
+import getReferencedImportsPreamble from "./preambles/getReferencedImportsPreamble";
 import getReferencedInternalTypesPreamble from "./preambles/getReferencedInternalTypesPreamble";
 import { leancode } from "./protocol";
 import {
@@ -20,7 +21,7 @@ import {
     GenerateClientFileConfiguration,
     GenerateFileConfiguration,
 } from "./types";
-import { ClientMethodFilter, overridableCustomTypes } from "./typesGeneration/GeneratorContext";
+import { ClientMethodFilter, ImportReference, overridableCustomTypes } from "./typesGeneration/GeneratorContext";
 import ensureDefined from "./utils/ensureDefined";
 import writeProcessor from "./utils/writeProcessor";
 
@@ -34,7 +35,7 @@ const argv = yargs(hideBin(process.argv))
 
 const { join, resolve } = posix;
 
-const serverContractsGeneratorVersion = "0.1.0-alpha5";
+const serverContractsGeneratorVersion = "0.1.0-alpha6";
 const moduleName = "ts-generator";
 
 const config = argv.config
@@ -209,7 +210,7 @@ exec(
                       const filename = ensureDefined(_filename, "Client file filename must be provided");
 
                       return {
-                          preamble: referencedInternalTypes => [
+                          preamble: ({ referencedInternalTypes }) => [
                               getCommonTypePreamble({
                                   baseDir,
                                   typeName: "CQRS",
@@ -245,36 +246,99 @@ exec(
                     customType.name,
                 ]),
             ),
-            typesFile: (() => ({
-                preamble: [
-                    ...getCustomTypesPreamble({
-                        baseDir,
-                        isTypeOnly: true,
-                        fileLocation: typesFilename,
-                        customTypes: config.customTypes,
-                    }),
-                    config.query
-                        ? getCommonTypePreamble({
-                              baseDir,
-                              isTypeOnly: true,
-                              typeName: "Query",
-                              fileLocation: typesFilename,
-                              commonTypeConfiguration: config.query,
-                          })
-                        : getQueryTypePreamble(),
-                    config.command
-                        ? getCommonTypePreamble({
-                              baseDir,
-                              isTypeOnly: true,
-                              typeName: "Command",
-                              fileLocation: typesFilename,
-                              commonTypeConfiguration: config.command,
-                          })
-                        : getCommandTypePreamble(),
-                ],
+            typesFile: {
+                preamble: ({ referencedImports: externalReferencedImports }) => {
+                    const customTypesReferencedImports = (() => {
+                        const { customTypes } = config;
+                        if (!customTypes) return [];
+
+                        return Object.entries(customTypes).map<ImportReference>(
+                            ([, { location, name, exportName }]) => ({
+                                name,
+                                from: {
+                                    path: location,
+                                },
+                                export: exportName
+                                    ? {
+                                          name: exportName,
+                                      }
+                                    : undefined,
+                            }),
+                        );
+                    })();
+
+                    const queryReferencedImports = ((): ImportReference[] => {
+                        const { query } = config;
+                        if (!query) return [];
+
+                        if (typeof query === "string") {
+                            return [
+                                {
+                                    from: { path: query },
+                                    name: "Query",
+                                },
+                            ];
+                        }
+
+                        return [
+                            {
+                                from: { path: query.location },
+                                name: "Query",
+                                export: query.exportName
+                                    ? {
+                                          name: query.exportName,
+                                      }
+                                    : { default: true },
+                            },
+                        ];
+                    })();
+
+                    const commandReferencedImports = ((): ImportReference[] => {
+                        const { command } = config;
+                        if (!command) return [];
+
+                        if (typeof command === "string") {
+                            return [
+                                {
+                                    from: { path: command },
+                                    name: "Command",
+                                },
+                            ];
+                        }
+
+                        return [
+                            {
+                                from: { path: command.location },
+                                name: "Command",
+                                export: command.exportName
+                                    ? {
+                                          name: command.exportName,
+                                      }
+                                    : { default: true },
+                            },
+                        ];
+                    })();
+
+                    const referencedImports = [
+                        ...externalReferencedImports,
+                        ...customTypesReferencedImports,
+                        ...queryReferencedImports,
+                        ...commandReferencedImports,
+                    ];
+
+                    return [
+                        ...getReferencedImportsPreamble({
+                            baseDir,
+                            referencedImports,
+                            fileLocation: typesFilename,
+                        }),
+                        ...(config.query ? [] : [getQueryTypePreamble()]),
+                        ...(config.command ? [] : [getCommandTypePreamble()]),
+                    ];
+                },
                 eslintExclusions: typesEslintExclusions,
                 writer: writeProcessor(typesFilename),
-            }))(),
+            },
             baseNamespace: config.baseNamespace,
         });
     },

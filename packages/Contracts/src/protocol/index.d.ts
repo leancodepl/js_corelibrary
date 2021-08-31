@@ -34,10 +34,11 @@ export namespace leancode {
             Map = 301,
             Query = 1000,
             Command = 1001,
-            AuthorizeWhenAttribute = 1002,
-            AuthorizeWhenHasAnyOfAttribute = 1003,
-            QueryCacheAttribute = 1004,
-            Attribute = 1005
+            CommandResult = 1002,
+            Attribute = 1100,
+            AuthorizeWhenAttribute = 1101,
+            AuthorizeWhenHasAnyOfAttribute = 1102,
+            QueryCacheAttribute = 1103
         }
 
         /** Properties of a ValueRef. */

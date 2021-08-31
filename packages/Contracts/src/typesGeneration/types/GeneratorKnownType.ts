@@ -65,6 +65,16 @@ const defaultTypesMap: Record<
         ]),
     [leancode.contracts.KnownType.Command]: () =>
         ts.factory.createTypeReferenceNode(ts.factory.createIdentifier("Command")),
+    [leancode.contracts.KnownType.CommandResult]: ({ context }) => {
+        context.referencedImports.push({
+            from: { lib: "@leancode/cqrs-client-base" },
+            name: "CommandResult",
+        });
+        return ts.factory.createTypeReferenceNode(
+            /* typeName */ ts.factory.createIdentifier("CommandResult"),
+            /* typeArguments */ [ts.factory.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword)],
+        );
+    },
     [leancode.contracts.KnownType.AuthorizeWhenAttribute]: () => undefined,
     [leancode.contracts.KnownType.AuthorizeWhenHasAnyOfAttribute]: () => undefined,
     [leancode.contracts.KnownType.QueryCacheAttribute]: () => undefined,

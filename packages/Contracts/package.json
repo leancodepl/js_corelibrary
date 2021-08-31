@@ -1,6 +1,6 @@
 {
   "name": "@leancode/contracts",
-  "version": "6.1.3",
+  "version": "6.1.4",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.4"></a>
+## [6.1.4](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.3&sourceBranch=refs%2Ftags%2Fv6.1.4) (2021-08-31)
+
+**Note:** Version bump only for package @leancode/build-svg
+
+
+
+
+
 <a name="6.1.3"></a>
 ## [6.1.3](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.2&sourceBranch=refs%2Ftags%2Fv6.1.3) (2021-08-26)
 

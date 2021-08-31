@@ -11,7 +11,26 @@ export default interface GeneratorContext {
     include?: ClientMethodFilter;
     exclude?: ClientMethodFilter;
     referencedInternalTypes: Set<GeneratorInternalType>;
+    referencedImports: ImportReference[];
 }
+
+export type ImportReference = {
+    name: string;
+    from:
+        | {
+              path: string;
+          }
+        | {
+              lib: string;
+          };
+    export?:
+        | {
+              default: true;
+          }
+        | {
+              name: string;
+          };
+};
 
 export type ClientMethodFilter = (id: string, commandOrQuery: GeneratorQuery | GeneratorCommand) => boolean;
 

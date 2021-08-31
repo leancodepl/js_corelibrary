@@ -16,6 +16,7 @@ import {
 import {
     ClientMethodFilter,
     CustomTypesMap,
+    ImportReference,
     OverridableCustomType,
     overridableCustomTypes,
 } from "./typesGeneration/GeneratorContext";
@@ -62,13 +63,16 @@ export type GenerateFileOptions = {
 };
 
 export type GenerateTypesFileOptions = GenerateFileOptions & {
-    preamble?: ts.Statement[];
+    preamble?: (options: { referencedImports: ImportReference[] }) => ts.Statement[];
 };
 
 export type GenerateClientFileOptions = GenerateFileOptions & {
     include?: ClientMethodFilter;
     exclude?: ClientMethodFilter;
-    preamble?: (referencedInternalTypes: Set<GeneratorInternalType>) => ts.Statement[];
+    preamble?: (options: {
+        referencedInternalTypes: Set<GeneratorInternalType>;
+        referencedImports: ImportReference[];
+    }) => ts.Statement[];
     cqrsClient?: string;
 };
 
@@ -128,7 +132,7 @@ export default async function generateContracts({
         newLine: ts.NewLineKind.LineFeed,
     });
 
-    const baseContext: Omit<GeneratorContext, "referencedInternalTypes"> = {
+    const baseContext: Omit<GeneratorContext, "referencedInternalTypes" | "referencedImports"> = {
         printNode: node =>
             printer.printNode(
                 ts.EmitHint.Unspecified,
@@ -195,17 +199,21 @@ export default async function generateContracts({
         throw new Error("Unkown statement type");
     });
 
+    const referencedImports: ImportReference[] = [];
+
     const namespaces = extractNamespaces(statements);
-    const types = [
-        ...(typesFile.preamble ?? []),
-        ...namespaces.flatMap(s =>
-            s.generateStatements({
-                ...baseContext,
-                referencedInternalTypes: new Set(),
-                customTypes: mapCustomTypes(customTypes),
-            }),
-        ),
-    ];
+    const types = namespaces.flatMap(s =>
+        s.generateStatements({
+            ...baseContext,
+            referencedImports,
+            referencedInternalTypes: new Set(),
+            customTypes: mapCustomTypes(customTypes),
+        }),
+    );
+
+    if (typesFile.preamble) {
+        types.unshift(...typesFile.preamble({ referencedImports }));
+    }
 
     const eslintExclusions = typesFile.eslintExclusions;
 
@@ -253,13 +261,14 @@ function generateClient({
 }: {
     clientFile: GenerateClientFileOptions;
     namespaces: GeneratorStatement[];
-    baseContext: Omit<GeneratorContext, "referencedInternalTypes">;
+    baseContext: Omit<GeneratorContext, "referencedInternalTypes" | "referencedImports">;
     baseNamespace: string | undefined;
     printer: ts.Printer;
 }) {
     const context: GeneratorContext = {
         ...baseContext,
         referencedInternalTypes: new Set(),
+        referencedImports: [],
         include,
         exclude,
         currentNamespace: baseNamespace,
@@ -268,7 +277,10 @@ function generateClient({
     const clientProperties = namespaces.flatMap(s => s.generateClient(context));
 
     const client = [
-        ...(preamble?.(context.referencedInternalTypes) ?? []),
+        ...(preamble?.({
+            referencedInternalTypes: context.referencedInternalTypes,
+            referencedImports: context.referencedImports,
+        }) ?? []),
         ts.factory.createFunctionDeclaration(
             /* decorators */ undefined,
             /* modifiers */ [
