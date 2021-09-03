@@ -59,6 +59,7 @@ export function printType(
 export function getBaseContext(printer: ts.Printer): GeneratorContext {
     return {
         referencedInternalTypes: new Set(),
+        referencedImports: [],
         printNode: node =>
             printer.printNode(
                 ts.EmitHint.Unspecified,
