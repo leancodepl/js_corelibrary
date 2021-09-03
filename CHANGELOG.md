@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.5"></a>
+## [6.1.5](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.4&sourceBranch=refs%2Ftags%2Fv6.1.5) (2021-09-03)
+
+
+### Bug Fixes
+
+* constants generation ([ded9758](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/ded9758))
+
+
+
+
+
 <a name="6.1.4"></a>
 ## [6.1.4](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.3&sourceBranch=refs%2Ftags%2Fv6.1.4) (2021-08-31)
 
