@@ -122,26 +122,31 @@ export default class GeneratorInterface implements GeneratorStatement {
         if (this.constants.length < 1) {
             return [];
         }
-        return [
+
+        const constants = this.constants.map(constant =>
             ts.factory.createVariableStatement(
                 /* modifiers */ [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
                 /* declarationList */ ts.factory.createVariableDeclarationList(
                     /* declarations */ [
                         ts.factory.createVariableDeclaration(
-                            /* name */ this.name,
+                            /* name */ constant.name,
                             /* exclamationToken */ undefined,
                             /* type */ undefined,
-                            /* intializer */ ts.factory.createAsExpression(
-                                /* expression */ ts.factory.createObjectLiteralExpression(
-                                    /* properties */ this.constants.map(constant => constant.generateConstant(context)),
-                                    /* multiline */ true,
-                                ),
-                                /* type */ ts.factory.createTypeReferenceNode("const"),
-                            ),
+                            /* intializer */ constant.generateValue(context),
                         ),
                     ],
                     /* flags */ ts.NodeFlags.Const,
                 ),
+            ),
+        );
+
+        return [
+            ts.factory.createModuleDeclaration(
+                /* decorators */ undefined,
+                /* modifiers */ [ts.factory.createModifier(ts.SyntaxKind.ExportKeyword)],
+                /* name */ ts.factory.createIdentifier(this.name),
+                /* body */ ts.factory.createModuleBlock(constants),
+                /* flags */ ts.NodeFlags.Namespace,
             ),
         ];
     }

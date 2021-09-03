@@ -104,4 +104,70 @@ describe("GeneratorInterface", () => {
             "
         `);
     });
+
+    it("prints interface with constants", () => {
+        const generator = new GeneratorInterface({
+            statement: {
+                name: "ConstInterface",
+                dto: {
+                    typeDescriptor: {
+                        constants: [
+                            {
+                                name: "numberConstant",
+                                value: {
+                                    number: {
+                                        value: 42,
+                                    },
+                                },
+                            },
+                            {
+                                name: "booleanConstant",
+                                value: {
+                                    bool: {
+                                        value: true,
+                                    },
+                                },
+                            },
+                            {
+                                name: "floatConstant",
+                                value: {
+                                    floatingPoint: {
+                                        value: 12.5,
+                                    },
+                                },
+                            },
+                            {
+                                name: "nullConstant",
+                                value: {
+                                    null: {},
+                                },
+                            },
+                            {
+                                name: "stringConstant",
+                                value: {
+                                    string: { value: "hello world" },
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+            typesDictionary,
+        });
+
+        const output = printStatement(generator);
+
+        expect(output).toMatchInlineSnapshot(`
+            "export interface ConstInterface {
+            }
+            export namespace ConstInterface {
+                export const numberConstant = 42;
+                export const booleanConstant = true;
+                export const floatConstant = 12.5;
+                export const nullConstant = null;
+                export const stringConstant = \\"hello world\\";
+            }
+            "
+        `);
+    });
 });

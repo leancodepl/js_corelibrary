@@ -34,4 +34,20 @@ export default class GeneratorConstant {
 
         return constantStatement;
     }
+
+    generateValue(context: GeneratorContext) {
+        const constantValue = this.value.generateValue();
+
+        if (this.comment) {
+            const jsDocComment = ts.factory.createJSDocComment(this.comment);
+
+            return prependJsDoc({
+                jsDocComment,
+                node: constantValue,
+                context,
+            });
+        }
+
+        return constantValue;
+    }
 }
