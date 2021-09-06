@@ -39,24 +39,18 @@ const defaultTypesMap: Record<
     [leancode.contracts.KnownType.Float]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
     [leancode.contracts.KnownType.Double]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
     [leancode.contracts.KnownType.Decimal]: () => ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-    [leancode.contracts.KnownType.Array]: ({ typeArguments, context }) =>
-        ts.factory.createArrayTypeNode(ensureNotEmpty(typeArguments[0]).generateType(context)),
+    [leancode.contracts.KnownType.Array]: ({ typeArguments, context }) => {
+        const valueType = ensureNotEmpty(typeArguments[0]);
+
+        return ts.factory.createArrayTypeNode(valueType.generateTypeWithNullability(context));
+    },
     [leancode.contracts.KnownType.Map]: ({ typeArguments, context }) => {
         const keyType = ensureNotEmpty(typeArguments[0]);
         const valueType = ensureNotEmpty(typeArguments[1]);
 
-        const isNullable = !!valueType.isNullable;
-
-        return ts.factory.createMappedTypeNode(
-            /* readonlyToken */ undefined,
-            /* typeParameter */ ts.factory.createTypeParameterDeclaration(
-                /* name */ "key",
-                /* constraint */ keyType.generateType(context),
-                /* defaultType */ undefined,
-            ),
-            /* typeNode */ undefined,
-            /* questionToken */ isNullable ? ts.factory.createToken(ts.SyntaxKind.QuestionToken) : undefined,
-            /* type */ ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+        return ts.factory.createTypeReferenceNode(
+            /* typeName */ "Record",
+            /* typeArguments */ [keyType.generateType(context), valueType.generateTypeWithNullability(context)],
         );
     },
     [leancode.contracts.KnownType.Query]: ({ typeArguments, context }) =>
@@ -81,7 +75,7 @@ const defaultTypesMap: Record<
     [leancode.contracts.KnownType.Attribute]: () => undefined,
 };
 
-export default class GeneratorKnownType implements GeneratorType {
+export default class GeneratorKnownType extends GeneratorType {
     type;
     typeArguments;
     isNullable;
@@ -102,6 +96,8 @@ export default class GeneratorKnownType implements GeneratorType {
         isNullable?: boolean;
         typesDictionary: GeneratorTypesDictionary;
     }) {
+        super();
+
         const type = ensureNotEmpty(known.type);
         const typeArguments =
             known.arguments?.map(argument => GeneratorTypeFactory.createType({ type: argument, typesDictionary })) ??

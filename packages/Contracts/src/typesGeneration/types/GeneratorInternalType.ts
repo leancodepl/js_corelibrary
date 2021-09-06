@@ -9,7 +9,7 @@ import GeneratorTypesDictionary from "../GeneratorTypesDictionary";
 import GeneratorType from "./GeneratorType";
 import GeneratorTypeFactory from "./GeneratorTypeFactory";
 
-export default class GeneratorInternalType implements GeneratorType {
+export default class GeneratorInternalType extends GeneratorType {
     id;
     isNullable;
     typeArguments;
@@ -40,6 +40,8 @@ export default class GeneratorInternalType implements GeneratorType {
         isNullable?: boolean;
         typesDictionary: GeneratorTypesDictionary;
     }) {
+        super();
+
         const id = ensureNotEmpty(internal.name);
         const typeArguments =
             internal.arguments?.map(argument => GeneratorTypeFactory.createType({ type: argument, typesDictionary })) ??
