@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.1.8"></a>
+## [6.1.8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.6&sourceBranch=refs%2Ftags%2Fv6.1.8) (2021-09-22)
+
+
+### Bug Fixes
+
+* add csv support to static files ([a8c4c56](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/a8c4c56))
+
+
+
+
+
 <a name="6.1.1"></a>
 ## [6.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.0&sourceBranch=refs%2Ftags%2Fv6.1.1) (2021-08-20)
 

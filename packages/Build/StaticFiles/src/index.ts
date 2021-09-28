@@ -14,7 +14,7 @@ export default function staticFiles<TInCtx extends BaseContext>(): Configure<TIn
                 },
             },
             {
-                test: /\.(jpg|png|gif|pdf)$/,
+                test: /\.(jpg|png|gif|pdf|csv)$/,
                 loader: "file-loader",
                 options: {
                     name: "static/media/[name].[contenthash].[ext]",
