@@ -4,7 +4,7 @@
     "allowJs": true,
     "checkJs": true,
     "rootDir": "bin",
-    "outDir": "./unused",
+    "outDir": ".",
     "types": ["node"],
     "lib": ["es6"]
   },

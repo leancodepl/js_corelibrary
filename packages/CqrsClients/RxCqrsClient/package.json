@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.1.1",
-    "typescript": "^4.3.0",
+    "typescript": "^4.4.4",
     "xhr-mock": "^2.5.0"
   },
   "keywords": [

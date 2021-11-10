@@ -35,7 +35,7 @@ const argv = yargs(hideBin(process.argv))
 
 const { join, resolve } = posix;
 
-const serverContractsGeneratorVersion = "0.1.0-alpha9";
+const serverContractsGeneratorVersion = "0.1.0-alpha10";
 const moduleName = "ts-generator";
 
 const config = argv.config
@@ -120,7 +120,7 @@ function validateConfig(config: any): config is ContractsGeneratorConfiguration 
 
         return true;
     } catch (e) {
-        console.error(e.toString());
+        console.error((e as any).toString());
 
         return false;
     }
