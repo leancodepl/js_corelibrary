@@ -1,4 +1,5 @@
 import ts from "typescript";
+import { generateClientFunction } from "../src/generateClient";
 import {
     GeneratorContext,
     GeneratorInterface,
@@ -29,6 +30,13 @@ export function printStatement(
     contextTransform?: (baseContext: GeneratorContext) => GeneratorContext,
 ) {
     return printFromContext(ctx => generator.generateStatements(ctx), contextTransform);
+}
+
+export function printClient(
+    generator: GeneratorStatement,
+    contextTransform?: (baseContext: GeneratorContext) => GeneratorContext,
+) {
+    return printFromContext(ctx => [generateClientFunction(generator.generateClient(ctx))], contextTransform);
 }
 
 export function printType(
