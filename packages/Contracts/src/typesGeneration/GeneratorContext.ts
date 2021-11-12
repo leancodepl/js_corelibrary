@@ -2,7 +2,7 @@ import ts from "typescript";
 import { leancode } from "../protocol";
 import type GeneratorCommand from "./GeneratorCommand";
 import type GeneratorQuery from "./GeneratorQuery";
-import GeneratorInternalType from "./types/GeneratorInternalType";
+import type GeneratorInternalType from "./types/GeneratorInternalType";
 
 export default interface GeneratorContext {
     currentNamespace?: string;
