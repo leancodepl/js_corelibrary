@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.2.0-alpha.10"></a>
+# [6.2.0-alpha.10](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.8&sourceBranch=refs%2Ftags%2Fv6.2.0-alpha.10) (2021-11-12)
+
+
+### Features
+
+* update packages ([a1ca066](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/a1ca066))
+
+
+
+
+
 <a name="6.1.1"></a>
 ## [6.1.1](https://bitbucket.org/projects/leancode-team/repos/core-js-library/compare/diff?targetBranch=refs%2Ftags%2Fv6.1.0&sourceBranch=refs%2Ftags%2Fv6.1.1) (2021-08-20)
 
