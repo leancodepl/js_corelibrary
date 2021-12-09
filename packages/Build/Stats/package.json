@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-stats-writer",
-  "version": "6.2.0-alpha.10",
+  "version": "6.2.0-alpha.11",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,7 +19,7 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.2.0-alpha.10",
+    "@leancode/build-base": "^6.2.0-alpha.11",
     "json2csv": "^5.0.3",
     "webpack-stats-plugin": "^1.0.1"
   },
@@ -27,7 +27,7 @@
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0-alpha.10",
+    "@leancode/tools-rollup": "^6.2.0-alpha.11",
     "@types/json2csv": "5.0.1"
   }
 }

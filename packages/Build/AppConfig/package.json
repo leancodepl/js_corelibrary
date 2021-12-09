@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-app-config",
-  "version": "6.2.0-alpha.10",
+  "version": "6.2.0-alpha.11",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,13 +19,13 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.2.0-alpha.10",
+    "@leancode/build-base": "^6.2.0-alpha.11",
     "html-webpack-tags-plugin": "^3.0.1"
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0-alpha.10"
+    "@leancode/tools-rollup": "^6.2.0-alpha.11"
   }
 }
