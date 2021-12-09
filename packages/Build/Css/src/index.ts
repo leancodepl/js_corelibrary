@@ -73,6 +73,7 @@ export default function css<TInCtx extends EnvironmentContext>(): Configure<TInC
                 loader: "css-loader",
                 options: {
                     importLoaders: 1 + additionalLoaders,
+                    esModule: false,
                     ...cssLoaderOptions,
                 },
             },
