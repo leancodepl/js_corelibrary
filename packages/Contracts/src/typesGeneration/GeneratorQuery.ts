@@ -51,7 +51,10 @@ export default class GeneratorQuery extends GeneratorInterface {
                         /* expression */ ts.factory.createIdentifier("cqrsClient"),
                         /* name */ "createQuery",
                     ),
-                    /* typeArguments */ [this.queryType.generateType(context), this.returnType.generateType(context)],
+                    /* typeArguments */ [
+                        this.queryType.generateType(context),
+                        this.returnType.generateTypeWithNullability(context),
+                    ],
                     /* argumentsArray */ [ts.factory.createStringLiteral(this.id)],
                 ),
             ),

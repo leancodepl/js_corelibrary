@@ -10,16 +10,16 @@
     "test": "__tests__"
   },
   "dependencies": {
-    "rollup": "2.52.2",
-    "rollup-plugin-clear": "2.0.7",
-    "rollup-plugin-typescript2": "0.30.0"
+    "@rollup/plugin-typescript": "8.3.0",
+    "rollup": "2.67.3",
+    "rollup-plugin-clear": "2.0.7"
   },
   "peerDependencies": {
-    "typescript": "^4.3.0"
+    "typescript": "^4.5.5"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
-    "typescript": "^4.3.0"
+    "@types/node": "^16.0.0",
+    "typescript": "^4.5.5"
   },
   "bin": {
     "leancode-rollup": "./bin/index.js"

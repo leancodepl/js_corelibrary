@@ -1,8 +1,10 @@
-import typescript from "rollup-plugin-typescript2";
-import clear from "rollup-plugin-clear";
-import path from "path";
+/* eslint-env node */
+
+import typescript from "@rollup/plugin-typescript";
 import fs from "fs";
+import path from "path";
 import analyze from "rollup-plugin-analyzer";
+import clear from "rollup-plugin-clear";
 
 const PACKAGE_ROOT_PATH = process.cwd();
 let INPUT_FILE = path.join(PACKAGE_ROOT_PATH, "src/index.tsx");
@@ -22,7 +24,7 @@ export default formats.map(format => ({
     plugins: [
         typescript({
             tsconfig: TSCONFIG_FILE,
-            tsconfigOverride: { compilerOptions: { target: format.target } },
+            target: format.target,
         }),
         clear({
             targets: ["lib"],

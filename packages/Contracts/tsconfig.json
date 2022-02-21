@@ -2,9 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "downlevelIteration": true,
-    "noImplicitAny": true,
-    "rootDir": "src",
-    "outDir": "./lib",
+    "outDir": ".",
+    "rootDir": "src"
   },
   "include": ["./src"]
 }

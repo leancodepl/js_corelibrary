@@ -2,11 +2,11 @@
 
 /* eslint-env node */
 
+const typescript = require("@rollup/plugin-typescript");
 const fs = require("fs");
 const path = require("path");
 const rollup = require("rollup");
 const clear = require("rollup-plugin-clear");
-const typescript = require("rollup-plugin-typescript2");
 
 /** @type {{ format: rollup.InternalModuleFormat, target: string, name: string | undefined  }[]} */
 const formats = [
@@ -28,7 +28,7 @@ const config = formats.map(format => ({
     plugins: [
         typescript({
             tsconfig: tsconfigFile,
-            tsconfigOverride: { compilerOptions: { target: format.target } },
+            target: format.target,
         }),
         clear({
             targets: ["lib"],

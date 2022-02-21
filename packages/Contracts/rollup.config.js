@@ -1,13 +1,13 @@
 /* eslint-env node */
 
 const commonjs = require("@rollup/plugin-commonjs");
+const typescript = require("@rollup/plugin-typescript");
 const download = require("download");
 const fs = require("fs");
 const path = require("path");
 const rollup = require("rollup"); // eslint-disable-line unused-imports/no-unused-vars-ts
 const clear = require("rollup-plugin-clear");
 const shebang = require("rollup-plugin-preserve-shebang");
-const typescript = require("rollup-plugin-typescript2");
 
 const packageRootPath = __dirname;
 const inputFile = path.join(packageRootPath, "src/index.ts");
@@ -61,9 +61,9 @@ const options = {
         shebang(),
         chmod(),
         typescript({
-            module: "CommonJS",
+            module: "esnext",
             tsconfig: tsconfigFile,
-            tsconfigOverride: { compilerOptions: { target: "es5" } },
+            target: "es5",
         }),
         commonjs({ extensions: [".js", ".ts"] }),
         clear({
