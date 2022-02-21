@@ -1,6 +1,6 @@
 {
   "name": "@leancode/cx",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,7 +19,7 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.1.1",
+    "@leancode/tools-rollup": "^6.2.0",
     "typescript": "^4.5.5"
   },
   "keywords": [
