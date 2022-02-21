@@ -1,15 +1,20 @@
 import { ApiResponse, CommandResult, TokenProvider } from "@leancode/cqrs-client-base";
 import { handleResponse } from "@leancode/validation";
 import { catchError, from, of } from "rxjs";
-import { ajax, AjaxError } from "rxjs/ajax";
+import { ajax, AjaxError, AjaxConfig } from "rxjs/ajax";
 import { map, mergeMap, pluck } from "rxjs/operators";
 import authGuard from "./authGuard";
 
-export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider) {
+export default function mkCqrsClient(
+    cqrsEndpoint: string,
+    tokenProvider?: TokenProvider,
+    ajaxOptions?: Omit<AjaxConfig, "headers" | "url" | "method" | "responseType" | "body">,
+) {
     return {
         createQuery<TQuery, TResult>(type: string) {
             const queryCall = (dto: TQuery, token?: string) =>
                 ajax<TResult>({
+                    ...ajaxOptions,
                     headers: {
                         Authorization: token,
                         "Content-Type": "application/json",
@@ -36,6 +41,7 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: Token
         ) {
             const commandCall = (dto: TCommand, token?: string) =>
                 ajax<CommandResult<TErrorCodes>>({
+                    ...ajaxOptions,
                     headers: {
                         Authorization: token,
                         "Content-Type": "application/json",
