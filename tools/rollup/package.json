@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@rollup/plugin-typescript": "8.3.0",
-    "rollup": "2.60.0",
+    "rollup": "2.67.3",
     "rollup-plugin-clear": "2.0.7"
   },
   "peerDependencies": {
-    "typescript": "4.4.4"
+    "typescript": "^4.5.5"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
-    "typescript": "4.4.4"
+    "typescript": "^4.5.5"
   },
   "bin": {
     "leancode-rollup": "./bin/index.js"
