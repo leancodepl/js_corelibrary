@@ -25,6 +25,7 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: Token
         const token = await tokenProvider?.getToken();
 
         if (token) {
+            config.headers ??= {};
             config.headers["Authorization"] = `Bearer ${token}`;
         }
 
@@ -51,7 +52,9 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: Token
                         break;
                     }
                     if (!tokenProvider?.invalidateToken) {
-                        response.data = createError("User need to be authenticated to execute the command/query");
+                        response.data = createError(
+                            "User needs to be authenticated to execute the command/query/operation",
+                        );
                         break;
                     }
                     if (!(await tokenProvider.invalidateToken())) {
@@ -70,17 +73,17 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: Token
                     response.data = createError("The request was malformed");
                     break;
                 case 403:
-                    response.data = createError("User is not authorized to execute the command/query");
+                    response.data = createError("User is not authorized to execute the command/query/operation");
                     break;
                 case 404:
-                    response.data = createError("Command query not found");
+                    response.data = createError("Command/query/operation not found");
                     break;
                 case 422:
                     response.data = createSuccess(error.response.data);
                     break;
                 default:
                     response.data = createError(
-                        `Cannot execute command/query, server returned a ${error.response.status} code`,
+                        `Cannot execute command/query/operation, server returned a ${error.response.status} code`,
                     );
                     break;
             }
@@ -91,6 +94,9 @@ export default function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: Token
     return {
         createQuery<TQuery, TResult>(type: string) {
             return (dto: TQuery) => apiAxios.post<ApiResponse<TResult>>("query/" + type, dto).then(r => r.data);
+        },
+        createOperation<TOperation, TResult>(type: string) {
+            return (dto: TOperation) => apiAxios.post<ApiResponse<TResult>>("operation/" + type, dto).then(r => r.data);
         },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(
             type: string,
