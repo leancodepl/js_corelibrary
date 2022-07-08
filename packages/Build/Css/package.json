@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.2.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.3",
     "webpack": "^5.0.0"
   }
 }
