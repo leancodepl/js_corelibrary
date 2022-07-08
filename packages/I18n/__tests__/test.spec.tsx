@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import React from "react";
-import { act, render, wait } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import React, { ReactElement } from "react";
+import { act, render, renderHook, waitFor } from "@testing-library/react";
 import mkI18n from "../src";
 
 function createLocale<TLocale extends string, TTerm extends string>(locale: TLocale, messages: Record<TTerm, string>) {
@@ -61,11 +60,13 @@ describe("i18n", () => {
             },
             "en",
         );
-        const wrapper = ({ children }) => <Provider>{children}</Provider>;
+        const wrapper = ({ children }: { children: ReactElement }) => <Provider>{children}</Provider>;
 
-        const { result, waitForNextUpdate } = renderHook(() => useIntl(), { wrapper });
+        const { result } = renderHook(() => useIntl(), { wrapper });
 
-        await waitForNextUpdate();
+        await waitFor(() => {
+            if (!result.current) throw new Error();
+        });
 
         const message = result.current.formatMessage({ id: "test.key" });
 
@@ -82,8 +83,8 @@ describe("i18n", () => {
 
         render(<Provider />); // Provider needs to be mounted in order to manage localization
 
-        await wait(() => {
-            if (intl.current === undefined) throw new Error();
+        await waitFor(() => {
+            if (!intl.current) throw new Error();
         });
 
         const message = intl.current!.formatMessage({ id: "test.key" }); // eslint-disable-line @typescript-eslint/no-non-null-assertion

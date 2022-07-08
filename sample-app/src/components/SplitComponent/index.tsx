@@ -1,10 +1,12 @@
-import React from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import createMarkerComponent, { MarkerComponent } from "utils/composableChildren/createMarkerComponent";
 import splitChildrenByTypes from "utils/composableChildren/splitChildrenByTypes";
 
-export type SplitComponentProps = {};
+export type SplitComponentProps = {
+    children: ReactNode;
+};
 
-const SplitComponent: React.FunctionComponent<SplitComponentProps> & {
+const SplitComponent: FunctionComponent<SplitComponentProps> & {
     A: MarkerComponent<{ sampleProp?: string }>;
     B: MarkerComponent;
     C: MarkerComponent;

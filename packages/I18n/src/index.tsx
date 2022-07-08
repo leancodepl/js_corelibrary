@@ -1,6 +1,14 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import { FormatXMLElementFn, PrimitiveType } from "intl-messageformat";
-import { createIntl, createIntlCache, FormattedMessage, IntlShape, RawIntlProvider, useIntl } from "react-intl";
+import React, { ComponentClass, ElementType, ReactNode, useEffect, useRef, useState } from "react";
+import { FormatXMLElementFn, PrimitiveType, Options as IntlMessageFormatOptions } from "intl-messageformat";
+import {
+    createIntl,
+    createIntlCache,
+    FormattedMessage,
+    IntlShape,
+    MessageFormatElement,
+    RawIntlProvider,
+    useIntl,
+} from "react-intl";
 
 const localeChangedEvent = "LocaleChanged";
 
@@ -39,31 +47,39 @@ export default function mkI18n<
     TDefaultLocale extends TSupportedLocale = TSupportedLocale,
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
-        id?: TTerm | number;
+        id?: TTerm;
         description?: string;
         defaultMessage?: string;
     };
 
     type StronglyTypedIntlShape = Omit<IntlShape, "formatMessage" | "formatHTMLMessage" | "messages"> & {
-        messages: Record<TTerm, string>;
-        formatMessage(descriptor: StronglyTypedMessageDescriptor, values?: Record<string, PrimitiveType>): string;
+        messages: Record<TTerm, string> | Record<TTerm, MessageFormatElement[]>;
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<
-                string,
-                PrimitiveType | React.ReactElement | FormatXMLElementFn<React.ReactNode, ReactNode>
-            >,
-        ): string | React.ReactNodeArray;
-        formatHTMLMessage(
+            values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
+            opts?: IntlMessageFormatOptions,
+        ): string;
+        formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType>,
-        ): React.ReactNode;
+            values?: Record<string, PrimitiveType | ReactNode | FormatXMLElementFn<ReactNode, ReactNode>>,
+            opts?: IntlMessageFormatOptions,
+        ): ReactNode;
+        $t(
+            descriptor: StronglyTypedMessageDescriptor,
+            values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
+            opts?: IntlMessageFormatOptions,
+        ): string;
+        $t(
+            descriptor: StronglyTypedMessageDescriptor,
+            values?: Record<string, PrimitiveType | ReactNode | FormatXMLElementFn<ReactNode, ReactNode>>,
+            opts?: IntlMessageFormatOptions,
+        ): ReactNode;
     };
 
-    type StronglyTypedFormattedMessageProps<V extends Record<string, any> = Record<string, React.ReactNode>> = {
+    type StronglyTypedFormattedMessageProps<V extends Record<string, any> = Record<string, ReactNode>> = {
         values?: V;
-        tagName?: React.ElementType<any>;
-        children?(...nodes: React.ReactNodeArray): React.ReactNode;
+        tagName?: ElementType<any>;
+        children?(...nodes: ReactNode[]): ReactNode;
     } & StronglyTypedMessageDescriptor;
 
     window.currentLocale = defaultLocale;
@@ -75,7 +91,7 @@ export default function mkI18n<
     const intlInstance: { current?: StronglyTypedIntlShape } = {};
 
     return {
-        Localize: FormattedMessage as unknown as React.ComponentClass<StronglyTypedFormattedMessageProps>,
+        Localize: FormattedMessage as unknown as ComponentClass<StronglyTypedFormattedMessageProps>,
         useIntl: useIntl as () => StronglyTypedIntlShape,
         intl: intlInstance,
         Provider({ children }: { children?: ReactNode }) {

@@ -2,17 +2,17 @@ import React from "react";
 import Container from "components/Container";
 import SplitComponent from "components/SplitComponent";
 import { I18nProvider, Localize } from "i18n";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import routes from "routes";
 
 const App: React.FunctionComponent = () => (
     <BrowserRouter>
-        <Switch>
-            <Route exact path={routes.home.pattern}>
+        <Routes>
+            <Route path={routes.home.pattern}>
                 <Link to={routes.splitComponent({}, {})}>SplitComponent</Link>
                 <Link to={routes.test()}>Test Link</Link>
             </Route>
-            <Route exact path={routes.splitComponent.pattern}>
+            <Route path={routes.splitComponent.pattern}>
                 <I18nProvider>
                     <Container>
                         <Localize id="header.title" />
@@ -24,7 +24,7 @@ const App: React.FunctionComponent = () => (
                     </SplitComponent>
                 </I18nProvider>
             </Route>
-        </Switch>
+        </Routes>
     </BrowserRouter>
 );
 
