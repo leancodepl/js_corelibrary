@@ -35,6 +35,30 @@ export default function mkCqrsClient(
 
             return (dto: TQuery) => queryCall(dto).pipe(pluck("response"));
         },
+        createOperation<TOperation, TResult>(type: string) {
+            const operationCall = (dto: TOperation, token?: string) =>
+                ajax<TResult>({
+                    ...ajaxOptions,
+                    headers: {
+                        Authorization: token,
+                        "Content-Type": "application/json",
+                    },
+                    url: `${cqrsEndpoint}/operation/${type}`,
+                    method: "POST",
+                    responseType: "json",
+                    body: dto,
+                });
+
+            if (tokenProvider) {
+                return (dto: TOperation) =>
+                    from(tokenProvider.getToken()).pipe(
+                        mergeMap(token => operationCall(dto, token).pipe(authGuard(tokenProvider))),
+                        pluck("response"),
+                    );
+            }
+
+            return (dto: TOperation) => operationCall(dto).pipe(pluck("response"));
+        },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(
             type: string,
             errorCodesMap: TErrorCodes,
