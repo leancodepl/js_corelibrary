@@ -76,7 +76,7 @@ export default function mkI18n<
         ): ReactNode;
     };
 
-    type StronglyTypedFormattedMessageProps<V extends Record<string, any> = Record<string, ReactNode>> = {
+    type StronglyTypedFormattedMessageProps<V extends Record<string, any> = Record<string, ReactNode | FormatXMLElementFn<React.ReactNode, React.ReactNode>>> = {
         values?: V;
         tagName?: ElementType<any>;
         children?(...nodes: ReactNode[]): ReactNode;
