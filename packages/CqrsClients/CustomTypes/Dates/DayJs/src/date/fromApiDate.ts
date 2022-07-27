@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ApiDate } from "@leancode/api-dates"
 import dayjs, { Dayjs } from "dayjs"
 

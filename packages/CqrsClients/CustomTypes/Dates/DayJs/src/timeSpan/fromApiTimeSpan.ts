@@ -1,4 +1,3 @@
-// @ts-nocheck
 import dayjs from "dayjs"
 import duration, { Duration } from "dayjs/plugin/duration"
 import { ApiTimeSpan } from "@leancode/api-dates"

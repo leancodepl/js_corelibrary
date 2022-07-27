@@ -1,4 +1,3 @@
-// @ts-nocheck
 import dayjs from "dayjs"
 import { padTo2 } from "../utils/padTo2"
 import duration, { Duration } from "dayjs/plugin/duration"

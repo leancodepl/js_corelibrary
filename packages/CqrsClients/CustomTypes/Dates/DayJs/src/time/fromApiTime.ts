@@ -1,4 +1,3 @@
-// @ts-nocheck
 import dayjs, { Dayjs } from "dayjs"
 import { ApiTime } from "@leancode/api-dates"
 import customParseFormat from "dayjs/plugin/customParseFormat"

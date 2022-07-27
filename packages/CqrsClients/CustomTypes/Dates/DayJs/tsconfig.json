@@ -6,5 +6,4 @@
     "lib": ["dom", "es6"],
   },
   "include": ["./src"],
-  "exclude": ["@leancode/api-dates"]
 }
