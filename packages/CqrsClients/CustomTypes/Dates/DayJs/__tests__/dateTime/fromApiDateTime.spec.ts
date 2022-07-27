@@ -1,0 +1,93 @@
+import dayjs from "dayjs"
+import timezoneMock from "timezone-mock"
+import { fromApiDateTime } from "../../src"
+
+describe("fromApiDateTime", () => {
+    describe("run in GMT+5 timezone", () => {
+        const timezone = "Etc/GMT+5"
+
+        beforeAll(() => {
+            timezoneMock.register(timezone)
+        })
+
+        afterAll(() => {
+            timezoneMock.unregister()
+        })
+
+        it("handles undefined", async () => {
+            const date = await fromApiDateTime(undefined)
+
+            const isEqual = date.isSame(dayjs(), "date")
+
+            expect(isEqual).toBe(true)
+        })
+
+        it("converts local api datetime to dayjs object", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const datetime = await fromApiDateTime(apiDatetime)
+
+            expect(datetime).toStrictEqual(dayjs(apiDatetime))
+        })
+
+        it("converts local api datetime to ISO 8601 string", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const datetime = await fromApiDateTime(apiDatetime).toISOString()
+
+            expect(datetime).toBe("1990-02-24T16:30:00.000Z")
+        })
+
+        it("converts utc api datetime to ISO 8601 string", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const utcDatetime = await fromApiDateTime(apiDatetime, { isUtc: true }).toISOString()
+
+            expect(utcDatetime).toBe("1990-02-24T11:30:00.000Z")
+        })
+    })
+
+    describe("run in UTC timezone", () => {
+        const timezone = "UTC"
+
+        beforeAll(() => {
+            timezoneMock.register(timezone)
+        })
+
+        afterAll(() => {
+            timezoneMock.unregister()
+        })
+
+        it("handles undefined", async () => {
+            const date = await fromApiDateTime(undefined)
+
+            const isEqual = date.isSame(dayjs(), "date")
+
+            expect(isEqual).toBe(true)
+        })
+
+        it("converts local api datetime to dayjs object", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const datetime = await fromApiDateTime(apiDatetime)
+
+            expect(datetime).toStrictEqual(dayjs(apiDatetime))
+        })
+
+        it("converts local api datetime to ISO 8601 string", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const datetime = await fromApiDateTime(apiDatetime).toISOString()
+
+            expect(datetime).toBe("1990-02-24T11:30:00.000Z")
+        })
+
+        it("converts utc api datetime to ISO 8601 string", async () => {
+            const apiDatetime = "1990-02-24T11:30:00.0000000"
+
+            const utcDatetime = await fromApiDateTime(apiDatetime, { isUtc: true }).toISOString()
+
+            expect(utcDatetime).toBe("1990-02-24T11:30:00.000Z")
+        })
+    })
+})
