@@ -5,8 +5,8 @@ import { fromApiDate } from "../../src"
 describe("fromApiDate", () => {
     const apiDate = "1990-02-24"
 
-    it("handles undefined", async () => {
-        const date = await fromApiDate(undefined)
+    it("handles undefined", () => {
+        const date = fromApiDate(undefined)
 
         const isEqual = date.isSame(dayjs(), "date")
 
@@ -24,14 +24,14 @@ describe("fromApiDate", () => {
             timezoneMock.unregister()
         })
 
-        it("converts api date to local timezone dayjs object", async () => {
-            const date = await fromApiDate(apiDate)
+        it("converts api date to local timezone dayjs object", () => {
+            const date = fromApiDate(apiDate)
 
             expect(date).toStrictEqual(dayjs(apiDate))
         })
 
-        it("converts api date to formatted local timezone date", async () => {
-            const date = await fromApiDate(apiDate).format()
+        it("converts api date to formatted local timezone date", () => {
+            const date = fromApiDate(apiDate).format()
 
             expect(date).toBe("1990-02-24T00:00:00-05:00")
         })
@@ -48,14 +48,14 @@ describe("fromApiDate", () => {
             timezoneMock.unregister()
         })
 
-        it("converts api date to local timezone dayjs object", async () => {
-            const date = await fromApiDate(apiDate)
+        it("converts api date to local timezone dayjs object", () => {
+            const date = fromApiDate(apiDate)
 
             expect(date).toStrictEqual(dayjs(apiDate))
         })
 
-        it("converts api date to formatted local timezone date", async () => {
-            const date = await fromApiDate(apiDate).format()
+        it("converts api date to formatted local timezone date", () => {
+            const date = fromApiDate(apiDate).format()
 
             expect(date).toBe("1990-02-24T00:00:00+00:00")
         })

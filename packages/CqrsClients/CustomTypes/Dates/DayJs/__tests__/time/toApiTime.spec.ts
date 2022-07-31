@@ -17,16 +17,16 @@ describe("toApiTime", () => {
             timezoneMock.unregister()
         })
 
-        it("converts local dayjs object to api time", async () => {
+        it("converts local dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm")
-            const apiTime = await toApiTime(dateTime)
+            const apiTime =  toApiTime(dateTime)
 
             expect(apiTime).toBe("16:30:00.000000")
         })
 
-        it("converts utc dayjs object to api time", async () => {
+        it("converts utc dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm")
-            const apiTime = await toApiTime(dateTime, { isUtc: true })
+            const apiTime =  toApiTime(dateTime, { isUtc: true })
 
             expect(apiTime).toBe("11:30:00.000000")
         })
@@ -43,16 +43,16 @@ describe("toApiTime", () => {
             timezoneMock.unregister()
         })
 
-        it("converts local dayjs object to api time", async () => {
+        it("converts local dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm")
-            const apiTime = await toApiTime(dateTime)
+            const apiTime =  toApiTime(dateTime)
 
             expect(apiTime).toBe("11:30:00.000000")
         })
 
-        it("converts utc dayjs object to api time", async () => {
+        it("converts utc dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm")
-            const apiTime = await toApiTime(dateTime, { isUtc: true })
+            const apiTime =  toApiTime(dateTime, { isUtc: true })
 
             expect(apiTime).toBe("11:30:00.000000")
         })

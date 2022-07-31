@@ -14,21 +14,21 @@ describe("toApiDateTime", () => {
             timezoneMock.unregister()
         })
 
-        it("converts local dayjs object to utc api datetime", async () => {
+        it("converts local dayjs object to utc api datetime", () => {
             const date = dayjs("1990-02-24")
-            const dateTime = await toApiDateTime(date)
+            const dateTime = toApiDateTime(date)
 
             expect(dateTime).toBe("1990-02-24T05:00:00.000Z")
         })
 
-        it("converts local dayjs datetime based object to utc api datetime", async () => {
-            const date = await toApiDateTime(dayjs("1990-02-24T10:30:00.000Z"))
+        it("converts local dayjs datetime based object to utc api datetime", () => {
+            const date = toApiDateTime(dayjs("1990-02-24T10:30:00.000Z"))
 
             expect(date).toBe("1990-02-24T10:30:00.000Z")
         })
 
-        it("converts utc dayjs datetime based object to utc api datetime", async () => {
-            const date = await toApiDateTime(dayjs("1990-02-24"))
+        it("converts utc dayjs datetime based object to utc api datetime", () => {
+            const date = toApiDateTime(dayjs("1990-02-24"))
 
             expect(date).toBe("1990-02-24T05:00:00.000Z")
         })
@@ -45,21 +45,21 @@ describe("toApiDateTime", () => {
             timezoneMock.unregister()
         })
 
-        it("converts local dayjs object to utc api datetime", async () => {
+        it("converts local dayjs object to utc api datetime", () => {
             const date = dayjs("1990-02-24")
-            const dateTime = await toApiDateTime(date)
+            const dateTime = toApiDateTime(date)
 
             expect(dateTime).toBe("1990-02-24T00:00:00.000Z")
         })
 
-        it("converts local dayjs datetime based object to utc api datetime", async () => {
-            const date = await toApiDateTime(dayjs("1990-02-24T10:30:00.000Z"))
+        it("converts local dayjs datetime based object to utc api datetime", () => {
+            const date = toApiDateTime(dayjs("1990-02-24T10:30:00.000Z"))
 
             expect(date).toBe("1990-02-24T10:30:00.000Z")
         })
 
-        it("converts utc dayjs datetime based object to utc api datetime", async () => {
-            const date = await toApiDateTime(dayjs("1990-02-24"))
+        it("converts utc dayjs datetime based object to utc api datetime", () => {
+            const date = toApiDateTime(dayjs("1990-02-24"))
 
             expect(date).toBe("1990-02-24T00:00:00.000Z")
         })

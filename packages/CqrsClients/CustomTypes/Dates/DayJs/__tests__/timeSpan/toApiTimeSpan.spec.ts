@@ -17,23 +17,23 @@ describe("toApiTimeSpan", () => {
             timezoneMock.unregister()
         })
 
-        it("converts dayjs duration object to api time span", async () => {
+        it("converts dayjs duration object to api time span", () => {
             const duration =  dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("1.03:16:50.5990000")
         })
 
-        it("converts dayjs negative duration object to api time span", async () => {
+        it("converts dayjs negative duration object to api time span", () => {
             const duration =  dayjs.duration({ days: -1, hours: -3, minutes: -16, seconds: -50, milliseconds: -599 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("-1.03:16:50.5990000")
         })
 
-        it("converts dayjs duration with years object to api time span", async () => {
+        it("converts dayjs duration with years object to api time span", () => {
             const duration =  dayjs.duration({years: 1, months: 2, days: 1 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("426.00:00:00")
         })
@@ -50,23 +50,23 @@ describe("toApiTimeSpan", () => {
             timezoneMock.unregister()
         })
 
-        it("converts dayjs duration object to api time span", async () => {
+        it("converts dayjs duration object to api time span", () => {
             const duration =  dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("1.03:16:50.5990000")
         })
 
-        it("converts dayjs negative duration object to api time span", async () => {
+        it("converts dayjs negative duration object to api time span", () => {
             const duration =  dayjs.duration({ days: -1, hours: -3, minutes: -16, seconds: -50, milliseconds: -599 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("-1.03:16:50.5990000")
         })
 
-        it("converts dayjs duration with years object to api time span", async () => {
+        it("converts dayjs duration with years object to api time span", () => {
             const duration =  dayjs.duration({years: 1, months: 2, days: 1 })
-            const apiTimeSpan = await toApiTimeSpan(duration)
+            const apiTimeSpan =  toApiTimeSpan(duration)
 
             expect(apiTimeSpan).toBe("426.00:00:00")
         })

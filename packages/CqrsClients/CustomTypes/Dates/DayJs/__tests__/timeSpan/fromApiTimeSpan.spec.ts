@@ -6,8 +6,8 @@ import { fromApiTimeSpan } from "../../src"
 dayjs.extend(duration)
 
 describe("fromApiTimeSpan", () => {
-    it("handles undefined", async () => {
-        const timeSpan = await fromApiTimeSpan(undefined)
+    it("handles undefined", () => {
+        const timeSpan = fromApiTimeSpan(undefined)
 
         const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
@@ -25,40 +25,40 @@ describe("fromApiTimeSpan", () => {
             timezoneMock.unregister()
         })
 
-        it("converts api time span to dayjs duration", async () => {
+        it("converts api time span to dayjs duration", () => {
             const apiTimeSpan = "1.03:16:50.599"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
 
             expect(timeSpan).toStrictEqual(dayjsDuration)
         })
 
-        it("converts api time span to duration in months", async () => {
+        it("converts api time span to duration in months", () => {
             const apiTimeSpan = "30.00:00:00"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMonths = timeSpan.asMonths()
 
             expect(timeSpanInMonths).toBe(1)
         })
 
-        it("converts api time span to duration in hours", async () => {
+        it("converts api time span to duration in hours", () => {
             const apiTimeSpan = "05:00:00"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMonths = timeSpan.asHours()
 
             expect(timeSpanInMonths).toBe(5)
         })
 
-        it("converts negative api time span to duration in milliseconds", async () => {
+        it("converts negative api time span to duration in milliseconds", () => {
             const apiTimeSpan = "-1.03:16:50.599"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
@@ -77,40 +77,40 @@ describe("fromApiTimeSpan", () => {
             timezoneMock.unregister()
         })
 
-        it("converts api time span to dayjs duration", async () => {
+        it("converts api time span to dayjs duration", () => {
             const apiTimeSpan = "1.03:16:50.599"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
 
             expect(timeSpan).toStrictEqual(dayjsDuration)
         })
 
-        it("converts api time span to duration in months", async () => {
+        it("converts api time span to duration in months", () => {
             const apiTimeSpan = "30.00:00:00"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMonths = timeSpan.asMonths()
 
             expect(timeSpanInMonths).toBe(1)
         })
 
-        it("converts api time span to duration in hours", async () => {
+        it("converts api time span to duration in hours", () => {
             const apiTimeSpan = "05:00:00"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMonths = timeSpan.asHours()
 
             expect(timeSpanInMonths).toBe(5)
         })
 
-        it("converts negative api time span to duration in milliseconds", async () => {
+        it("converts negative api time span to duration in milliseconds", () => {
             const apiTimeSpan = "-1.03:16:50.599"
 
-            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+            const timeSpan = fromApiTimeSpan(apiTimeSpan)
 
             const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
