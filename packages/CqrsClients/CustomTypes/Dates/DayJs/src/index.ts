@@ -1,4 +1,3 @@
-//@ts-ignore
 export * from "@leancode/api-dates";
 export { default as fromApiTime} from "./time/fromApiTime";
 export { default as toApiTime} from "./time/toApiTime";

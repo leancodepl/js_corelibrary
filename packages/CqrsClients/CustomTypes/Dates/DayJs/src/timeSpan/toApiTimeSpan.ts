@@ -1,4 +1,3 @@
-//@ts-ignore
 import { ApiTimeSpan } from "@leancode/api-dates"
 import dayjs from "dayjs"
 import duration, { Duration } from "dayjs/plugin/duration"
