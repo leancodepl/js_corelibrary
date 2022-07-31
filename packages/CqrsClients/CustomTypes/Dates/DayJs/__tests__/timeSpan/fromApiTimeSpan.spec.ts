@@ -35,7 +35,7 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpan).toStrictEqual(dayjsDuration)
         })
 
-        it("converts api time span to formatted duration in months", async () => {
+        it("converts api time span to duration in months", async () => {
             const apiTimeSpan = "30.00:00:00"
 
             const timeSpan = await fromApiTimeSpan(apiTimeSpan)
@@ -45,7 +45,17 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpanInMonths).toBe(1)
         })
 
-        it("converts negative api time span to formatted duration in milliseconds", async () => {
+        it("converts api time span to duration in hours", async () => {
+            const apiTimeSpan = "05:00:00"
+
+            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+
+            const timeSpanInMonths = timeSpan.asHours()
+
+            expect(timeSpanInMonths).toBe(5)
+        })
+
+        it("converts negative api time span to duration in milliseconds", async () => {
             const apiTimeSpan = "-1.03:16:50.599"
 
             const timeSpan = await fromApiTimeSpan(apiTimeSpan)
@@ -77,7 +87,7 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpan).toStrictEqual(dayjsDuration)
         })
 
-        it("converts api time span to formatted duration in months", async () => {
+        it("converts api time span to duration in months", async () => {
             const apiTimeSpan = "30.00:00:00"
 
             const timeSpan = await fromApiTimeSpan(apiTimeSpan)
@@ -87,7 +97,17 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpanInMonths).toBe(1)
         })
 
-        it("converts negative api time span to formatted duration in milliseconds", async () => {
+        it("converts api time span to duration in hours", async () => {
+            const apiTimeSpan = "05:00:00"
+
+            const timeSpan = await fromApiTimeSpan(apiTimeSpan)
+
+            const timeSpanInMonths = timeSpan.asHours()
+
+            expect(timeSpanInMonths).toBe(5)
+        })
+
+        it("converts negative api time span to duration in milliseconds", async () => {
             const apiTimeSpan = "-1.03:16:50.599"
 
             const timeSpan = await fromApiTimeSpan(apiTimeSpan)

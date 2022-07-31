@@ -20,15 +20,14 @@ export default function fromApiTimeSpan(duration: ApiTimeSpan): Duration {
 
     const mainItemIndex = durationArray.findIndex((item: string) => item.includes(":"))
 
-    const milliseconds = parseInt(durationArray[mainItemIndex + 1])
-    const days = parseInt(durationArray[mainItemIndex - 1])
+    const milliseconds = parseInt(durationArray[mainItemIndex + 1] ?? 0)
+    const days = parseInt(durationArray[mainItemIndex - 1] ?? 0)
 
     const detailedDurationArray = durationArray[mainItemIndex]?.split(":")
-    const detailedDurationArrayLength = detailedDurationArray.length
 
-    const seconds = parseInt(detailedDurationArray[detailedDurationArrayLength - 1])
-    const minutes = parseInt(detailedDurationArray[detailedDurationArrayLength - 2])
-    const hours = parseInt(detailedDurationArray[detailedDurationArrayLength - 3])
+    const seconds = parseInt(detailedDurationArray[2])
+    const minutes = parseInt(detailedDurationArray[1])
+    const hours = parseInt(detailedDurationArray[0])
 
     const dayjsDuration = dayjs.duration({ days, hours, minutes, seconds, milliseconds })
 
