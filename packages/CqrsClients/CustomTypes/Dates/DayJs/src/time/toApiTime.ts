@@ -1,6 +1,7 @@
+//@ts-ignore
+import { ApiTime } from "@leancode/api-dates"
 import { Dayjs } from "dayjs"
 import dropLocalOffset from "../utils/dropLocalOffset"
-import { ApiTime } from "@leancode/api-dates"
 
 type Options = { isUtc: boolean }
 

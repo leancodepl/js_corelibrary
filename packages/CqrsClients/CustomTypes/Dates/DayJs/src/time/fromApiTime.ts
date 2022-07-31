@@ -1,5 +1,6 @@
-import dayjs, { Dayjs } from "dayjs"
+//@ts-ignore
 import { ApiTime } from "@leancode/api-dates"
+import dayjs, { Dayjs } from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 
 dayjs.extend(customParseFormat)

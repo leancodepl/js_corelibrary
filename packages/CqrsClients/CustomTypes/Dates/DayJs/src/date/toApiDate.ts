@@ -1,3 +1,4 @@
+//@ts-ignore
 import { ApiDate } from "@leancode/api-dates"
 import { Dayjs } from "dayjs"
 import dropLocalOffset from "../utils/dropLocalOffset"

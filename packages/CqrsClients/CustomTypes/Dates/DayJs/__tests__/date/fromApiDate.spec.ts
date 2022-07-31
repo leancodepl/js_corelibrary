@@ -27,7 +27,7 @@ describe("fromApiDate", () => {
         it("converts api date to local timezone dayjs object", async () => {
             const date = await fromApiDate(apiDate)
 
-            expect(date).toStrictEqual(dayjs(apiDate, timezone))
+            expect(date).toStrictEqual(dayjs(apiDate))
         })
 
         it("converts api date to formatted local timezone date", async () => {
@@ -51,7 +51,7 @@ describe("fromApiDate", () => {
         it("converts api date to local timezone dayjs object", async () => {
             const date = await fromApiDate(apiDate)
 
-            expect(date).toStrictEqual(dayjs(apiDate, timezone))
+            expect(date).toStrictEqual(dayjs(apiDate))
         })
 
         it("converts api date to formatted local timezone date", async () => {

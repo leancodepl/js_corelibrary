@@ -1,14 +1,17 @@
-import dayjs from "dayjs"
-import { padTo2 } from "../utils/padTo2"
-import duration, { Duration } from "dayjs/plugin/duration"
+//@ts-ignore
 import { ApiTimeSpan } from "@leancode/api-dates"
+import dayjs from "dayjs"
+import duration, { Duration } from "dayjs/plugin/duration"
+import padTo2 from "../utils/padTo2"
 
 dayjs.extend(duration)
 
 export default function toApiTimeSpan(duration: Duration): ApiTimeSpan {
     const isNegative = duration.asMilliseconds() < 0
-    const days = (isNegative ? Math.ceil : Math.floor)(duration.asDays())
-    const fraction = duration.milliseconds() * 10000
+
+    const absDuration = dayjs.duration(Math.abs(duration.asMilliseconds()))
+    const days = Math.floor((absDuration.asDays()))
+    const fraction = absDuration.milliseconds() * 10000
 
     let stringTimeSpan = ""
 
@@ -19,7 +22,7 @@ export default function toApiTimeSpan(duration: Duration): ApiTimeSpan {
         stringTimeSpan += `${days}.`
     }
 
-    stringTimeSpan += `${padTo2(duration.hours())}:${padTo2(duration.minutes())}:${padTo2(duration.seconds())}`
+    stringTimeSpan += `${padTo2(absDuration.hours())}:${padTo2(absDuration.minutes())}:${padTo2(absDuration.seconds())}`
 
     if (fraction > 0) {
         stringTimeSpan += `.${fraction}`

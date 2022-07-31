@@ -3,9 +3,9 @@ import { fromApiTime } from "../../src"
 
 describe("fromApiTime", () => {
     it("handles undefined", async () => {
-        const apiTime = await fromApiTime(undefined)
+        const time = await fromApiTime(undefined)
 
-        const isValid = apiTime.isValid()
+        const isValid = time.isValid()
 
         expect(isValid).toBe(false)
     })
