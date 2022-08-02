@@ -1,4 +1,4 @@
-import { ApiDateOnly } from "@leancode/api-dates";
+import { ApiDateOnly } from "@leancode/api-date";
 import dayjs, { Dayjs } from "dayjs";
 
 export default function fromApiDate(time: ApiDateOnly): Dayjs {

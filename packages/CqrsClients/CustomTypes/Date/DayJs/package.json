@@ -21,7 +21,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@leancode/api-dates": "^6.2.0",
+    "@leancode/api-date": "^6.2.0",
     "dayjs": ">=1.0.0"
   },
   "devDependencies": {

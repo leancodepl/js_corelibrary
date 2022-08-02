@@ -1,10 +1,12 @@
-import { ApiTimeSpan } from "@leancode/api-dates";
+import { ApiTimeSpan } from "@leancode/api-date";
 import dayjs from "dayjs";
 import duration, { Duration } from "dayjs/plugin/duration";
 
 dayjs.extend(duration);
 
-export default function fromApiTimeSpan(duration: ApiTimeSpan): Duration {
+export default function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration {
+    let duration = timeSpan as any;
+
     if (!duration) {
         return dayjs.duration({});
     }

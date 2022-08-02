@@ -1,4 +1,4 @@
-import { ApiDateTime } from "@leancode/api-dates";
+import { ApiDateTime } from "@leancode/api-date";
 import dayjs, { Dayjs } from "dayjs";
 
 type Options = { isUtc: boolean };

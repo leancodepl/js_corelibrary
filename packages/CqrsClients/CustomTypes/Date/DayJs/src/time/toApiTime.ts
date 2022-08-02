@@ -1,4 +1,4 @@
-import { ApiTimeOnly } from "@leancode/api-dates";
+import { ApiTimeOnly } from "@leancode/api-date";
 import { Dayjs } from "dayjs";
 import dropLocalOffset from "../utils/dropLocalOffset";
 

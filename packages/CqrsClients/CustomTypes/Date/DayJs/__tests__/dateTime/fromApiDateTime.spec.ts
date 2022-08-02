@@ -1,3 +1,4 @@
+import { ApiDateTime } from "@leancode/api-date";
 import dayjs from "dayjs";
 import timezoneMock from "timezone-mock";
 import { fromApiDateTime } from "../../src";
@@ -14,18 +15,10 @@ describe("fromApiDateTime", () => {
             timezoneMock.unregister();
         });
 
-        it("handles undefined", () => {
-            const date = fromApiDateTime(undefined);
-
-            const isEqual = date.isSame(dayjs(), "date");
-
-            expect(isEqual).toBe(true);
-        });
-
         it("converts local api datetime to dayjs object", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const datetime = fromApiDateTime(apiDatetime);
+            const datetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime);
 
             expect(datetime).toStrictEqual(dayjs(apiDatetime));
         });
@@ -33,7 +26,7 @@ describe("fromApiDateTime", () => {
         it("converts local api datetime to ISO 8601 string", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const datetime = fromApiDateTime(apiDatetime).toISOString();
+            const datetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime).toISOString();
 
             expect(datetime).toBe("1990-02-24T16:30:00.000Z");
         });
@@ -41,7 +34,7 @@ describe("fromApiDateTime", () => {
         it("converts utc api datetime to ISO 8601 string", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const utcDatetime = fromApiDateTime(apiDatetime, { isUtc: true }).toISOString();
+            const utcDatetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime, { isUtc: true }).toISOString();
 
             expect(utcDatetime).toBe("1990-02-24T11:30:00.000Z");
         });
@@ -58,18 +51,10 @@ describe("fromApiDateTime", () => {
             timezoneMock.unregister();
         });
 
-        it("handles undefined", () => {
-            const date = fromApiDateTime(undefined);
-
-            const isEqual = date.isSame(dayjs(), "date");
-
-            expect(isEqual).toBe(true);
-        });
-
         it("converts local api datetime to dayjs object", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const datetime = fromApiDateTime(apiDatetime);
+            const datetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime);
 
             expect(datetime).toStrictEqual(dayjs(apiDatetime));
         });
@@ -77,7 +62,7 @@ describe("fromApiDateTime", () => {
         it("converts local api datetime to ISO 8601 string", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const datetime = fromApiDateTime(apiDatetime).toISOString();
+            const datetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime).toISOString();
 
             expect(datetime).toBe("1990-02-24T11:30:00.000Z");
         });
@@ -85,7 +70,7 @@ describe("fromApiDateTime", () => {
         it("converts utc api datetime to ISO 8601 string", () => {
             const apiDatetime = "1990-02-24T11:30:00.0000000";
 
-            const utcDatetime = fromApiDateTime(apiDatetime, { isUtc: true }).toISOString();
+            const utcDatetime = fromApiDateTime(apiDatetime as unknown as ApiDateTime, { isUtc: true }).toISOString();
 
             expect(utcDatetime).toBe("1990-02-24T11:30:00.000Z");
         });

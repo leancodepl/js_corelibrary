@@ -1,17 +1,10 @@
+import { ApiDateOnly } from "@leancode/api-date";
 import dayjs from "dayjs";
 import timezoneMock from "timezone-mock";
 import { fromApiDate } from "../../src";
 
 describe("fromApiDate", () => {
     const apiDate = "1990-02-24";
-
-    it("handles undefined", () => {
-        const date = fromApiDate(undefined);
-
-        const isEqual = date.isSame(dayjs(), "date");
-
-        expect(isEqual).toBe(true);
-    });
 
     describe("run in GMT+5", () => {
         const timezone = "Etc/GMT+5";
@@ -25,13 +18,13 @@ describe("fromApiDate", () => {
         });
 
         it("converts api date to local timezone dayjs object", () => {
-            const date = fromApiDate(apiDate);
+            const date = fromApiDate(apiDate as unknown as ApiDateOnly);
 
             expect(date).toStrictEqual(dayjs(apiDate));
         });
 
         it("converts api date to formatted local timezone date", () => {
-            const date = fromApiDate(apiDate).format();
+            const date = fromApiDate(apiDate as unknown as ApiDateOnly).format();
 
             expect(date).toBe("1990-02-24T00:00:00-05:00");
         });
@@ -49,13 +42,13 @@ describe("fromApiDate", () => {
         });
 
         it("converts api date to local timezone dayjs object", () => {
-            const date = fromApiDate(apiDate);
+            const date = fromApiDate(apiDate as unknown as ApiDateOnly);
 
             expect(date).toStrictEqual(dayjs(apiDate));
         });
 
         it("converts api date to formatted local timezone date", () => {
-            const date = fromApiDate(apiDate).format();
+            const date = fromApiDate(apiDate as unknown as ApiDateOnly).format();
 
             expect(date).toBe("1990-02-24T00:00:00+00:00");
         });

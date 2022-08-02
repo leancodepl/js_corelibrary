@@ -12,7 +12,12 @@ class AT {
     private _: never = undefined as never;
 }
 
+class ADO {
+    private _: never = undefined as never;
+}
+
 export type ApiDateOnly = AD;
 export type ApiDateTime = ADT;
 export type ApiTimeSpan = ATS;
 export type ApiTimeOnly = AT;
+export type ApiDateTimeOffset = ADO;

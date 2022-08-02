@@ -1,4 +1,4 @@
-import { ApiTimeSpan } from "@leancode/api-dates";
+import { ApiTimeSpan } from "@leancode/api-date";
 import dayjs from "dayjs";
 import duration, { Duration } from "dayjs/plugin/duration";
 import padTo2 from "../utils/padTo2";
