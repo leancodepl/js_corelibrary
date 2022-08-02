@@ -1,11 +1,19 @@
 import { ApiTimeOnly } from "@leancode/api-date";
 import { Dayjs } from "dayjs";
-import dropLocalOffset from "../utils/dropLocalOffset";
 
-type Options = { isUtc: boolean };
+type Options = { toUtc?: boolean };
 
-export default function toApiTime(time: Dayjs, options?: Options): ApiTimeOnly {
-    const adjustedTime = options?.isUtc ? dropLocalOffset(time) : time;
+//dayjs handles at most milliseconds precision, smaller units are lost in conversion process
+export function toApiTime(time: Dayjs, options?: Options): ApiTimeOnly;
+export function toApiTime(time: undefined, options?: Options): undefined;
+export function toApiTime(time?: Dayjs, options?: Options): ApiTimeOnly | undefined {
+    if (!time) {
+        return undefined;
+    }
 
-    return `${adjustedTime.toISOString().split("T")[1].split(".")[0]}.000000` as any;
+    const adjustedTime = options?.toUtc ? time.utc() : time;
+
+    return `${adjustedTime.format("HH:mm:ss.SSS")}` as any;
 }
+
+export default toApiTime;

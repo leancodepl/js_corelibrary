@@ -4,6 +4,15 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-export default function fromApiDateTimeOffset(datetime: ApiDateTimeOffset): Dayjs {
+//dayjs handles at most milliseconds precision, smaller units are lost in conversion process
+export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset): Dayjs;
+export function fromApiDateTimeOffset(datetime: undefined): undefined;
+export function fromApiDateTimeOffset(datetime?: ApiDateTimeOffset): Dayjs | undefined {
+    if (!datetime) {
+        return undefined;
+    }
+
     return dayjs(datetime as any, "YYYY-MM-DD HH:mm:ss.SSS Z");
 }
+
+export default fromApiDateTimeOffset;

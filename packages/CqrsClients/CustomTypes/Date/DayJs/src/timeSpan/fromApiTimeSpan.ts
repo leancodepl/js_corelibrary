@@ -1,36 +1,23 @@
 import { ApiTimeSpan } from "@leancode/api-date";
 import dayjs from "dayjs";
 import duration, { Duration } from "dayjs/plugin/duration";
+import parseApiTimeSpan from "../utils/parseApiTimeSpan";
 
 dayjs.extend(duration);
 
-export default function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration {
-    let duration = timeSpan as any;
-
-    if (!duration) {
-        return dayjs.duration({});
+//dayjs handles at most milliseconds precision, smaller units are lost in conversion process
+function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration;
+function fromApiTimeSpan(timeSpan: undefined): undefined;
+function fromApiTimeSpan(timeSpan?: ApiTimeSpan): Duration | undefined {
+    if (!timeSpan) {
+        return undefined;
     }
 
-    const isNegative = duration.includes("-");
+    const parsedDuration = parseApiTimeSpan(timeSpan);
 
-    if (isNegative) {
-        duration = duration.substring(1);
-    }
+    const isNegative = parsedDuration.sign === "-";
 
-    const durationArray = duration.split(".");
-
-    const mainItemIndex = durationArray.findIndex((item: string) => item.includes(":"));
-
-    const milliseconds = parseInt(durationArray[mainItemIndex + 1] ?? 0);
-    const days = parseInt(durationArray[mainItemIndex - 1] ?? 0);
-
-    const detailedDurationArray = durationArray[mainItemIndex]?.split(":");
-
-    const seconds = parseInt(detailedDurationArray[2]);
-    const minutes = parseInt(detailedDurationArray[1]);
-    const hours = parseInt(detailedDurationArray[0]);
-
-    const dayjsDuration = dayjs.duration({ days, hours, minutes, seconds, milliseconds });
+    const dayjsDuration = dayjs.duration(parsedDuration.values);
 
     if (isNegative) {
         return dayjs.duration(-dayjsDuration.asMilliseconds());
@@ -38,3 +25,5 @@ export default function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration {
 
     return dayjsDuration;
 }
+
+export default fromApiTimeSpan;

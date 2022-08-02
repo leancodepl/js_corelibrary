@@ -7,6 +7,12 @@ import { fromApiTimeSpan } from "../../src";
 dayjs.extend(duration);
 
 describe("fromApiTimeSpan", () => {
+    it("handles undefined", () => {
+        const timeSpan = fromApiTimeSpan(undefined);
+
+        expect(timeSpan).toBeUndefined();
+    });
+
     describe("run in GMT+5 timezone", () => {
         const timezone = "Etc/GMT+5";
 

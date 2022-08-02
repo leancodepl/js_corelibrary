@@ -3,6 +3,12 @@ import timezoneMock from "timezone-mock";
 import { toApiDateTime } from "../../src";
 
 describe("toApiDateTime", () => {
+    it("handles undefined", () => {
+        const apiDatetime = toApiDateTime(undefined);
+
+        expect(apiDatetime).toBeUndefined();
+    });
+
     describe("run in GMT+5 timezone", () => {
         const timezone = "Etc/GMT+5";
 

@@ -1,11 +1,14 @@
 import { ApiDateTime } from "@leancode/api-date";
 import { Dayjs } from "dayjs";
-import dropLocalOffset from "../utils/dropLocalOffset";
 
-type Options = { isUtc: boolean };
+function toApiDateTime(time: Dayjs): ApiDateTime;
+function toApiDateTime(time: undefined): undefined;
+function toApiDateTime(time?: Dayjs): ApiDateTime | undefined {
+    if (!time) {
+        return undefined;
+    }
 
-export default function toApiDateTime(time: Dayjs, options?: Options): ApiDateTime {
-    const adjustedDateTime = options?.isUtc ? dropLocalOffset(time) : time;
-
-    return adjustedDateTime.toISOString() as any;
+    return time.toISOString() as any;
 }
+
+export default toApiDateTime;

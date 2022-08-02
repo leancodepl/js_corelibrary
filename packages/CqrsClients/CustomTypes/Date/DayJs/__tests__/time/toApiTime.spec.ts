@@ -6,6 +6,12 @@ import { toApiTime } from "../../src";
 dayjs.extend(customParseFormat);
 
 describe("toApiTime", () => {
+    it("handles undefined", () => {
+        const apiTime = toApiTime(undefined);
+
+        expect(apiTime).toBeUndefined();
+    });
+
     describe("run in GMT+5 timezone", () => {
         const timezone = "Etc/GMT+5";
 
@@ -17,18 +23,18 @@ describe("toApiTime", () => {
             timezoneMock.unregister();
         });
 
-        it("converts local dayjs object to api time", () => {
+        it("converts dayjs object to local api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
             const apiTime = toApiTime(dateTime);
 
-            expect(apiTime).toBe("16:30:00.000000");
+            expect(apiTime).toBe("11:30:00.000");
         });
 
-        it("converts utc dayjs object to api time", () => {
+        it("converts dayjs object to utc api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
-            const apiTime = toApiTime(dateTime, { isUtc: true });
+            const apiTime = toApiTime(dateTime, { toUtc: true });
 
-            expect(apiTime).toBe("11:30:00.000000");
+            expect(apiTime).toBe("16:30:00.000");
         });
     });
 
@@ -47,14 +53,14 @@ describe("toApiTime", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
             const apiTime = toApiTime(dateTime);
 
-            expect(apiTime).toBe("11:30:00.000000");
+            expect(apiTime).toBe("11:30:00.000");
         });
 
         it("converts utc dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
-            const apiTime = toApiTime(dateTime, { isUtc: true });
+            const apiTime = toApiTime(dateTime, { toUtc: true });
 
-            expect(apiTime).toBe("11:30:00.000000");
+            expect(apiTime).toBe("11:30:00.000");
         });
     });
 });
