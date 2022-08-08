@@ -4,7 +4,7 @@
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
-  "module": "lib/index.es.js",
+  "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib"
