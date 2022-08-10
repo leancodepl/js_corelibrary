@@ -1,6 +1,6 @@
 {
   "name": "@leancode/validation",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -20,10 +20,10 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/cqrs-client-base": "^6.2.0"
+    "@leancode/cqrs-client-base": "^6.3.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0",
+    "@leancode/tools-rollup": "^6.3.0",
     "typescript": "^4.5.5"
   },
   "keywords": [

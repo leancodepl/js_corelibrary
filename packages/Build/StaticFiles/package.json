@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-static-files",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -19,14 +19,14 @@
     "fmt:eslint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.2.0",
+    "@leancode/build-base": "^6.3.0",
     "file-loader": "^6.2.0"
   },
   "peerDependencies": {
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0",
+    "@leancode/tools-rollup": "^6.3.0",
     "webpack": "^5.0.0"
   }
 }

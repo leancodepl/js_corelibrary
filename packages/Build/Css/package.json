@@ -1,6 +1,6 @@
 {
   "name": "@leancode/build-css",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -18,7 +18,7 @@
     "watch": "tsc -w --noEmit"
   },
   "dependencies": {
-    "@leancode/build-base": "^6.2.0",
+    "@leancode/build-base": "^6.3.0",
     "autoprefixer": "^10.4.0",
     "css-loader": "^6.5.1",
     "css-modules-typescript-loader": "^4.0.1",
@@ -32,7 +32,7 @@
     "webpack": "^5.0.0"
   },
   "devDependencies": {
-    "@leancode/tools-rollup": "^6.2.0",
+    "@leancode/tools-rollup": "^6.3.0",
     "@types/node": "^18.0.3",
     "webpack": "^5.0.0"
   }
