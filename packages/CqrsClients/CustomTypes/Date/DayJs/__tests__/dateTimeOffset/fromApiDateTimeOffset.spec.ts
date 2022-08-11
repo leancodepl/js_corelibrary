@@ -21,7 +21,7 @@ describe("fromApiDateTimeOffset", () => {
         });
 
         it("converts api dateTimeOffset to formatted local date", () => {
-            const apiDatetimeOffset = "1990-02-24 11:30:00.0000000 -08:00";
+            const apiDatetimeOffset = "1990-02-24 11:30:00.000 -08:00";
 
             const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format();
 
@@ -41,7 +41,7 @@ describe("fromApiDateTimeOffset", () => {
         });
 
         it("converts api dateTimeOffset to formatted local date", () => {
-            const apiDatetimeOffset = "1990-02-24 11:30:00.0000000 -08:00";
+            const apiDatetimeOffset = "1990-02-24 11:30:00.000 -08:00";
 
             const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format();
 

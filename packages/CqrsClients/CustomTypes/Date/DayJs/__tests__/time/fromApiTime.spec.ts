@@ -21,19 +21,11 @@ describe("fromApiTime", () => {
         });
 
         it("converts local api time to formatted time", () => {
-            const apiTime = "11:30:00.000000";
+            const apiTime = "11:30:00.000";
 
             const time = fromApiTime(apiTime as unknown as ApiTimeOnly).format("HH:mm:ss");
 
             expect(time).toBe("11:30:00");
-        });
-
-        it("converts utc api time to local formatted time", () => {
-            const apiTime = "11:30:00.0000000";
-
-            const time = fromApiTime(apiTime as unknown as ApiTimeOnly, { isUtc: true }).format("HH:mm:ss");
-
-            expect(time).toBe("06:30:00");
         });
     });
 
@@ -49,17 +41,9 @@ describe("fromApiTime", () => {
         });
 
         it("converts local api time to formatted time", () => {
-            const apiTime = "11:30:00.000000";
+            const apiTime = "11:30:00.000";
 
             const time = fromApiTime(apiTime as unknown as ApiTimeOnly).format("HH:mm:ss");
-
-            expect(time).toBe("11:30:00");
-        });
-
-        it("converts utc api time to local formatted time", () => {
-            const apiTime = "11:30:00.0000000";
-
-            const time = fromApiTime(apiTime as unknown as ApiTimeOnly, { isUtc: true }).format("HH:mm:ss");
 
             expect(time).toBe("11:30:00");
         });

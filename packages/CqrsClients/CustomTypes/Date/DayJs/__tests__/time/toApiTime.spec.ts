@@ -29,13 +29,6 @@ describe("toApiTime", () => {
 
             expect(apiTime).toBe("11:30:00.000");
         });
-
-        it("converts dayjs object to utc api time", () => {
-            const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
-            const apiTime = toApiTime(dateTime, { toUtc: true });
-
-            expect(apiTime).toBe("16:30:00.000");
-        });
     });
 
     describe("run in UTC timezone", () => {
@@ -52,13 +45,6 @@ describe("toApiTime", () => {
         it("converts local dayjs object to api time", () => {
             const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
             const apiTime = toApiTime(dateTime);
-
-            expect(apiTime).toBe("11:30:00.000");
-        });
-
-        it("converts utc dayjs object to api time", () => {
-            const dateTime = dayjs("1990-02-24, 11:30", "YYYY-MM-DD, HH:mm");
-            const apiTime = toApiTime(dateTime, { toUtc: true });
 
             expect(apiTime).toBe("11:30:00.000");
         });
