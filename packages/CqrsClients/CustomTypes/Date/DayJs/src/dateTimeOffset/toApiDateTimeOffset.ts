@@ -3,8 +3,8 @@ import { Dayjs } from "dayjs";
 
 //dayjs handles at most milliseconds precision, smaller units are lost in conversion process
 export function toApiDateTimeOffset(time: Dayjs): ApiDateTimeOffset;
-export function toApiDateTimeOffset(time: undefined): undefined;
-export function toApiDateTimeOffset(time?: Dayjs): ApiDateTimeOffset | undefined {
+export function toApiDateTimeOffset(time: Dayjs | undefined): ApiDateTimeOffset | undefined;
+export function toApiDateTimeOffset(time: Dayjs | undefined): ApiDateTimeOffset | undefined {
     if (!time) {
         return undefined;
     }

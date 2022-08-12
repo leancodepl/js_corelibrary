@@ -3,8 +3,8 @@ import { Dayjs } from "dayjs";
 
 //dayjs handles at most milliseconds precision, smaller units are lost in conversion process
 export function toApiTime(time: Dayjs): ApiTimeOnly;
-export function toApiTime(time: undefined): undefined;
-export function toApiTime(time?: Dayjs): ApiTimeOnly | undefined {
+export function toApiTime(time: Dayjs | undefined): ApiTimeOnly | undefined;
+export function toApiTime(time: Dayjs | undefined): ApiTimeOnly | undefined {
     if (!time) {
         return undefined;
     }

@@ -6,8 +6,8 @@ dayjs.extend(duration);
 
 //dayjs handles at most milliseconds precision, smaller units are lost in conversion process
 function toApiTimeSpan(duration: Duration): ApiTimeSpan;
-function toApiTimeSpan(duration: undefined): undefined;
-function toApiTimeSpan(duration?: Duration): ApiTimeSpan | undefined {
+function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined;
+function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined {
     if (!duration) {
         return undefined;
     }

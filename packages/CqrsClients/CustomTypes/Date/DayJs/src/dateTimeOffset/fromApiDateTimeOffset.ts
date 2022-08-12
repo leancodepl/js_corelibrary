@@ -6,8 +6,8 @@ dayjs.extend(customParseFormat);
 
 //dayjs handles at most milliseconds precision, smaller units are lost in conversion process
 export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset): Dayjs;
-export function fromApiDateTimeOffset(datetime: undefined): undefined;
-export function fromApiDateTimeOffset(datetime?: ApiDateTimeOffset): Dayjs | undefined {
+export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset | undefined): Dayjs | undefined;
+export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset | undefined): Dayjs | undefined {
     if (!datetime) {
         return undefined;
     }
