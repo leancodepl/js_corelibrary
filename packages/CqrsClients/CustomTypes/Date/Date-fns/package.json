@@ -1,0 +1,38 @@
+{
+  "name": "@leancode/api-date-datefns",
+  "description": "Contracts generator custom type handler for api dates using Date-fns",
+  "version": "6.2.0",
+  "author": "LeanCode",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "scripts": {
+    "build": "leancode-rollup",
+    "watch": "tsc -w --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@leancode/api-date": "^6.2.0",
+    "date-fns": ">=2.29.1"
+  },
+  "devDependencies": {
+    "@leancode/tools-rollup": "^6.2.0",
+    "timezone-mock": "1.3.4",
+    "typescript": "^4.5.5"
+  },
+  "keywords": [
+    "contracts",
+    "date",
+    "leancode",
+    "date-fns"
+  ]
+}
