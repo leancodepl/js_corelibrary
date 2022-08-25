@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import timezoneMock from "timezone-mock";
 import { fromApiDateTimeOffset } from "../../src";
 
+const dateTimeOffsetFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
+
 describe("fromApiDateTimeOffset", () => {
     it("handles undefined", () => {
         const dateTimeOffset = fromApiDateTimeOffset(undefined);
@@ -26,7 +28,7 @@ describe("fromApiDateTimeOffset", () => {
 
             const datetimeOffset = format(
                 fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset),
-                "yyyy-MM-dd'T'HH:mm:ssXXX",
+                dateTimeOffsetFormat,
             );
 
             expect(datetimeOffset).toBe("1990-02-24T14:30:00-05:00");
@@ -49,7 +51,7 @@ describe("fromApiDateTimeOffset", () => {
 
             const datetimeOffset = format(
                 fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset),
-                "yyyy-MM-dd'T'HH:mm:ssXXX",
+                dateTimeOffsetFormat,
             );
 
             expect(datetimeOffset).toBe("1990-02-24T19:30:00Z");

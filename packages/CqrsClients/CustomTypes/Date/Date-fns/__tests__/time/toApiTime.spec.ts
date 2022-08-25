@@ -2,6 +2,8 @@ import { parse } from "date-fns";
 import timezoneMock from "timezone-mock";
 import { toApiTime } from "../../src";
 
+const dateTimeFormat = "yyyy-MM-dd, HH:mm";
+
 describe("toApiTime", () => {
     it("handles undefined", () => {
         const apiTime = toApiTime(undefined);
@@ -21,7 +23,7 @@ describe("toApiTime", () => {
         });
 
         it("converts date-fns object to local api time", () => {
-            const dateTime = parse("1990-02-24, 11:30", "yyyy-MM-dd, HH:mm", new Date());
+            const dateTime = parse("1990-02-24, 11:30", dateTimeFormat, new Date());
             const apiTime = toApiTime(dateTime);
 
             expect(apiTime).toBe("11:30:00.000");
@@ -40,7 +42,7 @@ describe("toApiTime", () => {
         });
 
         it("converts local date-fns object to api time", () => {
-            const dateTime = parse("1990-02-24, 11:30", "yyyy-MM-dd, HH:mm", new Date());
+            const dateTime = parse("1990-02-24, 11:30", dateTimeFormat, new Date());
             const apiTime = toApiTime(dateTime);
 
             expect(apiTime).toBe("11:30:00.000");

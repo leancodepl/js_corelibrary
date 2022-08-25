@@ -2,7 +2,7 @@ import { ApiTimeSpan } from "@leancode/api-date";
 import { weeksToDays } from "date-fns";
 import padTo2 from "../utils/padTo2";
 
-//this function handles at most milliseconds precision, smaller units are lost in conversion process
+//date-fns duration handles at most seconds precision, smaller units are lost in conversion process
 function toApiTimeSpan(duration: Duration): ApiTimeSpan;
 function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined;
 function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined {
