@@ -1,35 +1,33 @@
 import { ApiTimeSpan } from "@leancode/api-date";
+import { hoursToMilliseconds, minutesToMilliseconds, secondsToMilliseconds } from "date-fns";
 import parseApiTimeSpan from "../utils/parseApiTimeSpan";
 
-//date-fns duration handles at most seconds precision, smaller units are lost in conversion process
-function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration;
-function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): Duration | undefined;
-function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): Duration | undefined {
+function fromApiTimeSpan(timeSpan: ApiTimeSpan): number;
+function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): number | undefined;
+function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): number | undefined {
     if (!timeSpan) {
         return undefined;
     }
 
-    const parsedDuration = parseApiTimeSpan(timeSpan);
+    const parsedApiTimeSpan = parseApiTimeSpan(timeSpan);
 
-    const parsedDurationValues = parsedDuration.values;
+    const parsedApiTimeSpanValues = parsedApiTimeSpan.values;
 
-    const duration: Duration = {
-        days: parsedDurationValues.days,
-        hours: parsedDurationValues.hours,
-        minutes: parsedDurationValues.minutes,
-        seconds: parsedDurationValues.seconds,
-    };
+    const daysInMilliseconds = hoursToMilliseconds(parsedApiTimeSpanValues.days * 24);
+    const hoursInMilliseconds = hoursToMilliseconds(parsedApiTimeSpanValues.hours);
+    const minutesInMilliseconds = minutesToMilliseconds(parsedApiTimeSpanValues.minutes);
+    const secondsInMilliseconds = secondsToMilliseconds(parsedApiTimeSpanValues.seconds);
 
-    const signBasedMultiplier = parsedDuration.sign === "-" ? -1 : 1;
+    const differenceInMilliseconds =
+        daysInMilliseconds +
+        hoursInMilliseconds +
+        minutesInMilliseconds +
+        secondsInMilliseconds +
+        parsedApiTimeSpanValues.milliseconds;
 
-    const transformedDurationEntries = Object.entries(duration).map(([key, value]) => [
-        key,
-        signBasedMultiplier * (value ?? 0),
-    ]);
+    const signBasedMultiplier = parsedApiTimeSpan.sign === "-" ? -1 : 1;
 
-    const transformedDuration = Object.fromEntries(transformedDurationEntries);
-
-    return transformedDuration;
+    return signBasedMultiplier * differenceInMilliseconds;
 }
 
 export default fromApiTimeSpan;

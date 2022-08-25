@@ -2,8 +2,6 @@ import { ApiTimeSpan } from "@leancode/api-date";
 import timezoneMock from "timezone-mock";
 import { fromApiTimeSpan } from "../../src";
 
-const expectedNegativeDuration = { days: -1, hours: -3, minutes: -16, seconds: -50 };
-
 describe("fromApiTimeSpan", () => {
     it("handles undefined", () => {
         const timeSpan = fromApiTimeSpan(undefined);
@@ -22,32 +20,20 @@ describe("fromApiTimeSpan", () => {
             timezoneMock.unregister();
         });
 
-        it("converts api timespan to date-fns duration", () => {
+        it("converts api timespan to difference in milliseconds", () => {
             const apiTimeSpan = "1.03:16:50.599";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const dateFnsDuration: Duration = { days: 1, hours: 3, minutes: 16, seconds: 50 };
-
-            expect(timeSpan).toStrictEqual(dateFnsDuration);
+            expect(timeSpan).toBe(98210599);
         });
 
-        it("converts api timespan to duration in hours", () => {
-            const apiTimeSpan = "05:00:00";
-
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
-
-            const timeSpanInMonths = timeSpan.hours;
-
-            expect(timeSpanInMonths).toBe(5);
-        });
-
-        it("converts negative api timespan to duration", () => {
+        it("converts negative api timespan to difference in milliseconds", () => {
             const apiTimeSpan = "-1.03:16:50.599";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            expect(timeSpan).toStrictEqual(expectedNegativeDuration);
+            expect(timeSpan).toBe(-98210599);
         });
     });
 
@@ -62,32 +48,20 @@ describe("fromApiTimeSpan", () => {
             timezoneMock.unregister();
         });
 
-        it("converts api timespan to date-fns duration", () => {
+        it("converts api timespan to difference in milliseconds", () => {
             const apiTimeSpan = "1.03:16:50.599";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const dateFnsDuration: Duration = { days: 1, hours: 3, minutes: 16, seconds: 50 };
-
-            expect(timeSpan).toStrictEqual(dateFnsDuration);
+            expect(timeSpan).toBe(98210599);
         });
 
-        it("converts api timespan to duration in hours", () => {
-            const apiTimeSpan = "05:00:00";
-
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
-
-            const timeSpanInMonths = timeSpan.hours;
-
-            expect(timeSpanInMonths).toBe(5);
-        });
-
-        it("converts negative api timespan to duration", () => {
+        it("converts negative api timespan to difference in milliseconds", () => {
             const apiTimeSpan = "-1.03:16:50.599";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            expect(timeSpan).toStrictEqual(expectedNegativeDuration);
+            expect(timeSpan).toBe(-98210599);
         });
     });
 });

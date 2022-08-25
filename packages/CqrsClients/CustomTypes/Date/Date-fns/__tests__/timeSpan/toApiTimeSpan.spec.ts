@@ -19,33 +19,20 @@ describe("toApiTimeSpan", () => {
             timezoneMock.unregister();
         });
 
-        it("converts date-fns duration object to api time span", () => {
-            const duration: Duration = {
-                years: 0,
-                months: 0,
-                days: 1,
-                hours: 3,
-                minutes: 16,
-                seconds: 50,
-            };
+        it("converts difference in milliseconds to api time span", () => {
+            const differenceInMilliseconds = 98210599;
 
-            const apiTimeSpan = toApiTimeSpan(duration);
+            const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds);
 
-            expect(apiTimeSpan).toBe("1.03:16:50");
+            expect(apiTimeSpan).toBe("1.03:16:50.599");
         });
 
-        it("converts date-fns negative duration object to api time span", () => {
-            const duration = { days: -1, hours: -3, minutes: -16, seconds: -50 };
-            const apiTimeSpan = toApiTimeSpan(duration);
+        it("converts negative difference in milliseconds to api time span", () => {
+            const differenceInMilliseconds = -98210599;
 
-            expect(apiTimeSpan).toBe("-1.03:16:50");
-        });
+            const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds);
 
-        it("converts date-fns duration with years object to api time span", () => {
-            const duration = { years: 1, months: 2, days: 1 };
-            const apiTimeSpan = toApiTimeSpan(duration);
-
-            expect(apiTimeSpan).toBe("426.00:00:00");
+            expect(apiTimeSpan).toBe("-1.03:16:50.599");
         });
     });
 
@@ -60,25 +47,20 @@ describe("toApiTimeSpan", () => {
             timezoneMock.unregister();
         });
 
-        it("converts date-fns duration object to api time span", () => {
-            const duration = { days: 1, hours: 3, minutes: 16, seconds: 50 };
-            const apiTimeSpan = toApiTimeSpan(duration);
+        it("converts difference in milliseconds to api time span", () => {
+            const differenceInMilliseconds = 98210599;
 
-            expect(apiTimeSpan).toBe("1.03:16:50");
+            const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds);
+
+            expect(apiTimeSpan).toBe("1.03:16:50.599");
         });
 
-        it("converts date-fns negative duration object to api time span", () => {
-            const duration = { days: -1, hours: -3, minutes: -16, seconds: -50 };
-            const apiTimeSpan = toApiTimeSpan(duration);
+        it("converts negative difference in milliseconds to api time span", () => {
+            const differenceInMilliseconds = -98210599;
 
-            expect(apiTimeSpan).toBe("-1.03:16:50");
-        });
+            const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds);
 
-        it("converts date-fns duration with years object to api time span", () => {
-            const duration = { years: 1, months: 2, days: 1 };
-            const apiTimeSpan = toApiTimeSpan(duration);
-
-            expect(apiTimeSpan).toBe("426.00:00:00");
+            expect(apiTimeSpan).toBe("-1.03:16:50.599");
         });
     });
 });

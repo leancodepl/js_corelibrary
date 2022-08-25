@@ -1,30 +1,31 @@
 import { ApiTimeSpan } from "@leancode/api-date";
-import { weeksToDays } from "date-fns";
 import padTo2 from "../utils/padTo2";
+import parseDifferenceInMilliseconds from "../utils/parseDifferenceInMilliseconds";
 
-//date-fns duration handles at most seconds precision, smaller units are lost in conversion process
-function toApiTimeSpan(duration: Duration): ApiTimeSpan;
-function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined;
-function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined {
-    if (!duration) {
+function toApiTimeSpan(differenceInMilliseconds: number): ApiTimeSpan;
+function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined;
+function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined {
+    let stringTimeSpan = "";
+
+    if (!differenceInMilliseconds) {
         return undefined;
     }
 
-    let stringTimeSpan = "";
+    const signBasedMultiplier = differenceInMilliseconds < 0 ? -1 : 1;
 
-    const days =
-        (duration?.years ?? 0) * 365 +
-        (duration?.months ?? 0) * 30 +
-        weeksToDays(duration?.weeks ?? 0) +
-        (duration?.days ?? 0);
+    const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds);
 
-    if (days !== 0) {
-        stringTimeSpan += `${days}.`;
+    const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds);
+
+    if (days > 0) {
+        stringTimeSpan += `${signBasedMultiplier * days}.`;
     }
 
-    stringTimeSpan += `${padTo2(Math.abs(duration.hours ?? 0))}:${padTo2(Math.abs(duration.minutes ?? 0))}:${padTo2(
-        Math.abs(duration.seconds ?? 0),
-    )}`;
+    stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`;
+
+    if (milliseconds > 0) {
+        stringTimeSpan += `.${milliseconds}`;
+    }
 
     return stringTimeSpan as any;
 }
