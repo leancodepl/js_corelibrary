@@ -1,5 +1,5 @@
 import { ApiTimeSpan } from "@leancode/api-date";
-import { weeksToDays, yearsToMonths } from "date-fns";
+import { weeksToDays } from "date-fns";
 import padTo2 from "../utils/padTo2";
 
 //this function handles at most milliseconds precision, smaller units are lost in conversion process
@@ -13,12 +13,12 @@ function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined 
     let stringTimeSpan = "";
 
     const days =
-        yearsToMonths(duration?.years ?? 0) * 30 +
-        (duration?.months ?? 0) * 31 +
+        (duration?.years ?? 0) * 365 +
+        (duration?.months ?? 0) * 30 +
         weeksToDays(duration?.weeks ?? 0) +
         (duration?.days ?? 0);
 
-    if (days > 0) {
+    if (days !== 0) {
         stringTimeSpan += `${days}.`;
     }
 
