@@ -1,8 +1,11 @@
-import { parseISO } from "date-fns";
+import { parse } from "date-fns";
 import timezoneMock from "timezone-mock";
 import { toApiDateTimeOffset } from "../../src";
 
 describe("toApiDateTimeOffset", () => {
+    const dateFormat = "yyyy-MM-dd";
+    const dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
+
     it("handles undefined", () => {
         const apiDateTimeOffset = toApiDateTimeOffset(undefined);
 
@@ -21,14 +24,14 @@ describe("toApiDateTimeOffset", () => {
         });
 
         it("converts local date-fns object to apiDateTimeOffset", () => {
-            const date = parseISO("1990-02-24");
+            const date = parse("1990-02-24", dateFormat, new Date());
             const dateTimeOffset = toApiDateTimeOffset(date);
 
             expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 -05:00");
         });
 
         it("converts date-fns datetime based object to apiDateTimeOffset", () => {
-            const dateTimeOffset = toApiDateTimeOffset(parseISO("1990-02-24T10:30:00+02:00"));
+            const dateTimeOffset = toApiDateTimeOffset(parse("1990-02-24T10:30:00+02:00", dateTimeFormat, new Date()));
 
             expect(dateTimeOffset).toBe("1990-02-24 03:30:00.000 -05:00");
         });
@@ -46,14 +49,14 @@ describe("toApiDateTimeOffset", () => {
         });
 
         it("converts local date-fns object to apiDateTimeOffset", () => {
-            const date = parseISO("1990-02-24");
+            const date = parse("1990-02-24", dateFormat, new Date());
             const dateTimeOffset = toApiDateTimeOffset(date);
 
             expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 Z");
         });
 
         it("converts date-fns datetime based object to apiDateTimeOffset", () => {
-            const dateTimeOffset = toApiDateTimeOffset(parseISO("1990-02-24T10:30:00+02:00"));
+            const dateTimeOffset = toApiDateTimeOffset(parse("1990-02-24T10:30:00+02:00", dateTimeFormat, new Date()));
 
             expect(dateTimeOffset).toBe("1990-02-24 08:30:00.000 Z");
         });
