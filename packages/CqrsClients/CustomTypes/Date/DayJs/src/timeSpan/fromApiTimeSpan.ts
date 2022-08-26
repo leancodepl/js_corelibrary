@@ -5,7 +5,9 @@ import parseApiTimeSpan from "../utils/parseApiTimeSpan";
 
 dayjs.extend(duration);
 
-//dayjs handles at most milliseconds precision, smaller units are lost in conversion process
+/**
+ *This function handles at most milliseconds precision, smaller units are lost in conversion process
+ */
 function fromApiTimeSpan(timeSpan: ApiTimeSpan): Duration;
 function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): Duration | undefined;
 function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): Duration | undefined {

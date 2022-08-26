@@ -4,7 +4,9 @@ import duration, { Duration } from "dayjs/plugin/duration";
 
 dayjs.extend(duration);
 
-//dayjs handles at most milliseconds precision, smaller units are lost in conversion process
+/**
+ *This function handles at most milliseconds precision, smaller units are lost in conversion process
+ */
 function toApiTimeSpan(duration: Duration): ApiTimeSpan;
 function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined;
 function toApiTimeSpan(duration: Duration | undefined): ApiTimeSpan | undefined {
