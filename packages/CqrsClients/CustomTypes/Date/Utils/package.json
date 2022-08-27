@@ -1,6 +1,6 @@
 {
-  "name": "@leancode/api-date-datefns",
-  "description": "Contracts generator custom type handler for api dates using Date-fns",
+  "name": "@leancode/api-date-utils",
+  "description": "Contracts generator custom date types parsing utils",
   "version": "6.2.0",
   "author": "LeanCode",
   "license": "ISC",
@@ -21,9 +21,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@leancode/api-date": "^6.2.0",
-    "@leancode/api-date-utils": "^6.2.0",
-    "date-fns": ">=2.29.1"
+    "@leancode/api-date": "^6.2.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.2.0",
@@ -34,6 +32,6 @@
     "contracts",
     "date",
     "leancode",
-    "date-fns"
+    "utils"
   ]
 }

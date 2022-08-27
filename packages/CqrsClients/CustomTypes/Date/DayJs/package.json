@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@leancode/api-date": "^6.2.0",
+    "@leancode/api-date-utils": "^6.2.0",
     "dayjs": ">=1.0.0"
   },
   "devDependencies": {

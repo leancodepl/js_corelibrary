@@ -1,5 +1,5 @@
 import { ApiTimeSpan } from "@leancode/api-date";
-import { parseApiTimeSpan } from "../../src";
+import { parseApiTimeSpan } from "../src";
 
 describe("parseApiTimeSpan", () => {
     it("converts apiTimeSpan to object", () => {

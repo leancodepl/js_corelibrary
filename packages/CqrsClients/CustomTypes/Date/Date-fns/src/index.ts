@@ -7,4 +7,3 @@ export { default as fromApiDateTimeOffset } from "./dateTimeOffset/fromApiDateTi
 export { default as toApiDateTimeOffset } from "./dateTimeOffset/toApiDateTimeOffset";
 export { default as fromApiTimeSpan } from "./timeSpan/fromApiTimeSpan";
 export { default as toApiTimeSpan } from "./timeSpan/toApiTimeSpan";
-export { default as parseApiTimeSpan } from "./utils/parseApiTimeSpan";
