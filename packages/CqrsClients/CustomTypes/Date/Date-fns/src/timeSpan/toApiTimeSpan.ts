@@ -11,14 +11,18 @@ function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpa
         return undefined;
     }
 
-    const signBasedMultiplier = differenceInMilliseconds < 0 ? -1 : 1;
+    const isNegative = differenceInMilliseconds < 0;
 
     const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds);
 
     const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds);
 
+    if (isNegative) {
+        stringTimeSpan += "-";
+    }
+
     if (days > 0) {
-        stringTimeSpan += `${signBasedMultiplier * days}.`;
+        stringTimeSpan += `${days}.`;
     }
 
     stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`;
