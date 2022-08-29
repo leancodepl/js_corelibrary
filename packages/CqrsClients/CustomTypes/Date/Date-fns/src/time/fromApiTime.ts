@@ -7,13 +7,11 @@ import { parse } from "date-fns";
 export function fromApiTime(time: ApiTimeOnly): Date;
 export function fromApiTime(time: ApiTimeOnly | undefined): Date | undefined;
 export function fromApiTime(time: ApiTimeOnly | undefined): Date | undefined {
-    const apiTime = time as any;
-
-    if (!apiTime) {
+    if (!time) {
         return undefined;
     }
 
-    return parse(apiTime, "HH:mm:ss.SSS", new Date());
+    return parse(time as any, "HH:mm:ss.SSS", new Date());
 }
 
 export default fromApiTime;
