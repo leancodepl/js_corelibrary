@@ -22,7 +22,9 @@
   },
   "dependencies": {
     "@leancode/api-date": "^6.2.0",
-    "@leancode/api-date-utils": "^6.2.0",
+    "@leancode/api-date-utils": "^6.2.0"
+  },
+  "peerDependencies": {
     "date-fns": ">=2.29.1"
   },
   "devDependencies": {
