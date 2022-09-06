@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.4.0"></a>
+# [6.4.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.3.0&sourceBranch=refs%2Ftags%2Fv6.4.0) (2022-09-06)
+
+
+### Bug Fixes
+
+* apiTimeSpan handlers ([c5d6246](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/c5d6246))
+* comments ([f67c61b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/f67c61b))
+* date methods ([6c5d753](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/6c5d753))
+* fromApiTimeSpan function ([2583001](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/2583001))
+* fromApiTimeSpan test ([a3c5899](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/a3c5899))
+* functions overloads ([32e5771](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/32e5771))
+* negative timeSpan ([9873658](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/9873658))
+* remove datetime ([38b28f0](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/38b28f0))
+* remove isUTC options ([7398425](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/7398425))
+* remove ts comments ([59f7fd2](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/59f7fd2))
+* remove typescript comments ([da9092e](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/da9092e))
+* tests ([e8fcc81](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/e8fcc81))
+* time methods ([85fc52c](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/85fc52c))
+* timeSpan handlers ([8032e2e](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/8032e2e))
+
+
+### Features
+
+* add dateTimeOffset type ([ef6e7cb](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/ef6e7cb))
+* add timespan handling ([8b2a655](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/8b2a655))
+* date-fns date handlers ([e1ea779](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/e1ea779))
+* dayjs dates custom types handling ([abe8ee1](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/abe8ee1))
+
+
+
+
+
 <a name="6.3.0"></a>
 # [6.3.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.2.0&sourceBranch=refs%2Ftags%2Fv6.3.0) (2022-08-10)
 

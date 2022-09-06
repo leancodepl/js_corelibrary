@@ -1,7 +1,7 @@
 {
   "name": "@leancode/api-date-datefns",
   "description": "Contracts generator custom type handler for api dates using Date-fns",
-  "version": "6.2.0",
+  "version": "6.4.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -21,8 +21,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@leancode/api-date": "^6.2.0",
-    "@leancode/api-date-utils": "^6.2.0"
+    "@leancode/api-date": "^6.4.0",
+    "@leancode/api-date-utils": "^6.4.0"
   },
   "peerDependencies": {
     "date-fns": ">=2.29.1"

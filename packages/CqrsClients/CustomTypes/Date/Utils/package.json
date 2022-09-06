@@ -1,7 +1,7 @@
 {
   "name": "@leancode/api-date-utils",
   "description": "Contracts generator custom date types parsing utils",
-  "version": "6.2.0",
+  "version": "6.4.0",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",
@@ -21,7 +21,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@leancode/api-date": "^6.2.0"
+    "@leancode/api-date": "^6.4.0"
   },
   "devDependencies": {
     "@leancode/tools-rollup": "^6.2.0",
