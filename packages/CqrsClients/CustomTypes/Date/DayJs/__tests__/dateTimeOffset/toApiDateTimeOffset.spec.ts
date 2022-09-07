@@ -24,13 +24,13 @@ describe("toApiDateTimeOffset", () => {
             const date = dayjs("1990-02-24");
             const dateTimeOffset = toApiDateTimeOffset(date);
 
-            expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 -05:00");
+            expect(dateTimeOffset).toBe("1990-02-24T00:00:00.000-05:00");
         });
 
         it("converts dayjs datetime based object to apiDateTimeOffset", () => {
             const dateTimeOffset = toApiDateTimeOffset(dayjs("1990-02-24T10:30:00+02:00"));
 
-            expect(dateTimeOffset).toBe("1990-02-24 03:30:00.000 -05:00");
+            expect(dateTimeOffset).toBe("1990-02-24T03:30:00.000-05:00");
         });
     });
 
@@ -49,13 +49,13 @@ describe("toApiDateTimeOffset", () => {
             const date = dayjs("1990-02-24");
             const dateTimeOffset = toApiDateTimeOffset(date);
 
-            expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 +00:00");
+            expect(dateTimeOffset).toBe("1990-02-24T00:00:00.000+00:00");
         });
 
         it("converts dayjs datetime based object to apiDateTimeOffset", () => {
             const dateTimeOffset = toApiDateTimeOffset(dayjs("1990-02-24T10:30:00+02:00"));
 
-            expect(dateTimeOffset).toBe("1990-02-24 08:30:00.000 +00:00");
+            expect(dateTimeOffset).toBe("1990-02-24T08:30:00.000+00:00");
         });
     });
 });
