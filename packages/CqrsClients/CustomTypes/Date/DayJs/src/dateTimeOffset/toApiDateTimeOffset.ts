@@ -11,7 +11,7 @@ export function toApiDateTimeOffset(time: Dayjs | undefined): ApiDateTimeOffset 
         return undefined;
     }
 
-    return time.format("YYYY-MM-DD HH:mm:ss.SSS Z") as any;
+    return time.format("YYYY-MM-DDTHH:mm:ss.SSSZ") as any;
 }
 
 export default toApiDateTimeOffset;

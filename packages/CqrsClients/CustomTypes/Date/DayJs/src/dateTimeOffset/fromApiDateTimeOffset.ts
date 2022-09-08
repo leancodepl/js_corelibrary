@@ -14,7 +14,7 @@ export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset | undefined): 
         return undefined;
     }
 
-    return dayjs(datetime as any, "YYYY-MM-DD HH:mm:ss.SSS Z");
+    return dayjs(datetime as any, "YYYY-MM-DDTHH:mm:ss.SSSZ");
 }
 
 export default fromApiDateTimeOffset;

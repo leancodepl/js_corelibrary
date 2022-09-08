@@ -27,13 +27,13 @@ describe("toApiDateTimeOffset", () => {
             const date = parse("1990-02-24", dateFormat, new Date());
             const dateTimeOffset = toApiDateTimeOffset(date);
 
-            expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 -05:00");
+            expect(dateTimeOffset).toBe("1990-02-24T00:00:00.000-05:00");
         });
 
         it("converts date-fns datetime based object to apiDateTimeOffset", () => {
             const dateTimeOffset = toApiDateTimeOffset(parse("1990-02-24T10:30:00+02:00", dateTimeFormat, new Date()));
 
-            expect(dateTimeOffset).toBe("1990-02-24 03:30:00.000 -05:00");
+            expect(dateTimeOffset).toBe("1990-02-24T03:30:00.000-05:00");
         });
     });
 
@@ -52,13 +52,13 @@ describe("toApiDateTimeOffset", () => {
             const date = parse("1990-02-24", dateFormat, new Date());
             const dateTimeOffset = toApiDateTimeOffset(date);
 
-            expect(dateTimeOffset).toBe("1990-02-24 00:00:00.000 Z");
+            expect(dateTimeOffset).toBe("1990-02-24T00:00:00.000Z");
         });
 
         it("converts date-fns datetime based object to apiDateTimeOffset", () => {
             const dateTimeOffset = toApiDateTimeOffset(parse("1990-02-24T10:30:00+02:00", dateTimeFormat, new Date()));
 
-            expect(dateTimeOffset).toBe("1990-02-24 08:30:00.000 Z");
+            expect(dateTimeOffset).toBe("1990-02-24T08:30:00.000Z");
         });
     });
 });
