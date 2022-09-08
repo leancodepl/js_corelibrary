@@ -11,7 +11,7 @@ export function fromApiDateTimeOffset(dateTimeOffset: ApiDateTimeOffset | undefi
         return undefined;
     }
 
-    return parse(dateTimeOffset as any, "yyyy-MM-ddTHH:mm:ss.SSSXXX", new Date());
+    return parse(dateTimeOffset as any, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", new Date());
 }
 
 export default fromApiDateTimeOffset;

@@ -4,7 +4,7 @@ module.exports = {
     reporters: ["default", ["jest-junit", { outputName: "test-results/report.xml" }]],
 
     projects: [
-        "<rootDir>/packages/*/jest.config.js",
+        "<rootDir>/packages/**/jest.config.js",
         {
             displayName: "ESLint",
             runner: "jest-runner-eslint",
