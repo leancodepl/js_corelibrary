@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.5.0"></a>
+# [6.5.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.4.1&sourceBranch=refs%2Ftags%2Fv6.5.0) (2023-07-25)
+
+
+### Features
+
+* upgrade linters deps ([0d265aa](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/0d265aa))
+
+
+
+
+
 <a name="6.4.1"></a>
 ## [6.4.1](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.4.0&sourceBranch=refs%2Ftags%2Fv6.4.1) (2022-09-08)
 
