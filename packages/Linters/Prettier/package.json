@@ -11,6 +11,6 @@
     "lib": "lib"
   },
   "dependencies": {
-    "prettier": "^2.1.2"
+    "prettier": ">=2.1.2"
   }
 }
