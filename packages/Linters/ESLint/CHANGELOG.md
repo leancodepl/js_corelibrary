@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.5.1"></a>
+## [6.5.1](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.5.0&sourceBranch=refs%2Ftags%2Fv6.5.1) (2023-07-25)
+
+
+### Bug Fixes
+
+* use peer dependencies for eslint config ([ae78f41](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/ae78f41))
+
+
+
+
+
 <a name="6.5.0"></a>
 # [6.5.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.4.1&sourceBranch=refs%2Ftags%2Fv6.5.0) (2023-07-25)
 

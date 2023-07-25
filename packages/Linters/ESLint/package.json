@@ -1,6 +1,6 @@
 {
   "name": "@leancode/eslint-config",
-  "version": "6.5.0",
+  "version": "6.5.1",
   "author": "LeanCode",
   "license": "ISC",
   "main": "lib/index.js",

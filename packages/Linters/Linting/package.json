@@ -1,10 +1,10 @@
 {
   "name": "@leancode/linting",
-  "version": "6.5.0",
+  "version": "6.5.1",
   "author": "LeanCode",
   "license": "ISC",
   "dependencies": {
-    "@leancode/eslint-config": "^6.5.0",
+    "@leancode/eslint-config": "^6.5.1",
     "@leancode/prettier-config": "^6.5.0",
     "@leancode/stylelint-config": "^6.5.0"
   }
