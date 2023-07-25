@@ -10,7 +10,7 @@
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@typescript-eslint/eslint-plugin": ">=5.3.1",
     "@typescript-eslint/parser": ">=5.3.1",
     "eslint": ">=8.9.0",
@@ -21,9 +21,7 @@
     "eslint-plugin-prettier": ">=4.0.0",
     "eslint-plugin-react": ">=7.21.2",
     "eslint-plugin-react-hooks": ">=4.1.2",
-    "eslint-plugin-unused-imports": ">=2.0.0"
-  },
-  "peerDependencies": {
+    "eslint-plugin-unused-imports": ">=2.0.0",
     "prettier": ">=2.1.2",
     "typescript": ">=4.5.5"
   },
