@@ -1,0 +1,11 @@
+{
+  "name": "@leancodepl/i18n",
+  "version": "7.0.0",
+  "types": "./index.cjs.d.ts",
+  "dependencies": {
+    "react-intl": ">=6.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@leancodepl/cqrs-client-base",
+  "version": "7.0.0",
+  "dependencies": {},
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}

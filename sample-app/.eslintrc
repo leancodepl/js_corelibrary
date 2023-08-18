@@ -1,3 +1,0 @@
-{
-  "extends": ["@leancode", "@leancode/eslint-config/lib/a11y", "@leancode/eslint-config/lib/imports"]
-}

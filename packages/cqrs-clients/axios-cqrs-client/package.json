@@ -1,0 +1,11 @@
+{
+  "name": "@leancodepl/axios-cqrs-client",
+  "version": "7.0.0",
+  "dependencies": {
+    "@leancodepl/validation": "7.0.0",
+    "axios": ">=1.0.0"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}
