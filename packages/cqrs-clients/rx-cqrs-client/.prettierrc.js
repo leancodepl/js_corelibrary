@@ -1,1 +1,3 @@
-module.require = require("../../../.prettierrc")
+const config = require("../../../.prettierrc.js");
+
+module.exports = config;

@@ -1,1 +1,3 @@
-module.exports = require("./packages/linters/prettier/src")
+const config = require("./packages/linters/prettier/src/index.json");
+
+module.exports = config;

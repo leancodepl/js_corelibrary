@@ -1,12 +1,12 @@
 {
   "name": "@leancodepl/stylelint-config",
   "version": "7.0.0",
-  "main": "lib/index.json",
+  "main": "src/index.json",
   "files": [
-    "lib"
+    "src"
   ],
   "directories": {
-    "lib": "lib"
+    "src": "src"
   },
   "dependencies": {
     "stylelint": ">=14.0.1",
@@ -17,9 +17,6 @@
     "stylelint-rscss": ">=0.4.0"
   },
   "peerDependencies": {
-    "prettier": ">=2.1.2"
-  },
-  "devDependencies": {
     "prettier": ">=2.1.2"
   }
 }
