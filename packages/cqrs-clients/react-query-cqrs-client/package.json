@@ -1,0 +1,16 @@
+{
+  "name": "@leancodepl/react-query-cqrs-client",
+  "version": "7.0.0",
+  "dependencies": {
+    "@leancodepl/validation": "7.0.0",
+    "@leancodepl/utils": "7.0.0",
+    "rxjs": ">=7.0.0",
+    "@tanstack/react-query": ">=4.32.6"
+  },
+  "devDependencies": {
+    "@leancodepl/cqrs-client-base": "7.0.0"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}
