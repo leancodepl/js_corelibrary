@@ -1,0 +1,12 @@
+{
+  "name": "@leancodepl/prettier-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/linters/prettier/src",
+  "projectType": "library",
+  "targets": {
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/prettier-config {args.ver} {args.tag}"
+    }
+  },
+  "tags": []
+}

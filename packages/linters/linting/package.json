@@ -1,0 +1,9 @@
+{
+  "name": "@leancodepl/linting",
+  "version": "7.0.0",
+  "dependencies": {
+    "@leancode/eslint-config": "^7.0.0",
+    "@leancode/prettier-config": "^7.0.0",
+    "@leancode/stylelint-config": "^7.0.0"
+  }
+}

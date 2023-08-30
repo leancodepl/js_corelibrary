@@ -1,0 +1,14 @@
+{
+  "name": "@leancodepl/prettier-config",
+  "version": "7.0.0",
+  "dependencies": {
+    "prettier": ">=3.0.3"
+  },
+  "main": "src/index.json",
+  "files": [
+    "src"
+  ],
+  "directories": {
+    "src": "src"
+  }
+}

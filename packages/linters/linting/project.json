@@ -1,0 +1,12 @@
+{
+  "name": "@leancodepl/linting",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/linters/linting/src",
+  "projectType": "library",
+  "targets": {
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/linting {args.ver} {args.tag}"
+    }
+  },
+  "tags": []
+}

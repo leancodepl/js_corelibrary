@@ -1,0 +1,1 @@
+module.require = require("../../../.prettierrc")
