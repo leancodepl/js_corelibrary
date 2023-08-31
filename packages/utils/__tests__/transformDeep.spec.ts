@@ -78,6 +78,7 @@ const capitalizedSimpleObject = {
 const uncapitalizedSimpleObject = {
     key1: { nestedKey1: "value", nestedKey2: 12 },
 } as const;
+
 const capitalizedComplexObject = {
     ...capitalizedSimpleObject,
     Key2: capitalizedArrayWithObject,

@@ -1,5 +1,4 @@
 import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base";
-import { UncapitalizeDeep, toLowerFirst } from "@leancodepl/utils";
 import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation";
 import type { Updater } from "@tanstack/query-core/build/lib/utils";
 import {
@@ -15,12 +14,16 @@ import {
     UseQueryOptions,
     useInfiniteQuery,
 } from "@tanstack/react-query";
-import { catchError, firstValueFrom, OperatorFunction, of, throwError, fromEvent, race, Observable, from } from "rxjs";
+import { catchError, firstValueFrom, of, throwError, fromEvent, race, Observable, from, OperatorFunction } from "rxjs";
 import { ajax, AjaxError, AjaxConfig } from "rxjs/ajax";
 import { map, mergeMap } from "rxjs/operators";
 import { authGuard } from "./authGuard";
+import { NullableUncapitalizeDeep } from "./types";
+import { uncapitalizedJSONParse } from "./uncapitalizedJSONParse";
 
-type NullableUncapitalizeDeep<T> = T extends null ? null : UncapitalizeDeep<T>;
+export function uncapitalizedParse<TResult>(): OperatorFunction<string, NullableUncapitalizeDeep<TResult>> {
+    return $source => $source.pipe(map(uncapitalizedJSONParse));
+}
 
 export function mkCqrsClient({
     cqrsEndpoint,
@@ -61,28 +64,6 @@ export function mkCqrsClient({
         }
 
         return <TResult>(data: TData) => mk$apiCall<TResult>(data);
-    }
-
-    function uncapitalizedParse<TResult>(): OperatorFunction<string, NullableUncapitalizeDeep<TResult>> {
-        return $source =>
-            $source.pipe(
-                map(response =>
-                    JSON.parse(response, (_, value) => {
-                        if (
-                            !value ||
-                            typeof value === "string" ||
-                            typeof value === "number" ||
-                            typeof value === "boolean" ||
-                            Array.isArray(value)
-                        )
-                            return value;
-
-                        return Object.fromEntries(
-                            Object.entries(value).map(([key, value]) => [toLowerFirst(key), value ?? undefined]),
-                        );
-                    }),
-                ),
-            );
     }
 
     return {
