@@ -4,6 +4,16 @@
   "sourceRoot": "packages/linters/stylelint/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/packages/linters/stylelint-config",
+          "cp -r packages/linters/stylelint dist/packages/linters/stylelint-config"
+        ],
+        "parallel": false
+      }
+    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/stylelint-config {args.ver} {args.tag}",
       "dependsOn": ["build"]

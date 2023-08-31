@@ -4,6 +4,16 @@
   "sourceRoot": "packages/linters/linting/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mkdir -p dist/packages/linters/linting",
+          "cp -r packages/linters/linting dist/packages/linters/linting"
+        ],
+        "parallel": false
+      }
+    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/linting {args.ver} {args.tag}"
     }
