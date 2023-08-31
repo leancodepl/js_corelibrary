@@ -55,7 +55,7 @@ try {
     console.error(`Error reading package.json file from library build output.`);
 }
 
-const registryParam = registry !== "npm" ? `--registry ${registry}` : "";
+const registryParam = registry !== "undefined" ? `--registry ${registry}` : "";
 
 // Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`);

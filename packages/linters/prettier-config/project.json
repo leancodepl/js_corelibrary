@@ -5,7 +5,13 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "command": "node tools/scripts/copy.mjs packages/linters/prettier-config dist/packages/linters/prettier-config"
+      "command": "node tools/scripts/copy.mjs packages/linters/prettier-config {args.outputPath}",
+      "configurations": {
+        "args": {
+          "outputPath": "{options.outputPath}"
+        }
+      },
+      "options": { "outputPath": "dist/packages/linters/prettier-config" }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/prettier-config {args.registry} {args.ver} {args.tag}",

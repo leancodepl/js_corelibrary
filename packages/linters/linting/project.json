@@ -5,7 +5,13 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "command": "node tools/scripts/copy.mjs packages/linters/linting dist/packages/linters/linting"
+      "command": "node tools/scripts/copy.mjs packages/linters/linting {args.outputPath}",
+      "configurations": {
+        "args": {
+          "outputPath": "{options.outputPath}"
+        }
+      },
+      "options": { "outputPath": "dist/packages/linters/linting" }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/linting {args.registry} {args.ver} {args.tag}",
