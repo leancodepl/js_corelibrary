@@ -29,6 +29,7 @@
     "@types/sinon": "10.0.16",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "conventional-changelog-angular-bitbucket": "1.2.0",
     "eslint": "~8.46.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-import": "2.27.5",
