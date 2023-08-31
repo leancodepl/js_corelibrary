@@ -1,18 +1,11 @@
 {
   "name": "@leancodepl/stylelint-config",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/linters/stylelint/src",
+  "sourceRoot": "packages/linters/stylelint-config/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "mkdir -p dist/packages/linters/stylelint-config",
-          "cp -r packages/linters/stylelint dist/packages/linters/stylelint-config"
-        ],
-        "parallel": false
-      }
+      "command": "node tools/scripts/copy.mjs packages/linters/stylelint-config dist/packages/linters/stylelint-config"
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/stylelint-config {args.ver} {args.tag}",

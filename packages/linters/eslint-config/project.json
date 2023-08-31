@@ -1,18 +1,11 @@
 {
   "name": "@leancodepl/eslint-config",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/linters/eslint/src",
+  "sourceRoot": "packages/linters/eslint-config/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "mkdir -p dist/packages/linters/eslint-config",
-          "cp -r packages/linters/eslint dist/packages/linters/eslint-config"
-        ],
-        "parallel": false
-      }
+      "command": "node tools/scripts/copy.mjs packages/linters/eslint-config dist/packages/linters/eslint-config"
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/eslint-config {args.ver} {args.tag}"
