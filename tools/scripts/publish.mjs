@@ -24,7 +24,7 @@ function invariant(condition, message) {
 // Default "tag" to "next" so we won't publish the "latest" tag by accident.
 const [, , name, registry, version, tag = "next"] = process.argv;
 
-invariant(registry, "No registry provided");
+invariant(registry && registry !== "undefined", "No registry provided");
 
 // A simple SemVer validation to validate the version
 const validVersion = /^\d+\.\d+\.\d+(-\w+\.\d+)?/;
@@ -55,7 +55,7 @@ try {
     console.error(`Error reading package.json file from library build output.`);
 }
 
-const registryParam = registry !== "undefined" ? `--registry ${registry}` : "";
+const registryParam = registry !== "npm" ? `--registry ${registry}` : "";
 
 // Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`);
