@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "chmod +x ./node_modules/husky/lib/bin.js && husky install"
   },
   "private": true,
   "devDependencies": {
