@@ -8,7 +8,8 @@
       "command": "node tools/scripts/copy.mjs packages/linters/linting dist/packages/linters/linting"
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs @leancodepl/linting {args.ver} {args.tag}"
+      "command": "node tools/scripts/publish.mjs @leancodepl/linting {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     }
   },
   "tags": []
