@@ -1,0 +1,1 @@
+{ "extends": ["./lib/index.json", "./lib/scss.json"] }
