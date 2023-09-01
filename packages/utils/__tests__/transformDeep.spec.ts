@@ -20,10 +20,6 @@ describe("uncapitalizeDeep", () => {
     });
 
     it("handles objects and complex arrays", async () => {
-        expect(uncapitalizeDeep(capitalizedComplexObject)).toEqual(uncapitalizedComplexObject);
-    });
-
-    it("handles objects and complex arrays", async () => {
         expect(uncapitalizeDeep(capitalizedSimpleObject)).toEqual(uncapitalizedSimpleObject);
         expect(uncapitalizeDeep(capitalizedArrayWithObject)).toEqual(uncapitalizedArrayWithObject);
         expect(uncapitalizeDeep(capitalizedComplexObject)).toEqual(uncapitalizedComplexObject);

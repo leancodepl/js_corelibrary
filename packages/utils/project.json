@@ -14,8 +14,7 @@
         "assets": [],
         "project": "packages/utils/package.json",
         "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "external": ["@leancodepl/api-date"]
+        "format": ["cjs", "esm"]
       }
     },
     "publish": {
