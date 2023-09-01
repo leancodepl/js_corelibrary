@@ -4,8 +4,7 @@
   "type": "commonjs",
   "main": "./index.cjs",
   "module": "./index.js",
-  "dependencies": {},
   "devDependencies": {
-    "@leancodepl/api-date": "7.0.0"
+    "@leancodepl/api-date": "^7.0.0"
   }
 }

@@ -5,10 +5,16 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "command": "node tools/scripts/copy.mjs packages/linters/stylelint-config dist/packages/linters/stylelint-config"
+      "command": "node tools/scripts/copy.mjs packages/linters/stylelint-config {args.outputPath}",
+      "configurations": {
+        "args": {
+          "outputPath": "{options.outputPath}"
+        }
+      },
+      "options": { "outputPath": "dist/packages/linters/stylelint-config" }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs @leancodepl/stylelint-config {args.ver} {args.tag}",
+      "command": "node tools/scripts/publish.mjs @leancodepl/stylelint-config {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
     }
   },

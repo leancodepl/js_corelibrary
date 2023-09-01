@@ -24,7 +24,7 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs @leancodepl/cx {args.ver} {args.tag}",
+      "command": "node tools/scripts/publish.mjs @leancodepl/cx {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {
