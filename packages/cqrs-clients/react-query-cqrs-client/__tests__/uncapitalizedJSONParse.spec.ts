@@ -1,3 +1,4 @@
+import { uncapitalizeDeep } from "@leancodepl/utils";
 import { uncapitalizedJSONParse } from "../src/lib/uncapitalizedJSONParse";
 
 describe("uncapitalizedJSONParse", () => {
@@ -12,16 +13,20 @@ describe("uncapitalizedJSONParse", () => {
         expect(uncapitalizedJSONParse("null")).toBe(null);
     });
 
-    it("handles simple arrays", async () => {
+    it("handles simple arrays", () => {
         expect(uncapitalizedJSONParse(JSON.stringify(simpleArray))).toEqual(transformedSimpleArray);
     });
 
-    it("handles objects and complex arrays", async () => {
-        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedSimpleObject))).toEqual(uncapitalizedSimpleObject);
-        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedArrayWithObject))).toEqual(
-            uncapitalizedArrayWithObject,
+    it("handles objects and complex arrays", () => {
+        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedSimpleObject))).toEqual(
+            uncapitalizeDeep(capitalizedSimpleObject),
         );
-        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedComplexObject))).toEqual(uncapitalizedComplexObject);
+        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedArrayWithObject))).toEqual(
+            uncapitalizeDeep(capitalizedArrayWithObject),
+        );
+        expect(uncapitalizedJSONParse(JSON.stringify(capitalizedComplexObject))).toEqual(
+            uncapitalizeDeep(capitalizedComplexObject),
+        );
     });
 });
 
@@ -34,26 +39,11 @@ const capitalizedArrayWithObject = [
     { NestedKey3: false, NestedKey4: { NestedKey5: { NestedKey6: "w" } } },
 ] as const;
 
-const uncapitalizedArrayWithObject = [
-    "aaa",
-    12,
-    { nestedKey3: false, nestedKey4: { nestedKey5: { nestedKey6: "w" } } },
-] as const;
-
 const capitalizedSimpleObject = {
     Key1: { NestedKey1: "value", NestedKey2: 12 },
-} as const;
-
-const uncapitalizedSimpleObject = {
-    key1: { nestedKey1: "value", nestedKey2: 12 },
 } as const;
 
 const capitalizedComplexObject = {
     ...capitalizedSimpleObject,
     Key2: capitalizedArrayWithObject,
-} as const;
-
-const uncapitalizedComplexObject = {
-    ...uncapitalizedSimpleObject,
-    key2: uncapitalizedArrayWithObject,
 } as const;
