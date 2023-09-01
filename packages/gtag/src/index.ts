@@ -1,0 +1,1 @@
+export { mkgtag } from "./lib";
