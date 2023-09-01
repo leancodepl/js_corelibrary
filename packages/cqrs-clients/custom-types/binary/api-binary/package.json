@@ -1,0 +1,7 @@
+{
+  "name": "@leancodepl/api-binary",
+  "version": "7.0.0",
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}

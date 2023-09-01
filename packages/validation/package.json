@@ -1,0 +1,10 @@
+{
+  "name": "@leancodepl/validation",
+  "version": "7.0.0",
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "dependencies": {
+    "@leancodepl/cqrs-client-base": "^7.0.0"
+  }
+}

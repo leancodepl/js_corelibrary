@@ -1,0 +1,43 @@
+{
+  "extends": ["plugin:import/typescript", "prettier"],
+  "plugins": ["import"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-anonymous-default-export": "error",
+    "import/no-duplicates": "error",
+    "import/no-extraneous-dependencies": "error",
+    "import/no-named-default": "error",
+    "import/no-self-import": "error",
+    "import/no-useless-path-segments": [
+      "error",
+      {
+        "noUselessIndex": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [["builtin", "external"], "internal", ["index", "sibling", "parent"], "object"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "error"
+  },
+  "settings": {
+    "import/internal-regex": "^react$"
+  }
+}

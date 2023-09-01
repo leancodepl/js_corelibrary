@@ -1,0 +1,36 @@
+{
+  "name": "@leancodepl/cqrs-client-base",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/cqrs-clients/cqrs-client-base/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/cqrs-clients/cqrs-client-base",
+        "main": "packages/cqrs-clients/cqrs-client-base/src/index.ts",
+        "tsConfig": "packages/cqrs-clients/cqrs-client-base/tsconfig.lib.json",
+        "assets": [],
+        "project": "packages/cqrs-clients/cqrs-client-base/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/cqrs-client-base {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/cqrs-clients/cqrs-client-base/**/*.ts",
+          "packages/cqrs-clients/cqrs-client-base/package.json"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@leancodepl/api-binary": ["packages/cqrs-clients/custom-types/binary/api-binary/src/index.ts"],
+      "@leancodepl/api-binary-blob": ["packages/cqrs-clients/custom-types/binary/api-binary-blob/src/index.ts"],
+      "@leancodepl/api-date": ["packages/cqrs-clients/custom-types/date/api-date/src/index.ts"],
+      "@leancodepl/api-date-datefns": ["packages/cqrs-clients/custom-types/date/api-date-datefns/src/index.ts"],
+      "@leancodepl/api-date-dayjs": ["packages/cqrs-clients/custom-types/date/api-date-dayjs/src/index.ts"],
+      "@leancodepl/api-date-utils": ["packages/cqrs-clients/custom-types/date/api-date-utils/src/index.ts"],
+      "@leancodepl/axios-cqrs-client": ["packages/cqrs-clients/axios-cqrs-client/src/index.ts"],
+      "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
+      "@leancodepl/cx": ["packages/cx/src/index.ts"],
+      "@leancodepl/i18n": ["packages/i18n/src/index.ts"],
+      "@leancodepl/login-manager": ["packages/login-manager/src/index.ts"],
+      "@leancodepl/rx-cqrs-client": ["packages/cqrs-clients/rx-cqrs-client/src/index.ts"],
+      "@leancodepl/validation": ["packages/validation/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

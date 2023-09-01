@@ -1,0 +1,30 @@
+name: Release
+
+on: workflow_dispatch
+
+jobs:
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Get the version
+              id: get_version
+              run: echo ::set-output name=version::$(jq -Mr '.version' < lerna.json)
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version-file: .nvmrc
+                  cache: "npm"
+                  registry-url: "https://registry.npmjs.org"
+            - name: Install
+              run: npm install
+            - name: Test
+              run: npx nx run-many -t test
+            - name: Build & Publish
+              run:
+                  npx nx run-many -t publish --args="--registry=npm --ver=${{ format('{0}',
+                  steps.get_version.outputs.version)}} --tag=latest"
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
