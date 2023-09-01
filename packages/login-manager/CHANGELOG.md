@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/leancodepl/js_corelibrary/compare/v6.5.1...v7.0.0) (2023-09-01)
+
+### Features
+
+-   add registry option to publish script
+    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [6.5.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.4.1&sourceBranch=refs%2Ftags%2Fv6.5.0) (2023-07-25)
 
 **Note:** Version bump only for package @leancode/login-manager

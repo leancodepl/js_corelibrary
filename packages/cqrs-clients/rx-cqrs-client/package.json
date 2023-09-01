@@ -2,7 +2,7 @@
   "name": "@leancodepl/rx-cqrs-client",
   "version": "7.0.0",
   "dependencies": {
-    "@leancodepl/validation": "^7.0.0",
+    "@leancodepl/validation": "7.0.0",
     "rxjs": ">=7.0.0"
   },
   "type": "commonjs",

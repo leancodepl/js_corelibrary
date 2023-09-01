@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/leancodepl/js_corelibrary/compare/v6.5.1...v7.0.0) (2023-09-01)
+
+### Bug Fixes
+
+-   @leancodepl/linting dependencies
+    ([5a913ce](https://github.com/leancodepl/js_corelibrary/commit/5a913ce371cd3a292cd511d1462ec02f42909f2c))
+-   fix building some libraries
+    ([31b48d6](https://github.com/leancodepl/js_corelibrary/commit/31b48d68684d07d5f77b14f2bb12c0a4470fe76f))
+-   husky install permissions
+    ([0c7e297](https://github.com/leancodepl/js_corelibrary/commit/0c7e29713c08cc4c6fb01151eb859d402570071f))
+-   remove unnecessary files, fix prettier
+    ([68f25c9](https://github.com/leancodepl/js_corelibrary/commit/68f25c931c7d4ca25f09c96c3834c8c331f376d0))
+
+### Features
+
+-   add "build" steps to linters
+    ([ebdea0e](https://github.com/leancodepl/js_corelibrary/commit/ebdea0e2afe60fd521f9e97aad487873aca9235f))
+-   add commit msg linting
+    ([7bb320e](https://github.com/leancodepl/js_corelibrary/commit/7bb320ef22c5c4a676f816d8bb9911068eb69a04))
+-   add github actions
+    ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
+-   add lerna version commits
+    ([5748ff8](https://github.com/leancodepl/js_corelibrary/commit/5748ff81eeb9db268455891ad5bdc252e0628960))
+-   add local-publish target
+    ([2bdf75e](https://github.com/leancodepl/js_corelibrary/commit/2bdf75eb7722f4438439c2b54dc3cbe308f774db))
+-   add registry option to publish script
+    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 <a name="6.5.1"></a>
 
 ## [6.5.1](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.5.0&sourceBranch=refs%2Ftags%2Fv6.5.1) (2023-07-25)
