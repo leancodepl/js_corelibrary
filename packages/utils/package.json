@@ -1,0 +1,10 @@
+{
+  "name": "@leancodepl/utils",
+  "version": "7.0.0",
+  "dependencies": {
+    "@leancodepl/api-date": "7.0.0"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}

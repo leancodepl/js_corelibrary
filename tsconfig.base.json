@@ -27,6 +27,7 @@
       "@leancodepl/i18n": ["packages/i18n/src/index.ts"],
       "@leancodepl/login-manager": ["packages/login-manager/src/index.ts"],
       "@leancodepl/rx-cqrs-client": ["packages/cqrs-clients/rx-cqrs-client/src/index.ts"],
+      "@leancodepl/utils": ["packages/utils/src/index.ts"],
       "@leancodepl/validation": ["packages/validation/src/index.ts"]
     }
   },
