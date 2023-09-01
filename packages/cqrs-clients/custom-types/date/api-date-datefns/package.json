@@ -5,8 +5,8 @@
   "main": "./index.cjs",
   "module": "./index.js",
   "dependencies": {
-    "@leancodepl/api-date": "^7.0.0",
-    "@leancodepl/api-date-utils": "^7.0.0",
+    "@leancodepl/api-date": "7.0.0",
+    "@leancodepl/api-date-utils": "7.0.0",
     "date-fns": ">=2.0.0"
   },
   "devDependencies": {

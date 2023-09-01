@@ -2,7 +2,7 @@
   "name": "@leancodepl/api-binary-blob",
   "version": "7.0.0",
   "dependencies": {
-    "@leancodepl/api-binary": "^7.0.0"
+    "@leancodepl/api-binary": "7.0.0"
   },
   "devDependencies": {
     "blob-polyfill": "^7.0.0"
