@@ -11,7 +11,7 @@
       }
     },
     "local-publish": {
-      "command": "npx nx run-many -t publish --args=\"--registry=http://localhost:4873/ --ver={args.ver} --tag={args.tag}\""
+      "command": "npx nx run-many -t publish --registry=http://localhost:4873/ --ver={args.ver} --tag={args.tag}"
     }
   }
 }
