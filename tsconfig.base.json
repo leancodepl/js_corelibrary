@@ -21,6 +21,7 @@
       "@leancodepl/api-date-datefns": ["packages/cqrs-clients/custom-types/date/api-date-datefns/src/index.ts"],
       "@leancodepl/api-date-dayjs": ["packages/cqrs-clients/custom-types/date/api-date-dayjs/src/index.ts"],
       "@leancodepl/api-date-utils": ["packages/cqrs-clients/custom-types/date/api-date-utils/src/index.ts"],
+      "@leancodepl/auth": ["packages/auth/src/index.ts"],
       "@leancodepl/axios-cqrs-client": ["packages/cqrs-clients/axios-cqrs-client/src/index.ts"],
       "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
       "@leancodepl/cx": ["packages/cx/src/index.ts"],
