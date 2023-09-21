@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/kratos-client";
 import { AxiosError } from "axios";
@@ -66,7 +65,7 @@ export function signUpFlowHookFactory({ useHandleFlowError }: UseSignUpFlowFacto
                     .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: values })
                     .then(() => setIsSignedUp(true))
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError) => {
                         if (err.response?.status === 400) {
                             setFlow(err.response?.data);
                             return;

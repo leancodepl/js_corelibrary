@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode } from "react";
+import { ComponentType, ReactNode } from "react";
 import { UiNodeInputAttributes, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
 
 export type UiMessageProps = {
@@ -28,4 +27,4 @@ type CustomGetMessageProviderProps = {
     children?: ReactNode;
 };
 
-export type CustomGetMessageProvider = (props: CustomGetMessageProviderProps) => JSX.Element;
+export type CustomGetMessageProvider = ComponentType<CustomGetMessageProviderProps>;

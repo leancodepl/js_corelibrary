@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "@ory/kratos-client";
 import { AxiosError } from "axios";
@@ -88,7 +87,7 @@ export function verificationFlowHookFactory({ useHandleFlowError }: UseVerificat
                     .updateVerificationFlow({ flow: flow.id, updateVerificationFlowBody: values })
                     .then(({ data }) => setFlow(data))
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError) => {
                         if (err.response?.status === 400) {
                             setFlow(err.response?.data);
                             return;

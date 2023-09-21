@@ -7,6 +7,7 @@ import {
     UiNodeScriptAttributes,
     UiNodeTextAttributes,
 } from "@ory/kratos-client";
+import { nodeInputFactory } from "./NodeInput";
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
@@ -25,6 +26,8 @@ type NodeInputProps = {
     attributes: UiNodeInputAttributes;
     disabled: boolean;
 };
+
+type NodeInputHiddenProps = Omit<NodeInputProps, "node" | "disabled">;
 
 type NodeImageProps = {
     node: UiNode;
@@ -48,7 +51,13 @@ type NodeProps = {
 
 export type NodeFactoryProps = {
     nodeComponents: {
-        NodeInput: ComponentType<NodeInputProps>;
+        nodeInputs: {
+            NodeInputHidden: ComponentType<NodeInputHiddenProps>;
+            NodeInputCheckbox: ComponentType<NodeInputProps>;
+            NodeInputSubmit: ComponentType<NodeInputProps>;
+            NodeInputPassword: ComponentType<NodeInputProps>;
+            NodeInputDefault: ComponentType<NodeInputProps>;
+        };
         NodeText: ComponentType<NodeTextProps>;
         NodeImage?: ComponentType<NodeImageProps>;
         NodeScript?: ComponentType<NodeScriptProps>;
@@ -57,8 +66,12 @@ export type NodeFactoryProps = {
 };
 
 export function nodeFactory({
-    nodeComponents: { NodeImage, NodeInput, NodeText, NodeAnchor, NodeScript },
+    nodeComponents: { NodeImage, NodeText, NodeAnchor, NodeScript, nodeInputs },
 }: NodeFactoryProps) {
+    const NodeInput = nodeInputFactory({
+        nodeInputs,
+    });
+
     return function Node({ node, disabled }: NodeProps) {
         if (isUiNodeScriptAttributes(node.attributes)) {
             return NodeScript ? <NodeScript attributes={node.attributes} node={node} /> : null;

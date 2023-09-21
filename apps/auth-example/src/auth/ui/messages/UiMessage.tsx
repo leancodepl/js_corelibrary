@@ -1,6 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, ReactNode, useContext } from "react";
-import { isUiNodeInputAttributes } from "@leancodepl/auth";
+import {
+    ErrorValidation,
+    ErrorValidationRecovery,
+    ErrorValidationVerification,
+    InfoNodeLabel,
+    InfoSelfServiceLogin,
+    InfoSelfServiceRecovery,
+    InfoSelfServiceRegistration,
+    InfoSelfServiceSettings,
+    InfoSelfServiceVerification,
+    isUiNodeInputAttributes,
+} from "@leancodepl/auth";
 import { UiNodeInputAttributes, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
 
 type UiMessageProps = {
@@ -33,62 +43,62 @@ function uiMessageContent({ text: uiText, attributes }: UiMessageProps): ReactNo
     const { id, text, context } = uiText;
 
     switch (id) {
-        case 1010001: // InfoSelfServiceLogin
+        case InfoSelfServiceLogin.InfoSelfServiceLogin:
             return "Zaloguj się";
-        case 1010002: // InfoSelfServiceLoginWith
+        case InfoSelfServiceLogin.InfoSelfServiceLoginWith:
             return "Zaloguj z ";
-        case 1010003: // InfoSelfServiceLoginReAuth
+        case InfoSelfServiceLogin.InfoSelfServiceLoginReAuth:
             return "Prosimy, potwierdź tę akcję weryfikując swoją tożsamość";
-        case 1010004: // InfoSelfServiceLoginMFA
+        case InfoSelfServiceLogin.InfoSelfServiceLoginMFA:
             return "Wypełnij kolejny krok logowania";
-        case 1010005: // InfoSelfServiceLoginVerify
+        case InfoSelfServiceLogin.InfoSelfServiceLoginVerify:
             return "Zweryfikuj";
-        case 1010006: // InfoSelfServiceLoginTOTPLabel
+        case InfoSelfServiceLogin.InfoSelfServiceLoginTOTPLabel:
             return "Kod uwierzytelnienia";
-        case 1010007: // InfoLoginLookupLabel
+        case InfoSelfServiceLogin.InfoLoginLookupLabel:
             return "Kod przywracania";
-        case 1010008: // InfoSelfServiceLoginWebAuthn
+        case InfoSelfServiceLogin.InfoSelfServiceLoginWebAuthn:
             return "Wprowadź kod bezpieczeństwa";
-        case 1010009: // InfoLoginTOTP
+        case InfoSelfServiceLogin.InfoLoginTOTP:
             return "Potwierdź i zaloguj się";
-        case 1010010: // InfoLoginLookup
+        case InfoSelfServiceLogin.InfoLoginLookup:
             return "Wprowadź kod przywracania";
-        case 1010011: // InfoSelfServiceLoginContinueWebAuthn
+        case InfoSelfServiceLogin.InfoSelfServiceLoginContinueWebAuthn:
             return "Kontynuuj z kodem bezpieczeństwa";
-        case 1010012: // InfoSelfServiceLoginWebAuthnPasswordless
+        case InfoSelfServiceLogin.InfoSelfServiceLoginWebAuthnPasswordless:
             return "Przygotuj swoje urządzenie (np. klucz bezpieczeństwa, skaner biometryczny) i kliknij przycisk Kontynuuj";
-        case 1010013: // InfoSelfServiceLoginContinue
+        case InfoSelfServiceLogin.InfoSelfServiceLoginContinue:
             return "Kontynuuj";
 
-        case 1040001: // InfoSelfServiceRegistration
+        case InfoSelfServiceRegistration.InfoSelfServiceRegistration:
             return "Zarejestruj się";
-        case 1040002: // InfoSelfServiceRegistrationWith
+        case InfoSelfServiceRegistration.InfoSelfServiceRegistrationWith:
             return "Zarejestruj z";
-        case 1040003: // InfoSelfServiceRegistrationContinue
+        case InfoSelfServiceRegistration.InfoSelfServiceRegistrationContinue:
             return "Kontynuuj";
-        case 1040004: // InfoSelfServiceRegistrationRegisterWebAuthn
+        case InfoSelfServiceRegistration.InfoSelfServiceRegistrationRegisterWebAuthn:
             return "Zarejestruj się z kluczem bezpieczeństwa";
 
-        case 1050001: // InfoSelfServiceSettingsUpdateSuccess
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsUpdateSuccess:
             return "Zmiany zostały zapisane";
-        case 1050002: // InfoSelfServiceSettingsUpdateLinkOidc
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsUpdateLinkOidc:
             return "Połącz konto";
-        case 1050003: // InfoSelfServiceSettingsUpdateUnlinkOidc
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsUpdateUnlinkOidc:
             return "Odłącz konto";
-        case 1050004: // InfoSelfServiceSettingsUpdateUnlinkTOTP
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsUpdateUnlinkTOTP:
             return "Wyłącz weryfikację dwuetapową";
-        case 1050017: // InfoSelfServiceSettingsTOTPSecretLabel
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsTOTPSecretLabel:
             return "Jeśli nie możesz użyć kodu QR, podaj w aplikacji ten klucz aktywacyjny:";
-        case 1060001: // InfoSelfServiceRecoverySuccessful
+        case InfoSelfServiceRecovery.InfoSelfServiceRecoverySuccessful:
             return "Udało Ci się odzyskać dostęp do konta. Zmień swoje hasło w poniższym formularzu.";
-        case 1060002: // InfoSelfServiceRecoveryEmailSent
+        case InfoSelfServiceRecovery.InfoSelfServiceRecoveryEmailSent:
             return "Na podany adres e-mail wysłaliśmy Ci wiadomość z linkiem do resetowania hasła.";
-        case 1060003: // InfoSelfServiceRecoveryEmailWithCodeSent
+        case InfoSelfServiceRecovery.InfoSelfServiceRecoveryEmailWithCodeSent:
             return "Na podany przez Ciebie adres email wysłaliśmy wiadomość zawierającą kod do odzyskiwania konta.";
 
-        case 1070001: // InfoNodeLabelInputPassword
+        case InfoNodeLabel.InfoNodeLabelInputPassword:
             return "Hasło";
-        case 1070002: // InfoNodeLabelGenerated
+        case InfoNodeLabel.InfoNodeLabelGenerated:
             if (attributes && isUiNodeInputAttributes(attributes)) {
                 switch (attributes.name) {
                     case "traits.email":
@@ -98,33 +108,33 @@ function uiMessageContent({ text: uiText, attributes }: UiMessageProps): ReactNo
                 }
             }
             break;
-        case 1070003: // InfoNodeLabelSave
+        case InfoNodeLabel.InfoNodeLabelSave:
             return "Zapisz";
-        case 1070004: // InfoNodeLabelID
+        case InfoNodeLabel.InfoNodeLabelID:
             return "Identyfikator";
-        case 1070005: // InfoNodeLabelSubmit
+        case InfoNodeLabel.InfoNodeLabelSubmit:
             return "Potwierdź";
-        case 1070006: // InfoNodeLabelVerifyOTP
+        case InfoNodeLabel.InfoNodeLabelVerifyOTP:
             return "Kod potwierdzający";
-        case 1070007: // InfoNodeLabelEmail
+        case InfoNodeLabel.InfoNodeLabelEmail:
             return "E-mail";
-        case 1070008: // InfoNodeLabelResendOTP
+        case InfoNodeLabel.InfoNodeLabelResendOTP:
             return "Wyślij kod ponownie";
-        case 1070009: // InfoNodeLabelContinue
+        case InfoNodeLabel.InfoNodeLabelContinue:
             return "Kontynuuj";
-        case 1070010: // InfoNodeLabelRecoveryCode
+        case InfoNodeLabel.InfoNodeLabelRecoveryCode:
             return "Kod potwierdzający";
-        case 1070011: // InfoNodeLabelVerificationCode
+        case InfoNodeLabel.InfoNodeLabelVerificationCode:
             return "Kod potwierdzający";
 
-        case 1080001: // InfoSelfServiceVerificationEmailSent
+        case InfoSelfServiceVerification.InfoSelfServiceVerificationEmailSent:
             return "Wiadomość e-mail z linkiem weryfikacyjnym została wysłana na podany przez Ciebie adres";
-        case 1080002: // InfoSelfServiceVerificationSuccessful
+        case InfoSelfServiceVerification.InfoSelfServiceVerificationSuccessful:
             return "Twój adres e-mail został potwierdzony";
-        case 1080003: // InfoSelfServiceVerificationEmailWithCodeSent
+        case InfoSelfServiceVerification.InfoSelfServiceVerificationEmailWithCodeSent:
             return "Wiadomość e-mail z kodem weryfikacyjnym została wysłana na podany przez Ciebie adres";
 
-        case 4000001: // ErrorValidationGeneric
+        case ErrorValidation.ErrorValidationGeneric:
             if (attributes && isUiNodeInputAttributes(attributes)) {
                 switch (attributes.name) {
                     case "traits.regulations_accepted":
@@ -138,63 +148,63 @@ function uiMessageContent({ text: uiText, attributes }: UiMessageProps): ReactNo
             }
 
             return "Pole ma niepoprawny format";
-        case 4000002: // ErrorValidationRequired
+        case ErrorValidation.ErrorValidationRequired:
             return "To pole jest wymagane";
-        case 4000003: // ErrorValidationMinLength
+        case ErrorValidation.ErrorValidationMinLength:
             return context && "expected_length" in context
                 ? `Wymagane jest minimum ${context.expected_length} znaków`
                 : null;
-        case 4000004: // ErrorValidationInvalidFormat
+        case ErrorValidation.ErrorValidationInvalidFormat:
             return "Niepoprawny format danych";
-        case 4000005: // ErrorValidationPasswordPolicyViolation
+        case ErrorValidation.ErrorValidationPasswordPolicyViolation:
             return "Min. 8 znaków. Nie może być na liście haseł, które wyciekły";
-        case 4000006: // ErrorValidationInvalidCredentials
+        case ErrorValidation.ErrorValidationInvalidCredentials:
             return "Nieprawidłowy adres e-mail lub hasło";
-        case 4000007: // ErrorValidationDuplicateCredentials
+        case ErrorValidation.ErrorValidationDuplicateCredentials:
             return "Konto z takimi danymi logowania już istnieje";
-        case 4000008: // ErrorValidationTOTPVerifierWrong
+        case ErrorValidation.ErrorValidationTOTPVerifierWrong:
             return "Podany kod weryfikacyjny jest nieprawidłowy";
-        case 4000009: // ErrorValidationIdentifierMissing
+        case ErrorValidation.ErrorValidationIdentifierMissing:
             return "Nie znaleziono żadnych danych logowania";
-        case 4000010: // ErrorValidationAddressNotVerified
+        case ErrorValidation.ErrorValidationAddressNotVerified:
             return "Potwierdź swój adres e-mail";
-        case 4000011: // ErrorValidationNoTOTPDevice
+        case ErrorValidation.ErrorValidationNoTOTPDevice:
             return "Nie wykryto żadnego urządzenia TOTP do uwierzytelnienia";
-        case 4000012: // ErrorValidationLookupAlreadyUsed
+        case ErrorValidation.ErrorValidationLookupAlreadyUsed:
             return "Kod przywracania został już wykorzystany";
-        case 4000013: // ErrorValidationNoWebAuthnDevice
+        case ErrorValidation.ErrorValidationNoWebAuthnDevice:
             return "Nie wykryto żadnego urządzenia do uwierzytelnienia";
-        case 4000014: // ErrorValidationNoLookup
+        case ErrorValidation.ErrorValidationNoLookup:
             return "Nie posiadasz ustawionych kodów przywracania";
-        case 4000015: // ErrorValidationSuchNoWebAuthnUser
+        case ErrorValidation.ErrorValidationSuchNoWebAuthnUser:
             return "Takie konto nie istnieje lub nie ma jeszcze ustawionych kodów uwierzytelnienia";
-        case 4000016: // ErrorValidationLookupInvalid
+        case ErrorValidation.ErrorValidationLookupInvalid:
             return "Kod przywracania jest niepoprawny";
 
-        case 4060001: // ErrorValidationRecoveryRetrySuccess
+        case ErrorValidationRecovery.ErrorValidationRecoveryRetrySuccess:
             return "Zapytanie zostało już wysłane poprawnie i nie może zostać powtórzone";
-        case 4060002: // ErrorValidationRecoveryStateFailure
+        case ErrorValidationRecovery.ErrorValidationRecoveryStateFailure:
             return "Wystąpił błąd w trakcie przywracania. Spróbuj ponownie";
-        case 4060003: // ErrorValidationRecoveryMissingRecoveryToken
+        case ErrorValidationRecovery.ErrorValidationRecoveryMissingRecoveryToken:
             return "Kod jest nieprawidłowy";
-        case 4060004: // ErrorValidationRecoveryTokenInvalidOrAlreadyUsed
+        case ErrorValidationRecovery.ErrorValidationRecoveryTokenInvalidOrAlreadyUsed:
             return "Kod jest nieprawidłowy lub został już wykorzystany";
-        case 4060005: // ErrorValidationRecoveryFlowExpired
+        case ErrorValidationRecovery.ErrorValidationRecoveryFlowExpired:
             return "Kod wygasł";
-        case 4060006: // ErrorValidationRecoveryCodeInvalidOrAlreadyUsed
+        case ErrorValidationRecovery.ErrorValidationRecoveryCodeInvalidOrAlreadyUsed:
             return "Kod jest nieprawidłowy lub został już wykorzystany";
 
-        case 4070001: // ErrorValidationVerificationTokenInvalidOrAlreadyUsed
+        case ErrorValidationVerification.ErrorValidationVerificationTokenInvalidOrAlreadyUsed:
             return "Kod jest nieprawidłowy lub został już wykorzystany";
-        case 4070002: // ErrorValidationVerificationRetrySuccess
+        case ErrorValidationVerification.ErrorValidationVerificationRetrySuccess:
             return "Zapytanie zostało już wysłane poprawnie i nie może zostać powtórzone";
-        case 4070003: // ErrorValidationVerificationStateFailure
+        case ErrorValidationVerification.ErrorValidationVerificationStateFailure:
             return "Wystąpił błąd w trakcie weryfikacji. Spróbuj ponownie";
-        case 4070004: // ErrorValidationVerificationMissingVerificationToken
+        case ErrorValidationVerification.ErrorValidationVerificationMissingVerificationToken:
             return "Kod jest nieprawidłowy";
-        case 4070005: // ErrorValidationVerificationFlowExpired
+        case ErrorValidationVerification.ErrorValidationVerificationFlowExpired:
             return "Link wygasł";
-        case 4070006: // ErrorValidationVerificationCodeInvalidOrAlreadyUsed
+        case ErrorValidationVerification.ErrorValidationVerificationCodeInvalidOrAlreadyUsed:
             return "Podany kod jest niepoprawny lub został już użyty. Spróbuj ponownie";
     }
 

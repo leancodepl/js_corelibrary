@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
 import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "@ory/kratos-client";
 import { AxiosError } from "axios";
@@ -39,7 +38,7 @@ export function reauthenticationFlowHookFactory({ useHandleFlowError }: UseReaut
                     .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: values })
                     .then(({ data }) => onReauthenticated(data.session))
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError<unknown>) => {
                         if (err.response?.status === 400) {
                             const flow = err?.response?.data as LoginFlow | undefined;
 

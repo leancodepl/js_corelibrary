@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/kratos-client"
-import { getNodeInputType } from "./getNodeInputType"
+import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/kratos-client";
+import { getNodeInputType } from "./getNodeInputType";
 
 type FilterNodesByGroups = {
-    nodes: Array<UiNode>
-    groups?: Array<UiNodeGroupEnum | string> | UiNodeGroupEnum | string
-    withoutDefaultGroup?: boolean
-    attributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string
-    withoutDefaultAttributes?: boolean
-    excludeAttributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string
-}
+    nodes: Array<UiNode>;
+    groups?: Array<UiNodeGroupEnum | string> | UiNodeGroupEnum | string;
+    withoutDefaultGroup?: boolean;
+    attributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string;
+    withoutDefaultAttributes?: boolean;
+    excludeAttributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string;
+};
 
 /**
  * Filters nodes by their groups and attributes.
@@ -31,37 +30,37 @@ export const filterNodesByGroups = ({
     withoutDefaultAttributes,
     excludeAttributes,
 }: FilterNodesByGroups) => {
-    const search = (s: Array<string> | string) => (typeof s === "string" ? s.split(",") : s)
+    const search = (s: Array<string> | string) => (typeof s === "string" ? s.split(",") : s);
 
     return nodes.filter(({ group, attributes: attr }) => {
         // if we have not specified any group or attribute filters, return all nodes
-        if (!groups && !attributes && !excludeAttributes) return true
+        if (!groups && !attributes && !excludeAttributes) return true;
 
-        const g = search(groups as any) || []
+        const g = groups ? search(groups) : [];
         if (!withoutDefaultGroup) {
-            g.push("default")
+            g.push("default");
         }
 
         // filter the attributes
-        const a = search(attributes as any) || []
+        const a = attributes ? search(attributes) : [];
         if (!withoutDefaultAttributes) {
             // always add hidden fields e.g. csrf
             if (group.includes("default")) {
-                a.push("hidden")
+                a.push("hidden");
             }
             // automatically add the necessary fields for webauthn and totp
             if (group.includes("webauthn") || group.includes("totp")) {
-                a.push("input", "script")
+                a.push("input", "script");
             }
         }
 
         // filter the attributes to exclude
-        const ea = search(excludeAttributes as any) || []
+        const ea = excludeAttributes ? search(excludeAttributes) : [];
 
-        const filterGroup = groups ? g.includes(group) : true
-        const filterAttributes = attributes ? a.includes(getNodeInputType(attr)) : true
-        const filterExcludeAttributes = excludeAttributes ? !ea.includes(getNodeInputType(attr)) : true
+        const filterGroup = groups ? g.includes(group) : true;
+        const filterAttributes = attributes ? a.includes(getNodeInputType(attr)) : true;
+        const filterExcludeAttributes = excludeAttributes ? !ea.includes(getNodeInputType(attr)) : true;
 
-        return filterGroup && filterAttributes && filterExcludeAttributes
-    })
-}
+        return filterGroup && filterAttributes && filterExcludeAttributes;
+    });
+};

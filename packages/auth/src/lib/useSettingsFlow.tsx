@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/kratos-client";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosRequestConfig } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
 import { returnToParameterName } from "./utils/variables";
@@ -14,9 +13,11 @@ export function settingsFlowHookFactory({ useHandleFlowError }: UseSettingsFlowF
     return function useSettingsFlow({
         kratosClient,
         settingsRoute,
+        params,
     }: {
         kratosClient: FrontendApi;
         settingsRoute: string;
+        params?: AxiosRequestConfig["params"];
     }) {
         const [flow, setFlow] = useState<SettingsFlow>();
 
@@ -52,14 +53,12 @@ export function settingsFlowHookFactory({ useHandleFlowError }: UseSettingsFlowF
                         returnTo,
                     },
                     {
-                        params: {
-                            settingsRoute,
-                        },
+                        params,
                     },
                 )
                 .then(({ data }) => setFlow(data))
                 .catch(handleFlowError);
-        }, [flow, flowId, handleFlowError, kratosClient, returnTo, settingsRoute]);
+        }, [flow, flowId, handleFlowError, kratosClient, params, returnTo, settingsRoute]);
 
         const submit = useCallback(
             (values: UpdateSettingsFlowBody) => {
@@ -78,7 +77,7 @@ export function settingsFlowHookFactory({ useHandleFlowError }: UseSettingsFlowF
                         setFlow(data);
                     })
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError) => {
                         if (err.response?.status === 400) {
                             setFlow(err.response?.data);
                             return;

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "@ory/kratos-client";
 import { AxiosError } from "axios";
@@ -6,7 +5,7 @@ import { omit } from "lodash";
 import { useLocation, useNavigate } from "react-router";
 import yn from "yn";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
-import { returnToParameterName } from "./utils/variables";
+import { aalParameterName, returnToParameterName } from "./utils/variables";
 
 type UseSignInFlowFactoryProps = {
     useHandleFlowError: UseHandleFlowError;
@@ -35,7 +34,7 @@ export function signInFlowHookFactory({ useHandleFlowError }: UseSignInFlowFacto
             flow: flowId,
             [returnToParameterName]: returnTo,
             refresh,
-            aal: authorizationAssuranceLevel,
+            [aalParameterName]: authorizationAssuranceLevel,
         } = searchParams as Partial<Record<string, string>>;
 
         useEffect(() => {
@@ -44,7 +43,7 @@ export function signInFlowHookFactory({ useHandleFlowError }: UseSignInFlowFacto
 
         const handleFlowError = useHandleFlowError({
             resetFlow: useCallback(() => {
-                const newParams = omit({ ...searchParams }, ["flow", "aal"]);
+                const newParams = omit({ ...searchParams }, ["flow", aalParameterName]);
 
                 nav(`${signInRoute}?${new URLSearchParams(newParams)}`, { replace: true });
 
@@ -91,7 +90,7 @@ export function signInFlowHookFactory({ useHandleFlowError }: UseSignInFlowFacto
                         onSignedIn?.(data.session);
                     })
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError) => {
                         if (err.response?.status === 400) {
                             setFlow(err?.response?.data);
                             return;

@@ -1,7 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import { useToast } from "@chakra-ui/react";
+import { ErrorID } from "@leancodepl/auth";
 import { AxiosError } from "axios";
+
+export type FlowErrorResponse = {
+    error?: {
+        id?: ErrorID;
+    };
+    redirect_browser_to: string;
+    use_flow_id?: string;
+};
 
 export function useHandleFlowError({
     resetFlow,
@@ -13,45 +21,45 @@ export function useHandleFlowError({
     const toast = useToast();
 
     return useCallback(
-        async (err: AxiosError<any>) => {
+        async (err: AxiosError<FlowErrorResponse>) => {
             switch (err.response?.data.error?.id) {
-                case "session_aal2_required":
+                case ErrorID.ErrIDHigherAALRequired:
                     // 2FA is enabled and enforced, but user did not perform 2fa yet!
-                    window.location.href = (err.response.data as any).redirect_browser_to;
+                    window.location.href = err.response.data.redirect_browser_to;
                     return;
-                case "session_already_available":
+                case ErrorID.ErrIDAlreadyLoggedIn:
                     onSessionAlreadyAvailable?.();
                     return;
-                case "session_refresh_required":
+                case ErrorID.ErrIDNeedsPrivilegedSession:
                     // We need to re-authenticate to perform this action
-                    window.location.href = (err.response.data as any).redirect_browser_to;
+                    window.location.href = err.response.data.redirect_browser_to;
                     return;
-                case "self_service_flow_return_to_forbidden":
+                case ErrorID.ErrIDRedirectURLNotAllowed:
                     toast({ title: "Podany adres jest nieprawidłowy", status: "error" });
                     resetFlow();
                     return;
-                case "self_service_flow_expired":
+                case ErrorID.ErrIDSelfServiceFlowExpired:
                     // The flow expired, let's request a new one.
                     toast({ title: "Twoja sesja wygasła. Wypełnij formularz ponownie", status: "error" });
                     resetFlow();
                     return;
-                case "self_service_flow_replaced":
-                    resetFlow((err.response.data as any).use_flow_id);
+                case ErrorID.ErrIDSelfServiceFlowReplaced:
+                    resetFlow(err.response.data.use_flow_id);
                     return;
-                case "security_csrf_violation":
+                case ErrorID.ErrIDCSRF:
                     toast({
                         title: "Zostały wykryte nieprawidłowości bezpieczeństwa. Wypełnij formularz ponownie",
                         status: "error",
                     });
                     resetFlow();
                     return;
-                case "security_identity_mismatch":
+                case ErrorID.ErrIDInitiatedBySomeoneElse:
                     // The requested item was intended for someone else. Let's request a new flow...
                     resetFlow();
                     return;
-                case "browser_location_change_required":
+                case ErrorID.ErrIDSelfServiceBrowserLocationChangeRequiredError:
                     // Ory Kratos asked us to point the user to this URL.
-                    window.location.href = (err.response.data as any).redirect_browser_to;
+                    window.location.href = err.response.data.redirect_browser_to;
                     return;
             }
 

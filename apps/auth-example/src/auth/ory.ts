@@ -1,6 +1,6 @@
-import { createOryClient } from "@leancodepl/auth";
+import { createKratosClient } from "@leancodepl/auth";
 import environment from "../environments/environment";
 
-export const kratosClient = createOryClient({
+export const kratosClient = createKratosClient({
     basePath: environment.authUrl,
 });

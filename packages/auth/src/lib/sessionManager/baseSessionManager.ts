@@ -1,7 +1,7 @@
 import { Session } from "@ory/kratos-client";
 import { catchError, exhaustMap, firstValueFrom, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs";
 import { ajax } from "rxjs/ajax";
-import { returnToParameterName } from "../utils/variables";
+import { aalParameterName, returnToParameterName } from "../utils/variables";
 
 export class BaseSessionManager {
     apiUrl: string;
@@ -54,11 +54,11 @@ export class BaseSessionManager {
                                     if (err.response?.error?.id === "session_aal2_required") {
                                         const searchParams = new URLSearchParams(window.location.search);
 
-                                        if (!searchParams.get("aal")) {
+                                        if (!searchParams.get(aalParameterName)) {
                                             const redirectUrl = new URL(this.signInRoute, window.location.href);
 
                                             redirectUrl.search = new URLSearchParams({
-                                                aal: "aal2",
+                                                [aalParameterName]: "aal2",
                                                 [returnToParameterName]: `${window.location.pathname}${window.location.search}`,
                                             }).toString();
 
@@ -109,8 +109,8 @@ export class BaseSessionManager {
         };
     })();
 
-    constructor(apiUrl: string, signInRoute: string) {
-        this.apiUrl = apiUrl;
+    constructor(authUrl: string, signInRoute: string) {
+        this.apiUrl = authUrl;
         this.signInRoute = signInRoute;
         this.checkIfSignedIn();
     }

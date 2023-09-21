@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/kratos-client";
 import { AxiosError } from "axios";
@@ -65,7 +64,7 @@ export function recoveryFlowHookFactory({ useHandleFlowError }: UseRecoveryFlowP
                     .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: values })
                     .then(({ data }) => setFlow(data))
                     .catch(handleFlowError)
-                    .catch((err: AxiosError<any>) => {
+                    .catch((err: AxiosError) => {
                         if (err.response?.status === 400) {
                             setFlow(err.response?.data);
                             return;

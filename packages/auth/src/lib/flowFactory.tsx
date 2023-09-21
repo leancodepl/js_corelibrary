@@ -98,8 +98,7 @@ function getDefaultValues<T>(nodes: UiNode[]) {
     return nodes.reduce((prev, node) => {
         const { attributes } = node;
 
-        if (!isUiNodeInputAttributes(attributes) || attributes.type === "button" || attributes.type === "submit")
-            return prev;
+        if (!isUiNodeInputAttributes(attributes)) return prev;
 
         set(prev, attributes.name, attributes.value ?? (attributes.type !== "checkbox" ? "" : false));
 

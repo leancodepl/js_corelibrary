@@ -11,7 +11,6 @@ type NodeInputProps = {
 
 export function NodeInputSubmit({ node, attributes, disabled }: NodeInputProps) {
     const {
-        setValue,
         formState: { isSubmitting },
     } = useFormContext();
 
@@ -25,8 +24,7 @@ export function NodeInputSubmit({ node, attributes, disabled }: NodeInputProps) 
                 disabled={attributes.disabled || disabled}
                 isLoading={isSubmitting}
                 type="submit"
-                variant={isSecondary ? "outline" : "solid"}
-                onClick={() => setValue(attributes.name, attributes.value)}>
+                variant={isSecondary ? "outline" : "solid"}>
                 <UiNodeLabel node={node} />
             </Button>
         </Flex>
