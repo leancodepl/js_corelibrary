@@ -1,7 +1,7 @@
-import { cx } from './cx';
+import { cx } from "./cx";
 
-describe('cx', () => {
-  it('should work', () => {
-    expect(cx()).toEqual('cx');
-  });
+describe("cx", () => {
+    it("should work", () => {
+        expect(cx()).toEqual("cx");
+    });
 });
