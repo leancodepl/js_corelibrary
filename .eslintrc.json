@@ -19,7 +19,8 @@
               }
             ]
           }
-        ]
+        ],
+        "@nx/dependency-checks": "error"
       }
     },
     {
