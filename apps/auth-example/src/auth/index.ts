@@ -4,7 +4,6 @@ import { CustomGetMessageProvider } from "./ui/messages/UiMessage";
 import { NodeImage } from "./ui/node/image";
 import { NodeInputCheckbox } from "./ui/node/input/nodeInputCheckbox";
 import { NodeInputDefault } from "./ui/node/input/nodeInputDefault";
-import { NodeInputHidden } from "./ui/node/input/nodeInputHidden";
 import { NodeInputPassword } from "./ui/node/input/nodeInputPassword";
 import { NodeInputSubmit } from "./ui/node/input/nodeInputSubmit";
 import { NodeText } from "./ui/node/text";
