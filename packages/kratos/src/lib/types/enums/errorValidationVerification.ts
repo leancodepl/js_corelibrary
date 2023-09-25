@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum ErrorValidationVerification {
     ErrorValidationVerification = 4070000,
     ErrorValidationVerificationTokenInvalidOrAlreadyUsed = 4070001,

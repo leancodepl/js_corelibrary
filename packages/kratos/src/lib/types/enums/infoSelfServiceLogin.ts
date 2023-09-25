@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum InfoSelfServiceLogin {
     InfoSelfServiceLoginRoot = 1010000,
     InfoSelfServiceLogin = 1010001,

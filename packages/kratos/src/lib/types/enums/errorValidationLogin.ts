@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum ErrorValidationLogin {
     ErrorValidationLogin = 4010000,
     ErrorValidationLoginFlowExpired = 4010001,

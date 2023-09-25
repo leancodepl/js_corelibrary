@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum InfoSelfServiceRegistration {
     InfoSelfServiceRegistrationRoot = 1040000,
     InfoSelfServiceRegistration = 1040001,

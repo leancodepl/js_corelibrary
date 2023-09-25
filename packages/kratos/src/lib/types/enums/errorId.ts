@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum ErrorId {
     ErrIDNeedsPrivilegedSession = "session_refresh_required",
     ErrIDSelfServiceFlowExpired = "self_service_flow_expired",

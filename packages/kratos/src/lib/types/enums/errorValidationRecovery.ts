@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum ErrorValidationRecovery {
     ErrorValidationRecovery = 4060000,
     ErrorValidationRecoveryRetrySuccess = 4060001,

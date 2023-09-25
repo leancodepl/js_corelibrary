@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum InfoNodeLabel {
     InfoNodeLabel = 1070000,
     InfoNodeLabelInputPassword = 1070001,

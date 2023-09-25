@@ -1,3 +1,5 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
 export enum InfoSelfServiceSettings {
     InfoSelfServiceSettings = 1050000,
     InfoSelfServiceSettingsUpdateSuccess = 1050001,
