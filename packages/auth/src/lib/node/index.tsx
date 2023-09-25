@@ -52,7 +52,7 @@ type NodeProps = {
 export type NodeFactoryProps = {
     nodeComponents: {
         nodeInputs: {
-            NodeInputHidden: ComponentType<NodeInputHiddenProps>;
+            NodeInputHidden?: ComponentType<NodeInputHiddenProps>;
             NodeInputCheckbox: ComponentType<NodeInputProps>;
             NodeInputSubmit: ComponentType<NodeInputProps>;
             NodeInputPassword: ComponentType<NodeInputProps>;

@@ -18,7 +18,6 @@ export const { Flow, useSignInFlow, useSignUpFlow, useVerificationFlow } = mkAut
         NodeImage,
         NodeText,
         nodeInputs: {
-            NodeInputHidden,
             NodeInputCheckbox,
             NodeInputSubmit,
             NodeInputPassword,

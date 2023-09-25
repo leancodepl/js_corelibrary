@@ -1,9 +1,10 @@
 import { ComponentType } from "react";
 import { UiNode, UiNodeInputAttributes } from "@ory/kratos-client";
+import { DefaultNodeInputHidden } from "./defaultNodeInputHidden";
 
 type NodeInputFactoryProps = {
     nodeInputs: {
-        NodeInputHidden: ComponentType<NodeInputHiddenProps>;
+        NodeInputHidden?: ComponentType<NodeInputHiddenProps>;
         NodeInputCheckbox: ComponentType<NodeInputProps>;
         NodeInputSubmit: ComponentType<NodeInputProps>;
         NodeInputPassword: ComponentType<NodeInputProps>;
@@ -25,7 +26,11 @@ export function nodeInputFactory({
     return function NodeInput({ attributes, node, disabled }: NodeInputProps) {
         switch (attributes.type) {
             case "hidden":
-                return <NodeInputHidden attributes={attributes} />;
+                return NodeInputHidden ? (
+                    <NodeInputHidden attributes={attributes} />
+                ) : (
+                    <DefaultNodeInputHidden attributes={attributes} />
+                );
             case "checkbox":
                 return <NodeInputCheckbox attributes={attributes} disabled={disabled} node={node} />;
             case "submit":
