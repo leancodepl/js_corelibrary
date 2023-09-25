@@ -9,7 +9,7 @@ import { NodeInputSubmit } from "./ui/node/input/nodeInputSubmit";
 import { NodeText } from "./ui/node/text";
 import { useHandleFlowError } from "./useHandleFlowError";
 
-export const { Flow, useSignInFlow, useSignUpFlow, useVerificationFlow } = mkAuth({
+export const { Flow, useSignInFlow, useSignUpFlow, useVerificationFlow, useSettingsFlow } = mkAuth({
     useHandleFlowError,
     displayGlobalMessages,
     customGetMessageProvider: CustomGetMessageProvider,

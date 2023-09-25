@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Center, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
-import { CustomUiMessageParams, returnToParameterName } from "@leancodepl/auth";
+import { CustomUiMessageParams, InfoNodeLabel, returnToParameterName } from "@leancodepl/auth";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
@@ -38,7 +38,7 @@ export default function SignIn() {
 
 function CustomUiMessage({ uiMessage, attributes, text: uiText }: CustomUiMessageParams) {
     switch (uiText?.id) {
-        case 1070004: // InfoNodeLabelID
+        case InfoNodeLabel.InfoNodeLabelID:
             return "E-mail";
     }
 

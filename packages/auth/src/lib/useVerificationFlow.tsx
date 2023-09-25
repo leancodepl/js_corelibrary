@@ -3,6 +3,7 @@ import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "@ory/
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
+import { parseSearchParams } from "./utils/parseSearchParams";
 import { returnToParameterName } from "./utils/variables";
 
 type UseVerificationFlowFactoryProps = {
@@ -25,7 +26,7 @@ export function verificationFlowHookFactory({ useHandleFlowError }: UseVerificat
         const nav = useNavigate();
 
         const { [flowIdParameterName]: flowId = initialFlowId, [returnToParameterName]: returnTo } = useMemo(
-            () => Object.fromEntries([...new URLSearchParams(search).entries()]) as Partial<Record<string, string>>,
+            () => parseSearchParams(search),
             [search],
         );
 

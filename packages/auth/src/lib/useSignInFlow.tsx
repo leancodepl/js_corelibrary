@@ -5,6 +5,7 @@ import { omit } from "lodash";
 import { useLocation, useNavigate } from "react-router";
 import yn from "yn";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
+import { parseSearchParams } from "./utils/parseSearchParams";
 import { aalParameterName, returnToParameterName } from "./utils/variables";
 
 type UseSignInFlowFactoryProps = {
@@ -28,7 +29,7 @@ export function signInFlowHookFactory({ useHandleFlowError }: UseSignInFlowFacto
         const { search } = useLocation();
         const nav = useNavigate();
 
-        const searchParams = useMemo(() => Object.fromEntries([...new URLSearchParams(search).entries()]), [search]);
+        const searchParams = useMemo(() => parseSearchParams(search), [search]);
 
         const {
             flow: flowId,
