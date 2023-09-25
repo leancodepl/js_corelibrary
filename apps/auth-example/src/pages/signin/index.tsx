@@ -2,11 +2,11 @@ import { Button, Center, Stack } from "@chakra-ui/react";
 import { aalParameterName } from "@leancodepl/auth";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { signInRoute } from "../../app/routes";
-import sessionManager from "../../auth/sessionManager";
-import SignIn from "../../components/auth/SignIn";
-import useIsSignedIn from "../../hooks/useIsSignedIn";
+import { sessionManager } from "../../auth/sessionManager";
+import { SignIn } from "../../components/auth/SignIn";
+import { useIsSignedIn } from "../../hooks/useIsSignedIn";
 
-export default function SignInPage() {
+export function SignInPage() {
     const isSignedIn = useIsSignedIn();
 
     const nav = useNavigate();

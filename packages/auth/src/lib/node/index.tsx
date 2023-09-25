@@ -7,6 +7,9 @@ import {
     UiNodeScriptAttributes,
     UiNodeTextAttributes,
 } from "@ory/kratos-client";
+import { DefaultNodeAnchor } from "./DefaultNodeAnchor";
+import { DefaultNodeImage } from "./DefaultNodeImage";
+import { DefaultNodeText } from "./DefaultNodeText";
 import { nodeInputFactory } from "./NodeInput";
 import {
     isUiNodeAnchorAttributes,
@@ -51,14 +54,12 @@ type NodeProps = {
 
 export type NodeFactoryProps = {
     nodeComponents: {
-        nodeInputs: {
-            NodeInputHidden?: ComponentType<NodeInputHiddenProps>;
-            NodeInputCheckbox: ComponentType<NodeInputProps>;
-            NodeInputSubmit: ComponentType<NodeInputProps>;
-            NodeInputPassword: ComponentType<NodeInputProps>;
-            NodeInputDefault: ComponentType<NodeInputProps>;
-        };
-        NodeText: ComponentType<NodeTextProps>;
+        NodeInputHidden?: ComponentType<NodeInputHiddenProps>;
+        NodeInputCheckbox: ComponentType<NodeInputProps>;
+        NodeInputSubmit: ComponentType<NodeInputProps>;
+        NodeInputPassword: ComponentType<NodeInputProps>;
+        NodeInputDefault: ComponentType<NodeInputProps>;
+        NodeText?: ComponentType<NodeTextProps>;
         NodeImage?: ComponentType<NodeImageProps>;
         NodeScript?: ComponentType<NodeScriptProps>;
         NodeAnchor?: ComponentType<NodeAnchorProps>;
@@ -66,7 +67,13 @@ export type NodeFactoryProps = {
 };
 
 export function nodeFactory({
-    nodeComponents: { NodeImage, NodeText, NodeAnchor, NodeScript, nodeInputs },
+    nodeComponents: {
+        NodeImage = DefaultNodeImage,
+        NodeText = DefaultNodeText,
+        NodeAnchor = DefaultNodeAnchor,
+        NodeScript,
+        ...nodeInputs
+    },
 }: NodeFactoryProps) {
     const NodeInput = nodeInputFactory({
         nodeInputs,
@@ -78,11 +85,11 @@ export function nodeFactory({
         }
 
         if (isUiNodeAnchorAttributes(node.attributes)) {
-            return NodeAnchor ? <NodeAnchor attributes={node.attributes} node={node} /> : null;
+            return <NodeAnchor attributes={node.attributes} node={node} />;
         }
 
         if (isUiNodeImageAttributes(node.attributes)) {
-            return NodeImage ? <NodeImage attributes={node.attributes} node={node} /> : null;
+            return <NodeImage attributes={node.attributes} node={node} />;
         }
 
         if (isUiNodeTextAttributes(node.attributes)) {

@@ -1,4 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { InfoSelfServiceSettings } from "@leancodepl/auth";
 import { UiNode, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
 import { isObject } from "lodash";
 import { UiMessage } from "../../messages/UiMessage";
@@ -21,13 +22,17 @@ export function NodeText({ attributes, node }: NodeTextProps) {
 
 function Content({ attributes }: NodeTextProps) {
     switch (attributes.text.id) {
-        case 1050015:
+        case InfoSelfServiceSettings.InfoSelfServiceSettingsLookupSecretList:
             return (
                 <Flex gap="2">
                     {isContextWithSecrets(attributes.text.context) &&
                         attributes.text.context.secrets.map((text: UiText, i: number) => (
                             <Text key={i} as="b">
-                                <code>{text.id === 1050014 ? "Zużyty" : text.text}</code>
+                                <code>
+                                    {text.id === InfoSelfServiceSettings.InfoSelfServiceSettingsLookupSecretUsed
+                                        ? "Zużyty"
+                                        : text.text}
+                                </code>
                             </Text>
                         ))}
                 </Flex>

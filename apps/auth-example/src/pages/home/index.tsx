@@ -1,8 +1,8 @@
 import { Button, Card, CardBody, CardFooter, Center, Text } from "@chakra-ui/react";
-import sessionManager from "../../auth/sessionManager";
-import useIdentity from "../../hooks/useIdentity";
+import { sessionManager } from "../../auth/sessionManager";
+import { useIdentity } from "../../hooks/useIdentity";
 
-export default function HomePage() {
+export function HomePage() {
     const identity = useIdentity();
 
     const handleSignOut = () => {

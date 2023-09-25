@@ -15,6 +15,4 @@ class SessionManager extends BaseSessionManager {
     );
 }
 
-const sessionManager = new SessionManager(`${environment.apiUrl}/api`, signInRoute);
-
-export default sessionManager;
+export const sessionManager = new SessionManager(`${environment.apiUrl}/api`, signInRoute);

@@ -3,11 +3,11 @@ import { UiNodeGroupEnum } from "@ory/kratos-client";
 import { settingsRoute } from "../../../app/routes";
 import { Flow, useSettingsFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
-import Redirect from "../../common/Redirect";
+import { Redirect } from "../../common/Redirect";
 
 const settingsFlowOnly = [UiNodeGroupEnum.Password];
 
-export default function Settings() {
+export function Settings() {
     const { flow, submit } = useSettingsFlow({
         kratosClient,
         settingsRoute,

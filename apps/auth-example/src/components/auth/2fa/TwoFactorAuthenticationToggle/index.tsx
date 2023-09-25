@@ -9,7 +9,7 @@ import { displayGlobalMessages } from "../../../../auth/ui/messages/displayGloba
 
 const totpFlowOnly = [UiNodeGroupEnum.Totp];
 
-export default function TwoFactorAuthenticationToggle() {
+export function TwoFactorAuthenticationToggle() {
     const [prevIs2FAEnabled, setPrevIs2FAEnabled] = useState<boolean>();
 
     const { flow, submit } = useSettingsFlow({

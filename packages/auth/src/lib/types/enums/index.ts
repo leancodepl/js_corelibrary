@@ -1,4 +1,4 @@
-export * from "./errorID";
+export * from "./errorId";
 export * from "./errorValidation";
 export * from "./errorValidationLogin";
 export * from "./errorValidationRecovery";

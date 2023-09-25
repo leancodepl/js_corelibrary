@@ -16,11 +16,9 @@ export const { Flow, useSignInFlow, useSignUpFlow, useVerificationFlow, useSetti
     nodeComponents: {
         NodeImage,
         NodeText,
-        nodeInputs: {
-            NodeInputCheckbox,
-            NodeInputSubmit,
-            NodeInputPassword,
-            NodeInputDefault,
-        },
+        NodeInputCheckbox,
+        NodeInputSubmit,
+        NodeInputPassword,
+        NodeInputDefault,
     },
 });

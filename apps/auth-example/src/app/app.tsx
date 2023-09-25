@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute, mfaSettingsRoute, settingsRoute, signInRoute, signUpRoute, verificationRoute } from "./routes";
-import PageLayout from "../components/common/PageLayout";
-import HomePage from "../pages/home";
-import RefreshSessionPage from "../pages/login";
-import TwoFactorAuthenticationPage from "../pages/mfa";
-import PasswordChangePage from "../pages/settings";
-import SignInPage from "../pages/signin";
-import SignUpPage from "../pages/signup";
-import VerificationPage from "../pages/verification";
+import { PageLayout } from "../components/common/PageLayout";
+import { HomePage } from "../pages/home";
+import { RefreshSessionPage } from "../pages/login";
+import { TwoFactorAuthenticationPage } from "../pages/mfa";
+import { PasswordChangePage } from "../pages/settings";
+import { SignInPage } from "../pages/signin";
+import { SignUpPage } from "../pages/signup";
+import { VerificationPage } from "../pages/verification";
 
 export function App() {
     return (

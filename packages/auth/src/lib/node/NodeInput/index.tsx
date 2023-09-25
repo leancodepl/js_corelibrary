@@ -21,16 +21,18 @@ type NodeInputProps = {
 type NodeInputHiddenProps = Omit<NodeInputProps, "node" | "disabled">;
 
 export function nodeInputFactory({
-    nodeInputs: { NodeInputHidden, NodeInputCheckbox, NodeInputSubmit, NodeInputPassword, NodeInputDefault },
+    nodeInputs: {
+        NodeInputHidden = DefaultNodeInputHidden,
+        NodeInputCheckbox,
+        NodeInputSubmit,
+        NodeInputPassword,
+        NodeInputDefault,
+    },
 }: NodeInputFactoryProps) {
     return function NodeInput({ attributes, node, disabled }: NodeInputProps) {
         switch (attributes.type) {
             case "hidden":
-                return NodeInputHidden ? (
-                    <NodeInputHidden attributes={attributes} />
-                ) : (
-                    <DefaultNodeInputHidden attributes={attributes} />
-                );
+                return <NodeInputHidden attributes={attributes} />;
             case "checkbox":
                 return <NodeInputCheckbox attributes={attributes} disabled={disabled} node={node} />;
             case "submit":

@@ -3,9 +3,9 @@ import { Center, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 import { signUpRoute } from "../../../app/routes";
 import { Flow, useSignUpFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
-import sessionManager from "../../../auth/sessionManager";
+import { sessionManager } from "../../../auth/sessionManager";
 
-export default function SignUp() {
+export function SignUp() {
     const { flow, submit, isSignedUp } = useSignUpFlow({
         kratosClient,
         signUpRoute,

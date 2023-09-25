@@ -1,6 +1,6 @@
 import { useObservable } from "react-use";
-import sessionManager from "../auth/sessionManager";
+import { sessionManager } from "../auth/sessionManager";
 
-export default function useIdentity() {
+export function useIdentity() {
     return useObservable(sessionManager.identity$);
 }

@@ -5,7 +5,7 @@ import { loginRoute } from "../../../app/routes";
 import { Flow, useSignInFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
 
-export default function RefreshSession() {
+export function RefreshSession() {
     const nav = useNavigate();
     const { flow, submit } = useSignInFlow({
         kratosClient,

@@ -1,15 +1,20 @@
 import { useCallback } from "react";
 import { Center, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
-import { CustomUiMessageParams, InfoNodeLabel, returnToParameterName } from "@leancodepl/auth";
-import { AxiosError } from "axios";
+import {
+    CustomUiMessageParams,
+    InfoNodeLabel,
+    ResponseError,
+    aalParameterName,
+    returnToParameterName,
+} from "@leancodepl/auth";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { signInRoute } from "../../../app/routes";
 import { Flow, useSignInFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
-import sessionManager from "../../../auth/sessionManager";
+import { sessionManager } from "../../../auth/sessionManager";
 
-export default function SignIn() {
+export function SignIn() {
     const handleSignIn = useHandleSignIn();
 
     const { flow, submit } = useSignInFlow({
@@ -60,11 +65,11 @@ function useHandleSignIn() {
                 return;
             }
         } catch (err) {
-            const data = (err as AxiosError).response?.data;
+            const data = (err as ResponseError).response?.data;
             switch (data.error.code) {
                 case 403:
                     if (data.error?.id === "session_aal2_required") {
-                        nav(`${signInRoute}?aal=aal2`, { replace: true });
+                        nav(`${signInRoute}?${aalParameterName}=aal2`, { replace: true });
                     }
                     break;
             }

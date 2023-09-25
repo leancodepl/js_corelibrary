@@ -1,4 +1,4 @@
-export enum ErrorID {
+export enum ErrorId {
     ErrIDNeedsPrivilegedSession = "session_refresh_required",
     ErrIDSelfServiceFlowExpired = "self_service_flow_expired",
     ErrIDSelfServiceFlowDisabled = "self_service_flow_disabled",

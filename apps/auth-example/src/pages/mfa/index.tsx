@@ -1,7 +1,7 @@
 import { Center } from "@chakra-ui/react";
-import TwoFactorAuthenticationToggle from "../../components/auth/2fa/TwoFactorAuthenticationToggle";
+import { TwoFactorAuthenticationToggle } from "../../components/auth/2fa/TwoFactorAuthenticationToggle";
 
-export default function TwoFactorAuthenticationPage() {
+export function TwoFactorAuthenticationPage() {
     return (
         <Center>
             <TwoFactorAuthenticationToggle />
