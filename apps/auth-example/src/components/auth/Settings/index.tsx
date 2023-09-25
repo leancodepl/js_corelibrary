@@ -11,6 +11,9 @@ export function Settings() {
     const { flow, submit } = useSettingsFlow({
         kratosClient,
         settingsRoute,
+        params: {
+            settingsRoute,
+        },
     });
 
     if (!flow) return <Spinner size="xl" />;
