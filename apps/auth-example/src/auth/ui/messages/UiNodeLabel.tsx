@@ -1,4 +1,4 @@
-import { isUiNodeAnchorAttributes, isUiNodeInputAttributes } from "@leancodepl/auth";
+import { isUiNodeAnchorAttributes, isUiNodeInputAttributes } from "@leancodepl/kratos";
 import { UiNode } from "@ory/kratos-client";
 import { UiMessage } from "./UiMessage";
 

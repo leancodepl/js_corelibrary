@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { InfoSelfServiceVerification, isUiNodeInputAttributes } from "@leancodepl/auth";
+import { InfoSelfServiceVerification, isUiNodeInputAttributes } from "@leancodepl/kratos";
 import { VerificationFlow } from "@ory/kratos-client";
 import { useNavigate } from "react-router";
 import { signInRoute } from "../../../app/routes";

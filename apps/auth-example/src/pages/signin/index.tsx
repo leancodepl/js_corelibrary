@@ -1,5 +1,5 @@
 import { Button, Center, Stack } from "@chakra-ui/react";
-import { aalParameterName } from "@leancodepl/auth";
+import { aalParameterName } from "@leancodepl/kratos";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { signInRoute } from "../../app/routes";
 import { sessionManager } from "../../auth/sessionManager";

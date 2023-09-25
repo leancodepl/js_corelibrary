@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { InfoSelfServiceSettings } from "@leancodepl/auth";
+import { InfoSelfServiceSettings } from "@leancodepl/kratos";
 import { UiNode, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
 import { isObject } from "lodash";
 import { UiMessage } from "../../messages/UiMessage";

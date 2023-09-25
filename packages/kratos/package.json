@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/auth",
+  "name": "@leancodepl/kratos",
   "version": "7.0.0",
   "type": "commonjs",
   "main": "./index.cjs",

@@ -6,7 +6,7 @@ import {
     ResponseError,
     aalParameterName,
     returnToParameterName,
-} from "@leancodepl/auth";
+} from "@leancodepl/kratos";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { signInRoute } from "../../../app/routes";

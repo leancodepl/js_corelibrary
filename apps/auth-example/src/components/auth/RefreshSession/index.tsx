@@ -1,5 +1,5 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
-import { CustomUiMessageParams, ErrorValidation, InfoSelfServiceLogin } from "@leancodepl/auth";
+import { CustomUiMessageParams, ErrorValidation, InfoSelfServiceLogin } from "@leancodepl/kratos";
 import { useNavigate } from "react-router";
 import { loginRoute } from "../../../app/routes";
 import { Flow, useSignInFlow } from "../../../auth";

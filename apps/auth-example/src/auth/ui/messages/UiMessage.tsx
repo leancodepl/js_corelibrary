@@ -10,7 +10,7 @@ import {
     InfoSelfServiceSettings,
     InfoSelfServiceVerification,
     isUiNodeInputAttributes,
-} from "@leancodepl/auth";
+} from "@leancodepl/kratos";
 import { UiNodeInputAttributes, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
 
 type UiMessageProps = {

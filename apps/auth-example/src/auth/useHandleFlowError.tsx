@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useToast } from "@chakra-ui/react";
-import { ErrorId, ResponseError } from "@leancodepl/auth";
+import { ErrorId, ResponseError } from "@leancodepl/kratos";
 
 export type FlowErrorResponse = {
     error?: {

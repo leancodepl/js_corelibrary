@@ -1,4 +1,4 @@
-import { mkAuth } from "@leancodepl/auth";
+import { mkAuth } from "@leancodepl/kratos";
 import { displayGlobalMessages } from "./ui/messages/displayGlobalMessages";
 import { CustomGetMessageProvider } from "./ui/messages/UiMessage";
 import { NodeImage } from "./ui/node/image";

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Flex, Stack, Text } from "@chakra-ui/react";
-import { CustomUiMessageParams, InfoSelfServiceSettings, isUiNodeInputAttributes } from "@leancodepl/auth";
+import { CustomUiMessageParams, InfoSelfServiceSettings, isUiNodeInputAttributes } from "@leancodepl/kratos";
 import { SettingsFlow, UiNodeGroupEnum } from "@ory/kratos-client";
 import { mfaSettingsRoute } from "../../../../app/routes";
 import { Flow, useSettingsFlow } from "../../../../auth";

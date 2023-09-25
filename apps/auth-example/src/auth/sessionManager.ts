@@ -1,4 +1,4 @@
-import { BaseSessionManager } from "@leancodepl/auth";
+import { BaseSessionManager } from "@leancodepl/kratos";
 import { map } from "rxjs";
 import { signInRoute } from "../app/routes";
 import environment from "../environments/environment";

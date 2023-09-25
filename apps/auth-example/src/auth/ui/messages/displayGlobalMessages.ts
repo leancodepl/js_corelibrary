@@ -1,4 +1,4 @@
-import { CustomUiMessage } from "@leancodepl/auth";
+import { CustomUiMessage } from "@leancodepl/kratos";
 import { UiText } from "@ory/kratos-client";
 import { toast } from "react-toastify";
 import { getMessages } from "./getMessages";
