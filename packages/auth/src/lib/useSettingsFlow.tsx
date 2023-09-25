@@ -3,6 +3,7 @@ import { FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/kratos-c
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
+import { parseSearchParams } from "./utils/parseSearchParams";
 import { returnToParameterName } from "./utils/variables";
 
 type UseSettingsFlowFactoryProps = {
@@ -24,10 +25,7 @@ export function settingsFlowHookFactory({ useHandleFlowError }: UseSettingsFlowF
         const { search } = useLocation();
         const nav = useNavigate();
 
-        const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(
-            () => Object.fromEntries([...new URLSearchParams(search).entries()]) as Partial<Record<string, string>>,
-            [search],
-        );
+        const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(() => parseSearchParams(search), [search]);
 
         const handleFlowError = useHandleFlowError({
             resetFlow: useCallback(() => {

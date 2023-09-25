@@ -3,6 +3,7 @@ import { FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/kratos-c
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
+import { parseSearchParams } from "./utils/parseSearchParams";
 import { returnToParameterName } from "./utils/variables";
 
 type UseRecoveryFlowProps = {
@@ -24,10 +25,7 @@ export function recoveryFlowHookFactory({ useHandleFlowError }: UseRecoveryFlowP
         const { search } = useLocation();
         const nav = useNavigate();
 
-        const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(
-            () => Object.fromEntries([...new URLSearchParams(search).entries()]) as Partial<Record<string, string>>,
-            [search],
-        );
+        const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(() => parseSearchParams(search), [search]);
 
         const handleFlowError = useHandleFlowError({
             resetFlow: useCallback(() => {
