@@ -22,9 +22,11 @@ jobs:
               run: npm install
             - name: Test
               run: npx nx run-many -t test
-            - name: Build & Publish
+            - name: Test Build
+              run: npx nx run-many -t build  --parallel=1
+            - name: Publish
               run:
-                  npx nx run-many -t publish --registry=npm --ver=${{ format('{0}', steps.get_version.outputs.version)}}
-                  --tag=latest
+                  npx nx run-many -t publish  --parallel=1 --registry=npm --ver=${{ format('{0}',
+                  steps.get_version.outputs.version)}} --tag=latest
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
