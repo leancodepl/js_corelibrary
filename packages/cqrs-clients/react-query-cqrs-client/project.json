@@ -18,7 +18,7 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs @leancodepl/react-query-cqrs-client {args.ver} {args.tag}",
+      "command": "node tools/scripts/publish.mjs @leancodepl/react-query-cqrs-client {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {

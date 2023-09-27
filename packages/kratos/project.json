@@ -1,5 +1,5 @@
 {
-  "name": "kratos",
+  "name": "@leancodepl/kratos",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/kratos/src",
   "projectType": "library",
@@ -11,6 +11,10 @@
       "options": {
         "lintFilePatterns": ["packages/kratos/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/kratos {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     },
     "build": {
       "executor": "@nx/rollup:rollup",

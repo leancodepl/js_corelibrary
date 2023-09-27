@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.1.6](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.6) (2023-09-27)
+
+**Note:** Version bump only for package @leancodepl/stylelint-config
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.5](https://github.com/leancodepl/js_corelibrary/compare/v7.1.4...v7.1.5) (2023-09-27)
+
+**Note:** Version bump only for package @leancodepl/stylelint-config
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.4](https://github.com/leancodepl/js_corelibrary/compare/v7.1.3...v7.1.4) (2023-09-27)
+
+**Note:** Version bump only for package @leancodepl/stylelint-config
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 <a name="6.5.0"></a>
 
 # [6.5.0](https://github.com/projects/leancodepl/repos/js_corelibrary/compare/diff?targetBranch=refs%2Ftags%2Fv6.4.1&sourceBranch=refs%2Ftags%2Fv6.5.0) (2023-07-25)
