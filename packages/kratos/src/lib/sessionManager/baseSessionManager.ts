@@ -14,7 +14,7 @@ import {
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 
 export class BaseSessionManager {
-    apiUrl: string;
+    authUrl: string;
     signInRoute: string;
 
     session$: Subject<Session | undefined> = new ReplaySubject(1);
@@ -44,7 +44,7 @@ export class BaseSessionManager {
             .pipe(
                 switchMap(() =>
                     from(
-                        fetch(`${this.apiUrl}/sessions/whoami`, {
+                        fetch(`${this.authUrl}/sessions/whoami`, {
                             method: "GET",
                             credentials: "include",
                         }),
@@ -99,7 +99,7 @@ export class BaseSessionManager {
             .pipe(
                 exhaustMap(() =>
                     from(
-                        fetch(`${this.apiUrl}/sessions/logout`, {
+                        fetch(`${this.authUrl}/sessions/logout`, {
                             method: "GET",
                             credentials: "include",
                         }),
@@ -123,7 +123,7 @@ export class BaseSessionManager {
     })();
 
     constructor(authUrl: string, signInRoute: string) {
-        this.apiUrl = authUrl;
+        this.authUrl = authUrl;
         this.signInRoute = signInRoute;
         this.checkIfSignedIn();
     }
