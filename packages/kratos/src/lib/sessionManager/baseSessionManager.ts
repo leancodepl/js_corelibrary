@@ -1,10 +1,20 @@
 import { Session } from "@ory/kratos-client";
-import { catchError, exhaustMap, firstValueFrom, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs";
-import { ajax } from "rxjs/ajax";
+import {
+    catchError,
+    exhaustMap,
+    firstValueFrom,
+    from,
+    map,
+    of,
+    ReplaySubject,
+    shareReplay,
+    Subject,
+    switchMap,
+} from "rxjs";
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 
 export class BaseSessionManager {
-    apiUrl: string;
+    authUrl: string;
     signInRoute: string;
 
     session$: Subject<Session | undefined> = new ReplaySubject(1);
@@ -33,13 +43,14 @@ export class BaseSessionManager {
         fetchSubject
             .pipe(
                 switchMap(() =>
-                    ajax<Session>({
-                        url: `${this.apiUrl}/sessions/whoami`,
-                        method: "GET",
-                        responseType: "json",
-                        withCredentials: true,
-                    }).pipe(
-                        map(({ response }) => {
+                    from(
+                        fetch(`${this.authUrl}/sessions/whoami`, {
+                            method: "GET",
+                            credentials: "include",
+                        }),
+                    ).pipe(
+                        switchMap(response => from(response.json())),
+                        map(response => {
                             const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName);
 
                             if (returnTo) {
@@ -87,14 +98,16 @@ export class BaseSessionManager {
         fetchSubject
             .pipe(
                 exhaustMap(() =>
-                    ajax({
-                        url: `${this.apiUrl}/sessions/logout`,
-                        method: "GET",
-                        responseType: "json",
-                        withCredentials: true,
-                    }),
+                    from(
+                        fetch(`${this.authUrl}/sessions/logout`, {
+                            method: "GET",
+                            credentials: "include",
+                        }),
+                    ).pipe(
+                        switchMap(() => of(undefined)),
+                        catchError(() => of(undefined)),
+                    ),
                 ),
-                catchError(() => of(undefined)),
             )
             .subscribe({
                 next: () => {
@@ -110,7 +123,7 @@ export class BaseSessionManager {
     })();
 
     constructor(authUrl: string, signInRoute: string) {
-        this.apiUrl = authUrl;
+        this.authUrl = authUrl;
         this.signInRoute = signInRoute;
         this.checkIfSignedIn();
     }
