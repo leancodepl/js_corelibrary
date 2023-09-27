@@ -1,0 +1,23 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
+export enum InfoSelfServiceSettings {
+    InfoSelfServiceSettings = 1050000,
+    InfoSelfServiceSettingsUpdateSuccess = 1050001,
+    InfoSelfServiceSettingsUpdateLinkOidc = 1050002,
+    InfoSelfServiceSettingsUpdateUnlinkOidc = 1050003,
+    InfoSelfServiceSettingsUpdateUnlinkTOTP = 1050004,
+    InfoSelfServiceSettingsTOTPQRCode = 1050005,
+    InfoSelfServiceSettingsTOTPSecret = 1050006,
+    InfoSelfServiceSettingsRevealLookup = 1050007,
+    InfoSelfServiceSettingsRegenerateLookup = 1050008,
+    InfoSelfServiceSettingsLookupSecret = 1050009,
+    InfoSelfServiceSettingsLookupSecretLabel = 1050010,
+    InfoSelfServiceSettingsLookupConfirm = 1050011,
+    InfoSelfServiceSettingsRegisterWebAuthn = 1050012,
+    InfoSelfServiceSettingsRegisterWebAuthnDisplayName = 1050013,
+    InfoSelfServiceSettingsLookupSecretUsed = 1050014,
+    InfoSelfServiceSettingsLookupSecretList = 1050015,
+    InfoSelfServiceSettingsDisableLookup = 1050016,
+    InfoSelfServiceSettingsTOTPSecretLabel = 1050017,
+    InfoSelfServiceSettingsRemoveWebAuthn = 1050018,
+}

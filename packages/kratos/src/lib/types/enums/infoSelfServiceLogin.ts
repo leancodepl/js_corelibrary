@@ -1,0 +1,18 @@
+// https://pkg.go.dev/github.com/ory/kratos/text#pkg-types
+
+export enum InfoSelfServiceLogin {
+    InfoSelfServiceLoginRoot = 1010000,
+    InfoSelfServiceLogin = 1010001,
+    InfoSelfServiceLoginWith = 1010002,
+    InfoSelfServiceLoginReAuth = 1010003,
+    InfoSelfServiceLoginMFA = 1010004,
+    InfoSelfServiceLoginVerify = 1010005,
+    InfoSelfServiceLoginTOTPLabel = 1010006,
+    InfoLoginLookupLabel = 1010007,
+    InfoSelfServiceLoginWebAuthn = 1010008,
+    InfoLoginTOTP = 1010009,
+    InfoLoginLookup = 1010010,
+    InfoSelfServiceLoginContinueWebAuthn = 1010011,
+    InfoSelfServiceLoginWebAuthnPasswordless = 1010012,
+    InfoSelfServiceLoginContinue = 1010013,
+}

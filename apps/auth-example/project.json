@@ -1,0 +1,79 @@
+{
+  "name": "auth-example",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/auth-example/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "swc",
+        "outputPath": "dist/apps/auth-example",
+        "index": "apps/auth-example/src/index.html",
+        "baseHref": "/",
+        "main": "apps/auth-example/src/main.tsx",
+        "tsConfig": "apps/auth-example/tsconfig.app.json",
+        "assets": ["apps/auth-example/src/favicon.ico", "apps/auth-example/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/auth-example/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-example/src/environments/environment.ts",
+              "with": "apps/auth-example/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/auth-example/src/environments/environment.ts",
+              "with": "apps/auth-example/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "auth-example:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "auth-example:build:development"
+        },
+        "production": {
+          "buildTarget": "auth-example:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/auth-example/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

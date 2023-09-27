@@ -1,0 +1,16 @@
+{
+  "name": "@leancodepl/kratos",
+  "version": "7.0.0",
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "dependencies": {
+    "@ory/kratos-client": ">=1.0.0",
+    "axios": "^0.21.4",
+    "lodash": ">=4.0.0",
+    "react-hook-form": ">=7.0.0",
+    "react-router": ">=6.0.0",
+    "rxjs": ">=7.0.0",
+    "yn": ">=5.0.0"
+  }
+}
