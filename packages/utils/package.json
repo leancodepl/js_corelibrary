@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/utils",
-  "version": "7.1.6",
+  "version": "7.1.7",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-date": "7.1.6"
+    "@leancodepl/api-date": "7.1.7"
   },
   "type": "commonjs",
   "main": "./index.cjs",

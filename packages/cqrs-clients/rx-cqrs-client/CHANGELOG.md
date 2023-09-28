@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.1.7](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.7) (2023-09-28)
+
+### Bug Fixes
+
+-   update nx to fix building packages
+    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+
+### Features
+
+-   add react-query-cqrs-client library
+    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.1.6](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.6) (2023-09-27)
 
 ### Bug Fixes

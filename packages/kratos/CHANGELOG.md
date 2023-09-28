@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.1.7](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.7) (2023-09-28)
+
+### Bug Fixes
+
+-   switch to fetch instead of ajax
+    ([5bedf61](https://github.com/leancodepl/js_corelibrary/commit/5bedf6135f126db2ec8b7799c85e4a39f0254ca1))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.1.6](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.6) (2023-09-27)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/api-date",
-  "version": "7.1.6",
+  "version": "7.1.7",
   "license": "Apache-2.0",
   "type": "commonjs",
   "main": "./index.cjs",

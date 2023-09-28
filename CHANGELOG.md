@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.1.7](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.7) (2023-09-28)
+
+### Bug Fixes
+
+-   add dummy path to fix building
+    ([325cca9](https://github.com/leancodepl/js_corelibrary/commit/325cca9533d49aa8112a59143fe00993d5aa0eac))
+-   remove unnecessary test
+    ([7553fac](https://github.com/leancodepl/js_corelibrary/commit/7553fac8caf3cf6ec8a3d27652cb9815c1d5a63f))
+-   switch to fetch instead of ajax
+    ([5bedf61](https://github.com/leancodepl/js_corelibrary/commit/5bedf6135f126db2ec8b7799c85e4a39f0254ca1))
+-   update nx to fix building packages
+    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+
+### Features
+
+-   add examples of 2fa
+    ([b14cc70](https://github.com/leancodepl/js_corelibrary/commit/b14cc7009c453807ca5a461d2250d8a097ec706a))
+-   add gtag helper library
+    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+-   add kratos auth package
+    ([e94de70](https://github.com/leancodepl/js_corelibrary/commit/e94de7013d1ba0614d74325fa9d5b0c6a0c517ed))
+-   add react-query-cqrs-client library
+    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+-   add test build step to release flow
+    ([56c5019](https://github.com/leancodepl/js_corelibrary/commit/56c5019024848f0e1874bfd8aac3bd4bfbcf0cc1))
+-   add utils package
+    ([7b2d954](https://github.com/leancodepl/js_corelibrary/commit/7b2d9547c89223dd75994be1e967149f8dd0e252))
+-   add utils package
+    ([9ade590](https://github.com/leancodepl/js_corelibrary/commit/9ade590b39611942134e4b8a0c137464d80734e3))
+-   make learna always run version with --exact
+    ([7a766a7](https://github.com/leancodepl/js_corelibrary/commit/7a766a7e7c0e07af676a9e87c7c897dfea861db9))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.1.6](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.6) (2023-09-27)
 
 ### Bug Fixes
