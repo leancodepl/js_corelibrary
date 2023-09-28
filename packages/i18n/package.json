@@ -1,6 +1,7 @@
 {
   "name": "@leancodepl/i18n",
-  "version": "7.0.0",
+  "version": "7.1.7",
+  "license": "Apache-2.0",
   "types": "./index.cjs.d.ts",
   "dependencies": {
     "react-intl": ">=6.0.0"

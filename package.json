@@ -51,6 +51,7 @@
     "react-dom": "18.2.0",
     "react-refresh": "^0.10.0",
     "sinon": "15.2.0",
+    "stylelint-prettier": "^3.0.0",
     "swc-loader": "0.1.15",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
@@ -63,7 +64,8 @@
     "packages/*",
     "packages/cqrs-clients/*",
     "packages/cqrs-clients/custom-types/binary/*",
-    "packages/cqrs-clients/custom-types/date/*"
+    "packages/cqrs-clients/custom-types/date/*",
+    "packages/linters/*"
   ],
   "dependencies": {
     "@chakra-ui/react": "2.8.1",

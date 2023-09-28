@@ -3,6 +3,180 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.1.7](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.7) (2023-09-28)
+
+### Bug Fixes
+
+-   add dummy path to fix building
+    ([325cca9](https://github.com/leancodepl/js_corelibrary/commit/325cca9533d49aa8112a59143fe00993d5aa0eac))
+-   remove unnecessary test
+    ([7553fac](https://github.com/leancodepl/js_corelibrary/commit/7553fac8caf3cf6ec8a3d27652cb9815c1d5a63f))
+-   switch to fetch instead of ajax
+    ([5bedf61](https://github.com/leancodepl/js_corelibrary/commit/5bedf6135f126db2ec8b7799c85e4a39f0254ca1))
+-   update nx to fix building packages
+    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+
+### Features
+
+-   add examples of 2fa
+    ([b14cc70](https://github.com/leancodepl/js_corelibrary/commit/b14cc7009c453807ca5a461d2250d8a097ec706a))
+-   add gtag helper library
+    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+-   add kratos auth package
+    ([e94de70](https://github.com/leancodepl/js_corelibrary/commit/e94de7013d1ba0614d74325fa9d5b0c6a0c517ed))
+-   add react-query-cqrs-client library
+    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+-   add test build step to release flow
+    ([56c5019](https://github.com/leancodepl/js_corelibrary/commit/56c5019024848f0e1874bfd8aac3bd4bfbcf0cc1))
+-   add utils package
+    ([7b2d954](https://github.com/leancodepl/js_corelibrary/commit/7b2d9547c89223dd75994be1e967149f8dd0e252))
+-   add utils package
+    ([9ade590](https://github.com/leancodepl/js_corelibrary/commit/9ade590b39611942134e4b8a0c137464d80734e3))
+-   make learna always run version with --exact
+    ([7a766a7](https://github.com/leancodepl/js_corelibrary/commit/7a766a7e7c0e07af676a9e87c7c897dfea861db9))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.6](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.6) (2023-09-27)
+
+### Bug Fixes
+
+-   add dummy path to fix building
+    ([325cca9](https://github.com/leancodepl/js_corelibrary/commit/325cca9533d49aa8112a59143fe00993d5aa0eac))
+-   add missing stylelint-prettier
+    ([6ad4b22](https://github.com/leancodepl/js_corelibrary/commit/6ad4b22a3483c5ccc7e60fe9a3e3cd2e228483d2))
+-   bumping versions for linters
+    ([803944d](https://github.com/leancodepl/js_corelibrary/commit/803944dad4b6bf0e28ccdd76836db7f9b808e84f))
+-   change path to fix building
+    ([b5b8663](https://github.com/leancodepl/js_corelibrary/commit/b5b866333663e4224b348565ac65de6a7bbb5feb))
+-   kratos package name
+    ([dd280d3](https://github.com/leancodepl/js_corelibrary/commit/dd280d38abf0d6b50b9349d22fab906d6ad3a865))
+-   remove unnecessary test
+    ([7553fac](https://github.com/leancodepl/js_corelibrary/commit/7553fac8caf3cf6ec8a3d27652cb9815c1d5a63f))
+-   update nx to fix building packages
+    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+-   update publish scripts
+    ([9301c27](https://github.com/leancodepl/js_corelibrary/commit/9301c277f34230e63bd60735bfbc244825a74405))
+
+### Features
+
+-   add examples of 2fa
+    ([b14cc70](https://github.com/leancodepl/js_corelibrary/commit/b14cc7009c453807ca5a461d2250d8a097ec706a))
+-   add gtag helper library
+    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+-   add kratos auth package
+    ([e94de70](https://github.com/leancodepl/js_corelibrary/commit/e94de7013d1ba0614d74325fa9d5b0c6a0c517ed))
+-   add react-query-cqrs-client library
+    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+-   add test build step to release flow
+    ([56c5019](https://github.com/leancodepl/js_corelibrary/commit/56c5019024848f0e1874bfd8aac3bd4bfbcf0cc1))
+-   add utils package
+    ([7b2d954](https://github.com/leancodepl/js_corelibrary/commit/7b2d9547c89223dd75994be1e967149f8dd0e252))
+-   add utils package
+    ([9ade590](https://github.com/leancodepl/js_corelibrary/commit/9ade590b39611942134e4b8a0c137464d80734e3))
+-   make learna always run version with --exact
+    ([7a766a7](https://github.com/leancodepl/js_corelibrary/commit/7a766a7e7c0e07af676a9e87c7c897dfea861db9))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.5](https://github.com/leancodepl/js_corelibrary/compare/v7.1.4...v7.1.5) (2023-09-27)
+
+### Bug Fixes
+
+-   add missing stylelint-prettier
+    ([498a7b9](https://github.com/leancodepl/js_corelibrary/commit/498a7b9aa059e81012fade378f4fc08c6595d1a9))
+-   change path to fix building
+    ([9c0677d](https://github.com/leancodepl/js_corelibrary/commit/9c0677dbd023943d6d3b3e7126962d7c96e1fe8c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.4](https://github.com/leancodepl/js_corelibrary/compare/v7.1.3...v7.1.4) (2023-09-27)
+
+### Bug Fixes
+
+-   bumping versions for linters
+    ([cda2b16](https://github.com/leancodepl/js_corelibrary/commit/cda2b169799fab25cbb50e0671aefa7e0c7e1565))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.3](https://github.com/leancodepl/js_corelibrary/compare/v7.1.2...v7.1.3) (2023-09-27)
+
+### Bug Fixes
+
+-   kratos package name
+    ([3122bda](https://github.com/leancodepl/js_corelibrary/commit/3122bdad7603b9f993f9f2969aa27450e36c7a29))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.2](https://github.com/leancodepl/js_corelibrary/compare/v7.1.1...v7.1.2) (2023-09-27)
+
+**Note:** Version bump only for package core-js-library
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.1.1](https://github.com/leancodepl/js_corelibrary/compare/v7.1.0...v7.1.1) (2023-09-27)
+
+### Bug Fixes
+
+-   update publish scripts
+    ([2093426](https://github.com/leancodepl/js_corelibrary/commit/20934263c8dcf540f522f4667dfc2e8e825ff159))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [7.1.0](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.0) (2023-09-27)
+
+### Bug Fixes
+
+-   add dummy path to fix building
+    ([325cca9](https://github.com/leancodepl/js_corelibrary/commit/325cca9533d49aa8112a59143fe00993d5aa0eac))
+-   remove unnecessary test
+    ([7553fac](https://github.com/leancodepl/js_corelibrary/commit/7553fac8caf3cf6ec8a3d27652cb9815c1d5a63f))
+-   update nx to fix building packages
+    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+
+### Features
+
+-   add examples of 2fa
+    ([b14cc70](https://github.com/leancodepl/js_corelibrary/commit/b14cc7009c453807ca5a461d2250d8a097ec706a))
+-   add gtag helper library
+    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+-   add kratos auth package
+    ([e94de70](https://github.com/leancodepl/js_corelibrary/commit/e94de7013d1ba0614d74325fa9d5b0c6a0c517ed))
+-   add react-query-cqrs-client library
+    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+-   add utils package
+    ([7b2d954](https://github.com/leancodepl/js_corelibrary/commit/7b2d9547c89223dd75994be1e967149f8dd0e252))
+-   add utils package
+    ([9ade590](https://github.com/leancodepl/js_corelibrary/commit/9ade590b39611942134e4b8a0c137464d80734e3))
+-   make learna always run version with --exact
+    ([7a766a7](https://github.com/leancodepl/js_corelibrary/commit/7a766a7e7c0e07af676a9e87c7c897dfea861db9))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.0.0](https://github.com/leancodepl/js_corelibrary/compare/v6.5.1...v7.0.0) (2023-09-01)
 
 ### Bug Fixes
