@@ -5,7 +5,7 @@
   "dependencies": {
     "@leancodepl/utils": "7.1.7",
     "@leancodepl/validation": "7.1.7",
-    "@tanstack/react-query": ">=4.32.6",
+    "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
   },
   "type": "commonjs",
