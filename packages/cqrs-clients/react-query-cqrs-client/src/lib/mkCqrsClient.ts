@@ -1,18 +1,18 @@
 import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base";
 import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation";
-import type { Updater } from "@tanstack/query-core/build/lib/utils";
 import {
     FetchQueryOptions,
     QueryClient,
     QueryFunctionContext,
     QueryKey,
-    UseInfiniteQueryOptions,
     useMutation,
     UseMutationOptions,
     UseMutationResult,
     useQuery,
-    UseQueryOptions,
     useInfiniteQuery,
+    Updater,
+    UndefinedInitialDataInfiniteOptions,
+    UndefinedInitialDataOptions,
 } from "@tanstack/react-query";
 import { catchError, firstValueFrom, of, throwError, fromEvent, race, Observable, from, OperatorFunction } from "rxjs";
 import { ajax, AjaxError, AjaxConfig } from "rxjs/ajax";
@@ -73,16 +73,16 @@ export function mkCqrsClient({
 
             function useApiQuery(
                 data: TQuery,
-                options?: Omit<
-                    UseQueryOptions<Result, unknown>,
-                    "queryKey" | "queryFn" | "initialData" | "onSuccess" | "onError" | "onSettled" | "isDataEqual"
-                >,
+                options?: Omit<UndefinedInitialDataOptions<Result, unknown>, "queryKey" | "queryFn">,
             ) {
-                return useQuery<Result, unknown>({
-                    queryKey: useApiQuery.key(data),
-                    queryFn: context => firstValueFrom(useApiQuery.fetcher(data, context)),
-                    ...options,
-                });
+                return useQuery<Result, unknown>(
+                    {
+                        queryKey: useApiQuery.key(data),
+                        queryFn: context => firstValueFrom(useApiQuery.fetcher(data, context)),
+                        ...options,
+                    },
+                    queryClient,
+                );
             }
 
             useApiQuery.fetcher = (data: TQuery, context?: QueryFunctionContext<QueryKey>): Observable<Result> =>
@@ -112,33 +112,37 @@ export function mkCqrsClient({
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 return useMutation<Result, unknown, TQuery, TContext>(
-                    [type],
-                    variables => firstValueFrom(useApiQuery.fetcher(variables)),
-                    options,
+                    {
+                        mutationKey: [type],
+                        mutationFn: variables => firstValueFrom(useApiQuery.fetcher(variables)),
+                        ...options,
+                    },
+                    queryClient,
                 );
             };
-
             useApiQuery.infinite = function (
                 data: TQuery,
-                options?: Omit<
-                    UseInfiniteQueryOptions<Result, unknown>,
-                    "queryKey" | "queryFn" | "initialData" | "onSuccess" | "onError" | "onSettled"
-                > & {
+                options: Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryKey" | "queryFn"> & {
                     pageParamKey?: keyof TQuery;
                 },
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                return useInfiniteQuery<Result, unknown>({
-                    queryKey: useApiQuery.key(data),
-                    queryFn: context =>
-                        firstValueFrom(
-                            useApiQuery.fetcher(
-                                options?.pageParamKey ? { ...data, [options.pageParamKey]: context.pageParam } : data,
-                                context,
+                return useInfiniteQuery<Result, unknown>(
+                    {
+                        queryKey: useApiQuery.key(data),
+                        queryFn: context =>
+                            firstValueFrom(
+                                useApiQuery.fetcher(
+                                    options?.pageParamKey
+                                        ? { ...data, [options.pageParamKey]: context.pageParam }
+                                        : data,
+                                    context,
+                                ),
                             ),
-                        ),
-                    ...options,
-                });
+                        ...options,
+                    },
+                    queryClient,
+                );
             };
 
             useApiQuery.key = (query: Partial<TQuery>) => [type, query] as const;
@@ -190,21 +194,24 @@ export function mkCqrsClient({
             }: Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> & {
                 invalidateQueries?: QueryKey[];
             } = {}) {
-                return useMutation<Result, unknown, TOperation, TContext>({
-                    mutationKey: [type],
-                    mutationFn: variables => firstValueFrom(useApiOperation.fetcher(variables)),
-                    ...options,
-                    async onSuccess(data, variables, context) {
-                        const result = await onSuccessBase?.(data, variables, context);
+                return useMutation<Result, unknown, TOperation, TContext>(
+                    {
+                        mutationKey: [type],
+                        mutationFn: variables => firstValueFrom(useApiOperation.fetcher(variables)),
+                        ...options,
+                        async onSuccess(data, variables, context) {
+                            const result = await onSuccessBase?.(data, variables, context);
 
-                        invalidateQueries &&
-                            (await Promise.allSettled(
-                                invalidateQueries.map(query => queryClient.invalidateQueries(query)),
-                            ));
+                            invalidateQueries &&
+                                (await Promise.allSettled(
+                                    invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
+                                ));
 
-                        return result;
+                            return result;
+                        },
                     },
-                });
+                    queryClient,
+                );
             }
 
             useApiOperation.fetcher = (variables: TOperation): Observable<Result> =>
@@ -249,27 +256,30 @@ export function mkCqrsClient({
                     handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
                 ) => TResult;
             } = {}) {
-                return useMutation<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>({
-                    mutationKey: [type],
-                    mutationFn: (variables: TCommand) => {
-                        if (!handler) {
-                            return firstValueFrom(useApiCommand.fetcher(variables));
-                        }
+                return useMutation<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>(
+                    {
+                        mutationKey: [type],
+                        mutationFn: (variables: TCommand) => {
+                            if (!handler) {
+                                return firstValueFrom(useApiCommand.fetcher(variables));
+                            }
 
-                        return firstValueFrom(useApiCommand.call(variables, handler));
+                            return firstValueFrom(useApiCommand.call(variables, handler));
+                        },
+                        ...options,
+                        async onSuccess(data, variables, context) {
+                            invalidateQueries &&
+                                (await Promise.allSettled(
+                                    invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
+                                ));
+
+                            const result = await onSuccess?.(data, variables, context);
+
+                            return result;
+                        },
                     },
-                    ...options,
-                    async onSuccess(data, variables, context) {
-                        invalidateQueries &&
-                            (await Promise.allSettled(
-                                invalidateQueries.map(queryKey => queryClient.invalidateQueries(queryKey)),
-                            ));
-
-                        const result = await onSuccess?.(data, variables, context);
-
-                        return result;
-                    },
-                });
+                    queryClient,
+                );
             }
 
             useApiCommand.fetcher = (variables: TCommand) => fetcher<CommandResult<TErrorCodes>>(variables);
