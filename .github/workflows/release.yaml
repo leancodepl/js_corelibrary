@@ -8,10 +8,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
             - name: Get the version
               id: get_version
-              run: echo ::set-output name=version::$(jq -Mr '.version' < lerna.json)
+              run: echo "version=$(jq -Mr '.version' < lerna.json)" >> $GITHUB_OUTPUT
             - name: Setup Node
               uses: actions/setup-node@v3
               with:
