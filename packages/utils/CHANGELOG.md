@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.2.1](https://github.com/leancodepl/js_corelibrary/compare/v7.1.7...v7.2.1) (2023-11-09)
+
+### Bug Fixes
+
+-   change utils dependencies
+    ([4520ce4](https://github.com/leancodepl/js_corelibrary/commit/4520ce4e38f04bac5a7aa3776d78902739c28052))
+
+### Features
+
+-   add assert and ensure helpers
+    ([aa4f445](https://github.com/leancodepl/js_corelibrary/commit/aa4f445d01d566549e5e2b509f986dfd630c9e28))
+-   add assertNotEmpty and ensureNotEmpty
+    ([2497b6a](https://github.com/leancodepl/js_corelibrary/commit/2497b6a1c4f7716f7d007c8af49296407d794195))
+-   add downloadFile helper
+    ([6d9446c](https://github.com/leancodepl/js_corelibrary/commit/6d9446c9f0ee86ee108febaff2626cc20dcd5504))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.2.0](https://github.com/leancodepl/js_corelibrary/compare/v7.1.7...v7.2.0) (2023-11-09)
 
 **Note:** Version bump only for package @leancodepl/utils
