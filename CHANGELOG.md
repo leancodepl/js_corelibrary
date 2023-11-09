@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.2.0](https://github.com/leancodepl/js_corelibrary/compare/v7.1.7...v7.2.0) (2023-11-09)
+
+### Features
+
+-   pass queryClient from props to hooks
+    ([8a98f60](https://github.com/leancodepl/js_corelibrary/commit/8a98f60ed7ef1f01682cb09b52a13381fe350345))
+-   update react-query to v5
+    ([6ab3dfc](https://github.com/leancodepl/js_corelibrary/commit/6ab3dfc40b29238f970f4c7da15465739e610b63))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.1.7](https://github.com/leancodepl/js_corelibrary/compare/v7.0.0...v7.1.7) (2023-09-28)
 
 ### Bug Fixes

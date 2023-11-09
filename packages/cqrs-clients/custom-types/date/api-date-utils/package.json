@@ -1,11 +1,11 @@
 {
   "name": "@leancodepl/api-date-utils",
-  "version": "7.1.7",
+  "version": "7.2.0",
   "license": "Apache-2.0",
   "type": "commonjs",
   "main": "./index.cjs",
   "module": "./index.js",
   "devDependencies": {
-    "@leancodepl/api-date": "7.1.7"
+    "@leancodepl/api-date": "7.2.0"
   }
 }

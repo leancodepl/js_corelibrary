@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/axios-cqrs-client",
-  "version": "7.1.7",
+  "version": "7.2.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/validation": "7.1.7",
+    "@leancodepl/validation": "7.2.0",
     "axios": ">=1.0.0"
   },
   "type": "commonjs",

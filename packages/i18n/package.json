@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/i18n",
-  "version": "7.1.7",
+  "version": "7.2.0",
   "license": "Apache-2.0",
   "types": "./index.cjs.d.ts",
   "dependencies": {
