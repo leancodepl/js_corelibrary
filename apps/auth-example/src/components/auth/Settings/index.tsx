@@ -1,11 +1,8 @@
-import { Spinner, Stack } from "@chakra-ui/react";
-import { UiNodeGroupEnum } from "@ory/kratos-client";
+import { Spinner } from "@chakra-ui/react";
+import { UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos";
 import { settingsRoute } from "../../../app/routes";
-import { Flow, useSettingsFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
 import { Redirect } from "../../common/Redirect";
-
-const settingsFlowOnly = [UiNodeGroupEnum.Password];
 
 export function Settings() {
     const { flow, submit } = useSettingsFlow({
@@ -25,5 +22,25 @@ export function Settings() {
         return <Redirect path={`${flowSettingsRoute}?flow=${flow.id}`} />;
     }
 
-    return <Flow flow={flow} nodesWrapper={Stack} only={settingsFlowOnly} onSubmit={submit} />;
+    return (
+        <>
+            <h2>Lookup secret</h2>
+            <UserSettingsCard flow={flow} flowType="lookupSecret" onSubmit={submit} />
+
+            <h2>oidc</h2>
+            <UserSettingsCard flow={flow} flowType="oidc" onSubmit={submit} />
+
+            <h2>password</h2>
+            <UserSettingsCard flow={flow} flowType="password" onSubmit={submit} />
+
+            <h2>profile</h2>
+            <UserSettingsCard flow={flow} flowType="profile" onSubmit={submit} />
+
+            <h2>Totp</h2>
+            <UserSettingsCard flow={flow} flowType="totp" onSubmit={submit} />
+
+            <h2>Webauthn</h2>
+            <UserSettingsCard includeScripts flow={flow} flowType="webauthn" onSubmit={submit} />
+        </>
+    );
 }

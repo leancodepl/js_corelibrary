@@ -5,7 +5,7 @@ import {
     UiNodeInputAttributes,
     UiNodeScriptAttributes,
     UiNodeTextAttributes,
-} from "@ory/kratos-client";
+} from "@ory/client";
 
 export function isUiNodeAnchorAttributes(attrs: UiNodeAttributes): attrs is UiNodeAnchorAttributes {
     return attrs.node_type === "a";

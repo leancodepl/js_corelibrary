@@ -1,4 +1,4 @@
-import { getMessagesFactory } from "@leancodepl/kratos";
-import { uiMessageRenderer } from "./UiMessage";
+// import { getMessagesFactory } from "@leancodepl/kratos";
+// import { uiMessageRenderer } from "./UiMessage";
 
-export const getMessages = getMessagesFactory({ uiMessageRenderer });
+// export const getMessages = getMessagesFactory({ uiMessageRenderer });

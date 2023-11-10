@@ -1,16 +1,20 @@
 import { useCallback } from "react";
-import { Center, Flex, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Center, Flex, Spinner, Text } from "@chakra-ui/react";
+import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos";
 import { signUpRoute } from "../../../app/routes";
-import { Flow, useSignUpFlow } from "../../../auth";
 import { kratosClient } from "../../../auth/ory";
 import { sessionManager } from "../../../auth/sessionManager";
 
 export function SignUp() {
-    const { flow, submit, isSignedUp } = useSignUpFlow({
+    const {
+        flow,
+        submit,
+        isRegistered: isSignedUp,
+    } = useRegisterFlow({
         kratosClient,
-        signUpRoute,
+        registrationRoute: signUpRoute,
         onSessionAlreadyAvailable: useCallback(() => {
-            sessionManager.checkIfSignedIn();
+            sessionManager.checkIfLoggedIn();
         }, []),
     });
 
@@ -32,7 +36,7 @@ export function SignUp() {
         <Center>
             <Flex direction="column" gap="4">
                 {flow ? (
-                    <Flow except={traitsToSkip} flow={flow} nodesWrapper={Stack} onSubmit={submit} />
+                    <RegistrationCard flow={flow} onSubmit={submit} />
                 ) : (
                     <Flex justify="center">
                         <Spinner size="xl" />
@@ -42,5 +46,3 @@ export function SignUp() {
         </Center>
     );
 }
-
-const traitsToSkip = ["traits.additional_emails"];

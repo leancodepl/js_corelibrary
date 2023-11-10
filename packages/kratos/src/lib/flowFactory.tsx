@@ -4,13 +4,11 @@ import {
     RecoveryFlow,
     RegistrationFlow,
     SettingsFlow,
-    VerificationFlow,
     UiNode,
     UiNodeGroupEnum,
     UiText,
-} from "@ory/kratos-client";
-import { set } from "lodash";
-import { DeepPartial, FieldValues, FormProvider, useForm } from "react-hook-form";
+    VerificationFlow,
+} from "@ory/client";
 import { NodeFactoryProps, nodeFactory } from "./node";
 import { CustomGetMessageProvider, CustomUiMessage } from "./types/uiMessage";
 import { getNodeId } from "./utils/getNodeId";
@@ -19,7 +17,7 @@ import { isUiNodeInputAttributes } from "./utils/typeGuards";
 export type FlowFactoryProps = {
     displayGlobalMessages: (messages: UiText[], customUiMessage?: CustomUiMessage) => void;
     customGetMessageProvider: CustomGetMessageProvider;
-} & NodeFactoryProps;
+};
 
 type FlowProps<T> = {
     flow: LoginFlow | RegistrationFlow | SettingsFlow | VerificationFlow | RecoveryFlow;
@@ -95,13 +93,16 @@ export function flowFactory({
 }
 
 function getDefaultValues<T>(nodes: UiNode[]) {
-    return nodes.reduce((prev, node) => {
-        const { attributes } = node;
+    return {} as DeepPartial<T>;
+    // return nodes.reduce((prev, node) => {
+    //     const { attributes } = node;
 
-        if (!isUiNodeInputAttributes(attributes)) return prev;
+    //     if (!isUiNodeInputAttributes(attributes)) return prev;
 
-        set(prev, attributes.name, attributes.value ?? (attributes.type !== "checkbox" ? "" : false));
+    //     console.error(node);
 
-        return prev;
-    }, {} as DeepPartial<T>);
+    //     set(prev, attributes.name, attributes.value ?? (attributes.type !== "checkbox" ? "" : false));
+
+    //     return prev;
+    // }, {} as DeepPartial<T>);
 }

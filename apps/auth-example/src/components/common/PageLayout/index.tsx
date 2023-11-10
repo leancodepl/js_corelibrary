@@ -1,6 +1,6 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { mfaSettingsRoute, settingsRoute, signInRoute, signUpRoute } from "../../../app/routes";
+import { loginRoute, settingsRoute, signInRoute, signUpRoute } from "../../../app/routes";
 
 export function PageLayout() {
     const location = useLocation();
@@ -30,7 +30,7 @@ const pathnameToIndex: Record<string, number> = {
     [signInRoute]: 1,
     [signUpRoute]: 2,
     [settingsRoute]: 3,
-    [mfaSettingsRoute]: 4,
+    [loginRoute]: 4,
 };
 
 const tabs = [
@@ -38,5 +38,5 @@ const tabs = [
     { label: "Sign In", href: signInRoute },
     { label: "Sign Up", href: signUpRoute },
     { label: "Settings", href: settingsRoute },
-    { label: "MFA", href: mfaSettingsRoute },
+    { label: "Refresh", href: loginRoute },
 ];

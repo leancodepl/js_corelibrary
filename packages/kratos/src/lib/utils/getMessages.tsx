@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ComponentType, ReactNode } from "react";
-import { UiNodeInputAttributes, UiText } from "@ory/kratos-client";
+import { UiNodeInputAttributes, UiText } from "@ory/client";
 import _ from "lodash";
 import { CustomUiMessage, UiMessageProps } from "../types/uiMessage";
 

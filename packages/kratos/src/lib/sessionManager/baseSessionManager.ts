@@ -1,24 +1,13 @@
-import { Session } from "@ory/kratos-client";
-import {
-    catchError,
-    exhaustMap,
-    firstValueFrom,
-    from,
-    map,
-    of,
-    ReplaySubject,
-    shareReplay,
-    Subject,
-    switchMap,
-} from "rxjs";
+import { Session } from "@ory/client";
+import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs";
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 
 export class BaseSessionManager {
-    authUrl: string;
-    signInRoute: string;
+    authUrl;
+    loginRoute;
 
     session$: Subject<Session | undefined> = new ReplaySubject(1);
-    isSignedIn$ = this.session$.pipe(
+    isLoggedIn = this.session$.pipe(
         map(session => !!session?.active),
         shareReplay(1),
     );
@@ -34,10 +23,10 @@ export class BaseSessionManager {
     setSession(session: Session | undefined) {
         this.session$.next(session);
 
-        if (!session) this.checkIfSignedIn();
+        if (!session) this.checkIfLoggedIn();
     }
 
-    checkIfSignedIn = (() => {
+    checkIfLoggedIn = (() => {
         const fetchSubject = new Subject();
 
         fetchSubject
@@ -66,7 +55,7 @@ export class BaseSessionManager {
                                         const searchParams = new URLSearchParams(window.location.search);
 
                                         if (!searchParams.get(aalParameterName)) {
-                                            const redirectUrl = new URL(this.signInRoute, window.location.href);
+                                            const redirectUrl = new URL(this.loginRoute, window.location.href);
 
                                             redirectUrl.search = new URLSearchParams({
                                                 [aalParameterName]: "aal2",
@@ -91,40 +80,9 @@ export class BaseSessionManager {
         return () => fetchSubject.next(undefined);
     })();
 
-    signOut = (() => {
-        const fetchSubject = new Subject();
-        const signOutSubject = new Subject();
-
-        fetchSubject
-            .pipe(
-                exhaustMap(() =>
-                    from(
-                        fetch(`${this.authUrl}/sessions/logout`, {
-                            method: "GET",
-                            credentials: "include",
-                        }),
-                    ).pipe(
-                        switchMap(() => of(undefined)),
-                        catchError(() => of(undefined)),
-                    ),
-                ),
-            )
-            .subscribe({
-                next: () => {
-                    this.session$.next(undefined);
-                    signOutSubject.next(undefined);
-                },
-            });
-
-        return () => {
-            fetchSubject.next(undefined);
-            return firstValueFrom(signOutSubject);
-        };
-    })();
-
-    constructor(authUrl: string, signInRoute: string) {
+    constructor(authUrl: string, loginRoute: string) {
         this.authUrl = authUrl;
-        this.signInRoute = signInRoute;
-        this.checkIfSignedIn();
+        this.loginRoute = loginRoute;
+        this.checkIfLoggedIn();
     }
 }

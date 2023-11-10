@@ -1,4 +1,4 @@
-import { UiNode } from "@ory/kratos-client";
+import { UiNode } from "@ory/client";
 import { isUiNodeInputAttributes } from "./typeGuards";
 
 export function getNodeId({ attributes }: UiNode) {

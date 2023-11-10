@@ -1,11 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, mfaSettingsRoute, settingsRoute, signInRoute, signUpRoute, verificationRoute } from "./routes";
+import { loginRoute, settingsRoute, signInRoute, signUpRoute, verificationRoute } from "./routes";
 import { PageLayout } from "../components/common/PageLayout";
 import { HomePage } from "../pages/home";
 import { RefreshSessionPage } from "../pages/login";
-import { TwoFactorAuthenticationPage } from "../pages/mfa";
-import { PasswordChangePage } from "../pages/settings";
+import { SettingsPage } from "../pages/settings";
 import { SignInPage } from "../pages/signin";
 import { SignUpPage } from "../pages/signup";
 import { VerificationPage } from "../pages/verification";
@@ -18,9 +17,8 @@ export function App() {
                     <Route element={<HomePage />} path="/" />
                     <Route element={<SignInPage />} path={signInRoute} />
                     <Route element={<SignUpPage />} path={signUpRoute} />
+                    <Route element={<SettingsPage />} path={settingsRoute} />
                     <Route element={<VerificationPage />} path={verificationRoute} />
-                    <Route element={<PasswordChangePage />} path={settingsRoute} />
-                    <Route element={<TwoFactorAuthenticationPage />} path={mfaSettingsRoute} />
                     <Route element={<RefreshSessionPage />} path={loginRoute} />
                 </Route>
             </Routes>

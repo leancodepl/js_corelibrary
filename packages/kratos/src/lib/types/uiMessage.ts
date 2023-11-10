@@ -1,5 +1,5 @@
 import { ComponentType, ReactNode } from "react";
-import { UiNodeInputAttributes, UiNodeTextAttributes, UiText } from "@ory/kratos-client";
+import { UiNodeInputAttributes, UiNodeTextAttributes, UiText } from "@ory/client";
 
 export type UiMessageProps = {
     text?: UiText;
