@@ -1,5 +1,5 @@
-import * as dayjs from "dayjs";
-import * as timezoneMock from "timezone-mock";
+import dayjs from "dayjs";
+import timezoneMock from "timezone-mock";
 import { toApiDate } from "../../src";
 
 describe("toApiDate", () => {

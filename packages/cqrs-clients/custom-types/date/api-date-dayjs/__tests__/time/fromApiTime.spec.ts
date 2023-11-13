@@ -1,4 +1,4 @@
-import * as timezoneMock from "timezone-mock";
+import timezoneMock from "timezone-mock";
 import { fromApiTime, ApiTimeOnly } from "../../src";
 
 describe("fromApiTime", () => {
