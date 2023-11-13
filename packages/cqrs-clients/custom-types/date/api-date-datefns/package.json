@@ -1,13 +1,13 @@
 {
   "name": "@leancodepl/api-date-datefns",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "license": "Apache-2.0",
   "type": "commonjs",
   "main": "./index.cjs",
   "module": "./index.js",
   "dependencies": {
-    "@leancodepl/api-date": "7.2.1",
-    "@leancodepl/api-date-utils": "7.2.1",
+    "@leancodepl/api-date": "7.2.2",
+    "@leancodepl/api-date-utils": "7.2.2",
     "date-fns": ">=2.0.0"
   },
   "devDependencies": {
