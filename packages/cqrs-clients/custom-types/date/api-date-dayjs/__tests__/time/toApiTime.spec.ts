@@ -1,6 +1,6 @@
-import * as dayjs from "dayjs";
-import * as customParseFormat from "dayjs/plugin/customParseFormat";
-import * as timezoneMock from "timezone-mock";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import timezoneMock from "timezone-mock";
 import { toApiTime } from "../../src";
 
 dayjs.extend(customParseFormat);

@@ -1,6 +1,6 @@
-import * as dayjs from "dayjs";
-import * as duration from "dayjs/plugin/duration";
-import * as timezoneMock from "timezone-mock";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import timezoneMock from "timezone-mock";
 import { fromApiTimeSpan, ApiTimeSpan } from "../../src";
 
 dayjs.extend(duration);

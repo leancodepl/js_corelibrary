@@ -1,5 +1,5 @@
 import type { ApiTimeOnly } from "@leancodepl/api-date";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 
 /**
  *This function handles at most milliseconds precision, smaller units are lost in conversion process
