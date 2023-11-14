@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.2.3](https://github.com/leancodepl/js_corelibrary/compare/v7.2.2...v7.2.3) (2023-11-14)
+
+### Features
+
+-   allow to change withCredentials option in react-query client
+    ([f09b686](https://github.com/leancodepl/js_corelibrary/commit/f09b686e780ba314d2c1858b5252da8d30740624))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.2.2](https://github.com/leancodepl/js_corelibrary/compare/v7.2.1...v7.2.2) (2023-11-13)
 
 ### Bug Fixes
