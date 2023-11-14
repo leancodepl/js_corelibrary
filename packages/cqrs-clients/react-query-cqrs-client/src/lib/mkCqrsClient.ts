@@ -34,7 +34,7 @@ export function mkCqrsClient({
     cqrsEndpoint: string;
     queryClient: QueryClient;
     tokenProvider?: Partial<TokenProvider>;
-    ajaxOptions?: Omit<AjaxConfig, "headers" | "url" | "method" | "responseType" | "body" | "withCredentials">;
+    ajaxOptions?: Omit<AjaxConfig, "headers" | "url" | "method" | "responseType" | "body">;
 }) {
     function mkFetcher<TData>(endpoint: string, config: Partial<AjaxConfig> = {}) {
         const apiCall = <TResult>(data: TData, token?: string) =>
@@ -48,7 +48,7 @@ export function mkCqrsClient({
                 url: `${cqrsEndpoint}/${endpoint}`,
                 method: "POST",
                 body: data,
-                withCredentials: true,
+                withCredentials: ajaxOptions?.withCredentials ?? true,
             });
 
         const getToken = tokenProvider?.getToken;
