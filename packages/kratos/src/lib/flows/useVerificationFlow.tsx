@@ -3,6 +3,7 @@ import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "@ory/
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
+import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
 import { returnToParameterName } from "../utils/variables";
 
@@ -58,18 +59,25 @@ export function useVerificationFlow({
     useEffect(() => {
         if (flow) return;
 
+        const controller = new AbortController();
+
         if (flowId) {
             kratosClient
-                .getVerificationFlow({ id: flowId })
+                .getVerificationFlow({ id: flowId }, { signal: controller.signal })
                 .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
                 .catch(handleFlowError);
-            return;
+        } else {
+            kratosClient
+                .createBrowserVerificationFlow({ returnTo }, { signal: controller.signal })
+                .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
+                .catch(handleFlowError);
         }
 
-        kratosClient
-            .createBrowserVerificationFlow({ returnTo })
-            .then(({ data }) => setFlow(data))
-            .catch(handleFlowError);
+        return () => {
+            controller.abort();
+        };
     }, [flowId, returnTo, flow, handleFlowError, kratosClient, nav, onVerified]);
 
     const submit = useCallback(
@@ -85,7 +93,7 @@ export function useVerificationFlow({
                 .updateVerificationFlow({ flow: flow.id, updateVerificationFlowBody: body })
                 .then(({ data }) => setFlow(data))
                 .catch(handleFlowError)
-                .catch((err: AxiosError) => {
+                .catch((err: AxiosError<VerificationFlow>) => {
                     if (err.response?.status === 400) {
                         setFlow(err.response?.data);
                         return;

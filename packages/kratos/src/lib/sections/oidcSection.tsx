@@ -1,7 +1,7 @@
 import { ElementType } from "react";
-import { filterNodesByGroups } from "@ory/integrations/ui";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
 import { SelfServiceFlow } from "../helpers/userAuthForm";
+import { filterNodesByGroups } from "../utils/filterNodesByGroups";
 import { hasOidc } from "../utils/helpers";
 
 type OidcSectionProps = {

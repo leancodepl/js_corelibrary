@@ -11,22 +11,15 @@ type RegistrationSectionProps = {
 export function RegistrationSection({ nodes, RegistrationSectionWrapper }: RegistrationSectionProps) {
     if (!hasPassword(nodes)) return null;
 
+    const filter = {
+        nodes,
+        groups: ["password"],
+    };
+
     return (
         <RegistrationSectionWrapper>
-            <FilterFlowNodes
-                filter={{
-                    nodes: nodes,
-                    groups: ["password"],
-                    excludeAttributes: "submit",
-                }}
-            />
-            <FilterFlowNodes
-                filter={{
-                    nodes: nodes,
-                    groups: ["password"],
-                    attributes: "submit",
-                }}
-            />
+            <FilterFlowNodes filter={{ ...filter, excludeAttributes: "submit" }} />
+            <FilterFlowNodes filter={{ ...filter, attributes: "submit" }} />
         </RegistrationSectionWrapper>
     );
 }

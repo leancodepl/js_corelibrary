@@ -21,7 +21,7 @@ export function AuthCodeSection({ nodes, AuthCodeSectionWrapper }: AuthCodeSecti
         <AuthCodeSectionWrapper>
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: ["code"],
                     // we don't want to map the default group twice
                     // the form already maps hidden fields under the default group
@@ -33,17 +33,17 @@ export function AuthCodeSection({ nodes, AuthCodeSectionWrapper }: AuthCodeSecti
             />
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: "code",
                     withoutDefaultAttributes: true,
                     excludeAttributes: ["hidden", "button", "submit"], // the form will take care of default (csrf) hidden fields
                 }}
             />
             {/* include hidden here because we want to have resend support */}
-            {/* exclude default group because we dont want to map csrf twice */}
+            {/* exclude default group because we don't want to map csrf twice */}
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: "code",
                     withoutDefaultAttributes: true,
                     attributes: ["button", "submit"],

@@ -1,15 +1,14 @@
 import { UiNode } from "@ory/client";
-import {
-    FilterNodesByGroups,
-    filterNodesByGroups,
-    getNodeInputType,
-    isUiNodeAnchorAttributes,
-    isUiNodeImageAttributes,
-    isUiNodeInputAttributes,
-    isUiNodeScriptAttributes,
-    isUiNodeTextAttributes,
-} from "@ory/integrations/ui";
 import { Node } from "./node";
+import { FilterNodesByGroups, filterNodesByGroups } from "../utils/filterNodesByGroups";
+import { getNodeInputType } from "../utils/getNodeInputType";
+import {
+    isUiNodeInputAttributes,
+    isUiNodeImageAttributes,
+    isUiNodeAnchorAttributes,
+    isUiNodeTextAttributes,
+    isUiNodeScriptAttributes,
+} from "../utils/typeGuards";
 
 type FilterFlowNodesProps = {
     filter: FilterNodesByGroups;
@@ -28,7 +27,10 @@ export function FilterFlowNodes({ filter, includeCSRF, ...overrides }: FilterFlo
                 <Node
                     key={
                         isUiNodeInputAttributes(node.attributes)
-                            ? node.attributes.name
+                            ? (node.attributes.type === "button" || node.attributes.type === "submit") &&
+                              node.attributes.value
+                                ? `${node.attributes.name}_${node.attributes.value}`
+                                : node.attributes.name
                             : isUiNodeImageAttributes(node.attributes)
                             ? node.attributes.src
                             : isUiNodeAnchorAttributes(node.attributes) ||

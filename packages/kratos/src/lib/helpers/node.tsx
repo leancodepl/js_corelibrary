@@ -1,14 +1,14 @@
 import { UiNode } from "@ory/client";
+import { NodeMessages } from "./errorMessages";
+import { FormattedMessage } from "./formattedMessage";
+import { getNodeLabel } from "./getNodeLabel";
+import { ButtonComponentProps, useKratosContext } from "../kratosContext";
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
     isUiNodeInputAttributes,
     isUiNodeTextAttributes,
-} from "@ory/integrations/ui";
-import { NodeMessages } from "./errorMessages";
-import { FormattedMessage } from "./formattedMessage";
-import { getNodeLabel } from "./getNodeLabel";
-import { ButtonComponentProps, useKratosContext } from "../kratosContext";
+} from "../utils/typeGuards";
 
 type NodeProps = {
     node: UiNode;
@@ -35,9 +35,8 @@ export function Node({ node, className }: NodeProps) {
                 attributes={node.attributes}
                 id={node.attributes.id}
                 label={<FormattedMessage message={node.meta.label} />}
-                node={node}>
-                <FormattedMessage message={node.attributes.text} />
-            </Text>
+                node={node}
+            />
         );
     } else if (isUiNodeInputAttributes(node.attributes)) {
         const attrs = node.attributes;
@@ -109,7 +108,7 @@ export function Node({ node, className }: NodeProps) {
             default:
                 return (
                     <Input
-                        autoComplete={attrs.autocomplete ?? (attrs.name === "identifier" ? "username" : "")}
+                        autoComplete={attrs.autocomplete ?? (attrs.name === "identifier" ? "username" : undefined)}
                         className={className}
                         defaultValue={attrs.value as string | number | string[]}
                         disabled={attrs.disabled}

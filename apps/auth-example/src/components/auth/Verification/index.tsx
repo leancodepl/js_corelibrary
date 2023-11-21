@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { VerificationCard, useVerificationFlow } from "@leancodepl/kratos";
 import { useNavigate } from "react-router";
-import { signInRoute } from "../../../app/routes";
+import { loginRoute } from "../../../app/routes";
 import { kratosClient } from "../../../auth/ory";
 
 export function Verification() {
@@ -11,7 +11,7 @@ export function Verification() {
     const { flow, submit } = useVerificationFlow({
         kratosClient,
         onVerified: useCallback(() => {
-            nav(signInRoute);
+            nav(loginRoute);
         }, [nav]),
     });
 

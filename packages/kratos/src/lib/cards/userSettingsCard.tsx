@@ -34,26 +34,27 @@ export const UserSettingsCard = ({
     onSubmit,
     className,
 
-    ProfileSettingsSectionWrapper,
-    PasswordSettingsSectionWrapper,
-    WebAuthnSettingsSectionWrapper,
-    LookupSecretSettingsSectionWrapper,
-    OidcSettingsSectionWrapper,
-    TotpSettingsSectionWrapper,
+    ProfileSettingsSectionWrapper: ProfileSettingsSectionWrapperProps,
+    PasswordSettingsSectionWrapper: PasswordSettingsSectionWrapperProps,
+    WebAuthnSettingsSectionWrapper: WebAuthnSettingsSectionWrapperProps,
+    LookupSecretSettingsSectionWrapper: LookupSecretSettingsSectionWrapperProps,
+    OidcSettingsSectionWrapper: OidcSettingsSectionWrapperProps,
+    TotpSettingsSectionWrapper: TotpSettingsSectionWrapperProps,
 }: UserSettingsCardProps): JSX.Element | null => {
-    if (includeScripts) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useScriptNodes({ nodes: flow.ui.nodes });
-    }
+    useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
 
     const { components } = useKratosContext();
 
-    ProfileSettingsSectionWrapper ??= components.ProfileSettingsSectionWrapper;
-    PasswordSettingsSectionWrapper ??= components.PasswordSettingsSectionWrapper;
-    WebAuthnSettingsSectionWrapper ??= components.WebAuthnSettingsSectionWrapper;
-    LookupSecretSettingsSectionWrapper ??= components.LookupSecretSettingsSectionWrapper;
-    OidcSettingsSectionWrapper ??= components.OidcSettingsSectionWrapper;
-    TotpSettingsSectionWrapper ??= components.TotpSettingsSectionWrapper;
+    const ProfileSettingsSectionWrapper =
+        ProfileSettingsSectionWrapperProps ?? components.ProfileSettingsSectionWrapper;
+    const PasswordSettingsSectionWrapper =
+        PasswordSettingsSectionWrapperProps ?? components.PasswordSettingsSectionWrapper;
+    const WebAuthnSettingsSectionWrapper =
+        WebAuthnSettingsSectionWrapperProps ?? components.WebAuthnSettingsSectionWrapper;
+    const LookupSecretSettingsSectionWrapper =
+        LookupSecretSettingsSectionWrapperProps ?? components.LookupSecretSettingsSectionWrapper;
+    const OidcSettingsSectionWrapper = OidcSettingsSectionWrapperProps ?? components.OidcSettingsSectionWrapper;
+    const TotpSettingsSectionWrapper = TotpSettingsSectionWrapperProps ?? components.TotpSettingsSectionWrapper;
 
     const $flow = (() => {
         if (flowType === "profile") {
@@ -84,6 +85,7 @@ export const UserSettingsCard = ({
 
     return (
         <UserAuthForm className={className} flow={flow} onSubmit={onSubmit}>
+            <components.UiMessages uiMessages={flow.ui.messages} />
             {$flow}
         </UserAuthForm>
     );

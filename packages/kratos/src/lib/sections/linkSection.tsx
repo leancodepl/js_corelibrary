@@ -18,7 +18,7 @@ export function LinkSection({ nodes, LinkSectionWrapper }: LinkSectionProps) {
         <LinkSectionWrapper>
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: ["link", "code"],
                     excludeAttributes: "submit",
                 }}
@@ -26,7 +26,7 @@ export function LinkSection({ nodes, LinkSectionWrapper }: LinkSectionProps) {
 
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: ["link", "code"],
                     attributes: "submit",
                 }}

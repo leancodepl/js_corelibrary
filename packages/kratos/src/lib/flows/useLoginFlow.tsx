@@ -5,6 +5,7 @@ import { omit } from "lodash";
 import { useLocation, useNavigate } from "react-router";
 import yn from "yn";
 import { useKratosContext } from "../kratosContext";
+import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 
@@ -55,22 +56,32 @@ export function useLoginFlow({
     useEffect(() => {
         if (flow) return;
 
+        const controller = new AbortController();
+
         if (flowId) {
             kratosClient
-                .getLoginFlow({ id: flowId })
+                .getLoginFlow({ id: flowId }, { signal: controller.signal })
                 .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
                 .catch(handleFlowError);
-            return;
+        } else {
+            kratosClient
+                .createBrowserLoginFlow(
+                    {
+                        aal: authorizationAssuranceLevel,
+                        refresh: yn(refresh),
+                        returnTo: returnTo ?? returnToFromSearch,
+                    },
+                    { signal: controller.signal },
+                )
+                .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
+                .catch(handleFlowError);
         }
 
-        kratosClient
-            .createBrowserLoginFlow({
-                aal: authorizationAssuranceLevel,
-                refresh: yn(refresh),
-                returnTo: returnTo ?? returnToFromSearch,
-            })
-            .then(({ data }) => setFlow(data))
-            .catch(handleFlowError);
+        return () => {
+            controller.abort();
+        };
     }, [
         authorizationAssuranceLevel,
         flow,
@@ -99,7 +110,7 @@ export function useLoginFlow({
                     onLoggedIn?.(data.session);
                 })
                 .catch(handleFlowError)
-                .catch((err: AxiosError) => {
+                .catch((err: AxiosError<LoginFlow>) => {
                     if (err.response?.status === 400) {
                         setFlow(err?.response?.data);
                         return;

@@ -1,5 +1,7 @@
-import { Session } from "@ory/client";
+import { AuthenticatorAssuranceLevel, Session } from "@ory/client";
+import axios, { AxiosResponse } from "axios";
 import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs";
+import { ErrorId } from "../types/enums/errorId";
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 
 export class BaseSessionManager {
@@ -33,37 +35,44 @@ export class BaseSessionManager {
             .pipe(
                 switchMap(() =>
                     from(
-                        fetch(`${this.authUrl}/sessions/whoami`, {
-                            method: "GET",
-                            credentials: "include",
+                        axios.get(`${this.authUrl}/sessions/whoami`, {
+                            withCredentials: true,
                         }),
                     ).pipe(
-                        switchMap(response => from(response.json())),
-                        map(response => {
+                        map((response: AxiosResponse<Session>) => {
                             const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName);
 
                             if (returnTo) {
                                 window.location.href = returnTo;
                             }
 
-                            return response;
+                            return response.data;
                         }),
                         catchError(err => {
-                            switch (err.status) {
+                            switch (err.response.status) {
                                 case 403:
-                                    if (err.response?.error?.id === "session_aal2_required") {
+                                case 422:
+                                    if (err.response.data.error?.id === ErrorId.ErrIDHigherAALRequired) {
                                         const searchParams = new URLSearchParams(window.location.search);
 
-                                        if (!searchParams.get(aalParameterName)) {
-                                            const redirectUrl = new URL(this.loginRoute, window.location.href);
+                                        if (searchParams.get(aalParameterName)) {
+                                            break;
+                                        }
 
+                                        const redirectUrl = new URL(this.loginRoute, window.location.href);
+
+                                        if (window.location.pathname === this.loginRoute) {
+                                            const searchParams = new URLSearchParams(window.location.search);
+                                            searchParams.append(aalParameterName, AuthenticatorAssuranceLevel.Aal2);
+                                            redirectUrl.search = searchParams.toString();
+                                        } else {
                                             redirectUrl.search = new URLSearchParams({
-                                                [aalParameterName]: "aal2",
+                                                [aalParameterName]: AuthenticatorAssuranceLevel.Aal2,
                                                 [returnToParameterName]: `${window.location.pathname}${window.location.search}`,
                                             }).toString();
-
-                                            window.location.href = redirectUrl.toString();
                                         }
+
+                                        window.location.href = redirectUrl.toString();
                                     }
                                     break;
                             }

@@ -3,6 +3,7 @@ import { FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
+import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
 import { returnToParameterName } from "../utils/variables";
 
@@ -34,25 +35,33 @@ export function useSettingsFlow({
     useEffect(() => {
         if (flow) return;
 
+        const controller = new AbortController();
+
         if (flowId) {
             kratosClient
-                .getSettingsFlow({ id: flowId })
+                .getSettingsFlow({ id: flowId }, { signal: controller.signal })
                 .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
                 .catch(handleFlowError);
-            return;
+        } else {
+            kratosClient
+                .createBrowserSettingsFlow(
+                    {
+                        returnTo,
+                    },
+                    {
+                        params,
+                        signal: controller.signal,
+                    },
+                )
+                .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
+                .catch(handleFlowError);
         }
 
-        kratosClient
-            .createBrowserSettingsFlow(
-                {
-                    returnTo,
-                },
-                {
-                    params,
-                },
-            )
-            .then(({ data }) => setFlow(data))
-            .catch(handleFlowError);
+        return () => {
+            controller.abort();
+        };
     }, [flow, flowId, handleFlowError, kratosClient, params, returnTo, settingsRoute]);
 
     const submit = useCallback(
@@ -72,7 +81,7 @@ export function useSettingsFlow({
                     setFlow(data);
                 })
                 .catch(handleFlowError)
-                .catch((err: AxiosError) => {
+                .catch((err: AxiosError<SettingsFlow>) => {
                     if (err.response?.status === 400) {
                         setFlow(err.response?.data);
                         return;

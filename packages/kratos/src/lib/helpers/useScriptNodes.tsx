@@ -1,11 +1,15 @@
-import { HTMLAttributeReferrerPolicy, useEffect } from "react";
+import { useEffect } from "react";
 import { UiNode, UiNodeScriptAttributes } from "@ory/client";
-import { filterNodesByGroups } from "@ory/integrations/ui";
+import { filterNodesByGroups } from "../utils/filterNodesByGroups";
 
-export function useScriptNodes({ nodes }: { nodes: UiNode[] }) {
+export function useScriptNodes({ nodes, includeScripts }: { nodes: UiNode[]; includeScripts?: boolean }) {
     useEffect(() => {
+        if (!includeScripts) {
+            return;
+        }
+
         const scriptNodes = filterNodesByGroups({
-            nodes: nodes,
+            nodes,
             groups: "webauthn",
             attributes: "text/javascript",
             withoutDefaultGroup: true,
@@ -16,7 +20,7 @@ export function useScriptNodes({ nodes }: { nodes: UiNode[] }) {
             script.src = attr.src;
             script.type = attr.type;
             script.async = attr.async;
-            script.referrerPolicy = attr.referrerpolicy as HTMLAttributeReferrerPolicy;
+            script.referrerPolicy = attr.referrerpolicy;
             script.crossOrigin = attr.crossorigin;
             script.integrity = attr.integrity;
             document.body.appendChild(script);
@@ -28,5 +32,5 @@ export function useScriptNodes({ nodes }: { nodes: UiNode[] }) {
                 document.body.removeChild(script);
             });
         };
-    }, [nodes]);
+    }, [includeScripts, nodes]);
 }

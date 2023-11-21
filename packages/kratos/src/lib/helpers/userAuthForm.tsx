@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { ReactNode } from "react";
 import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, VerificationFlow } from "@ory/client";
-import { FilterNodesByGroups } from "@ory/integrations/ui";
 import { FilterFlowNodes } from "./filterFlowNodes";
+import { FilterNodesByGroups } from "../utils/filterNodesByGroups";
 
 export type SelfServiceFlow = LoginFlow | RecoveryFlow | RegistrationFlow | SettingsFlow | VerificationFlow;
 
@@ -17,7 +18,7 @@ export type UserAuthFormAdditionalProps<TBody> = {
 
 export type UserAuthFormProps<TBody> = {
     flow: SelfServiceFlow;
-    children: React.ReactNode;
+    children: ReactNode;
     formFilterOverride?: FilterNodesByGroups;
     submitOnEnter?: boolean;
     className?: string;

@@ -3,6 +3,7 @@ import { FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/client";
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
+import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
 import { returnToParameterName } from "../utils/variables";
 
@@ -35,18 +36,26 @@ export function useRecoveryFlow({
     useEffect(() => {
         if (flow) return;
 
+        const controller = new AbortController();
+
         if (flowId) {
             kratosClient
-                .getRecoveryFlow({ id: flowId })
+                .getRecoveryFlow({ id: flowId }, { signal: controller.signal })
                 .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
                 .catch(handleFlowError);
             return;
+        } else {
+            kratosClient
+                .createBrowserRecoveryFlow({ returnTo }, { signal: controller.signal })
+                .then(({ data }) => setFlow(data))
+                .catch(handleCancelError)
+                .catch(handleFlowError);
         }
 
-        kratosClient
-            .createBrowserRecoveryFlow({ returnTo })
-            .then(({ data }) => setFlow(data))
-            .catch(handleFlowError);
+        return () => {
+            controller.abort();
+        };
     }, [flowId, returnTo, flow, handleFlowError, kratosClient, nav]);
 
     const submit = useCallback(
@@ -59,7 +68,7 @@ export function useRecoveryFlow({
                 .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: values })
                 .then(({ data }) => setFlow(data))
                 .catch(handleFlowError)
-                .catch((err: AxiosError) => {
+                .catch((err: AxiosError<RecoveryFlow>) => {
                     if (err.response?.status === 400) {
                         setFlow(err.response?.data);
                         return;

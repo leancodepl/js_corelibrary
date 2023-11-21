@@ -15,7 +15,7 @@ export function LoginSection({ nodes, LoginSectionWrapper }: LoginSectionProps) 
         <LoginSectionWrapper>
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: ["default", "password"],
                     excludeAttributes: ["submit", "hidden"],
                 }}
@@ -23,7 +23,7 @@ export function LoginSection({ nodes, LoginSectionWrapper }: LoginSectionProps) 
 
             <FilterFlowNodes
                 filter={{
-                    nodes: nodes,
+                    nodes,
                     groups: ["password"],
                     attributes: "submit",
                 }}

@@ -35,7 +35,7 @@ export function NodeMessages({ nodes, uiMessages }: NodeMessagesProps) {
         }, []) ?? [];
 
     const $messages =
-        uiMessages?.map((message, key) => <NodeMessage key={`ui-messsage-${message.id}-${key}`} message={message} />) ??
+        uiMessages?.map((message, key) => <NodeMessage key={`ui-message-${message.id}-${key}`} message={message} />) ??
         [];
 
     const $allMessages = [...$groupMessages, ...$messages];

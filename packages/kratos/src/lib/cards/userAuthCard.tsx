@@ -1,5 +1,6 @@
 import { ElementType, JSX } from "react";
 import {
+    AuthenticatorAssuranceLevel,
     LoginFlow,
     RecoveryFlow,
     RegistrationFlow,
@@ -47,46 +48,37 @@ function UserAuthCard<TBody>({
     onSubmit,
     includeScripts,
     className,
-    OidcSectionWrapper,
-    PasswordlessSectionWrapper,
-    AuthCodeSectionWrapper,
-    LoginSectionWrapper,
-    RegistrationSectionWrapper,
-    LinkSectionWrapper,
+    OidcSectionWrapper: OidcSectionWrapperProps,
+    PasswordlessSectionWrapper: PasswordlessSectionWrapperProps,
+    AuthCodeSectionWrapper: AuthCodeSectionWrapperProps,
+    LoginSectionWrapper: LoginSectionWrapperProps,
+    RegistrationSectionWrapper: RegistrationSectionWrapperProps,
+    LinkSectionWrapper: LinkSectionWrapperProps,
 }: UserAuthCardProps<TBody>) {
-    if (includeScripts) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useScriptNodes({ nodes: flow.ui.nodes });
-    }
+    useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
 
     let $flow: JSX.Element | undefined = undefined;
     let $oidc: JSX.Element | undefined = undefined;
     let $code: JSX.Element | undefined = undefined;
     let $passwordless: JSX.Element | undefined = undefined;
 
-    // passwordless can be shown if the user is not logged in (e.g. exclude 2FA screen) or if the flow is a registration flow.
-    // we want the login section to handle passwordless as well when we have a 2FA screen.
-    const canShowPasswordless = () =>
-        !!$passwordless && (!isLoggedIn(flow as LoginFlow) || flowType === "registration");
-
     // the current flow is a two factor flow if the user is logged in and has any of the second factor methods enabled.
-    const isTwoFactor = () =>
+    const isTwoFactor =
         flowType === "login" &&
         isLoggedIn(flow) &&
         (hasTotp(flow.ui.nodes) || hasWebauthn(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes));
 
     const { components } = useKratosContext();
-    OidcSectionWrapper ??= components.OidcSectionWrapper;
-    PasswordlessSectionWrapper ??= components.PasswordlessSectionWrapper;
-    AuthCodeSectionWrapper ??= components.AuthCodeSectionWrapper;
-    LoginSectionWrapper ??= components.LoginSectionWrapper;
-    RegistrationSectionWrapper ??= components.RegistrationSectionWrapper;
-    LinkSectionWrapper ??= components.LinkSectionWrapper;
+    const OidcSectionWrapper = OidcSectionWrapperProps ?? components.OidcSectionWrapper;
+    const PasswordlessSectionWrapper = PasswordlessSectionWrapperProps ?? components.PasswordlessSectionWrapper;
+    const AuthCodeSectionWrapper = AuthCodeSectionWrapperProps ?? components.AuthCodeSectionWrapper;
+    const LoginSectionWrapper = LoginSectionWrapperProps ?? components.LoginSectionWrapper;
+    const RegistrationSectionWrapper = RegistrationSectionWrapperProps ?? components.RegistrationSectionWrapper;
+    const LinkSectionWrapper = LinkSectionWrapperProps ?? components.LinkSectionWrapper;
 
-    // This function will map all the 2fa flows with their own respective forms.
-    // It also helps with spacing them and adding visual dividers between each flow *if* there are more than one flow.
-    const twoFactorFlows = () =>
-        isTwoFactor() &&
+    // This array contains all the 2fa flows mapped to their own respective forms.
+    const twoFactorFlows =
+        isTwoFactor &&
         [
             hasWebauthn(flow.ui.nodes) && (
                 <UserAuthForm flow={flow}>
@@ -111,7 +103,7 @@ function UserAuthCard<TBody>({
                 </UserAuthForm>
             ),
             hasTotp(flow.ui.nodes) && (
-                <UserAuthForm flow={flow} submitOnEnter={true} onSubmit={onSubmit}>
+                <UserAuthForm submitOnEnter flow={flow} onSubmit={onSubmit}>
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
@@ -132,7 +124,7 @@ function UserAuthCard<TBody>({
                 </UserAuthForm>
             ),
             hasLookupSecret(flow.ui.nodes) && (
-                <UserAuthForm flow={flow} submitOnEnter={true} onSubmit={onSubmit}>
+                <UserAuthForm submitOnEnter flow={flow} onSubmit={onSubmit}>
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
@@ -177,45 +169,36 @@ function UserAuthCard<TBody>({
             break;
         // both verification and recovery use the same flow.
         case "recovery":
-            $flow = <LinkSection LinkSectionWrapper={LinkSectionWrapper} nodes={flow.ui.nodes} />;
-
-            break;
         case "verification":
             $flow = <LinkSection LinkSectionWrapper={LinkSectionWrapper} nodes={flow.ui.nodes} />;
 
             break;
     }
 
+    // passwordless can be shown if the user is not logged in (e.g. exclude 2FA screen) or if the flow is a registration flow.
+    // we want the login section to handle passwordless as well when we have a 2FA screen.
+    const canShowPasswordless = !!$passwordless && (!isLoggedIn(flow) || flowType === "registration");
+
     return (
         <div className={className}>
-            {/* <NodeMessages uiMessages={flow.ui.messages} /> */}
+            <components.UiMessages uiMessages={flow.ui.messages} />
             {$oidc && <UserAuthForm flow={flow}>{$oidc}</UserAuthForm>}
             {$code && <UserAuthForm flow={flow}>{$code}</UserAuthForm>}
-            {$flow && !isTwoFactor() && (
-                <UserAuthForm flow={flow} submitOnEnter={true} onSubmit={onSubmit}>
+            {$flow && !isTwoFactor && (
+                <UserAuthForm submitOnEnter flow={flow} onSubmit={onSubmit}>
                     {$flow}
                 </UserAuthForm>
             )}
-            {isTwoFactor() && (
-                <>
-                    {/* <NodeMessages
-                        nodes={filterNodesByGroups({
-                            nodes: flow.ui.nodes,
-                            groups: ["password", "webauthn", "totp", "lookup_secret"],
-                        })}
-                    /> */}
-                    {twoFactorFlows()}
-                </>
-            )}
+            {twoFactorFlows}
 
-            {canShowPasswordless() && (
+            {canShowPasswordless && (
                 <UserAuthForm
+                    submitOnEnter
                     flow={flow}
                     formFilterOverride={{
                         nodes: flow.ui.nodes,
                         attributes: "hidden",
                     }}
-                    submitOnEnter={true}
                     onSubmit={onSubmit}>
                     {$passwordless}
                 </UserAuthForm>
@@ -224,20 +207,32 @@ function UserAuthCard<TBody>({
     );
 }
 
-function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(flowType: UserAuthCardProps<TBody>["flowType"]) {
-    return function (props: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
-        return <UserAuthCard flowType={flowType} {...props} />;
+function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(
+    flowType: UserAuthCardProps<TBody>["flowType"],
+    { includeScripts }: { includeScripts?: boolean } = {},
+) {
+    return function ({
+        includeScripts: includeScriptsProps,
+        ...props
+    }: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
+        return <UserAuthCard flowType={flowType} {...props} includeScripts={includeScriptsProps ?? includeScripts} />;
     };
 }
 
-export const LoginCard = mkCard<UpdateLoginFlowBody, LoginFlow>("login");
+export const LoginCard = mkCard<UpdateLoginFlowBody, LoginFlow>("login", {
+    includeScripts: true,
+});
 export const VerificationCard = mkCard<UpdateVerificationFlowBody, VerificationFlow>("verification");
-export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationFlow>("registration");
-export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery");
+export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationFlow>("registration", {
+    includeScripts: true,
+});
+export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery", {
+    includeScripts: true,
+});
 
 // the user might need to logout on the second factor page.
 function isLoggedIn(flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow): boolean {
-    if ("requested_aal" in flow && flow.requested_aal === "aal2") {
+    if ("requested_aal" in flow && flow.requested_aal === AuthenticatorAssuranceLevel.Aal2) {
         return true;
     } else if ("refresh" in flow && flow.refresh) {
         return true;

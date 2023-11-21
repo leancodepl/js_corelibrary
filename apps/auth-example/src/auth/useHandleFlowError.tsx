@@ -1,14 +1,8 @@
 import { useCallback } from "react";
 import { useToast } from "@chakra-ui/react";
-import { ErrorId, ResponseError } from "@leancodepl/kratos";
-
-export type FlowErrorResponse = {
-    error?: {
-        id?: ErrorId;
-    };
-    redirect_browser_to: string;
-    use_flow_id?: string;
-};
+import { ErrorId, FlowErrorResponse, ResponseError, returnToParameterName } from "@leancodepl/kratos";
+import { useNavigate } from "react-router";
+import { loginRoute } from "../app/routes";
 
 export function useHandleFlowError({
     resetFlow,
@@ -17,11 +11,15 @@ export function useHandleFlowError({
     resetFlow: (newFlowId?: string) => void;
     onSessionAlreadyAvailable?: () => void;
 }) {
+    const nav = useNavigate();
     const toast = useToast();
 
     return useCallback(
         async (err: ResponseError<FlowErrorResponse>) => {
             switch (err.response?.data.error?.id) {
+                case ErrorId.ErrNoActiveSession:
+                    nav(`${loginRoute}?${returnToParameterName}=${window.location.href}`);
+                    return;
                 case ErrorId.ErrIDHigherAALRequired:
                     // 2FA is enabled and enforced, but user did not perform 2fa yet!
                     window.location.href = err.response.data.redirect_browser_to;
@@ -71,6 +69,6 @@ export function useHandleFlowError({
 
             return Promise.reject(err);
         },
-        [onSessionAlreadyAvailable, resetFlow, toast],
+        [nav, onSessionAlreadyAvailable, resetFlow, toast],
     );
 }

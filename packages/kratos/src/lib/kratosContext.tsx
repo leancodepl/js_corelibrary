@@ -1,6 +1,14 @@
 import React, { ComponentType, ElementType, ReactNode, createContext, useContext, useMemo } from "react";
 import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "@ory/client";
-import { CustomHref } from "./types/customHref";
+import { DefaultButtonComponent } from "./defaultComponents/DefaultButtonComponent";
+import { DefaultCheckboxComponent } from "./defaultComponents/DefaultCheckboxComponent";
+import { DefaultImageComponent } from "./defaultComponents/DefaultImageComponent";
+import { DefaultInputComponent } from "./defaultComponents/DefaultInputComponent";
+import { DefaultLinkComponent } from "./defaultComponents/DefaultLinkComponent";
+import { DefaultMessageComponent } from "./defaultComponents/DefaultMessageComponent";
+import { DefaultMessageFormatComponent } from "./defaultComponents/DefaultMessageFormatComponent";
+import { DefaultTextComponent } from "./defaultComponents/DefaultTextComponent";
+import { DefaultUiMessagesComponent } from "./defaultComponents/DefaultUiMessagesComponent";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
 
 export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {
@@ -10,7 +18,6 @@ export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 
 export type TextComponentProps = {
     label?: ReactNode;
-    children?: ReactNode;
     id: string;
     node: UiNode;
     attributes: UiNodeTextAttributes;
@@ -18,7 +25,7 @@ export type TextComponentProps = {
 
 export type LinkComponentProps = {
     children?: ReactNode;
-    href?: CustomHref | string;
+    href?: string;
     icon?: string;
     className?: string;
 } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
@@ -54,6 +61,10 @@ export type MessageFormatComponentProps = {
     context?: object;
 };
 
+export type UiMessagesComponentProps = {
+    uiMessages?: UiText[];
+};
+
 export type KratosComponents = {
     MessageFormat: ComponentType<MessageFormatComponentProps>;
 
@@ -64,6 +75,7 @@ export type KratosComponents = {
     Message: ComponentType<MessageComponentProps>;
     Button: ComponentType<ButtonComponentProps>;
     Checkbox: ComponentType<CheckboxComponentProps>;
+    UiMessages: ComponentType<UiMessagesComponentProps>;
 
     OidcSectionWrapper: ElementType;
     PasswordlessSectionWrapper: ElementType;
@@ -86,20 +98,16 @@ export type KratosContextData = {
 
 const kratosContext = createContext<KratosContextData>({
     components: {
-        Image: ({ src }) => <img alt="hello" src={src} />,
-        Text: ({ label }) => <span>{label}</span>,
-        Link: ({ href, children }) => <a href="onet.pl">{children}</a>,
-        Input: ({ id, ...props }) => <input id={id} {...props} />,
-        Message: () => <span />,
-        Button: ({ header, social, ...props }) => <button {...props}>{header}</button>,
-        Checkbox: ({ label, ...props }) => (
-            <div>
-                <input {...props} />
-                {label}
-            </div>
-        ),
+        Image: DefaultImageComponent,
+        Text: DefaultTextComponent,
+        Link: DefaultLinkComponent,
+        Input: DefaultInputComponent,
+        Message: DefaultMessageComponent,
+        Button: DefaultButtonComponent,
+        Checkbox: DefaultCheckboxComponent,
+        UiMessages: DefaultUiMessagesComponent,
 
-        MessageFormat: ({ text }) => <span>{text}</span>,
+        MessageFormat: DefaultMessageFormatComponent,
 
         OidcSectionWrapper: "div",
         PasswordlessSectionWrapper: "div",
@@ -114,7 +122,7 @@ const kratosContext = createContext<KratosContextData>({
         OidcSettingsSectionWrapper: "div",
         TotpSettingsSectionWrapper: "div",
     },
-    useHandleFlowError: null as any,
+    useHandleFlowError: () => async () => undefined,
 });
 
 export function useKratosContext() {
@@ -123,12 +131,12 @@ export function useKratosContext() {
 
 export type KratosContextProviderProps = {
     components?: Partial<KratosComponents>;
-    useHandleFlowError: UseHandleFlowError;
+    useHandleFlowError?: UseHandleFlowError;
     children?: ReactNode;
 };
 
 export function KratosContextProvider({ components = {}, useHandleFlowError, children }: KratosContextProviderProps) {
-    const { components: baseComponents } = useKratosContext();
+    const { components: baseComponents, useHandleFlowError: baseUseHandleFlowError } = useKratosContext();
 
     const value = useMemo<KratosContextData>(
         () => ({
@@ -136,9 +144,9 @@ export function KratosContextProvider({ components = {}, useHandleFlowError, chi
                 ...baseComponents,
                 ...components,
             },
-            useHandleFlowError,
+            useHandleFlowError: useHandleFlowError ?? baseUseHandleFlowError,
         }),
-        [baseComponents, components, useHandleFlowError],
+        [baseComponents, baseUseHandleFlowError, components, useHandleFlowError],
     );
 
     return <kratosContext.Provider value={value}>{children}</kratosContext.Provider>;
