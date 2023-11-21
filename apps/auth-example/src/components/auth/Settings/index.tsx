@@ -27,13 +27,13 @@ export function Settings() {
             <h2>Lookup secret</h2>
             <UserSettingsCard flow={flow} flowType="lookupSecret" onSubmit={submit} />
 
-            <h2>oidc</h2>
+            <h2>Oidc</h2>
             <UserSettingsCard flow={flow} flowType="oidc" onSubmit={submit} />
 
-            <h2>password</h2>
+            <h2>Password</h2>
             <UserSettingsCard flow={flow} flowType="password" onSubmit={submit} />
 
-            <h2>profile</h2>
+            <h2>Profile</h2>
             <UserSettingsCard flow={flow} flowType="profile" onSubmit={submit} />
 
             <h2>Totp</h2>

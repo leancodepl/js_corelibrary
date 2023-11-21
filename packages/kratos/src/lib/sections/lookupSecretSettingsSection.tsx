@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { SettingsFlow } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasLookupSecret } from "../helpers/utils";
+import { hasLookupSecret } from "../utils/helpers";
 
 type LookupSecretSettingsProps = {
     flow: SettingsFlow;

@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { SettingsFlow } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasOidc } from "../helpers/utils";
+import { hasOidc } from "../utils/helpers";
 
 type OidcSettingsProps = {
     flow: SettingsFlow;

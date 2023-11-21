@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { UiNode } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasCode } from "../helpers/utils";
+import { hasCode } from "../utils/helpers";
 
 type AuthCodeSectionProps = {
     nodes: UiNode[];

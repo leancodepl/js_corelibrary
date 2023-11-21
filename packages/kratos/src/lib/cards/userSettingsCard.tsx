@@ -2,7 +2,6 @@ import { ElementType, JSX } from "react";
 import { SettingsFlow, UpdateSettingsFlowBody } from "@ory/client";
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm";
 import { useScriptNodes } from "../helpers/useScriptNodes";
-import { hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../helpers/utils";
 import { useKratosContext } from "../kratosContext";
 import { LookupSecretSettingsSection } from "../sections/lookupSecretSettingsSection";
 import { OidcSettingsSection } from "../sections/oidcSettingsSection";
@@ -10,6 +9,7 @@ import { PasswordSettingsSection } from "../sections/passwordSettingsSection";
 import { ProfileSettingsSection } from "../sections/profileSettingsSection";
 import { TotpSettingsSection } from "../sections/totpSettingsSection";
 import { WebAuthnSettingsSection } from "../sections/webAuthnSettingsSection";
+import { hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../utils/helpers";
 
 export type UserSettingsFlowType = "profile" | "password" | "totp" | "webauthn" | "oidc" | "lookupSecret";
 

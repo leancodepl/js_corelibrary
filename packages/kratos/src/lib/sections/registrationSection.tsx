@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { UiNode } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasPassword } from "../helpers/utils";
+import { hasPassword } from "../utils/helpers";
 
 type RegistrationSectionProps = {
     nodes: UiNode[];

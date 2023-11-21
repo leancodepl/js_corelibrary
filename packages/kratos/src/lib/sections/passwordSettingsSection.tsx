@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { SettingsFlow } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasPassword } from "../helpers/utils";
+import { hasPassword } from "../utils/helpers";
 
 type PasswordSettingsProps = {
     flow: SettingsFlow;

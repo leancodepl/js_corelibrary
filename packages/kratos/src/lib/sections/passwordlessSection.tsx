@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
 import { SelfServiceFlow } from "../helpers/userAuthForm";
-import { hasWebauthn } from "../helpers/utils";
+import { hasWebauthn } from "../utils/helpers";
 
 type PasswordlessSectionProps = {
     flow: SelfServiceFlow;

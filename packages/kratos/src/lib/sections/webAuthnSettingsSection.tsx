@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { SettingsFlow } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasWebauthn } from "../helpers/utils";
+import { hasWebauthn } from "../utils/helpers";
 
 type WebAuthnSettingsProps = {
     flow: SettingsFlow;

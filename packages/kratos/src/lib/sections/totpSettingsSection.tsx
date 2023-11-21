@@ -1,7 +1,7 @@
 import { ElementType } from "react";
 import { SettingsFlow } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasTotp } from "../helpers/utils";
+import { hasTotp } from "../utils/helpers";
 
 type TotpSettingsProps = {
     flow: SettingsFlow;

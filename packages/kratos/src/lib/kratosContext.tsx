@@ -1,6 +1,6 @@
 import React, { ComponentType, ElementType, ReactNode, createContext, useContext, useMemo } from "react";
 import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "@ory/client";
-import { CustomHref } from "./helpers/customHref";
+import { CustomHref } from "./types/customHref";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
 
 export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {

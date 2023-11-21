@@ -12,7 +12,6 @@ import {
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm";
 import { useScriptNodes } from "../helpers/useScriptNodes";
-import { hasCode, hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../helpers/utils";
 import { useKratosContext } from "../kratosContext";
 import { AuthCodeSection } from "../sections/authCodeSection";
 import { LinkSection } from "../sections/linkSection";
@@ -20,6 +19,7 @@ import { LoginSection } from "../sections/loginSection";
 import { OidcSection } from "../sections/oidcSection";
 import { PasswordlessSection } from "../sections/passwordlessSection";
 import { RegistrationSection } from "../sections/registrationSection";
+import { hasCode, hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../utils/helpers";
 
 type UserAuthCardProps<TBody> = {
     className?: string;
