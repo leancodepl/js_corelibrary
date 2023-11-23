@@ -1,4 +1,4 @@
-import { ElementType, JSX } from "react";
+import { JSX } from "react";
 import { SettingsFlow, UpdateSettingsFlowBody } from "@ory/client";
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm";
 import { useScriptNodes } from "../helpers/useScriptNodes";
@@ -18,13 +18,6 @@ export type UserSettingsCardProps = {
     flowType: UserSettingsFlowType;
     includeScripts?: boolean;
     className?: string;
-
-    ProfileSettingsSectionWrapper?: ElementType;
-    PasswordSettingsSectionWrapper?: ElementType;
-    WebAuthnSettingsSectionWrapper?: ElementType;
-    LookupSecretSettingsSectionWrapper?: ElementType;
-    OidcSettingsSectionWrapper?: ElementType;
-    TotpSettingsSectionWrapper?: ElementType;
 } & UserAuthFormAdditionalProps<UpdateSettingsFlowBody>;
 
 export const UserSettingsCard = ({
@@ -33,28 +26,20 @@ export const UserSettingsCard = ({
     includeScripts,
     onSubmit,
     className,
-
-    ProfileSettingsSectionWrapper: ProfileSettingsSectionWrapperProps,
-    PasswordSettingsSectionWrapper: PasswordSettingsSectionWrapperProps,
-    WebAuthnSettingsSectionWrapper: WebAuthnSettingsSectionWrapperProps,
-    LookupSecretSettingsSectionWrapper: LookupSecretSettingsSectionWrapperProps,
-    OidcSettingsSectionWrapper: OidcSettingsSectionWrapperProps,
-    TotpSettingsSectionWrapper: TotpSettingsSectionWrapperProps,
 }: UserSettingsCardProps): JSX.Element | null => {
     useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
 
-    const { components } = useKratosContext();
-
-    const ProfileSettingsSectionWrapper =
-        ProfileSettingsSectionWrapperProps ?? components.ProfileSettingsSectionWrapper;
-    const PasswordSettingsSectionWrapper =
-        PasswordSettingsSectionWrapperProps ?? components.PasswordSettingsSectionWrapper;
-    const WebAuthnSettingsSectionWrapper =
-        WebAuthnSettingsSectionWrapperProps ?? components.WebAuthnSettingsSectionWrapper;
-    const LookupSecretSettingsSectionWrapper =
-        LookupSecretSettingsSectionWrapperProps ?? components.LookupSecretSettingsSectionWrapper;
-    const OidcSettingsSectionWrapper = OidcSettingsSectionWrapperProps ?? components.OidcSettingsSectionWrapper;
-    const TotpSettingsSectionWrapper = TotpSettingsSectionWrapperProps ?? components.TotpSettingsSectionWrapper;
+    const {
+        components: {
+            ProfileSettingsSectionWrapper,
+            PasswordSettingsSectionWrapper,
+            WebAuthnSettingsSectionWrapper,
+            LookupSecretSettingsSectionWrapper,
+            OidcSettingsSectionWrapper,
+            TotpSettingsSectionWrapper,
+            UiMessages,
+        },
+    } = useKratosContext();
 
     const $flow = (() => {
         if (flowType === "profile") {
@@ -85,7 +70,7 @@ export const UserSettingsCard = ({
 
     return (
         <UserAuthForm className={className} flow={flow} onSubmit={onSubmit}>
-            <components.UiMessages uiMessages={flow.ui.messages} />
+            <UiMessages uiMessages={flow.ui.messages} />
             {$flow}
         </UserAuthForm>
     );

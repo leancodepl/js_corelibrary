@@ -1,4 +1,4 @@
-import { ElementType, JSX } from "react";
+import { JSX } from "react";
 import {
     AuthenticatorAssuranceLevel,
     LoginFlow,
@@ -27,13 +27,6 @@ type UserAuthCardProps<TBody> = {
     flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow;
     flowType: "login" | "registration" | "recovery" | "verification";
     includeScripts?: boolean;
-
-    OidcSectionWrapper?: ElementType;
-    PasswordlessSectionWrapper?: ElementType;
-    AuthCodeSectionWrapper?: ElementType;
-    LoginSectionWrapper?: ElementType;
-    RegistrationSectionWrapper?: ElementType;
-    LinkSectionWrapper?: ElementType;
 } & UserAuthFormAdditionalProps<TBody>;
 
 /**
@@ -42,19 +35,7 @@ type UserAuthCardProps<TBody> = {
  * @param UserAuthCardProps - a card that renders a login, registration, verification or recovery flow
  * @returns JSX.Element
  */
-function UserAuthCard<TBody>({
-    flow,
-    flowType,
-    onSubmit,
-    includeScripts,
-    className,
-    OidcSectionWrapper: OidcSectionWrapperProps,
-    PasswordlessSectionWrapper: PasswordlessSectionWrapperProps,
-    AuthCodeSectionWrapper: AuthCodeSectionWrapperProps,
-    LoginSectionWrapper: LoginSectionWrapperProps,
-    RegistrationSectionWrapper: RegistrationSectionWrapperProps,
-    LinkSectionWrapper: LinkSectionWrapperProps,
-}: UserAuthCardProps<TBody>) {
+function UserAuthCard<TBody>({ flow, flowType, onSubmit, includeScripts, className }: UserAuthCardProps<TBody>) {
     useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
 
     let $flow: JSX.Element | undefined = undefined;
@@ -68,13 +49,17 @@ function UserAuthCard<TBody>({
         isLoggedIn(flow) &&
         (hasTotp(flow.ui.nodes) || hasWebauthn(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes));
 
-    const { components } = useKratosContext();
-    const OidcSectionWrapper = OidcSectionWrapperProps ?? components.OidcSectionWrapper;
-    const PasswordlessSectionWrapper = PasswordlessSectionWrapperProps ?? components.PasswordlessSectionWrapper;
-    const AuthCodeSectionWrapper = AuthCodeSectionWrapperProps ?? components.AuthCodeSectionWrapper;
-    const LoginSectionWrapper = LoginSectionWrapperProps ?? components.LoginSectionWrapper;
-    const RegistrationSectionWrapper = RegistrationSectionWrapperProps ?? components.RegistrationSectionWrapper;
-    const LinkSectionWrapper = LinkSectionWrapperProps ?? components.LinkSectionWrapper;
+    const {
+        components: {
+            PasswordlessSectionWrapper,
+            OidcSectionWrapper,
+            AuthCodeSectionWrapper,
+            LoginSectionWrapper,
+            RegistrationSectionWrapper,
+            UiMessages,
+            LinkSectionWrapper,
+        },
+    } = useKratosContext();
 
     // This array contains all the 2fa flows mapped to their own respective forms.
     const twoFactorFlows =
@@ -181,7 +166,7 @@ function UserAuthCard<TBody>({
 
     return (
         <div className={className}>
-            <components.UiMessages uiMessages={flow.ui.messages} />
+            <UiMessages uiMessages={flow.ui.messages} />
             {$oidc && <UserAuthForm flow={flow}>{$oidc}</UserAuthForm>}
             {$code && <UserAuthForm flow={flow}>{$code}</UserAuthForm>}
             {$flow && !isTwoFactor && (

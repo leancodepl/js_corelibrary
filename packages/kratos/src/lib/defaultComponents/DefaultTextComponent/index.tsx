@@ -1,5 +1,5 @@
 import { FormattedMessage } from "../../helpers/formattedMessage";
-import { TextComponentProps } from "../../kratosContext";
+import type { TextComponentProps } from "../../kratosContext";
 import { isUiNodeTextSecretsAttributes } from "../../utils/typeGuards";
 
 export function DefaultTextComponent({ label, attributes }: TextComponentProps) {

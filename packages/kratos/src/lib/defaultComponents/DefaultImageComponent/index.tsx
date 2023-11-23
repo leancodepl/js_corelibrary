@@ -1,4 +1,4 @@
-import { ImageComponentProps } from "../../kratosContext";
+import type { ImageComponentProps } from "../../kratosContext";
 
 export function DefaultImageComponent({ header, ...props }: ImageComponentProps) {
     return (

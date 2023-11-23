@@ -33,9 +33,9 @@ export function Login() {
     return (
         <Flex direction="column" gap="4">
             <Text as="b">Sign In</Text>
-            <KratosContextProvider components={{ UiMessages }}>
+            <KratosContextProvider components={{ UiMessages, OidcSectionWrapper }}>
                 {flow ? (
-                    <StyledLoginCard flow={flow} OidcSectionWrapper={OidcSectionWrapper} onSubmit={submit} />
+                    <StyledLoginCard flow={flow} onSubmit={submit} />
                 ) : (
                     <Center>
                         <Spinner size="xl" />
