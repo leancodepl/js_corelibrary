@@ -89,7 +89,8 @@
     "packages/cqrs-clients/*",
     "packages/cqrs-clients/custom-types/binary/*",
     "packages/cqrs-clients/custom-types/date/*",
-    "packages/linters/*"
+    "packages/linters/*",
+    "packages/pipe-clients/*"
   ],
   "nx": {
     "includedScripts": []

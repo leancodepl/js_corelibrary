@@ -1,0 +1,11 @@
+{
+  "name": "@leancodepl/rx-pipe-client",
+  "version": "0.0.1",
+  "dependencies": {
+    "@leancodepl/pipe": ">=0.0.2",
+    "rxjs": ">=7.0.0"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "module": "./index.js"
+}

@@ -30,6 +30,7 @@
       "@leancodepl/login-manager": ["packages/login-manager/src/index.ts"],
       "@leancodepl/react-query-cqrs-client": ["packages/cqrs-clients/react-query-cqrs-client/src/index.ts"],
       "@leancodepl/rx-cqrs-client": ["packages/cqrs-clients/rx-cqrs-client/src/index.ts"],
+      "@leancodepl/rx-pipe-client": ["packages/pipe-clients/rx-pipe-client/src/index.ts"],
       "@leancodepl/utils": ["packages/utils/src/index.ts"],
       "@leancodepl/validation": ["packages/validation/src/index.ts"],
     }
