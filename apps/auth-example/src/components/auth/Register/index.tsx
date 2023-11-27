@@ -1,24 +1,20 @@
 import { useCallback } from "react";
 import { Center, Flex, Spinner, Text } from "@chakra-ui/react";
 import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos";
-import { signUpRoute } from "../../../app/routes";
+import { registerRoute } from "../../../app/routes";
 import { kratosClient } from "../../../auth/ory";
 import { sessionManager } from "../../../auth/sessionManager";
 
-export function SignUp() {
-    const {
-        flow,
-        submit,
-        isRegistered: isSignedUp,
-    } = useRegisterFlow({
+export function Register() {
+    const { flow, submit, isRegistered } = useRegisterFlow({
         kratosClient,
-        registrationRoute: signUpRoute,
+        registrationRoute: registerRoute,
         onSessionAlreadyAvailable: useCallback(() => {
             sessionManager.checkIfLoggedIn();
         }, []),
     });
 
-    if (isSignedUp) {
+    if (isRegistered) {
         return (
             <Center>
                 <Flex direction="column" gap="4">

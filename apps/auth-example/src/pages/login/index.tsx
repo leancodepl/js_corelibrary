@@ -1,13 +1,13 @@
 import { Center, Stack } from "@chakra-ui/react";
 import { Login } from "../../components/auth/Login";
-import { useIsSignedIn } from "../../hooks/useIsSignedIn";
+import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
 export function LoginPage() {
-    const isSignedIn = useIsSignedIn();
+    const isLoggedIn = useIsLoggedIn();
 
     return (
         <Center>
-            {isSignedIn ? (
+            {isLoggedIn ? (
                 "Already signed in"
             ) : (
                 <Stack>

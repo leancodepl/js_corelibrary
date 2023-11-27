@@ -1,16 +1,11 @@
 import { FormattedMessage } from "../../helpers/formattedMessage";
 import type { TextComponentProps } from "../../kratosContext";
-import { isUiNodeTextSecretsAttributes } from "../../utils/typeGuards";
 
-export function DefaultTextComponent({ label, attributes }: TextComponentProps) {
-    const codes = isUiNodeTextSecretsAttributes(attributes)
-        ? attributes.text.context.secrets.map(text => text)
-        : [attributes.text];
-
+export function DefaultTextComponent({ label, codes }: TextComponentProps) {
     return (
         <div>
             <span>{label}</span>
-            {codes.map(code => (
+            {codes?.map(code => (
                 <pre key={code.text}>
                     <code>
                         <FormattedMessage message={code} />

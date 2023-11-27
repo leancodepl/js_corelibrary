@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { loginRoute, settingsRoute, signUpRoute } from "../../../app/routes";
+import { loginRoute, settingsRoute, registerRoute } from "../../../app/routes";
 
 export function PageLayout() {
     const location = useLocation();
@@ -28,13 +28,13 @@ export function PageLayout() {
 const pathnameToIndex: Record<string, number> = {
     "/": 0,
     [loginRoute]: 1,
-    [signUpRoute]: 2,
+    [registerRoute]: 2,
     [settingsRoute]: 3,
 };
 
 const tabs = [
     { label: "Session info", href: "/" },
     { label: "Sign In", href: loginRoute },
-    { label: "Sign Up", href: signUpRoute },
+    { label: "Sign Up", href: registerRoute },
     { label: "Settings", href: settingsRoute },
 ];

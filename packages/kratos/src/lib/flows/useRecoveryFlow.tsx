@@ -59,13 +59,13 @@ export function useRecoveryFlow({
     }, [flowId, returnTo, flow, handleFlowError, kratosClient, nav]);
 
     const submit = useCallback(
-        (values: UpdateRecoveryFlowBody) => {
+        ({ body }: { body: UpdateRecoveryFlowBody }) => {
             if (!flow) return;
 
             nav(`${recoveryRoute}?flow=${flow.id}`, { replace: true });
 
             return kratosClient
-                .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: values })
+                .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: body })
                 .then(({ data }) => setFlow(data))
                 .catch(handleFlowError)
                 .catch((err: AxiosError<RecoveryFlow>) => {

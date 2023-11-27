@@ -2,12 +2,12 @@ import { Center, Flex, Text } from "@chakra-ui/react";
 import { loginRoute } from "../../app/routes";
 import { Settings } from "../../components/auth/Settings";
 import { Redirect } from "../../components/common/Redirect";
-import { useIsSignedIn } from "../../hooks/useIsSignedIn";
+import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
 export function SettingsPage() {
-    const isSignedIn = useIsSignedIn();
+    const isLoggedIn = useIsLoggedIn();
 
-    if (!isSignedIn) {
+    if (!isLoggedIn) {
         <Redirect path={loginRoute} />;
     }
 

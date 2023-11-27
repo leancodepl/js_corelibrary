@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, settingsRoute, signUpRoute, verificationRoute } from "./routes";
+import { loginRoute, settingsRoute, registerRoute, verificationRoute } from "./routes";
 import { PageLayout } from "../components/common/PageLayout";
 import { HomePage } from "../pages/home";
 import { LoginPage } from "../pages/login";
+import { RegisterPage } from "../pages/register";
 import { SettingsPage } from "../pages/settings";
-import { SignUpPage } from "../pages/signup";
 import { VerificationPage } from "../pages/verification";
 
 export function App() {
@@ -15,7 +15,7 @@ export function App() {
                 <Route element={<PageLayout />}>
                     <Route element={<HomePage />} path="/" />
                     <Route element={<LoginPage />} path={loginRoute} />
-                    <Route element={<SignUpPage />} path={signUpRoute} />
+                    <Route element={<RegisterPage />} path={registerRoute} />
                     <Route element={<SettingsPage />} path={settingsRoute} />
                     <Route element={<VerificationPage />} path={verificationRoute} />
                 </Route>

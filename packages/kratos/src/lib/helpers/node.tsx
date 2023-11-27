@@ -8,6 +8,7 @@ import {
     isUiNodeImageAttributes,
     isUiNodeInputAttributes,
     isUiNodeTextAttributes,
+    isUiNodeTextSecretsAttributes,
 } from "../utils/typeGuards";
 
 type NodeProps = {
@@ -33,6 +34,11 @@ export function Node({ node, className }: NodeProps) {
         return (
             <Text
                 attributes={node.attributes}
+                codes={
+                    isUiNodeTextSecretsAttributes(node.attributes)
+                        ? node.attributes.text.context.secrets.map(text => text)
+                        : [node.attributes.text]
+                }
                 id={node.attributes.id}
                 label={<FormattedMessage message={node.meta.label} />}
                 node={node}

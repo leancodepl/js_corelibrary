@@ -19,6 +19,7 @@ export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 export type TextComponentProps = {
     label?: ReactNode;
     id: string;
+    codes?: UiText[];
     node: UiNode;
     attributes: UiNodeTextAttributes;
 };
