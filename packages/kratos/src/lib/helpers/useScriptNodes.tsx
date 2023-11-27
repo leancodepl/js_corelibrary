@@ -14,8 +14,13 @@ export function useScriptNodes({ nodes, includeScripts }: { nodes: UiNode[]; inc
             attributes: "text/javascript",
             withoutDefaultGroup: true,
             withoutDefaultAttributes: true,
-        }).map(node => {
+        }).reduce((accumulator, node) => {
             const attr = node.attributes as UiNodeScriptAttributes;
+
+            if (document.querySelector(`script[src="${attr.src}"]`)) {
+                return accumulator;
+            }
+
             const script = document.createElement("script");
             script.src = attr.src;
             script.type = attr.type;
@@ -24,8 +29,9 @@ export function useScriptNodes({ nodes, includeScripts }: { nodes: UiNode[]; inc
             script.crossOrigin = attr.crossorigin;
             script.integrity = attr.integrity;
             document.body.appendChild(script);
-            return script;
-        });
+
+            return [...accumulator, script];
+        }, [] as HTMLScriptElement[]);
 
         return () => {
             scriptNodes.forEach(script => {
