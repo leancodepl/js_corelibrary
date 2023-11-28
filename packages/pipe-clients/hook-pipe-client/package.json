@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/rx-pipe-client",
+  "name": "@leancodepl/hook-pipe-client",
   "version": "0.0.1",
   "dependencies": {
     "@leancodepl/pipe": ">=0.0.2"
