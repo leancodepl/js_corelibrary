@@ -26,6 +26,7 @@ export function Node({ node, className }: NodeProps) {
             <Image
                 header={<FormattedMessage message={node.meta.label} />}
                 height={node.attributes.height}
+                node={node}
                 src={node.attributes.src}
                 width={node.attributes.width}
             />
@@ -92,6 +93,7 @@ export function Node({ node, className }: NodeProps) {
                         className={className}
                         disabled={attrs.disabled}
                         header={<FormattedMessage message={getNodeLabel(node)} />}
+                        node={node}
                         social={isSocial ? (attrs.value as string).toLowerCase() : undefined}
                         {...submit}
                     />
@@ -105,8 +107,10 @@ export function Node({ node, className }: NodeProps) {
                         defaultChecked={Boolean(attrs.value)}
                         disabled={attrs.disabled}
                         helperMessage={<NodeMessages nodes={[node]} />}
+                        isError={node.messages.length > 0}
                         label={<FormattedMessage message={getNodeLabel(node)} />}
                         name={attrs.name}
+                        node={node}
                         required={attrs.required}
                         value="true"
                     />
@@ -122,6 +126,7 @@ export function Node({ node, className }: NodeProps) {
                         helperMessage={<NodeMessages nodes={[node]} />}
                         isError={node.messages.length > 0}
                         name={attrs.name}
+                        node={node}
                         pattern={attrs.pattern}
                         required={attrs.required}
                         type={attrs.type}
@@ -130,7 +135,7 @@ export function Node({ node, className }: NodeProps) {
         }
     } else if (isUiNodeAnchorAttributes(node.attributes)) {
         return (
-            <Link className={className} href={node.attributes.href}>
+            <Link className={className} href={node.attributes.href} node={node}>
                 <FormattedMessage message={node.attributes.title} />
             </Link>
         );

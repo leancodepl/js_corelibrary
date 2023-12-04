@@ -11,31 +11,34 @@ import { DefaultTextComponent } from "./defaultComponents/DefaultTextComponent";
 import { DefaultUiMessagesComponent } from "./defaultComponents/DefaultUiMessagesComponent";
 import { UseHandleFlowError } from "./types/useHandleFlowError";
 
+type Node = { node: UiNode };
+
 export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {
     header?: ReactNode;
     className?: string;
-};
+} & Node;
 
 export type TextComponentProps = {
     label?: ReactNode;
     id: string;
     codes?: UiText[];
-    node: UiNode;
     attributes: UiNodeTextAttributes;
-};
+} & Node;
 
 export type LinkComponentProps = {
     children?: ReactNode;
     href?: string;
     icon?: string;
     className?: string;
-} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
+} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> &
+    Node;
 
 export type InputComponentProps = {
     header: ReactNode;
     helperMessage?: ReactNode;
     isError?: boolean;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+} & React.InputHTMLAttributes<HTMLInputElement> &
+    Node;
 
 export type MessageComponentProps = {
     message: UiText;
@@ -50,12 +53,15 @@ export type ButtonComponentProps = {
     header?: ReactNode;
     fullWidth?: boolean;
     social?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & React.ButtonHTMLAttributes<HTMLButtonElement> &
+    Node;
 
 export type CheckboxComponentProps = {
     label?: ReactNode;
     helperMessage?: ReactNode;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+    isError?: boolean;
+} & React.InputHTMLAttributes<HTMLInputElement> &
+    Node;
 
 export type MessageFormatComponentProps = {
     id: number;
