@@ -120,6 +120,7 @@ export function Node({ node, className }: NodeProps) {
                         disabled={attrs.disabled}
                         header={<FormattedMessage message={getNodeLabel(node)} />}
                         helperMessage={<NodeMessages nodes={[node]} />}
+                        isError={node.messages.length > 0}
                         name={attrs.name}
                         pattern={attrs.pattern}
                         required={attrs.required}

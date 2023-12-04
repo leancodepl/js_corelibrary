@@ -34,6 +34,7 @@ export type LinkComponentProps = {
 export type InputComponentProps = {
     header: ReactNode;
     helperMessage?: ReactNode;
+    isError?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export type MessageComponentProps = {

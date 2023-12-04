@@ -42,6 +42,7 @@ export function UserAuthForm<TBody>({
 }: UserAuthFormProps<TBody>) {
     return (
         <form
+            noValidate
             action={flow.ui.action}
             method={flow.ui.method}
             onKeyDown={e => {
