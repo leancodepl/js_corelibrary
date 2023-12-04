@@ -40,7 +40,7 @@ export function Settings() {
             <UserSettingsCard flow={flow} flowType="totp" onSubmit={submit} />
 
             <h2>Webauthn</h2>
-            <UserSettingsCard includeScripts flow={flow} flowType="webauthn" onSubmit={submit} />
+            <UserSettingsCard flow={flow} flowType="webauthn" onSubmit={submit} />
         </>
     );
 }

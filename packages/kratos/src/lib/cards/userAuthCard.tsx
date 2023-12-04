@@ -26,7 +26,6 @@ type UserAuthCardProps<TBody> = {
     className?: string;
     flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow;
     flowType: "login" | "registration" | "recovery" | "verification";
-    includeScripts?: boolean;
 } & UserAuthFormAdditionalProps<TBody>;
 
 /**
@@ -35,8 +34,21 @@ type UserAuthCardProps<TBody> = {
  * @param UserAuthCardProps - a card that renders a login, registration, verification or recovery flow
  * @returns JSX.Element
  */
-function UserAuthCard<TBody>({ flow, flowType, onSubmit, includeScripts, className }: UserAuthCardProps<TBody>) {
-    useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
+function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCardProps<TBody>) {
+    const {
+        components: {
+            PasswordlessSectionWrapper,
+            OidcSectionWrapper,
+            AuthCodeSectionWrapper,
+            LoginSectionWrapper,
+            RegistrationSectionWrapper,
+            UiMessages,
+            LinkSectionWrapper,
+        },
+        excludeScripts,
+    } = useKratosContext();
+
+    useScriptNodes({ nodes: flow.ui.nodes, excludeScripts });
 
     let $flow: JSX.Element | undefined = undefined;
     let $oidc: JSX.Element | undefined = undefined;
@@ -48,18 +60,6 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, includeScripts, classNa
         flowType === "login" &&
         isLoggedIn(flow) &&
         (hasTotp(flow.ui.nodes) || hasWebauthn(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes));
-
-    const {
-        components: {
-            PasswordlessSectionWrapper,
-            OidcSectionWrapper,
-            AuthCodeSectionWrapper,
-            LoginSectionWrapper,
-            RegistrationSectionWrapper,
-            UiMessages,
-            LinkSectionWrapper,
-        },
-    } = useKratosContext();
 
     // This array contains all the 2fa flows mapped to their own respective forms.
     const twoFactorFlows =
@@ -192,28 +192,16 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, includeScripts, classNa
     );
 }
 
-function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(
-    flowType: UserAuthCardProps<TBody>["flowType"],
-    { includeScripts }: { includeScripts?: boolean } = {},
-) {
-    return function ({
-        includeScripts: includeScriptsProps,
-        ...props
-    }: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
-        return <UserAuthCard flowType={flowType} {...props} includeScripts={includeScriptsProps ?? includeScripts} />;
+function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(flowType: UserAuthCardProps<TBody>["flowType"]) {
+    return function ({ ...props }: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
+        return <UserAuthCard flowType={flowType} {...props} />;
     };
 }
 
-export const LoginCard = mkCard<UpdateLoginFlowBody, LoginFlow>("login", {
-    includeScripts: true,
-});
+export const LoginCard = mkCard<UpdateLoginFlowBody, LoginFlow>("login");
 export const VerificationCard = mkCard<UpdateVerificationFlowBody, VerificationFlow>("verification");
-export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationFlow>("registration", {
-    includeScripts: true,
-});
-export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery", {
-    includeScripts: true,
-});
+export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationFlow>("registration");
+export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery");
 
 // the user might need to logout on the second factor page.
 function isLoggedIn(flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow): boolean {

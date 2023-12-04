@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { UiNode, UiNodeScriptAttributes } from "@ory/client";
 import { filterNodesByGroups } from "../utils/filterNodesByGroups";
 
-export function useScriptNodes({ nodes, includeScripts }: { nodes: UiNode[]; includeScripts?: boolean }) {
+export function useScriptNodes({ nodes, excludeScripts }: { nodes: UiNode[]; excludeScripts?: boolean }) {
     useEffect(() => {
-        if (!includeScripts) {
+        if (excludeScripts) {
             return;
         }
 
@@ -38,5 +38,5 @@ export function useScriptNodes({ nodes, includeScripts }: { nodes: UiNode[]; inc
                 document.body.removeChild(script);
             });
         };
-    }, [includeScripts, nodes]);
+    }, [excludeScripts, nodes]);
 }

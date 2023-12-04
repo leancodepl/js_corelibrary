@@ -16,19 +16,15 @@ export type UserSettingsFlowType = "profile" | "password" | "totp" | "webauthn" 
 export type UserSettingsCardProps = {
     flow: SettingsFlow;
     flowType: UserSettingsFlowType;
-    includeScripts?: boolean;
     className?: string;
 } & UserAuthFormAdditionalProps<UpdateSettingsFlowBody>;
 
 export const UserSettingsCard = ({
     flow,
     flowType,
-    includeScripts,
     onSubmit,
     className,
 }: UserSettingsCardProps): JSX.Element | null => {
-    useScriptNodes({ nodes: flow.ui.nodes, includeScripts });
-
     const {
         components: {
             ProfileSettingsSectionWrapper,
@@ -39,7 +35,10 @@ export const UserSettingsCard = ({
             TotpSettingsSectionWrapper,
             UiMessages,
         },
+        excludeScripts,
     } = useKratosContext();
+
+    useScriptNodes({ nodes: flow.ui.nodes, excludeScripts });
 
     const $flow = (() => {
         if (flowType === "profile") {

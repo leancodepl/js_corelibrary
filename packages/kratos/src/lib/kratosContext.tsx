@@ -96,6 +96,7 @@ export type KratosComponents = {
 export type KratosContextData = {
     components: KratosComponents;
     useHandleFlowError: UseHandleFlowError;
+    excludeScripts: boolean;
 };
 
 const kratosContext = createContext<KratosContextData>({
@@ -125,6 +126,7 @@ const kratosContext = createContext<KratosContextData>({
         TotpSettingsSectionWrapper: "div",
     },
     useHandleFlowError: () => async () => undefined,
+    excludeScripts: false,
 });
 
 export function useKratosContext() {
@@ -138,7 +140,11 @@ export type KratosContextProviderProps = {
 };
 
 export function KratosContextProvider({ components = {}, useHandleFlowError, children }: KratosContextProviderProps) {
-    const { components: baseComponents, useHandleFlowError: baseUseHandleFlowError } = useKratosContext();
+    const {
+        components: baseComponents,
+        useHandleFlowError: baseUseHandleFlowError,
+        ...contextProps
+    } = useKratosContext();
 
     const value = useMemo<KratosContextData>(
         () => ({
@@ -147,8 +153,9 @@ export function KratosContextProvider({ components = {}, useHandleFlowError, chi
                 ...components,
             },
             useHandleFlowError: useHandleFlowError ?? baseUseHandleFlowError,
+            ...contextProps,
         }),
-        [baseComponents, baseUseHandleFlowError, components, useHandleFlowError],
+        [baseComponents, baseUseHandleFlowError, components, useHandleFlowError, contextProps],
     );
 
     return <kratosContext.Provider value={value}>{children}</kratosContext.Provider>;
