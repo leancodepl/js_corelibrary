@@ -10,10 +10,12 @@ import { returnToParameterName } from "../utils/variables";
 export function useRecoveryFlow({
     kratosClient,
     recoveryRoute,
+    settingsRoute,
     onSessionAlreadyAvailable,
 }: {
     kratosClient: FrontendApi;
     recoveryRoute: string;
+    settingsRoute: string;
     onSessionAlreadyAvailable: () => void;
 }) {
     const { useHandleFlowError } = useKratosContext();
@@ -66,7 +68,19 @@ export function useRecoveryFlow({
 
             return kratosClient
                 .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: body })
-                .then(({ data }) => setFlow(data))
+                .then(({ data }) => {
+                    setFlow(data);
+
+                    if (
+                        data.continue_with &&
+                        "flow" in data.continue_with[0] &&
+                        data.continue_with[0].action === "show_settings_ui"
+                    ) {
+                        const url = new URL(window.location.origin + settingsRoute);
+                        url.searchParams.set("flow", data.continue_with[0].flow.id);
+                        window.open(url, "_self");
+                    }
+                })
                 .catch(handleFlowError)
                 .catch((err: AxiosError<RecoveryFlow>) => {
                     if (err.response?.status === 400) {
@@ -77,7 +91,7 @@ export function useRecoveryFlow({
                     return Promise.reject(err);
                 });
         },
-        [flow, handleFlowError, nav, kratosClient, recoveryRoute],
+        [flow, nav, recoveryRoute, kratosClient, handleFlowError, settingsRoute],
     );
 
     return { flow, submit, isRecovering: flow?.state === "sent_email" };
