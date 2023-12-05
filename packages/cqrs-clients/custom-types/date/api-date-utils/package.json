@@ -1,8 +1,8 @@
 {
   "name": "@leancodepl/api-date-utils",
-  "version": "7.2.3",
+  "version": "7.2.4",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@leancodepl/api-date": "7.2.3"
+    "@leancodepl/api-date": "7.2.4"
   }
 }

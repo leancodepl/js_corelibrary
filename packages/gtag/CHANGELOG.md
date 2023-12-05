@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.2.4](https://github.com/leancodepl/js_corelibrary/compare/v7.2.3...v7.2.4) (2023-12-05)
+
+### Bug Fixes
+
+-   generated package.json
+    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.2.3](https://github.com/leancodepl/js_corelibrary/compare/v7.2.2...v7.2.3) (2023-11-14)
 
 **Note:** Version bump only for package @leancodepl/gtag
