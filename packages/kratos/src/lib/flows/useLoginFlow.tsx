@@ -7,7 +7,7 @@ import yn from "yn";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
-import { aalParameterName, returnToParameterName } from "../utils/variables";
+import { aalParameterName, flowIdParameterName, returnToParameterName } from "../utils/variables";
 
 export function useLoginFlow({
     kratosClient,
@@ -32,7 +32,7 @@ export function useLoginFlow({
     const searchParams = useMemo(() => parseSearchParams(search), [search]);
 
     const {
-        flow: flowId,
+        [flowIdParameterName]: flowId,
         [returnToParameterName]: returnToFromSearch,
         refresh,
         [aalParameterName]: authorizationAssuranceLevel,
@@ -44,7 +44,7 @@ export function useLoginFlow({
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            const newParams = omit({ ...searchParams }, ["flow", aalParameterName]);
+            const newParams = omit({ ...searchParams }, [flowIdParameterName, aalParameterName]);
 
             nav(`${loginRoute}?${new URLSearchParams(newParams)}`, { replace: true });
 
@@ -97,7 +97,9 @@ export function useLoginFlow({
         ({ body }: { body: UpdateLoginFlowBody }) => {
             if (!flow) return;
 
-            nav(`${loginRoute}?${new URLSearchParams({ ...searchParams, flow: flow.id })}`, { replace: true });
+            nav(`${loginRoute}?${new URLSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })}`, {
+                replace: true,
+            });
 
             kratosClient
                 .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: body })

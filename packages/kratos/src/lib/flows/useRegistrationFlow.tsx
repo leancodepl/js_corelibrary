@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
-import { returnToParameterName } from "../utils/variables";
+import { flowIdParameterName, returnToParameterName } from "../utils/variables";
 
 export function useRegisterFlow({
     kratosClient,
@@ -26,7 +26,10 @@ export function useRegisterFlow({
     const { search } = useLocation();
     const nav = useNavigate();
 
-    const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(() => parseSearchParams(search), [search]);
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
+        () => parseSearchParams(search),
+        [search],
+    );
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
@@ -64,7 +67,7 @@ export function useRegisterFlow({
         ({ body }: { body: UpdateRegistrationFlowBody }) => {
             if (!flow) return;
 
-            nav(`${registrationRoute}?flow=${flow.id}`, { replace: true });
+            nav(`${registrationRoute}?${flowIdParameterName}=${flow.id}`, { replace: true });
 
             return kratosClient
                 .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: body })

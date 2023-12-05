@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
-import { returnToParameterName } from "../utils/variables";
+import { flowIdParameterName, returnToParameterName } from "../utils/variables";
 
 export function useVerificationFlow({
     initialFlowId,
@@ -107,5 +107,3 @@ export function useVerificationFlow({
 
     return { flow, submit, reset };
 }
-
-const flowIdParameterName = "flow";

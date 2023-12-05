@@ -19,12 +19,7 @@ export type UserSettingsCardProps = {
     className?: string;
 } & UserAuthFormAdditionalProps<UpdateSettingsFlowBody>;
 
-export const UserSettingsCard = ({
-    flow,
-    flowType,
-    onSubmit,
-    className,
-}: UserSettingsCardProps): JSX.Element | null => {
+export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSettingsCardProps): JSX.Element | null {
     const {
         components: {
             ProfileSettingsSectionWrapper,
@@ -73,4 +68,4 @@ export const UserSettingsCard = ({
             {$flow}
         </UserAuthForm>
     );
-};
+}

@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
-import { returnToParameterName } from "../utils/variables";
+import { flowIdParameterName, returnToParameterName } from "../utils/variables";
 
 export function useRecoveryFlow({
     kratosClient,
@@ -25,7 +25,10 @@ export function useRecoveryFlow({
     const { search } = useLocation();
     const nav = useNavigate();
 
-    const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(() => parseSearchParams(search), [search]);
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
+        () => parseSearchParams(search),
+        [search],
+    );
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
@@ -64,7 +67,7 @@ export function useRecoveryFlow({
         ({ body }: { body: UpdateRecoveryFlowBody }) => {
             if (!flow) return;
 
-            nav(`${recoveryRoute}?flow=${flow.id}`, { replace: true });
+            nav(`${recoveryRoute}?${flowIdParameterName}=${flow.id}`, { replace: true });
 
             return kratosClient
                 .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: body })

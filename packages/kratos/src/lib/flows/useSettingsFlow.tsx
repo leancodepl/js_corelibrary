@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 import { parseSearchParams } from "../utils/parseSearchParams";
-import { returnToParameterName } from "../utils/variables";
+import { flowIdParameterName, returnToParameterName } from "../utils/variables";
 
 export function useSettingsFlow({
     kratosClient,
@@ -25,7 +25,10 @@ export function useSettingsFlow({
     const { search } = useLocation();
     const nav = useNavigate();
 
-    const { flow: flowId, [returnToParameterName]: returnTo } = useMemo(() => parseSearchParams(search), [search]);
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
+        () => parseSearchParams(search),
+        [search],
+    );
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
@@ -70,7 +73,7 @@ export function useSettingsFlow({
         ({ body }: { body: UpdateSettingsFlowBody }) => {
             if (!flow) return;
 
-            nav(`${settingsRoute}?flow=${flow.id}`, { replace: true });
+            nav(`${settingsRoute}?${flowIdParameterName}=${flow.id}`, { replace: true });
 
             return kratosClient
                 .updateSettingsFlow({ flow: flow.id, updateSettingsFlowBody: body })
