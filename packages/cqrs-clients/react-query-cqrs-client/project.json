@@ -14,7 +14,8 @@
         "assets": [],
         "project": "packages/cqrs-clients/react-query-cqrs-client/package.json",
         "compiler": "swc",
-        "format": ["cjs", "esm"]
+        "format": ["cjs", "esm"],
+        "generateExportsField": true
       }
     },
     "publish": {

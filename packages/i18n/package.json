@@ -2,7 +2,6 @@
   "name": "@leancodepl/i18n",
   "version": "7.2.3",
   "license": "Apache-2.0",
-  "types": "./index.cjs.d.ts",
   "dependencies": {
     "react-intl": ">=6.0.0"
   },

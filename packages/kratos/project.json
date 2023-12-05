@@ -34,7 +34,8 @@
             "input": ".",
             "output": "."
           }
-        ]
+        ],
+        "generateExportsField": true
       }
     }
   }
