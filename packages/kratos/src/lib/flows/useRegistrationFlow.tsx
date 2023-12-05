@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/client";
+import { ContinueWith, FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/client";
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
@@ -11,10 +11,12 @@ export function useRegisterFlow({
     kratosClient,
     registrationRoute,
     onSessionAlreadyAvailable,
+    onContinueWith,
 }: {
     kratosClient: FrontendApi;
     registrationRoute: string;
     onSessionAlreadyAvailable: () => void;
+    onContinueWith?: (continueWith: ContinueWith[]) => void;
 }) {
     const { useHandleFlowError } = useKratosContext();
 
@@ -66,7 +68,13 @@ export function useRegisterFlow({
 
             return kratosClient
                 .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: body })
-                .then(() => setIsRegistered(true))
+                .then(data => {
+                    setIsRegistered(true);
+
+                    if (data.data.continue_with) {
+                        onContinueWith?.(data.data.continue_with);
+                    }
+                })
                 .catch(handleFlowError)
                 .catch((err: AxiosError<RegistrationFlow>) => {
                     if (err.response?.status === 400) {
@@ -77,7 +85,7 @@ export function useRegisterFlow({
                     return Promise.reject(err);
                 });
         },
-        [flow, handleFlowError, nav, kratosClient, registrationRoute],
+        [flow, nav, registrationRoute, kratosClient, handleFlowError, onContinueWith],
     );
 
     return { flow, submit, isRegistered };

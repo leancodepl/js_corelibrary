@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client";
+import { ContinueWith, FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
@@ -11,10 +11,12 @@ export function useSettingsFlow({
     kratosClient,
     settingsRoute,
     params,
+    onContinueWith,
 }: {
     kratosClient: FrontendApi;
     settingsRoute: string;
     params?: AxiosRequestConfig["params"];
+    onContinueWith?: (continueWith: ContinueWith[]) => void;
 }) {
     const { useHandleFlowError } = useKratosContext();
 
@@ -79,6 +81,10 @@ export function useSettingsFlow({
                     }
 
                     setFlow(data);
+
+                    if (data.continue_with) {
+                        onContinueWith?.(data.continue_with);
+                    }
                 })
                 .catch(handleFlowError)
                 .catch((err: AxiosError<SettingsFlow>) => {
@@ -90,7 +96,7 @@ export function useSettingsFlow({
                     return Promise.reject(err);
                 });
         },
-        [flow, handleFlowError, nav, kratosClient, settingsRoute],
+        [flow, nav, settingsRoute, kratosClient, handleFlowError, onContinueWith],
     );
 
     return { flow, submit };

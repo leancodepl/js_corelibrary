@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/client";
+import { ContinueWith, FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/client";
 import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useKratosContext } from "../kratosContext";
@@ -10,13 +10,13 @@ import { returnToParameterName } from "../utils/variables";
 export function useRecoveryFlow({
     kratosClient,
     recoveryRoute,
-    settingsRoute,
     onSessionAlreadyAvailable,
+    onContinueWith,
 }: {
     kratosClient: FrontendApi;
     recoveryRoute: string;
-    settingsRoute: string;
     onSessionAlreadyAvailable: () => void;
+    onContinueWith?: (continueWith: ContinueWith[]) => void;
 }) {
     const { useHandleFlowError } = useKratosContext();
 
@@ -71,14 +71,8 @@ export function useRecoveryFlow({
                 .then(({ data }) => {
                     setFlow(data);
 
-                    if (
-                        data.continue_with &&
-                        "flow" in data.continue_with[0] &&
-                        data.continue_with[0].action === "show_settings_ui"
-                    ) {
-                        const url = new URL(window.location.origin + settingsRoute);
-                        url.searchParams.set("flow", data.continue_with[0].flow.id);
-                        window.open(url, "_self");
+                    if (data.continue_with) {
+                        onContinueWith?.(data.continue_with);
                     }
                 })
                 .catch(handleFlowError)
@@ -91,7 +85,7 @@ export function useRecoveryFlow({
                     return Promise.reject(err);
                 });
         },
-        [flow, nav, recoveryRoute, kratosClient, handleFlowError, settingsRoute],
+        [flow, nav, recoveryRoute, kratosClient, handleFlowError, onContinueWith],
     );
 
     return { flow, submit, isRecovering: flow?.state === "sent_email" };
