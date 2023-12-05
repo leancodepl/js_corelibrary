@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/cqrs-client-base",
-  "version": "7.2.3",
+  "version": "7.2.4",
   "license": "Apache-2.0",
   "type": "commonjs",
   "main": "./index.cjs",
