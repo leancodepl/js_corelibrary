@@ -7,8 +7,5 @@
     "@leancodepl/validation": "7.2.3",
     "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
-  },
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js"
+  }
 }

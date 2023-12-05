@@ -20,7 +20,8 @@
             "input": ".",
             "output": "."
           }
-        ]
+        ],
+        "generateExportsField": true
       }
     },
     "publish": {

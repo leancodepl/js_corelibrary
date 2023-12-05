@@ -1,9 +1,5 @@
 {
   "name": "@leancodepl/cx",
   "version": "7.2.3",
-  "license": "Apache-2.0",
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js",
-  "types": "./index.cjs.d.ts"
+  "license": "Apache-2.0"
 }
