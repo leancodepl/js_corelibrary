@@ -1,6 +1,7 @@
 import { UiNode, UiText } from "@ory/client";
 import { FormattedMessage } from "./formattedMessage";
-import { MessageComponentProps, useKratosContext } from "../kratosContext";
+import { useKratosContext } from "../kratosContext";
+import type { MessageComponentProps } from "../types/components";
 
 type NodeMessagesProps = {
     nodes?: UiNode[];

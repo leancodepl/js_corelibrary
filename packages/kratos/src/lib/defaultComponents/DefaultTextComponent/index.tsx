@@ -1,5 +1,5 @@
 import { FormattedMessage } from "../../helpers/formattedMessage";
-import type { TextComponentProps } from "../../kratosContext";
+import type { TextComponentProps } from "../../types/components";
 
 export function DefaultTextComponent({ label, codes }: TextComponentProps) {
     return (

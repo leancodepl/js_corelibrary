@@ -1,4 +1,4 @@
-import type { InputComponentProps } from "../../kratosContext";
+import type { InputComponentProps } from "../../types/components";
 
 export function DefaultInputComponent({ helperMessage, header, ...props }: InputComponentProps) {
     return (

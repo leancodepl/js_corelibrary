@@ -1,4 +1,4 @@
-import type { CheckboxComponentProps } from "../../kratosContext";
+import type { CheckboxComponentProps } from "../../types/components";
 
 export function DefaultCheckboxComponent({ label, helperMessage, ...props }: CheckboxComponentProps) {
     return (

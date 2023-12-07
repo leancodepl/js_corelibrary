@@ -2,7 +2,8 @@ import { UiNode } from "@ory/client";
 import { NodeMessages } from "./errorMessages";
 import { FormattedMessage } from "./formattedMessage";
 import { getNodeLabel } from "./getNodeLabel";
-import { ButtonComponentProps, useKratosContext } from "../kratosContext";
+import { useKratosContext } from "../kratosContext";
+import type { ButtonComponentProps } from "../types/components";
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
