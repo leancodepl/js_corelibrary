@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.3.0](https://github.com/leancodepl/js_corelibrary/compare/v7.2.4...v7.3.0) (2023-12-08)
+
+### Bug Fixes
+
+-   circular dependency
+    ([61f378e](https://github.com/leancodepl/js_corelibrary/commit/61f378e0a512a659ffe7fcea1ef04d1b79ff7328))
+-   kratos exports
+    ([f8e3018](https://github.com/leancodepl/js_corelibrary/commit/f8e3018bf038ac64d62cc9e047ccf96dd7ba47ba))
+-   recovery flow redirect
+    ([9d09e01](https://github.com/leancodepl/js_corelibrary/commit/9d09e015f6e438105939cfb98fe7f1aa5ffa9611))
+-   tsconfig, user settings card, registration route, flow param
+    ([7ec77bc](https://github.com/leancodepl/js_corelibrary/commit/7ec77bc84d5ca0ce273997d7dbe455da70af4e3f))
+
+### Features
+
+-   add default inputs and remove @ory/integrations
+    ([fe2c280](https://github.com/leancodepl/js_corelibrary/commit/fe2c28063de08e425ef5d119f93aa3f9471e223f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.2.4](https://github.com/leancodepl/js_corelibrary/compare/v7.2.3...v7.2.4) (2023-12-05)
 
 ### Bug Fixes
