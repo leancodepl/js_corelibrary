@@ -10,14 +10,12 @@
     "src": "src"
   },
   "dependencies": {
+    "prettier": "^2.6.2",
     "stylelint": ">=14.0.1",
     "stylelint-config-prettier": ">=9.0.3",
-    "stylelint-config-recommended-scss": ">=6.0.0",
+    "stylelint-config-recommended-scss": ">=6.0.0 <9.0.0",
     "stylelint-order": ">=5.0.0",
     "stylelint-prettier": ">=2.0.0",
     "stylelint-rscss": ">=0.4.0"
-  },
-  "peerDependencies": {
-    "prettier": ">=2.1.2"
   }
 }
