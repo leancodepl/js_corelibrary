@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.2](https://github.com/leancodepl/js_corelibrary/compare/v7.3.1...v7.3.2) (2023-12-08)
+
+### Bug Fixes
+
+-   kratos context provider
+    ([ba995f4](https://github.com/leancodepl/js_corelibrary/commit/ba995f404107b6c817bf888aab31d357c94c2602))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.1](https://github.com/leancodepl/js_corelibrary/compare/v7.3.0...v7.3.1) (2023-12-08)
 
 ### Bug Fixes

@@ -1,10 +1,10 @@
 {
   "name": "@leancodepl/linting",
-  "version": "7.3.1",
+  "version": "7.3.2",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/eslint-config": "7.3.1",
-    "@leancodepl/prettier-config": "7.3.1",
-    "@leancodepl/stylelint-config": "7.3.1"
+    "@leancodepl/eslint-config": "7.3.2",
+    "@leancodepl/prettier-config": "7.3.2",
+    "@leancodepl/stylelint-config": "7.3.2"
   }
 }
