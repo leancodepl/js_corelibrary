@@ -1,6 +1,6 @@
 {
   "extends": ["plugin:import/typescript", "prettier"],
-  "plugins": ["import"],
+  "plugins": ["import", "unused-imports"],
   "rules": {
     "@typescript-eslint/no-unused-vars": "off",
     "import/first": "error",
@@ -35,7 +35,9 @@
       }
     ],
     "react/jsx-uses-react": "off",
-    "react/jsx-uses-vars": "error"
+    "react/jsx-uses-vars": "error",
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": "warn"
   },
   "settings": {
     "import/internal-regex": "^react$"

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-namespace, unused-imports/no-unused-vars-ts */
+/* eslint-disable @typescript-eslint/no-namespace, unused-imports/no-unused-vars */
 export type Query<TResult> = {};
 
 export type Command = {};
