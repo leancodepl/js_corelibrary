@@ -1,6 +1,6 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useContext } from "react";
 import { defaultComponents } from "./defaultComponents";
-import { type KratosContextData, kratosContext, useKratosContext } from "./kratosContext";
+import { type KratosContextData, kratosContext } from "./kratosContext";
 import type { KratosComponents } from "./types/components";
 import type { UseHandleFlowError } from "./types/useHandleFlowError";
 
@@ -21,7 +21,7 @@ export function KratosContextProvider({
         components: baseComponents,
         useHandleFlowError: baseUseHandleFlowError,
         excludeScripts: baseExcludeScripts,
-    } = useKratosContext();
+    } = useContext(kratosContext);
 
     const value = useMemo<KratosContextData>(
         () => ({
