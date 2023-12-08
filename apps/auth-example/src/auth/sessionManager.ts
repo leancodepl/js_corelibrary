@@ -1,6 +1,6 @@
 import { BaseSessionManager } from "@leancodepl/kratos";
 import { map } from "rxjs";
-import { signInRoute } from "../app/routes";
+import { loginRoute } from "../app/routes";
 import environment from "../environments/environment";
 
 class SessionManager extends BaseSessionManager {
@@ -15,4 +15,4 @@ class SessionManager extends BaseSessionManager {
     );
 }
 
-export const sessionManager = new SessionManager(environment.authUrl, signInRoute);
+export const sessionManager = new SessionManager(environment.authUrl, loginRoute);

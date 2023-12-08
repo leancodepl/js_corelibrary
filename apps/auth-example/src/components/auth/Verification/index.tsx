@@ -1,12 +1,9 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { InfoSelfServiceVerification, isUiNodeInputAttributes } from "@leancodepl/kratos";
-import { VerificationFlow } from "@ory/kratos-client";
+import { VerificationCard, useVerificationFlow } from "@leancodepl/kratos";
 import { useNavigate } from "react-router";
-import { signInRoute } from "../../../app/routes";
-import { Flow, useVerificationFlow } from "../../../auth";
+import { loginRoute } from "../../../app/routes";
 import { kratosClient } from "../../../auth/ory";
-import { CustomUiMessageParams } from "../../../auth/ui/messages/UiMessage";
 
 export function Verification() {
     const nav = useNavigate();
@@ -14,31 +11,11 @@ export function Verification() {
     const { flow, submit } = useVerificationFlow({
         kratosClient,
         onVerified: useCallback(() => {
-            nav(signInRoute);
+            nav(loginRoute);
         }, [nav]),
     });
 
-    const customUiMessage = useMemo(() => mkCustomUiMessage(flow), [flow]);
-
     if (!flow) return <Spinner />;
 
-    return <Flow flow={flow} UiMessage={customUiMessage} onSubmit={submit} />;
-}
-
-function mkCustomUiMessage(flow?: VerificationFlow) {
-    return ({ uiMessage, attributes, text: uiText }: CustomUiMessageParams) => {
-        switch (uiText?.id) {
-            case InfoSelfServiceVerification.InfoSelfServiceVerificationEmailWithCodeSent:
-                if (
-                    flow?.ui.nodes.some(
-                        ({ attributes }) =>
-                            isUiNodeInputAttributes(attributes) && attributes.name === "code" && attributes.value,
-                    )
-                ) {
-                    return null;
-                }
-        }
-
-        return uiMessage({ attributes, text: uiText });
-    };
+    return <VerificationCard flow={flow} onSubmit={submit} />;
 }

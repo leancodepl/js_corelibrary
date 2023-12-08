@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "compiler": "swc",
@@ -15,7 +17,10 @@
         "baseHref": "/",
         "main": "apps/auth-example/src/main.tsx",
         "tsConfig": "apps/auth-example/tsconfig.app.json",
-        "assets": ["apps/auth-example/src/favicon.ico", "apps/auth-example/src/assets"],
+        "assets": [
+          "apps/auth-example/src/favicon.ico",
+          "apps/auth-example/src/assets"
+        ],
         "styles": [],
         "scripts": [],
         "isolatedConfig": true,
@@ -55,7 +60,9 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "auth-example:build",
-        "hmr": true
+        "hmr": true,
+        "host": "0.0.0.0",
+        "publicHost": "https://local.lncd.pl"
       },
       "configurations": {
         "development": {
@@ -69,9 +76,13 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/auth-example/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/auth-example/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     }
   },

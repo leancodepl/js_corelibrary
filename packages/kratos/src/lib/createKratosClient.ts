@@ -1,4 +1,4 @@
-import { Configuration, ConfigurationParameters, FrontendApi } from "@ory/kratos-client";
+import { Configuration, ConfigurationParameters, FrontendApi } from "@ory/client";
 import axios from "axios";
 
 export function createKratosClient(configuration: ConfigurationParameters) {

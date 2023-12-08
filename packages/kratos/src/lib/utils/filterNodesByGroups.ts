@@ -1,7 +1,8 @@
-import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/kratos-client";
+import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/client";
+import { isString } from "lodash";
 import { getNodeInputType } from "./getNodeInputType";
 
-type FilterNodesByGroups = {
+export type FilterNodesByGroups = {
     nodes: Array<UiNode>;
     groups?: Array<UiNodeGroupEnum | string> | UiNodeGroupEnum | string;
     withoutDefaultGroup?: boolean;
@@ -29,20 +30,18 @@ export const filterNodesByGroups = ({
     attributes,
     withoutDefaultAttributes,
     excludeAttributes,
-}: FilterNodesByGroups) => {
-    const search = (s: Array<string> | string) => (typeof s === "string" ? s.split(",") : s);
-
-    return nodes.filter(({ group, attributes: attr }) => {
+}: FilterNodesByGroups) =>
+    nodes.filter(({ group, attributes: attr }) => {
         // if we have not specified any group or attribute filters, return all nodes
         if (!groups && !attributes && !excludeAttributes) return true;
 
-        const g = groups ? search(groups) : [];
+        const g = search(groups);
         if (!withoutDefaultGroup) {
             g.push("default");
         }
 
         // filter the attributes
-        const a = attributes ? search(attributes) : [];
+        const a = search(attributes);
         if (!withoutDefaultAttributes) {
             // always add hidden fields e.g. csrf
             if (group.includes("default")) {
@@ -55,7 +54,7 @@ export const filterNodesByGroups = ({
         }
 
         // filter the attributes to exclude
-        const ea = excludeAttributes ? search(excludeAttributes) : [];
+        const ea = search(excludeAttributes);
 
         const filterGroup = groups ? g.includes(group) : true;
         const filterAttributes = attributes ? a.includes(getNodeInputType(attr)) : true;
@@ -63,4 +62,7 @@ export const filterNodesByGroups = ({
 
         return filterGroup && filterAttributes && filterExcludeAttributes;
     });
-};
+
+function search(s?: string | string[]) {
+    return (isString(s) ? s.split(",") : s) || [];
+}

@@ -1,10 +1,19 @@
-import { Center } from "@chakra-ui/react";
-import { RefreshSession } from "../../components/auth/RefreshSession";
+import { Center, Stack } from "@chakra-ui/react";
+import { Login } from "../../components/auth/Login";
+import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
-export function RefreshSessionPage() {
+export function LoginPage() {
+    const isLoggedIn = useIsLoggedIn();
+
     return (
         <Center>
-            <RefreshSession />
+            {isLoggedIn ? (
+                "Already signed in"
+            ) : (
+                <Stack>
+                    <Login />
+                </Stack>
+            )}
         </Center>
     );
 }
