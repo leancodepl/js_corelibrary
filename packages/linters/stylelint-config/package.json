@@ -18,6 +18,6 @@
     "stylelint-rscss": ">=0.4.0"
   },
   "peerDependencies": {
-    "prettier": ">=2.1.2"
+    "prettier": "^2.6.2"
   }
 }
