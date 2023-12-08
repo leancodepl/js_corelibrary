@@ -26,5 +26,5 @@ jobs:
                   github.event.pull_request.head.sha }}
             - name: Build
               run:
-                  npx nx affected:build --parallel=3 --base=${{ github.event.pull_request.base.sha }} --head=${{
+                  npx nx affected:build --parallel=1 --base=${{ github.event.pull_request.base.sha }} --head=${{
                   github.event.pull_request.head.sha  }}
