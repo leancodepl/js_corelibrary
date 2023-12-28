@@ -9,3 +9,6 @@ export * from "./lib/assertNotEmpty";
 export * from "./lib/ensureDefined";
 export * from "./lib/ensureNotNull";
 export * from "./lib/ensureNotEmpty";
+
+export * from "./lib/hooks/useRunInTask";
+export * from "./lib/hooks/useBoundRunInTask";
