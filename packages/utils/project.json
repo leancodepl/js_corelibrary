@@ -15,7 +15,8 @@
         "project": "packages/utils/package.json",
         "compiler": "swc",
         "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "generateExportsField": true,
+        "external": ["react"]
       }
     },
     "publish": {
