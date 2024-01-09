@@ -13,3 +13,5 @@ export * from "./lib/ensureNotEmpty";
 export * from "./lib/hooks/useRunInTask";
 export * from "./lib/hooks/useBoundRunInTask";
 export * from "./lib/hooks/useKeyByRoute";
+export * from "./lib/hooks/useSetUnset";
+export * from "./lib/hooks/useDialog";
