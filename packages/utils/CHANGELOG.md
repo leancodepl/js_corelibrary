@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.4](https://github.com/leancodepl/js_corelibrary/compare/v7.3.3...v7.3.4) (2024-01-11)
+
+### Bug Fixes
+
+-   replace setImmediate
+    ([7e766c8](https://github.com/leancodepl/js_corelibrary/commit/7e766c8177f66fb56fabb887ea0b7199647c63d7))
+
+### Features
+
+-   add useDialog and useSetUnset hooks
+    ([d8e7ce2](https://github.com/leancodepl/js_corelibrary/commit/d8e7ce28ba773b0c98e03146bac17ae44f1c27d2))
+-   add useKeyByRoute util
+    ([23f0b33](https://github.com/leancodepl/js_corelibrary/commit/23f0b33040febed60bc39f1eba1d25b7039384e2))
+-   add useRunInTask and useBoundRunInTask hooks
+    ([1bf47b7](https://github.com/leancodepl/js_corelibrary/commit/1bf47b79ed5d8e178e1206369d16c965acf7ff5d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.3](https://github.com/leancodepl/js_corelibrary/compare/v7.3.2...v7.3.3) (2023-12-11)
 
 **Note:** Version bump only for package @leancodepl/utils
