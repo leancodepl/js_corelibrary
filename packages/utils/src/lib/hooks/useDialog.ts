@@ -10,7 +10,7 @@ export function useDialog(onAfterClose?: () => void) {
     const close = useCallback(() => {
         closeDialog();
 
-        onAfterClose && setImmediate(onAfterClose);
+        onAfterClose && setTimeout(onAfterClose);
     }, [closeDialog, onAfterClose]);
 
     return { isDialogOpen, openDialog, closeDialog: close };
