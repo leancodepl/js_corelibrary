@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/utils",
-  "version": "7.3.4",
+  "version": "7.3.5",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-date": "7.3.4",
+    "@leancodepl/api-date": "7.3.5",
     "tiny-invariant": ">=1.3.1"
   },
   "peerDependencies": {
