@@ -5,8 +5,5 @@
   "dependencies": {
     "@leancodepl/validation": "7.3.4",
     "axios": ">=1.0.0"
-  },
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js"
+  }
 }

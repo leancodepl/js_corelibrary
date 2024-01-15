@@ -15,7 +15,8 @@
         "project": "packages/validation/package.json",
         "compiler": "swc",
         "format": ["cjs", "esm"],
-        "external": ["@leancodepl/cqrs-client-base"]
+        "external": ["@leancodepl/cqrs-client-base"],
+        "generateExportsField": true
       }
     },
     "publish": {
