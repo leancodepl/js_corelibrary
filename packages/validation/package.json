@@ -2,9 +2,6 @@
   "name": "@leancodepl/validation",
   "version": "7.3.4",
   "license": "Apache-2.0",
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js",
   "dependencies": {
     "@leancodepl/cqrs-client-base": "7.3.4"
   }

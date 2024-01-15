@@ -1,8 +1,5 @@
 {
   "name": "@leancodepl/cqrs-client-base",
   "version": "7.3.4",
-  "license": "Apache-2.0",
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js"
+  "license": "Apache-2.0"
 }
