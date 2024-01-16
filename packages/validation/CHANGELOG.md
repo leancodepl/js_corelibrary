@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.5](https://github.com/leancodepl/js_corelibrary/compare/v7.3.4...v7.3.5) (2024-01-15)
+
+### Bug Fixes
+
+-   generated packages.json
+    ([9623b51](https://github.com/leancodepl/js_corelibrary/commit/9623b51149402c2912d5700c1c73c27245c745d8))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.4](https://github.com/leancodepl/js_corelibrary/compare/v7.3.3...v7.3.4) (2024-01-11)
 
 **Note:** Version bump only for package @leancodepl/validation

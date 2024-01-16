@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/i18n",
-  "version": "7.3.4",
+  "version": "7.3.5",
   "license": "Apache-2.0",
   "dependencies": {
     "react-intl": ">=6.0.0"
