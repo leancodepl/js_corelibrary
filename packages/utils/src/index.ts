@@ -10,6 +10,8 @@ export * from "./lib/ensureDefined";
 export * from "./lib/ensureNotNull";
 export * from "./lib/ensureNotEmpty";
 
+export * from "./lib/downloadFile";
+
 export * from "./lib/hooks/useRunInTask";
 export * from "./lib/hooks/useBoundRunInTask";
 export * from "./lib/hooks/useKeyByRoute";
