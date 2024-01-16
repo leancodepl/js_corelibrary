@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.6](https://github.com/leancodepl/js_corelibrary/compare/v7.3.5...v7.3.6) (2024-01-16)
+
+### Bug Fixes
+
+-   exporting downloadFile in utils
+    ([e9b95e4](https://github.com/leancodepl/js_corelibrary/commit/e9b95e454f2ba6f4f68f62f0ef61cff1b949013d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.5](https://github.com/leancodepl/js_corelibrary/compare/v7.3.4...v7.3.5) (2024-01-15)
 
 **Note:** Version bump only for package @leancodepl/utils
