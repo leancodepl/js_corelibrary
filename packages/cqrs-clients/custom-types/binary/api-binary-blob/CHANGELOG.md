@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.7](https://github.com/leancodepl/js_corelibrary/compare/v7.3.6...v7.3.7) (2024-04-15)
+
+**Note:** Version bump only for package @leancodepl/api-binary-blob
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.6](https://github.com/leancodepl/js_corelibrary/compare/v7.3.5...v7.3.6) (2024-01-16)
 
 **Note:** Version bump only for package @leancodepl/api-binary-blob

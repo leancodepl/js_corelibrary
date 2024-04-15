@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.3.7](https://github.com/leancodepl/js_corelibrary/compare/v7.3.6...v7.3.7) (2024-04-15)
+
+### Features
+
+-   add addPrefix function
+    ([38d9bef](https://github.com/leancodepl/js_corelibrary/commit/38d9befee57354e3eb0d15c9021452a28e518d9d))
+-   add setQueriesData to queries
+    ([835dcac](https://github.com/leancodepl/js_corelibrary/commit/835dcac07659c3cb7bb3c509bcd6d354bad0f473))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.6](https://github.com/leancodepl/js_corelibrary/compare/v7.3.5...v7.3.6) (2024-01-16)
 
 ### Bug Fixes
