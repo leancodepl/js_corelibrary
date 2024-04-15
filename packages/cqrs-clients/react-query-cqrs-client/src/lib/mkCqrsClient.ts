@@ -164,6 +164,10 @@ export function mkCqrsClient({
                 return queryClient.setQueryData(key, updater);
             }
             useApiQuery.setQueryData = setQueryData;
+            useApiQuery.setQueriesData = (
+                query: Partial<TQuery>,
+                updater: Updater<Result | undefined, Result | undefined>,
+            ) => queryClient.setQueriesData({ queryKey: useApiQuery.key(query) }, updater);
             useApiQuery.getQueryData = (query: TQuery) => queryClient.getQueryData<Result>(useApiQuery.key(query));
             useApiQuery.getQueriesData = (query: Partial<TQuery>) =>
                 queryClient.getQueriesData<Result>({ queryKey: useApiQuery.key(query) });
