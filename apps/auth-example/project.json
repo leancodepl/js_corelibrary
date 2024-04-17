@@ -3,27 +3,22 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/auth-example/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "compiler": "swc",
+        "compiler": "babel",
         "outputPath": "dist/apps/auth-example",
         "index": "apps/auth-example/src/index.html",
         "baseHref": "/",
         "main": "apps/auth-example/src/main.tsx",
         "tsConfig": "apps/auth-example/tsconfig.app.json",
-        "assets": [
-          "apps/auth-example/src/favicon.ico",
-          "apps/auth-example/src/assets"
-        ],
+        "assets": ["apps/auth-example/src/favicon.ico", "apps/auth-example/src/assets"],
         "styles": [],
         "scripts": [],
-        "isolatedConfig": true,
         "webpackConfig": "apps/auth-example/webpack.config.js"
       },
       "configurations": {
@@ -75,16 +70,8 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
-      "options": {
-        "lintFilePatterns": [
-          "apps/auth-example/**/*.{ts,tsx,js,jsx}"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": []
+  }
 }
