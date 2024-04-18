@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "perfectionist"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -32,7 +32,6 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -53,8 +52,48 @@
       }
     ],
     "react/react-in-jsx-scope": "off",
+    "react/jsx-boolean-value": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error"
+    "react-hooks/exhaustive-deps": "error",
+    "react/self-closing-comp": "error",
+
+    "perfectionist/sort-array-includes": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "spread-last": true
+      }
+    ],
+    "perfectionist/sort-exports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
+    "perfectionist/sort-named-exports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
+    "perfectionist/sort-intersection-types": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
+    "perfectionist/sort-union-types": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "nullable-last": true
+      }
+    ]
   },
   "settings": {
     "import/internal-regex": "^react$"

@@ -16,30 +16,17 @@
         "noUselessIndex": true
       }
     ],
-    "import/order": [
-      "error",
-      {
-        "groups": [["builtin", "external"], "internal", ["index", "sibling", "parent"], "object"],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          }
-        ],
-        "newlines-between": "never",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ],
     "react/jsx-uses-react": "off",
     "react/jsx-uses-vars": "error",
     "unused-imports/no-unused-imports": "warn",
     "unused-imports/no-unused-vars": [
       "warn",
-      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
     ]
   },
   "settings": {
