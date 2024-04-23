@@ -1,6 +1,5 @@
 const { withReact } = require("@nx/react");
 const { composePlugins, withNx } = require("@nx/webpack");
-const { configurationGeneratorInternal } = require("@nx/webpack/src/generators/configuration/configuration");
 
 // Nx plugins for webpack.
 module.exports = composePlugins(withNx(), withReact(), config => {
@@ -23,7 +22,7 @@ module.exports = composePlugins(withNx(), withReact(), config => {
     // console.log(loader.options.jsc)
     // config.module.rules = [
     //     // loader,
-    //      ...config.module.rules.filter(e => !(typeof e.loader === "string" && e.loader.includes("swc-loader"))), 
+    //      ...config.module.rules.filter(e => !(typeof e.loader === "string" && e.loader.includes("swc-loader"))),
     //      loader
     //     ]
 

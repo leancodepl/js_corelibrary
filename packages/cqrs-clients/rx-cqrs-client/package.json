@@ -3,7 +3,11 @@
   "version": "7.3.7",
   "license": "Apache-2.0",
   "dependencies": {
+    "@leancodepl/cqrs-client-base": "7.3.7",
     "@leancodepl/validation": "7.3.7",
     "rxjs": ">=7.0.0"
+  },
+  "devDependencies": {
+    "xhr-mock": "2.5.1"
   }
 }
