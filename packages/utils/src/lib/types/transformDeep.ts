@@ -5,7 +5,7 @@ export type Mode = "capitalize" | "uncapitalize";
 export type TransformDeep<T, TMode extends Mode> = T extends Array<infer TArrayElement>
     ? Array<TransformDeep<TArrayElement, TMode>>
     : T extends object
-    ? T extends ApiDateTimeOffset | ApiDateOnly | ApiTimeOnly | ApiTimeSpan
+    ? T extends ApiDateOnly | ApiDateTimeOffset | ApiTimeOnly | ApiTimeSpan
         ? T
         : {
               [TKey in keyof T as TKey extends string
@@ -21,7 +21,7 @@ export type TransformDeep<T, TMode extends Mode> = T extends Array<infer TArrayE
 export type UncapitalizeDeep<T> = TransformDeep<T, "uncapitalize">;
 export type CapitalizeDeep<T> = TransformDeep<T, "capitalize">;
 
-export type MutableDeep<T> = T extends string | number | bigint | boolean | null | undefined | symbol | Date
+export type MutableDeep<T> = T extends Date | bigint | boolean | number | string | symbol | null | undefined
     ? T
     : T extends ReadonlyArray<infer ArrayType>
     ? Array<MutableDeep<ArrayType>>

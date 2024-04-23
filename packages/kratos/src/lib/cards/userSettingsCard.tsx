@@ -11,7 +11,7 @@ import { TotpSettingsSection } from "../sections/totpSettingsSection";
 import { WebAuthnSettingsSection } from "../sections/webAuthnSettingsSection";
 import { hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../utils/helpers";
 
-export type UserSettingsFlowType = "profile" | "password" | "totp" | "webauthn" | "oidc" | "lookupSecret";
+export type UserSettingsFlowType = "lookupSecret" | "oidc" | "password" | "profile" | "totp" | "webauthn";
 
 export type UserSettingsCardProps = {
     flow: SettingsFlow;

@@ -31,6 +31,7 @@ export function handleResponse<TErrors extends Record<string, number>>(
                   PropertyName: "",
                   ErrorCode: -2,
               },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ] as any);
 
     return handleValidationErrors(validationErrors, newErrorCodesMap);

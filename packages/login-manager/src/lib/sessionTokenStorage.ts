@@ -2,9 +2,9 @@ import { SyncTokenStorage, Token } from "./tokenStorage";
 
 export class SessionTokenStorage implements SyncTokenStorage {
     constructor(
-        private tokenKey: string = "token",
-        private refreshKey: string = "refresh_token",
-        private expiryKey: string = "expiration_date",
+        private tokenKey = "token",
+        private refreshKey = "refresh_token",
+        private expiryKey = "expiration_date",
     ) {}
 
     public getToken(): Token | null {

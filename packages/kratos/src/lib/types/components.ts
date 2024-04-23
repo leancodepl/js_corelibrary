@@ -3,10 +3,10 @@ import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "@ory/clien
 
 type Node = { node: UiNode };
 
-export type ImageComponentProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+export type ImageComponentProps = {
     header?: ReactNode;
     className?: string;
-} & Node;
+} & Node & React.ImgHTMLAttributes<HTMLImageElement>;
 
 export type TextComponentProps = {
     label?: ReactNode;
@@ -20,15 +20,15 @@ export type LinkComponentProps = {
     href?: string;
     icon?: string;
     className?: string;
-} & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> &
-    Node;
+} & Node &
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 export type InputComponentProps = {
     header: ReactNode;
     helperMessage?: ReactNode;
     isError?: boolean;
-} & React.InputHTMLAttributes<HTMLInputElement> &
-    Node;
+} & Node &
+    React.InputHTMLAttributes<HTMLInputElement>;
 
 export type MessageComponentProps = {
     message: UiText;
@@ -37,21 +37,21 @@ export type MessageComponentProps = {
     children?: ReactNode;
 };
 
-export type Severity = UiTextTypeEnum | "disabled" | "default";
+export type Severity = "default" | "disabled" | UiTextTypeEnum;
 
 export type ButtonComponentProps = {
     header?: ReactNode;
     fullWidth?: boolean;
     social?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement> &
-    Node;
+} & Node &
+    React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type CheckboxComponentProps = {
     label?: ReactNode;
     helperMessage?: ReactNode;
     isError?: boolean;
-} & React.InputHTMLAttributes<HTMLInputElement> &
-    Node;
+} & Node &
+    React.InputHTMLAttributes<HTMLInputElement>;
 
 export type MessageFormatComponentProps = {
     id: number;

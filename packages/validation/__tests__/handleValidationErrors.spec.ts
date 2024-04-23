@@ -90,7 +90,6 @@ describe("handleValidationErrors", () => {
         });
 
         it("calls joint validation handler only with first (most important) validation error", () => {
-            // eslint-disable-next-line unused-imports/no-unused-vars
             const handleError1_2 = sinon.spy((error: "Error1" | "Error2") => {});
 
             handleValidationErrors([mkError(2), mkError(1)], errorCodesMap)
@@ -175,7 +174,7 @@ describe("handleValidationErrors", () => {
         it("calls joint validation handler with all validation errors in correct order", () => {
             const handleError1_2 = sinon.spy<
                 ValidationErrorHandlerAllFunc<typeof errorCodesMap, "Error1" | "Error2", void>
-            >(errors => {}); // eslint-disable-line unused-imports/no-unused-vars
+            >(errors => {});
 
             handleValidationErrors([mkError(2), mkError(2), mkError(1)], errorCodesMap)
                 .handleAll(["Error1", "Error2"], handleError1_2)

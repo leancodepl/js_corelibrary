@@ -12,7 +12,7 @@ export function NodeCheckbox({
 }: CheckboxComponentProps) {
     return (
         <Flex direction="column" gap="2" pt="4">
-            <Checkbox value={value as string | number} {...props} formNoValidate>
+            <Checkbox value={value as number | string} {...props} formNoValidate>
                 {label}
             </Checkbox>
             {helperMessage &&

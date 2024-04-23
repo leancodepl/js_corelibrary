@@ -20,7 +20,7 @@ export type ValidationErrorsHandleFunc<TErrorsToHandle extends Record<string, nu
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
         validationErrors: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerFunc<TErrorsToHandle, THandledErrors, TResult>,
-    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
+    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>;
 };
 
 export type ValidationErrorHandlerAllFunc<
@@ -38,13 +38,13 @@ export type ValidationErrorsHandleAllFunc<TErrorsToHandle extends Record<string,
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
         validationErrors: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerAllFunc<TErrorsToHandle, THandledErrors, TResult>,
-    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
+    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>;
 };
 
 export interface ValidationErrorsHandler<TRemainingErrors extends Record<string, number>, TResult> {
     handle: ValidationErrorsHandleFunc<TRemainingErrors, TResult>;
     handleAll: ValidationErrorsHandleAllFunc<TRemainingErrors, TResult>;
-    check: {} extends TRemainingErrors
+    check: object extends TRemainingErrors
         ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
         : unknown;
 }
@@ -84,6 +84,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
@@ -138,6 +139,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
@@ -152,6 +154,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
                 return validationResults.reduce(reducer.reducer, reducer.initialValue);
             }
             return;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }) as any,
     };
 }

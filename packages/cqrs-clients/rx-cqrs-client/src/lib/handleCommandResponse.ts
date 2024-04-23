@@ -5,6 +5,7 @@ import { concatMap } from "rxjs/operators";
 export function handleCommandResponse<TErrorCodes extends Record<string, number>, THandlerResult>(
     handlerFunc: (
         handler: ValidationErrorsHandler<TErrorCodes, never>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => (reducer: ReducerDescription<THandlerResult, any>) => any,
 ): OperatorFunction<ValidationErrorsHandler<TErrorCodes, never>, THandlerResult> {
     return source =>

@@ -56,7 +56,7 @@ export function Node({ node, className }: NodeProps) {
                 const isSocial = (attrs.name === "provider" || attrs.name === "link") && node.group === "oidc";
 
                 const submit: Partial<ButtonComponentProps> = {
-                    type: attrs.type as "submit" | "reset" | "button" | undefined,
+                    type: attrs.type as "button" | "reset" | "submit" | undefined,
                     name: attrs.name,
                 };
 
@@ -121,7 +121,7 @@ export function Node({ node, className }: NodeProps) {
                     <Input
                         autoComplete={attrs.autocomplete ?? (attrs.name === "identifier" ? "username" : undefined)}
                         className={className}
-                        defaultValue={attrs.value as string | number | string[]}
+                        defaultValue={attrs.value as number | string | string[]}
                         disabled={attrs.disabled}
                         header={<FormattedMessage message={getNodeLabel(node)} />}
                         helperMessage={<NodeMessages nodes={[node]} />}

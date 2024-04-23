@@ -24,8 +24,8 @@ import { hasCode, hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } 
 
 type UserAuthCardProps<TBody> = {
     className?: string;
-    flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow;
-    flowType: "login" | "registration" | "recovery" | "verification";
+    flow: LoginFlow | RecoveryFlow | RegistrationFlow | VerificationFlow;
+    flowType: "login" | "recovery" | "registration" | "verification";
 } & UserAuthFormAdditionalProps<TBody>;
 
 /**
@@ -193,7 +193,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
 }
 
 function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(flowType: UserAuthCardProps<TBody>["flowType"]) {
-    return function ({ ...props }: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
+    return function ({ ...props }: { flow: TFlow } & Omit<UserAuthCardProps<TBody>, "flow" | "flowType">) {
         return <UserAuthCard flowType={flowType} {...props} />;
     };
 }
@@ -204,7 +204,7 @@ export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationF
 export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery");
 
 // the user might need to logout on the second factor page.
-function isLoggedIn(flow: LoginFlow | RegistrationFlow | RecoveryFlow | VerificationFlow): boolean {
+function isLoggedIn(flow: LoginFlow | RecoveryFlow | RegistrationFlow | VerificationFlow): boolean {
     if ("requested_aal" in flow && flow.requested_aal === AuthenticatorAssuranceLevel.Aal2) {
         return true;
     } else if ("refresh" in flow && flow.refresh) {

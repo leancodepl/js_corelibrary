@@ -11,6 +11,7 @@ function createLocale<TLocale extends string, TTerm extends string>(
 ): Record<TLocale, () => Promise<Record<TTerm, string>>> {
     return {
         [locale]: () => Promise.resolve(messages),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
 }
 

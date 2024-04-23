@@ -4,7 +4,7 @@ type DownloadFileOptions = {
 
 export function downloadFile(url: string, options?: DownloadFileOptions): void;
 export function downloadFile(obj: Blob | MediaSource, options?: DownloadFileOptions): void;
-export function downloadFile(dataOrUrl: string | Blob | MediaSource, options: DownloadFileOptions = {}) {
+export function downloadFile(dataOrUrl: Blob | MediaSource | string, options: DownloadFileOptions = {}) {
     if (typeof dataOrUrl === "string") {
         const { name } = options;
         const a = document.createElement("a");

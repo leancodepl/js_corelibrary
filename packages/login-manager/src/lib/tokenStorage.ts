@@ -5,7 +5,7 @@ export interface Token {
     abc?: string;
 }
 
-export type TokenStorage = SyncTokenStorage | AsyncTokenStorage;
+export type TokenStorage = AsyncTokenStorage | SyncTokenStorage;
 
 export interface SyncTokenStorage {
     getToken(): Token | null;

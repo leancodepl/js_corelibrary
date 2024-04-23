@@ -12,7 +12,7 @@ export function mkCqrsClient({
 }: {
     cqrsEndpoint: string;
     tokenProvider?: TokenProvider;
-    ajaxOptions?: Omit<AjaxConfig, "headers" | "url" | "method" | "responseType" | "body">;
+    ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">;
 }) {
     return {
         createQuery<TQuery, TResult>(type: string) {

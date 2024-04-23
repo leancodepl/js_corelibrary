@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 export function useRunInTask() {
     const [runningTasks, setRunningTasks] = useState(0);
 
-    const runInTask = useCallback(async <T>(task: () => T | Promise<T>) => {
+    const runInTask = useCallback(async <T>(task: () => Promise<T> | T) => {
         setRunningTasks(runningTasks => runningTasks + 1);
         try {
             return await task();

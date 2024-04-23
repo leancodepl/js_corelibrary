@@ -29,37 +29,39 @@ export function mkI18n<
         defaultMessage?: string;
     };
 
-    type StronglyTypedIntlShape = Omit<IntlShape, "formatMessage" | "formatHTMLMessage" | "messages"> & {
-        messages: Record<TTerm, string> | Record<TTerm, MessageFormatElement[]>;
+    type StronglyTypedIntlShape = {
+        messages: Record<TTerm, MessageFormatElement[]> | Record<TTerm, string>;
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
+            values?: Record<string, FormatXMLElementFn<string, string> | PrimitiveType>,
             opts?: IntlMessageFormatOptions,
         ): string;
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | ReactNode | FormatXMLElementFn<ReactNode, ReactNode>>,
+            values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
         ): ReactNode;
         $t(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
+            values?: Record<string, FormatXMLElementFn<string, string> | PrimitiveType>,
             opts?: IntlMessageFormatOptions,
         ): string;
         $t(
             descriptor: StronglyTypedMessageDescriptor,
-            values?: Record<string, PrimitiveType | ReactNode | FormatXMLElementFn<ReactNode, ReactNode>>,
+            values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
         ): ReactNode;
-    };
+    } & Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages">;
 
     type StronglyTypedFormattedMessageProps<
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         V extends Record<string, any> = Record<
             string,
-            ReactNode | FormatXMLElementFn<React.ReactNode, React.ReactNode>
+            FormatXMLElementFn<React.ReactNode, React.ReactNode> | ReactNode
         >,
     > = {
         values?: V;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         tagName?: ElementType<any>;
         children?(...nodes: ReactNode[]): ReactNode;
     } & StronglyTypedMessageDescriptor;

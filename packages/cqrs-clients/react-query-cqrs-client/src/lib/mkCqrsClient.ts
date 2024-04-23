@@ -34,7 +34,7 @@ export function mkCqrsClient({
     cqrsEndpoint: string;
     queryClient: QueryClient;
     tokenProvider?: Partial<TokenProvider>;
-    ajaxOptions?: Omit<AjaxConfig, "headers" | "url" | "method" | "responseType" | "body">;
+    ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">;
 }) {
     function mkFetcher<TData>(endpoint: string, config: Partial<AjaxConfig> = {}) {
         const apiCall = <TResult>(data: TData, token?: string) =>
@@ -73,7 +73,7 @@ export function mkCqrsClient({
 
             function useApiQuery(
                 data: TQuery,
-                options?: Omit<UndefinedInitialDataOptions<Result, unknown>, "queryKey" | "queryFn">,
+                options?: Omit<UndefinedInitialDataOptions<Result, unknown>, "queryFn" | "queryKey">,
             ) {
                 return useQuery<Result, unknown>(
                     {
@@ -99,7 +99,7 @@ export function mkCqrsClient({
 
             useApiQuery.fetch = (
                 data: TQuery,
-                options?: Omit<FetchQueryOptions<Result, unknown>, "queryKey" | "queryFn">,
+                options?: Omit<FetchQueryOptions<Result, unknown>, "queryFn" | "queryKey">,
             ) =>
                 queryClient.fetchQuery({
                     queryKey: useApiQuery.key(data),
@@ -122,9 +122,9 @@ export function mkCqrsClient({
             };
             useApiQuery.infinite = function (
                 data: TQuery,
-                options: Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryKey" | "queryFn"> & {
+                options: {
                     pageParamKey?: keyof TQuery;
-                },
+                } & Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryFn" | "queryKey">,
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 return useInfiniteQuery<Result, unknown>(
@@ -174,7 +174,7 @@ export function mkCqrsClient({
 
             useApiQuery.prefetch = (
                 data: TQuery,
-                options?: Omit<FetchQueryOptions<Result, unknown>, "queryKey" | "queryFn" | "initialData">,
+                options?: Omit<FetchQueryOptions<Result, unknown>, "initialData" | "queryFn" | "queryKey">,
             ) =>
                 queryClient.prefetchQuery<Result, unknown>({
                     queryKey: useApiQuery.key(data),
@@ -195,9 +195,9 @@ export function mkCqrsClient({
                 onSuccess: onSuccessBase,
                 invalidateQueries,
                 ...options
-            }: Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> & {
+            }: {
                 invalidateQueries?: QueryKey[];
-            } = {}) {
+            } & Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> = {}) {
                 return useMutation<Result, unknown, TOperation, TContext>(
                     {
                         mutationKey: [type],
@@ -227,39 +227,39 @@ export function mkCqrsClient({
             const fetcher = mkFetcher<TCommand>(`command/${type}`);
 
             function useApiCommand<TContext = unknown>(
-                options?: Omit<
-                    UseMutationOptions<CommandResult<TErrorCodes>, unknown, TCommand, TContext>,
-                    "mutationFn" | "mutationKey"
-                > & {
+                options?: {
                     invalidateQueries?: QueryKey[];
                     handler?: undefined;
-                },
+                } & Omit<
+                    UseMutationOptions<CommandResult<TErrorCodes>, unknown, TCommand, TContext>,
+                    "mutationFn" | "mutationKey"
+                >,
             ): UseMutationResult<CommandResult<TErrorCodes>, unknown, TCommand, TContext>;
             function useApiCommand<TResult, TContext = unknown>(
-                options?: Omit<
-                    UseMutationOptions<TResult, unknown, TCommand, TContext>,
-                    "mutationFn" | "mutationKey"
-                > & {
+                options?: {
                     invalidateQueries?: QueryKey[];
                     handler: (
-                        handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
+                        handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                     ) => TResult;
-                },
+                } & Omit<
+                    UseMutationOptions<TResult, unknown, TCommand, TContext>,
+                    "mutationFn" | "mutationKey"
+                >,
             ): UseMutationResult<TResult, unknown, TCommand, TContext>;
             function useApiCommand<TResult, TContext = unknown>({
                 invalidateQueries,
                 handler,
                 onSuccess,
                 ...options
-            }: Omit<
-                UseMutationOptions<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>,
-                "mutationFn" | "mutationKey"
-            > & {
+            }: {
                 invalidateQueries?: QueryKey[];
                 handler?: (
-                    handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
+                    handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                 ) => TResult;
-            } = {}) {
+            } & Omit<
+                UseMutationOptions<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>,
+                "mutationFn" | "mutationKey"
+            > = {}) {
                 return useMutation<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>(
                     {
                         mutationKey: [type],
@@ -290,7 +290,7 @@ export function mkCqrsClient({
             useApiCommand.call = <TResult>(
                 variables: TCommand,
                 handler: (
-                    handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
+                    handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                 ) => TResult,
             ) => {
                 const $response = useApiCommand.fetcher(variables);
@@ -323,7 +323,7 @@ export function mkCqrsClient({
             useApiCommand.handleResponse =
                 <TResult>(
                     handler: (
-                        handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
+                        handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                     ) => TResult,
                 ) =>
                 (response: ApiResponse<CommandResult<TErrorCodes>>) =>

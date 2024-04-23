@@ -13,7 +13,7 @@ export interface LoginNetworkError {
     readonly type: "networkError";
 }
 
-export type LoginResult = LoginSuccess | LoginFailure | LoginNetworkError;
+export type LoginResult = LoginFailure | LoginNetworkError | LoginSuccess;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LoginManager extends BaseLoginManager<TokenStorage> {}
