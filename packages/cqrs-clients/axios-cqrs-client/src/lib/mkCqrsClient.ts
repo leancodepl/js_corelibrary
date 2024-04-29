@@ -25,7 +25,7 @@ export function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider
         const token = await tokenProvider?.getToken();
 
         if (token) {
-            config.headers.set("Authorization", `Bearer ${token}`);
+            config.headers?.set("Authorization", `Bearer ${token}`);
         }
 
         return config;

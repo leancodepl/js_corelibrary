@@ -5,6 +5,6 @@
   "dependencies": {
     "@leancodepl/cqrs-client-base": "7.3.7",
     "@leancodepl/validation": "7.3.7",
-    "axios": ">=1.0.0"
+    "axios": ">=1.6.0"
   }
 }
