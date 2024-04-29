@@ -2,9 +2,6 @@
   "name": "@leancodepl/api-date-utils",
   "version": "7.3.7",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "@leancodepl/api-date": "7.3.7"
-  },
   "dependencies": {
     "@leancodepl/api-date": "7.3.7"
   }
