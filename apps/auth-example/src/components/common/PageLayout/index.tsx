@@ -1,6 +1,6 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { loginRoute, settingsRoute, registerRoute } from "../../../app/routes";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { loginRoute, registerRoute, settingsRoute } from "../../../app/routes";
 
 export function PageLayout() {
     const location = useLocation();

@@ -1,22 +1,22 @@
-import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base";
-import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation";
 import {
     FetchQueryOptions,
     QueryClient,
     QueryFunctionContext,
     QueryKey,
-    useMutation,
-    UseMutationOptions,
-    UseMutationResult,
-    useQuery,
-    useInfiniteQuery,
-    Updater,
     UndefinedInitialDataInfiniteOptions,
     UndefinedInitialDataOptions,
+    Updater,
+    UseMutationOptions,
+    UseMutationResult,
+    useInfiniteQuery,
+    useMutation,
+    useQuery,
 } from "@tanstack/react-query";
-import { catchError, firstValueFrom, of, throwError, fromEvent, race, Observable, from, OperatorFunction } from "rxjs";
-import { ajax, AjaxError, AjaxConfig } from "rxjs/ajax";
+import { Observable, OperatorFunction, catchError, firstValueFrom, from, fromEvent, of, race, throwError } from "rxjs";
+import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax";
 import { map, mergeMap } from "rxjs/operators";
+import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base";
+import { ValidationErrorsHandler, handleResponse } from "@leancodepl/validation";
 import { authGuard } from "./authGuard";
 import { NullableUncapitalizeDeep } from "./types";
 import { uncapitalizedJSONParse } from "./uncapitalizedJSONParse";
@@ -241,10 +241,7 @@ export function mkCqrsClient({
                     handler: (
                         handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                     ) => TResult;
-                } & Omit<
-                    UseMutationOptions<TResult, unknown, TCommand, TContext>,
-                    "mutationFn" | "mutationKey"
-                >,
+                } & Omit<UseMutationOptions<TResult, unknown, TCommand, TContext>, "mutationFn" | "mutationKey">,
             ): UseMutationResult<TResult, unknown, TCommand, TContext>;
             function useApiCommand<TResult, TContext = unknown>({
                 invalidateQueries,
@@ -301,7 +298,7 @@ export function mkCqrsClient({
                             ({
                                 isSuccess: true,
                                 result,
-                            } as ApiResponse<CommandResult<TErrorCodes>>),
+                            }) as ApiResponse<CommandResult<TErrorCodes>>,
                     ),
                     catchError(e => of(useApiCommand.mapError(e))),
                     map(useApiCommand.handleResponse(handler)),

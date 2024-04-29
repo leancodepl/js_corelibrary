@@ -1,6 +1,6 @@
-import type { ApiDateTimeOffset } from "@leancodepl/api-date";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import type { ApiDateTimeOffset } from "@leancodepl/api-date";
 
 dayjs.extend(customParseFormat);
 

@@ -1,6 +1,6 @@
-import type { ApiTimeSpan } from "@leancodepl/api-date";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import type { ApiTimeSpan } from "@leancodepl/api-date";
 
 dayjs.extend(duration);
 

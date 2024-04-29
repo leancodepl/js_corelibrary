@@ -1,5 +1,5 @@
-import type { ApiDateTimeOffset } from "@leancodepl/api-date";
 import { parse } from "date-fns";
+import type { ApiDateTimeOffset } from "@leancodepl/api-date";
 
 /**
  *This function handles at most milliseconds precision, smaller units are lost in conversion process

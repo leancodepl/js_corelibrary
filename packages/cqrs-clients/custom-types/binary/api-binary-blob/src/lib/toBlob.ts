@@ -1,4 +1,4 @@
-import { toRaw, ApiBinary } from "@leancodepl/api-binary";
+import { ApiBinary, toRaw } from "@leancodepl/api-binary";
 import { base64toBlob } from "./base64ToBlob";
 
 export function toBlob(apiBinary: ApiBinary, contentType?: string): Blob;

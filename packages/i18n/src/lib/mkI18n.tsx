@@ -1,14 +1,14 @@
 import { ComponentClass, ElementType, ReactNode, useEffect, useRef, useState } from "react";
-import type { FormatXMLElementFn, PrimitiveType, Options as IntlMessageFormatOptions } from "intl-messageformat";
 import {
-    createIntl,
-    createIntlCache,
     FormattedMessage,
     IntlShape,
     MessageFormatElement,
     RawIntlProvider,
+    createIntl,
+    createIntlCache,
     useIntl,
 } from "react-intl";
+import type { FormatXMLElementFn, Options as IntlMessageFormatOptions, PrimitiveType } from "intl-messageformat";
 
 const localeChangedEvent = "LocaleChanged";
 

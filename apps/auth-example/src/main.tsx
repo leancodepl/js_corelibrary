@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
-import { KratosComponents, KratosContextProvider } from "@leancodepl/kratos";
-import * as ReactDOM from "react-dom/client";
 import { IntlProvider } from "react-intl";
 import { BrowserRouter } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import * as ReactDOM from "react-dom/client";
+import { KratosComponents, KratosContextProvider } from "@leancodepl/kratos";
 import App from "./app/app";
 import { NodeButton } from "./auth/ui/node/nodeButton";
 import { NodeCheckbox } from "./auth/ui/node/nodeCheckbox";

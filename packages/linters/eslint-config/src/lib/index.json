@@ -91,7 +91,10 @@
     ]
   },
   "settings": {
-    "import/internal-regex": "^react$"
+    "import/internal-regex": "^react$",
+    "react": {
+      "version": "detect"
+    }
   },
   "env": {
     "browser": true

@@ -1,5 +1,5 @@
-import type { ApiDateOnly } from "@leancodepl/api-date";
 import { format } from "date-fns";
+import type { ApiDateOnly } from "@leancodepl/api-date";
 
 export function toApiDate(date: Date): ApiDateOnly;
 export function toApiDate(date: Date | undefined): ApiDateOnly | undefined;

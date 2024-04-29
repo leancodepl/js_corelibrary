@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import * as timezoneMock from "timezone-mock";
-import { fromApiDateTimeOffset, ApiDateTimeOffset } from "../../src";
+import { ApiDateTimeOffset, fromApiDateTimeOffset } from "../../src";
 
 const dateTimeOffsetFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
 

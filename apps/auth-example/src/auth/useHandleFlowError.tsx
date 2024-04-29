@@ -1,7 +1,7 @@
 import { useCallback } from "react";
+import { useNavigate } from "react-router";
 import { useToast } from "@chakra-ui/react";
 import { ErrorId, FlowErrorResponse, ResponseError, returnToParameterName } from "@leancodepl/kratos";
-import { useNavigate } from "react-router";
 import { loginRoute } from "../app/routes";
 
 export function useHandleFlowError({

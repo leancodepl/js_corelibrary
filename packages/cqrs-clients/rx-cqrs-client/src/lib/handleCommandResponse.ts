@@ -1,6 +1,6 @@
-import type { ReducerDescription, ValidationErrorsHandler } from "@leancodepl/validation";
 import { OperatorFunction, ReplaySubject } from "rxjs";
 import { concatMap } from "rxjs/operators";
+import type { ReducerDescription, ValidationErrorsHandler } from "@leancodepl/validation";
 
 export function handleCommandResponse<TErrorCodes extends Record<string, number>, THandlerResult>(
     handlerFunc: (

@@ -1,5 +1,5 @@
-import { toUpperFirst, toLowerFirst } from "./transformFirst";
-import { CapitalizeDeep, TransformDeep, Mode, UncapitalizeDeep } from "./types";
+import { toLowerFirst, toUpperFirst } from "./transformFirst";
+import { CapitalizeDeep, Mode, TransformDeep, UncapitalizeDeep } from "./types";
 
 function transformDeep<T, TMode extends Mode>(value: T, mode: Mode): TransformDeep<T, TMode> {
     if (value === null || value === undefined) {

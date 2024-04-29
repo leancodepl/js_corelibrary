@@ -1,6 +1,6 @@
+import { hoursToMilliseconds, minutesToMilliseconds, secondsToMilliseconds } from "date-fns";
 import type { ApiTimeSpan } from "@leancodepl/api-date";
 import { parseApiTimeSpan } from "@leancodepl/api-date-utils";
-import { hoursToMilliseconds, minutesToMilliseconds, secondsToMilliseconds } from "date-fns";
 
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan): number;
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): number | undefined;

@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { handleValidationErrors, ValidationErrorHandlerAllFunc } from "../src";
+import { ValidationErrorHandlerAllFunc, handleValidationErrors } from "../src";
 
 const errorCodesMap = {
     Error1: 1,

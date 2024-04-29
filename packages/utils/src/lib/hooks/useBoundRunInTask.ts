@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { useRunInTask } from "./useRunInTask";
 import { Unpromisify } from "../types";
+import { useRunInTask } from "./useRunInTask";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any[]) => any;

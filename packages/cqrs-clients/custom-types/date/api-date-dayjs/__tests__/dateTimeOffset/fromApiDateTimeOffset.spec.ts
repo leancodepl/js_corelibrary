@@ -1,5 +1,5 @@
 import timezoneMock from "timezone-mock";
-import { fromApiDateTimeOffset, ApiDateTimeOffset } from "../../src";
+import { ApiDateTimeOffset, fromApiDateTimeOffset } from "../../src";
 
 describe("fromApiDateTimeOffset", () => {
     it("handles undefined", () => {

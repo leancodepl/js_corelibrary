@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import timezoneMock from "timezone-mock";
-import { fromApiDate, ApiDateOnly } from "../../src";
+import { ApiDateOnly, fromApiDate } from "../../src";
 
 describe("fromApiDate", () => {
     const apiDate = "1990-02-24";

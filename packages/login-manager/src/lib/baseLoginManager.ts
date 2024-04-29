@@ -1,5 +1,5 @@
-import { AsyncTokenStorage, Token, TokenStorage } from "./tokenStorage";
 import { Buffer } from "buffer";
+import { AsyncTokenStorage, Token, TokenStorage } from "./tokenStorage";
 
 export interface LoginSuccess {
     readonly type: "success";

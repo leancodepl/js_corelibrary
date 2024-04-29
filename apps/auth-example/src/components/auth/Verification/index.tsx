@@ -1,7 +1,7 @@
 import { useCallback } from "react";
+import { useNavigate } from "react-router";
 import { Spinner } from "@chakra-ui/react";
 import { VerificationCard, useVerificationFlow } from "@leancodepl/kratos";
-import { useNavigate } from "react-router";
 import { loginRoute } from "../../../app/routes";
 import { kratosClient } from "../../../auth/ory";
 

@@ -11,8 +11,8 @@ import {
     VerificationFlow,
 } from "@ory/client";
 import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm";
 import { useScriptNodes } from "../helpers/useScriptNodes";
+import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm";
 import { useKratosContext } from "../kratosContext";
 import { AuthCodeSection } from "../sections/authCodeSection";
 import { LinkSection } from "../sections/linkSection";

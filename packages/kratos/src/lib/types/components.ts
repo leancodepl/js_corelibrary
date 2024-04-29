@@ -6,7 +6,8 @@ type Node = { node: UiNode };
 export type ImageComponentProps = {
     header?: ReactNode;
     className?: string;
-} & Node & React.ImgHTMLAttributes<HTMLImageElement>;
+} & Node &
+    React.ImgHTMLAttributes<HTMLImageElement>;
 
 export type TextComponentProps = {
     label?: ReactNode;

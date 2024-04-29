@@ -1,5 +1,5 @@
-import type { ApiDateOnly } from "@leancodepl/api-date";
 import dayjs from "dayjs";
+import type { ApiDateOnly } from "@leancodepl/api-date";
 import { dropLocalOffset } from "../utils/dropLocalOffset";
 
 export function toApiDate(date: dayjs.Dayjs): ApiDateOnly {

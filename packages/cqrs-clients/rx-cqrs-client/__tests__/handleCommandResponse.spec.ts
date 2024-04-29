@@ -1,5 +1,5 @@
-import { handleResponse } from "@leancodepl/validation";
 import { lastValueFrom, of } from "rxjs";
+import { handleResponse } from "@leancodepl/validation";
 import { handleCommandResponse, reduceBoolean, reduceObject } from "../src";
 
 const errorCodesMap = {

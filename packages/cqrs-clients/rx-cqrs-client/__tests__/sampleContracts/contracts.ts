@@ -61,12 +61,12 @@ export namespace Users {
     export interface UseCode extends Command {
         Code: string;
     }
-    export type UserById = Query<UserInfoDTO>
+    export interface UserById extends Query<UserInfoDTO> {}
     export interface UserInfoDTO {
         Firstname: string;
         Surname: string;
         Username: string;
         EmailAddress: string;
     }
-    export type UserSomething = Query<number>
+    export interface UserSomething extends Query<number> {}
 }

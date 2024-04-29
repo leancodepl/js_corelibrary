@@ -1,4 +1,4 @@
-import { fromRaw, ApiBinary } from "@leancodepl/api-binary";
+import { ApiBinary, fromRaw } from "@leancodepl/api-binary";
 
 export function fromBlob(blob: Blob): Promise<ApiBinary>;
 export function fromBlob(blob?: Blob): Promise<ApiBinary | undefined>;

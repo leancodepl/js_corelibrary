@@ -1,5 +1,5 @@
-import { BaseSessionManager } from "@leancodepl/kratos";
 import { map } from "rxjs";
+import { BaseSessionManager } from "@leancodepl/kratos";
 import { loginRoute } from "../app/routes";
 import environment from "../environments/environment";
 

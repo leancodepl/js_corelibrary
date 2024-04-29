@@ -1,4 +1,4 @@
-import { Users, PaginatedResult } from "./contracts";
+import { PaginatedResult, Users } from "./contracts";
 import { CQRS } from "./cqrs";
 
 export default function (cqrsClient: CQRS) {

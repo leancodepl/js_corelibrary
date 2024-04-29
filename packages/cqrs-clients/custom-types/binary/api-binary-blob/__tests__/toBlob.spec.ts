@@ -1,4 +1,4 @@
-import { toBlob, fromRaw } from "../src";
+import { fromRaw, toBlob } from "../src";
 import "blob-polyfill"; // https://github.com/jsdom/jsdom/issues/2555
 
 describe("toBlob", () => {

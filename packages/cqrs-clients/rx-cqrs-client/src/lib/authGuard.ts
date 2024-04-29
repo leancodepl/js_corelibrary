@@ -1,7 +1,7 @@
-import { TokenProvider } from "@leancodepl/cqrs-client-base";
-import { from, MonoTypeOperatorFunction, Observable, of, throwError } from "rxjs";
+import { MonoTypeOperatorFunction, Observable, from, of, throwError } from "rxjs";
 import { AjaxError } from "rxjs/ajax";
 import { mergeMap, retryWhen } from "rxjs/operators";
+import { TokenProvider } from "@leancodepl/cqrs-client-base";
 
 export default function authGuard<T>(tokenProvider: TokenProvider): MonoTypeOperatorFunction<T> {
     return response =>

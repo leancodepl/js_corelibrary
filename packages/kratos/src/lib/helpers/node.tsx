@@ -1,9 +1,5 @@
 import { UiNode } from "@ory/client";
-import { NodeMessages } from "./errorMessages";
-import { FormattedMessage } from "./formattedMessage";
-import { getNodeLabel } from "./getNodeLabel";
 import { useKratosContext } from "../kratosContext";
-import type { ButtonComponentProps } from "../types/components";
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
@@ -11,6 +7,10 @@ import {
     isUiNodeTextAttributes,
     isUiNodeTextSecretsAttributes,
 } from "../utils/typeGuards";
+import { NodeMessages } from "./errorMessages";
+import { FormattedMessage } from "./formattedMessage";
+import { getNodeLabel } from "./getNodeLabel";
+import type { ButtonComponentProps } from "../types/components";
 
 type NodeProps = {
     node: UiNode;

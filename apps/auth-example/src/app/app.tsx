@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import { loginRoute, settingsRoute, registerRoute, verificationRoute } from "./routes";
 import { PageLayout } from "../components/common/PageLayout";
 import { HomePage } from "../pages/home";
 import { LoginPage } from "../pages/login";
 import { RegisterPage } from "../pages/register";
 import { SettingsPage } from "../pages/settings";
 import { VerificationPage } from "../pages/verification";
+import { loginRoute, registerRoute, settingsRoute, verificationRoute } from "./routes";
+import "react-toastify/dist/ReactToastify.css";
 
 export function App() {
     return (

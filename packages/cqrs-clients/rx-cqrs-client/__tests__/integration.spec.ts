@@ -1,9 +1,9 @@
-import { CommandResult } from "@leancodepl/cqrs-client-base";
 import { lastValueFrom } from "rxjs";
 import mock from "xhr-mock";
+import { CommandResult } from "@leancodepl/cqrs-client-base";
+import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src";
 import clientDef from "./sampleContracts/client";
 import { Users } from "./sampleContracts/contracts";
-import { handleCommandResponse, reduceObject, mkCqrsClient } from "../src";
 
 function createCommandResponse<TErrorCodes extends Record<string, number>>(
     allErrorCodes: TErrorCodes,

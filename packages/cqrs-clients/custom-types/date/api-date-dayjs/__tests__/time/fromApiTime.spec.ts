@@ -1,5 +1,5 @@
 import timezoneMock from "timezone-mock";
-import { fromApiTime, ApiTimeOnly } from "../../src";
+import { ApiTimeOnly, fromApiTime } from "../../src";
 
 describe("fromApiTime", () => {
     it("handles undefined", () => {

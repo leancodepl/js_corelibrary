@@ -1,6 +1,9 @@
 import { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { Center, Flex, Spinner, Text, useToast } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { AuthenticatorAssuranceLevel, UiTextTypeEnum } from "@ory/client";
 import {
     ErrorId,
     KratosContextProvider,
@@ -11,9 +14,6 @@ import {
     returnToParameterName,
     useLoginFlow,
 } from "@leancodepl/kratos";
-import { AuthenticatorAssuranceLevel, UiTextTypeEnum } from "@ory/client";
-import { useNavigate } from "react-router";
-import { useSearchParams } from "react-router-dom";
 import { loginRoute } from "../../../app/routes";
 import { kratosClient } from "../../../auth/ory";
 import { sessionManager } from "../../../auth/sessionManager";

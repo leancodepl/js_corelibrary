@@ -1,6 +1,6 @@
 import { AuthenticatorAssuranceLevel, Session } from "@ory/client";
 import axios, { AxiosResponse } from "axios";
-import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs";
+import { ReplaySubject, Subject, catchError, from, map, of, shareReplay, switchMap } from "rxjs";
 import { ErrorId } from "../types/enums/errorId";
 import { aalParameterName, returnToParameterName } from "../utils/variables";
 

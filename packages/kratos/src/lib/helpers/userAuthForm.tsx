@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { ReactNode } from "react";
 import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, VerificationFlow } from "@ory/client";
-import { FilterFlowNodes } from "./filterFlowNodes";
 import { FilterNodesByGroups } from "../utils/filterNodesByGroups";
+import { FilterFlowNodes } from "./filterFlowNodes";
 
 export type SelfServiceFlow = LoginFlow | RecoveryFlow | RegistrationFlow | SettingsFlow | VerificationFlow;
 
