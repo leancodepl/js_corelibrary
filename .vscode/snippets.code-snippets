@@ -1,0 +1,173 @@
+{
+    "wrap selection in component": {
+        "scope": "typescript,typescriptreact",
+        "prefix": "wrap",
+        "body": ["<${1:div}>", "${TM_SELECTED_TEXT}", "</${1:div}>"],
+        "description": ""
+    },
+    "useEffect with event listener": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["lsn", "use-event-listener"],
+        "body": [
+            "useEffect(() => {",
+            "\tconst on${2/(.*)/${1:/capitalize}/} = (e: any) => {\n\t\t${0}\n\t}\n",
+            "\t${1:window}.addEventListener(\"${2}\", on${2/(.*)/${1:/capitalize}/})",
+            "\treturn () => {",
+            "\t\t${1:window}.removeEventListener(\"${2}\", on${2/(.*)/${1:/capitalize}/})",
+            "\t}",
+            "}, [])"
+        ],
+        "description": ""
+    },
+    "styled component": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["sc", "styled-component"],
+        "body": ["const ${1:Name} = styled${2:.div}${3:<{ $4 \\}>}`", "\t${0}", "`"],
+        "description": ""
+    },
+    "react component": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["rc", "react-component"],
+        "body": [
+            "type ${1:${TM_FILENAME_BASE}}Props = {\n\t\n}",
+            "",
+            "export function ${1}({}: ${1}Props) {",
+            "\treturn <${2}>${0}</${2}>",
+            "}"
+        ],
+        "description": ""
+    },
+    "useQuery": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["qr", "use-query"],
+        "body": ["const { data${1}, isLoading${2} } = use${3}Query(\"${4}\", {", "\t${0}", "})"],
+        "description": ""
+    },
+    "useCommand": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["cm", "use-command"],
+        "body": [
+            "const { mutateAsync${1}, isLoading${2} } = use${3}Command(\"${4}\", {",
+            "${5:\tqueriesToInvalidate: [],\n}\t${0}",
+            "})"
+        ],
+        "description": ""
+    },
+    "useCommand handler": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["cmh", "use-command-handler"],
+        "body": [
+            "handler: handler =>",
+            "\thandler",
+            "\t\t.handle([\n\t${CLIPBOARD/(\\w+(?=:))(: [0-9]*)/\t\t\"$1\"/g}\n\t\t\t\"failure\"], () => {",
+            "\t\t\tmessage.error(\"${1:Error}\");",
+            "\t\t})",
+            "\t\t.handle(\"success\", () => {",
+            "\t\t\tmessage.success(\"${2:Success}\");",
+            "\t\t})",
+            "\t\t.check()"
+        ],
+        "description": "copy error codes to be used by the snippet"
+    },
+    "mkCx": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["cx", "mk-cx"],
+        "body": [
+            "import styles from \"./styles.scss\";",
+            "import mkCx from \"@leancode/cx\";\n",
+            "const cx = mkCx(styles);"
+        ],
+        "description": ""
+    },
+    "useForm": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["frm", "use-form"],
+        "body": [
+            "const [form] = Form.useForm<${1:FormData}>();\n",
+            "const onFinish = useCallback(async (values: ${1:FormData}) => {\n\t${0}\n},[]);"
+        ],
+        "description": ""
+    },
+    "antd message success": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["scs", "antd-success"],
+        "body": ["message.success(\"${1:Success}\");"],
+        "description": ""
+    },
+    "antd message error": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["er", "antd-error"],
+        "body": ["message.error(\"${1:Error}\");"],
+        "description": ""
+    },
+    "formatted messsage component": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["fc", "formatted-component"],
+        "body": ["<FormattedMessage defaultMessage=\"$1\" id=\"$2\" />"],
+        "description": ""
+    },
+    "formatted messsage function": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["ff", "formatted-function"],
+        "body": ["intl.formatMessage({ defaultMessage: \"$1\", id: \"$2\" })"],
+        "description": ""
+    },
+    "use intl": {
+        "scope": "typescript,typescriptreact",
+        "prefix": "intl",
+        "body": ["const intl = useIntl()"],
+        "description": ""
+    },
+    "antd columns": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["clms", "antd-columns"],
+        "body": ["const columns = useMemo<ResultColumn<${1:ColumnType}>[]>(() => [\n${0}\n], []);"],
+        "description": ""
+    },
+    "antd column": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["clm", "antd-column"],
+        "body": [
+            "{",
+            "\ttitle: ${1},",
+            "\t${2:dataIndex: ${3},}",
+            "\t${4:key: ${5},}",
+            "\t${6:render: (v) => {\n\t\t${7}\n\t\\},}",
+            "}"
+        ],
+        "description": ""
+    },
+    "antd formItem input": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["inpt", "antd-formitem-input"],
+        "body": [
+            "<Form.FormItem label={${1}} name={${2}} ${3:rules={[{ required: true \\}]\\}}>",
+            "\t<Input />",
+            "</Form.FormItem>"
+        ],
+        "description": ""
+    },
+    "antd formItem textArea": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["txa", "antd-formitem-textarea"],
+        "body": [
+            "<Form.FormItem label={${1}} name={${2}} ${3:rules={[{ required: true \\}]\\}}>",
+            "\t<TextArea />",
+            "</Form.FormItem>"
+        ],
+        "description": ""
+    },
+    "antd formItem select": {
+        "scope": "typescript,typescriptreact",
+        "prefix": ["slct", "antd-formitem-select"],
+        "body": [
+            "<Form.FormItem label={${1}} name={${2}} ${3:rules={[{ required: true \\}]\\}}>",
+            "\t<Select",
+            "\t\tplaceholder={${4}}",
+            "\t\toptions={${5}}",
+            "\t/>",
+            "</Form.FormItem>"
+        ],
+        "description": ""
+    }
+}
