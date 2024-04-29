@@ -16,6 +16,40 @@
         "noUselessIndex": true
       }
     ],
+    "perfectionist/sort-imports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "groups": [
+          "react",
+          ["builtin", "external"],
+          ["internal-type", "internal"],
+          ["parent", "sibling", "index"],
+          ["type", "parent-type", "sibling-type", "index-type"],
+          "side-effect",
+          "style",
+          "unknown"
+        ],
+        "custom-groups": {
+          "value": {
+            "react": ["react", "react-*"]
+          },
+          "type": {
+            "react": "react"
+          }
+        },
+        "newlines-between": "never",
+        "internal-pattern": ["@leancodepl/**"]
+      }
+    ],
+    "perfectionist/sort-named-imports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
     "react/jsx-uses-react": "off",
     "react/jsx-uses-vars": "error",
     "unused-imports/no-unused-imports": "warn",
