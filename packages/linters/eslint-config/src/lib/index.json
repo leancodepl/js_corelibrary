@@ -67,13 +67,6 @@
         "spread-last": true
       }
     ],
-    "perfectionist/sort-exports": [
-      "error",
-      {
-        "type": "natural",
-        "order": "asc"
-      }
-    ],
     "perfectionist/sort-intersection-types": [
       "error",
       {
