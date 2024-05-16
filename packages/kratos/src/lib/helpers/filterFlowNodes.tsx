@@ -1,23 +1,23 @@
-import { UiNode } from "@ory/client";
-import { FilterNodesByGroups, filterNodesByGroups } from "../utils/filterNodesByGroups";
-import { getNodeInputType } from "../utils/getNodeInputType";
+import { UiNode } from "@ory/client"
+import { FilterNodesByGroups, filterNodesByGroups } from "../utils/filterNodesByGroups"
+import { getNodeInputType } from "../utils/getNodeInputType"
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
     isUiNodeInputAttributes,
     isUiNodeScriptAttributes,
     isUiNodeTextAttributes,
-} from "../utils/typeGuards";
-import { Node } from "./node";
+} from "../utils/typeGuards"
+import { Node } from "./node"
 
 type FilterFlowNodesProps = {
-    filter: FilterNodesByGroups;
-    includeCSRF?: boolean;
-};
+    filter: FilterNodesByGroups
+    includeCSRF?: boolean
+}
 
 export function FilterFlowNodes({ filter, includeCSRF, ...overrides }: FilterFlowNodesProps) {
     const getInputName = (node: UiNode): string =>
-        isUiNodeInputAttributes(node.attributes) ? node.attributes.name : "";
+        isUiNodeInputAttributes(node.attributes) ? node.attributes.name : ""
 
     const nodes = filterNodesByGroups(filter)
         // we don't want to map the csrf token every time, only on the form level
@@ -44,9 +44,9 @@ export function FilterFlowNodes({ filter, includeCSRF, ...overrides }: FilterFlo
                 />
             ),
             hidden: getNodeInputType(node.attributes) === "hidden",
-        }));
+        }))
 
-    if (nodes.length === 0) return null;
+    if (nodes.length === 0) return null
 
-    return <>{nodes.map(node => node.node)}</>;
+    return <>{nodes.map(node => node.node)}</>
 }

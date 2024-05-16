@@ -1,18 +1,18 @@
-import { catchError, from, of } from "rxjs";
-import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax";
-import { map, mergeMap } from "rxjs/operators";
-import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base";
-import { handleResponse } from "@leancodepl/validation";
-import authGuard from "./authGuard";
+import { catchError, from, of } from "rxjs"
+import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax"
+import { map, mergeMap } from "rxjs/operators"
+import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
+import { handleResponse } from "@leancodepl/validation"
+import authGuard from "./authGuard"
 
 export function mkCqrsClient({
     cqrsEndpoint,
     tokenProvider,
     ajaxOptions,
 }: {
-    cqrsEndpoint: string;
-    tokenProvider?: TokenProvider;
-    ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">;
+    cqrsEndpoint: string
+    tokenProvider?: TokenProvider
+    ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">
 }) {
     return {
         createQuery<TQuery, TResult>(type: string) {
@@ -27,17 +27,17 @@ export function mkCqrsClient({
                     method: "POST",
                     responseType: "json",
                     body: dto,
-                });
+                })
 
             if (tokenProvider) {
                 return (dto: TQuery) =>
                     from(tokenProvider.getToken()).pipe(
                         mergeMap(token => queryCall(dto, token).pipe(authGuard(tokenProvider))),
                         map(({ response }) => response),
-                    );
+                    )
             }
 
-            return (dto: TQuery) => queryCall(dto).pipe(map(({ response }) => response));
+            return (dto: TQuery) => queryCall(dto).pipe(map(({ response }) => response))
         },
         createOperation<TOperation, TResult>(type: string) {
             const operationCall = (dto: TOperation, token?: string) =>
@@ -51,17 +51,17 @@ export function mkCqrsClient({
                     method: "POST",
                     responseType: "json",
                     body: dto,
-                });
+                })
 
             if (tokenProvider) {
                 return (dto: TOperation) =>
                     from(tokenProvider.getToken()).pipe(
                         mergeMap(token => operationCall(dto, token).pipe(authGuard(tokenProvider))),
                         map(({ response }) => response),
-                    );
+                    )
             }
 
-            return (dto: TOperation) => operationCall(dto).pipe(map(({ response }) => response));
+            return (dto: TOperation) => operationCall(dto).pipe(map(({ response }) => response))
         },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(
             type: string,
@@ -78,17 +78,17 @@ export function mkCqrsClient({
                     method: "POST",
                     responseType: "json",
                     body: dto,
-                });
+                })
 
             function call(dto: TCommand) {
                 if (tokenProvider) {
                     return from(tokenProvider.getToken()).pipe(
                         mergeMap(token => commandCall(dto, token).pipe(authGuard(tokenProvider))),
                         map(({ response }) => response),
-                    );
+                    )
                 }
 
-                return commandCall(dto).pipe(map(({ response }) => response));
+                return commandCall(dto).pipe(map(({ response }) => response))
             }
 
             call.handle = (dto: TCommand) =>
@@ -105,18 +105,18 @@ export function mkCqrsClient({
                             return of({
                                 isSuccess: true,
                                 result: e.response,
-                            } as ApiResponse<CommandResult<TErrorCodes>>);
+                            } as ApiResponse<CommandResult<TErrorCodes>>)
                         }
 
                         return of({
                             isSuccess: false,
                             error: e,
-                        } as ApiResponse<CommandResult<TErrorCodes>>);
+                        } as ApiResponse<CommandResult<TErrorCodes>>)
                     }),
                     map(response => handleResponse(response, errorCodesMap)),
-                );
+                )
 
-            return call;
+            return call
         },
-    };
+    }
 }

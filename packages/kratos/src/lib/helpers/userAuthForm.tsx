@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { ReactNode } from "react";
-import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, VerificationFlow } from "@ory/client";
-import { FilterNodesByGroups } from "../utils/filterNodesByGroups";
-import { FilterFlowNodes } from "./filterFlowNodes";
+import { ReactNode } from "react"
+import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, VerificationFlow } from "@ory/client"
+import { FilterNodesByGroups } from "../utils/filterNodesByGroups"
+import { FilterFlowNodes } from "./filterFlowNodes"
 
-export type SelfServiceFlow = LoginFlow | RecoveryFlow | RegistrationFlow | SettingsFlow | VerificationFlow;
+export type SelfServiceFlow = LoginFlow | RecoveryFlow | RegistrationFlow | SettingsFlow | VerificationFlow
 
 /**
  * Additional props that can be passed to the UserAuthForm component
@@ -13,17 +13,17 @@ export type SelfServiceFlow = LoginFlow | RecoveryFlow | RegistrationFlow | Sett
  * @param onSubmit - function that is called when the form is submitted. It automatically maps the form data to the request body and prevents native form submits.
  */
 export type UserAuthFormAdditionalProps<TBody> = {
-    onSubmit?: ({ body, event }: { body: TBody; event?: React.FormEvent<HTMLFormElement> }) => void;
-};
+    onSubmit?: ({ body, event }: { body: TBody; event?: React.FormEvent<HTMLFormElement> }) => void
+}
 
 export type UserAuthFormProps<TBody> = {
-    flow: SelfServiceFlow;
-    children: ReactNode;
-    formFilterOverride?: FilterNodesByGroups;
-    submitOnEnter?: boolean;
-    className?: string;
+    flow: SelfServiceFlow
+    children: ReactNode
+    formFilterOverride?: FilterNodesByGroups
+    submitOnEnter?: boolean
+    className?: string
 } & Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> &
-    UserAuthFormAdditionalProps<TBody>;
+    UserAuthFormAdditionalProps<TBody>
 
 /**
  * UserAuthForm is a component that renders a form for a given Ory flow.
@@ -47,32 +47,32 @@ export function UserAuthForm<TBody>({
             method={flow.ui.method}
             onKeyDown={e => {
                 if (e.key === "Enter" && !submitOnEnter) {
-                    e.stopPropagation();
-                    e.preventDefault();
+                    e.stopPropagation()
+                    e.preventDefault()
                 }
             }}
             {...(onSubmit && {
                 onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-                    event.preventDefault();
+                    event.preventDefault()
 
-                    const form = event.currentTarget;
-                    const formData = new FormData(form);
+                    const form = event.currentTarget
+                    const formData = new FormData(form)
 
                     // map the entire form data to JSON for the request body
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    let body = Object.fromEntries(formData as any) as unknown as TBody;
+                    let body = Object.fromEntries(formData as any) as unknown as TBody
 
                     // We need the method specified from the name and value of the submit button.
                     // when multiple submit buttons are present, the clicked one's value is used.
                     if ("submitter" in event.nativeEvent) {
-                        const method = (event.nativeEvent as unknown as { submitter: HTMLInputElement }).submitter;
+                        const method = (event.nativeEvent as unknown as { submitter: HTMLInputElement }).submitter
                         body = {
                             ...body,
                             ...{ [method.name]: method.value },
-                        };
+                        }
                     }
 
-                    onSubmit({ body, event });
+                    onSubmit({ body, event })
                 },
             })}
             {...props}>
@@ -89,5 +89,5 @@ export function UserAuthForm<TBody>({
             />
             {children}
         </form>
-    );
+    )
 }

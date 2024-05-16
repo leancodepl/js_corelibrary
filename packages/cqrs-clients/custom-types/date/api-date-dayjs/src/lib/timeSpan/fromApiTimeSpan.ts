@@ -1,29 +1,29 @@
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import type { ApiTimeSpan } from "@leancodepl/api-date";
-import { parseApiTimeSpan } from "@leancodepl/api-date-utils";
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+import type { ApiTimeSpan } from "@leancodepl/api-date"
+import { parseApiTimeSpan } from "@leancodepl/api-date-utils"
 
-dayjs.extend(duration);
+dayjs.extend(duration)
 
 /**
  *This function handles at most milliseconds precision, smaller units are lost in conversion process
  */
-export function fromApiTimeSpan(timeSpan: ApiTimeSpan): duration.Duration;
-export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): duration.Duration | undefined;
+export function fromApiTimeSpan(timeSpan: ApiTimeSpan): duration.Duration
+export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): duration.Duration | undefined
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): duration.Duration | undefined {
     if (!timeSpan) {
-        return undefined;
+        return undefined
     }
 
-    const parsedDuration = parseApiTimeSpan(timeSpan);
+    const parsedDuration = parseApiTimeSpan(timeSpan)
 
-    const isNegative = parsedDuration.sign === "-";
+    const isNegative = parsedDuration.sign === "-"
 
-    const dayjsDuration = dayjs.duration(parsedDuration.values);
+    const dayjsDuration = dayjs.duration(parsedDuration.values)
 
     if (isNegative) {
-        return dayjs.duration(-dayjsDuration.asMilliseconds());
+        return dayjs.duration(-dayjsDuration.asMilliseconds())
     }
 
-    return dayjsDuration;
+    return dayjsDuration
 }

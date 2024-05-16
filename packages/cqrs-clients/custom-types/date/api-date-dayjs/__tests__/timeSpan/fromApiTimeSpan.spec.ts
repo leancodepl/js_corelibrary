@@ -1,118 +1,118 @@
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import timezoneMock from "timezone-mock";
-import { ApiTimeSpan, fromApiTimeSpan } from "../../src";
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+import timezoneMock from "timezone-mock"
+import { ApiTimeSpan, fromApiTimeSpan } from "../../src"
 
-dayjs.extend(duration);
+dayjs.extend(duration)
 
 describe("fromApiTimeSpan", () => {
     it("handles undefined", () => {
-        const timeSpan = fromApiTimeSpan(undefined);
+        const timeSpan = fromApiTimeSpan(undefined)
 
-        expect(timeSpan).toBeUndefined();
-    });
+        expect(timeSpan).toBeUndefined()
+    })
 
     describe("run in GMT+5 timezone", () => {
-        const timezone = "Etc/GMT+5";
+        const timezone = "Etc/GMT+5"
 
         beforeAll(() => {
-            timezoneMock.register(timezone);
-        });
+            timezoneMock.register(timezone)
+        })
 
         afterAll(() => {
-            timezoneMock.unregister();
-        });
+            timezoneMock.unregister()
+        })
 
         it("converts api time span to dayjs duration", () => {
-            const apiTimeSpan = "1.03:16:50.599";
+            const apiTimeSpan = "1.03:16:50.599"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 });
+            const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
 
-            expect(timeSpan).toStrictEqual(dayjsDuration);
-        });
+            expect(timeSpan).toStrictEqual(dayjsDuration)
+        })
 
         it("converts api time span to duration in days", () => {
-            const apiTimeSpan = "30.00:00:00";
+            const apiTimeSpan = "30.00:00:00"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInDays = timeSpan.asDays();
+            const timeSpanInDays = timeSpan.asDays()
 
-            expect(timeSpanInDays).toBe(30);
-        });
+            expect(timeSpanInDays).toBe(30)
+        })
 
         it("converts api time span to duration in hours", () => {
-            const apiTimeSpan = "05:00:00";
+            const apiTimeSpan = "05:00:00"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInHours = timeSpan.asHours();
+            const timeSpanInHours = timeSpan.asHours()
 
-            expect(timeSpanInHours).toBe(5);
-        });
+            expect(timeSpanInHours).toBe(5)
+        })
 
         it("converts negative api time span to duration in milliseconds", () => {
-            const apiTimeSpan = "-1.03:16:50.599";
+            const apiTimeSpan = "-1.03:16:50.599"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInMilliseconds = timeSpan.asMilliseconds();
+            const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
-            expect(timeSpanInMilliseconds).toBe(-98210599);
-        });
-    });
+            expect(timeSpanInMilliseconds).toBe(-98210599)
+        })
+    })
 
     describe("run in UTC timezone", () => {
-        const timezone = "UTC";
+        const timezone = "UTC"
 
         beforeAll(() => {
-            timezoneMock.register(timezone);
-        });
+            timezoneMock.register(timezone)
+        })
 
         afterAll(() => {
-            timezoneMock.unregister();
-        });
+            timezoneMock.unregister()
+        })
 
         it("converts api time span to dayjs duration", () => {
-            const apiTimeSpan = "1.03:16:50.599";
+            const apiTimeSpan = "1.03:16:50.599"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 });
+            const dayjsDuration = dayjs.duration({ days: 1, hours: 3, minutes: 16, seconds: 50, milliseconds: 599 })
 
-            expect(timeSpan).toStrictEqual(dayjsDuration);
-        });
+            expect(timeSpan).toStrictEqual(dayjsDuration)
+        })
 
         it("converts api time span to duration in days", () => {
-            const apiTimeSpan = "30.00:00:00";
+            const apiTimeSpan = "30.00:00:00"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInDays = timeSpan.asDays();
+            const timeSpanInDays = timeSpan.asDays()
 
-            expect(timeSpanInDays).toBe(30);
-        });
+            expect(timeSpanInDays).toBe(30)
+        })
 
         it("converts api time span to duration in hours", () => {
-            const apiTimeSpan = "05:00:00";
+            const apiTimeSpan = "05:00:00"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInHours = timeSpan.asHours();
+            const timeSpanInHours = timeSpan.asHours()
 
-            expect(timeSpanInHours).toBe(5);
-        });
+            expect(timeSpanInHours).toBe(5)
+        })
 
         it("converts negative api time span to duration in milliseconds", () => {
-            const apiTimeSpan = "-1.03:16:50.599";
+            const apiTimeSpan = "-1.03:16:50.599"
 
-            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
+            const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-            const timeSpanInMilliseconds = timeSpan.asMilliseconds();
+            const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
-            expect(timeSpanInMilliseconds).toBe(-98210599);
-        });
-    });
-});
+            expect(timeSpanInMilliseconds).toBe(-98210599)
+        })
+    })
+})

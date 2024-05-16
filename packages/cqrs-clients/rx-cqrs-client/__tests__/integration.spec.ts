@@ -1,9 +1,9 @@
-import { lastValueFrom } from "rxjs";
-import mock from "xhr-mock";
-import { CommandResult } from "@leancodepl/cqrs-client-base";
-import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src";
-import clientDef from "./sampleContracts/client";
-import { Users } from "./sampleContracts/contracts";
+import { lastValueFrom } from "rxjs"
+import mock from "xhr-mock"
+import { CommandResult } from "@leancodepl/cqrs-client-base"
+import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src"
+import clientDef from "./sampleContracts/client"
+import { Users } from "./sampleContracts/contracts"
 
 function createCommandResponse<TErrorCodes extends Record<string, number>>(
     allErrorCodes: TErrorCodes,
@@ -17,43 +17,43 @@ function createCommandResponse<TErrorCodes extends Record<string, number>>(
             PropertyName: "PropertyName",
         })),
         WasSuccessful: errorCodes.length === 0,
-    };
+    }
 }
 
 describe("integration", () => {
     beforeEach(() => {
-        mock.setup();
-    });
+        mock.setup()
+    })
 
     afterEach(() => {
-        mock.teardown();
-        jest.clearAllMocks();
-    });
+        mock.teardown()
+        jest.clearAllMocks()
+    })
 
     it("correctly fetches command response", async () => {
-        const client = mkCqrsClient({ cqrsEndpoint: "mock" });
-        const api = clientDef(client);
-        const response = createCommandResponse(Users.EditUser.ErrorCodes);
+        const client = mkCqrsClient({ cqrsEndpoint: "mock" })
+        const api = clientDef(client)
+        const response = createCommandResponse(Users.EditUser.ErrorCodes)
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.body(response).status(200),
-        );
+        )
 
         const result = await lastValueFrom(
             api.Users.EditUser({
                 Email: "property",
                 SomethingId: "Id",
             }),
-        );
+        )
 
-        expect(result).toEqual(response);
-    });
+        expect(result).toEqual(response)
+    })
 
     it("correctly handles command response on validation error", async () => {
-        const client = mkCqrsClient({ cqrsEndpoint: "mock" });
-        const api = clientDef(client);
+        const client = mkCqrsClient({ cqrsEndpoint: "mock" })
+        const api = clientDef(client)
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.body(createCommandResponse(Users.EditUser.ErrorCodes, "EmailIsTaken")).status(200),
-        );
+        )
 
         const result = await lastValueFrom(
             api.Users.EditUser.handle({
@@ -70,17 +70,17 @@ describe("integration", () => {
                 ),
                 reduceObject(),
             ),
-        );
+        )
 
-        expect(result).toEqual({ emailIsTaken: true });
-    });
+        expect(result).toEqual({ emailIsTaken: true })
+    })
 
     it("correctly handles command response on success", async () => {
-        const client = mkCqrsClient({ cqrsEndpoint: "mock" });
-        const api = clientDef(client);
+        const client = mkCqrsClient({ cqrsEndpoint: "mock" })
+        const api = clientDef(client)
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.body(createCommandResponse(Users.EditUser.ErrorCodes)).status(200),
-        );
+        )
 
         const result = await lastValueFrom(
             api.Users.EditUser.handle({
@@ -97,17 +97,17 @@ describe("integration", () => {
                 ),
                 reduceObject(),
             ),
-        );
+        )
 
-        expect(result).toEqual({ success: true });
-    });
+        expect(result).toEqual({ success: true })
+    })
 
     it("correctly handles command response on failure", async () => {
-        const client = mkCqrsClient({ cqrsEndpoint: "mock" });
-        const api = clientDef(client);
+        const client = mkCqrsClient({ cqrsEndpoint: "mock" })
+        const api = clientDef(client)
         mock.post(/.*\/LeanCode\.ContractsGeneratorV2\.ExampleContracts\.Users\.EditUser/, (req, res) =>
             res.status(500),
-        );
+        )
 
         const result = await lastValueFrom(
             api.Users.EditUser.handle({
@@ -124,8 +124,8 @@ describe("integration", () => {
                 ),
                 reduceObject(),
             ),
-        );
+        )
 
-        expect(result).toEqual({ failure: true });
-    });
-});
+        expect(result).toEqual({ failure: true })
+    })
+})

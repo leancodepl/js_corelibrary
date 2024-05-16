@@ -1,5 +1,5 @@
-import { PaginatedResult, Users } from "./contracts";
-import { CQRS } from "./cqrs";
+import { PaginatedResult, Users } from "./contracts"
+import { CQRS } from "./cqrs"
 
 export default function (cqrsClient: CQRS) {
     return {
@@ -23,5 +23,5 @@ export default function (cqrsClient: CQRS) {
                 "LeanCode.ContractsGeneratorV2.ExampleContracts.Users.UserSomething",
             ),
         },
-    };
+    }
 }

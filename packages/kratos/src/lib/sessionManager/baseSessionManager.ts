@@ -1,35 +1,35 @@
-import { AuthenticatorAssuranceLevel, Session } from "@ory/client";
-import axios, { AxiosResponse } from "axios";
-import { ReplaySubject, Subject, catchError, from, map, of, shareReplay, switchMap } from "rxjs";
-import { ErrorId } from "../types/enums/errorId";
-import { aalParameterName, returnToParameterName } from "../utils/variables";
+import { AuthenticatorAssuranceLevel, Session } from "@ory/client"
+import axios, { AxiosResponse } from "axios"
+import { ReplaySubject, Subject, catchError, from, map, of, shareReplay, switchMap } from "rxjs"
+import { ErrorId } from "../types/enums/errorId"
+import { aalParameterName, returnToParameterName } from "../utils/variables"
 
 export class BaseSessionManager {
-    authUrl;
-    loginRoute;
+    authUrl
+    loginRoute
 
-    session$: Subject<Session | undefined> = new ReplaySubject(1);
+    session$: Subject<Session | undefined> = new ReplaySubject(1)
     isLoggedIn = this.session$.pipe(
         map(session => !!session?.active),
         shareReplay(1),
-    );
+    )
     identity$ = this.session$.pipe(
         map(session => session?.identity),
         shareReplay(1),
-    );
+    )
     userId$ = this.identity$.pipe(
         map(identity => identity?.id),
         shareReplay(1),
-    );
+    )
 
     setSession(session: Session | undefined) {
-        this.session$.next(session);
+        this.session$.next(session)
 
-        if (!session) this.checkIfLoggedIn();
+        if (!session) this.checkIfLoggedIn()
     }
 
     checkIfLoggedIn = (() => {
-        const fetchSubject = new Subject();
+        const fetchSubject = new Subject()
 
         fetchSubject
             .pipe(
@@ -40,58 +40,58 @@ export class BaseSessionManager {
                         }),
                     ).pipe(
                         map((response: AxiosResponse<Session>) => {
-                            const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName);
+                            const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName)
 
                             if (returnTo) {
-                                window.location.href = returnTo;
+                                window.location.href = returnTo
                             }
 
-                            return response.data;
+                            return response.data
                         }),
                         catchError(err => {
                             switch (err.response.status) {
                                 case 403:
                                 case 422:
                                     if (err.response.data.error?.id === ErrorId.ErrIDHigherAALRequired) {
-                                        const searchParams = new URLSearchParams(window.location.search);
+                                        const searchParams = new URLSearchParams(window.location.search)
 
                                         if (searchParams.get(aalParameterName)) {
-                                            break;
+                                            break
                                         }
 
-                                        const redirectUrl = new URL(this.loginRoute, window.location.href);
+                                        const redirectUrl = new URL(this.loginRoute, window.location.href)
 
                                         if (window.location.pathname === this.loginRoute) {
-                                            const searchParams = new URLSearchParams(window.location.search);
-                                            searchParams.append(aalParameterName, AuthenticatorAssuranceLevel.Aal2);
-                                            redirectUrl.search = searchParams.toString();
+                                            const searchParams = new URLSearchParams(window.location.search)
+                                            searchParams.append(aalParameterName, AuthenticatorAssuranceLevel.Aal2)
+                                            redirectUrl.search = searchParams.toString()
                                         } else {
                                             redirectUrl.search = new URLSearchParams({
                                                 [aalParameterName]: AuthenticatorAssuranceLevel.Aal2,
                                                 [returnToParameterName]: `${window.location.pathname}${window.location.search}`,
-                                            }).toString();
+                                            }).toString()
                                         }
 
-                                        window.location.href = redirectUrl.toString();
+                                        window.location.href = redirectUrl.toString()
                                     }
-                                    break;
+                                    break
                             }
 
-                            return of(undefined);
+                            return of(undefined)
                         }),
                     ),
                 ),
             )
             .subscribe({
                 next: session => this.session$.next(session),
-            });
+            })
 
-        return () => fetchSubject.next(undefined);
-    })();
+        return () => fetchSubject.next(undefined)
+    })()
 
     constructor(authUrl: string, loginRoute: string) {
-        this.authUrl = authUrl;
-        this.loginRoute = loginRoute;
-        this.checkIfLoggedIn();
+        this.authUrl = authUrl
+        this.loginRoute = loginRoute
+        this.checkIfLoggedIn()
     }
 }

@@ -1,4 +1,4 @@
-import { SyncTokenStorage, Token } from "./tokenStorage";
+import { SyncTokenStorage, Token } from "./tokenStorage"
 
 export class LocalTokenStorage implements SyncTokenStorage {
     constructor(
@@ -13,37 +13,37 @@ export class LocalTokenStorage implements SyncTokenStorage {
                 token: this.getValue(this.tokenKey),
                 refreshToken: this.getValue(this.refreshKey),
                 expirationDate: new Date(Number(this.getValue(this.expiryKey))),
-            };
+            }
         } else {
-            return null;
+            return null
         }
     }
 
     public storeToken(token: Token) {
-        this.setValue(this.tokenKey, token.token);
-        this.setValue(this.refreshKey, token.refreshToken);
-        this.setValue(this.expiryKey, token.expirationDate.getTime().toString());
+        this.setValue(this.tokenKey, token.token)
+        this.setValue(this.refreshKey, token.refreshToken)
+        this.setValue(this.expiryKey, token.expirationDate.getTime().toString())
     }
 
     public resetToken() {
-        this.remove(this.tokenKey);
-        this.remove(this.refreshKey);
-        this.remove(this.expiryKey);
+        this.remove(this.tokenKey)
+        this.remove(this.refreshKey)
+        this.remove(this.expiryKey)
     }
 
     private hasValue(key: string): boolean {
-        return localStorage.getItem(key) !== null;
+        return localStorage.getItem(key) !== null
     }
 
     private getValue(key: string): string {
-        return localStorage.getItem(key) as string;
+        return localStorage.getItem(key) as string
     }
 
     private setValue(key: string, val: string) {
-        localStorage.setItem(key, val);
+        localStorage.setItem(key, val)
     }
 
     private remove(key: string) {
-        localStorage.removeItem(key);
+        localStorage.removeItem(key)
     }
 }

@@ -1,4 +1,4 @@
-import { ComponentClass, ElementType, ReactNode, useEffect, useRef, useState } from "react";
+import { ComponentClass, ElementType, ReactNode, useEffect, useRef, useState } from "react"
 import {
     FormattedMessage,
     IntlShape,
@@ -7,14 +7,14 @@ import {
     createIntl,
     createIntlCache,
     useIntl,
-} from "react-intl";
-import type { FormatXMLElementFn, Options as IntlMessageFormatOptions, PrimitiveType } from "intl-messageformat";
+} from "react-intl"
+import type { FormatXMLElementFn, Options as IntlMessageFormatOptions, PrimitiveType } from "intl-messageformat"
 
-const localeChangedEvent = "LocaleChanged";
+const localeChangedEvent = "LocaleChanged"
 
 declare global {
     interface Window {
-        currentLocale?: string;
+        currentLocale?: string
     }
 }
 
@@ -24,34 +24,34 @@ export function mkI18n<
     TDefaultLocale extends TSupportedLocale = TSupportedLocale,
 >(locales: Record<TSupportedLocale, () => Promise<Record<TTerm, string>>>, defaultLocale: TDefaultLocale) {
     type StronglyTypedMessageDescriptor = {
-        id?: TTerm;
-        description?: string;
-        defaultMessage?: string;
-    };
+        id?: TTerm
+        description?: string
+        defaultMessage?: string
+    }
 
     type StronglyTypedIntlShape = {
-        messages: Record<TTerm, MessageFormatElement[]> | Record<TTerm, string>;
+        messages: Record<TTerm, MessageFormatElement[]> | Record<TTerm, string>
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<string, string> | PrimitiveType>,
             opts?: IntlMessageFormatOptions,
-        ): string;
+        ): string
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
-        ): ReactNode;
+        ): ReactNode
         $t(
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<string, string> | PrimitiveType>,
             opts?: IntlMessageFormatOptions,
-        ): string;
+        ): string
         $t(
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
-        ): ReactNode;
-    } & Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages">;
+        ): ReactNode
+    } & Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages">
 
     type StronglyTypedFormattedMessageProps<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,19 +60,19 @@ export function mkI18n<
             FormatXMLElementFn<React.ReactNode, React.ReactNode> | ReactNode
         >,
     > = {
-        values?: V;
+        values?: V
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        tagName?: ElementType<any>;
-        children?(...nodes: ReactNode[]): ReactNode;
-    } & StronglyTypedMessageDescriptor;
+        tagName?: ElementType<any>
+        children?(...nodes: ReactNode[]): ReactNode
+    } & StronglyTypedMessageDescriptor
 
-    window.currentLocale = defaultLocale;
+    window.currentLocale = defaultLocale
 
-    const cache = createIntlCache();
+    const cache = createIntlCache()
 
-    const messagesCache: Partial<{ [TKey in TSupportedLocale]: Record<TTerm, string> }> = {};
+    const messagesCache: Partial<{ [TKey in TSupportedLocale]: Record<TTerm, string> }> = {}
 
-    const intlInstance: { current?: StronglyTypedIntlShape } = {};
+    const intlInstance: { current?: StronglyTypedIntlShape } = {}
 
     return {
         Localize: FormattedMessage as unknown as ComponentClass<StronglyTypedFormattedMessageProps>,
@@ -81,25 +81,25 @@ export function mkI18n<
         Provider({ children }: { children?: ReactNode }) {
             const [currentLocale, setCurrentLocale] = useState<TSupportedLocale>(
                 () => window.currentLocale! as TSupportedLocale, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-            );
+            )
 
-            const currentLocaleRef = useRef(currentLocale);
+            const currentLocaleRef = useRef(currentLocale)
 
-            const [intl, setIntl] = useState<StronglyTypedIntlShape>();
+            const [intl, setIntl] = useState<StronglyTypedIntlShape>()
 
             useEffect(() => {
                 const handler = () => {
-                    setCurrentLocale(window.currentLocale as TSupportedLocale);
-                    currentLocaleRef.current = window.currentLocale as TSupportedLocale;
-                };
+                    setCurrentLocale(window.currentLocale as TSupportedLocale)
+                    currentLocaleRef.current = window.currentLocale as TSupportedLocale
+                }
 
-                window.addEventListener(localeChangedEvent, handler);
+                window.addEventListener(localeChangedEvent, handler)
 
-                return () => window.removeEventListener(localeChangedEvent, handler);
-            }, []);
+                return () => window.removeEventListener(localeChangedEvent, handler)
+            }, [])
 
             useEffect(() => {
-                const cachedMessages = messagesCache[currentLocale];
+                const cachedMessages = messagesCache[currentLocale]
 
                 if (cachedMessages) {
                     intlInstance.current = createIntl(
@@ -109,15 +109,15 @@ export function mkI18n<
                             messages: cachedMessages,
                         },
                         cache,
-                    ) as StronglyTypedIntlShape;
-                    setIntl(intlInstance.current);
-                    return;
+                    ) as StronglyTypedIntlShape
+                    setIntl(intlInstance.current)
+                    return
                 }
 
-                (async () => {
-                    const messages = await locales[currentLocale]();
+                ;(async () => {
+                    const messages = await locales[currentLocale]()
 
-                    messagesCache[currentLocale] = messages;
+                    messagesCache[currentLocale] = messages
 
                     if (currentLocaleRef.current === currentLocale) {
                         intlInstance.current = createIntl(
@@ -127,21 +127,21 @@ export function mkI18n<
                                 messages: messages,
                             },
                             cache,
-                        ) as StronglyTypedIntlShape;
-                        setIntl(intlInstance.current);
+                        ) as StronglyTypedIntlShape
+                        setIntl(intlInstance.current)
                     }
-                })();
-            }, [currentLocale]);
+                })()
+            }, [currentLocale])
 
             if (!intl) {
-                return null;
+                return null
             }
 
-            return <RawIntlProvider value={intl}>{children}</RawIntlProvider>;
+            return <RawIntlProvider value={intl}>{children}</RawIntlProvider>
         },
         changeLocale(locale: TSupportedLocale) {
-            window.currentLocale = locale;
-            window.dispatchEvent(new Event(localeChangedEvent));
+            window.currentLocale = locale
+            window.dispatchEvent(new Event(localeChangedEvent))
         },
-    };
+    }
 }
