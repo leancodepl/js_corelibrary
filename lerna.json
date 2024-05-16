@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
-  "version": "7.3.7",
+  "version": "7.4.0",
   "useNx": true,
   "command": {
     "version": {

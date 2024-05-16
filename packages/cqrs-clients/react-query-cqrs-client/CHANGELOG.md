@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.4.0](https://github.com/leancodepl/js_corelibrary/compare/v7.3.7...v7.4.0) (2024-05-16)
+
+### Bug Fixes
+
+-   packages versions
+    ([aa7b005](https://github.com/leancodepl/js_corelibrary/commit/aa7b0050f211207401c8345b58dd7c675145f7f2))
+-   packages versions
+    ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.7](https://github.com/leancodepl/js_corelibrary/compare/v7.3.6...v7.3.7) (2024-04-15)
 
 ### Features

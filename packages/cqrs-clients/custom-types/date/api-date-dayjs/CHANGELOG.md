@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.4.0](https://github.com/leancodepl/js_corelibrary/compare/v7.3.7...v7.4.0) (2024-05-16)
+
+### Bug Fixes
+
+-   api-date-dayjs tests
+    ([f09e639](https://github.com/leancodepl/js_corelibrary/commit/f09e6390e45bbb1c88e5c653baed0f6430311370))
+-   packages versions
+    ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.7](https://github.com/leancodepl/js_corelibrary/compare/v7.3.6...v7.3.7) (2024-04-15)
 
 **Note:** Version bump only for package @leancodepl/api-date-dayjs
