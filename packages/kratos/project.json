@@ -6,11 +6,8 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/kratos/**/*.{ts,tsx,js,jsx}"]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/kratos {args.registry} {args.ver} {args.tag}",

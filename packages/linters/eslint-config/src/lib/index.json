@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "perfectionist"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -9,36 +9,37 @@
     "prettier"
   ],
   "rules": {
-    "no-var": "off",
-    "no-console": [
-      "warn",
-      {
-        "allow": ["warn", "error", "assert"]
-      }
-    ],
+    "arrow-body-style": "error",
     "max-params": [
       "error",
       {
         "max": 4
       }
     ],
-    "arrow-body-style": "error",
+    "no-console": [
+      "warn",
+      {
+        "allow": ["warn", "error", "assert"]
+      }
+    ],
     "no-useless-rename": "error",
+    "no-var": "off",
+
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/no-parameter-properties": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-inferrable-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/ban-types": "off",
-    "react/prop-types": "off",
+    "@typescript-eslint/prefer-interface": "off",
+
     "react/display-name": "off",
+    "react/jsx-boolean-value": "error",
     "react/jsx-curly-brace-presence": "warn",
     "react/jsx-fragments": "warn",
     "react/jsx-sort-props": [
@@ -52,9 +53,42 @@
         "reservedFirst": true
       }
     ],
+    "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
+    "react/self-closing-comp": "error",
+    "react-hooks/exhaustive-deps": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error"
+
+    "perfectionist/sort-array-includes": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "spread-last": true
+      }
+    ],
+    "perfectionist/sort-intersection-types": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
+    "perfectionist/sort-named-exports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
+      }
+    ],
+    "perfectionist/sort-union-types": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "nullable-last": true
+      }
+    ]
   },
   "settings": {
     "import/internal-regex": "^react$"

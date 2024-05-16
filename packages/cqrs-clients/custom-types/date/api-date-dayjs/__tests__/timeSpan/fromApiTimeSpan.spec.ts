@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import timezoneMock from "timezone-mock";
-import { fromApiTimeSpan, ApiTimeSpan } from "../../src";
+import { ApiTimeSpan, fromApiTimeSpan } from "../../src";
 
 dayjs.extend(duration);
 
@@ -33,14 +33,14 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpan).toStrictEqual(dayjsDuration);
         });
 
-        it("converts api time span to duration in months", () => {
+        it("converts api time span to duration in days", () => {
             const apiTimeSpan = "30.00:00:00";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const timeSpanInMonths = timeSpan.asMonths();
+            const timeSpanInDays = timeSpan.asDays();
 
-            expect(timeSpanInMonths).toBe(1);
+            expect(timeSpanInDays).toBe(30);
         });
 
         it("converts api time span to duration in hours", () => {
@@ -48,9 +48,9 @@ describe("fromApiTimeSpan", () => {
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const timeSpanInMonths = timeSpan.asHours();
+            const timeSpanInHours = timeSpan.asHours();
 
-            expect(timeSpanInMonths).toBe(5);
+            expect(timeSpanInHours).toBe(5);
         });
 
         it("converts negative api time span to duration in milliseconds", () => {
@@ -85,14 +85,14 @@ describe("fromApiTimeSpan", () => {
             expect(timeSpan).toStrictEqual(dayjsDuration);
         });
 
-        it("converts api time span to duration in months", () => {
+        it("converts api time span to duration in days", () => {
             const apiTimeSpan = "30.00:00:00";
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const timeSpanInMonths = timeSpan.asMonths();
+            const timeSpanInDays = timeSpan.asDays();
 
-            expect(timeSpanInMonths).toBe(1);
+            expect(timeSpanInDays).toBe(30);
         });
 
         it("converts api time span to duration in hours", () => {
@@ -100,9 +100,9 @@ describe("fromApiTimeSpan", () => {
 
             const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan);
 
-            const timeSpanInMonths = timeSpan.asHours();
+            const timeSpanInHours = timeSpan.asHours();
 
-            expect(timeSpanInMonths).toBe(5);
+            expect(timeSpanInHours).toBe(5);
         });
 
         it("converts negative api time span to duration in milliseconds", () => {

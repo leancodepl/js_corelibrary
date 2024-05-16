@@ -16,22 +16,38 @@
         "noUselessIndex": true
       }
     ],
-    "import/order": [
+    "perfectionist/sort-imports": [
       "error",
       {
-        "groups": [["builtin", "external"], "internal", ["index", "sibling", "parent"], "object"],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          }
+        "type": "natural",
+        "order": "asc",
+        "groups": [
+          "react",
+          ["builtin", "external"],
+          ["internal-type", "internal"],
+          ["parent", "sibling", "index"],
+          ["type", "parent-type", "sibling-type", "index-type"],
+          "side-effect",
+          "style",
+          "unknown"
         ],
+        "custom-groups": {
+          "value": {
+            "react": ["react", "react-*"]
+          },
+          "type": {
+            "react": "react"
+          }
+        },
         "newlines-between": "never",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
+        "internal-pattern": ["@leancodepl/**"]
+      }
+    ],
+    "perfectionist/sort-named-imports": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc"
       }
     ],
     "react/jsx-uses-react": "off",
@@ -39,7 +55,12 @@
     "unused-imports/no-unused-imports": "warn",
     "unused-imports/no-unused-vars": [
       "warn",
-      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
     ]
   },
   "settings": {
