@@ -15,5 +15,6 @@
       }
     }
   ],
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "semi": false
 }
