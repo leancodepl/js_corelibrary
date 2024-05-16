@@ -1,5 +1,5 @@
-import { Checkbox, Flex, FormErrorMessage, Text } from "@chakra-ui/react";
-import { CheckboxComponentProps } from "@leancodepl/kratos";
+import { Checkbox, Flex, FormErrorMessage, Text } from "@chakra-ui/react"
+import { CheckboxComponentProps } from "@leancodepl/kratos"
 
 export function NodeCheckbox({
     label,
@@ -12,7 +12,7 @@ export function NodeCheckbox({
 }: CheckboxComponentProps) {
     return (
         <Flex direction="column" gap="2" pt="4">
-            <Checkbox value={value as string | number} {...props} formNoValidate>
+            <Checkbox value={value as number | string} {...props} formNoValidate>
                 {label}
             </Checkbox>
             {helperMessage &&
@@ -24,5 +24,5 @@ export function NodeCheckbox({
                     <Text fontSize="sm">{helperMessage}</Text>
                 ))}
         </Flex>
-    );
+    )
 }

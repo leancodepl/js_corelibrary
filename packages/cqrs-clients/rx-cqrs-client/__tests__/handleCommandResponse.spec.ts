@@ -1,12 +1,12 @@
-import { handleResponse } from "@leancodepl/validation";
-import { lastValueFrom, of } from "rxjs";
-import { handleCommandResponse, reduceBoolean, reduceObject } from "../src";
+import { lastValueFrom, of } from "rxjs"
+import { handleResponse } from "@leancodepl/validation"
+import { handleCommandResponse, reduceBoolean, reduceObject } from "../src"
 
 const errorCodesMap = {
     Error1: 1,
     Error2: 2,
     Error3: 3,
-} as const;
+} as const
 
 function mkValidationErrorHandler<TErrorCode extends (typeof errorCodesMap)[keyof typeof errorCodesMap]>(
     ...errorCodes: TErrorCode[]
@@ -25,7 +25,7 @@ function mkValidationErrorHandler<TErrorCode extends (typeof errorCodesMap)[keyo
             },
         },
         errorCodesMap,
-    );
+    )
 }
 describe("handleCommandResponse", () => {
     it("reduces to boolean correctly", async () => {
@@ -39,10 +39,10 @@ describe("handleCommandResponse", () => {
                 ),
                 reduceBoolean(),
             ),
-        );
+        )
 
-        expect(result).toBe(false);
-    });
+        expect(result).toBe(false)
+    })
 
     it("reduces to object correctly", async () => {
         const result = await lastValueFrom(
@@ -63,11 +63,11 @@ describe("handleCommandResponse", () => {
                 ),
                 reduceObject(),
             ),
-        );
+        )
 
         expect(result).toEqual({
             firstName: "First name too long",
             lastName: "Last name too long",
-        });
-    });
-});
+        })
+    })
+})

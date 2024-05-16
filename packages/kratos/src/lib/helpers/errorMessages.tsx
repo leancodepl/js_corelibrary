@@ -1,25 +1,25 @@
-import { UiNode, UiText } from "@ory/client";
-import { FormattedMessage } from "./formattedMessage";
-import { useKratosContext } from "../kratosContext";
-import type { MessageComponentProps } from "../types/components";
+import { UiNode, UiText } from "@ory/client"
+import { useKratosContext } from "../kratosContext"
+import { FormattedMessage } from "./formattedMessage"
+import type { MessageComponentProps } from "../types/components"
 
 type NodeMessagesProps = {
-    nodes?: UiNode[];
-    uiMessages?: UiText[];
-};
+    nodes?: UiNode[]
+    uiMessages?: UiText[]
+}
 
-type NodeMessageProps = Omit<MessageComponentProps, "severity">;
+type NodeMessageProps = Omit<MessageComponentProps, "severity">
 
 function NodeMessage({ message, ...props }: NodeMessageProps) {
     const {
         components: { Message },
-    } = useKratosContext();
+    } = useKratosContext()
 
     return (
         <Message message={message} severity={message.type} {...props}>
             <FormattedMessage message={message} />
         </Message>
-    );
+    )
 }
 
 export function NodeMessages({ nodes, uiMessages }: NodeMessagesProps) {
@@ -31,17 +31,17 @@ export function NodeMessages({ nodes, uiMessages }: NodeMessagesProps) {
                         <NodeMessage key={`node-group-message-${message.id}-${key}`} message={message} />
                     ))
                     .filter(Boolean),
-            );
-            return groups;
-        }, []) ?? [];
+            )
+            return groups
+        }, []) ?? []
 
     const $messages =
         uiMessages?.map((message, key) => <NodeMessage key={`ui-message-${message.id}-${key}`} message={message} />) ??
-        [];
+        []
 
-    const $allMessages = [...$groupMessages, ...$messages];
+    const $allMessages = [...$groupMessages, ...$messages]
 
-    if ($allMessages.length <= 0) return null;
+    if ($allMessages.length <= 0) return null
 
-    return <div>{$allMessages}</div>;
+    return <div>{$allMessages}</div>
 }

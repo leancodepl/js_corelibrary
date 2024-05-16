@@ -1,35 +1,36 @@
-import type { ApiTimeSpan } from "@leancodepl/api-date";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
+import dayjs from "dayjs"
+import duration from "dayjs/plugin/duration"
+import type { ApiTimeSpan } from "@leancodepl/api-date"
 
-dayjs.extend(duration);
+dayjs.extend(duration)
 
 /**
  *This function handles at most milliseconds precision, smaller units are lost in conversion process
  */
-export function toApiTimeSpan(duration: duration.Duration): ApiTimeSpan;
-export function toApiTimeSpan(duration: duration.Duration | undefined): ApiTimeSpan | undefined;
+export function toApiTimeSpan(duration: duration.Duration): ApiTimeSpan
+export function toApiTimeSpan(duration: duration.Duration | undefined): ApiTimeSpan | undefined
 export function toApiTimeSpan(duration: duration.Duration | undefined): ApiTimeSpan | undefined {
     if (!duration) {
-        return undefined;
+        return undefined
     }
 
-    const isNegative = duration.asMilliseconds() < 0;
+    const isNegative = duration.asMilliseconds() < 0
 
-    const absDuration = dayjs.duration(Math.abs(duration.asMilliseconds()));
-    const days = Math.floor(absDuration.asDays());
+    const absDuration = dayjs.duration(Math.abs(duration.asMilliseconds()))
+    const days = Math.floor(absDuration.asDays())
 
-    let stringTimeSpan = "";
+    let stringTimeSpan = ""
 
     if (isNegative) {
-        stringTimeSpan += "-";
+        stringTimeSpan += "-"
     }
 
     if (days > 0) {
-        stringTimeSpan += `${days}.`;
+        stringTimeSpan += `${days}.`
     }
 
-    stringTimeSpan += absDuration.format("HH:mm:ss.SSS");
+    stringTimeSpan += absDuration.format("HH:mm:ss.SSS")
 
-    return stringTimeSpan as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return stringTimeSpan as any
 }

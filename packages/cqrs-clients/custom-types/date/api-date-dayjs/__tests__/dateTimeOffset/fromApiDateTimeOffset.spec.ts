@@ -1,50 +1,50 @@
-import timezoneMock from "timezone-mock";
-import { fromApiDateTimeOffset, ApiDateTimeOffset } from "../../src";
+import timezoneMock from "timezone-mock"
+import { ApiDateTimeOffset, fromApiDateTimeOffset } from "../../src"
 
 describe("fromApiDateTimeOffset", () => {
     it("handles undefined", () => {
-        const dateTimeOffset = fromApiDateTimeOffset(undefined);
+        const dateTimeOffset = fromApiDateTimeOffset(undefined)
 
-        expect(dateTimeOffset).toBeUndefined();
-    });
+        expect(dateTimeOffset).toBeUndefined()
+    })
 
     describe("run in GMT+5 timezone", () => {
-        const timezone = "Etc/GMT+5";
+        const timezone = "Etc/GMT+5"
 
         beforeAll(() => {
-            timezoneMock.register(timezone);
-        });
+            timezoneMock.register(timezone)
+        })
 
         afterAll(() => {
-            timezoneMock.unregister();
-        });
+            timezoneMock.unregister()
+        })
 
         it("converts api dateTimeOffset to formatted local date", () => {
-            const apiDatetimeOffset = "1990-02-24T11:30:00.000-08:00";
+            const apiDatetimeOffset = "1990-02-24T11:30:00.000-08:00"
 
-            const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format();
+            const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format()
 
-            expect(datetimeOffset).toBe("1990-02-24T14:30:00-05:00");
-        });
-    });
+            expect(datetimeOffset).toBe("1990-02-24T14:30:00-05:00")
+        })
+    })
 
     describe("run in UTC timezone", () => {
-        const timezone = "UTC";
+        const timezone = "UTC"
 
         beforeAll(() => {
-            timezoneMock.register(timezone);
-        });
+            timezoneMock.register(timezone)
+        })
 
         afterAll(() => {
-            timezoneMock.unregister();
-        });
+            timezoneMock.unregister()
+        })
 
         it("converts api dateTimeOffset to formatted local date", () => {
-            const apiDatetimeOffset = "1990-02-24T11:30:00.000-08:00";
+            const apiDatetimeOffset = "1990-02-24T11:30:00.000-08:00"
 
-            const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format();
+            const datetimeOffset = fromApiDateTimeOffset(apiDatetimeOffset as unknown as ApiDateTimeOffset).format()
 
-            expect(datetimeOffset).toBe("1990-02-24T19:30:00+00:00");
-        });
-    });
-});
+            expect(datetimeOffset).toBe("1990-02-24T19:30:00+00:00")
+        })
+    })
+})

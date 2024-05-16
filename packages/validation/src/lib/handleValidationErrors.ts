@@ -1,27 +1,27 @@
-import { ValidationError } from "@leancodepl/cqrs-client-base";
+import { ValidationError } from "@leancodepl/cqrs-client-base"
 
 export type ReducerDescription<THandlerResult, TReturnValue = THandlerResult> = {
-    reducer: (prev: TReturnValue, cur: THandlerResult) => TReturnValue;
-    initialValue: TReturnValue;
-};
+    reducer: (prev: TReturnValue, cur: THandlerResult) => TReturnValue
+    initialValue: TReturnValue
+}
 
 export type SpecificValidationError<
     TErrors extends Record<string, number>,
     TError extends keyof TErrors,
-> = ValidationError<Record<TError, TErrors[TError]>>;
+> = ValidationError<Record<TError, TErrors[TError]>>
 
 export type ValidationErrorHandlerFunc<
     TErrorsToHandle extends Record<string, number>,
     THandledErrors extends keyof TErrorsToHandle,
     TResult,
-> = (errorName: THandledErrors, error: SpecificValidationError<TErrorsToHandle, THandledErrors>) => TResult;
+> = (errorName: THandledErrors, error: SpecificValidationError<TErrorsToHandle, THandledErrors>) => TResult
 
 export type ValidationErrorsHandleFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
         validationErrors: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerFunc<TErrorsToHandle, THandledErrors, TResult>,
-    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
-};
+    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>
+}
 
 export type ValidationErrorHandlerAllFunc<
     TErrorsToHandle extends Record<string, number>,
@@ -29,24 +29,24 @@ export type ValidationErrorHandlerAllFunc<
     TResult,
 > = (
     errors: {
-        errorName: THandledErrors;
-        errors: SpecificValidationError<TErrorsToHandle, THandledErrors>[];
+        errorName: THandledErrors
+        errors: SpecificValidationError<TErrorsToHandle, THandledErrors>[]
     }[],
-) => TResult;
+) => TResult
 
 export type ValidationErrorsHandleAllFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
         validationErrors: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerAllFunc<TErrorsToHandle, THandledErrors, TResult>,
-    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TResult | TInResult>;
-};
+    ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>
+}
 
 export interface ValidationErrorsHandler<TRemainingErrors extends Record<string, number>, TResult> {
-    handle: ValidationErrorsHandleFunc<TRemainingErrors, TResult>;
-    handleAll: ValidationErrorsHandleAllFunc<TRemainingErrors, TResult>;
-    check: {} extends TRemainingErrors
+    handle: ValidationErrorsHandleFunc<TRemainingErrors, TResult>
+    handleAll: ValidationErrorsHandleAllFunc<TRemainingErrors, TResult>
+    check: object extends TRemainingErrors
         ? <TReturnValue = void>(reducer?: ReducerDescription<TResult, TReturnValue>) => TReturnValue
-        : unknown;
+        : unknown
 }
 
 export function handleValidationErrors<TAllErrors extends Record<string, number>, TInResult = never>(
@@ -61,7 +61,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         validationErrorsToHandle: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerFunc<TAllErrors, THandledErrors, TResult>,
     ) => {
-        let result: TResult | undefined = undefined;
+        let result: TResult | undefined = undefined
 
         for (const validationErrorToHandle of Array.isArray(validationErrorsToHandle)
             ? validationErrorsToHandle
@@ -69,26 +69,27 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
             const ve = validationErrors.find(
                 (ve): ve is SpecificValidationError<TAllErrors, THandledErrors> =>
                     ve.ErrorCode === errorCodesMap[validationErrorToHandle],
-            );
+            )
 
             if (ve) {
-                result = handler(validationErrorToHandle, ve);
-                break;
+                result = handler(validationErrorToHandle, ve)
+                break
             }
         }
 
-        let nextResult: (TInResult | TResult)[] = validationResults;
+        let nextResult: (TInResult | TResult)[] = validationResults
 
         if (result !== undefined) {
-            nextResult = [...nextResult, result];
+            nextResult = [...nextResult, result]
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
-        );
-    };
+        )
+    }
     const handleAll: ValidationErrorsHandleAllFunc<TAllErrors, TInResult> = <
         THandledErrors extends keyof TAllErrors,
         TResult,
@@ -96,21 +97,21 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         _validationErrorsToHandle: THandledErrors | THandledErrors[],
         handler: ValidationErrorHandlerAllFunc<TAllErrors, THandledErrors, TResult>,
     ) => {
-        let result: TResult | undefined = undefined;
+        let result: TResult | undefined = undefined
 
         const validationErrorsToHandle = Array.isArray(_validationErrorsToHandle)
             ? _validationErrorsToHandle
-            : [_validationErrorsToHandle];
+            : [_validationErrorsToHandle]
 
         const foundErrors = validationErrorsToHandle.reduce(
             (prev, cur) => {
                 const ves = validationErrors.filter(
                     (ve): ve is SpecificValidationError<TAllErrors, THandledErrors> =>
                         ve.ErrorCode === errorCodesMap[cur],
-                );
+                )
 
                 if (ves.length === 0) {
-                    return prev;
+                    return prev
                 }
 
                 return [
@@ -119,39 +120,41 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
                         errorName: cur,
                         errors: ves,
                     },
-                ];
+                ]
             },
             [] as {
-                errorName: THandledErrors;
-                errors: SpecificValidationError<TAllErrors, THandledErrors>[];
+                errorName: THandledErrors
+                errors: SpecificValidationError<TAllErrors, THandledErrors>[]
             }[],
-        );
+        )
 
         if (foundErrors.length > 0) {
-            result = handler(foundErrors);
+            result = handler(foundErrors)
         }
 
-        let nextResult: (TInResult | TResult)[] = validationResults;
+        let nextResult: (TInResult | TResult)[] = validationResults
 
         if (result !== undefined) {
-            nextResult = [...nextResult, result];
+            nextResult = [...nextResult, result]
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
-        );
-    };
+        )
+    }
 
     return {
         handle,
         handleAll,
         check: (<TReturnValue>(reducer?: ReducerDescription<TInResult, TReturnValue>) => {
             if (reducer) {
-                return validationResults.reduce(reducer.reducer, reducer.initialValue);
+                return validationResults.reduce(reducer.reducer, reducer.initialValue)
             }
-            return;
+            return
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }) as any,
-    };
+    }
 }

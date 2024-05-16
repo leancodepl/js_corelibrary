@@ -1,35 +1,36 @@
-import type { ApiTimeSpan } from "@leancodepl/api-date";
-import { padTo2 } from "../utils/padTo2";
-import { parseDifferenceInMilliseconds } from "../utils/parseDifferenceInMilliseconds";
+import type { ApiTimeSpan } from "@leancodepl/api-date"
+import { padTo2 } from "../utils/padTo2"
+import { parseDifferenceInMilliseconds } from "../utils/parseDifferenceInMilliseconds"
 
-export function toApiTimeSpan(differenceInMilliseconds: number): ApiTimeSpan;
-export function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined;
+export function toApiTimeSpan(differenceInMilliseconds: number): ApiTimeSpan
+export function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined
 export function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined {
-    let stringTimeSpan = "";
+    let stringTimeSpan = ""
 
     if (!differenceInMilliseconds) {
-        return undefined;
+        return undefined
     }
 
-    const isNegative = differenceInMilliseconds < 0;
+    const isNegative = differenceInMilliseconds < 0
 
-    const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds);
+    const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds)
 
-    const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds);
+    const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds)
 
     if (isNegative) {
-        stringTimeSpan += "-";
+        stringTimeSpan += "-"
     }
 
     if (days > 0) {
-        stringTimeSpan += `${days}.`;
+        stringTimeSpan += `${days}.`
     }
 
-    stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`;
+    stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`
 
     if (milliseconds > 0) {
-        stringTimeSpan += `.${milliseconds}`;
+        stringTimeSpan += `.${milliseconds}`
     }
 
-    return stringTimeSpan as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return stringTimeSpan as any
 }
