@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.4.0](https://github.com/leancodepl/js_corelibrary/compare/v7.3.7...v7.4.0) (2024-05-16)
+
+### Bug Fixes
+
+-   api-date-dayjs tests
+    ([f09e639](https://github.com/leancodepl/js_corelibrary/commit/f09e6390e45bbb1c88e5c653baed0f6430311370))
+-   axios cqrs client build
+    ([676ac1a](https://github.com/leancodepl/js_corelibrary/commit/676ac1aa8ec26d77e6810539b8eff1ec61a23d59))
+-   packages versions
+    ([aa7b005](https://github.com/leancodepl/js_corelibrary/commit/aa7b0050f211207401c8345b58dd7c675145f7f2))
+-   packages versions
+    ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
+
+### Features
+
+-   add import sorting
+    ([5a20d92](https://github.com/leancodepl/js_corelibrary/commit/5a20d92d932427ec98656bc823a76765d0bdb5e6))
+-   add new rules and perfectionist plugin
+    ([d069802](https://github.com/leancodepl/js_corelibrary/commit/d0698021c47440c1e82175a4920ec265974dbbd6))
+-   add vscode snippets
+    ([632f96e](https://github.com/leancodepl/js_corelibrary/commit/632f96e25353acd0b5d58b91cdb5d0a7c89d2f9b))
+-   remove sort-exports rule
+    ([60a6a6d](https://github.com/leancodepl/js_corelibrary/commit/60a6a6dbfcbb30fa08ff743da294823e1219d7c6))
+-   turn off semicolons
+    ([77fd3be](https://github.com/leancodepl/js_corelibrary/commit/77fd3beb9fb00d29666cebb6672daa1ed569c17d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.3.7](https://github.com/leancodepl/js_corelibrary/compare/v7.3.6...v7.3.7) (2024-04-15)
 
 ### Features
