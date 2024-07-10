@@ -1,9 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios"
 import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"
-import { uncapitalizeDeep, UncapitalizeDeep } from "@leancodepl/utils"
-import { capitalize } from "lodash"
-import { returnFunctionCapitalized, returnFunctionUncapitalized } from "./utils"
 
 function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     return {
@@ -20,17 +17,13 @@ function createError(error: any): ApiError {
     }
 }
 
-export function mkCqrsClient<TUncapitalize>({
-    cqrsEndpoint,
-    tokenProvider,
-    axiosOptions,
-    uncapitalize
-}: {
+export type CqrsClientParameters = {
     cqrsEndpoint: string
     tokenProvider?: TokenProvider
-    axiosOptions?: CreateAxiosDefaults,
-    uncapitalize?: boolean
-}) {
+    axiosOptions?: CreateAxiosDefaults
+}
+
+export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: CqrsClientParameters) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
         ...axiosOptions,
@@ -105,17 +98,12 @@ export function mkCqrsClient<TUncapitalize>({
         },
     )
 
-    type Result<T> = TUncapitalize extends true ? UncapitalizeDeep<T> : T
-    
-
-    const returnFunction = uncapitalize ? returnFunctionUncapitalized : returnFunctionCapitalized
-
     return {
         createQuery<TQuery, TResult>(type: string) {
-            return (dto: TQuery) => apiAxios.post<ApiResponse<Result<TResult>>>("query/" + type, dto).then(r => returnFunction(r.data))
+            return (dto: TQuery) => apiAxios.post<ApiResponse<TResult>>("query/" + type, dto).then(r => r.data)
         },
         createOperation<TOperation, TResult>(type: string) {
-            return (dto: TOperation) => apiAxios.post<ApiResponse<Result<TResult>>>("operation/" + type, dto).then(r => returnFunction(r.data))
+            return (dto: TOperation) => apiAxios.post<ApiResponse<TResult>>("operation/" + type, dto).then(r => r.data)
         },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(
             type: string,
