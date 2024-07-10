@@ -1,6 +1,9 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios"
 import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"
+import { uncapitalizeDeep, UncapitalizeDeep } from "@leancodepl/utils"
+import { capitalize } from "lodash"
+import { returnFunctionCapitalized, returnFunctionUncapitalized } from "./utils"
 
 function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     return {
@@ -17,9 +20,20 @@ function createError(error: any): ApiError {
     }
 }
 
-export function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider) {
+export function mkCqrsClient<TUncapitalize>({
+    cqrsEndpoint,
+    tokenProvider,
+    axiosOptions,
+    uncapitalize
+}: {
+    cqrsEndpoint: string
+    tokenProvider?: TokenProvider
+    axiosOptions?: CreateAxiosDefaults,
+    uncapitalize?: boolean
+}) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
+        ...axiosOptions,
     })
 
     apiAxios.interceptors.request.use(async config => {
@@ -91,12 +105,17 @@ export function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider
         },
     )
 
+    type Result<T> = TUncapitalize extends true ? UncapitalizeDeep<T> : T
+    
+
+    const returnFunction = uncapitalize ? returnFunctionUncapitalized : returnFunctionCapitalized
+
     return {
         createQuery<TQuery, TResult>(type: string) {
-            return (dto: TQuery) => apiAxios.post<ApiResponse<TResult>>("query/" + type, dto).then(r => r.data)
+            return (dto: TQuery) => apiAxios.post<ApiResponse<Result<TResult>>>("query/" + type, dto).then(r => returnFunction(r.data))
         },
         createOperation<TOperation, TResult>(type: string) {
-            return (dto: TOperation) => apiAxios.post<ApiResponse<TResult>>("operation/" + type, dto).then(r => r.data)
+            return (dto: TOperation) => apiAxios.post<ApiResponse<Result<TResult>>>("operation/" + type, dto).then(r => returnFunction(r.data))
         },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(
             type: string,
