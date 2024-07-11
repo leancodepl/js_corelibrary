@@ -17,13 +17,13 @@ function createError(error: any): ApiError {
     }
 }
 
-export type CqrsClientParameters = {
+export type MkCqrsClientParameters = {
     cqrsEndpoint: string
     tokenProvider?: TokenProvider
     axiosOptions?: CreateAxiosDefaults
 }
 
-export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: CqrsClientParameters) {
+export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: MkCqrsClientParameters) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
         ...axiosOptions,
