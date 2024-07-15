@@ -1,11 +1,11 @@
 {
   "name": "@leancodepl/react-query-cqrs-client",
-  "version": "7.4.0",
+  "version": "7.5.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "7.4.0",
-    "@leancodepl/utils": "7.4.0",
-    "@leancodepl/validation": "7.4.0",
+    "@leancodepl/cqrs-client-base": "7.5.0",
+    "@leancodepl/utils": "7.5.0",
+    "@leancodepl/validation": "7.5.0",
     "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
   }

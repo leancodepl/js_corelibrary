@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.5.0](https://github.com/leancodepl/js_corelibrary/compare/v7.4.0...v7.5.0) (2024-07-15)
+
+### Bug Fixes
+
+-   remove buildFix
+    ([8f5b763](https://github.com/leancodepl/js_corelibrary/commit/8f5b76308abee147c5b1ca286d8fbe9471f2e1dc))
+
+### Features
+
+-   add option to choose capitalization and axios options
+    ([d0af577](https://github.com/leancodepl/js_corelibrary/commit/d0af5776ebaafc2a0e3d619b63044a0819b55fb5))
+-   create a decorator for uncapitalized client
+    ([dafe951](https://github.com/leancodepl/js_corelibrary/commit/dafe951334068bae9f3745198d1a2dacb2f5d00b))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.4.0](https://github.com/leancodepl/js_corelibrary/compare/v7.3.7...v7.4.0) (2024-05-16)
 
 ### Bug Fixes
