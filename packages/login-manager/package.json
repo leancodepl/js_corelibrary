@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/login-manager",
-  "version": "7.4.0",
+  "version": "7.5.0",
   "license": "Apache-2.0",
   "dependencies": {
     "buffer": ">=6.0.0"
