@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios"
 import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"
 
@@ -17,9 +17,16 @@ function createError(error: any): ApiError {
     }
 }
 
-export function mkCqrsClient(cqrsEndpoint: string, tokenProvider?: TokenProvider) {
+export type MkCqrsClientParameters = {
+    cqrsEndpoint: string
+    tokenProvider?: TokenProvider
+    axiosOptions?: CreateAxiosDefaults
+}
+
+export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: MkCqrsClientParameters) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
+        ...axiosOptions,
     })
 
     apiAxios.interceptors.request.use(async config => {
