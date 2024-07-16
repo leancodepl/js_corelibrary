@@ -22,6 +22,7 @@
         "type": "natural",
         "order": "asc",
         "groups": [
+          "client-server-only",
           "react",
           ["builtin", "external"],
           ["internal-type", "internal"],
@@ -33,7 +34,8 @@
         ],
         "custom-groups": {
           "value": {
-            "react": ["react", "react-*"]
+            "react": ["react", "react-*"],
+            "client-server-only": ["client-only", "server-only"]
           },
           "type": {
             "react": "react"
