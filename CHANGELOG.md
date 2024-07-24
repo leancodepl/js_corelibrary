@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.6.0](https://github.com/leancodepl/js_corelibrary/compare/v7.5.0...v7.6.0) (2024-07-24)
+
+### Bug Fixes
+
+-   lint imports side effects to be on top
+    ([5acecee](https://github.com/leancodepl/js_corelibrary/commit/5acecee1a2f67edc043760fdfe04f5e0f7a16e88))
+-   package-lock
+    ([4e4020c](https://github.com/leancodepl/js_corelibrary/commit/4e4020c708de79e2db744f0bbf807d5f136f89e0))
+
+### Features
+
+-   add hook-pipe-client
+    ([cf23b35](https://github.com/leancodepl/js_corelibrary/commit/cf23b35d09008d5771c4ce23abf92381e92e6b7b))
+-   add rx pipe client
+    ([20f1a5d](https://github.com/leancodepl/js_corelibrary/commit/20f1a5d8af4cc9162ecc92d638f78c0e159bf375))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.5.0](https://github.com/leancodepl/js_corelibrary/compare/v7.4.0...v7.5.0) (2024-07-15)
 
 ### Bug Fixes

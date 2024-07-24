@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/rx-pipe-client",
-  "version": "0.0.1",
+  "version": "7.6.0",
   "dependencies": {
     "@leancodepl/pipe": ">=0.0.2"
   },
