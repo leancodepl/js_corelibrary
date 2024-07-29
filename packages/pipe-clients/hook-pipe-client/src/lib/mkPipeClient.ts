@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
-import { NotificationsUnion, Pipe } from "@leancodepl/pipe";
+import { useEffect, useState } from "react"
+import { NotificationsUnion, Pipe } from "@leancodepl/pipe"
 
 export function mkPipeClient({ pipe }: { pipe: Pipe }) {
     return {
         createTopic<TTopic, TNotifications extends Record<string, unknown>>(topicType: string) {
-            return (topic: TTopic, { onData }: UseSubscriptionOptions<TNotifications>) => {
-                const [data, setData] = useState<NotificationsUnion<TNotifications>>();
+            return (topic: TTopic) => {
+                const [data, setData] = useState<NotificationsUnion<TNotifications>>()
+
+                const [internalTopic, setInternalTopic] = useState<TTopic>(topic)
+                if (JSON.stringify(internalTopic) !== JSON.stringify(topic)) {
+                    setInternalTopic(topic)
+                }
 
                 useEffect(() => {
-                    const subscription = pipe.topic<TNotifications>(topicType, topic).subscribe(notification => {
-                        onData?.(notification);
-                        setData(notification);
-                    });
+                    const subscription = pipe
+                        .topic<TNotifications>(topicType, internalTopic)
+                        .subscribe(notification => {
+                            setData(notification)
+                        })
 
-                    return () => subscription.unsubscribe();
-                }, [onData, topic]);
+                    return () => subscription.unsubscribe()
+                }, [internalTopic])
 
-                return { data };
-            };
+                return { data }
+            }
         },
-    };
+    }
 }
-
-type UseSubscriptionOptions<TNotifications extends Record<string, unknown>> = {
-    onData?: (data: NotificationsUnion<TNotifications>) => void;
-};
