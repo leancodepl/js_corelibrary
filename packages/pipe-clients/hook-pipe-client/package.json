@@ -3,7 +3,8 @@
   "version": "7.6.0",
   "dependencies": {
     "@leancodepl/pipe": ">=1.0.1",
-    "deep-equal": ">=2.2.3"
+    "deep-equal": ">=2.2.3",
+    "rxjs": ">=7.0.0"
   },
   "type": "commonjs",
   "main": "./index.cjs",
