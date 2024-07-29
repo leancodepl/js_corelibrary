@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import deepEqual from "deep-equal"
 import { NotificationsUnion, Pipe } from "@leancodepl/pipe"
 
 export function mkPipeClient({ pipe }: { pipe: Pipe }) {
@@ -8,16 +9,12 @@ export function mkPipeClient({ pipe }: { pipe: Pipe }) {
                 const [data, setData] = useState<NotificationsUnion<TNotifications>>()
 
                 const [internalTopic, setInternalTopic] = useState<TTopic>(topic)
-                if (JSON.stringify(internalTopic) !== JSON.stringify(topic)) {
+                if (!deepEqual(internalTopic, topic)) {
                     setInternalTopic(topic)
                 }
 
                 useEffect(() => {
-                    const subscription = pipe
-                        .topic<TNotifications>(topicType, internalTopic)
-                        .subscribe(notification => {
-                            setData(notification)
-                        })
+                    const subscription = pipe.topic<TNotifications>(topicType, internalTopic).subscribe(setData)
 
                     return () => subscription.unsubscribe()
                 }, [internalTopic])

@@ -2,7 +2,7 @@
   "name": "@leancodepl/rx-pipe-client",
   "version": "7.6.0",
   "dependencies": {
-    "@leancodepl/pipe": ">=0.0.2"
+    "@leancodepl/pipe": ">=1.0.1"
   },
   "type": "commonjs",
   "main": "./index.cjs",
