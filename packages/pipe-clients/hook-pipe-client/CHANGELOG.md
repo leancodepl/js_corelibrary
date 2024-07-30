@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.7.0](https://github.com/leancodepl/js_corelibrary/compare/v7.6.0...v7.7.0) (2024-07-30)
+
+### Bug Fixes
+
+-   deps ([e31c52c](https://github.com/leancodepl/js_corelibrary/commit/e31c52cabcdf3a38dd021d5322b60e8ca9abfe78))
+-   hook pipe client reconnecting
+    ([b9a7efa](https://github.com/leancodepl/js_corelibrary/commit/b9a7efaf0f5f9a5c5670a44607849b9733fa54e7))
+-   memoization
+    ([37112ff](https://github.com/leancodepl/js_corelibrary/commit/37112ff6642b7125ddc938e8f8c569d897fb37ff))
+-   pass onData by ref, add raw topic access
+    ([7becb3e](https://github.com/leancodepl/js_corelibrary/commit/7becb3eaedea12792ddb26c97c014ed88393d8a3))
+-   use deep equal for topics comparison
+    ([c86960f](https://github.com/leancodepl/js_corelibrary/commit/c86960f6e5401a4b5e170a3889291355fc3339d5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.6.0](https://github.com/leancodepl/js_corelibrary/compare/v7.5.0...v7.6.0) (2024-07-24)
 
 ### Features
