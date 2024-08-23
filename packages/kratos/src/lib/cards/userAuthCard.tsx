@@ -79,7 +79,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
     // the current flow is a two factor flow if the user is logged in and has any of the second factor methods enabled.
     const isTwoFactor =
         flowType === "login" &&
-        isLoggedIn(flow as LoginFlow) &&
+        isLoggedIn(flow) &&
         (hasTotp(flow.ui.nodes) || hasPasskey(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes))
 
     // This array contains all the 2fa flows mapped to their own respective forms.
@@ -211,7 +211,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
             break
     }
 
-    const canShowPasskey = !!$passkey && (!isLoggedIn(flow as LoginFlow) || flowType === "registration")
+    const canShowPasskey = !!$passkey && (!isLoggedIn(flow) || flowType === "registration")
     const canShowProfile = !!$profile && hasProfile(flow.ui.nodes)
 
     return (

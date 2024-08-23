@@ -16,10 +16,6 @@ export function hasProfile(nodes: UiNode[]) {
     return nodes.some(({ group }) => group === UiNodeGroupEnum.Profile)
 }
 
-export function hasWebauthn(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === UiNodeGroupEnum.Webauthn)
-}
-
 export function hasPasskey(nodes: UiNode[]) {
     return nodes.some(({ group }) => group === UiNodeGroupEnum.Passkey)
 }
