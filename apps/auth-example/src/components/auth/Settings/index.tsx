@@ -25,7 +25,7 @@ export function Settings() {
     return (
         <>
             <h2>Lookup secret</h2>
-            <UserSettingsCard flow={flow} flowType="lookupSecret" onSubmit={submit} />
+            <UserSettingsCard flow={flow} flowType="lookup_secret" onSubmit={submit} />
 
             <h2>Oidc</h2>
             <UserSettingsCard flow={flow} flowType="oidc" onSubmit={submit} />

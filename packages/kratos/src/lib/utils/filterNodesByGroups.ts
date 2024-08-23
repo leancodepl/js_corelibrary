@@ -37,18 +37,18 @@ export const filterNodesByGroups = ({
 
         const g = search(groups)
         if (!withoutDefaultGroup) {
-            g.push("default")
+            g.push(UiNodeGroupEnum.Default)
         }
 
         // filter the attributes
         const a = search(attributes)
         if (!withoutDefaultAttributes) {
             // always add hidden fields e.g. csrf
-            if (group.includes("default")) {
+            if (group.includes(UiNodeGroupEnum.Default)) {
                 a.push("hidden")
             }
             // automatically add the necessary fields for webauthn and totp
-            if (group.includes("webauthn") || group.includes("totp")) {
+            if (group.includes(UiNodeGroupEnum.Webauthn) || group.includes(UiNodeGroupEnum.Totp)) {
                 a.push("input", "script")
             }
         }

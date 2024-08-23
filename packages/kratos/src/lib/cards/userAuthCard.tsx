@@ -75,13 +75,14 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
     let $passkey: JSX.Element | undefined = undefined
     let $twoStep: JSX.Element | undefined = undefined
     let $profile: JSX.Element | undefined = undefined
-    // const message: MessageSectionProps | undefined = undefined
 
+    // the current flow is a two factor flow if the user is logged in and has any of the second factor methods enabled.
     const isTwoFactor =
         flowType === "login" &&
         isLoggedIn(flow as LoginFlow) &&
         (hasTotp(flow.ui.nodes) || hasPasskey(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes))
 
+    // This array contains all the 2fa flows mapped to their own respective forms.
     const twoFactorFlows =
         isTwoFactor &&
         [
@@ -101,7 +102,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "password",
+                            groups: UiNodeGroupEnum.Password,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -112,7 +113,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "profile",
+                            groups: UiNodeGroupEnum.Profile,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -123,7 +124,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "totp",
+                            groups: UiNodeGroupEnum.Totp,
                             withoutDefaultGroup: true,
                             excludeAttributes: "submit",
                         }}
@@ -132,7 +133,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "totp",
+                            groups: UiNodeGroupEnum.Totp,
                             withoutDefaultGroup: true,
                             attributes: "submit",
                         }}
@@ -144,7 +145,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "lookup_secret",
+                            groups: UiNodeGroupEnum.LookupSecret,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -234,7 +235,13 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <NodeMessages
                         nodes={filterNodesByGroups({
                             nodes: flow.ui.nodes,
-                            groups: ["password", "webauthn", "passkey", "totp", "lookup_secret"],
+                            groups: [
+                                UiNodeGroupEnum.Password,
+                                UiNodeGroupEnum.Webauthn,
+                                UiNodeGroupEnum.Passkey,
+                                UiNodeGroupEnum.Totp,
+                                UiNodeGroupEnum.LookupSecret,
+                            ],
                         })}
                     />
                     {twoFactorFlows}

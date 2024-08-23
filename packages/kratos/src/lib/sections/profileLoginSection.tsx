@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { UiNode } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 
 type ProfileLoginSectionProps = {
@@ -13,14 +13,14 @@ export function ProfileLoginSection({ nodes, ProfileLoginSectionWrapper }: Profi
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["profile"],
+                    groups: UiNodeGroupEnum.Profile,
                     excludeAttributes: "submit,hidden",
                 }}
             />
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["profile"],
+                    groups: UiNodeGroupEnum.Profile,
                     excludeAttributes: "hidden",
                     attributes: "submit",
                 }}

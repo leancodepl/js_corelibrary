@@ -14,7 +14,7 @@ export function PasswordlessSection({ flow, PasswordlessSectionWrapper }: Passwo
 
     const filter = {
         nodes: flow.ui.nodes,
-        groups: [UiNodeGroupEnum.Passkey],
+        groups: UiNodeGroupEnum.Passkey,
         withoutDefaultAttributes: true,
     }
 
@@ -27,7 +27,6 @@ export function PasswordlessSection({ flow, PasswordlessSectionWrapper }: Passwo
                     excludeAttributes: ["hidden", "button", "submit"], // the form will take care of hidden fields
                 }}
             />
-
             <FilterFlowNodes filter={{ ...filter, attributes: ["button", "submit"] }} />
         </PasswordlessSectionWrapper>
     )

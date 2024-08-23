@@ -1,7 +1,7 @@
 import { UiNode, UiNodeGroupEnum } from "@ory/client"
 
 export function hasOidc(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === "oidc")
+    return nodes.some(({ group }) => group === UiNodeGroupEnum.Oidc)
 }
 
 export function hasPassword(nodes: UiNode[]) {
@@ -17,7 +17,7 @@ export function hasProfile(nodes: UiNode[]) {
 }
 
 export function hasWebauthn(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === "webauthn")
+    return nodes.some(({ group }) => group === UiNodeGroupEnum.Webauthn)
 }
 
 export function hasPasskey(nodes: UiNode[]) {
@@ -29,15 +29,15 @@ export function hasIdentifierFirst(nodes: UiNode[]) {
 }
 
 export function hasLookupSecret(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === "lookup_secret")
+    return nodes.some(({ group }) => group === UiNodeGroupEnum.LookupSecret)
 }
 
 export function hasTotp(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === "totp")
+    return nodes.some(({ group }) => group === UiNodeGroupEnum.Totp)
 }
 
 export function hasCode(nodes: UiNode[]) {
-    return nodes.some(({ group }) => group === "code")
+    return nodes.some(({ group }) => group === UiNodeGroupEnum.Code)
 }
 
 export function hasHiddenIdentifier(nodes: UiNode[]) {

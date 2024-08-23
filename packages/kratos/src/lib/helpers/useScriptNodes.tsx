@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { UiNode, UiNodeScriptAttributes } from "@ory/client"
+import { UiNode, UiNodeGroupEnum, UiNodeScriptAttributes } from "@ory/client"
 import { filterNodesByGroups } from "../utils/filterNodesByGroups"
 
 export function useScriptNodes({ nodes, excludeScripts }: { nodes: UiNode[]; excludeScripts?: boolean }) {
@@ -10,7 +10,7 @@ export function useScriptNodes({ nodes, excludeScripts }: { nodes: UiNode[]; exc
 
         const scriptNodes = filterNodesByGroups({
             nodes,
-            groups: "webauthn",
+            groups: UiNodeGroupEnum.Webauthn,
             attributes: "text/javascript",
             withoutDefaultGroup: true,
             withoutDefaultAttributes: true,

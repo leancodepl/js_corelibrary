@@ -1,11 +1,11 @@
-import { ElementType } from "react";
-import { UiNode } from "@ory/client";
-import { FilterFlowNodes } from "../helpers/filterFlowNodes";
+import { ElementType } from "react"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
+import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 
 type LinkSectionProps = {
-    nodes: UiNode[];
-    LinkSectionWrapper: ElementType;
-};
+    nodes: UiNode[]
+    LinkSectionWrapper: ElementType
+}
 
 /**
  * LinkSection renders the fields for recovery and verification
@@ -19,7 +19,7 @@ export function LinkSection({ nodes, LinkSectionWrapper }: LinkSectionProps) {
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["link", "code"],
+                    groups: [UiNodeGroupEnum.Link, UiNodeGroupEnum.Code],
                     excludeAttributes: "submit",
                 }}
             />
@@ -27,10 +27,10 @@ export function LinkSection({ nodes, LinkSectionWrapper }: LinkSectionProps) {
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["link", "code"],
+                    groups: [UiNodeGroupEnum.Link, UiNodeGroupEnum.Code],
                     attributes: "submit",
                 }}
             />
         </LinkSectionWrapper>
-    );
+    )
 }

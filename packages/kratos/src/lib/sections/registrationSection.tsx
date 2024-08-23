@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { UiNode } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 import { hasPassword } from "../utils/helpers"
 
@@ -13,7 +13,7 @@ export function RegistrationSection({ nodes, RegistrationSectionWrapper }: Regis
 
     const filter = {
         nodes,
-        groups: ["password"],
+        groups: UiNodeGroupEnum.Password,
     }
 
     return (

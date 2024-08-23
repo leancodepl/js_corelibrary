@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { UiNode } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 
 type IdentifierFirstLoginSectionProps = {
@@ -16,14 +16,14 @@ export function IdentifierFirstLoginSection({
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["default", "identifier_first"],
+                    groups: [UiNodeGroupEnum.Default, UiNodeGroupEnum.IdentifierFirst],
                     excludeAttributes: ["submit", "hidden"],
                 }}
             />
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["identifier_first"],
+                    groups: UiNodeGroupEnum.IdentifierFirst,
                     attributes: "submit",
                 }}
             />

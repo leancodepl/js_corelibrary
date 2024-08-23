@@ -12,12 +12,12 @@ import { TotpSettingsSection } from "../sections/totpSettingsSection"
 import { hasLookupSecret, hasOidc, hasPasskey, hasPassword, hasTotp } from "../utils/helpers"
 
 export type UserSettingsFlowType =
-    | "lookupSecret"
-    | "oidc"
-    | "password"
-    | "profile"
-    | "totp"
+    | typeof UiNodeGroupEnum.LookupSecret
+    | typeof UiNodeGroupEnum.Oidc
     | typeof UiNodeGroupEnum.Passkey
+    | typeof UiNodeGroupEnum.Password
+    | typeof UiNodeGroupEnum.Profile
+    | typeof UiNodeGroupEnum.Totp
 
 export type UserSettingsCardProps = {
     flow: SettingsFlow
@@ -42,24 +42,24 @@ export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSe
     useScriptNodes({ nodes: flow.ui.nodes, excludeScripts })
 
     const $flow = (() => {
-        if (flowType === "profile") {
+        if (flowType === UiNodeGroupEnum.Profile) {
             return <ProfileSettingsSection flow={flow} ProfileSettingsSectionWrapper={ProfileSettingsSectionWrapper} />
-        } else if (flowType === "password" && hasPassword(flow.ui.nodes)) {
+        } else if (flowType === UiNodeGroupEnum.Password && hasPassword(flow.ui.nodes)) {
             return (
                 <PasswordSettingsSection flow={flow} PasswordSettingsSectionWrapper={PasswordSettingsSectionWrapper} />
             )
         } else if (flowType === UiNodeGroupEnum.Passkey && hasPasskey(flow.ui.nodes)) {
             return <PasskeySettingsSection flow={flow} PasskeySettingsSectionWrapper={WebAuthnSettingsSectionWrapper} />
-        } else if (flowType === "lookupSecret" && hasLookupSecret(flow.ui.nodes)) {
+        } else if (flowType === UiNodeGroupEnum.LookupSecret && hasLookupSecret(flow.ui.nodes)) {
             return (
                 <LookupSecretSettingsSection
                     flow={flow}
                     LookupSecretSettingsSectionWrapper={LookupSecretSettingsSectionWrapper}
                 />
             )
-        } else if (flowType === "oidc" && hasOidc(flow.ui.nodes)) {
+        } else if (flowType === UiNodeGroupEnum.Oidc && hasOidc(flow.ui.nodes)) {
             return <OidcSettingsSection flow={flow} OidcSettingsSectionWrapper={OidcSettingsSectionWrapper} />
-        } else if (flowType === "totp" && hasTotp(flow.ui.nodes)) {
+        } else if (flowType === UiNodeGroupEnum.Totp && hasTotp(flow.ui.nodes)) {
             return <TotpSettingsSection flow={flow} TotpSettingsSectionWrapper={TotpSettingsSectionWrapper} />
         }
     })()

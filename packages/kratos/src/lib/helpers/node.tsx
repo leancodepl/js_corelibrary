@@ -1,4 +1,4 @@
-import { UiNode } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
 import { useKratosContext } from "../kratosContext"
 import {
     isUiNodeAnchorAttributes,
@@ -53,7 +53,8 @@ export function Node({ node, className }: NodeProps) {
         switch (nodeType) {
             case "button":
             case "submit": {
-                const isSocial = (attrs.name === "provider" || attrs.name === "link") && node.group === "oidc"
+                const isSocial =
+                    (attrs.name === "provider" || attrs.name === "link") && node.group === UiNodeGroupEnum.Oidc
 
                 const submit: Partial<ButtonComponentProps> = {
                     type: attrs.type as "button" | "reset" | "submit" | undefined,

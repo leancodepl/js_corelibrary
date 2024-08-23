@@ -1,6 +1,6 @@
-import type { LinkComponentProps } from "../../types/components";
+import type { LinkComponentProps } from "../../types/components"
 
-export function DefaultLinkComponent({ href, ...props }: LinkComponentProps) {
+export function DefaultLinkComponent({ href: _href, ...props }: LinkComponentProps) {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    return <a {...props} />;
+    return <a {...props} />
 }
