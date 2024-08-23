@@ -1,7 +1,7 @@
 import { PathMatch } from "react-router-dom"
 
 export function useKeyByRoute<TKey extends string>(
-    routeMatches: Record<TKey, [PathMatch | null] | PathMatch | never | null>,
+    routeMatches: Record<TKey, (PathMatch | null)[] | PathMatch | never | null>,
 ) {
     const keys: TKey[] = []
     for (const key in routeMatches) {
