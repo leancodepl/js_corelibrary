@@ -1,13 +1,13 @@
-import { DefaultButtonComponent } from "./defaultComponents/DefaultButtonComponent";
-import { DefaultCheckboxComponent } from "./defaultComponents/DefaultCheckboxComponent";
-import { DefaultImageComponent } from "./defaultComponents/DefaultImageComponent";
-import { DefaultInputComponent } from "./defaultComponents/DefaultInputComponent";
-import { DefaultLinkComponent } from "./defaultComponents/DefaultLinkComponent";
-import { DefaultMessageComponent } from "./defaultComponents/DefaultMessageComponent";
-import { DefaultMessageFormatComponent } from "./defaultComponents/DefaultMessageFormatComponent";
-import { DefaultTextComponent } from "./defaultComponents/DefaultTextComponent";
-import { DefaultUiMessagesComponent } from "./defaultComponents/DefaultUiMessagesComponent";
-import type { KratosComponents } from "./types/components";
+import { DefaultButtonComponent } from "./defaultComponents/DefaultButtonComponent"
+import { DefaultCheckboxComponent } from "./defaultComponents/DefaultCheckboxComponent"
+import { DefaultImageComponent } from "./defaultComponents/DefaultImageComponent"
+import { DefaultInputComponent } from "./defaultComponents/DefaultInputComponent"
+import { DefaultLinkComponent } from "./defaultComponents/DefaultLinkComponent"
+import { DefaultMessageComponent } from "./defaultComponents/DefaultMessageComponent"
+import { DefaultMessageFormatComponent } from "./defaultComponents/DefaultMessageFormatComponent"
+import { DefaultTextComponent } from "./defaultComponents/DefaultTextComponent"
+import { DefaultUiMessagesComponent } from "./defaultComponents/DefaultUiMessagesComponent"
+import type { KratosComponents } from "./types/components"
 
 export const defaultComponents: KratosComponents = {
     Image: DefaultImageComponent,
@@ -33,4 +33,7 @@ export const defaultComponents: KratosComponents = {
     LookupSecretSettingsSectionWrapper: "div",
     OidcSettingsSectionWrapper: "div",
     TotpSettingsSectionWrapper: "div",
-};
+    IdentifierFirstLoginSectionWrapper: "div",
+    ProfileLoginSectionWrapper: "div",
+    ProfileRegistrationSectionWrapper: "div",
+}

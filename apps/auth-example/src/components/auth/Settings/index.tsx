@@ -1,8 +1,8 @@
-import { Spinner } from "@chakra-ui/react";
-import { UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos";
-import { settingsRoute } from "../../../app/routes";
-import { kratosClient } from "../../../auth/ory";
-import { Redirect } from "../../common/Redirect";
+import { Spinner } from "@chakra-ui/react"
+import { UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos"
+import { settingsRoute } from "../../../app/routes"
+import { kratosClient } from "../../../auth/ory"
+import { Redirect } from "../../common/Redirect"
 
 export function Settings() {
     const { flow, submit } = useSettingsFlow({
@@ -11,15 +11,15 @@ export function Settings() {
         params: {
             settingsRoute,
         },
-    });
+    })
 
-    if (!flow) return <Spinner size="xl" />;
+    if (!flow) return <Spinner size="xl" />
 
-    const flowSettingsRoute = new URL(flow.request_url).searchParams.get("settingsRoute");
+    const flowSettingsRoute = new URL(flow.request_url).searchParams.get("settingsRoute")
 
     // Redirect to correct settings page if we are not on the correct one
     if (flowSettingsRoute && flowSettingsRoute !== settingsRoute) {
-        return <Redirect path={`${flowSettingsRoute}?flow=${flow.id}`} />;
+        return <Redirect path={`${flowSettingsRoute}?flow=${flow.id}`} />
     }
 
     return (
@@ -39,8 +39,8 @@ export function Settings() {
             <h2>Totp</h2>
             <UserSettingsCard flow={flow} flowType="totp" onSubmit={submit} />
 
-            <h2>Webauthn</h2>
-            <UserSettingsCard flow={flow} flowType="webauthn" onSubmit={submit} />
+            <h2>Passkey</h2>
+            <UserSettingsCard flow={flow} flowType="passkey" onSubmit={submit} />
         </>
-    );
+    )
 }

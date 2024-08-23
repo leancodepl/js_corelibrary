@@ -1,36 +1,33 @@
 import { ElementType } from "react"
 import { UiNode } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
-import { hasPassword } from "../utils/helpers"
 
-type RegistrationSectionProps = {
+type ProfileRegistrationSectionProps = {
     nodes: UiNode[]
-    RegistrationSectionWrapper: ElementType
+    ProfileRegistrationSectionWrapper: ElementType
 }
 
-export function RegistrationSection({ nodes, RegistrationSectionWrapper }: RegistrationSectionProps) {
-    if (!hasPassword(nodes)) return null
-
-    const filter = {
-        nodes,
-        groups: ["password"],
-    }
-
+export function ProfileRegistrationSection({
+    nodes,
+    ProfileRegistrationSectionWrapper,
+}: ProfileRegistrationSectionProps) {
     return (
-        <RegistrationSectionWrapper>
+        <ProfileRegistrationSectionWrapper>
             <FilterFlowNodes
                 filter={{
-                    ...filter,
+                    nodes,
+                    groups: ["profile"],
                     excludeAttributes: "submit,hidden",
                 }}
             />
             <FilterFlowNodes
                 filter={{
-                    ...filter,
+                    nodes,
+                    groups: ["profile"],
                     excludeAttributes: "hidden",
                     attributes: "submit",
                 }}
             />
-        </RegistrationSectionWrapper>
+        </ProfileRegistrationSectionWrapper>
     )
 }

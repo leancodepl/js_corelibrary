@@ -1,21 +1,22 @@
-import { ElementType } from "react";
-import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { SelfServiceFlow } from "../helpers/userAuthForm";
-import { hasWebauthn } from "../utils/helpers";
+import { ElementType } from "react"
+import { UiNodeGroupEnum } from "@ory/client"
+import { FilterFlowNodes } from "../helpers/filterFlowNodes"
+import { SelfServiceFlow } from "../helpers/userAuthForm"
+import { hasPasskey } from "../utils/helpers"
 
 type PasswordlessSectionProps = {
-    flow: SelfServiceFlow;
-    PasswordlessSectionWrapper: ElementType;
-};
+    flow: SelfServiceFlow
+    PasswordlessSectionWrapper: ElementType
+}
 
 export function PasswordlessSection({ flow, PasswordlessSectionWrapper }: PasswordlessSectionProps) {
-    if (!hasWebauthn(flow.ui.nodes)) return null;
+    if (!hasPasskey(flow.ui.nodes)) return null
 
     const filter = {
         nodes: flow.ui.nodes,
-        groups: ["webauthn"],
+        groups: [UiNodeGroupEnum.Passkey],
         withoutDefaultAttributes: true,
-    };
+    }
 
     return (
         <PasswordlessSectionWrapper>
@@ -29,5 +30,5 @@ export function PasswordlessSection({ flow, PasswordlessSectionWrapper }: Passwo
 
             <FilterFlowNodes filter={{ ...filter, attributes: ["button", "submit"] }} />
         </PasswordlessSectionWrapper>
-    );
+    )
 }

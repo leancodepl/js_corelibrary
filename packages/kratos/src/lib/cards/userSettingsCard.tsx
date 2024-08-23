@@ -1,17 +1,23 @@
 import { JSX } from "react"
-import { SettingsFlow, UpdateSettingsFlowBody } from "@ory/client"
+import { SettingsFlow, UiNodeGroupEnum, UpdateSettingsFlowBody } from "@ory/client"
 import { useScriptNodes } from "../helpers/useScriptNodes"
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm"
 import { useKratosContext } from "../kratosContext"
 import { LookupSecretSettingsSection } from "../sections/lookupSecretSettingsSection"
 import { OidcSettingsSection } from "../sections/oidcSettingsSection"
+import { PasskeySettingsSection } from "../sections/passkeySettingsSection"
 import { PasswordSettingsSection } from "../sections/passwordSettingsSection"
 import { ProfileSettingsSection } from "../sections/profileSettingsSection"
 import { TotpSettingsSection } from "../sections/totpSettingsSection"
-import { WebAuthnSettingsSection } from "../sections/webAuthnSettingsSection"
-import { hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../utils/helpers"
+import { hasLookupSecret, hasOidc, hasPasskey, hasPassword, hasTotp } from "../utils/helpers"
 
-export type UserSettingsFlowType = "lookupSecret" | "oidc" | "password" | "profile" | "totp" | "webauthn"
+export type UserSettingsFlowType =
+    | "lookupSecret"
+    | "oidc"
+    | "password"
+    | "profile"
+    | "totp"
+    | typeof UiNodeGroupEnum.Passkey
 
 export type UserSettingsCardProps = {
     flow: SettingsFlow
@@ -42,10 +48,8 @@ export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSe
             return (
                 <PasswordSettingsSection flow={flow} PasswordSettingsSectionWrapper={PasswordSettingsSectionWrapper} />
             )
-        } else if (flowType === "webauthn" && hasWebauthn(flow.ui.nodes)) {
-            return (
-                <WebAuthnSettingsSection flow={flow} WebAuthnSettingsSectionWrapper={WebAuthnSettingsSectionWrapper} />
-            )
+        } else if (flowType === UiNodeGroupEnum.Passkey && hasPasskey(flow.ui.nodes)) {
+            return <PasskeySettingsSection flow={flow} PasskeySettingsSectionWrapper={WebAuthnSettingsSectionWrapper} />
         } else if (flowType === "lookupSecret" && hasLookupSecret(flow.ui.nodes)) {
             return (
                 <LookupSecretSettingsSection
