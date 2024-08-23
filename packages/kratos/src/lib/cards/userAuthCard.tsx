@@ -4,23 +4,39 @@ import {
     LoginFlow,
     RecoveryFlow,
     RegistrationFlow,
+    UiNodeGroupEnum,
     UpdateLoginFlowBody,
     UpdateRecoveryFlowBody,
     UpdateRegistrationFlowBody,
     UpdateVerificationFlowBody,
     VerificationFlow,
 } from "@ory/client"
+import { NodeMessages } from "../helpers/errorMessages"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 import { useScriptNodes } from "../helpers/useScriptNodes"
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm"
 import { useKratosContext } from "../kratosContext"
 import { AuthCodeSection } from "../sections/authCodeSection"
+import { IdentifierFirstLoginSection } from "../sections/identifierFirstLoginSection"
 import { LinkSection } from "../sections/linkSection"
 import { LoginSection } from "../sections/loginSection"
 import { OidcSection } from "../sections/oidcSection"
 import { PasswordlessSection } from "../sections/passwordlessSection"
+import { ProfileLoginSection } from "../sections/profileLoginSection"
+import { ProfileRegistrationSection } from "../sections/profileRegistrationSection"
 import { RegistrationSection } from "../sections/registrationSection"
-import { hasCode, hasLookupSecret, hasOidc, hasPassword, hasTotp, hasWebauthn } from "../utils/helpers"
+import { filterNodesByGroups } from "../utils/filterNodesByGroups"
+import {
+    hasCode,
+    hasDefault,
+    hasIdentifierFirst,
+    hasLookupSecret,
+    hasOidc,
+    hasPasskey,
+    hasPassword,
+    hasProfile,
+    hasTotp,
+} from "../utils/helpers"
 
 type UserAuthCardProps<TBody> = {
     className?: string
@@ -44,6 +60,9 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
             RegistrationSectionWrapper,
             UiMessages,
             LinkSectionWrapper,
+            IdentifierFirstLoginSectionWrapper,
+            ProfileLoginSectionWrapper,
+            ProfileRegistrationSectionWrapper,
         },
         excludeScripts,
     } = useKratosContext()
@@ -53,24 +72,26 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
     let $flow: JSX.Element | undefined = undefined
     let $oidc: JSX.Element | undefined = undefined
     let $code: JSX.Element | undefined = undefined
-    let $passwordless: JSX.Element | undefined = undefined
+    let $passkey: JSX.Element | undefined = undefined
+    let $twoStep: JSX.Element | undefined = undefined
+    let $profile: JSX.Element | undefined = undefined
 
     // the current flow is a two factor flow if the user is logged in and has any of the second factor methods enabled.
     const isTwoFactor =
         flowType === "login" &&
         isLoggedIn(flow) &&
-        (hasTotp(flow.ui.nodes) || hasWebauthn(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes))
+        (hasTotp(flow.ui.nodes) || hasPasskey(flow.ui.nodes) || hasLookupSecret(flow.ui.nodes))
 
     // This array contains all the 2fa flows mapped to their own respective forms.
     const twoFactorFlows =
         isTwoFactor &&
         [
-            hasWebauthn(flow.ui.nodes) && (
+            hasPasskey(flow.ui.nodes) && (
                 <UserAuthForm flow={flow}>
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "webauthn",
+                            groups: UiNodeGroupEnum.Passkey,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -81,7 +102,18 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "password",
+                            groups: UiNodeGroupEnum.Password,
+                            withoutDefaultGroup: true,
+                        }}
+                    />
+                </UserAuthForm>
+            ),
+            hasProfile(flow.ui.nodes) && (
+                <UserAuthForm flow={flow}>
+                    <FilterFlowNodes
+                        filter={{
+                            nodes: flow.ui.nodes,
+                            groups: UiNodeGroupEnum.Profile,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -92,7 +124,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "totp",
+                            groups: UiNodeGroupEnum.Totp,
                             withoutDefaultGroup: true,
                             excludeAttributes: "submit",
                         }}
@@ -101,7 +133,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "totp",
+                            groups: UiNodeGroupEnum.Totp,
                             withoutDefaultGroup: true,
                             attributes: "submit",
                         }}
@@ -113,7 +145,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
                     <FilterFlowNodes
                         filter={{
                             nodes: flow.ui.nodes,
-                            groups: "lookup_secret",
+                            groups: UiNodeGroupEnum.LookupSecret,
                             withoutDefaultGroup: true,
                         }}
                     />
@@ -123,23 +155,38 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
 
     switch (flowType) {
         case "login":
-            $passwordless = hasWebauthn(flow.ui.nodes) ? (
-                <PasswordlessSection flow={flow} PasswordlessSectionWrapper={PasswordlessSectionWrapper} />
-            ) : undefined
             $oidc = hasOidc(flow.ui.nodes) ? (
                 <OidcSection flow={flow} OidcSectionWrapper={OidcSectionWrapper} />
             ) : undefined
-            $code = hasCode(flow.ui.nodes) ? (
-                <AuthCodeSection AuthCodeSectionWrapper={AuthCodeSectionWrapper} nodes={flow.ui.nodes} />
+            $passkey = hasPasskey(flow.ui.nodes) ? (
+                <PasswordlessSection flow={flow} PasswordlessSectionWrapper={PasswordlessSectionWrapper} />
+            ) : undefined
+            $twoStep = hasIdentifierFirst(flow.ui.nodes) ? (
+                <IdentifierFirstLoginSection
+                    IdentifierFirstLoginSectionWrapper={IdentifierFirstLoginSectionWrapper}
+                    nodes={flow.ui.nodes}
+                />
+            ) : undefined
+            $profile = hasProfile(flow.ui.nodes) ? (
+                <ProfileLoginSection nodes={flow.ui.nodes} ProfileLoginSectionWrapper={ProfileLoginSectionWrapper} />
             ) : undefined
             $flow = hasPassword(flow.ui.nodes) ? (
                 <LoginSection LoginSectionWrapper={LoginSectionWrapper} nodes={flow.ui.nodes} />
             ) : undefined
+            $code = hasCode(flow.ui.nodes) ? (
+                <AuthCodeSection AuthCodeSectionWrapper={AuthCodeSectionWrapper} nodes={flow.ui.nodes} />
+            ) : undefined
 
             break
         case "registration":
-            $passwordless = hasWebauthn(flow.ui.nodes) ? (
+            $passkey = hasPasskey(flow.ui.nodes) ? (
                 <PasswordlessSection flow={flow} PasswordlessSectionWrapper={PasswordlessSectionWrapper} />
+            ) : undefined
+            $profile = hasProfile(flow.ui.nodes) ? (
+                <ProfileRegistrationSection
+                    nodes={flow.ui.nodes}
+                    ProfileRegistrationSectionWrapper={ProfileRegistrationSectionWrapper}
+                />
             ) : undefined
             $oidc = hasOidc(flow.ui.nodes) ? (
                 <OidcSection flow={flow} OidcSectionWrapper={OidcSectionWrapper} />
@@ -147,9 +194,13 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
             $code = hasCode(flow.ui.nodes) ? (
                 <AuthCodeSection AuthCodeSectionWrapper={AuthCodeSectionWrapper} nodes={flow.ui.nodes} />
             ) : undefined
-            $flow = hasPassword(flow.ui.nodes) ? (
-                <RegistrationSection nodes={flow.ui.nodes} RegistrationSectionWrapper={RegistrationSectionWrapper} />
-            ) : undefined
+            $flow =
+                hasDefault(flow.ui.nodes) || hasPassword(flow.ui.nodes) ? (
+                    <RegistrationSection
+                        nodes={flow.ui.nodes}
+                        RegistrationSectionWrapper={RegistrationSectionWrapper}
+                    />
+                ) : undefined
 
             break
         // both verification and recovery use the same flow.
@@ -160,34 +211,43 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
             break
     }
 
-    // passwordless can be shown if the user is not logged in (e.g. exclude 2FA screen) or if the flow is a registration flow.
-    // we want the login section to handle passwordless as well when we have a 2FA screen.
-    const canShowPasswordless = !!$passwordless && (!isLoggedIn(flow) || flowType === "registration")
+    const canShowPasskey = !!$passkey && (!isLoggedIn(flow) || flowType === "registration")
+    const canShowProfile = !!$profile && hasProfile(flow.ui.nodes)
 
     return (
         <div className={className}>
             <UiMessages uiMessages={flow.ui.messages} />
             {$oidc && <UserAuthForm flow={flow}>{$oidc}</UserAuthForm>}
+            {$twoStep && <UserAuthForm flow={flow}>{$twoStep}</UserAuthForm>}
+            {canShowPasskey && (
+                <UserAuthForm submitOnEnter flow={flow} onSubmit={onSubmit}>
+                    {$passkey}
+                </UserAuthForm>
+            )}
             {$code && <UserAuthForm flow={flow}>{$code}</UserAuthForm>}
             {$flow && !isTwoFactor && (
                 <UserAuthForm submitOnEnter flow={flow} onSubmit={onSubmit}>
                     {$flow}
                 </UserAuthForm>
             )}
-            {twoFactorFlows}
-
-            {canShowPasswordless && (
-                <UserAuthForm
-                    submitOnEnter
-                    flow={flow}
-                    formFilterOverride={{
-                        nodes: flow.ui.nodes,
-                        attributes: "hidden",
-                    }}
-                    onSubmit={onSubmit}>
-                    {$passwordless}
-                </UserAuthForm>
+            {isTwoFactor && (
+                <>
+                    <NodeMessages
+                        nodes={filterNodesByGroups({
+                            nodes: flow.ui.nodes,
+                            groups: [
+                                UiNodeGroupEnum.Password,
+                                UiNodeGroupEnum.Webauthn,
+                                UiNodeGroupEnum.Passkey,
+                                UiNodeGroupEnum.Totp,
+                                UiNodeGroupEnum.LookupSecret,
+                            ],
+                        })}
+                    />
+                    {twoFactorFlows}
+                </>
             )}
+            {canShowProfile && <UserAuthForm flow={flow}>{$profile}</UserAuthForm>}
         </div>
     )
 }

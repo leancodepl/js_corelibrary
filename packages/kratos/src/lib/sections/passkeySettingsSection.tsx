@@ -1,25 +1,26 @@
 import { ElementType } from "react"
 import { SettingsFlow, UiNodeGroupEnum } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
-import { hasLookupSecret } from "../utils/helpers"
+import { hasPasskey } from "../utils/helpers"
 
-type LookupSecretSettingsProps = {
+type WebAuthnSettingsProps = {
     flow: SettingsFlow
-    LookupSecretSettingsSectionWrapper: ElementType
+    PasskeySettingsSectionWrapper: ElementType
 }
 
-export function LookupSecretSettingsSection({ flow, LookupSecretSettingsSectionWrapper }: LookupSecretSettingsProps) {
+export function PasskeySettingsSection({ flow, PasskeySettingsSectionWrapper }: WebAuthnSettingsProps) {
+    if (!hasPasskey(flow.ui.nodes)) return null
+
     const filter = {
         nodes: flow.ui.nodes,
-        groups: UiNodeGroupEnum.LookupSecret,
+        groups: UiNodeGroupEnum.Passkey,
         withoutDefaultGroup: true,
     }
-    if (!hasLookupSecret(flow.ui.nodes)) return null
 
     return (
-        <LookupSecretSettingsSectionWrapper>
+        <PasskeySettingsSectionWrapper>
             <FilterFlowNodes filter={{ ...filter, excludeAttributes: "submit,button" }} />
             <FilterFlowNodes filter={{ ...filter, attributes: "submit,button" }} />
-        </LookupSecretSettingsSectionWrapper>
+        </PasskeySettingsSectionWrapper>
     )
 }

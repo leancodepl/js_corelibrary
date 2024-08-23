@@ -1,33 +1,32 @@
 import { ElementType } from "react"
 import { UiNode, UiNodeGroupEnum } from "@ory/client"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
-import { hasPassword } from "../utils/helpers"
 
-type LoginSectionProps = {
+type IdentifierFirstLoginSectionProps = {
     nodes: UiNode[]
-    LoginSectionWrapper: ElementType
+    IdentifierFirstLoginSectionWrapper: ElementType
 }
 
-export function LoginSection({ nodes, LoginSectionWrapper }: LoginSectionProps) {
-    if (!hasPassword(nodes)) return null
-
+export function IdentifierFirstLoginSection({
+    nodes,
+    IdentifierFirstLoginSectionWrapper,
+}: IdentifierFirstLoginSectionProps) {
     return (
-        <LoginSectionWrapper>
+        <IdentifierFirstLoginSectionWrapper>
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: [UiNodeGroupEnum.Default, UiNodeGroupEnum.Password],
+                    groups: [UiNodeGroupEnum.Default, UiNodeGroupEnum.IdentifierFirst],
                     excludeAttributes: ["submit", "hidden"],
                 }}
             />
-
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: UiNodeGroupEnum.Password,
+                    groups: UiNodeGroupEnum.IdentifierFirst,
                     attributes: "submit",
                 }}
             />
-        </LoginSectionWrapper>
+        </IdentifierFirstLoginSectionWrapper>
     )
 }

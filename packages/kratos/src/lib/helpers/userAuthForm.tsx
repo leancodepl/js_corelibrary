@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { ReactNode } from "react"
-import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, VerificationFlow } from "@ory/client"
+import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, UiNodeGroupEnum, VerificationFlow } from "@ory/client"
 import { FilterNodesByGroups } from "../utils/filterNodesByGroups"
 import { FilterFlowNodes } from "./filterFlowNodes"
 
@@ -82,7 +82,7 @@ export function UserAuthForm<TBody>({
                 filter={
                     formFilterOverride ?? {
                         nodes: flow.ui.nodes,
-                        groups: "default",
+                        groups: UiNodeGroupEnum.Default,
                         attributes: "hidden",
                     }
                 }

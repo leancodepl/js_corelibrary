@@ -1,7 +1,7 @@
-import { FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from "@chakra-ui/react";
-import { InputComponentProps } from "@leancodepl/kratos";
+import { FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from "@chakra-ui/react"
+import { InputComponentProps } from "@leancodepl/kratos"
 
-export function NodeInput({ header, name, helperMessage, isError, size, ...props }: InputComponentProps) {
+export function NodeInput({ header, name, helperMessage, isError, size: _size, ...props }: InputComponentProps) {
     return (
         <FormControl isInvalid={isError}>
             <FormLabel htmlFor={name}>{header}</FormLabel>
@@ -13,5 +13,5 @@ export function NodeInput({ header, name, helperMessage, isError, size, ...props
                     <FormHelperText>{helperMessage}</FormHelperText>
                 ))}
         </FormControl>
-    );
+    )
 }

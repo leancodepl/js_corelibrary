@@ -88,4 +88,7 @@ export type KratosComponents = {
     LookupSecretSettingsSectionWrapper: ElementType
     OidcSettingsSectionWrapper: ElementType
     TotpSettingsSectionWrapper: ElementType
+    IdentifierFirstLoginSectionWrapper: ElementType
+    ProfileLoginSectionWrapper: ElementType
+    ProfileRegistrationSectionWrapper: ElementType
 }

@@ -1,12 +1,12 @@
-import { ElementType } from "react";
-import { UiNode } from "@ory/client";
-import { FilterFlowNodes } from "../helpers/filterFlowNodes";
-import { hasCode } from "../utils/helpers";
+import { ElementType } from "react"
+import { UiNode, UiNodeGroupEnum } from "@ory/client"
+import { FilterFlowNodes } from "../helpers/filterFlowNodes"
+import { hasCode } from "../utils/helpers"
 
 type AuthCodeSectionProps = {
-    nodes: UiNode[];
-    AuthCodeSectionWrapper: ElementType;
-};
+    nodes: UiNode[]
+    AuthCodeSectionWrapper: ElementType
+}
 
 /**
  * AuthCodeSection renders the fields for login and registration via one-time code.
@@ -15,14 +15,14 @@ type AuthCodeSectionProps = {
  * @see AuthCodeSectionProps
  */
 export function AuthCodeSection({ nodes, AuthCodeSectionWrapper }: AuthCodeSectionProps) {
-    if (!hasCode(nodes)) return null;
+    if (!hasCode(nodes)) return null
 
     return (
         <AuthCodeSectionWrapper>
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: ["code"],
+                    groups: UiNodeGroupEnum.Code,
                     // we don't want to map the default group twice
                     // the form already maps hidden fields under the default group
                     // we are only interested in hidden fields that are under the code group
@@ -34,7 +34,7 @@ export function AuthCodeSection({ nodes, AuthCodeSectionWrapper }: AuthCodeSecti
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: "code",
+                    groups: UiNodeGroupEnum.Code,
                     withoutDefaultAttributes: true,
                     excludeAttributes: ["hidden", "button", "submit"], // the form will take care of default (csrf) hidden fields
                 }}
@@ -44,11 +44,11 @@ export function AuthCodeSection({ nodes, AuthCodeSectionWrapper }: AuthCodeSecti
             <FilterFlowNodes
                 filter={{
                     nodes,
-                    groups: "code",
+                    groups: UiNodeGroupEnum.Code,
                     withoutDefaultAttributes: true,
                     attributes: ["button", "submit"],
                 }}
             />
         </AuthCodeSectionWrapper>
-    );
+    )
 }

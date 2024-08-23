@@ -10,7 +10,7 @@
     "@chakra-ui/react": "2.8.1",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
-    "@ory/client": "1.4.2",
+    "@ory/client": "1.14.3",
     "@swc/helpers": "0.5.10",
     "deep-equal": "2.2.3",
     "framer-motion": "10.16.4",
