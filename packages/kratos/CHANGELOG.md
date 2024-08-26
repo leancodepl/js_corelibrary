@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.8.0](https://github.com/leancodepl/js_corelibrary/compare/v7.7.0...v7.8.0) (2024-08-23)
+
+### Features
+
+-   handle two-step registration and passkeys
+    ([04a01a6](https://github.com/leancodepl/js_corelibrary/commit/04a01a6ad02f78bb8238ca59f8347a7fd99e9b1a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.7.0](https://github.com/leancodepl/js_corelibrary/compare/v7.6.0...v7.7.0) (2024-07-30)
 
 **Note:** Version bump only for package @leancodepl/kratos

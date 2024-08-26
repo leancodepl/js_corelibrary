@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.8.0](https://github.com/leancodepl/js_corelibrary/compare/v7.7.0...v7.8.0) (2024-08-23)
+
+### Bug Fixes
+
+-   useKeyByRoute type
+    ([c10d8e9](https://github.com/leancodepl/js_corelibrary/commit/c10d8e959764f09941782d44881914aefdce1c62))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.7.0](https://github.com/leancodepl/js_corelibrary/compare/v7.6.0...v7.7.0) (2024-07-30)
 
 **Note:** Version bump only for package @leancodepl/utils
