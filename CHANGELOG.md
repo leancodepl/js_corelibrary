@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.8.1](https://github.com/leancodepl/js_corelibrary/compare/v7.8.0...v7.8.1) (2024-08-28)
+
+### Bug Fixes
+
+-   kratos passkey section
+    ([fa88f5c](https://github.com/leancodepl/js_corelibrary/commit/fa88f5cffa8376c6f26281221c739890c6aa0941))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [7.8.0](https://github.com/leancodepl/js_corelibrary/compare/v7.7.0...v7.8.0) (2024-08-23)
 
 ### Bug Fixes
