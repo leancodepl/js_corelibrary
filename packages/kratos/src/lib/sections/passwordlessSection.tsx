@@ -23,11 +23,23 @@ export function PasswordlessSection({ flow, PasswordlessSectionWrapper }: Passwo
             <FilterFlowNodes
                 filter={{
                     ...filter,
-                    // we will also map default fields here but not oidc and password fields
-                    excludeAttributes: ["hidden", "button", "submit"], // the form will take care of hidden fields
+                    groups: ["identifier_first", "passkey"],
+                    attributes: ["hidden"],
                 }}
             />
-            <FilterFlowNodes filter={{ ...filter, attributes: ["button", "submit"] }} />
+            <FilterFlowNodes
+                filter={{
+                    ...filter,
+                    excludeAttributes: ["hidden", "button", "submit"],
+                }}
+            />
+            <FilterFlowNodes
+                filter={{
+                    ...filter,
+                    attributes: ["button", "submit"],
+                    excludeAttributes: ["hidden"],
+                }}
+            />
         </PasswordlessSectionWrapper>
     )
 }
