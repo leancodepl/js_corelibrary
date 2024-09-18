@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: "config-cat-react-client",
+    displayName: "feature-flags-react-client",
     preset: "../../../jest.preset.js",
     transform: {
         "^.+\\.[tj]sx?$": [
@@ -9,5 +9,5 @@ export default {
         ],
     },
     moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-    coverageDirectory: "../../coverage/packages/feature-flags/config-cat-react-client",
+    coverageDirectory: "../../coverage/packages/feature-flags/feature-flags-react-client",
 }

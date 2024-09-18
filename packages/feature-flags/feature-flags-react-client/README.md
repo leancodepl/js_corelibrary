@@ -1,24 +1,24 @@
-# @leancodepl/config-cat-react-client
+# @leancodepl/feature-flags-react-client
 
 ## Usage
 
 Create feature flags config:
 
 ```
-export const { FeatureFlagsProvider, configureFeatureFlags, useFeatureFlag } = mkFeatureFlags({
+const featureFlags = {
     firstFeatureFlag: {
         type: FeatureFlagType.Boolean,
-        override: true,
+        globalDefault: true,
     },
-}, {
-    applyOverrides: false,
-})
+} as const satisfies Flags
+
+export const { FeatureFlagsProvider, configureFeatureFlagsProvider, useFeatureFlag } = mkFeatureFlags(featureFlags, provider)
 ```
 
 Configure OpenFeature, this have to be called on the top level of the app:
 
 ```
-configureFeatureFlags("<sdk-key>")
+configureFeatureFlagsProvider("<sdk-key>")
 ```
 
 Wrap the app in the FeatureFlagsProvider:

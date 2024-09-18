@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/config-cat-react-client",
+  "name": "@leancodepl/feature-flags-react-client",
   "version": "0.0.1",
   "dependencies": {
     "@openfeature/config-cat-web-provider": "0.1.2",
