@@ -22,6 +22,7 @@
       "@leancodepl/api-date-dayjs": ["packages/cqrs-clients/custom-types/date/api-date-dayjs/src/index.ts"],
       "@leancodepl/api-date-utils": ["packages/cqrs-clients/custom-types/date/api-date-utils/src/index.ts"],
       "@leancodepl/axios-cqrs-client": ["packages/cqrs-clients/axios-cqrs-client/src/index.ts"],
+      "@leancodepl/config-cat-react-client": ["packages/feature-flags/config-cat-react-client/src/index.ts"],
       "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
       "@leancodepl/cx": ["packages/cx/src/index.ts"],
       "@leancodepl/gtag": ["packages/gtag/src/index.ts"],
@@ -33,7 +34,7 @@
       "@leancodepl/rx-cqrs-client": ["packages/cqrs-clients/rx-cqrs-client/src/index.ts"],
       "@leancodepl/rx-pipe-client": ["packages/pipe-clients/rx-pipe-client/src/index.ts"],
       "@leancodepl/utils": ["packages/utils/src/index.ts"],
-      "@leancodepl/validation": ["packages/validation/src/index.ts"],
+      "@leancodepl/validation": ["packages/validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
