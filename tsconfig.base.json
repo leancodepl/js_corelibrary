@@ -24,6 +24,7 @@
       "@leancodepl/axios-cqrs-client": ["packages/cqrs-clients/axios-cqrs-client/src/index.ts"],
       "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
       "@leancodepl/cx": ["packages/cx/src/index.ts"],
+      "@leancodepl/feature-flags-react-client": ["packages/feature-flags/feature-flags-react-client/src/index.ts"],
       "@leancodepl/gtag": ["packages/gtag/src/index.ts"],
       "@leancodepl/hook-pipe-client": ["packages/pipe-clients/hook-pipe-client/src/index.ts"],
       "@leancodepl/i18n": ["packages/i18n/src/index.ts"],
@@ -33,7 +34,7 @@
       "@leancodepl/rx-cqrs-client": ["packages/cqrs-clients/rx-cqrs-client/src/index.ts"],
       "@leancodepl/rx-pipe-client": ["packages/pipe-clients/rx-pipe-client/src/index.ts"],
       "@leancodepl/utils": ["packages/utils/src/index.ts"],
-      "@leancodepl/validation": ["packages/validation/src/index.ts"],
+      "@leancodepl/validation": ["packages/validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
