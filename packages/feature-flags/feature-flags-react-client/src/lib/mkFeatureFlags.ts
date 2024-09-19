@@ -3,7 +3,10 @@ import { OpenFeature, Provider } from "@openfeature/web-sdk"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FeatureFlagConfig = { defaultValue: any }
-export type Flags<TKeys extends string = string, TFlag extends object = FeatureFlagConfig> = Record<TKeys, TFlag>
+export type Flags<TKeys extends string = string, TFlag extends FeatureFlagConfig = FeatureFlagConfig> = Record<
+    TKeys,
+    TFlag
+>
 
 export function mkFeatureFlags<TFlags extends Flags>(flags: TFlags, provider: Provider) {
     OpenFeature.setProvider(provider)
