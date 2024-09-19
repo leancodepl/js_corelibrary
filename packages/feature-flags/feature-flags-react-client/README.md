@@ -7,18 +7,11 @@ Create feature flags config:
 ```
 const featureFlags = {
     firstFeatureFlag: {
-        type: FeatureFlagType.Boolean,
-        globalDefault: true,
+        defaultValue: true,
     },
 } as const satisfies Flags
 
-export const { FeatureFlagsProvider, configureFeatureFlagsProvider, useFeatureFlag } = mkFeatureFlags(featureFlags, provider)
-```
-
-Configure OpenFeature, this have to be called on the top level of the app:
-
-```
-configureFeatureFlagsProvider("<sdk-key>")
+export const { FeatureFlagsProvider, useFeatureFlag } = mkFeatureFlags(featureFlags, provider)
 ```
 
 Wrap the app in the FeatureFlagsProvider:
