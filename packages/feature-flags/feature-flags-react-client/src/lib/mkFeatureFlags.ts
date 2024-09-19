@@ -14,23 +14,15 @@ export type FeatureFlagTypeMap = {
     [FeatureFlagType.Double]: number
 }
 
+type FlagPart<TType extends FeatureFlagType> = {
+    type: TType
+    defaultValue: FeatureFlagTypeMap[TType]
+}
 export type Flag =
-    | {
-          type: FeatureFlagType.Boolean
-          globalDefault: FeatureFlagTypeMap[FeatureFlagType.Boolean]
-      }
-    | {
-          type: FeatureFlagType.Double
-          globalDefault: FeatureFlagTypeMap[FeatureFlagType.Double]
-      }
-    | {
-          type: FeatureFlagType.Int
-          globalDefault: FeatureFlagTypeMap[FeatureFlagType.Int]
-      }
-    | {
-          type: FeatureFlagType.String
-          globalDefault: FeatureFlagTypeMap[FeatureFlagType.String]
-      }
+    | FlagPart<FeatureFlagType.Boolean>
+    | FlagPart<FeatureFlagType.Double>
+    | FlagPart<FeatureFlagType.Int>
+    | FlagPart<FeatureFlagType.String>
 
 export type Flags<TKeys extends string = string, TFlag extends object = Flag> = Record<TKeys, TFlag>
 
@@ -48,7 +40,7 @@ export function mkFeatureFlags<TFlagKeys extends string, TFlags extends Flags<TF
             key: TKey,
             defaultValue?: TypeByKey<TKey>,
         ): FlagQuery<TypeByKey<TKey>> =>
-            useFlag(key.toString(), defaultValue ?? flags[key].globalDefault) as FlagQuery<TypeByKey<TKey>>,
+            useFlag(key.toString(), defaultValue ?? flags[key].defaultValue) as FlagQuery<TypeByKey<TKey>>,
         FeatureFlagsProvider: OpenFeatureProvider,
     }
 }
