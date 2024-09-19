@@ -1,10 +1,8 @@
 {
   "name": "@leancodepl/rx-pipe-client",
   "version": "7.8.1",
+  "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/pipe": "^1.0.0"
-  },
-  "type": "commonjs",
-  "main": "./index.cjs",
-  "module": "./index.js"
+  }
 }
