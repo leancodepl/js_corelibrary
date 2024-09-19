@@ -10,8 +10,6 @@
     "@chakra-ui/react": "2.8.1",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
-    "@openfeature/react-sdk": "0.4.5",
-    "@openfeature/web-sdk": "1.2.3",
     "@ory/client": "1.14.3",
     "@swc/helpers": "0.5.10",
     "deep-equal": "2.2.3",
@@ -94,6 +92,7 @@
     "packages/cqrs-clients/*",
     "packages/cqrs-clients/custom-types/binary/*",
     "packages/cqrs-clients/custom-types/date/*",
+    "packages/feature-flags/*",
     "packages/linters/*",
     "packages/pipe-clients/*"
   ],
