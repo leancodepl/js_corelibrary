@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.8.2](https://github.com/leancodepl/js_corelibrary/compare/v7.8.1...v7.8.2) (2024-09-19)
+
+### Bug Fixes
+
+-   cleanup flag type
+    ([5f9cdce](https://github.com/leancodepl/js_corelibrary/commit/5f9cdce9a98cc925d6c9b73b2f6f65cd64a87aa6))
+-   config-cat-react-client jest config
+    ([91253cb](https://github.com/leancodepl/js_corelibrary/commit/91253cb2c2c293a0dd00adee8260e96bcd8da4b5))
+-   flags type generics
+    ([94ecfed](https://github.com/leancodepl/js_corelibrary/commit/94ecfedd88f3d701db79fbdd29a5dd8233ebd9c2))
+-   package.json
+    ([feb11ee](https://github.com/leancodepl/js_corelibrary/commit/feb11eef250d931476a5854745f385a3f534a3dd))
+-   package.jsons licenses and modules
+    ([85c75b9](https://github.com/leancodepl/js_corelibrary/commit/85c75b93b33f15881e38531f3a8cb47148fe8e4f))
+-   publishing ([f87f432](https://github.com/leancodepl/js_corelibrary/commit/f87f432fdc07bd02896ba7c49ac858c91bb16e68))
+-   remove remains of old lib
+    ([092971b](https://github.com/leancodepl/js_corelibrary/commit/092971be6ead39b85419ca4008bf21ccf061a12a))
+-   update dependencies
+    ([1f064fa](https://github.com/leancodepl/js_corelibrary/commit/1f064fa369b0c95ac75616693836a0f04073d702))
+
+### Features
+
+-   add react client for config cat
+    ([dac584e](https://github.com/leancodepl/js_corelibrary/commit/dac584e3158efaf9d73e79b6c19ffab6ed17cba9))
+-   make feature flags lib more generic
+    ([d63defe](https://github.com/leancodepl/js_corelibrary/commit/d63defe33b7faadf16db309a39e8d7380bc27532))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.8.1](https://github.com/leancodepl/js_corelibrary/compare/v7.8.0...v7.8.1) (2024-08-28)
 
 ### Bug Fixes

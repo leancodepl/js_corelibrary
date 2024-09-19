@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.8.2](https://github.com/leancodepl/js_corelibrary/compare/v7.8.1...v7.8.2) (2024-09-19)
+
+### Bug Fixes
+
+-   package.jsons licenses and modules
+    ([85c75b9](https://github.com/leancodepl/js_corelibrary/commit/85c75b93b33f15881e38531f3a8cb47148fe8e4f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.8.1](https://github.com/leancodepl/js_corelibrary/compare/v7.8.0...v7.8.1) (2024-08-28)
 
 **Note:** Version bump only for package @leancodepl/hook-pipe-client
