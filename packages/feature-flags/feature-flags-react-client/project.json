@@ -15,8 +15,13 @@
         "assets": [],
         "project": "packages/feature-flags/feature-flags-react-client/package.json",
         "compiler": "swc",
-        "format": ["cjs", "esm"]
+        "format": ["cjs", "esm"],
+        "generateExportsField": true
       }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/feature-flags-react-client {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"
