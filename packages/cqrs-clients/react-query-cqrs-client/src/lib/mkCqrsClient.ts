@@ -85,6 +85,8 @@ export function mkCqrsClient({
                 )
             }
 
+            useApiQuery.type = type
+
             useApiQuery.fetcher = (data: TQuery, context?: QueryFunctionContext<QueryKey>): Observable<Result> =>
                 race([
                     fetcher<string>(data).pipe(uncapitalizedParse<TResult>()),
@@ -185,6 +187,22 @@ export function mkCqrsClient({
             useApiQuery.invalidate = (query: Partial<TQuery>) =>
                 queryClient.invalidateQueries({ queryKey: useApiQuery.key(query) })
 
+            useApiQuery.cancel = (query: Partial<TQuery>) =>
+                queryClient.cancelQueries({ queryKey: useApiQuery.key(query) })
+
+            useApiQuery.optimisticUpdate = async (
+                updater: Updater<Result | undefined, Result | undefined>,
+                query: Partial<TQuery> = {},
+            ) => {
+                await useApiQuery.cancel(query)
+
+                const data = useApiQuery.getQueriesData(query)
+
+                useApiQuery.setQueriesData(query, updater)
+
+                return () => data.forEach(([key, result]) => queryClient.setQueryData<Result>(key, result))
+            }
+
             return useApiQuery
         },
         createOperation<TOperation, TResult>(type: string) {
@@ -219,6 +237,8 @@ export function mkCqrsClient({
                 )
             }
 
+            useApiOperation.type = type
+
             useApiOperation.fetcher = (variables: TOperation): Observable<Result> =>
                 fetcher<string>(variables).pipe(uncapitalizedParse())
 
@@ -227,39 +247,51 @@ export function mkCqrsClient({
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(type: string, errorCodes: TErrorCodes) {
             const fetcher = mkFetcher<TCommand>(`command/${type}`)
 
-            function useApiCommand<TContext = unknown>(
+            function useApiCommand<TContext extends Record<string, unknown> = {}>(
                 options?: {
                     invalidateQueries?: QueryKey[]
                     handler?: undefined
+                    optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
                 } & Omit<
                     UseMutationOptions<CommandResult<TErrorCodes>, unknown, TCommand, TContext>,
                     "mutationFn" | "mutationKey"
                 >,
             ): UseMutationResult<CommandResult<TErrorCodes>, unknown, TCommand, TContext>
-            function useApiCommand<TResult, TContext = unknown>(
+            function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
                 options?: {
                     invalidateQueries?: QueryKey[]
                     handler: (
                         handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                     ) => TResult
+                    optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
                 } & Omit<UseMutationOptions<TResult, unknown, TCommand, TContext>, "mutationFn" | "mutationKey">,
             ): UseMutationResult<TResult, unknown, TCommand, TContext>
-            function useApiCommand<TResult, TContext = unknown>({
+            function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>({
                 invalidateQueries,
                 handler,
+                optimisticUpdate,
                 onSuccess,
+                onMutate,
+                onError,
                 ...options
             }: {
                 invalidateQueries?: QueryKey[]
                 handler?: (
                     handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                 ) => TResult
+                optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
             } & Omit<
                 UseMutationOptions<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>,
                 "mutationFn" | "mutationKey"
             > = {}) {
-                return useMutation<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>(
+                return useMutation<
+                    CommandResult<TErrorCodes> | TResult,
+                    unknown,
+                    TCommand,
+                    { revertOptimisticUpdate: () => void } & TContext
+                >(
                     {
+                        ...options,
                         mutationKey: [type],
                         mutationFn: (variables: TCommand) => {
                             if (!handler) {
@@ -268,7 +300,18 @@ export function mkCqrsClient({
 
                             return firstValueFrom(useApiCommand.call(variables, handler))
                         },
-                        ...options,
+                        async onMutate(variables) {
+                            // there's really no good way to do it without type cast
+                            const baseContext = (await onMutate?.(variables)) as TContext
+
+                            const optimisticUpdateReverts = await Promise.all(optimisticUpdate?.(variables) ?? [])
+
+                            return {
+                                ...baseContext,
+                                revertOptimisticUpdate: () =>
+                                    optimisticUpdateReverts.forEach(revertOptimisticUpdate => revertOptimisticUpdate()),
+                            }
+                        },
                         async onSuccess(data, variables, context) {
                             if (invalidateQueries) {
                                 await Promise.allSettled(
@@ -280,12 +323,20 @@ export function mkCqrsClient({
 
                             return result
                         },
+                        async onError(error, variables, context) {
+                            await onError?.(error, variables, context)
+
+                            context?.revertOptimisticUpdate()
+                        },
                     },
                     queryClient,
                 )
             }
 
+            useApiCommand.type = type
+
             useApiCommand.fetcher = (variables: TCommand) => fetcher<CommandResult<TErrorCodes>>(variables)
+
             useApiCommand.call = <TResult>(
                 variables: TCommand,
                 handler: (
@@ -306,6 +357,7 @@ export function mkCqrsClient({
                     map(useApiCommand.handleResponse(handler)),
                 )
             }
+
             useApiCommand.mapError = (e: unknown): ApiResponse<CommandResult<TErrorCodes>> => {
                 if (e instanceof AjaxError && e.status === 422) {
                     return {
@@ -319,6 +371,7 @@ export function mkCqrsClient({
                     error: e,
                 }
             }
+
             useApiCommand.handleResponse =
                 <TResult>(
                     handler: (

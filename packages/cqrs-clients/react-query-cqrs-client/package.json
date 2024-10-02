@@ -8,5 +8,9 @@
     "@leancodepl/validation": "7.8.2",
     "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
+  },
+  "devDependencies": {
+    "react": "*",
+    "@testing-library/react": "*"
   }
 }
