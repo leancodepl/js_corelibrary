@@ -84,7 +84,6 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
@@ -139,7 +138,6 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         }
 
         return handleValidationErrors<Omit<TAllErrors, THandledErrors>, TInResult | TResult>(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             validationErrors as any,
             errorCodesMap,
             nextResult,
@@ -154,7 +152,6 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
                 return validationResults.reduce(reducer.reducer, reducer.initialValue)
             }
             return
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }) as any,
     }
 }

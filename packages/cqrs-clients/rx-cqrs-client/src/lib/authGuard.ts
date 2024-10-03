@@ -1,4 +1,4 @@
-import { MonoTypeOperatorFunction, Observable, from, of, throwError } from "rxjs"
+import { from, MonoTypeOperatorFunction, Observable, of, throwError } from "rxjs"
 import { AjaxError } from "rxjs/ajax"
 import { mergeMap, retryWhen } from "rxjs/operators"
 import { TokenProvider } from "@leancodepl/cqrs-client-base"

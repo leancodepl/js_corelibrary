@@ -1,5 +1,5 @@
 import * as sinon from "sinon"
-import { ValidationErrorHandlerAllFunc, handleValidationErrors } from "../src"
+import { handleValidationErrors, ValidationErrorHandlerAllFunc } from "../src"
 
 const errorCodesMap = {
     Error1: 1,
@@ -90,7 +90,7 @@ describe("handleValidationErrors", () => {
         })
 
         it("calls joint validation handler only with first (most important) validation error", () => {
-            const handleError1_2 = sinon.spy((error: "Error1" | "Error2") => {})
+            const handleError1_2 = sinon.spy((_error: "Error1" | "Error2") => {})
 
             handleValidationErrors([mkError(2), mkError(1)], errorCodesMap)
                 .handle(["Error1", "Error2"], handleError1_2)
@@ -174,7 +174,7 @@ describe("handleValidationErrors", () => {
         it("calls joint validation handler with all validation errors in correct order", () => {
             const handleError1_2 = sinon.spy<
                 ValidationErrorHandlerAllFunc<typeof errorCodesMap, "Error1" | "Error2", void>
-            >(errors => {})
+            >(_errors => {})
 
             handleValidationErrors([mkError(2), mkError(2), mkError(1)], errorCodesMap)
                 .handleAll(["Error1", "Error2"], handleError1_2)

@@ -1,11 +1,11 @@
 import { ComponentClass, ElementType, ReactNode, useEffect, useRef, useState } from "react"
 import {
+    createIntl,
+    createIntlCache,
     FormattedMessage,
     IntlShape,
     MessageFormatElement,
     RawIntlProvider,
-    createIntl,
-    createIntlCache,
     useIntl,
 } from "react-intl"
 import type { FormatXMLElementFn, Options as IntlMessageFormatOptions, PrimitiveType } from "intl-messageformat"
@@ -54,14 +54,12 @@ export function mkI18n<
     } & Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages">
 
     type StronglyTypedFormattedMessageProps<
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         V extends Record<string, any> = Record<
             string,
             FormatXMLElementFn<React.ReactNode, React.ReactNode> | ReactNode
         >,
     > = {
         values?: V
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         tagName?: ElementType<any>
         children?(...nodes: ReactNode[]): ReactNode
     } & StronglyTypedMessageDescriptor

@@ -11,6 +11,5 @@ export function toApiDateTimeOffset(time: dayjs.Dayjs | undefined): ApiDateTimeO
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return time.format("YYYY-MM-DDTHH:mm:ss.SSSZ") as any
 }

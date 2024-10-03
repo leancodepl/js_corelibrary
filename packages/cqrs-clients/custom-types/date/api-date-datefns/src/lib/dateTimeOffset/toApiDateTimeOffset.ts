@@ -11,6 +11,5 @@ export function toApiDateTimeOffset(dateTimeOffset: Date | undefined): ApiDateTi
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return format(dateTimeOffset, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX") as any
 }

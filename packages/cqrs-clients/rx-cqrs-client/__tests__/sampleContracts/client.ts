@@ -1,6 +1,7 @@
 import { PaginatedResult, Users } from "./contracts"
 import { CQRS } from "./cqrs"
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (cqrsClient: CQRS) {
     return {
         Users: {

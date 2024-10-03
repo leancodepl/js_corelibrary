@@ -4,7 +4,6 @@ import { useMemo } from "react"
 import { Unpromisify } from "../types"
 import { useRunInTask } from "./useRunInTask"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any[]) => any
 
 export function useBoundRunInTask<T extends AnyFunction>(block: T): [boolean, T]

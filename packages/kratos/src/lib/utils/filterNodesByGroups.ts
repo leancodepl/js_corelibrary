@@ -4,11 +4,11 @@ import { getNodeInputType } from "./getNodeInputType"
 
 export type FilterNodesByGroups = {
     nodes: Array<UiNode>
-    groups?: Array<UiNodeGroupEnum | string> | UiNodeGroupEnum | string
+    groups?: Array<string | UiNodeGroupEnum> | string | UiNodeGroupEnum
     withoutDefaultGroup?: boolean
-    attributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string
+    attributes?: Array<string | UiNodeInputAttributesTypeEnum> | string | UiNodeInputAttributesTypeEnum
     withoutDefaultAttributes?: boolean
-    excludeAttributes?: Array<UiNodeInputAttributesTypeEnum | string> | UiNodeInputAttributesTypeEnum | string
+    excludeAttributes?: Array<string | UiNodeInputAttributesTypeEnum> | string | UiNodeInputAttributesTypeEnum
 }
 
 /**

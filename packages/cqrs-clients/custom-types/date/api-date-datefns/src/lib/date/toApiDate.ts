@@ -8,6 +8,5 @@ export function toApiDate(date: Date | undefined): ApiDateOnly | undefined {
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return format(date, "yyyy-MM-dd") as any
 }

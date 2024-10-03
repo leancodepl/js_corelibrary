@@ -11,6 +11,5 @@ export function fromApiTime(time: ApiTimeOnly | undefined): Date | undefined {
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return parse(time as any, "HH:mm:ss.SSS", new Date())
 }

@@ -1,7 +1,6 @@
 import { OpenFeatureProvider, useFlag } from "@openfeature/react-sdk"
 import { OpenFeature, Provider } from "@openfeature/web-sdk"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FeatureFlagConfig = { defaultValue: any }
 export type Flags<TKeys extends string = string, TFlag extends FeatureFlagConfig = FeatureFlagConfig> = Record<
     TKeys,

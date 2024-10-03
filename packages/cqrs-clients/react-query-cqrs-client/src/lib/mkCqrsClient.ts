@@ -6,17 +6,17 @@ import {
     UndefinedInitialDataInfiniteOptions,
     UndefinedInitialDataOptions,
     Updater,
-    UseMutationOptions,
-    UseMutationResult,
     useInfiniteQuery,
     useMutation,
+    UseMutationOptions,
+    UseMutationResult,
     useQuery,
 } from "@tanstack/react-query"
-import { Observable, OperatorFunction, catchError, firstValueFrom, from, fromEvent, of, race, throwError } from "rxjs"
-import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax"
+import { catchError, firstValueFrom, from, fromEvent, Observable, of, OperatorFunction, race, throwError } from "rxjs"
+import { ajax, AjaxConfig, AjaxError } from "rxjs/ajax"
 import { map, mergeMap } from "rxjs/operators"
 import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
-import { ValidationErrorsHandler, handleResponse } from "@leancodepl/validation"
+import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation"
 import { authGuard } from "./authGuard"
 import { NullableUncapitalizeDeep } from "./types"
 import { uncapitalizedJSONParse } from "./uncapitalizedJSONParse"
@@ -206,10 +206,11 @@ export function mkCqrsClient({
                         async onSuccess(data, variables, context) {
                             const result = await onSuccessBase?.(data, variables, context)
 
-                            invalidateQueries &&
-                                (await Promise.allSettled(
+                            if (invalidateQueries) {
+                                await Promise.allSettled(
                                     invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
-                                ))
+                                )
+                            }
 
                             return result
                         },
@@ -269,10 +270,11 @@ export function mkCqrsClient({
                         },
                         ...options,
                         async onSuccess(data, variables, context) {
-                            invalidateQueries &&
-                                (await Promise.allSettled(
+                            if (invalidateQueries) {
+                                await Promise.allSettled(
                                     invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
-                                ))
+                                )
+                            }
 
                             const result = await onSuccess?.(data, variables, context)
 
