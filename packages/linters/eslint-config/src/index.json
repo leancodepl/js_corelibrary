@@ -1,3 +1,0 @@
-{
-  "extends": ["./lib/a11y.json", "./lib/index.json", "./lib/imports.json"]
-}
