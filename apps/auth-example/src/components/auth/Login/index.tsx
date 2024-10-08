@@ -5,13 +5,13 @@ import { Center, Flex, Spinner, Text, useToast } from "@chakra-ui/react"
 import styled from "@emotion/styled"
 import { AuthenticatorAssuranceLevel, UiTextTypeEnum } from "@ory/client"
 import {
+    aalParameterName,
     ErrorId,
     KratosContextProvider,
     LoginCard,
     ResponseError,
-    UiMessagesComponentProps,
-    aalParameterName,
     returnToParameterName,
+    UiMessagesComponentProps,
     useLoginFlow,
 } from "@leancodepl/kratos"
 import { loginRoute } from "../../../app/routes"

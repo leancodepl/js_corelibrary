@@ -1,7 +1,7 @@
-import { assertNotNull } from "./assertNotNull";
+import { assertNotNull } from "./assertNotNull"
 
 export function ensureNotNull<T>(value: T | null, message?: string): T {
-    assertNotNull(value, message);
+    assertNotNull(value, message)
 
-    return value;
+    return value
 }

@@ -31,6 +31,5 @@ export function toApiTimeSpan(duration: duration.Duration | undefined): ApiTimeS
 
     stringTimeSpan += absDuration.format("HH:mm:ss.SSS")
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return stringTimeSpan as any
 }

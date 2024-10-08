@@ -9,7 +9,6 @@ function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createError(error: any): ApiError {
     return {
         isSuccess: false,

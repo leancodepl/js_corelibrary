@@ -22,7 +22,7 @@ export type TransformDeep<T, TMode extends Mode> =
 export type UncapitalizeDeep<T> = TransformDeep<T, "uncapitalize">
 export type CapitalizeDeep<T> = TransformDeep<T, "capitalize">
 
-export type MutableDeep<T> = T extends Date | bigint | boolean | number | string | symbol | null | undefined
+export type MutableDeep<T> = T extends bigint | boolean | Date | number | string | symbol | null | undefined
     ? T
     : T extends ReadonlyArray<infer ArrayType>
       ? Array<MutableDeep<ArrayType>>

@@ -11,6 +11,5 @@ export function toApiTime(time: Date | undefined): ApiTimeOnly | undefined {
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return format(time, "HH:mm:ss.SSS") as any
 }

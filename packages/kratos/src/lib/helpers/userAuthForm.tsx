@@ -59,7 +59,6 @@ export function UserAuthForm<TBody>({
                     const formData = new FormData(form)
 
                     // map the entire form data to JSON for the request body
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     let body = Object.fromEntries(formData as any) as unknown as TBody
 
                     // We need the method specified from the name and value of the submit button.

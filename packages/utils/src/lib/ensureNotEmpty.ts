@@ -1,7 +1,7 @@
-import { assertNotEmpty } from "./assertNotEmpty";
+import { assertNotEmpty } from "./assertNotEmpty"
 
 export function ensureNotEmpty<T>(value: T | null | undefined, message?: string): T {
-    assertNotEmpty(value, message);
+    assertNotEmpty(value, message)
 
-    return value;
+    return value
 }

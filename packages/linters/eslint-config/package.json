@@ -2,19 +2,20 @@
   "name": "@leancodepl/eslint-config",
   "version": "7.8.2",
   "license": "Apache-2.0",
-  "main": "src/index.json",
+  "main": "src/index.js",
+  "dependencies": {
+    "eslint-plugin-import": ">=2.31.0",
+    "eslint-plugin-jsx-a11y": ">=6.10.0",
+    "eslint-plugin-perfectionist": ">=3.0.0",
+    "eslint-plugin-react-hooks": "5.1.0-rc-3edc000d-20240926",
+    "eslint-plugin-unused-imports": ">=4.1.0",
+    "globals": ">=15.0.0"
+  },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": ">=7.7.0",
-    "@typescript-eslint/parser": ">=7.7.0",
     "eslint": ">=8.9.0",
     "eslint-config-prettier": ">=9.1.0",
-    "eslint-plugin-import": ">=2.29.1",
-    "eslint-plugin-jsx-a11y": ">=6.8.0",
-    "eslint-plugin-perfectionist": "^2.9.0",
     "eslint-plugin-react": ">=7.34.1",
-    "eslint-plugin-react-hooks": ">=4.6.0",
-    "eslint-plugin-unused-imports": "^3.0.0",
-    "prettier": ">=3.0.0",
-    "typescript": ">=5.0.0"
+    "typescript-eslint": ">=7.0.0",
+    "prettier": ">=3.0.0"
   }
 }

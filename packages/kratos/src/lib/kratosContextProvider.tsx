@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useMemo } from "react"
 import { defaultComponents } from "./defaultComponents"
-import { type KratosContextData, kratosContext } from "./kratosContext"
+import { kratosContext, type KratosContextData } from "./kratosContext"
 import type { KratosComponents } from "./types/components"
 import type { UseHandleFlowError } from "./types/useHandleFlowError"
 

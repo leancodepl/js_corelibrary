@@ -31,6 +31,5 @@ export function toApiTimeSpan(differenceInMilliseconds: number | undefined): Api
         stringTimeSpan += `.${milliseconds}`
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return stringTimeSpan as any
 }

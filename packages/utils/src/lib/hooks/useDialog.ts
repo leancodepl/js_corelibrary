@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import { useCallback, useState } from "react";
-import { useSetUnset } from "./useSetUnset";
+import { useCallback, useState } from "react"
+import { useSetUnset } from "./useSetUnset"
 
 export function useDialog(onAfterClose?: () => void) {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [openDialog, closeDialog] = useSetUnset(setIsDialogOpen);
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [openDialog, closeDialog] = useSetUnset(setIsDialogOpen)
 
     const close = useCallback(() => {
-        closeDialog();
+        closeDialog()
 
-        onAfterClose && setTimeout(onAfterClose);
-    }, [closeDialog, onAfterClose]);
+        if (onAfterClose) setTimeout(onAfterClose)
+    }, [closeDialog, onAfterClose])
 
-    return { isDialogOpen, openDialog, closeDialog: close };
+    return { isDialogOpen, openDialog, closeDialog: close }
 }

@@ -53,7 +53,7 @@ export function useVerificationFlow({
     })
 
     useEffect(() => {
-        flow?.state === "passed_challenge" && onVerified()
+        if (flow?.state === "passed_challenge") onVerified()
     }, [flow?.state, onVerified])
 
     useEffect(() => {

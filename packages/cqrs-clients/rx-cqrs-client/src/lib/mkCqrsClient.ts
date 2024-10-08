@@ -1,5 +1,5 @@
 import { catchError, from, of } from "rxjs"
-import { AjaxConfig, AjaxError, ajax } from "rxjs/ajax"
+import { ajax, AjaxConfig, AjaxError } from "rxjs/ajax"
 import { map, mergeMap } from "rxjs/operators"
 import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"

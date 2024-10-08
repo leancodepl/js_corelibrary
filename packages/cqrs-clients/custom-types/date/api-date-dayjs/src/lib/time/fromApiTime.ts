@@ -14,6 +14,5 @@ export function fromApiTime(time: ApiTimeOnly | undefined): dayjs.Dayjs | undefi
         return undefined
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return dayjs(time as any, "HH:mm:ss.SSS")
 }

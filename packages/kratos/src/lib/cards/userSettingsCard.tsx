@@ -1,7 +1,7 @@
 import { JSX } from "react"
 import { SettingsFlow, UiNodeGroupEnum, UpdateSettingsFlowBody } from "@ory/client"
-import { useScriptNodes } from "../helpers/useScriptNodes"
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm"
+import { useScriptNodes } from "../helpers/useScriptNodes"
 import { useKratosContext } from "../kratosContext"
 import { LookupSecretSettingsSection } from "../sections/lookupSecretSettingsSection"
 import { OidcSettingsSection } from "../sections/oidcSettingsSection"
