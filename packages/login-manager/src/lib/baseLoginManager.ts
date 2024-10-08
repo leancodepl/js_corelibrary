@@ -101,7 +101,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         }
     }
 
-    private async acquireToken(init: RequestInit): Promise<LoginResult> {
+    public async acquireToken(init: RequestInit): Promise<LoginResult> {
         try {
             const result = await fetch(this.endpoint + "/connect/token", init)
             if (!result.ok) {
