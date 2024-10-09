@@ -94,7 +94,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         this.callbacks.push(callback)
     }
 
-    public removeOnChange(callback: () => void) {
+    public removeOnChange(callback: (isSignedIn: boolean) => void) {
         const idx = this.callbacks.indexOf(callback)
         if (idx !== -1) {
             this.callbacks.splice(idx, 1)
