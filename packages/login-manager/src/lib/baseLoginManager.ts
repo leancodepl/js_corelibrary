@@ -54,6 +54,18 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         return this.acquireToken(this.buildSignInWithFacebookRequest(accessToken))
     }
 
+    public trySignInWithOneTimeToken(token: string): Promise<LoginResult> {
+        return this.acquireToken(this.buildSignInWithOneTimeTokenRequest(token))
+    }
+
+    public trySignInWithGoogle(accessToken: string): Promise<LoginResult> {
+        return this.acquireToken(this.buildSignInWithGoogleRequest(accessToken))
+    }
+
+    public trySignInWithLinkedIn(accessToken: string): Promise<LoginResult> {
+        return this.acquireToken(this.buildSignInWithLinkedInRequest(accessToken))
+    }
+
     public async tryRefreshToken() {
         const token = await this.storage.getToken()
         if (token !== null) {
@@ -82,14 +94,14 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         this.callbacks.push(callback)
     }
 
-    public removeOnChange(callback: () => void) {
+    public removeOnChange(callback: (isSignedIn: boolean) => void) {
         const idx = this.callbacks.indexOf(callback)
         if (idx !== -1) {
             this.callbacks.splice(idx, 1)
         }
     }
 
-    private async acquireToken(init: RequestInit): Promise<LoginResult> {
+    public async acquireToken(init: RequestInit): Promise<LoginResult> {
         try {
             const result = await fetch(this.endpoint + "/connect/token", init)
             if (!result.ok) {
@@ -137,6 +149,51 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
         const data: Record<string, string> = {
             grant_type: "facebook",
+            scope: this.scopes,
+            assertion: accessToken,
+            ...this.additionalParams,
+        }
+
+        return {
+            method: "POST",
+            headers: this.prepareHeaders(),
+            body: new URLSearchParams(data),
+        }
+    }
+
+    private buildSignInWithOneTimeTokenRequest(token: string): RequestInit {
+        const data: Record<string, string> = {
+            grant_type: "onetime",
+            scope: this.scopes,
+            token,
+            ...this.additionalParams,
+        }
+
+        return {
+            method: "POST",
+            headers: this.prepareHeaders(),
+            body: new URLSearchParams(data),
+        }
+    }
+
+    private buildSignInWithGoogleRequest(accessToken: string): RequestInit {
+        const data: Record<string, string> = {
+            grant_type: "google",
+            scope: this.scopes,
+            assertion: accessToken,
+            ...this.additionalParams,
+        }
+
+        return {
+            method: "POST",
+            headers: this.prepareHeaders(),
+            body: new URLSearchParams(data),
+        }
+    }
+
+    private buildSignInWithLinkedInRequest(accessToken: string): RequestInit {
+        const data: Record<string, string> = {
+            grant_type: "linkedin",
             scope: this.scopes,
             assertion: accessToken,
             ...this.additionalParams,
