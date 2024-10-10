@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/leancodepl/js_corelibrary/compare/v7.8.2...v8.0.0) (2024-10-10)
+
+### Bug Fixes
+
+-   apply linters config
+    ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
+-   typing of removeOnChange
+    ([6314bbb](https://github.com/leancodepl/js_corelibrary/commit/6314bbba9366ab852a81e8c84b53cd50afa0e0de))
+
+### Features
+
+-   add more sign in options to baseLoginManager
+    ([5bb0a5a](https://github.com/leancodepl/js_corelibrary/commit/5bb0a5aa4b33ff7d4f70ad482fc449ae2e42968c))
+-   add optimistic updates to commands
+    ([aa4b757](https://github.com/leancodepl/js_corelibrary/commit/aa4b757e17e0514504dcb4e63d610daf1e673c8f))
+-   expose acquireToken in baseLoginManager
+    ([2f509ed](https://github.com/leancodepl/js_corelibrary/commit/2f509ed5d01ff81227860acde0ea6299c06bfb50))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.8.2](https://github.com/leancodepl/js_corelibrary/compare/v7.8.1...v7.8.2) (2024-09-19)
 
 ### Bug Fixes

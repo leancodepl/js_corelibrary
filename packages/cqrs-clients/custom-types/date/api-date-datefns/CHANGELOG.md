@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/leancodepl/js_corelibrary/compare/v7.8.2...v8.0.0) (2024-10-10)
+
+### Bug Fixes
+
+-   apply linters config
+    ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [7.8.2](https://github.com/leancodepl/js_corelibrary/compare/v7.8.1...v7.8.2) (2024-09-19)
 
 **Note:** Version bump only for package @leancodepl/api-date-datefns
