@@ -1,40 +1,43 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect, useState } from "react"
 import { ContinueWith, FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/client"
 import { AxiosError } from "axios"
+import { omit } from "lodash"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
-import { parseSearchParams } from "../utils/parseSearchParams"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
+
+type RecoveryFlowSearchParams = {
+    [flowIdParameterName]?: string
+    [returnToParameterName]?: string
+}
 
 export function useRecoveryFlow({
     kratosClient,
-    recoveryRoute,
     onSessionAlreadyAvailable,
     onContinueWith,
+    searchParams = {},
+    updateSearchParams,
 }: {
     kratosClient: FrontendApi
-    recoveryRoute: string
     onSessionAlreadyAvailable: () => void
     onContinueWith?: (continueWith: ContinueWith[]) => void
+    searchParams?: RecoveryFlowSearchParams
+    updateSearchParams: (searchParams: RecoveryFlowSearchParams) => void
 }) {
     const { useHandleFlowError } = useKratosContext()
 
     const [flow, setFlow] = useState<RecoveryFlow>()
 
-    const { search } = useLocation()
-    const nav = useNavigate()
-
-    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
-        () => parseSearchParams(search),
-        [search],
-    )
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = searchParams
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            nav(recoveryRoute, { replace: true })
+            const newParams = omit({ ...searchParams }, [flowIdParameterName])
+
+            updateSearchParams(newParams)
+
             setFlow(undefined)
-        }, [nav, recoveryRoute]),
+        }, [searchParams, updateSearchParams]),
         onSessionAlreadyAvailable,
     })
 
@@ -61,13 +64,13 @@ export function useRecoveryFlow({
         return () => {
             controller.abort()
         }
-    }, [flowId, returnTo, flow, handleFlowError, kratosClient, nav])
+    }, [flowId, returnTo, flow, handleFlowError, kratosClient])
 
     const submit = useCallback(
         ({ body }: { body: UpdateRecoveryFlowBody }) => {
             if (!flow) return
 
-            nav(`${recoveryRoute}?${flowIdParameterName}=${flow.id}`, { replace: true })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             return kratosClient
                 .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: body })
@@ -88,7 +91,7 @@ export function useRecoveryFlow({
                     return Promise.reject(err)
                 })
         },
-        [flow, nav, recoveryRoute, kratosClient, handleFlowError, onContinueWith],
+        [flow, updateSearchParams, searchParams, kratosClient, handleFlowError, onContinueWith],
     )
 
     return { flow, submit, isRecovering: flow?.state === "sent_email" }

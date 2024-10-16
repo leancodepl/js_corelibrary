@@ -1,47 +1,41 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect, useState } from "react"
 import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "@ory/client"
 import { AxiosError } from "axios"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
-import { parseSearchParams } from "../utils/parseSearchParams"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
+
+type RecoveryFlowSearchParams = {
+    [flowIdParameterName]?: string
+    [returnToParameterName]?: string
+}
 
 export function useVerificationFlow({
     initialFlowId,
     kratosClient,
     onVerified,
+    searchParams = {},
+    updateSearchParams,
 }: {
     initialFlowId?: string
     kratosClient: FrontendApi
     onVerified: () => void
+    searchParams?: RecoveryFlowSearchParams
+    updateSearchParams: (searchParams: RecoveryFlowSearchParams) => void
 }) {
     const { useHandleFlowError } = useKratosContext()
 
     const [flow, setFlow] = useState<VerificationFlow>()
 
-    const { search } = useLocation()
-    const nav = useNavigate()
-
-    const { [flowIdParameterName]: flowId = initialFlowId, [returnToParameterName]: returnTo } = useMemo(
-        () => parseSearchParams(search),
-        [search],
-    )
+    const { [flowIdParameterName]: flowId = initialFlowId, [returnToParameterName]: returnTo } = searchParams
 
     const resetFlow = useCallback(
         (flowId?: string) => {
-            const params = new URLSearchParams(search)
-            if (flowId) {
-                params.set(flowIdParameterName, flowId)
-            } else {
-                params.delete(flowIdParameterName)
-            }
-
-            nav({ search: params.toString() }, { replace: true })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flowId })
 
             setFlow(undefined)
         },
-        [nav, search],
+        [searchParams, updateSearchParams],
     )
 
     const reset = () => {
@@ -78,16 +72,13 @@ export function useVerificationFlow({
         return () => {
             controller.abort()
         }
-    }, [flowId, returnTo, flow, handleFlowError, kratosClient, nav, onVerified])
+    }, [flowId, returnTo, flow, handleFlowError, kratosClient, onVerified])
 
     const submit = useCallback(
         ({ body }: { body: UpdateVerificationFlowBody }) => {
             if (!flow) return
 
-            const params = new URLSearchParams(search)
-            params.set(flowIdParameterName, flow.id)
-
-            nav({ search: params.toString() }, { replace: true })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             return kratosClient
                 .updateVerificationFlow({ flow: flow.id, updateVerificationFlowBody: body })
@@ -102,7 +93,7 @@ export function useVerificationFlow({
                     return Promise.reject(err)
                 })
         },
-        [flow, search, nav, kratosClient, handleFlowError],
+        [flow, updateSearchParams, searchParams, kratosClient, handleFlowError],
     )
 
     return { flow, submit, reset }

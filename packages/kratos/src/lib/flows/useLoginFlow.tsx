@@ -1,42 +1,44 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect, useState } from "react"
 import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "@ory/client"
 import { AxiosError } from "axios"
 import { omit } from "lodash"
 import yn from "yn"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
-import { parseSearchParams } from "../utils/parseSearchParams"
-import { aalParameterName, flowIdParameterName, returnToParameterName } from "../utils/variables"
+import { aalParameterName, flowIdParameterName, refreshParameterName, returnToParameterName } from "../utils/variables"
+
+export type LoginSearchParams = {
+    [flowIdParameterName]?: string
+    [returnToParameterName]?: string
+    [refreshParameterName]?: string
+    [aalParameterName]?: string
+}
 
 export function useLoginFlow({
     kratosClient,
-    loginRoute,
     returnTo,
     onLoggedIn,
     onSessionAlreadyAvailable,
+    searchParams = {},
+    updateSearchParams,
 }: {
     kratosClient: FrontendApi
-    loginRoute: string
     returnTo?: string
     onLoggedIn?: (session: Session) => void
     onSessionAlreadyAvailable?: () => void
+    updateSearchParams: (searchParams: LoginSearchParams) => void
+    searchParams?: LoginSearchParams
 }) {
     const { useHandleFlowError } = useKratosContext()
 
     const [flow, setFlow] = useState<LoginFlow>()
 
-    const { search } = useLocation()
-    const nav = useNavigate()
-
-    const searchParams = useMemo(() => parseSearchParams(search), [search])
-
     const {
         [flowIdParameterName]: flowId,
         [returnToParameterName]: returnToFromSearch,
-        refresh,
+        [refreshParameterName]: refresh,
         [aalParameterName]: authorizationAssuranceLevel,
-    } = searchParams as Partial<Record<string, string>>
+    } = searchParams
 
     useEffect(() => {
         setFlow(undefined)
@@ -46,10 +48,10 @@ export function useLoginFlow({
         resetFlow: useCallback(() => {
             const newParams = omit({ ...searchParams }, [flowIdParameterName, aalParameterName])
 
-            nav(`${loginRoute}?${new URLSearchParams(newParams)}`, { replace: true })
+            updateSearchParams(newParams)
 
             setFlow(undefined)
-        }, [nav, searchParams, loginRoute]),
+        }, [searchParams, updateSearchParams]),
         onSessionAlreadyAvailable,
     })
 
@@ -97,9 +99,7 @@ export function useLoginFlow({
         ({ body }: { body: UpdateLoginFlowBody }) => {
             if (!flow) return
 
-            nav(`${loginRoute}?${new URLSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })}`, {
-                replace: true,
-            })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             kratosClient
                 .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: body })
@@ -121,7 +121,7 @@ export function useLoginFlow({
                     return Promise.reject(err)
                 })
         },
-        [flow, nav, loginRoute, searchParams, kratosClient, handleFlowError, onLoggedIn],
+        [flow, updateSearchParams, searchParams, kratosClient, handleFlowError, onLoggedIn],
     )
 
     return { flow, submit }

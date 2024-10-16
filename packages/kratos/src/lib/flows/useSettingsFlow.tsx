@@ -1,40 +1,43 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect, useState } from "react"
 import { ContinueWith, FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client"
 import { AxiosError, AxiosRequestConfig } from "axios"
+import { omit } from "lodash"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
-import { parseSearchParams } from "../utils/parseSearchParams"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
+
+type SettingsFlowSearchParams = {
+    [flowIdParameterName]?: string
+    [returnToParameterName]?: string
+}
 
 export function useSettingsFlow({
     kratosClient,
-    settingsRoute,
     params,
     onContinueWith,
+    searchParams = {},
+    updateSearchParams,
 }: {
     kratosClient: FrontendApi
-    settingsRoute: string
     params?: AxiosRequestConfig["params"]
     onContinueWith?: (continueWith: ContinueWith[]) => void
+    searchParams?: SettingsFlowSearchParams
+    updateSearchParams: (searchParams: SettingsFlowSearchParams) => void
 }) {
     const { useHandleFlowError } = useKratosContext()
 
     const [flow, setFlow] = useState<SettingsFlow>()
 
-    const { search } = useLocation()
-    const nav = useNavigate()
-
-    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
-        () => parseSearchParams(search),
-        [search],
-    )
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = searchParams
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            nav(settingsRoute, { replace: true })
+            const newParams = omit({ ...searchParams }, [flowIdParameterName])
+
+            updateSearchParams(newParams)
+
             setFlow(undefined)
-        }, [nav, settingsRoute]),
+        }, [searchParams, updateSearchParams]),
     })
 
     useEffect(() => {
@@ -67,13 +70,13 @@ export function useSettingsFlow({
         return () => {
             controller.abort()
         }
-    }, [flow, flowId, handleFlowError, kratosClient, params, returnTo, settingsRoute])
+    }, [flow, flowId, handleFlowError, kratosClient, params, returnTo])
 
     const submit = useCallback(
         ({ body }: { body: UpdateSettingsFlowBody }) => {
             if (!flow) return
 
-            nav(`${settingsRoute}?${flowIdParameterName}=${flow.id}`, { replace: true })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             return kratosClient
                 .updateSettingsFlow({ flow: flow.id, updateSettingsFlowBody: body })
@@ -99,7 +102,7 @@ export function useSettingsFlow({
                     return Promise.reject(err)
                 })
         },
-        [flow, nav, settingsRoute, kratosClient, handleFlowError, onContinueWith],
+        [flow, updateSearchParams, searchParams, kratosClient, handleFlowError, onContinueWith],
     )
 
     return { flow, submit }

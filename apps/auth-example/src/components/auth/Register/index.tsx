@@ -1,18 +1,22 @@
-import { useCallback } from "react";
-import { Center, Flex, Spinner, Text } from "@chakra-ui/react";
-import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos";
-import { registerRoute } from "../../../app/routes";
-import { kratosClient } from "../../../auth/ory";
-import { sessionManager } from "../../../auth/sessionManager";
+import { useCallback, useMemo } from "react"
+import { useSearchParams } from "react-router-dom"
+import { Center, Flex, Spinner, Text } from "@chakra-ui/react"
+import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos"
+import { kratosClient } from "../../../auth/ory"
+import { sessionManager } from "../../../auth/sessionManager"
+import { parseSearchParams } from "../../../utils/parseSearchParams"
 
 export function Register() {
+    const [searchParams, updateSearchParams] = useSearchParams()
+
     const { flow, submit, isRegistered } = useRegisterFlow({
         kratosClient,
-        registrationRoute: registerRoute,
         onSessionAlreadyAvailable: useCallback(() => {
-            sessionManager.checkIfLoggedIn();
+            sessionManager.checkIfLoggedIn()
         }, []),
-    });
+        searchParams: useMemo(() => parseSearchParams(searchParams), [searchParams]),
+        updateSearchParams,
+    })
 
     if (isRegistered) {
         return (
@@ -25,7 +29,7 @@ export function Register() {
                     </Text>
                 </Flex>
             </Center>
-        );
+        )
     }
 
     return (
@@ -40,5 +44,5 @@ export function Register() {
                 )}
             </Flex>
         </Center>
-    );
+    )
 }
