@@ -1,23 +1,21 @@
 import { useCallback, useMemo } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useSearchParams } from "react-router-dom"
 import { Center, Flex, Spinner, Text } from "@chakra-ui/react"
 import { RegistrationCard, useRegisterFlow } from "@leancodepl/kratos"
-import { registerRoute } from "../../../app/routes"
 import { kratosClient } from "../../../auth/ory"
 import { sessionManager } from "../../../auth/sessionManager"
 import { parseSearchParams } from "../../../utils/parseSearchParams"
 
 export function Register() {
-    const { search } = useLocation()
-    const nav = useNavigate()
+    const [searchParams, updateSearchParams] = useSearchParams()
 
     const { flow, submit, isRegistered } = useRegisterFlow({
         kratosClient,
         onSessionAlreadyAvailable: useCallback(() => {
             sessionManager.checkIfLoggedIn()
         }, []),
-        searchParams: useMemo(() => parseSearchParams(search), [search]),
-        updateSearchParams: searchParams => nav(`${registerRoute}?${new URLSearchParams(searchParams)}`),
+        searchParams: useMemo(() => parseSearchParams(searchParams), [searchParams]),
+        updateSearchParams,
     })
 
     if (isRegistered) {

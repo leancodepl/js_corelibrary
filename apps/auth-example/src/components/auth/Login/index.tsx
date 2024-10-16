@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useNavigate } from "react-router"
 import { useSearchParams } from "react-router-dom"
 import { Center, Flex, Spinner, Text, useToast } from "@chakra-ui/react"
 import styled from "@emotion/styled"
@@ -23,8 +23,7 @@ import { parseSearchParams } from "../../../utils/parseSearchParams"
 export function Login() {
     const handleLogin = useHandleLogin()
 
-    const { search } = useLocation()
-    const nav = useNavigate()
+    const [searchParams, updateSearchParams] = useSearchParams()
 
     const { flow, submit } = useLoginFlow({
         kratosClient,
@@ -32,8 +31,8 @@ export function Login() {
         onSessionAlreadyAvailable: useCallback(() => {
             sessionManager.checkIfLoggedIn()
         }, []),
-        searchParams: useMemo(() => parseSearchParams(search), [search]),
-        updateSearchParams: searchParams => nav(`${loginRoute}?${new URLSearchParams(searchParams)}`),
+        searchParams: useMemo(() => parseSearchParams(searchParams), [searchParams]),
+        updateSearchParams,
     })
 
     return (

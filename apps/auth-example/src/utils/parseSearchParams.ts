@@ -1,6 +1,5 @@
-export function parseSearchParams(search: string) {
+export function parseSearchParams(searchParams: URLSearchParams) {
     const resultObject: Record<string, string> = {}
-    const searchParams = new URLSearchParams(search)
 
     for (const [key, value] of searchParams.entries()) {
         resultObject[key] = value
