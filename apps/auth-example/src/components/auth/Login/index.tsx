@@ -1,9 +1,10 @@
-import { useCallback, useEffect } from "react"
-import { useNavigate } from "react-router"
+import { useCallback, useEffect, useMemo } from "react"
+import { useLocation, useNavigate } from "react-router"
 import { useSearchParams } from "react-router-dom"
 import { Center, Flex, Spinner, Text, useToast } from "@chakra-ui/react"
 import styled from "@emotion/styled"
 import { AuthenticatorAssuranceLevel, UiTextTypeEnum } from "@ory/client"
+import { URLSearchParams } from "url"
 import {
     aalParameterName,
     ErrorId,
@@ -17,17 +18,22 @@ import {
 import { loginRoute } from "../../../app/routes"
 import { kratosClient } from "../../../auth/ory"
 import { sessionManager } from "../../../auth/sessionManager"
+import { parseSearchParams } from "../../../utils/parseSearchParams"
 
 export function Login() {
     const handleLogin = useHandleLogin()
 
+    const { search } = useLocation()
+    const nav = useNavigate()
+
     const { flow, submit } = useLoginFlow({
         kratosClient,
-        loginRoute,
         onLoggedIn: handleLogin,
         onSessionAlreadyAvailable: useCallback(() => {
             sessionManager.checkIfLoggedIn()
         }, []),
+        searchParams: useMemo(() => parseSearchParams(search), [search]),
+        updateSearchParams: searchParams => nav(`${loginRoute}?${new URLSearchParams(searchParams)}`),
     })
 
     return (

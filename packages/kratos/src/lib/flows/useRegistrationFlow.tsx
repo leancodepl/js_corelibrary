@@ -1,41 +1,44 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router"
+import { useCallback, useEffect, useState } from "react"
 import { ContinueWith, FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/client"
 import { AxiosError } from "axios"
+import { omit } from "lodash"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
-import { parseSearchParams } from "../utils/parseSearchParams"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
+
+type RegistrationFlowSearchParams = {
+    [flowIdParameterName]?: string
+    [returnToParameterName]?: string
+}
 
 export function useRegisterFlow({
     kratosClient,
-    registrationRoute,
     onSessionAlreadyAvailable,
     onContinueWith,
+    searchParams = {},
+    updateSearchParams,
 }: {
     kratosClient: FrontendApi
-    registrationRoute: string
     onSessionAlreadyAvailable: () => void
     onContinueWith?: (continueWith: ContinueWith[]) => void
+    searchParams?: RegistrationFlowSearchParams
+    updateSearchParams: (searchParams: RegistrationFlowSearchParams) => void
 }) {
     const { useHandleFlowError } = useKratosContext()
 
     const [flow, setFlow] = useState<RegistrationFlow>()
     const [isRegistered, setIsRegistered] = useState(false)
 
-    const { search } = useLocation()
-    const nav = useNavigate()
-
-    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = useMemo(
-        () => parseSearchParams(search),
-        [search],
-    )
+    const { [flowIdParameterName]: flowId, [returnToParameterName]: returnTo } = searchParams
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            nav(registrationRoute, { replace: true })
+            const newParams = omit({ ...searchParams }, [flowIdParameterName])
+
+            updateSearchParams(newParams)
+
             setFlow(undefined)
-        }, [nav, registrationRoute]),
+        }, [searchParams, updateSearchParams]),
         onSessionAlreadyAvailable,
     })
 
@@ -67,7 +70,7 @@ export function useRegisterFlow({
         ({ body }: { body: UpdateRegistrationFlowBody }) => {
             if (!flow) return
 
-            nav(`${registrationRoute}?${flowIdParameterName}=${flow.id}`, { replace: true })
+            updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             return kratosClient
                 .updateRegistrationFlow({ flow: flow.id, updateRegistrationFlowBody: body })
@@ -88,7 +91,7 @@ export function useRegisterFlow({
                     return Promise.reject(err)
                 })
         },
-        [flow, nav, registrationRoute, kratosClient, handleFlowError, onContinueWith],
+        [flow, updateSearchParams, searchParams, kratosClient, handleFlowError, onContinueWith],
     )
 
     return { flow, submit, isRegistered }

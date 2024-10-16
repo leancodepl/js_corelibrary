@@ -1,18 +1,20 @@
-import { useCallback } from "react"
-import { useNavigate } from "react-router"
+import { useCallback, useMemo } from "react"
+import { useLocation, useNavigate } from "react-router"
 import { Spinner } from "@chakra-ui/react"
+import { parseSearchParams } from "apps/auth-example/src/utils/parseSearchParams"
 import { useVerificationFlow, VerificationCard } from "@leancodepl/kratos"
-import { loginRoute } from "../../../app/routes"
+import { loginRoute, verificationRoute } from "../../../app/routes"
 import { kratosClient } from "../../../auth/ory"
 
 export function Verification() {
+    const { search } = useLocation()
     const nav = useNavigate()
 
     const { flow, submit } = useVerificationFlow({
         kratosClient,
-        onVerified: useCallback(() => {
-            nav(loginRoute)
-        }, [nav]),
+        onVerified: useCallback(() => nav(loginRoute), [nav]),
+        searchParams: useMemo(() => parseSearchParams(search), [search]),
+        updateSearchParams: searchParams => nav(`${verificationRoute}?${new URLSearchParams(searchParams)}`),
     })
 
     if (!flow) return <Spinner />

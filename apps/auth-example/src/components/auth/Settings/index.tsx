@@ -1,16 +1,23 @@
+import { useMemo } from "react"
+import { useLocation, useNavigate } from "react-router"
 import { Spinner } from "@chakra-ui/react"
 import { UserSettingsCard, useSettingsFlow } from "@leancodepl/kratos"
 import { settingsRoute } from "../../../app/routes"
 import { kratosClient } from "../../../auth/ory"
+import { parseSearchParams } from "../../../utils/parseSearchParams"
 import { Redirect } from "../../common/Redirect"
 
 export function Settings() {
+    const { search } = useLocation()
+    const nav = useNavigate()
+
     const { flow, submit } = useSettingsFlow({
         kratosClient,
-        settingsRoute,
         params: {
             settingsRoute,
         },
+        searchParams: useMemo(() => parseSearchParams(search), [search]),
+        updateSearchParams: searchParams => nav(`${settingsRoute}?${new URLSearchParams(searchParams)}`),
     })
 
     if (!flow) return <Spinner size="xl" />
