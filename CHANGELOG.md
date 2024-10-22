@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.1.1](https://github.com/leancodepl/js_corelibrary/compare/v8.1.0...v8.1.1) (2024-10-22)
+
+### Bug Fixes
+
+-   remove react-router dependency from utils
+    ([37e6017](https://github.com/leancodepl/js_corelibrary/commit/37e6017ceb4042b25f0b44d2554c14785b9f4640))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.1.0](https://github.com/leancodepl/js_corelibrary/compare/v8.0.0...v8.1.0) (2024-10-17)
 
 ### Bug Fixes
