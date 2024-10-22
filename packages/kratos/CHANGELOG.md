@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.1.0](https://github.com/leancodepl/js_corelibrary/compare/v8.0.0...v8.1.0) (2024-10-17)
+
+### Features
+
+-   make kratos router free
+    ([dc058a5](https://github.com/leancodepl/js_corelibrary/commit/dc058a54a9e80d85f5f7ea3b53b472761efa2132))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.0.0](https://github.com/leancodepl/js_corelibrary/compare/v7.8.2...v8.0.0) (2024-10-10)
 
 ### Bug Fixes
