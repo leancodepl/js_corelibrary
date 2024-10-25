@@ -253,10 +253,10 @@ export function mkCqrsClient({
                     handler?: undefined
                     optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
                 } & Omit<
-                    UseMutationOptions<CommandResult<TErrorCodes>, unknown, TCommand, TContext>,
+                    UseMutationOptions<CommandResult<TErrorCodes>, CommandResult<TErrorCodes>, TCommand, TContext>,
                     "mutationFn" | "mutationKey"
                 >,
-            ): UseMutationResult<CommandResult<TErrorCodes>, unknown, TCommand, TContext>
+            ): UseMutationResult<CommandResult<TErrorCodes>, CommandResult<TErrorCodes>, TCommand, TContext>
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
                 options?: {
                     invalidateQueries?: QueryKey[]
@@ -264,15 +264,15 @@ export function mkCqrsClient({
                         handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                     ) => TResult
                     optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
-                } & Omit<UseMutationOptions<TResult, unknown, TCommand, TContext>, "mutationFn" | "mutationKey">,
-            ): UseMutationResult<TResult, unknown, TCommand, TContext>
+                } & Omit<UseMutationOptions<TResult, TResult, TCommand, TContext>, "mutationFn" | "mutationKey">,
+            ): UseMutationResult<TResult, TResult, TCommand, TContext>
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>({
                 invalidateQueries,
                 handler,
                 optimisticUpdate,
-                onSuccess,
                 onMutate,
                 onError,
+                onSettled,
                 ...options
             }: {
                 invalidateQueries?: QueryKey[]
@@ -281,12 +281,17 @@ export function mkCqrsClient({
                 ) => TResult
                 optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
             } & Omit<
-                UseMutationOptions<CommandResult<TErrorCodes> | TResult, unknown, TCommand, TContext>,
+                UseMutationOptions<
+                    CommandResult<TErrorCodes> | TResult,
+                    CommandResult<TErrorCodes> | TResult,
+                    TCommand,
+                    TContext
+                >,
                 "mutationFn" | "mutationKey"
             > = {}) {
                 return useMutation<
                     CommandResult<TErrorCodes> | TResult,
-                    unknown,
+                    CommandResult<TErrorCodes> | TResult,
                     TCommand,
                     { revertOptimisticUpdate: () => void } & TContext
                 >(
@@ -312,21 +317,19 @@ export function mkCqrsClient({
                                     optimisticUpdateReverts.forEach(revertOptimisticUpdate => revertOptimisticUpdate()),
                             }
                         },
-                        async onSuccess(data, variables, context) {
+                        async onError(error, variables, context) {
+                            await onError?.(error, variables, context)
+
+                            context?.revertOptimisticUpdate()
+                        },
+                        async onSettled(data, error, variables, context) {
                             if (invalidateQueries) {
                                 await Promise.allSettled(
                                     invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
                                 )
                             }
 
-                            const result = await onSuccess?.(data, variables, context)
-
-                            return result
-                        },
-                        async onError(error, variables, context) {
-                            await onError?.(error, variables, context)
-
-                            context?.revertOptimisticUpdate()
+                            return await onSettled?.(data, error, variables, context)
                         },
                     },
                     queryClient,
@@ -354,7 +357,15 @@ export function mkCqrsClient({
                             }) as ApiResponse<CommandResult<TErrorCodes>>,
                     ),
                     catchError(e => of(useApiCommand.mapError(e))),
-                    map(useApiCommand.handleResponse(handler)),
+                    map(response => {
+                        const result = useApiCommand.handleResponse(handler)(response)
+
+                        if (!response.isSuccess || !response.result.WasSuccessful) {
+                            throw result
+                        }
+
+                        return result
+                    }),
                 )
             }
 
