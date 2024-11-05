@@ -1,5 +1,4 @@
 import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/client"
-import { isString } from "lodash"
 import { getNodeInputType } from "./getNodeInputType"
 
 export type FilterNodesByGroups = {
@@ -64,5 +63,7 @@ export const filterNodesByGroups = ({
     })
 
 function search(s?: string | string[]) {
-    return (isString(s) ? s.split(",") : s) || []
+    if (s !== undefined && typeof s === "string") return s.split(",")
+
+    return s ?? []
 }
