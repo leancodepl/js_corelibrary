@@ -3,6 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/linters/stylelint-config/src",
   "projectType": "library",
+  "tags": [],
   "targets": {
     "build": {
       "command": "node tools/scripts/copy.mjs packages/linters/stylelint-config {args.outputPath}",
@@ -11,12 +12,13 @@
           "outputPath": "{options.outputPath}"
         }
       },
-      "options": { "outputPath": "dist/packages/linters/stylelint-config" }
+      "options": {
+        "outputPath": "dist/packages/linters/stylelint-config"
+      }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/stylelint-config {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
     }
-  },
-  "tags": []
+  }
 }
