@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { ContinueWith, FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/client"
 import { AxiosError } from "axios"
-import { omit } from "lodash"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
@@ -33,7 +32,7 @@ export function useRegisterFlow({
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            const newParams = omit({ ...searchParams }, [flowIdParameterName])
+            const { [flowIdParameterName]: _flowId, ...newParams } = searchParams
 
             updateSearchParams(newParams)
 

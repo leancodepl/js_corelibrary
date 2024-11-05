@@ -1,5 +1,5 @@
-import { isObject, isString } from "lodash";
-
 export function getNodeInputType(attr: unknown): string {
-    return isObject(attr) && "type" in attr && isString(attr.type) ? attr.type : "";
+    return attr && typeof attr === "object" && "type" in attr && attr.type && typeof attr.type === "string"
+        ? attr.type
+        : ""
 }

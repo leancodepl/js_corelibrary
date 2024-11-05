@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "@ory/client"
 import { AxiosError } from "axios"
-import { omit } from "lodash"
 import yn from "yn"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -46,7 +45,7 @@ export function useLoginFlow({
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            const newParams = omit({ ...searchParams }, [flowIdParameterName, aalParameterName])
+            const { [flowIdParameterName]: _flowId, [aalParameterName]: _aal, ...newParams } = searchParams
 
             updateSearchParams(newParams)
 

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { ContinueWith, FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client"
 import { AxiosError, AxiosRequestConfig } from "axios"
-import { omit } from "lodash"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
 import { flowIdParameterName, returnToParameterName } from "../utils/variables"
@@ -32,7 +31,7 @@ export function useSettingsFlow({
 
     const handleFlowError = useHandleFlowError({
         resetFlow: useCallback(() => {
-            const newParams = omit({ ...searchParams }, [flowIdParameterName])
+            const { [flowIdParameterName]: _flowId, ...newParams } = searchParams
 
             updateSearchParams(newParams)
 
