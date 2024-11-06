@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.2.0](https://github.com/leancodepl/js_corelibrary/compare/v8.1.1...v8.2.0) (2024-11-05)
+
+### Bug Fixes
+
+-   firing onError on failed commands
+    ([2c1204a](https://github.com/leancodepl/js_corelibrary/commit/2c1204ab16557bdd18a92f657ad48bd30f5e7f7d))
+
+### Features
+
+-   remove lodash from kratos
+    ([f88c057](https://github.com/leancodepl/js_corelibrary/commit/f88c057f8350900240fd2c6ace6d9c8cbf1aea5f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.1.1](https://github.com/leancodepl/js_corelibrary/compare/v8.1.0...v8.1.1) (2024-10-22)
 
 ### Bug Fixes
