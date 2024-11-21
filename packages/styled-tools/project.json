@@ -36,6 +36,10 @@
       "options": {
         "jestConfig": "packages/styled-tools/jest.config.ts"
       }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/styled-tools {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     }
   }
 }
