@@ -1,4 +1,4 @@
-export default {
+const config = {
     displayName: "styled-tools",
     preset: "../../jest.preset.js",
     transform: {
@@ -10,3 +10,5 @@ export default {
     moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
     coverageDirectory: "../../coverage/packages/styled-tools",
 }
+
+export default config

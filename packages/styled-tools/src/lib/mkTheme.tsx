@@ -1,5 +1,5 @@
-import type { ExecutionContext, RuleSet } from "styled-components"
 import { mkProxy, Value } from "./mkProxy"
+import type { ExecutionContext, RuleSet } from "styled-components"
 
 export function mkTheme<TTheme extends Value>() {
     return mkProxy(ctx => ctx.theme as TTheme) as unknown as TransformDeep<TTheme>
