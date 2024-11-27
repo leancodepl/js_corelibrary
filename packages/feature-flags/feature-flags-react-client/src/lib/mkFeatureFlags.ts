@@ -1,7 +1,7 @@
 import { OpenFeatureProvider, useFlag } from "@openfeature/react-sdk"
-import { OpenFeature, Provider } from "@openfeature/web-sdk"
+import { FlagValue, OpenFeature, Provider } from "@openfeature/web-sdk"
 
-export type FeatureFlagConfig = { defaultValue: any }
+export type FeatureFlagConfig<T extends FlagValue = FlagValue> = { defaultValue: T }
 export type Flags<TKeys extends string = string, TFlag extends FeatureFlagConfig = FeatureFlagConfig> = Record<
     TKeys,
     TFlag
