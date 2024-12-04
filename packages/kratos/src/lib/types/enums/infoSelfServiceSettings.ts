@@ -20,4 +20,6 @@ export enum InfoSelfServiceSettings {
     InfoSelfServiceSettingsDisableLookup = 1050016,
     InfoSelfServiceSettingsTOTPSecretLabel = 1050017,
     InfoSelfServiceSettingsRemoveWebAuthn = 1050018,
+    InfoSelfServiceSettingsRegisterPasskey = 1050019,
+    InfoSelfServiceSettingsRemovePasskey = 1050020,
 }

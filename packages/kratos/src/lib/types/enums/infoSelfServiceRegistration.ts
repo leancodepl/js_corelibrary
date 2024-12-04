@@ -6,4 +6,9 @@ export enum InfoSelfServiceRegistration {
     InfoSelfServiceRegistrationWith = 1040002,
     InfoSelfServiceRegistrationContinue = 1040003,
     InfoSelfServiceRegistrationRegisterWebAuthn = 1040004,
+    InfoSelfServiceRegistrationEmailWithCodeSent = 1040005,
+    InfoSelfServiceRegistrationRegisterCode = 1040006,
+    InfoSelfServiceRegistrationRegisterPasskey = 1040007,
+    InfoSelfServiceRegistrationBack = 1040008,
+    InfoSelfServiceRegistrationChooseCredentials = 1040009,
 }
