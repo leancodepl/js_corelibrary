@@ -1,10 +1,10 @@
 {
   "name": "@leancodepl/axios-cqrs-client",
-  "version": "8.3.0",
+  "version": "8.3.1",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "8.3.0",
-    "@leancodepl/validation": "8.3.0",
+    "@leancodepl/cqrs-client-base": "8.3.1",
+    "@leancodepl/validation": "8.3.1",
     "axios": ">=1.6.0"
   }
 }

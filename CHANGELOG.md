@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.3.1](https://github.com/leancodepl/js_corelibrary/compare/v8.3.0...v8.3.1) (2024-12-06)
+
+### Bug Fixes
+
+-   allow number as a theme value
+    ([e2c4875](https://github.com/leancodepl/js_corelibrary/commit/e2c48752ae26629082726743aa72c902e1e242e0))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.3.0](https://github.com/leancodepl/js_corelibrary/compare/v8.2.0...v8.3.0) (2024-12-06)
 
 ### Bug Fixes
