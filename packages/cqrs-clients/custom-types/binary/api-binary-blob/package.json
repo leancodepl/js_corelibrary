@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/api-binary-blob",
-  "version": "8.2.0",
+  "version": "8.3.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-binary": "8.2.0"
+    "@leancodepl/api-binary": "8.3.0"
   },
   "devDependencies": {
     "blob-polyfill": "^7.0.0"

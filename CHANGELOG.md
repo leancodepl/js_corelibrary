@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.3.0](https://github.com/leancodepl/js_corelibrary/compare/v8.2.0...v8.3.0) (2024-12-06)
+
+### Bug Fixes
+
+-   guard function in mkProxy
+    ([5d8b806](https://github.com/leancodepl/js_corelibrary/commit/5d8b80683baf5f52f8012cb6d969cdef4af76cb3))
+
+### Features
+
+-   add mkTheme
+    ([105c7c7](https://github.com/leancodepl/js_corelibrary/commit/105c7c70c5738992af5e78aa8b583226dd5bb3f1))
+-   return useTheme from mkTheme
+    ([427569d](https://github.com/leancodepl/js_corelibrary/commit/427569dbbf668a6cd510ef834e9138c113b463ae))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.2.0](https://github.com/leancodepl/js_corelibrary/compare/v8.1.1...v8.2.0) (2024-11-05)
 
 ### Bug Fixes

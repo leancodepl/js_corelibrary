@@ -1,10 +1,10 @@
 {
   "name": "@leancodepl/api-date-datefns",
-  "version": "8.2.0",
+  "version": "8.3.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-date": "8.2.0",
-    "@leancodepl/api-date-utils": "8.2.0",
+    "@leancodepl/api-date": "8.3.0",
+    "@leancodepl/api-date-utils": "8.3.0",
     "date-fns": ">=2.0.0"
   },
   "devDependencies": {

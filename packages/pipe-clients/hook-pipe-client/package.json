@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/hook-pipe-client",
-  "version": "8.2.0",
+  "version": "8.3.0",
   "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/pipe": "^1.0.0",
