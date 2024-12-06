@@ -20,7 +20,7 @@ export function mkProxy(accessor: (context: ExecutionContext) => Value) {
     })
 }
 
-export type Value = { [key: string | symbol]: Value | undefined } | RuleSet | string | undefined
+export type Value = { [key: string | symbol]: Value | undefined } | number | RuleSet | string | undefined
 
 function guard(value: unknown): value is Record<string | symbol, unknown> {
     return typeof value === "object"
