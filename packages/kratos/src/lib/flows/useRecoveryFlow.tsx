@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { ContinueWith, FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "@ory/client"
+import { ContinueWith, FrontendApi, RecoveryFlow, UpdateRecoveryFlowBody } from "../kratos"
 import { AxiosError } from "axios"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -48,14 +48,14 @@ export function useRecoveryFlow({
         if (flowId) {
             kratosClient
                 .getRecoveryFlow({ id: flowId }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
             return
         } else {
             kratosClient
                 .createBrowserRecoveryFlow({ returnTo }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         }
@@ -73,7 +73,7 @@ export function useRecoveryFlow({
 
             return kratosClient
                 .updateRecoveryFlow({ flow: flow.id, updateRecoveryFlowBody: body })
-                .then(({ data }) => {
+                .then(data => {
                     setFlow(data)
 
                     if (data.continue_with) {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "@ory/client"
+import { FrontendApi, UpdateVerificationFlowBody, VerificationFlow } from "../kratos"
 import { AxiosError } from "axios"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -58,13 +58,13 @@ export function useVerificationFlow({
         if (flowId) {
             kratosClient
                 .getVerificationFlow({ id: flowId }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         } else {
             kratosClient
                 .createBrowserVerificationFlow({ returnTo }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         }
@@ -82,7 +82,7 @@ export function useVerificationFlow({
 
             return kratosClient
                 .updateVerificationFlow({ flow: flow.id, updateVerificationFlowBody: body })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleFlowError)
                 .catch((err: AxiosError<VerificationFlow>) => {
                     if (err.response?.status === 400) {

@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { UiNodeGroupEnum } from "@ory/client"
+import { UiNodeGroupEnum } from "../kratos"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 import { SelfServiceFlow } from "../helpers/userAuthForm"
 import { filterNodesByGroups } from "../utils/filterNodesByGroups"

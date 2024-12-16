@@ -1,4 +1,4 @@
-import { UiNode, UiNodeGroupEnum } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "../kratos"
 
 export function hasOidc(nodes: UiNode[]) {
     return nodes.some(({ group }) => group === UiNodeGroupEnum.Oidc)

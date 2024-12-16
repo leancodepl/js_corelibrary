@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { ReactNode } from "react"
-import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, UiNodeGroupEnum, VerificationFlow } from "@ory/client"
+import { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, UiNodeGroupEnum, VerificationFlow } from "../kratos"
 import { FilterNodesByGroups } from "../utils/filterNodesByGroups"
 import { FilterFlowNodes } from "./filterFlowNodes"
 

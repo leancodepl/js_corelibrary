@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "@ory/client"
-import { AxiosError } from "axios"
+import { FrontendApi, LoginFlow, Session, UpdateLoginFlowBody } from "../kratos"
 import yn from "yn"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -62,7 +61,7 @@ export function useLoginFlow({
         if (flowId) {
             kratosClient
                 .getLoginFlow({ id: flowId }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         } else {
@@ -75,7 +74,7 @@ export function useLoginFlow({
                     },
                     { signal: controller.signal },
                 )
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         }
@@ -101,8 +100,8 @@ export function useLoginFlow({
             updateSearchParams({ ...searchParams, [flowIdParameterName]: flow.id })
 
             kratosClient
-                .updateLoginFlow({ flow: flow.id, updateLoginFlowBody: body })
-                .then(({ data }) => {
+                .updateLoginFlowRaw({ flow: flow.id, updateLoginFlowBody: body })
+                .then(data => {
                     if (flow.return_to) {
                         window.location.href = flow.return_to
                         return

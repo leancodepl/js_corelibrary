@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { ContinueWith, FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "@ory/client"
+import { ContinueWith, FrontendApi, SettingsFlow, UpdateSettingsFlowBody } from "../kratos"
 import { AxiosError, AxiosRequestConfig } from "axios"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -12,13 +12,11 @@ type SettingsFlowSearchParams = {
 
 export function useSettingsFlow({
     kratosClient,
-    params,
     onContinueWith,
     searchParams = {},
     updateSearchParams,
 }: {
     kratosClient: FrontendApi
-    params?: AxiosRequestConfig["params"]
     onContinueWith?: (continueWith: ContinueWith[]) => void
     searchParams?: SettingsFlowSearchParams
     updateSearchParams: (searchParams: SettingsFlowSearchParams) => void
@@ -47,7 +45,7 @@ export function useSettingsFlow({
         if (flowId) {
             kratosClient
                 .getSettingsFlow({ id: flowId }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         } else {
@@ -57,11 +55,10 @@ export function useSettingsFlow({
                         returnTo,
                     },
                     {
-                        params,
                         signal: controller.signal,
                     },
                 )
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         }
@@ -69,7 +66,7 @@ export function useSettingsFlow({
         return () => {
             controller.abort()
         }
-    }, [flow, flowId, handleFlowError, kratosClient, params, returnTo])
+    }, [flow, flowId, handleFlowError, kratosClient, returnTo])
 
     const submit = useCallback(
         ({ body }: { body: UpdateSettingsFlowBody }) => {
@@ -79,7 +76,7 @@ export function useSettingsFlow({
 
             return kratosClient
                 .updateSettingsFlow({ flow: flow.id, updateSettingsFlowBody: body })
-                .then(({ data }) => {
+                .then(data => {
                     if (flow.return_to) {
                         window.location.href = flow.return_to
                         return

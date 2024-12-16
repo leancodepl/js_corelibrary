@@ -1,5 +1,5 @@
 import { ComponentType, ElementType, ReactNode } from "react"
-import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "@ory/client"
+import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "../kratos"
 
 type Node = { node: UiNode }
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { ContinueWith, FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "@ory/client"
+import { ContinueWith, FrontendApi, RegistrationFlow, UpdateRegistrationFlowBody } from "../kratos"
 import { AxiosError } from "axios"
 import { useKratosContext } from "../kratosContext"
 import { handleCancelError } from "../utils/handleCancelError"
@@ -49,13 +49,13 @@ export function useRegisterFlow({
         if (flowId) {
             kratosClient
                 .getRegistrationFlow({ id: flowId }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         } else {
             kratosClient
                 .createBrowserRegistrationFlow({ returnTo }, { signal: controller.signal })
-                .then(({ data }) => setFlow(data))
+                .then(data => setFlow(data))
                 .catch(handleCancelError)
                 .catch(handleFlowError)
         }
@@ -76,8 +76,8 @@ export function useRegisterFlow({
                 .then(data => {
                     setIsRegistered(true)
 
-                    if (data.data.continue_with) {
-                        onContinueWith?.(data.data.continue_with)
+                    if (data.continue_with) {
+                        onContinueWith?.(data.continue_with)
                     }
                 })
                 .catch(handleFlowError)

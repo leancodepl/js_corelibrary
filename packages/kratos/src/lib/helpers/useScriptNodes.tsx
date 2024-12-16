@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import { UiNode, UiNodeGroupEnum, UiNodeScriptAttributes } from "@ory/client"
 import { filterNodesByGroups } from "../utils/filterNodesByGroups"
+import { UiNode, UiNodeGroupEnum, UiNodeScriptAttributes } from "../kratos"
 
 export function useScriptNodes({ nodes, excludeScripts }: { nodes: UiNode[]; excludeScripts?: boolean }) {
     useEffect(() => {

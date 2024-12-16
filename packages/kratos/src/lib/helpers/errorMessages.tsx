@@ -1,4 +1,4 @@
-import { UiNode, UiText } from "@ory/client"
+import { UiNode, UiText } from "../kratos"
 import { useKratosContext } from "../kratosContext"
 import { FormattedMessage } from "./formattedMessage"
 import type { MessageComponentProps } from "../types/components"

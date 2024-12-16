@@ -1,5 +1,4 @@
-import { AuthenticatorAssuranceLevel, Session } from "@ory/client"
-import axios, { AxiosResponse } from "axios"
+import { AuthenticatorAssuranceLevel, Session } from "../kratos"
 import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
 import { ErrorId } from "../types/enums/errorId"
 import { aalParameterName, returnToParameterName } from "../utils/variables"

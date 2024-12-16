@@ -1,4 +1,4 @@
-import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "@ory/client"
+import { UiNode, UiNodeGroupEnum, UiNodeInputAttributesTypeEnum } from "../kratos"
 import { getNodeInputType } from "./getNodeInputType"
 
 export type FilterNodesByGroups = {

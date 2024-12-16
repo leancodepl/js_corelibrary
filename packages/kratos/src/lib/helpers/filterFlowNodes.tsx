@@ -1,13 +1,13 @@
-import { UiNode } from "@ory/client"
-import { FilterNodesByGroups, filterNodesByGroups } from "../utils/filterNodesByGroups"
-import { getNodeInputType } from "../utils/getNodeInputType"
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
     isUiNodeInputAttributes,
     isUiNodeScriptAttributes,
     isUiNodeTextAttributes,
-} from "../utils/typeGuards"
+    UiNode,
+} from "../kratos"
+import { FilterNodesByGroups, filterNodesByGroups } from "../utils/filterNodesByGroups"
+import { getNodeInputType } from "../utils/getNodeInputType"
 import { Node } from "./node"
 
 type FilterFlowNodesProps = {

@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { UiNode, UiNodeGroupEnum } from "@ory/client"
+import { UiNode, UiNodeGroupEnum } from "../kratos"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 
 type ProfileRegistrationSectionProps = {

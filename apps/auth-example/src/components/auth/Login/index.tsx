@@ -3,7 +3,6 @@ import { useNavigate } from "react-router"
 import { useSearchParams } from "react-router-dom"
 import { Center, Flex, Spinner, Text, useToast } from "@chakra-ui/react"
 import styled from "@emotion/styled"
-import { AuthenticatorAssuranceLevel, UiTextTypeEnum } from "@ory/client"
 import { URLSearchParams } from "url"
 import {
     aalParameterName,
@@ -13,6 +12,7 @@ import {
     ResponseError,
     returnToParameterName,
     UiMessagesComponentProps,
+    UiTextTypeEnum,
     useLoginFlow,
 } from "@leancodepl/kratos"
 import { loginRoute } from "../../../app/routes"
@@ -73,7 +73,7 @@ function useHandleLogin() {
 
     return useCallback(async () => {
         try {
-            const session = (await kratosClient.toSession()).data
+            const session = await kratosClient.toSession()
             sessionManager.setSession(session)
 
             if (returnTo) {
@@ -81,7 +81,7 @@ function useHandleLogin() {
                 return
             }
         } catch (err) {
-            const data = (err as ResponseError).response?.data
+            const data = (err as ResponseError).response
 
             switch (data.error.code) {
                 case 403:

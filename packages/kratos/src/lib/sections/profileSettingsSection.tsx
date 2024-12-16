@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { SettingsFlow, UiNodeGroupEnum } from "@ory/client"
+import { SettingsFlow, UiNodeGroupEnum } from "../kratos"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 
 type ProfileSettingsProps = {

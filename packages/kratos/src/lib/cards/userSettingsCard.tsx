@@ -1,5 +1,5 @@
 import { JSX } from "react"
-import { SettingsFlow, UiNodeGroupEnum, UpdateSettingsFlowBody } from "@ory/client"
+import { SettingsFlow, UiNodeGroupEnum, UpdateSettingsFlowBody } from "../kratos"
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm"
 import { useScriptNodes } from "../helpers/useScriptNodes"
 import { useKratosContext } from "../kratosContext"

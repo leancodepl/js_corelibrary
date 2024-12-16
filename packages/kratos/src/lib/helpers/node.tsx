@@ -1,12 +1,13 @@
-import { UiNode, UiNodeGroupEnum } from "@ory/client"
-import { useKratosContext } from "../kratosContext"
 import {
     isUiNodeAnchorAttributes,
     isUiNodeImageAttributes,
     isUiNodeInputAttributes,
     isUiNodeTextAttributes,
-    isUiNodeTextSecretsAttributes,
-} from "../utils/typeGuards"
+    UiNode,
+    UiNodeGroupEnum,
+} from "../kratos"
+import { useKratosContext } from "../kratosContext"
+import { isUiNodeTextSecretsAttributes } from "../utils/typeGuards"
 import { NodeMessages } from "./errorMessages"
 import { FormattedMessage } from "./formattedMessage"
 import { getNodeLabel } from "./getNodeLabel"

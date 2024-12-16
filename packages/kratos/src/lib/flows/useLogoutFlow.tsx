@@ -1,32 +1,32 @@
-import { useCallback } from "react";
-import { FrontendApi } from "@ory/client";
-import { AxiosError } from "axios";
+import { useCallback } from "react"
+import { FrontendApi } from "../kratos"
+import { AxiosError } from "axios"
 
 export function useLogoutFlow({
     kratosClient,
     returnTo,
     onLoggedOut,
 }: {
-    kratosClient: FrontendApi;
-    returnTo?: string;
-    onLoggedOut?: () => void;
+    kratosClient: FrontendApi
+    returnTo?: string
+    onLoggedOut?: () => void
 }) {
     const logout = useCallback(async () => {
-        const flow = await kratosClient.createBrowserLogoutFlow(undefined, { params: { return_url: "/" } });
+        const flow = await kratosClient.createBrowserLogoutFlow({ returnTo: "/" })
 
         kratosClient
-            .updateLogoutFlow({ returnTo, token: flow.data.logout_token })
+            .updateLogoutFlow({ returnTo, token: flow.logout_token })
             .then(() => {
-                onLoggedOut?.();
+                onLoggedOut?.()
             })
             .catch((err: AxiosError) => {
                 if (err.response?.status === 400) {
-                    return;
+                    return
                 }
 
-                return Promise.reject(err);
-            });
-    }, [kratosClient, returnTo, onLoggedOut]);
+                return Promise.reject(err)
+            })
+    }, [kratosClient, returnTo, onLoggedOut])
 
-    return { logout };
+    return { logout }
 }

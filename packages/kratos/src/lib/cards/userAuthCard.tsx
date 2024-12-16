@@ -10,7 +10,7 @@ import {
     UpdateRegistrationFlowBody,
     UpdateVerificationFlowBody,
     VerificationFlow,
-} from "@ory/client"
+} from "../kratos"
 import { NodeMessages } from "../helpers/errorMessages"
 import { FilterFlowNodes } from "../helpers/filterFlowNodes"
 import { UserAuthForm, UserAuthFormAdditionalProps } from "../helpers/userAuthForm"
