@@ -1,10 +1,10 @@
 {
   "name": "@leancodepl/api-date-dayjs",
-  "version": "8.3.1",
+  "version": "8.3.2",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-date": "8.3.1",
-    "@leancodepl/api-date-utils": "8.3.1",
+    "@leancodepl/api-date": "8.3.2",
+    "@leancodepl/api-date-utils": "8.3.2",
     "dayjs": ">=1.9.0"
   },
   "devDependencies": {
