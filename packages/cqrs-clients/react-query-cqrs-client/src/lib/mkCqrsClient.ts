@@ -218,7 +218,7 @@ export function mkCqrsClient({
             } & Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> = {}) {
                 return useMutation<Result, unknown, TOperation, TContext>(
                     {
-                        mutationKey: [type],
+                        mutationKey: useApiOperation.key,
                         mutationFn: variables => firstValueFrom(useApiOperation.fetcher(variables)),
                         ...options,
                         async onSuccess(data, variables, context) {
@@ -238,6 +238,7 @@ export function mkCqrsClient({
             }
 
             useApiOperation.type = type
+            useApiOperation.key = [useApiOperation.type]
 
             useApiOperation.fetcher = (variables: TOperation): Observable<Result> =>
                 fetcher<string>(variables).pipe(uncapitalizedParse())
@@ -297,7 +298,7 @@ export function mkCqrsClient({
                 >(
                     {
                         ...options,
-                        mutationKey: [type],
+                        mutationKey: useApiCommand.key,
                         mutationFn: (variables: TCommand) => {
                             if (!handler) {
                                 return firstValueFrom(useApiCommand.fetcher(variables))
@@ -337,6 +338,7 @@ export function mkCqrsClient({
             }
 
             useApiCommand.type = type
+            useApiCommand.key = [useApiCommand.type]
 
             useApiCommand.fetcher = (variables: TCommand) => fetcher<CommandResult<TErrorCodes>>(variables)
 
