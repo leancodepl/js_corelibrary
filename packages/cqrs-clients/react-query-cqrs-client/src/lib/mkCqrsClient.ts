@@ -15,7 +15,14 @@ import {
 import { catchError, firstValueFrom, from, fromEvent, Observable, of, OperatorFunction, race, throwError } from "rxjs"
 import { ajax, AjaxConfig, AjaxError } from "rxjs/ajax"
 import { map, mergeMap } from "rxjs/operators"
-import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
+import {
+    ApiResponse,
+    ApiSuccess,
+    CommandResult,
+    FailedCommandResult,
+    SuccessfulCommandResult,
+    TokenProvider,
+} from "@leancodepl/cqrs-client-base"
 import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation"
 import { authGuard } from "./authGuard"
 import { NullableUncapitalizeDeep } from "./types"
@@ -256,10 +263,20 @@ export function mkCqrsClient({
                     handler?: undefined
                     optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
                 } & Omit<
-                    UseMutationOptions<CommandResult<TErrorCodes>, CommandResult<TErrorCodes>, TCommand, TContext>,
+                    UseMutationOptions<
+                        ApiSuccess<SuccessfulCommandResult>,
+                        ApiResponse<FailedCommandResult<TErrorCodes>>,
+                        TCommand,
+                        TContext
+                    >,
                     "mutationFn" | "mutationKey"
                 >,
-            ): UseMutationResult<CommandResult<TErrorCodes>, CommandResult<TErrorCodes>, TCommand, TContext>
+            ): UseMutationResult<
+                ApiSuccess<SuccessfulCommandResult>,
+                ApiResponse<FailedCommandResult<TErrorCodes>>,
+                TCommand,
+                TContext
+            >
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
                 options?: {
                     invalidateQueries?: QueryKey[]
@@ -285,29 +302,23 @@ export function mkCqrsClient({
                 optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
             } & Omit<
                 UseMutationOptions<
-                    CommandResult<TErrorCodes> | TResult,
-                    CommandResult<TErrorCodes> | TResult,
+                    ApiSuccess<SuccessfulCommandResult> | TResult,
+                    ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
                     TCommand,
                     TContext
                 >,
                 "mutationFn" | "mutationKey"
             > = {}) {
                 return useMutation<
-                    CommandResult<TErrorCodes> | TResult,
-                    CommandResult<TErrorCodes> | TResult,
+                    ApiSuccess<SuccessfulCommandResult> | TResult,
+                    ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
                     TCommand,
                     { revertOptimisticUpdate: () => void } & TContext
                 >(
                     {
                         ...options,
                         mutationKey: useApiCommand.key,
-                        mutationFn: (variables: TCommand) => {
-                            if (!handler) {
-                                return firstValueFrom(useApiCommand.fetcher(variables))
-                            }
-
-                            return firstValueFrom(useApiCommand.call(variables, handler))
-                        },
+                        mutationFn: (variables: TCommand) => firstValueFrom(useApiCommand.call(variables, handler)),
                         async onMutate(variables) {
                             // there's really no good way to do it without type cast
                             const baseContext = (await onMutate?.(variables)) as TContext
@@ -342,11 +353,11 @@ export function mkCqrsClient({
             useApiCommand.type = type
             useApiCommand.key = [useApiCommand.type]
 
-            useApiCommand.fetcher = (variables: TCommand) => fetcher<CommandResult<TErrorCodes>>(variables)
+            useApiCommand.fetcher = (variables: TCommand) => fetcher<SuccessfulCommandResult>(variables)
 
             useApiCommand.call = <TResult>(
                 variables: TCommand,
-                handler: (
+                handler?: (
                     handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
                 ) => TResult,
             ) => {
@@ -358,17 +369,17 @@ export function mkCqrsClient({
                             ({
                                 isSuccess: true,
                                 result,
-                            }) as ApiResponse<CommandResult<TErrorCodes>>,
+                            }) as ApiResponse<SuccessfulCommandResult>,
                     ),
                     catchError(e => of(useApiCommand.mapError(e))),
                     map(response => {
-                        const result = useApiCommand.handleResponse(handler)(response)
+                        const result = handler ? useApiCommand.handleResponse(handler)(response) : response
 
                         if (!response.isSuccess || !response.result.WasSuccessful) {
                             throw result
                         }
 
-                        return result
+                        return result as ApiSuccess<SuccessfulCommandResult> | TResult
                     }),
                 )
             }
