@@ -9,10 +9,12 @@ export function mkCqrsClient({
     cqrsEndpoint,
     tokenProvider,
     ajaxOptions,
+    tokenHeader = "Authorization",
 }: {
     cqrsEndpoint: string
     tokenProvider?: TokenProvider
     ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">
+    tokenHeader?: string
 }) {
     return {
         createQuery<TQuery, TResult>(type: string) {
@@ -20,7 +22,7 @@ export function mkCqrsClient({
                 ajax<TResult>({
                     ...ajaxOptions,
                     headers: {
-                        Authorization: token,
+                        [tokenHeader]: token,
                         "Content-Type": "application/json",
                     },
                     url: `${cqrsEndpoint}/query/${type}`,
