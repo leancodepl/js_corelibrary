@@ -30,11 +30,13 @@ export function mkCqrsClient({
     queryClient,
     tokenProvider,
     ajaxOptions,
+    tokenHeader = "Authorization",
 }: {
     cqrsEndpoint: string
     queryClient: QueryClient
     tokenProvider?: Partial<TokenProvider>
     ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">
+    tokenHeader?: string
 }) {
     function mkFetcher<TData>(endpoint: string, config: Partial<AjaxConfig> = {}) {
         const apiCall = <TResult>(data: TData, token?: string) =>
@@ -42,7 +44,7 @@ export function mkCqrsClient({
                 ...ajaxOptions,
                 ...config,
                 headers: {
-                    Authorization: token,
+                    [tokenHeader]: token,
                     "Content-Type": "application/json",
                 },
                 url: `${cqrsEndpoint}/${endpoint}`,

@@ -20,9 +20,15 @@ export type MkCqrsClientParameters = {
     cqrsEndpoint: string
     tokenProvider?: TokenProvider
     axiosOptions?: CreateAxiosDefaults
+    tokenHeader?: string
 }
 
-export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: MkCqrsClientParameters) {
+export function mkCqrsClient({
+    cqrsEndpoint,
+    tokenProvider,
+    axiosOptions,
+    tokenHeader = "Authorization",
+}: MkCqrsClientParameters) {
     const apiAxios = axios.create({
         baseURL: cqrsEndpoint,
         ...axiosOptions,
@@ -32,7 +38,7 @@ export function mkCqrsClient({ cqrsEndpoint, tokenProvider, axiosOptions }: MkCq
         const token = await tokenProvider?.getToken()
 
         if (token) {
-            config.headers?.set("Authorization", `Bearer ${token}`)
+            config.headers?.set(tokenHeader, `Bearer ${token}`)
         }
 
         return config
