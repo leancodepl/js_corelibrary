@@ -105,7 +105,19 @@ export function mkCqrsClient({
 
     return {
         createQuery<TQuery, TResult>(type: string) {
-            return (dto: TQuery) => apiAxios.post<ApiResponse<TResult>>("query/" + type, dto).then(r => r.data)
+            return (dto: TQuery) => {
+                const abortController = new AbortController()
+
+                const promise = apiAxios
+                    .post<ApiResponse<TResult>>("query/" + type, dto, {
+                        signal: abortController.signal,
+                    })
+                    .then(r => r.data) as QueryPromise<TResult>
+
+                promise.abort = abortController.abort.bind(abortController)
+
+                return promise
+            }
         },
         createOperation<TOperation, TResult>(type: string) {
             return (dto: TOperation) => apiAxios.post<ApiResponse<TResult>>("operation/" + type, dto).then(r => r.data)
@@ -125,3 +137,6 @@ export function mkCqrsClient({
         },
     }
 }
+
+export type QueryAbort = { abort: AbortController["abort"] }
+export type QueryPromise<TResult> = Promise<ApiResponse<TResult>> & QueryAbort
