@@ -11,13 +11,17 @@ export type ValidationError<TErrorCodes extends Record<string, number>> = {
 }
 
 export type CommandResult<TErrorCodes extends Record<string, number>> =
-    | {
-          readonly WasSuccessful: false
-          readonly ValidationErrors: ValidationError<TErrorCodes>[]
-      }
-    | {
-          readonly WasSuccessful: true
-      }
+    | FailedCommandResult<TErrorCodes>
+    | SuccessfulCommandResult
+
+export type FailedCommandResult<TErrorCodes extends Record<string, number>> = {
+    readonly WasSuccessful: false
+    readonly ValidationErrors: ValidationError<TErrorCodes>[]
+}
+
+export type SuccessfulCommandResult = {
+    readonly WasSuccessful: true
+}
 
 export type ApiSuccess<TResult> = {
     readonly isSuccess: true
