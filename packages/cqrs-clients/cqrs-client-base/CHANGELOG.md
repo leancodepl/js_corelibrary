@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.3.5](https://github.com/leancodepl/js_corelibrary/compare/v8.3.4...v8.3.5) (2025-01-30)
+
+### Bug Fixes
+
+-   unify results and fix types
+    ([8336cb4](https://github.com/leancodepl/js_corelibrary/commit/8336cb42529b0eeb975bccf48952fac33c07948f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.4](https://github.com/leancodepl/js_corelibrary/compare/v8.3.3...v8.3.4) (2025-01-20)
 
 **Note:** Version bump only for package @leancodepl/cqrs-client-base
