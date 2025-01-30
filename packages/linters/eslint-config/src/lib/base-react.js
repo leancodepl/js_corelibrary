@@ -22,6 +22,7 @@ module.exports = [
             "react/jsx-boolean-value": "error",
             "react/jsx-curly-brace-presence": "warn",
             "react/jsx-fragments": "warn",
+            "react/jsx-no-useless-fragment": ["error", { allowExpressions: true }],
             "react/jsx-sort-props": [
                 "warn",
                 {
