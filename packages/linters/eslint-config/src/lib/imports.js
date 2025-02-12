@@ -42,15 +42,15 @@ module.exports = [
                     ],
                     customGroups: {
                         value: {
-                            react: ["react", "react-*"],
-                            "client-server-only": ["client-only", "server-only"],
+                            react: ["^react$", "^react-.+"],
+                            "client-server-only": ["^client-only$", "^server-only$"],
                         },
                         type: {
-                            react: "react",
+                            react: "^react$",
                         },
                     },
                     newlinesBetween: "never",
-                    internalPattern: ["@leancodepl/.*"],
+                    internalPattern: ["^@leancodepl/.+"],
                 },
             ],
             "perfectionist/sort-named-imports": [
