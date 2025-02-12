@@ -3,6 +3,12 @@ import timezoneMock from "timezone-mock"
 import { ApiDateOnly, fromApiDate } from "../../src"
 
 describe("fromApiDate", () => {
+    it("handles undefined", () => {
+        const date = fromApiDate(undefined)
+
+        expect(date).toBeUndefined()
+    })
+
     const apiDate = "1990-02-24"
 
     describe("run in GMT+5", () => {

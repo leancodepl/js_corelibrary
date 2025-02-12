@@ -3,6 +3,12 @@ import * as timezoneMock from "timezone-mock"
 import { ApiDateOnly, fromApiDate } from "../../src"
 
 describe("fromApiDate", () => {
+    it("handles undefined", () => {
+        const date = fromApiDate(undefined)
+
+        expect(date).toBeUndefined()
+    })
+
     const apiDate = "1990-02-24"
     const dateFormat = "yyyy-MM-dd"
     const dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssXXX"
