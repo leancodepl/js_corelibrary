@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
+
+**Note:** Version bump only for package @leancodepl/validation
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.5](https://github.com/leancodepl/js_corelibrary/compare/v8.3.4...v8.3.5) (2025-01-30)
 
 **Note:** Version bump only for package @leancodepl/validation
