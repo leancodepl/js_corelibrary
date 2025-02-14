@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
+
+### Features
+
+-   allow passing undefined to dayjs fromApiDate and toApiDate
+    ([ffa2e79](https://github.com/leancodepl/js_corelibrary/commit/ffa2e7987bedd946b0b27ff6056f5263efd0759c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.5](https://github.com/leancodepl/js_corelibrary/compare/v8.3.4...v8.3.5) (2025-01-30)
 
 ### Bug Fixes
