@@ -40,7 +40,7 @@ export function mkI18n<
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
-        ): ReactNode
+        ): Array<ReactNode>
         $t(
             descriptor: StronglyTypedMessageDescriptor,
             values?: Record<string, FormatXMLElementFn<string, string> | PrimitiveType>,

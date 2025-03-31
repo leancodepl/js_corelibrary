@@ -6,6 +6,6 @@
     "@leancodepl/api-binary": "8.3.6"
   },
   "devDependencies": {
-    "blob-polyfill": "^7.0.0"
+    "blob-polyfill": "^9.0.0"
   }
 }
