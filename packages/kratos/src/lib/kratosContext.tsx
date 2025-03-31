@@ -21,5 +21,5 @@ export function useKratosContext() {
         throw new Error("Kratos context components were not initialized")
     }
 
-    return context as { components: KratosComponents } & KratosContextData
+    return context as KratosContextData & { components: KratosComponents }
 }

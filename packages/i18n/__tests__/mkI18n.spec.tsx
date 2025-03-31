@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { ReactElement } from "react"
 import { act, render, renderHook, waitFor } from "@testing-library/react"
 import { mkI18n } from "../src"
 
@@ -65,9 +64,8 @@ describe("i18n", () => {
             },
             "en",
         )
-        const wrapper = ({ children }: { children: ReactElement }) => <Provider>{children}</Provider>
 
-        const { result } = renderHook(() => useIntl(), { wrapper })
+        const { result } = renderHook(() => useIntl(), { wrapper: Provider })
 
         await waitFor(() => {
             if (!result.current) throw new Error()

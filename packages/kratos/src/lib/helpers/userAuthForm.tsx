@@ -16,14 +16,14 @@ export type UserAuthFormAdditionalProps<TBody> = {
     onSubmit?: ({ body, event }: { body: TBody; event?: React.FormEvent<HTMLFormElement> }) => void
 }
 
-export type UserAuthFormProps<TBody> = {
-    flow: SelfServiceFlow
-    children: ReactNode
-    formFilterOverride?: FilterNodesByGroups
-    submitOnEnter?: boolean
-    className?: string
-} & Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> &
-    UserAuthFormAdditionalProps<TBody>
+export type UserAuthFormProps<TBody> = Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> &
+    UserAuthFormAdditionalProps<TBody> & {
+        flow: SelfServiceFlow
+        children: ReactNode
+        formFilterOverride?: FilterNodesByGroups
+        submitOnEnter?: boolean
+        className?: string
+    }
 
 /**
  * UserAuthForm is a component that renders a form for a given Ory flow.

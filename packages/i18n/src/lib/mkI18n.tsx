@@ -29,7 +29,7 @@ export function mkI18n<
         defaultMessage?: string
     }
 
-    type StronglyTypedIntlShape = {
+    type StronglyTypedIntlShape = Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages"> & {
         messages: Record<TTerm, MessageFormatElement[]> | Record<TTerm, string>
         formatMessage(
             descriptor: StronglyTypedMessageDescriptor,
@@ -51,18 +51,18 @@ export function mkI18n<
             values?: Record<string, FormatXMLElementFn<ReactNode, ReactNode> | PrimitiveType | ReactNode>,
             opts?: IntlMessageFormatOptions,
         ): ReactNode
-    } & Omit<IntlShape, "formatHTMLMessage" | "formatMessage" | "messages">
+    }
 
     type StronglyTypedFormattedMessageProps<
         V extends Record<string, any> = Record<
             string,
             FormatXMLElementFn<React.ReactNode, React.ReactNode> | ReactNode
         >,
-    > = {
+    > = StronglyTypedMessageDescriptor & {
         values?: V
         tagName?: ElementType<any>
         children?(...nodes: ReactNode[]): ReactNode
-    } & StronglyTypedMessageDescriptor
+    }
 
     window.currentLocale = defaultLocale
 
