@@ -38,11 +38,11 @@ import {
     hasTotp,
 } from "../utils/helpers"
 
-type UserAuthCardProps<TBody> = {
+type UserAuthCardProps<TBody> = UserAuthFormAdditionalProps<TBody> & {
     className?: string
     flow: LoginFlow | RecoveryFlow | RegistrationFlow | VerificationFlow
     flowType: "login" | "recovery" | "registration" | "verification"
-} & UserAuthFormAdditionalProps<TBody>
+}
 
 /**
  * UserAuthCard renders a login, registration, verification or recovery flow
@@ -253,7 +253,7 @@ function UserAuthCard<TBody>({ flow, flowType, onSubmit, className }: UserAuthCa
 }
 
 function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(flowType: UserAuthCardProps<TBody>["flowType"]) {
-    return function ({ ...props }: { flow: TFlow } & Omit<UserAuthCardProps<TBody>, "flow" | "flowType">) {
+    return function ({ ...props }: Omit<UserAuthCardProps<TBody>, "flow" | "flowType"> & { flow: TFlow }) {
         return <UserAuthCard flowType={flowType} {...props} />
     }
 }

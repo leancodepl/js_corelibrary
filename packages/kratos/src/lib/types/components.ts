@@ -3,33 +3,33 @@ import { UiNode, UiNodeTextAttributes, UiText, UiTextTypeEnum } from "@ory/clien
 
 type Node = { node: UiNode }
 
-export type ImageComponentProps = {
-    header?: ReactNode
-    className?: string
-} & Node &
-    React.ImgHTMLAttributes<HTMLImageElement>
+export type ImageComponentProps = Node &
+    React.ImgHTMLAttributes<HTMLImageElement> & {
+        header?: ReactNode
+        className?: string
+    }
 
-export type TextComponentProps = {
+export type TextComponentProps = Node & {
     label?: ReactNode
     id: string
     codes?: UiText[]
     attributes: UiNodeTextAttributes
-} & Node
+}
 
-export type LinkComponentProps = {
-    children?: ReactNode
-    href?: string
-    icon?: string
-    className?: string
-} & Node &
-    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">
+export type LinkComponentProps = Node &
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+        children?: ReactNode
+        href?: string
+        icon?: string
+        className?: string
+    }
 
-export type InputComponentProps = {
-    header: ReactNode
-    helperMessage?: ReactNode
-    isError?: boolean
-} & Node &
-    React.InputHTMLAttributes<HTMLInputElement>
+export type InputComponentProps = Node &
+    React.InputHTMLAttributes<HTMLInputElement> & {
+        header: ReactNode
+        helperMessage?: ReactNode
+        isError?: boolean
+    }
 
 export type MessageComponentProps = {
     message: UiText
@@ -40,19 +40,19 @@ export type MessageComponentProps = {
 
 export type Severity = "default" | "disabled" | UiTextTypeEnum
 
-export type ButtonComponentProps = {
-    header?: ReactNode
-    fullWidth?: boolean
-    social?: string
-} & Node &
-    React.ButtonHTMLAttributes<HTMLButtonElement>
+export type ButtonComponentProps = Node &
+    React.ButtonHTMLAttributes<HTMLButtonElement> & {
+        header?: ReactNode
+        fullWidth?: boolean
+        social?: string
+    }
 
-export type CheckboxComponentProps = {
-    label?: ReactNode
-    helperMessage?: ReactNode
-    isError?: boolean
-} & Node &
-    React.InputHTMLAttributes<HTMLInputElement>
+export type CheckboxComponentProps = Node &
+    React.InputHTMLAttributes<HTMLInputElement> & {
+        label?: ReactNode
+        helperMessage?: ReactNode
+        isError?: boolean
+    }
 
 export type MessageFormatComponentProps = {
     id: number

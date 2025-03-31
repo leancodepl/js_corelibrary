@@ -19,11 +19,11 @@ export type UserSettingsFlowType =
     | typeof UiNodeGroupEnum.Profile
     | typeof UiNodeGroupEnum.Totp
 
-export type UserSettingsCardProps = {
+export type UserSettingsCardProps = UserAuthFormAdditionalProps<UpdateSettingsFlowBody> & {
     flow: SettingsFlow
     flowType: UserSettingsFlowType
     className?: string
-} & UserAuthFormAdditionalProps<UpdateSettingsFlowBody>
+}
 
 export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSettingsCardProps): JSX.Element | null {
     const {

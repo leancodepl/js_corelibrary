@@ -16,4 +16,7 @@ const [, , srcDirectory, destDirectory] = process.argv
 invariant(srcDirectory, "No source directory was provided")
 invariant(destDirectory, "No destination directory was provided")
 
-cpSync(srcDirectory, destDirectory, { recursive: true })
+cpSync(srcDirectory, destDirectory, {
+    recursive: true,
+    filter: src => !src.includes("node_modules"),
+})

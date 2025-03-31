@@ -133,9 +133,9 @@ export function mkCqrsClient({
             }
             useApiQuery.infinite = function (
                 data: TQuery,
-                options: {
+                options: Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryFn" | "queryKey"> & {
                     pageParamKey?: keyof TQuery
-                } & Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryFn" | "queryKey">,
+                },
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 return useInfiniteQuery<Result, unknown>(
@@ -222,9 +222,9 @@ export function mkCqrsClient({
                 onSuccess: onSuccessBase,
                 invalidateQueries,
                 ...options
-            }: {
+            }: Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> & {
                 invalidateQueries?: QueryKey[]
-            } & Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> = {}) {
+            } = {}) {
                 return useMutation<Result, unknown, TOperation, TContext>(
                     {
                         mutationKey: useApiOperation.key,
@@ -258,11 +258,7 @@ export function mkCqrsClient({
             const fetcher = mkFetcher<TCommand>(`command/${type}`)
 
             function useApiCommand<TContext extends Record<string, unknown> = {}>(
-                options?: {
-                    invalidateQueries?: QueryKey[]
-                    handler?: undefined
-                    optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
-                } & Omit<
+                options?: Omit<
                     UseMutationOptions<
                         ApiSuccess<SuccessfulCommandResult>,
                         ApiResponse<FailedCommandResult<TErrorCodes>>,
@@ -270,7 +266,11 @@ export function mkCqrsClient({
                         TContext
                     >,
                     "mutationFn" | "mutationKey"
-                >,
+                > & {
+                    invalidateQueries?: QueryKey[]
+                    handler?: undefined
+                    optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
+                },
             ): UseMutationResult<
                 ApiSuccess<SuccessfulCommandResult>,
                 ApiResponse<FailedCommandResult<TErrorCodes>>,
@@ -278,13 +278,16 @@ export function mkCqrsClient({
                 TContext
             >
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
-                options?: {
+                options?: Omit<
+                    UseMutationOptions<TResult, TResult, TCommand, TContext>,
+                    "mutationFn" | "mutationKey"
+                > & {
                     invalidateQueries?: QueryKey[]
                     handler: (
-                        handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
+                        handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
                     ) => TResult
                     optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
-                } & Omit<UseMutationOptions<TResult, TResult, TCommand, TContext>, "mutationFn" | "mutationKey">,
+                },
             ): UseMutationResult<TResult, TResult, TCommand, TContext>
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>({
                 invalidateQueries,
@@ -294,13 +297,7 @@ export function mkCqrsClient({
                 onError,
                 onSettled,
                 ...options
-            }: {
-                invalidateQueries?: QueryKey[]
-                handler?: (
-                    handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
-                ) => TResult
-                optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
-            } & Omit<
+            }: Omit<
                 UseMutationOptions<
                     ApiSuccess<SuccessfulCommandResult> | TResult,
                     ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
@@ -308,12 +305,18 @@ export function mkCqrsClient({
                     TContext
                 >,
                 "mutationFn" | "mutationKey"
-            > = {}) {
+            > & {
+                invalidateQueries?: QueryKey[]
+                handler?: (
+                    handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
+                ) => TResult
+                optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
+            } = {}) {
                 return useMutation<
                     ApiSuccess<SuccessfulCommandResult> | TResult,
                     ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
                     TCommand,
-                    { revertOptimisticUpdate: () => void } & TContext
+                    TContext & { revertOptimisticUpdate: () => void }
                 >(
                     {
                         ...options,
@@ -358,7 +361,7 @@ export function mkCqrsClient({
             useApiCommand.call = <TResult>(
                 variables: TCommand,
                 handler?: (
-                    handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
+                    handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
                 ) => TResult,
             ) => {
                 const $response = useApiCommand.fetcher(variables)
@@ -401,7 +404,7 @@ export function mkCqrsClient({
             useApiCommand.handleResponse =
                 <TResult>(
                     handler: (
-                        handler: ValidationErrorsHandler<{ success: -1; failure: -2 } & TErrorCodes, never>,
+                        handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
                     ) => TResult,
                 ) =>
                 (response: ApiResponse<CommandResult<TErrorCodes>>) =>

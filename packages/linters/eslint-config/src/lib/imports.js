@@ -50,7 +50,7 @@ module.exports = [
                         },
                     },
                     newlinesBetween: "never",
-                    internalPattern: ["@leancodepl/**"],
+                    internalPattern: ["@leancodepl/.*"],
                 },
             ],
             "perfectionist/sort-named-imports": [

@@ -9,10 +9,8 @@
     "rxjs": ">=7.0.0",
     "yn": ">=5.0.0"
   },
-  "devDependencies": {
-    "react": "18.3.1"
-  },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-dom": "*"
   }
 }
