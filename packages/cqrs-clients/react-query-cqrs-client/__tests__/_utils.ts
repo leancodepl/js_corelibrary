@@ -64,7 +64,7 @@ export function mockQuery<TQuery, TResult extends object>(
             return cqrsError(result, {})
         }
 
-        return cqrsResponse(result)
+        return cqrsResponse(JSON.stringify(result))
     }
 }
 

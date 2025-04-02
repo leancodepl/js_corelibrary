@@ -1,5 +1,6 @@
 import {
     FetchQueryOptions,
+    InfiniteData,
     QueryClient,
     QueryFunctionContext,
     QueryKey,
@@ -132,24 +133,19 @@ export function mkCqrsClient({
                 )
             }
             useApiQuery.infinite = function (
-                data: TQuery,
-                options: Omit<UndefinedInitialDataInfiniteOptions<Result, unknown>, "queryFn" | "queryKey"> & {
-                    pageParamKey?: keyof TQuery
-                },
+                initialPageData: TQuery,
+                options: Omit<
+                    UndefinedInitialDataInfiniteOptions<Result, unknown, InfiniteData<Result>, QueryKey, TQuery>,
+                    "initialPageParam" | "queryFn" | "queryKey" | "select"
+                >,
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                return useInfiniteQuery<Result, unknown>(
+                return useInfiniteQuery<Result, unknown, InfiniteData<Result, TQuery>, QueryKey, TQuery>(
                     {
-                        queryKey: useApiQuery.key(data),
-                        queryFn: context =>
-                            firstValueFrom(
-                                useApiQuery.fetcher(
-                                    options?.pageParamKey
-                                        ? { ...data, [options.pageParamKey]: context.pageParam }
-                                        : data,
-                                    context,
-                                ),
-                            ),
+                        queryKey: [type],
+                        queryFn: async context =>
+                            await firstValueFrom(useApiQuery.fetcher(context.pageParam as TQuery, context)),
+                        initialPageParam: initialPageData,
                         ...options,
                     },
                     queryClient,
