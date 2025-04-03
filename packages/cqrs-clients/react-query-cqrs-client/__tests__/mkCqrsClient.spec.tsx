@@ -14,12 +14,14 @@ describe("mkCqrsClient", () => {
         // arrange
         const { useTestCommand, useTestQuery, wrapper } = arrangeClient()
 
-        mockApi(mockCommand(useTestCommand, 200), mockQuery(useTestQuery, { value: "abc" }))
+        mockApi(mockCommand(useTestCommand, 200), mockQuery(useTestQuery, { value: "abc", hasMore: false }))
 
         const { result: commandResult } = renderHook(
             () =>
                 useTestCommand({
-                    optimisticUpdate: ({ Value }) => [useTestQuery.optimisticUpdate(() => ({ value: Value }), {})],
+                    optimisticUpdate: ({ Value }) => [
+                        useTestQuery.optimisticUpdate(() => ({ value: Value, hasMore: false }), {}),
+                    ],
                 }),
             { wrapper },
         )
@@ -41,18 +43,20 @@ describe("mkCqrsClient", () => {
         // arrange
         const { useTestCommand, useTestQuery, wrapper } = arrangeClient()
 
-        mockApi(mockCommand(useTestCommand, 500), mockQuery(useTestQuery, { value: "test" }))
+        mockApi(mockCommand(useTestCommand, 500), mockQuery(useTestQuery, { value: "test", hasMore: false }))
 
         const { result: commandResult } = renderHook(
             () =>
                 useTestCommand({
-                    optimisticUpdate: ({ Value }) => [useTestQuery.optimisticUpdate(() => ({ value: Value }), {})],
+                    optimisticUpdate: ({ Value }) => [
+                        useTestQuery.optimisticUpdate(() => ({ value: Value, hasMore: false }), {}),
+                    ],
                 }),
             { wrapper },
         )
 
         const { result: queryResult } = renderHook(
-            () => useTestQuery({ Page: 0 }, { initialData: () => ({ value: "initial" }) }),
+            () => useTestQuery({ Page: 0 }, { initialData: () => ({ value: "initial", hasMore: false }) }),
             { wrapper },
         )
 
@@ -62,6 +66,35 @@ describe("mkCqrsClient", () => {
         // assert
         await waitFor(() => expect(queryResult.current.data?.value).toEqual("optimistic-update"))
         await waitFor(() => expect(queryResult.current.data?.value).toEqual("initial"))
+    })
+
+    it("correctly fetches infinite queries", async () => {
+        // arrange
+        const { useTestQuery, wrapper } = arrangeClient()
+
+        mockApi(mockQuery(useTestQuery, ({ Page }) => ({ value: `page-${Page}`, hasMore: Page < 2 })))
+
+        // act
+        const { result: queryResult } = renderHook(
+            () =>
+                useTestQuery.infinite(
+                    { Page: 0 },
+                    {
+                        getNextPageParam: (lastPage, pages, lastPageParam) =>
+                            lastPage.hasMore ? { Page: lastPageParam.Page + 1 } : undefined,
+                    },
+                ),
+            { wrapper },
+        )
+
+        await waitFor(() => expect(queryResult.current.data?.pages.length).toEqual(1))
+        await waitFor(() => expect(queryResult.current.data?.pages.at(0)?.value).toEqual("page-0"))
+
+        act(() => void queryResult.current.fetchNextPage())
+
+        // assert
+        await waitFor(() => expect(queryResult.current.data?.pages.length).toEqual(2))
+        await waitFor(() => expect(queryResult.current.data?.pages.at(1)?.value).toEqual("page-1"))
     })
 })
 
@@ -78,7 +111,7 @@ function arrangeClient() {
     )
 
     const useTestCommand = client.createCommand<{ Value: string }, { Value: 1 }>("TestCommand", { Value: 1 })
-    const useTestQuery = client.createQuery<{ Page: number }, { Value: string }>("TestQuery")
+    const useTestQuery = client.createQuery<{ Page: number }, { Value: string; HasMore: boolean }>("TestQuery")
 
     return { useTestCommand, useTestQuery, wrapper }
 }
