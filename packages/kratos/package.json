@@ -10,13 +10,15 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@ory/client": ">=1.14.3",
-    "axios": ">=1.6.0",
-    "react-intl": ">=6.0.0",
-    "rxjs": ">=7.0.0",
-    "yn": ">=5.0.0"
+    "@radix-ui/react-slot": ">=1.0.0",
+    "@tanstack/react-form": ">=1.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": ">=5.0.0"
   },
   "peerDependencies": {
+    "@tanstack/react-query": "*",
     "react": "*",
     "react-dom": "*"
   },
