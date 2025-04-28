@@ -1,10 +1,10 @@
-import { ComponentType } from "react"
+import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonInputFieldProps } from "../../../../utils"
 import { useSecondFactorEmailFormContext } from "../secondFactorEmailFormContext"
 
 type CodeProps = {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export function Code({ children }: CodeProps) {

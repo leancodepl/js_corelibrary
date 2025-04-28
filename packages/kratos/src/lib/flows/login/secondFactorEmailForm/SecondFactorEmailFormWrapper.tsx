@@ -1,6 +1,6 @@
-import { ComponentType, ReactNode, useMemo } from "react"
+import { ComponentType, ReactNode } from "react"
 import { Code, Resend } from "./fields"
-import { secondFactorEmailFormContext, SecondFactorEmailFormContextData } from "./secondFactorEmailFormContext"
+import { SecondFactorEmailFormProvider } from "./secondFactorEmailFormContext"
 import { useCodeForm } from "./useCodeForm"
 
 export type SecondFactorEmailFormProps = {
@@ -17,10 +17,8 @@ export function SecondFactorEmailFormWrapper({
 }: SecondFactorEmailFormWrapperProps) {
     const codeForm = useCodeForm()
 
-    const secondFactorEmailFormContextData = useMemo<SecondFactorEmailFormContextData>(() => ({ codeForm }), [codeForm])
-
     return (
-        <secondFactorEmailFormContext.Provider value={secondFactorEmailFormContextData}>
+        <SecondFactorEmailFormProvider codeForm={codeForm}>
             <form
                 onSubmit={e => {
                     e.preventDefault()
@@ -28,6 +26,6 @@ export function SecondFactorEmailFormWrapper({
                 }}>
                 <SecondFactorForm Code={Code} Resend={Resend} />
             </form>
-        </secondFactorEmailFormContext.Provider>
+        </SecondFactorEmailFormProvider>
     )
 }

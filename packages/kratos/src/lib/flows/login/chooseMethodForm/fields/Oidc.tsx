@@ -12,7 +12,7 @@ export function Oidc({ children, provider }: OidcProps) {
     const { mutate: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
-    const signInWithGoogle = useCallback(() => {
+    const signIn = useCallback(() => {
         if (!loginFlow) return
 
         updateLoginFlow({
@@ -25,7 +25,7 @@ export function Oidc({ children, provider }: OidcProps) {
     const Comp = Slot.Root as ComponentType<CommonButtonProps>
 
     return (
-        <Comp type="button" onClick={signInWithGoogle}>
+        <Comp type="button" onClick={signIn}>
             {children}
         </Comp>
     )

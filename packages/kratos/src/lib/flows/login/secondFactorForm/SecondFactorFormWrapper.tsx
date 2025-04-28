@@ -1,6 +1,6 @@
-import { ComponentType, ReactNode, useMemo } from "react"
+import { ComponentType, ReactNode } from "react"
 import { Email, Totp } from "./fields"
-import { secondFactorFormContext, SecondFactorFormContextData } from "./secondFactorFormContext"
+import { SecondFactorFormProvider } from "./secondFactorFormContext"
 import { useTotpForm } from "./useTotpForm"
 
 export type SecondFactorFormProps = {
@@ -15,10 +15,8 @@ type SecondFactorFormWrapperProps = {
 export function SecondFactorFormWrapper({ secondFactorForm: SecondFactorForm }: SecondFactorFormWrapperProps) {
     const totpForm = useTotpForm()
 
-    const secondFactorFormContextData = useMemo<SecondFactorFormContextData>(() => ({ totpForm }), [totpForm])
-
     return (
-        <secondFactorFormContext.Provider value={secondFactorFormContextData}>
+        <SecondFactorFormProvider totpForm={totpForm}>
             <form
                 onSubmit={e => {
                     e.preventDefault()
@@ -26,6 +24,6 @@ export function SecondFactorFormWrapper({ secondFactorForm: SecondFactorForm }: 
                 }}>
                 <SecondFactorForm Email={Email} Totp={Totp} />
             </form>
-        </secondFactorFormContext.Provider>
+        </SecondFactorFormProvider>
     )
 }

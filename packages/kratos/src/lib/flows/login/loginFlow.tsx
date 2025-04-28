@@ -7,7 +7,7 @@ import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorFo
 
 type KratosContext = { kratosClient: FrontendApi; loginFlowId?: string; setLoginFlowId: (loginFlowId?: string) => void }
 
-export const kratosContext = createContext<KratosContext>(undefined as any)
+const kratosContext = createContext<KratosContext | undefined>(undefined)
 
 export function KratosContextProvider({ children, baseUrl }: { children: React.ReactNode; baseUrl: string }) {
     const [kratosClient] = useState(() => new FrontendApi(new Configuration({ basePath: baseUrl })))
@@ -20,6 +20,16 @@ export function KratosContextProvider({ children, baseUrl }: { children: React.R
     )
 
     return <kratosContext.Provider value={kratosContextData}>{children}</kratosContext.Provider>
+}
+
+export function useKratosContext() {
+    const context = useContext(kratosContext)
+
+    if (context === undefined) {
+        throw new Error("useKratosContext must be used within a KratosContextProvider")
+    }
+
+    return context
 }
 
 type LoginFlowProps = {
@@ -37,14 +47,19 @@ export function KratosLoginFlow({
     initialFlowId,
     returnTo,
 }: LoginFlowProps) {
-    const { loginFlowId, setLoginFlowId } = useContext(kratosContext)
+    const { loginFlowId, setLoginFlowId } = useKratosContext()
 
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, refresh: true, aal: "aal2" })
     const { data: loginFlow } = useGetLoginFlow()
 
     useEffect(() => {
-        if (!loginFlowId && !initialFlowId) createLoginFlow()
-        if (!loginFlowId && initialFlowId) setLoginFlowId(initialFlowId)
+        if (loginFlowId) return
+
+        if (initialFlowId) {
+            setLoginFlowId(initialFlowId)
+        } else {
+            createLoginFlow()
+        }
     }, [createLoginFlow, loginFlowId, initialFlowId, setLoginFlowId])
 
     const step = useMemo(() => {
