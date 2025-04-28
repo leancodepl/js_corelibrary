@@ -1,5 +1,6 @@
+import { ComponentType } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { CommonInputFieldProps } from "../../../../utils"
+import { CommonInputFieldProps, getErrorsFromErrorMap } from "../../../../utils"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type IdentifierProps = {
@@ -9,12 +10,13 @@ type IdentifierProps = {
 export function Identifier({ children }: IdentifierProps) {
     const { passwordForm } = useChooseMethodFormContext()
 
-    const Comp = Slot.Root as React.ComponentType<CommonInputFieldProps>
+    const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
         <passwordForm.Field name="identifier">
             {field => (
                 <Comp
+                    errors={getErrorsFromErrorMap(field.state.meta.errorMap)}
                     name={field.name}
                     type="text"
                     value={field.state.value}

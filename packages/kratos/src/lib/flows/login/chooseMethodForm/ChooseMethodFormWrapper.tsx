@@ -1,4 +1,5 @@
-import { ComponentType, ReactNode } from "react"
+import { ComponentType, ReactNode, useMemo } from "react"
+import { FormError, getErrorsFromErrorMap } from "../../../utils"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
@@ -10,6 +11,7 @@ export type ChooseMethodFormProps = {
     Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
+    formErrors?: Array<FormError>
 }
 
 type ChooseMethodFormWrapperProps = {
@@ -30,6 +32,8 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
     //     }
     // }, [])
 
+    const formErrors = useMemo(() => getErrorsFromErrorMap(passwordForm.state.errorMap), [passwordForm.state.errorMap])
+
     return (
         <ChooseMethodFormProvider passwordForm={passwordForm}>
             <form
@@ -40,6 +44,7 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
                 <ChooseMethodForm
                     Apple={Apple}
                     Facebook={Facebook}
+                    formErrors={formErrors}
                     Google={Google}
                     Identifier={Identifier}
                     Passkey={Passkey}

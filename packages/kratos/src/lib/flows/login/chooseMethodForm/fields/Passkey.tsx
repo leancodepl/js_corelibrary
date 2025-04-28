@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo } from "react"
+import { ComponentType, useCallback, useEffect, useMemo } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
+import { CommonButtonProps, getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
 import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
 
@@ -51,7 +51,7 @@ export function Passkey({ children }: { children: React.ReactNode }) {
         signInWithPasskeyUsingCredential(credential)
     }, [challenge, signInWithPasskeyUsingCredential])
 
-    const Comp = Slot.Root as React.ComponentType<any>
+    const Comp: ComponentType<CommonButtonProps> = Slot.Root
 
     return (
         <Comp type="button" onClick={signInWithPasskey}>

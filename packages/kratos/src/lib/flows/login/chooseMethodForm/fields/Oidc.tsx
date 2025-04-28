@@ -22,7 +22,7 @@ export function Oidc({ children, provider }: OidcProps) {
         })
     }, [loginFlow, updateLoginFlow, provider])
 
-    const Comp = Slot.Root as ComponentType<CommonButtonProps>
+    const Comp: ComponentType<CommonButtonProps> = Slot.Root
 
     return (
         <Comp type="button" onClick={signIn}>
