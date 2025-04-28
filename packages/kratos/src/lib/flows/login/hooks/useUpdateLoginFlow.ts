@@ -1,12 +1,12 @@
-import { useContext } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { handleContinueWith, handleFlowError } from "../../../kratos/contrib"
 import { LoginFlow, UpdateLoginFlowBody } from "../../../kratos/models"
 import { SuccessfulNativeLogin } from "../../../kratos/models/SuccessfulNativeLogin"
-import { kratosContext } from "../loginFlow"
+import { useKratosContext } from "../loginFlow"
+import { loginFlowKey } from "./queryKeys"
 
 export function useUpdateLoginFlow() {
-    const { kratosClient, setLoginFlowId, loginFlowId } = useContext(kratosContext)
+    const { kratosClient, setLoginFlowId, loginFlowId } = useKratosContext()
     const client = useQueryClient()
 
     return useMutation<LoginFlow | SuccessfulNativeLogin | undefined, Error, UpdateLoginFlowBody, unknown>({
@@ -41,7 +41,7 @@ export function useUpdateLoginFlow() {
         },
         onSuccess(data) {
             if (data && "id" in data) {
-                client.setQueryData(["login", data.id], data)
+                client.setQueryData(loginFlowKey(data.id), data)
             }
         },
     })

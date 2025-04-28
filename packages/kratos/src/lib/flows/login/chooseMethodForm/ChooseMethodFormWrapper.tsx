@@ -1,5 +1,5 @@
-import { ComponentType, ReactNode, useMemo } from "react"
-import { chooseMethodFormContext, ChooseMethodFormContextData } from "./chooseMethodFormContext"
+import { ComponentType, ReactNode } from "react"
+import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
 
@@ -20,8 +20,6 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
     const passwordForm = usePasswordForm()
     // const { data: loginFlow } = useGetLoginFlow()
 
-    const chooseMethodFormContextData = useMemo<ChooseMethodFormContextData>(() => ({ passwordForm }), [passwordForm])
-
     // const { hasPasskey } = useMemo(() => {
     //     if (!loginFlow) return { hasPasskey: false }
 
@@ -33,7 +31,7 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
     // }, [])
 
     return (
-        <chooseMethodFormContext.Provider value={chooseMethodFormContextData}>
+        <ChooseMethodFormProvider passwordForm={passwordForm}>
             <form
                 onSubmit={e => {
                     e.preventDefault()
@@ -48,6 +46,6 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
                     Password={Password}
                 />
             </form>
-        </chooseMethodFormContext.Provider>
+        </ChooseMethodFormProvider>
     )
 }
