@@ -49,7 +49,7 @@ export function KratosLoginFlow({
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useKratosContext()
 
-    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, refresh: true, aal: "aal2" })
+    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
     const { data: loginFlow } = useGetLoginFlow()
 
     useEffect(() => {

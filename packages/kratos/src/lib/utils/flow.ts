@@ -12,6 +12,14 @@ export function inputNodeAttributes(node?: UiNode) {
     return undefined
 }
 
+export function inputNodeMessages(node?: UiNode) {
+    if (!node) return undefined
+
+    if (isUiNodeInputAttributes(node.attributes)) return node.messages
+
+    return undefined
+}
+
 export function getCsrfToken(flow: { ui: { nodes: UiNode[] } }) {
     const attributes = inputNodeAttributes(getNodeById(flow.ui.nodes, "csrf_token"))
 
