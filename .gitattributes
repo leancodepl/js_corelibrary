@@ -1,1 +1,3 @@
 *.gen.ts linguist-generated=true
+
+/packages/kratos/src/lib/kratos/** linguist-generated=true
