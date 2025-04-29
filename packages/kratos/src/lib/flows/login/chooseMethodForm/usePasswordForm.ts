@@ -40,7 +40,11 @@ export function usePasswordForm() {
 
             if (errors.length > 0) {
                 formApi.setErrorMap({
-                    onSubmit: errors, // TODO typescript error - customize form to accept FormError[] as valid value
+                    // TODO - this is a workaround for the type error in TanStack Form - remove when fixed
+                    // TanStack Form has a bug in errorMap type - it should be a function return type, but it is a function itself
+                    // Their builds works because of casting to never
+                    // https://github.com/TanStack/form/blob/main/packages/form-core/src/FormApi.ts#L2125
+                    onSubmit: errors as any,
                 })
             }
 
