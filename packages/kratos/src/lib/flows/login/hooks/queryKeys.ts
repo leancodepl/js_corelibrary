@@ -1,4 +1,4 @@
-const baseKey = "login" as const
+const baseKey = "login"
 
 export const loginFlowKey = (id: string | undefined) => {
     if (!id) {

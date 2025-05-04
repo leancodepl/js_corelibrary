@@ -5,7 +5,7 @@ import {
     SecondFactorFormProps,
 } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
-import { CommonInputFieldProps, FormError } from "packages/kratos/src/lib/utils"
+import { AuthError, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC } from "react"
 import { z } from "zod"
 
@@ -32,28 +32,26 @@ function RouteComponent() {
 
 // https://www.ory.sh/docs/kratos/concepts/ui-user-interface#machine-readable-format
 // https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
-const getErrorMessage = (error: FormError) => {
+const getErrorMessage = (error: AuthError) => {
     switch (error.id) {
-        case 4000001:
+        case "Error_GenericInvalidFormat":
             return "Nieprawidłowa wartość"
-        case 4000002:
+        case "Error_MissingProperty":
             return "To pole jest wymagane"
-        case 4000003:
-            if (error.context && "min_length" in error.context && "actual_length" in error.context) {
-                return `Liczba znaków musi być większa niż ${error.context.min_length}, a wprowadzono ${error.context.actual_length}`
-            }
-            return "Wprowadzona wartość jest zbyt krótka"
-        case 4000004:
-            if (error.context && "pattern" in error.context) {
-                return `Wartość powinna mieć format: ${error.context.pattern}`
-            }
-            return "Wprowadzona wartość nie pasuje do wzorca"
-        case 4000005:
+        case "Error_TooShort":
+            return error.context
+                ? `Liczba znaków musi być większa niż ${error.context.min_length}`
+                : "Wprowadzona wartość jest zbyt krótka"
+        case "Error_InvalidPattern":
+            return error.context
+                ? `Wartość powinna mieć format: ${error.context.pattern}`
+                : "Wprowadzona wartość nie pasuje do wzorca"
+        case "Error_PasswordPolicyViolation":
             return "Wprowadzone hasło nie może zostać użyte"
-        case 4000006:
+        case "Error_InvalidCredentials":
             return "Wprowadzone dane są nieprawidłowe, sprawdź literówki w adresie e-mail lub haśle"
         default:
-            return error.text
+            return error.originalError.text
     }
 }
 
@@ -135,7 +133,7 @@ function ChooseMethodForm({
     )
 }
 
-function SecondFactorForm({ Totp, Email }: SecondFactorFormProps) {
+function SecondFactorForm({ Totp, Email, formErrors }: SecondFactorFormProps) {
     return (
         <>
             {Totp && (
@@ -151,11 +149,23 @@ function SecondFactorForm({ Totp, Email }: SecondFactorFormProps) {
                     <button>Continue with email</button>
                 </Email>
             )}
+
+            <div>
+                {formErrors && formErrors.length > 0 && (
+                    <div>
+                        {formErrors.map((error, index) => (
+                            <div key={index}>
+                                {error.id}: {getErrorMessage(error)}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </>
     )
 }
 
-function SecondFactorEmailForm({ Code, Resend }: SecondFactorEmailFormProps) {
+function SecondFactorEmailForm({ Code, Resend, formErrors }: SecondFactorEmailFormProps) {
     return (
         <>
             <Code>
@@ -167,6 +177,18 @@ function SecondFactorEmailForm({ Code, Resend }: SecondFactorEmailFormProps) {
             <Resend>
                 <button>Resend code</button>
             </Resend>
+
+            <div>
+                {formErrors && formErrors.length > 0 && (
+                    <div>
+                        {formErrors.map((error, index) => (
+                            <div key={index}>
+                                {error.id}: {getErrorMessage(error)}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </>
     )
 }

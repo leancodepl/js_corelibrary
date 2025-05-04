@@ -5,16 +5,6 @@
     "declaration": true,
     "types": ["node"]
   },
-  "files": [
-    "../../node_modules/@nx/react/typings/cssmodule.d.ts",
-    "../../node_modules/@nx/react/typings/image.d.ts",
-    "./src/lib/flows/TOTP.tsx",
-    "src/lib/flows/login/chooseMethodForm/fields/Oidc.tsx",
-    "src/lib/flows/login/chooseMethodForm/fields/Passkey.tsx",
-    "src/lib/flows/login/chooseMethodForm/fields/Password.tsx",
-    "src/lib/flows/login/chooseMethodForm/fields/Identifier.tsx",
-    "./src/lib/flows/getCsrfToken.tsx"
-  ],
   "exclude": [
     "jest.config.ts",
     "src/**/*.spec.ts",
