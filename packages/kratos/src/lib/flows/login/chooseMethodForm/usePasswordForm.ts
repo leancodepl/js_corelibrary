@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeLogin } from "../../../kratos"
-import { getErrorsFromUiTextList } from "../../../utils"
+import { getAuthErrorsFromUiTextList } from "../../../utils"
 import { getCsrfToken, getNodeById, inputNodeMessages } from "../../../utils/flow"
 import { useGetLoginFlow } from "../hooks"
 import { useUpdateLoginFlow } from "../hooks/useUpdateLoginFlow"
@@ -36,7 +36,7 @@ export function usePasswordForm() {
                 return
             }
 
-            const errors = getErrorsFromUiTextList(response.ui.messages)
+            const errors = getAuthErrorsFromUiTextList(response.ui.messages)
 
             if (errors.length > 0) {
                 formApi.setErrorMap({
@@ -49,7 +49,7 @@ export function usePasswordForm() {
             }
 
             Object.values(InputFields).forEach(id => {
-                const errors = getErrorsFromUiTextList(inputNodeMessages(getNodeById(response.ui.nodes, id)))
+                const errors = getAuthErrorsFromUiTextList(inputNodeMessages(getNodeById(response.ui.nodes, id)))
 
                 if (errors.length > 0) {
                     formApi.setFieldMeta(id, meta => {
