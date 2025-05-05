@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { CommonInputFieldProps } from "../../../../utils"
+import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
 import { useSecondFactorEmailFormContext } from "../secondFactorEmailFormContext"
 
 type CodeProps = {
@@ -16,6 +16,7 @@ export function Code({ children }: CodeProps) {
         <codeForm.Field name="code">
             {field => (
                 <Comp
+                    errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                     name={field.name}
                     type="text"
                     value={field.state.value}

@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { AuthError } from "../../../utils"
 import { useFormErrors } from "../hooks/useFormErrors"
+import { OnLoginFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
@@ -12,28 +13,17 @@ export type ChooseMethodFormProps = {
     Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
-    formErrors?: Array<AuthError>
+    errors: Array<AuthError>
 }
 
 type ChooseMethodFormWrapperProps = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
+    onError?: OnLoginFlowError
 }
 
-export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: ChooseMethodFormWrapperProps) {
-    const passwordForm = usePasswordForm()
+export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm, onError }: ChooseMethodFormWrapperProps) {
+    const passwordForm = usePasswordForm({ onError })
     const formErrors = useFormErrors(passwordForm)
-
-    // const { data: loginFlow } = useGetLoginFlow()
-
-    // const { hasPasskey } = useMemo(() => {
-    //     if (!loginFlow) return { hasPasskey: false }
-
-    //     return {
-    //         hasPasskey: loginFlow.methods.passkey.enabled,
-    //         hasGoogle: loginFlow.methods.oidc.google.enabled,
-
-    //     }
-    // }, [])
 
     return (
         <ChooseMethodFormProvider passwordForm={passwordForm}>
@@ -44,8 +34,8 @@ export function ChooseMethodFormWrapper({ chooseMethodForm: ChooseMethodForm }: 
                 }}>
                 <ChooseMethodForm
                     Apple={Apple}
+                    errors={formErrors}
                     Facebook={Facebook}
-                    formErrors={formErrors}
                     Google={Google}
                     Identifier={Identifier}
                     Passkey={Passkey}

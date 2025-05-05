@@ -1,15 +1,21 @@
-import { ComponentType, createContext, useContext, useEffect, useMemo, useState } from "react"
+import { ComponentType, createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react"
 import { Configuration, FrontendApi } from "../../kratos"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { useCreateLoginFlow, useGetLoginFlow } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
+import { OnLoginFlowError } from "./types"
 
 type KratosContext = { kratosClient: FrontendApi; loginFlowId?: string; setLoginFlowId: (loginFlowId?: string) => void }
 
 const kratosContext = createContext<KratosContext | undefined>(undefined)
 
-export function KratosContextProvider({ children, baseUrl }: { children: React.ReactNode; baseUrl: string }) {
+type KratosContextProviderProps = {
+    children: ReactNode
+    baseUrl: string
+}
+
+export function KratosContextProvider({ children, baseUrl }: KratosContextProviderProps) {
     const [kratosClient] = useState(() => new FrontendApi(new Configuration({ basePath: baseUrl })))
 
     const [loginFlowId, setLoginFlowId] = useState<string>()
@@ -38,6 +44,7 @@ type LoginFlowProps = {
     secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
     initialFlowId?: string
     returnTo?: string
+    onError?: OnLoginFlowError
 }
 
 export function KratosLoginFlow({
@@ -46,6 +53,7 @@ export function KratosLoginFlow({
     secondFactorEmailForm: SecondFactorEmailForm,
     initialFlowId,
     returnTo,
+    onError,
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useKratosContext()
 
@@ -77,9 +85,15 @@ export function KratosLoginFlow({
 
     return (
         <>
-            {step === "chooseMethod" && <ChooseMethodFormWrapper chooseMethodForm={ChooseMethodForm} />}
-            {step === "secondFactor" && <SecondFactorFormWrapper secondFactorForm={SecondFactorForm} />}
-            {step === "secondFactorEmail" && <SecondFactorEmailFormWrapper secondFactorForm={SecondFactorEmailForm} />}
+            {step === "chooseMethod" && (
+                <ChooseMethodFormWrapper chooseMethodForm={ChooseMethodForm} onError={onError} />
+            )}
+            {step === "secondFactor" && (
+                <SecondFactorFormWrapper secondFactorForm={SecondFactorForm} onError={onError} />
+            )}
+            {step === "secondFactorEmail" && (
+                <SecondFactorEmailFormWrapper secondFactorForm={SecondFactorEmailForm} onError={onError} />
+            )}
         </>
     )
 }

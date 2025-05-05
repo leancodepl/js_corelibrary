@@ -4,21 +4,23 @@ import { getAuthErrorsFromUiTextList } from "../../../utils"
 import { getCsrfToken, getNodeById, inputNodeMessages } from "../../../utils/flow"
 import { useGetLoginFlow } from "../hooks"
 import { useUpdateLoginFlow } from "../hooks/useUpdateLoginFlow"
+import { OnLoginFlowError } from "../types"
+import { InputFields } from "./types"
 
-enum InputFields {
-    Identifier = "identifier",
-    Password = "password",
+type UsePasswordFormProps = {
+    onError?: OnLoginFlowError
 }
 
-export function usePasswordForm() {
+export function usePasswordForm({ onError }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
     return useForm({
-        defaultValues: { [InputFields.Identifier]: "", [InputFields.Password]: "" },
-        onSubmit: async form => {
-            const { value, formApi } = form
-
+        defaultValues: {
+            [InputFields.Identifier]: "",
+            [InputFields.Password]: "",
+        } satisfies Record<InputFields, string>,
+        onSubmit: async ({ value, formApi }) => {
             if (!loginFlow) return
 
             const response = await updateLoginFlow({
@@ -36,6 +38,7 @@ export function usePasswordForm() {
                 return
             }
 
+            // TODO - needs to be extracted later to a function to avoid code duplication with other forms from all flows
             const errors = getAuthErrorsFromUiTextList(response.ui.messages)
 
             if (errors.length > 0) {
@@ -46,9 +49,10 @@ export function usePasswordForm() {
                     // https://github.com/TanStack/form/blob/main/packages/form-core/src/FormApi.ts#L2125
                     onSubmit: errors as any,
                 })
+                onError?.({ target: "root", errors })
             }
 
-            Object.values(InputFields).forEach(id => {
+            for (const id of Object.values(InputFields)) {
                 const errors = getAuthErrorsFromUiTextList(inputNodeMessages(getNodeById(response.ui.nodes, id)))
 
                 if (errors.length > 0) {
@@ -60,8 +64,9 @@ export function usePasswordForm() {
                             },
                         }
                     })
+                    onError?.({ target: id, errors })
                 }
-            })
+            }
         },
     })
 }

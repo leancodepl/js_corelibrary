@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { AuthError } from "../../../utils"
 import { useFormErrors } from "../hooks/useFormErrors"
+import { OnLoginFlowError } from "../types"
 import { Code, Resend } from "./fields"
 import { SecondFactorEmailFormProvider } from "./secondFactorEmailFormContext"
 import { useCodeForm } from "./useCodeForm"
@@ -8,17 +9,19 @@ import { useCodeForm } from "./useCodeForm"
 export type SecondFactorEmailFormProps = {
     Code: ComponentType<{ children: ReactNode }>
     Resend: ComponentType<{ children: ReactNode }>
-    formErrors?: Array<AuthError>
+    errors?: Array<AuthError>
 }
 
 type SecondFactorEmailFormWrapperProps = {
     secondFactorForm: ComponentType<SecondFactorEmailFormProps>
+    onError?: OnLoginFlowError
 }
 
 export function SecondFactorEmailFormWrapper({
     secondFactorForm: SecondFactorForm,
+    onError,
 }: SecondFactorEmailFormWrapperProps) {
-    const codeForm = useCodeForm()
+    const codeForm = useCodeForm({ onError })
     const formErrors = useFormErrors(codeForm)
 
     return (
@@ -28,7 +31,7 @@ export function SecondFactorEmailFormWrapper({
                     e.preventDefault()
                     codeForm.handleSubmit()
                 }}>
-                <SecondFactorForm Code={Code} formErrors={formErrors} Resend={Resend} />
+                <SecondFactorForm Code={Code} errors={formErrors} Resend={Resend} />
             </form>
         </SecondFactorEmailFormProvider>
     )

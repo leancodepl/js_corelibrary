@@ -1,10 +1,10 @@
-import { ComponentType } from "react"
+import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { CommonInputFieldProps } from "../../../../utils"
+import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
 import { useSecondFactorFormContext } from "../secondFactorFormContext"
 
 type TotpProps = {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export function Totp({ children }: TotpProps) {
@@ -15,6 +15,7 @@ export function Totp({ children }: TotpProps) {
         <totpForm.Field name="totp_code">
             {field => (
                 <Comp
+                    errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                     name={field.name}
                     type="text"
                     value={field.state.value}
