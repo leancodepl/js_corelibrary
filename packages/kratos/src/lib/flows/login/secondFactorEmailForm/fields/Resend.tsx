@@ -1,10 +1,10 @@
-import { useCallback } from "react"
+import { ReactNode, useCallback } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
 
 type ResendProps = {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export function Resend({ children }: ResendProps) {

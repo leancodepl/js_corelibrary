@@ -1,10 +1,10 @@
-import { ComponentType } from "react"
+import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type IdentifierProps = {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export function Identifier({ children }: IdentifierProps) {

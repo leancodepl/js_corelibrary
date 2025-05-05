@@ -1,4 +1,5 @@
 import { instanceOfUiText, UiText, UiTextTypeEnum } from "../kratos/models"
+import { hasProperetyOfType } from "./assertion"
 
 export type UiTextError = UiText & {
     type: typeof UiTextTypeEnum.Error
@@ -56,88 +57,145 @@ export const getAuthErrorsFromFormErrorMap = ({ onSubmit: errors }: { onSubmit?:
     return errors.filter(isAuthError)
 }
 
-// Based on the error codes from Kratos https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
-// Mapped from this specific file version
-// https://github.com/ory/docs/blob/cc1ca22820f054aa2ba1c771601b36c5437e7f36/docs/kratos/concepts/messages.json
-export const mapToAuthError = (error: UiTextError) => {
-    const createError = <TPrefix extends string, TId extends string, TContext = undefined>(
+const getErrorMappers = (error: UiTextError) => {
+    type ErrorPrefix =
+        | "Error"
+        | "LoginFlowError"
+        | "RecoveryFlowError"
+        | "RegisterFlowError"
+        | "SettingsFlowError"
+        | "VerificationFlowError"
+
+    const createError = <TPrefix extends ErrorPrefix, TId extends string>(prefix: TPrefix, id: TId) => ({
+        id: `${prefix}_${id}` as const,
+        originalError: error,
+    })
+    const createErrorWithContext = <
+        TPrefix extends ErrorPrefix,
+        TId extends string,
+        TContext extends Record<string, unknown>,
+    >(
         prefix: TPrefix,
         id: TId,
-        context?: TContext,
+        context: TContext,
     ) => ({
-        id: `${prefix}_${id}` as `${TPrefix}_${TId}`,
+        id: `${prefix}_${id}_WithContext` as const,
         context,
         originalError: error,
     })
 
-    const createGenericError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("Error", id, context)
+    const createGenericError = <TId extends string>(id: TId) => createError("Error", id)
+    const createGenericErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("Error", id, context)
 
-    const createLoginFlowError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("LoginFlowError", id, context)
+    const createLoginFlowError = <TId extends string>(id: TId) => createError("LoginFlowError", id)
+    const createLoginFlowErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("LoginFlowError", id, context)
 
-    const createRegisterFlowError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("RegisterFlowError", id, context)
+    const createRegisterFlowError = <TId extends string>(id: TId) => createError("RegisterFlowError", id)
+    const createRegisterFlowErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("RegisterFlowError", id, context)
 
-    const createSettingsFlowError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("SettingsFlowError", id, context)
+    const createSettingsFlowError = <TId extends string>(id: TId) => createError("SettingsFlowError", id)
+    const createSettingsFlowErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("SettingsFlowError", id, context)
 
-    const createRecoveryFlowError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("RecoveryFlowError", id, context)
+    const createRecoveryFlowError = <TId extends string>(id: TId) => createError("RecoveryFlowError", id)
+    const createRecoveryFlowErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("RecoveryFlowError", id, context)
 
-    const createVerificationFlowError = <TId extends string, TContext = undefined>(id: TId, context?: TContext) =>
-        createError("VerificationFlowError", id, context)
+    const createVerificationFlowError = <TId extends string>(id: TId) => createError("VerificationFlowError", id)
+    const createVerificationFlowErrorWithContext = <TId extends string, TContext extends Record<string, unknown>>(
+        id: TId,
+        context: TContext,
+    ) => createErrorWithContext("VerificationFlowError", id, context)
+
+    return {
+        createGenericError,
+        createGenericErrorWithContext,
+        createLoginFlowError,
+        createLoginFlowErrorWithContext,
+        createRegisterFlowError,
+        createRegisterFlowErrorWithContext,
+        createSettingsFlowError,
+        createSettingsFlowErrorWithContext,
+        createRecoveryFlowError,
+        createRecoveryFlowErrorWithContext,
+        createVerificationFlowError,
+        createVerificationFlowErrorWithContext,
+    }
+}
+
+// Based on the error codes from Kratos https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
+// Mapped from this specific file version
+// https://github.com/ory/docs/blob/cc1ca22820f054aa2ba1c771601b36c5437e7f36/docs/kratos/concepts/messages.json
+export const mapToAuthError = (error: UiTextError) => {
+    const {
+        createGenericError,
+        createGenericErrorWithContext,
+        createLoginFlowError,
+        createLoginFlowErrorWithContext,
+        createRegisterFlowError,
+        createRegisterFlowErrorWithContext,
+        createSettingsFlowError,
+        createSettingsFlowErrorWithContext,
+        createRecoveryFlowError,
+        createRecoveryFlowErrorWithContext,
+        createVerificationFlowError,
+        createVerificationFlowErrorWithContext,
+    } = getErrorMappers(error)
 
     switch (error.id) {
         case 4000001:
             // TODO add other specific variants
-            return createGenericError(
-                "GenericInvalidFormat",
-                error.context && "reason" in error.context && typeof error.context.reason === "string"
-                    ? {
-                          reason: error.context.reason,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "reason", "string")) {
+                return createGenericErrorWithContext("InvalidFormat", {
+                    reason: error.context.reason,
+                })
+            }
+            return createGenericError("InvalidFormat")
         case 4000002:
-            return createGenericError(
-                "MissingProperty",
-                error.context && "property" in error.context && typeof error.context.property === "string"
-                    ? {
-                          property: error.context.property,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "property", "string")) {
+                return createGenericErrorWithContext("MissingProperty", {
+                    property: error.context.property,
+                })
+            }
+            return createGenericError("MissingProperty")
         case 4000003:
-            return createGenericError(
-                "TooShort",
-                error.context &&
-                    "min_length" in error.context &&
-                    typeof error.context.min_length === "number" &&
-                    "actual_length" in error.context &&
-                    typeof error.context.actual_length === "number"
-                    ? {
-                          min_length: error.context.min_length,
-                          actual_length: error.context.actual_length,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "min_length", "number") &&
+                hasProperetyOfType(error.context, "actual_length", "number")
+            ) {
+                return createGenericErrorWithContext("TooShort", {
+                    min_length: error.context.min_length,
+                    actual_length: error.context.actual_length,
+                })
+            }
+            return createGenericError("TooShort")
         case 4000004:
-            return createGenericError(
-                "InvalidPattern",
-                error.context && "pattern" in error.context && typeof error.context.pattern === "string"
-                    ? { pattern: error.context.pattern }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "pattern", "string")) {
+                return createGenericErrorWithContext("InvalidPattern", {
+                    pattern: error.context.pattern,
+                })
+            }
+            return createGenericError("InvalidPattern")
         case 4000005:
-            return createGenericError(
-                "PasswordPolicyViolation",
-                error.context && "reason" in error.context && typeof error.context.reason === "string"
-                    ? {
-                          reason: error.context.reason,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "reason", "string")) {
+                return createGenericErrorWithContext("PasswordPolicyViolation", {
+                    reason: error.context.reason,
+                })
+            }
+            return createGenericError("PasswordPolicyViolation")
         case 4000006:
             return createGenericError("InvalidCredentials")
         case 4000007:
@@ -161,217 +219,176 @@ export const mapToAuthError = (error: UiTextError) => {
         case 4000016:
             return createGenericError("InvalidRecoveryCode")
         case 4000017:
-            return createGenericError(
-                "TooLong",
-                error.context &&
-                    "max_length" in error.context &&
-                    typeof error.context.max_length === "number" &&
-                    "actual_length" in error.context &&
-                    typeof error.context.actual_length === "number"
-                    ? {
-                          max_length: error.context.max_length,
-                          actual_length: error.context.actual_length,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "max_length", "number") &&
+                hasProperetyOfType(error.context, "actual_length", "number")
+            ) {
+                return createGenericErrorWithContext("TooLong", {
+                    max_length: error.context.max_length,
+                    actual_length: error.context.actual_length,
+                })
+            }
+            return createGenericError("TooLong")
         case 4000018:
-            return createGenericError(
-                "MustBeGreaterOrEqualThan",
-                error.context &&
-                    "actual" in error.context &&
-                    typeof error.context.actual === "number" &&
-                    "minimum" in error.context &&
-                    typeof error.context.minimum === "number"
-                    ? {
-                          actual: error.context.actual,
-                          minimum: error.context.minimum,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual", "number") &&
+                hasProperetyOfType(error.context, "minimum", "number")
+            ) {
+                return createGenericErrorWithContext("MustBeGreaterOrEqualThan", {
+                    actual: error.context.actual,
+                    minimum: error.context.minimum,
+                })
+            }
+            return createGenericError("MustBeGreaterOrEqualThan")
         case 4000019:
-            return createGenericError(
-                "MustBeGreaterThan",
-                error.context &&
-                    "actual" in error.context &&
-                    typeof error.context.actual === "number" &&
-                    "minimum" in error.context &&
-                    typeof error.context.minimum === "number"
-                    ? {
-                          actual: error.context.actual,
-                          minimum: error.context.minimum,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual", "number") &&
+                hasProperetyOfType(error.context, "minimum", "number")
+            ) {
+                return createGenericErrorWithContext("MustBeGreaterThan", {
+                    actual: error.context.actual,
+                    minimum: error.context.minimum,
+                })
+            }
+            return createGenericError("MustBeGreaterThan")
         case 4000020:
-            return createGenericError(
-                "MustBeLessOrEqualThan",
-                error.context &&
-                    "actual" in error.context &&
-                    typeof error.context.actual === "number" &&
-                    "maximum" in error.context &&
-                    typeof error.context.maximum === "number"
-                    ? {
-                          actual: error.context.actual,
-                          maximum: error.context.maximum,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual", "number") &&
+                hasProperetyOfType(error.context, "maximum", "number")
+            ) {
+                return createGenericErrorWithContext("MustBeLessOrEqualThan", {
+                    actual: error.context.actual,
+                    maximum: error.context.maximum,
+                })
+            }
+            return createGenericError("MustBeLessOrEqualThan")
         case 4000021:
-            return createGenericError(
-                "MustBeLessThan",
-                error.context &&
-                    "actual" in error.context &&
-                    typeof error.context.actual === "number" &&
-                    "maximum" in error.context &&
-                    typeof error.context.maximum === "number"
-                    ? {
-                          actual: error.context.actual,
-                          maximum: error.context.maximum,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual", "number") &&
+                hasProperetyOfType(error.context, "maximum", "number")
+            ) {
+                return createGenericErrorWithContext("MustBeLessThan", {
+                    actual: error.context.actual,
+                    maximum: error.context.maximum,
+                })
+            }
+            return createGenericError("MustBeLessThan")
         case 4000022:
-            return createGenericError(
-                "IsNotMultipleOf",
-                error.context &&
-                    "actual" in error.context &&
-                    typeof error.context.actual === "number" &&
-                    "base" in error.context &&
-                    typeof error.context.base === "number"
-                    ? {
-                          actual: error.context.actual,
-                          base: error.context.base,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual", "number") &&
+                hasProperetyOfType(error.context, "base", "number")
+            ) {
+                return createGenericErrorWithContext("IsNotMultipleOf", {
+                    actual: error.context.actual,
+                    base: error.context.base,
+                })
+            }
+            return createGenericError("IsNotMultipleOf")
         case 4000023:
-            return createGenericError(
-                "TooManyItems",
-                error.context &&
-                    "max_items" in error.context &&
-                    typeof error.context.max_items === "number" &&
-                    "actual_items" in error.context &&
-                    typeof error.context.actual_items === "number"
-                    ? {
-                          max_items: error.context.max_items,
-                          actual_items: error.context.actual_items,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "max_items", "number") &&
+                hasProperetyOfType(error.context, "actual_items", "number")
+            ) {
+                return createGenericErrorWithContext("TooManyItems", {
+                    max_items: error.context.max_items,
+                    actual_items: error.context.actual_items,
+                })
+            }
+            return createGenericError("TooManyItems")
         case 4000024:
-            return createGenericError(
-                "TooFewItems",
-                error.context &&
-                    "min_items" in error.context &&
-                    typeof error.context.min_items === "number" &&
-                    "actual_items" in error.context &&
-                    typeof error.context.actual_items === "number"
-                    ? {
-                          min_items: error.context.min_items,
-                          actual_items: error.context.actual_items,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "min_items", "number") &&
+                hasProperetyOfType(error.context, "actual_items", "number")
+            ) {
+                return createGenericErrorWithContext("TooFewItems", {
+                    min_items: error.context.min_items,
+                    actual_items: error.context.actual_items,
+                })
+            }
+            return createGenericError("TooFewItems")
         case 4000025:
-            return createGenericError(
-                "DuplicateItems",
-                error.context &&
-                    "index_a" in error.context &&
-                    typeof error.context.index_a === "number" &&
-                    "index_b" in error.context &&
-                    typeof error.context.index_b === "number"
-                    ? {
-                          index_a: error.context.index_a,
-                          index_b: error.context.index_b,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "index_a", "number") &&
+                hasProperetyOfType(error.context, "index_b", "number")
+            ) {
+                return createGenericErrorWithContext("DuplicateItems", {
+                    index_a: error.context.index_a,
+                    index_b: error.context.index_b,
+                })
+            }
+            return createGenericError("DuplicateItems")
         case 4000026:
-            return createGenericError(
-                "InvalidType",
-                error.context &&
-                    "actual_type" in error.context &&
-                    typeof error.context.actual_type === "string" &&
-                    "allowed_types" in error.context &&
-                    Array.isArray(error.context.allowed_types) &&
-                    error.context.allowed_types.every(type => typeof type === "string")
-                    ? {
-                          actual_type: error.context.actual_type,
-                          allowed_types: error.context.allowed_types,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "actual_type", "string") &&
+                hasProperetyOfType(error.context, "allowed_types", "object") &&
+                Array.isArray(error.context.allowed_types) &&
+                error.context.allowed_types.every(type => typeof type === "string")
+            ) {
+                return createGenericErrorWithContext("InvalidType", {
+                    actual_type: error.context.actual_type,
+                    allowed_types: error.context.allowed_types,
+                })
+            }
+            return createGenericError("InvalidType")
         case 4000027:
             return createGenericError("AccountAlreadyExists")
         case 4000028:
-            return createGenericError(
-                "CredentialIdentifierHintAlreadyUsedByOtherAccount",
-                error.context &&
-                    "available_credential_types" in error.context &&
-                    Array.isArray(error.context.available_credential_types) &&
-                    error.context.available_credential_types.every(type => typeof type === "string") &&
-                    "available_oidc_providers" in error.context &&
-                    Array.isArray(error.context.available_oidc_providers) &&
-                    error.context.available_oidc_providers.every(type => typeof type === "string") &&
-                    "credential_identifier_hint" in error.context &&
-                    typeof error.context.credential_identifier_hint === "string"
-                    ? {
-                          available_credential_types: error.context.available_credential_types,
-                          available_oidc_providers: error.context.available_oidc_providers,
-                          credential_identifier_hint: error.context.credential_identifier_hint,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "credential_identifier_hint", "string") &&
+                hasProperetyOfType(error.context, "available_credential_types", "object") &&
+                Array.isArray(error.context.available_credential_types) &&
+                error.context.available_credential_types.every(type => typeof type === "string") &&
+                hasProperetyOfType(error.context, "available_oidc_providers", "object") &&
+                Array.isArray(error.context.available_oidc_providers) &&
+                error.context.available_oidc_providers.every(type => typeof type === "string")
+            ) {
+                return createGenericErrorWithContext("CredentialIdentifierHintAlreadyUsedByOtherAccount", {
+                    available_credential_types: error.context.available_credential_types,
+                    available_oidc_providers: error.context.available_oidc_providers,
+                    credential_identifier_hint: error.context.credential_identifier_hint,
+                })
+            }
+            return createGenericError("CredentialIdentifierHintAlreadyUsedByOtherAccount")
         case 4000029:
-            return createGenericError(
-                "MustBeEqualTo",
-                error.context && "expected" in error.context && typeof error.context.expected === "string"
-                    ? {
-                          expected: error.context.expected,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "expected", "string")) {
+                return createGenericErrorWithContext("MustBeEqualTo", {
+                    expected: error.context.expected,
+                })
+            }
+            return createGenericError("MustBeEqualTo")
         case 4000030:
             return createGenericError("ConstFailed")
         case 4000031:
             return createGenericError("PasswordAndIdentifierTooSimilar")
         case 4000032:
-            return createGenericError(
-                "PasswordTooShort",
-                error.context &&
-                    "min_length" in error.context &&
-                    typeof error.context.min_length === "number" &&
-                    "actual_length" in error.context &&
-                    typeof error.context.actual_length === "number"
-                    ? {
-                          min_length: error.context.min_length,
-                          actual_length: error.context.actual_length,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "min_length", "number") &&
+                hasProperetyOfType(error.context, "actual_length", "number")
+            ) {
+                return createGenericErrorWithContext("PasswordTooShort", {
+                    min_length: error.context.min_length,
+                    actual_length: error.context.actual_length,
+                })
+            }
+            return createGenericError("PasswordTooShort")
         case 4000033:
-            return createGenericError(
-                "PasswordTooLong",
-                error.context &&
-                    "max_length" in error.context &&
-                    typeof error.context.max_length === "number" &&
-                    "actual_length" in error.context &&
-                    typeof error.context.actual_length === "number"
-                    ? {
-                          max_length: error.context.max_length,
-                          actual_length: error.context.actual_length,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "max_length", "number") &&
+                hasProperetyOfType(error.context, "actual_length", "number")
+            ) {
+                return createGenericErrorWithContext("PasswordTooLong", {
+                    max_length: error.context.max_length,
+                    actual_length: error.context.actual_length,
+                })
+            }
+            return createGenericError("PasswordTooLong")
         case 4000034:
-            return createGenericError(
-                "PasswordLeaked",
-                error.context && "breaches" in error.context && typeof error.context.breaches === "number"
-                    ? {
-                          breaches: error.context.breaches,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "breaches", "number")) {
+                return createGenericErrorWithContext("PasswordLeaked", {
+                    breaches: error.context.breaches,
+                })
+            }
+            return createGenericError("PasswordLeaked")
         case 4000035:
             return createGenericError("AccountNotExistsOrWithoutCodeSignIn")
         case 4000036:
@@ -383,19 +400,16 @@ export const mapToAuthError = (error: UiTextError) => {
 
         // Login Flow Errors
         case 4010001:
-            return createLoginFlowError(
-                "LoginFlowExpired",
-                error.context &&
-                    "expired_at" in error.context &&
-                    typeof error.context.expired_at === "string" &&
-                    "expired_at_unix" in error.context &&
-                    typeof error.context.expired_at_unix === "number"
-                    ? {
-                          expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
-                          expired_at_unix: error.context.expired_at_unix,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "expired_at", "string") &&
+                hasProperetyOfType(error.context, "expired_at_unix", "number")
+            ) {
+                return createLoginFlowErrorWithContext("LoginFlowExpired", {
+                    expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
+                    expired_at_unix: error.context.expired_at_unix,
+                })
+            }
+            return createLoginFlowError("LoginFlowExpired")
         case 4010002:
             return createLoginFlowError("NoLogInStrategyFound")
         case 4010003:
@@ -417,19 +431,16 @@ export const mapToAuthError = (error: UiTextError) => {
 
         // Registration Flow Errors
         case 4040001:
-            return createRegisterFlowError(
-                "RegisterFlowExpired",
-                error.context &&
-                    "expired_at" in error.context &&
-                    typeof error.context.expired_at === "string" &&
-                    "expired_at_unix" in error.context &&
-                    typeof error.context.expired_at_unix === "number"
-                    ? {
-                          expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
-                          expired_at_unix: error.context.expired_at_unix,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "expired_at", "string") &&
+                hasProperetyOfType(error.context, "expired_at_unix", "number")
+            ) {
+                return createRegisterFlowErrorWithContext("RegisterFlowExpired", {
+                    expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
+                    expired_at_unix: error.context.expired_at_unix,
+                })
+            }
+            return createRegisterFlowError("RegisterFlowExpired")
         case 4040002:
             return createRegisterFlowError("RegisterRequestAlreadyCompletedSuccessfully")
         case 4040003:
@@ -437,19 +448,16 @@ export const mapToAuthError = (error: UiTextError) => {
 
         // Settings Flow Errors
         case 4050001:
-            return createSettingsFlowError(
-                "SettingsFlowExpired",
-                error.context &&
-                    "expired_at" in error.context &&
-                    typeof error.context.expired_at === "string" &&
-                    "expired_at_unix" in error.context &&
-                    typeof error.context.expired_at_unix === "number"
-                    ? {
-                          expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
-                          expired_at_unix: error.context.expired_at_unix,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "expired_at", "string") &&
+                hasProperetyOfType(error.context, "expired_at_unix", "number")
+            ) {
+                return createSettingsFlowErrorWithContext("SettingsFlowExpired", {
+                    expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
+                    expired_at_unix: error.context.expired_at_unix,
+                })
+            }
+            return createSettingsFlowError("SettingsFlowExpired")
 
         // Recovery Flow Errors
         case 4060001:
@@ -460,6 +468,15 @@ export const mapToAuthError = (error: UiTextError) => {
         case 4060004:
             return createRecoveryFlowError("InvalidTokenOrAlreadyUsed")
         case 4060005:
+            if (
+                hasProperetyOfType(error.context, "expired_at", "string") &&
+                hasProperetyOfType(error.context, "expired_at_unix", "number")
+            ) {
+                return createRecoveryFlowErrorWithContext("RecoveryFlowExpired", {
+                    expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
+                    expired_at_unix: error.context.expired_at_unix,
+                })
+            }
             return createRecoveryFlowError("RecoveryFlowExpired")
         case 4060006:
             return createRecoveryFlowError("InvalidRecoveryCodeOrAlreadyUsed")
@@ -473,32 +490,27 @@ export const mapToAuthError = (error: UiTextError) => {
             return createVerificationFlowError("VerificationFlowFailureState")
         // case 4070004: NO INFO IN DOCS
         case 4070005:
-            return createVerificationFlowError(
-                "VerificationFlowExpired",
-                error.context &&
-                    "expired_at" in error.context &&
-                    typeof error.context.expired_at === "string" &&
-                    "expired_at_unix" in error.context &&
-                    typeof error.context.expired_at_unix === "number"
-                    ? {
-                          expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
-                          expired_at_unix: error.context.expired_at_unix,
-                      }
-                    : undefined,
-            )
+            if (
+                hasProperetyOfType(error.context, "expired_at", "string") &&
+                hasProperetyOfType(error.context, "expired_at_unix", "number")
+            ) {
+                return createVerificationFlowErrorWithContext("VerificationFlowExpired", {
+                    expired_at: error.context.expired_at, // ISO 8601 YYYY-MM-DDTHH:mm:ssZ
+                    expired_at_unix: error.context.expired_at_unix,
+                })
+            }
+            return createVerificationFlowError("VerificationFlowExpired")
         case 4070006:
             return createVerificationFlowError("InvalidVerificationCodeOrAlreadyUsed")
 
         // Other Errors
         case 5000001:
         default:
-            return createGenericError(
-                "Generic",
-                error.context && "reason" in error.context && typeof error.context.reason === "string"
-                    ? {
-                          reason: error.context.reason,
-                      }
-                    : undefined,
-            )
+            if (hasProperetyOfType(error.context, "reason", "string")) {
+                return createGenericErrorWithContext("Generic", {
+                    reason: error.context.reason,
+                })
+            }
+            return createGenericError("Generic")
     }
 }

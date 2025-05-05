@@ -1,10 +1,14 @@
-import { ComponentType, useCallback, useEffect, useMemo } from "react"
+import { ComponentType, ReactNode, useCallback, useEffect, useMemo } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonButtonProps, getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
 import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
 
-export function Passkey({ children }: { children: React.ReactNode }) {
+type PasskeyProps = {
+    children: ReactNode
+}
+
+export function Passkey({ children }: PasskeyProps) {
     const { mutate: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 

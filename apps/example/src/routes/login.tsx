@@ -1,6 +1,7 @@
 import {
     ChooseMethodFormProps,
     KratosLoginFlow,
+    OnLoginFlowError,
     SecondFactorEmailFormProps,
     SecondFactorFormProps,
 } from "@leancodepl/kratos"
@@ -18,6 +19,14 @@ export const Route = createFileRoute("/login")({
     validateSearch: loginSearchSchema,
 })
 
+const handleError: OnLoginFlowError = ({ target, errors }) => {
+    if (target === "root") {
+        alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
+    } else {
+        alert(`Błędy pola ${target}: ${errors.map(e => e.id).join(", ")}`)
+    }
+}
+
 function RouteComponent() {
     const { flow } = Route.useSearch()
     return (
@@ -26,26 +35,29 @@ function RouteComponent() {
             secondFactorForm={SecondFactorForm}
             secondFactorEmailForm={SecondFactorEmailForm}
             initialFlowId={flow}
+            onError={handleError}
         />
     )
 }
 
-// https://www.ory.sh/docs/kratos/concepts/ui-user-interface#machine-readable-format
-// https://github.com/ory/docs/blob/master/docs/kratos/concepts/messages.json
 const getErrorMessage = (error: AuthError) => {
     switch (error.id) {
-        case "Error_GenericInvalidFormat":
+        case "Error_InvalidFormat":
             return "Nieprawidłowa wartość"
+        case "Error_InvalidFormat_WithContext":
+            return `Nieprawidłowa wartość: ${error.context.reason}`
         case "Error_MissingProperty":
             return "To pole jest wymagane"
+        case "Error_MissingProperty_WithContext":
+            return `Pole "${error.context.property}" jest wymagane`
+        case "Error_TooShort_WithContext":
+            return `Liczba znaków musi być większa niż ${error.context.min_length}`
         case "Error_TooShort":
-            return error.context
-                ? `Liczba znaków musi być większa niż ${error.context.min_length}`
-                : "Wprowadzona wartość jest zbyt krótka"
+            return "Wprowadzona wartość jest zbyt krótka"
+        case "Error_InvalidPattern_WithContext":
+            return `Wartość powinna mieć format: ${error.context.pattern}`
         case "Error_InvalidPattern":
-            return error.context
-                ? `Wartość powinna mieć format: ${error.context.pattern}`
-                : "Wprowadzona wartość nie pasuje do wzorca"
+            return "Wprowadzona wartość nie pasuje do wzorca"
         case "Error_PasswordPolicyViolation":
             return "Wprowadzone hasło nie może zostać użyte"
         case "Error_InvalidCredentials":
@@ -60,25 +72,15 @@ const Input: FC<CommonInputFieldProps & { placeholder?: string }> = ({ errors, .
         <input {...props} />
         {errors && errors.length > 0 && (
             <div>
-                {errors.map((error, index) => (
-                    <div key={index}>
-                        {error.id}: {getErrorMessage(error)}
-                    </div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
         )}
     </div>
 )
 
-function ChooseMethodForm({
-    Identifier,
-    Password,
-    Google,
-    Passkey,
-    Apple,
-    Facebook,
-    formErrors,
-}: ChooseMethodFormProps) {
+function ChooseMethodForm({ Identifier, Password, Google, Passkey, Apple, Facebook, errors }: ChooseMethodFormProps) {
     return (
         <>
             {Identifier && (
@@ -118,27 +120,17 @@ function ChooseMethodForm({
                 </Passkey>
             )}
 
-            <div>
-                {formErrors && formErrors.length > 0 && (
-                    <div>
-                        {formErrors.map((error, index) => (
-                            <div key={index}>
-                                {error.id}: {getErrorMessage(error)}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
         </>
     )
 }
 
-function SecondFactorForm({ Totp, Email, formErrors }: SecondFactorFormProps) {
+function SecondFactorForm({ Totp, Email, errors }: SecondFactorFormProps) {
     return (
         <>
             {Totp && (
                 <Totp>
-                    <input />
+                    <Input placeholder="TOTP" />
                 </Totp>
             )}
 
@@ -150,26 +142,16 @@ function SecondFactorForm({ Totp, Email, formErrors }: SecondFactorFormProps) {
                 </Email>
             )}
 
-            <div>
-                {formErrors && formErrors.length > 0 && (
-                    <div>
-                        {formErrors.map((error, index) => (
-                            <div key={index}>
-                                {error.id}: {getErrorMessage(error)}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
         </>
     )
 }
 
-function SecondFactorEmailForm({ Code, Resend, formErrors }: SecondFactorEmailFormProps) {
+function SecondFactorEmailForm({ Code, Resend, errors }: SecondFactorEmailFormProps) {
     return (
         <>
             <Code>
-                <input />
+                <Input placeholder="Code" />
             </Code>
 
             <button type="submit">Login</button>
@@ -178,17 +160,7 @@ function SecondFactorEmailForm({ Code, Resend, formErrors }: SecondFactorEmailFo
                 <button>Resend code</button>
             </Resend>
 
-            <div>
-                {formErrors && formErrors.length > 0 && (
-                    <div>
-                        {formErrors.map((error, index) => (
-                            <div key={index}>
-                                {error.id}: {getErrorMessage(error)}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
         </>
     )
 }
