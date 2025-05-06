@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import {
-  UiNode,
-  UiNodeAnchorAttributes,
-  UiNodeImageAttributes,
-  UiNodeInputAttributes,
-  UiNodeScriptAttributes,
-  UiNodeTextAttributes,
-  UiText,
-} from "..";
+    UiNode,
+    UiNodeAnchorAttributes,
+    UiNodeDivisionAttributes,
+    UiNodeImageAttributes,
+    UiNodeInputAttributes,
+    UiNodeScriptAttributes,
+    UiNodeTextAttributes,
+    UiText,
+} from ".."
 
 /**
  * Returns the node's label.
@@ -18,37 +19,35 @@ import {
  * @returns label of the node
  */
 export const getNodeLabel = (node: UiNode): UiText | undefined => {
-  const attributes = node.attributes;
-  if (isUiNodeAnchorAttributes(attributes)) {
-    return attributes.title;
-  }
-
-  if (isUiNodeImageAttributes(attributes)) {
-    return node.meta.label;
-  }
-
-  if (isUiNodeInputAttributes(attributes)) {
-    if (attributes.label) {
-      return attributes.label;
+    const attributes = node.attributes
+    if (isUiNodeAnchorAttributes(attributes)) {
+        return attributes.title
     }
-  }
 
-  return node.meta.label;
-};
+    if (isUiNodeImageAttributes(attributes)) {
+        return node.meta.label
+    }
+
+    if (isUiNodeInputAttributes(attributes)) {
+        if (attributes.label) {
+            return attributes.label
+        }
+    }
+
+    return node.meta.label
+}
 
 type ObjWithNodeType = {
-  node_type: string;
-};
+    node_type: string
+}
 
 /**
  * A TypeScript type guard for nodes of the type <a>
  *
  * @param attrs - the attributes of the node
  */
-export function isUiNodeAnchorAttributes(
-  attrs: ObjWithNodeType
-): attrs is UiNodeAnchorAttributes {
-  return attrs.node_type === "a";
+export function isUiNodeAnchorAttributes(attrs: ObjWithNodeType): attrs is UiNodeAnchorAttributes {
+    return attrs.node_type === "a"
 }
 
 /**
@@ -56,10 +55,8 @@ export function isUiNodeAnchorAttributes(
  *
  * @param attrs - the attributes of the node
  */
-export function isUiNodeImageAttributes(
-  attrs: ObjWithNodeType
-): attrs is UiNodeImageAttributes {
-  return attrs.node_type === "img";
+export function isUiNodeImageAttributes(attrs: ObjWithNodeType): attrs is UiNodeImageAttributes {
+    return attrs.node_type === "img"
 }
 
 /**
@@ -67,10 +64,17 @@ export function isUiNodeImageAttributes(
  *
  * @param attrs - the attributes of the node
  */
-export function isUiNodeInputAttributes(
-  attrs: ObjWithNodeType
-): attrs is UiNodeInputAttributes {
-  return attrs.node_type === "input";
+export function isUiNodeInputAttributes(attrs: ObjWithNodeType): attrs is UiNodeInputAttributes {
+    return attrs.node_type === "input"
+}
+
+/**
+ * A TypeScript type guard for nodes of the type <div>
+ *
+ * @param attrs - the attributes of the node
+ */
+export function isUiNodeDivAttributes(attrs: ObjWithNodeType): attrs is UiNodeDivisionAttributes {
+    return attrs.node_type === "div"
 }
 
 /**
@@ -78,10 +82,8 @@ export function isUiNodeInputAttributes(
  *
  * @param attrs - the attributes of the node
  */
-export function isUiNodeTextAttributes(
-  attrs: ObjWithNodeType
-): attrs is UiNodeTextAttributes {
-  return attrs.node_type === "text";
+export function isUiNodeTextAttributes(attrs: ObjWithNodeType): attrs is UiNodeTextAttributes {
+    return attrs.node_type === "text"
 }
 
 /**
@@ -89,10 +91,8 @@ export function isUiNodeTextAttributes(
  *
  * @param attrs - the attributes of the node
  */
-export function isUiNodeScriptAttributes(
-  attrs: ObjWithNodeType
-): attrs is UiNodeScriptAttributes {
-  return attrs.node_type === "script";
+export function isUiNodeScriptAttributes(attrs: ObjWithNodeType): attrs is UiNodeScriptAttributes {
+    return attrs.node_type === "script"
 }
 
 /**
@@ -101,11 +101,11 @@ export function isUiNodeScriptAttributes(
  * @param attributes - the attributes of the node
  */
 export function getNodeId({ attributes }: UiNode) {
-  if (isUiNodeInputAttributes(attributes)) {
-    return attributes.name;
-  } else {
-    return attributes.id;
-  }
+    if (isUiNodeInputAttributes(attributes)) {
+        return attributes.name
+    } else {
+        return attributes.id
+    }
 }
 
 /**
@@ -117,4 +117,4 @@ export function getNodeId({ attributes }: UiNode) {
  * @returns type of node
  */
 export const getNodeInputType = (attr: object): string =>
-  "type" in attr && typeof attr?.type == "string" ? attr.type : "";
+    "type" in attr && typeof attr?.type == "string" ? attr.type : ""
