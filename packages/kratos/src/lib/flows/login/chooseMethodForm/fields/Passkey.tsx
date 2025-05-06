@@ -1,5 +1,6 @@
-import { ComponentType, ReactNode, useCallback, useEffect, useMemo } from "react"
+import { ComponentType, ReactNode, useCallback, useMemo } from "react"
 import * as Slot from "@radix-ui/react-slot"
+import { useQuery } from "@tanstack/react-query"
 import { CommonButtonProps, getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
 import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
@@ -30,20 +31,19 @@ export function Passkey({ children }: PasskeyProps) {
         [loginFlow?.ui.nodes],
     )
 
-    useEffect(() => {
-        if (!challenge) return
+    useQuery({
+        queryKey: ["leancode_kratos_passkey", challenge?.value],
+        queryFn: async ({ signal }) => {
+            if (!challenge) throw new Error("No challenge provided")
 
-        const abortController = new AbortController()
-        ;(async () => {
-            const credential = await passkeyLoginInit(challenge.value, abortController)
+            const credential = await passkeyLoginInit(challenge.value, signal)
 
             if (!credential) return
 
             signInWithPasskeyUsingCredential(credential)
-        })()
-
-        return () => abortController.abort()
-    }, [challenge, signInWithPasskeyUsingCredential])
+        },
+        enabled: !!challenge,
+    })
 
     const signInWithPasskey = useCallback(async () => {
         if (!challenge) return

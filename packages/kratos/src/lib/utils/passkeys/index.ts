@@ -23,7 +23,7 @@ function base64urlEncode(value: ArrayBuffer) {
         .replaceAll("=", "")
 }
 
-export async function passkeyLoginInit(passkeyChallengeString: string, abortController?: AbortController) {
+export async function passkeyLoginInit(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
     if (!isPasskeySupported()) return undefined
@@ -32,7 +32,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, abortCont
 
     const credential = await navigator.credentials.get({
         mediation: "conditional",
-        signal: abortController?.signal,
+        signal,
         publicKey: {
             challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
             timeout: passkeyChallenge.publicKey.timeout,
@@ -57,7 +57,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, abortCont
         },
     })
 }
-export async function passkeyLogin(passkeyChallengeString: string, abortController?: AbortController) {
+export async function passkeyLogin(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
     const credential = await navigator.credentials.get({
