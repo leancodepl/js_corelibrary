@@ -1,4 +1,4 @@
-import { instanceOfUiText, UiText, UiTextTypeEnum } from "../kratos/models"
+import { instanceOfUiText, UiText, UiTextTypeEnum } from "../kratos"
 import { hasProperetyOfType } from "./assertion"
 
 export type UiTextError = UiText & {
