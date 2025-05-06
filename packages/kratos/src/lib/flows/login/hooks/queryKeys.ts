@@ -1,4 +1,4 @@
-const baseKey = "login"
+const baseKey = "leancode_kratos_login_flow"
 
 export const loginFlowKey = (id: string | undefined) => {
     if (!id) {
