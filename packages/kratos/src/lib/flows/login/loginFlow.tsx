@@ -6,7 +6,13 @@ import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./seco
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
 
-type KratosContext = { kratosClient: FrontendApi; loginFlowId?: string; setLoginFlowId: (loginFlowId?: string) => void }
+type KratosContext = {
+    kratosClient: FrontendApi
+    loginFlowId?: string
+    setLoginFlowId: (loginFlowId?: string) => void
+    registrationFlowId?: string
+    setRegistrationFlowId: (registrationFlowId?: string) => void
+}
 
 const kratosContext = createContext<KratosContext | undefined>(undefined)
 
@@ -19,10 +25,11 @@ export function KratosContextProvider({ children, baseUrl }: KratosContextProvid
     const [kratosClient] = useState(() => new FrontendApi(new Configuration({ basePath: baseUrl })))
 
     const [loginFlowId, setLoginFlowId] = useState<string>()
+    const [registrationFlowId, setRegistrationFlowId] = useState<string>()
 
     const kratosContextData = useMemo<KratosContext>(
-        () => ({ kratosClient, loginFlowId, setLoginFlowId }),
-        [kratosClient, loginFlowId, setLoginFlowId],
+        () => ({ kratosClient, loginFlowId, setLoginFlowId, registrationFlowId, setRegistrationFlowId }),
+        [kratosClient, loginFlowId, registrationFlowId],
     )
 
     return <kratosContext.Provider value={kratosContextData}>{children}</kratosContext.Provider>

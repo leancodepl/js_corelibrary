@@ -14,11 +14,6 @@ const loginSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-export const Route = createFileRoute("/login")({
-    component: RouteComponent,
-    validateSearch: loginSearchSchema,
-})
-
 const handleError: OnLoginFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
@@ -26,6 +21,11 @@ const handleError: OnLoginFlowError = ({ target, errors }) => {
         alert(`Błędy pola ${target}: ${errors.map(e => e.id).join(", ")}`)
     }
 }
+
+export const Route = createFileRoute("/login")({
+    component: RouteComponent,
+    validateSearch: loginSearchSchema,
+})
 
 function RouteComponent() {
     const { flow } = Route.useSearch()
@@ -36,6 +36,7 @@ function RouteComponent() {
             secondFactorEmailForm={SecondFactorEmailForm}
             initialFlowId={flow}
             onError={handleError}
+            returnTo="https://host.local.lncd.pl/"
         />
     )
 }

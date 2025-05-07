@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerificationImport } from './routes/verification'
 import { Route as RegistrationImport } from './routes/registration'
 import { Route as LoginImport } from './routes/login'
 
 // Create/Update Routes
+
+const VerificationRoute = VerificationImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegistrationRoute = RegistrationImport.update({
   id: '/registration',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistrationImport
       parentRoute: typeof rootRoute
     }
+    '/verification': {
+      id: '/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof VerificationImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/registration': typeof RegistrationRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/registration': typeof RegistrationRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/login': typeof LoginRoute
   '/registration': typeof RegistrationRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/registration'
+  fullPaths: '/login' | '/registration' | '/verification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/registration'
-  id: '__root__' | '/login' | '/registration'
+  to: '/login' | '/registration' | '/verification'
+  id: '__root__' | '/login' | '/registration' | '/verification'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RegistrationRoute: typeof RegistrationRoute
+  VerificationRoute: typeof VerificationRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RegistrationRoute: RegistrationRoute,
+  VerificationRoute: VerificationRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/login",
-        "/registration"
+        "/registration",
+        "/verification"
       ]
     },
     "/login": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/registration": {
       "filePath": "registration.tsx"
+    },
+    "/verification": {
+      "filePath": "verification.tsx"
     }
   }
 }
