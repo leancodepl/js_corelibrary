@@ -1,14 +1,19 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
-import { OnRegistrationFlowError } from "../types"
+import { OnRegistrationFlowError, TraitsConfig } from "../types"
 import { Apple, Facebook, Google, Password, TraitCheckbox, TraitInput } from "./fields"
 import { RegisterFormProvider } from "./registerFormContext"
-import { TraitsBase } from "./types"
 import { usePasswordForm } from "./usePasswordForm"
 
-export type RegisterFormProps = {
-    TraitInput?: ComponentType<{ trait: string; children: ReactNode }>
-    TraitCheckbox?: ComponentType<{ trait: string; children: ReactNode }>
+type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
+    [K in keyof TTraitsConfig]: TTraitsConfig[K] extends { type: "string" }
+        ? ComponentType<Omit<typeof TraitInput, "trait">>
+        : TTraitsConfig[K] extends { type: "boolean" }
+          ? ComponentType<Omit<typeof TraitCheckbox, "trait">>
+          : never
+}
+
+export type RegisterFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
     Password?: ComponentType<{ children: ReactNode }>
     Google?: ComponentType<{ children: ReactNode }>
     Passkey?: ComponentType<{ children: ReactNode }>
@@ -17,21 +22,40 @@ export type RegisterFormProps = {
     errors: Array<AuthError>
 }
 
-type RegisterFormWrapperProps = {
-    traitsDefaultValues: TraitsBase
-    registerForm: ComponentType<RegisterFormProps>
+type RegisterFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
+    traitsConfig: TTraitsConfig
+    registerForm: ComponentType<RegisterFormProps<TTraitsConfig>>
     onError?: OnRegistrationFlowError
 }
 
-export function RegisterFormWrapper({
-    traitsDefaultValues,
+export function RegisterFormWrapper<TTraitsConfig extends TraitsConfig>({
+    traitsConfig,
     registerForm: RegisterForm,
     onError,
-}: RegisterFormWrapperProps) {
-    const passwordForm = usePasswordForm({ traitsDefaultValues, onError })
+}: RegisterFormWrapperProps<TTraitsConfig>) {
+    const passwordForm = usePasswordForm({ traitsConfig, onError })
     const formErrors = useMemo(
         () => getAuthErrorsFromFormErrorMap(passwordForm.state.errorMap),
         [passwordForm.state.errorMap],
+    )
+
+    const traitComponents = useMemo(
+        () =>
+            Object.fromEntries(
+                Object.entries(traitsConfig).map(([key, value]) => {
+                    return [
+                        key,
+                        value.type === "boolean"
+                            ? ({ children }: { children: ReactNode }) => (
+                                  <TraitCheckbox children={children} trait={value.trait} />
+                              )
+                            : ({ children }: { children: ReactNode }) => (
+                                  <TraitInput children={children} trait={value.trait} />
+                              ),
+                    ]
+                }),
+            ) as TraitsComponents<TTraitsConfig>,
+        [traitsConfig],
     )
 
     return (
@@ -47,8 +71,7 @@ export function RegisterFormWrapper({
                     Facebook={Facebook}
                     Google={Google}
                     Password={Password}
-                    TraitCheckbox={TraitCheckbox}
-                    TraitInput={TraitInput}
+                    {...traitComponents}
                 />
             </form>
         </RegisterFormProvider>

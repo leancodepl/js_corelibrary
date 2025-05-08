@@ -1,31 +1,31 @@
-import { useMemo } from "react"
 import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeRegistration } from "../../../kratos"
 import { getAuthErrorsFromUiTextList } from "../../../utils"
 import { getCsrfToken, getNodeById, inputNodeMessages } from "../../../utils/flow"
 import { useGetRegistrationFlow } from "../hooks"
 import { useUpdateRegistrationFlow } from "../hooks/useUpdateRegistrationFlow"
-import { OnRegistrationFlowError } from "../types"
-import { InputFields, TraitsBase } from "./types"
+import { OnRegistrationFlowError, TraitsConfig } from "../types"
+import { InputFields } from "./types"
 
-type UsePasswordFormProps = {
-    traitsDefaultValues: TraitsBase
+type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
+    traitsConfig: TTraitsConfig
     onError?: OnRegistrationFlowError
 }
 
-export function usePasswordForm({ traitsDefaultValues, onError }: UsePasswordFormProps) {
+export function usePasswordForm<TTraitsConfig extends TraitsConfig>({
+    traitsConfig,
+    onError,
+}: UsePasswordFormProps<TTraitsConfig>) {
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
     const { data: registrationFlow } = useGetRegistrationFlow()
 
-    const defaultValues = useMemo(() => {
-        return {
-            [InputFields.Password]: "",
-            traits: traitsDefaultValues,
-        }
-    }, [traitsDefaultValues])
-
     return useForm({
-        defaultValues,
+        defaultValues: {
+            [InputFields.Password]: "",
+            traits: Object.fromEntries(
+                Object.values(traitsConfig).map(({ trait, type }) => [trait, type === "boolean" ? false : ""]),
+            ),
+        },
         onSubmit: async ({ value, formApi }) => {
             if (!registrationFlow) return
 
