@@ -45,11 +45,11 @@ export const isAuthError = (error: unknown): error is AuthError => {
     return true
 }
 
-export const getAuthErrorsFromUiTextList = (messages: UiText[] | undefined): Array<AuthError> => {
+export const getAuthErrorsFromUiTextList = (messages: UiText[] | undefined): AuthError[] => {
     return messages?.filter(isUiTextError).map(mapToAuthError) ?? []
 }
 
-export const getAuthErrorsFromFormErrorMap = ({ onSubmit: errors }: { onSubmit?: unknown } = {}): Array<AuthError> => {
+export const getAuthErrorsFromFormErrorMap = ({ onSubmit: errors }: { onSubmit?: unknown } = {}): AuthError[] => {
     if (!errors || !Array.isArray(errors) || errors.length === 0) {
         return []
     }
