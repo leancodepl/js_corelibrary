@@ -9,7 +9,7 @@ import { useCodeForm } from "./useCodeForm"
 export type SecondFactorEmailFormProps = {
     Code: ComponentType<{ children: ReactNode }>
     Resend: ComponentType<{ children: ReactNode }>
-    errors?: Array<AuthError>
+    errors?: AuthError[]
 }
 
 type SecondFactorEmailFormWrapperProps = {

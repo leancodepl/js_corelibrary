@@ -13,7 +13,7 @@ export type ChooseMethodFormProps = {
     Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
-    errors: Array<AuthError>
+    errors: AuthError[]
 }
 
 type ChooseMethodFormWrapperProps = {

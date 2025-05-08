@@ -9,7 +9,7 @@ import { useTotpForm } from "./useTotpForm"
 export type SecondFactorFormProps = {
     Totp?: ComponentType<{ children: ReactNode }>
     Email?: ComponentType<{ children: ReactNode }>
-    errors?: Array<AuthError>
+    errors?: AuthError[]
 }
 
 type SecondFactorFormWrapperProps = {
