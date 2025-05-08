@@ -1,6 +1,6 @@
 import {
     ChooseMethodFormProps,
-    KratosLoginFlow,
+    mkKratos,
     OnLoginFlowError,
     SecondFactorEmailFormProps,
     SecondFactorFormProps,
@@ -27,10 +27,12 @@ export const Route = createFileRoute("/login")({
     validateSearch: loginSearchSchema,
 })
 
+const { LoginFlow } = mkKratos()
+
 function RouteComponent() {
     const { flow } = Route.useSearch()
     return (
-        <KratosLoginFlow
+        <LoginFlow
             chooseMethodForm={ChooseMethodForm}
             secondFactorForm={SecondFactorForm}
             secondFactorEmailForm={SecondFactorEmailForm}

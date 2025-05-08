@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import { useKratosContext } from "../loginFlow"
+import { useKratosContext } from "../../../hooks"
+import { useLoginFlowContext } from "../loginFlow"
 import { loginFlowKey } from "./queryKeys"
 
 export function useGetLoginFlow() {
-    const { kratosClient, loginFlowId } = useKratosContext()
+    const { kratosClient } = useKratosContext()
+    const { loginFlowId } = useLoginFlowContext()
 
     return useQuery({
         queryKey: loginFlowKey(loginFlowId),

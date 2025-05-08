@@ -1,10 +1,9 @@
-import { ComponentType, useEffect } from "react"
-import { useKratosContext } from "../login"
+import { ComponentType, createContext, useContext, useEffect, useState } from "react"
 import { useCreateRegistrationFlow } from "./hooks/useCreateRegistrationFlow"
 import { RegisterFormProps, RegisterFormWrapper } from "./registerForm/RegisterFormWrapper"
 import { OnRegistrationFlowError, TraitsConfig } from "./types"
 
-type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
+export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     registerForm: ComponentType<RegisterFormProps<TTraitsConfig>>
     initialFlowId?: string
@@ -12,15 +11,14 @@ type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     onError?: OnRegistrationFlowError
 }
 
-export function KratosRegistrationFlow<TTraitsConfig extends TraitsConfig>({
+function RegistrationFlow<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     registerForm: RegisterForm,
     initialFlowId,
     returnTo,
     onError,
 }: RegistrationFlowProps<TTraitsConfig>) {
-    const { registrationFlowId, setRegistrationFlowId } = useKratosContext()
-
+    const { registrationFlowId, setRegistrationFlowId } = useRegistrationFlowContext()
     const { mutate: createRegistrationFlow } = useCreateRegistrationFlow({ returnTo })
 
     useEffect(() => {
@@ -36,10 +34,31 @@ export function KratosRegistrationFlow<TTraitsConfig extends TraitsConfig>({
     return <RegisterFormWrapper registerForm={RegisterForm} traitsConfig={traitsConfig} onError={onError} />
 }
 
-export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTraitsConfig) {
-    return {
-        RegistrationFlow: (props: Omit<RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
-            <KratosRegistrationFlow traitsConfig={traitsConfig} {...props} />
-        ),
+type RegistrationFlowContext = {
+    registrationFlowId?: string
+    setRegistrationFlowId: (registrationFlowId: string | undefined) => void
+}
+
+const registrationFlowContext = createContext<RegistrationFlowContext | undefined>(undefined)
+
+export function RegistrationFlowProvider<TTraitsConfig extends TraitsConfig>(
+    props: RegistrationFlowProps<TTraitsConfig>,
+) {
+    const [registrationFlowId, setRegistrationFlowId] = useState<string>()
+
+    return (
+        <registrationFlowContext.Provider value={{ registrationFlowId, setRegistrationFlowId }}>
+            <RegistrationFlow {...props} />
+        </registrationFlowContext.Provider>
+    )
+}
+
+export function useRegistrationFlowContext() {
+    const context = useContext(registrationFlowContext)
+
+    if (context === undefined) {
+        throw new Error("useRegistrationFlowContext must be used within a RegistrationFlowProvider")
     }
+
+    return context
 }
