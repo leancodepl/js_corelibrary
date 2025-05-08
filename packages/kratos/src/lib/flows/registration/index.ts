@@ -1,3 +1,3 @@
-export { mkKratos } from "./registrationFlow"
+export * from "./registrationFlow"
 export type { RegisterFormProps } from "./registerForm"
 export type { OnRegistrationFlowError } from "./types"

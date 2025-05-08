@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useKratosContext } from "../../../hooks"
 import {
     handleContinueWith,
     handleFlowError,
@@ -6,11 +7,12 @@ import {
     SuccessfulNativeRegistration,
     UpdateRegistrationFlowBody,
 } from "../../../kratos"
-import { useKratosContext } from "../../login"
+import { useRegistrationFlowContext } from "../registrationFlow"
 import { registrationFlowKey } from "./queryKeys"
 
 export function useUpdateRegistrationFlow() {
-    const { kratosClient, setRegistrationFlowId, registrationFlowId } = useKratosContext()
+    const { kratosClient } = useKratosContext()
+    const { setRegistrationFlowId, registrationFlowId } = useRegistrationFlowContext()
     const client = useQueryClient()
 
     return useMutation<
