@@ -1,6 +1,5 @@
 import {
     ChooseMethodFormProps,
-    mkKratos,
     OnLoginFlowError,
     SecondFactorEmailFormProps,
     SecondFactorFormProps,
@@ -9,6 +8,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { AuthError, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC } from "react"
 import { z } from "zod"
+import { LoginFlow } from "../services/kratos"
 
 const loginSearchSchema = z.object({
     flow: z.string().optional(),
@@ -26,8 +26,6 @@ export const Route = createFileRoute("/login")({
     component: RouteComponent,
     validateSearch: loginSearchSchema,
 })
-
-const { LoginFlow } = mkKratos()
 
 function RouteComponent() {
     const { flow } = Route.useSearch()

@@ -1,8 +1,9 @@
-import { OnRegistrationFlowError, RegisterFormProps, mkKratos } from "@leancodepl/kratos"
+import { OnRegistrationFlowError, RegisterFormProps } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC, ReactNode } from "react"
 import { z } from "zod"
+import { RegistrationFlow, AuthTraitsConfig } from "../services/kratos"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -20,23 +21,6 @@ export const Route = createFileRoute("/registration")({
     component: RouteComponent,
     validateSearch: registrationSearchSchema,
 })
-
-const traitsConfig = {
-    Email: {
-        trait: "email",
-        type: "string",
-    },
-    GivenName: {
-        trait: "given_name",
-        type: "string",
-    },
-    RegulationsAccepted: {
-        trait: "regulations_accepted",
-        type: "boolean",
-    },
-} as const
-
-const { RegistrationFlow } = mkKratos(traitsConfig)
 
 function RouteComponent() {
     const { flow } = Route.useSearch()
@@ -124,7 +108,7 @@ function RegisterForm({
     Apple,
     Facebook,
     Passkey,
-}: RegisterFormProps<typeof traitsConfig>) {
+}: RegisterFormProps<AuthTraitsConfig>) {
     return (
         <>
             {Email && (
