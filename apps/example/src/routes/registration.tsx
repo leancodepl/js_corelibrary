@@ -1,4 +1,4 @@
-import { KratosRegistrationFlow, OnRegistrationFlowError, RegisterFormProps } from "@leancodepl/kratos"
+import { OnRegistrationFlowError, RegisterFormProps, mkKratos } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC, ReactNode } from "react"
@@ -21,11 +21,28 @@ export const Route = createFileRoute("/registration")({
     validateSearch: registrationSearchSchema,
 })
 
+const traitsConfig = {
+    Email: {
+        trait: "email",
+        type: "string",
+    },
+    GivenName: {
+        trait: "given_name",
+        type: "string",
+    },
+    RegulationsAccepted: {
+        trait: "regulations_accepted",
+        type: "boolean",
+    },
+} as const
+
+const { RegistrationFlow } = mkKratos(traitsConfig)
+
 function RouteComponent() {
     const { flow } = Route.useSearch()
+
     return (
-        <KratosRegistrationFlow
-            traitsDefaultValues={{ email: "", given_name: "", regulations_accepted: false }}
+        <RegistrationFlow
             registerForm={RegisterForm}
             initialFlowId={flow}
             onError={handleError}
@@ -98,64 +115,64 @@ const Checkbox: FC<CommonCheckboxFieldProps & { placeholder?: string; children?:
 )
 
 function RegisterForm({
-    TraitInput,
-    TraitCheckbox,
+    errors,
     Password,
+    Email,
+    RegulationsAccepted,
+    GivenName,
     Google,
-    Passkey,
     Apple,
     Facebook,
-    errors,
-}: RegisterFormProps) {
+    Passkey,
+}: RegisterFormProps<typeof traitsConfig>) {
     return (
         <>
-            {TraitInput && (
-                <>
-                    <TraitInput trait="email">
-                        <Input placeholder="Email" />
-                    </TraitInput>
-
-                    <TraitInput trait="given_name">
-                        <Input placeholder="Given name" />
-                    </TraitInput>
-                </>
+            {Email && (
+                <Email>
+                    <Input placeholder="Email" />
+                </Email>
+            )}
+            {GivenName && (
+                <GivenName>
+                    <Input placeholder="First name" />
+                </GivenName>
             )}
             {Password && (
                 <Password>
                     <Input placeholder="Password" />
                 </Password>
             )}
-            {TraitCheckbox && (
-                <TraitCheckbox trait="regulations_accepted">
+            {RegulationsAccepted && (
+                <RegulationsAccepted>
                     <Checkbox type="checkbox" placeholder="Regulations accepted">
                         I accept the regulations
                     </Checkbox>
-                </TraitCheckbox>
+                </RegulationsAccepted>
             )}
 
             <button type="submit">Register</button>
 
             {Google && (
                 <Google>
-                    <button>Sign in with Google</button>
+                    <button>Sign up with Google</button>
                 </Google>
             )}
 
             {Apple && (
                 <Apple>
-                    <button>Sign in with Apple</button>
+                    <button>Sign up with Apple</button>
                 </Apple>
             )}
 
             {Facebook && (
                 <Facebook>
-                    <button>Sign in with Facebook</button>
+                    <button>Sign up with Facebook</button>
                 </Facebook>
             )}
 
             {Passkey && (
                 <Passkey>
-                    <button>Sign in with Passkey</button>
+                    <button>Sign up with Passkey</button>
                 </Passkey>
             )}
 

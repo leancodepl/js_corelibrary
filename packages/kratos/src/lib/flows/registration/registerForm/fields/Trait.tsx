@@ -15,18 +15,21 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
 
     return (
         <passwordForm.Field name={`traits.${trait}`}>
-            {field =>
-                typeof field.state.value !== "boolean" && (
+            {field => {
+                if (typeof field.state.value === "boolean") {
+                    throw new Error("TraitInput: value cannot be boolean")
+                }
+
+                return (
                     <Comp
                         errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                         name={field.name}
                         type="text"
-                        value={field.state.value}
                         onChange={e => field.handleChange(e.target.value)}>
                         {children}
                     </Comp>
                 )
-            }
+            }}
         </passwordForm.Field>
     )
 }
@@ -38,8 +41,12 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
 
     return (
         <passwordForm.Field name={`traits.${trait}`}>
-            {field =>
-                typeof field.state.value !== "string" && (
+            {field => {
+                if (typeof field.state.value === "string") {
+                    throw new Error("TraitCheckbox: value is not boolean")
+                }
+
+                return (
                     <Comp
                         checked={field.state.value}
                         errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
@@ -49,7 +56,7 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
                         {children}
                     </Comp>
                 )
-            }
+            }}
         </passwordForm.Field>
     )
 }
