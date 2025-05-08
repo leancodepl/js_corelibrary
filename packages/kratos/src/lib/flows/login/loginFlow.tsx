@@ -14,7 +14,7 @@ export type LoginFlowProps = {
     onError?: OnLoginFlowError
 }
 
-function LoginFlow({
+function LoginFlowWrapper({
     chooseMethodForm: ChooseMethodForm,
     secondFactorForm: SecondFactorForm,
     secondFactorEmailForm: SecondFactorEmailForm,
@@ -72,12 +72,12 @@ type LoginFlowContext = {
 
 const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
 
-export function LoginFlowProvider(props: LoginFlowProps) {
+export function LoginFlow(props: LoginFlowProps) {
     const [loginFlowId, setLoginFlowId] = useState<string>()
 
     return (
         <loginFlowContext.Provider value={{ loginFlowId, setLoginFlowId }}>
-            <LoginFlow {...props} />
+            <LoginFlowWrapper {...props} />
         </loginFlowContext.Provider>
     )
 }
@@ -86,7 +86,7 @@ export function useLoginFlowContext() {
     const context = useContext(loginFlowContext)
 
     if (context === undefined) {
-        throw new Error("useLoginFlowContext must be used within a KratosLoginFlow")
+        throw new Error("useLoginFlowContext must be used within a LoginFlow")
     }
 
     return context
