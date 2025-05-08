@@ -11,7 +11,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     onError?: OnRegistrationFlowError
 }
 
-function RegistrationFlow<TTraitsConfig extends TraitsConfig>({
+function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     registerForm: RegisterForm,
     initialFlowId,
@@ -41,14 +41,12 @@ type RegistrationFlowContext = {
 
 const registrationFlowContext = createContext<RegistrationFlowContext | undefined>(undefined)
 
-export function RegistrationFlowProvider<TTraitsConfig extends TraitsConfig>(
-    props: RegistrationFlowProps<TTraitsConfig>,
-) {
+export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
     const [registrationFlowId, setRegistrationFlowId] = useState<string>()
 
     return (
         <registrationFlowContext.Provider value={{ registrationFlowId, setRegistrationFlowId }}>
-            <RegistrationFlow {...props} />
+            <RegistrationFlowWrapper {...props} />
         </registrationFlowContext.Provider>
     )
 }
@@ -57,7 +55,7 @@ export function useRegistrationFlowContext() {
     const context = useContext(registrationFlowContext)
 
     if (context === undefined) {
-        throw new Error("useRegistrationFlowContext must be used within a RegistrationFlowProvider")
+        throw new Error("useRegistrationFlowContext must be used within a RegistrationFlow")
     }
 
     return context

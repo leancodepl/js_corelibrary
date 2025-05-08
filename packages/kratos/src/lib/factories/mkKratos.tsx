@@ -1,11 +1,11 @@
-import { LoginFlowProps, LoginFlowProvider, RegistrationFlowProps, RegistrationFlowProvider } from "../flows"
+import { LoginFlow, LoginFlowProps, RegistrationFlow, RegistrationFlowProps } from "../flows"
 import { TraitsConfig } from "../flows/registration/types"
 
 export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTraitsConfig = {} as TTraitsConfig) {
     return {
         RegistrationFlow: (props: Omit<RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
-            <RegistrationFlowProvider traitsConfig={traitsConfig} {...props} />
+            <RegistrationFlow traitsConfig={traitsConfig} {...props} />
         ),
-        LoginFlow: (props: LoginFlowProps) => <LoginFlowProvider {...props} />,
+        LoginFlow: (props: LoginFlowProps) => <LoginFlow {...props} />,
     }
 }
