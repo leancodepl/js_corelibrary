@@ -38,11 +38,14 @@ export function Passkey({ children }: PasskeyProps) {
 
             const credential = await passkeyLoginInit(challenge.value, signal)
 
-            if (!credential) return
+            if (!credential) {
+                return false
+            }
 
             signInWithPasskeyUsingCredential(credential)
         },
         enabled: !!challenge,
+        retry: false,
     })
 
     const signInWithPasskey = useCallback(async () => {

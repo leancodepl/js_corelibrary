@@ -30,60 +30,73 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
     if (!window.PublicKeyCredential.isConditionalMediationAvailable) return undefined
     if (!(await window.PublicKeyCredential.isConditionalMediationAvailable())) return undefined
 
-    const credential = await navigator.credentials.get({
-        mediation: "conditional",
-        signal,
-        publicKey: {
-            challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
-            timeout: passkeyChallenge.publicKey.timeout,
-            rpId: passkeyChallenge.publicKey.rpId,
-            userVerification: passkeyChallenge.publicKey.userVerification,
-        },
-    })
+    try {
+        const credential = await navigator.credentials.get({
+            mediation: "conditional",
+            signal,
+            publicKey: {
+                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
+                timeout: passkeyChallenge.publicKey.timeout,
+                rpId: passkeyChallenge.publicKey.rpId,
+                userVerification: passkeyChallenge.publicKey.userVerification,
+            },
+        })
 
-    if (!credential) return undefined
-    if (!(credential instanceof PublicKeyCredential)) return undefined
-    if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
+        if (!credential) return undefined
+        if (!(credential instanceof PublicKeyCredential)) return undefined
+        if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
 
-    return JSON.stringify({
-        id: credential.id,
-        rawId: base64urlEncode(credential.rawId),
-        type: credential.type,
-        response: {
-            authenticatorData: base64urlEncode(credential.response.authenticatorData),
-            clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-            signature: base64urlEncode(credential.response.signature),
-            userHandle: credential.response.userHandle ? base64urlEncode(credential.response.userHandle) : undefined,
-        },
-    })
+        return JSON.stringify({
+            id: credential.id,
+            rawId: base64urlEncode(credential.rawId),
+            type: credential.type,
+            response: {
+                authenticatorData: base64urlEncode(credential.response.authenticatorData),
+                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+                signature: base64urlEncode(credential.response.signature),
+                userHandle: credential.response.userHandle
+                    ? base64urlEncode(credential.response.userHandle)
+                    : undefined,
+            },
+        })
+    } catch {
+        return undefined
+    }
 }
 export async function passkeyLogin(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
-    const credential = await navigator.credentials.get({
-        publicKey: {
-            challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
-            timeout: passkeyChallenge.publicKey.timeout,
-            rpId: passkeyChallenge.publicKey.rpId,
-            userVerification: passkeyChallenge.publicKey.userVerification,
-        },
-    })
+    try {
+        const credential = await navigator.credentials.get({
+            signal,
+            publicKey: {
+                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
+                timeout: passkeyChallenge.publicKey.timeout,
+                rpId: passkeyChallenge.publicKey.rpId,
+                userVerification: passkeyChallenge.publicKey.userVerification,
+            },
+        })
 
-    if (!credential) return undefined
-    if (!(credential instanceof PublicKeyCredential)) return undefined
-    if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
+        if (!credential) return undefined
+        if (!(credential instanceof PublicKeyCredential)) return undefined
+        if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
 
-    return JSON.stringify({
-        id: credential.id,
-        rawId: base64urlEncode(credential.rawId),
-        type: credential.type,
-        response: {
-            authenticatorData: base64urlEncode(credential.response.authenticatorData),
-            clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-            signature: base64urlEncode(credential.response.signature),
-            userHandle: credential.response.userHandle ? base64urlEncode(credential.response.userHandle) : undefined,
-        },
-    })
+        return JSON.stringify({
+            id: credential.id,
+            rawId: base64urlEncode(credential.rawId),
+            type: credential.type,
+            response: {
+                authenticatorData: base64urlEncode(credential.response.authenticatorData),
+                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+                signature: base64urlEncode(credential.response.signature),
+                userHandle: credential.response.userHandle
+                    ? base64urlEncode(credential.response.userHandle)
+                    : undefined,
+            },
+        })
+    } catch {
+        return undefined
+    }
 }
 
 // ;(function () {
