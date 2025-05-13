@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
 import {
-    handleContinueWith,
     handleFlowError,
     RegistrationFlow,
     SuccessfulNativeRegistration,
@@ -12,7 +11,8 @@ import { registrationFlowKey } from "./queryKeys"
 
 export function useUpdateRegistrationFlow() {
     const { kratosClient } = useKratosContext()
-    const { setRegistrationFlowId, registrationFlowId } = useRegistrationFlowContext()
+    const { setRegistrationFlowId, registrationFlowId, setVerificationFlowId, setVerifiableAddress } =
+        useRegistrationFlowContext()
     const client = useQueryClient()
 
     return useMutation<
@@ -32,11 +32,12 @@ export function useUpdateRegistrationFlow() {
                 const data = await response.value()
 
                 if (data && "continue_with" in data) {
-                    handleContinueWith(data.continue_with, {
-                        onRedirect: (url, _external) => {
-                            window.location.href = url
-                        },
-                    })
+                    const showVerificationUI = data.continue_with?.find(e => e.action === "show_verification_ui")
+
+                    if (showVerificationUI) {
+                        setVerificationFlowId(showVerificationUI.flow.id)
+                        setVerifiableAddress(showVerificationUI.flow.verifiable_address)
+                    }
                 }
 
                 return data
@@ -45,7 +46,11 @@ export function useUpdateRegistrationFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: () => setRegistrationFlowId(undefined),
+                    onRestartFlow: () => {
+                        setRegistrationFlowId(undefined)
+                        setVerificationFlowId(undefined)
+                        setVerifiableAddress(undefined)
+                    },
                     onValidationError: body => body,
                 })(error)) as RegistrationFlow | undefined
             }

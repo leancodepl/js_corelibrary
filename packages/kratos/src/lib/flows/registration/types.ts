@@ -1,8 +1,9 @@
 import { AuthError } from "../../utils"
-import { InputFields } from "./registerForm/types"
+import { InputFields as EmailVerificationInputFields } from "./emailVerificationForm/types"
+import { InputFields as RegisterFormInputFields } from "./registerForm/types"
 
 export type OnRegistrationFlowError = (props: {
-    target: "root" | `${InputFields}` | `traits.${string}`
+    target: "root" | `${EmailVerificationInputFields}` | `${RegisterFormInputFields}` | `traits.${string}`
     errors: AuthError[]
 }) => Promise<void> | void
 

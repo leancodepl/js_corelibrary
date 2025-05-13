@@ -1,5 +1,6 @@
 export enum InputFields {
     Password = "password",
+    PasswordConfirmation = "password_confirmation",
 }
 
 export type TraitsBase = {

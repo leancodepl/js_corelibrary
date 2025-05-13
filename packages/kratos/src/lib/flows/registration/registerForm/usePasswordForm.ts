@@ -10,11 +10,13 @@ import { InputFields } from "./types"
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     onError?: OnRegistrationFlowError
+    onRegisterationSuccess?: () => void
 }
 
 export function usePasswordForm<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     onError,
+    onRegisterationSuccess,
 }: UsePasswordFormProps<TTraitsConfig>) {
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
     const { data: registrationFlow } = useGetRegistrationFlow()
@@ -22,6 +24,7 @@ export function usePasswordForm<TTraitsConfig extends TraitsConfig>({
     return useForm({
         defaultValues: {
             [InputFields.Password]: "",
+            [InputFields.PasswordConfirmation]: "",
             traits: Object.fromEntries(
                 Object.values(traitsConfig).map(({ trait, type }) => [trait, type === "boolean" ? false : ""]),
             ),
@@ -41,6 +44,7 @@ export function usePasswordForm<TTraitsConfig extends TraitsConfig>({
             }
 
             if (instanceOfSuccessfulNativeRegistration(response)) {
+                onRegisterationSuccess?.()
                 return
             }
 
