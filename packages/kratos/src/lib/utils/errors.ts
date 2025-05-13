@@ -5,7 +5,7 @@ export type UiTextError = UiText & {
     type: typeof UiTextTypeEnum.Error
 }
 
-export type AuthError = ReturnType<typeof mapToAuthError>
+export type AuthError = ReturnType<typeof mapAdditionalValidationErrorToAuthError> | ReturnType<typeof mapToAuthError>
 
 export const isUiTextError = (error: unknown): error is UiTextError => {
     if (typeof error !== "object" || error === null) {
@@ -30,16 +30,10 @@ export const isAuthError = (error: unknown): error is AuthError => {
     if (typeof error.id !== "string") {
         return false
     }
-    if (!("context" in error)) {
+    if ("context" in error && (typeof error.context !== "object" || error.context === null)) {
         return false
     }
-    if (typeof error.context !== "object" || error.context === null) {
-        return false
-    }
-    if (!("originalError" in error)) {
-        return false
-    }
-    if (!isUiTextError(error.originalError)) {
+    if ("originalError" in error && !isUiTextError(error.originalError)) {
         return false
     }
     return true
@@ -49,12 +43,29 @@ export const getAuthErrorsFromUiTextList = (messages: UiText[] | undefined): Aut
     return messages?.filter(isUiTextError).map(mapToAuthError) ?? []
 }
 
-export const getAuthErrorsFromFormErrorMap = ({ onSubmit: errors }: { onSubmit?: unknown } = {}): AuthError[] => {
-    if (!errors || !Array.isArray(errors) || errors.length === 0) {
-        return []
-    }
+export const getAuthErrorsFromFormErrorMap = ({
+    onSubmit: errors,
+    onChange: errorsOnChange,
+    onBlur: errorsOnBlur,
+}: { onSubmit?: unknown; onChange?: unknown; onBlur?: unknown } = {}): Array<AuthError> => {
+    const allErrors = [
+        ...(Array.isArray(errors) ? errors : []),
+        ...(Array.isArray(errorsOnChange) ? errorsOnChange : []),
+        ...(Array.isArray(errorsOnBlur) ? errorsOnBlur : []),
+    ].filter(isAuthError)
 
-    return errors.filter(isAuthError)
+    return Array.from(new Map(allErrors.map(error => [error.id, error])).values())
+}
+
+export enum AdditionalValidationError {
+    FieldMismatch = "FieldMismatch",
+    FieldRequired = "FieldRequired",
+}
+
+export const mapAdditionalValidationErrorToAuthError = (error: AdditionalValidationError) => {
+    return {
+        id: `AdditionalValidationError_${error}` as const,
+    }
 }
 
 const getErrorMappers = (error: UiTextError) => {

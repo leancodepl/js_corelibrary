@@ -1,4 +1,6 @@
 export * from "./useCreateRegistrationFlow"
 export * from "./useGetRegistrationFlow"
 export * from "./useUpdateRegistrationFlow"
+export * from "./useUpdateVerificationFlow"
+export * from "./useGetVerificationFlow"
 export * from "./useFormErrors"

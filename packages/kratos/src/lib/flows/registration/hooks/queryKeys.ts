@@ -7,3 +7,11 @@ export const registrationFlowKey = (id: string | undefined) => {
 
     return [baseKey, id] as const
 }
+
+export const verificationFlowKey = (id: string | undefined) => {
+    if (!id) {
+        return [baseKey] as const
+    }
+
+    return [baseKey, "register-with-verification-flow", id] as const
+}

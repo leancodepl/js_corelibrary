@@ -4,6 +4,7 @@ import { AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "pack
 import { FC, ReactNode } from "react"
 import { z } from "zod"
 import { RegistrationFlow, AuthTraitsConfig } from "../services/kratos"
+import { EmailVerificationFormProps } from "packages/kratos/src/lib/flows/registration/emailVerificationForm/EmailVerificationFormWrapper"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -28,6 +29,7 @@ function RouteComponent() {
     return (
         <RegistrationFlow
             registerForm={RegisterForm}
+            emailVerificationForm={EmailVerificationForm}
             initialFlowId={flow}
             onError={handleError}
             returnTo="https://host.local.lncd.pl/"
@@ -60,7 +62,7 @@ const getErrorMessage = (error: AuthError) => {
         case "Error_MustBeEqualTo_WithContext":
             return `Wartość musi być: ${error.context.expected}`
         default:
-            return error.originalError.text
+            return "originalError" in error ? error.originalError.text : error.id
     }
 }
 
@@ -101,6 +103,7 @@ const Checkbox: FC<CommonCheckboxFieldProps & { placeholder?: string; children?:
 function RegisterForm({
     errors,
     Password,
+    PasswordConfirmation,
     Email,
     RegulationsAccepted,
     GivenName,
@@ -125,6 +128,11 @@ function RegisterForm({
                 <Password>
                     <Input placeholder="Password" />
                 </Password>
+            )}
+            {PasswordConfirmation && (
+                <PasswordConfirmation>
+                    <Input placeholder="Password confirmation" />
+                </PasswordConfirmation>
             )}
             {RegulationsAccepted && (
                 <RegulationsAccepted>
@@ -159,6 +167,24 @@ function RegisterForm({
                     <button>Sign up with Passkey</button>
                 </Passkey>
             )}
+
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+        </>
+    )
+}
+
+function EmailVerificationForm({ Code, Resend, errors }: EmailVerificationFormProps) {
+    return (
+        <>
+            <Code>
+                <Input placeholder="Code" />
+            </Code>
+
+            <button type="submit">Login</button>
+
+            <Resend>
+                <button>Resend code</button>
+            </Resend>
 
             <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
         </>

@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
 import { OnRegistrationFlowError, TraitsConfig } from "../types"
-import { Apple, Facebook, Google, Password, TraitCheckbox, TraitInput } from "./fields"
+import { Apple, Facebook, Google, Password, PasswordConfirmation, TraitCheckbox, TraitInput } from "./fields"
 import { RegisterFormProvider } from "./registerFormContext"
 import { usePasswordForm } from "./usePasswordForm"
 
@@ -15,6 +15,7 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 
 export type RegisterFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
     Password?: ComponentType<{ children: ReactNode }>
+    PasswordConfirmation?: ComponentType<{ children: ReactNode }>
     Google?: ComponentType<{ children: ReactNode }>
     Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
@@ -26,14 +27,16 @@ type RegisterFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     registerForm: ComponentType<RegisterFormProps<TTraitsConfig>>
     onError?: OnRegistrationFlowError
+    onRegisterationSuccess?: () => void
 }
 
 export function RegisterFormWrapper<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     registerForm: RegisterForm,
     onError,
+    onRegisterationSuccess,
 }: RegisterFormWrapperProps<TTraitsConfig>) {
-    const passwordForm = usePasswordForm({ traitsConfig, onError })
+    const passwordForm = usePasswordForm({ traitsConfig, onError, onRegisterationSuccess })
     const formErrors = useMemo(
         () => getAuthErrorsFromFormErrorMap(passwordForm.state.errorMap),
         [passwordForm.state.errorMap],
@@ -71,6 +74,7 @@ export function RegisterFormWrapper<TTraitsConfig extends TraitsConfig>({
                     Facebook={Facebook}
                     Google={Google}
                     Password={Password}
+                    PasswordConfirmation={PasswordConfirmation}
                     {...traitComponents}
                 />
             </form>
