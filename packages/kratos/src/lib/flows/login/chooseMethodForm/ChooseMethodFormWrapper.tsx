@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
+import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
-import { useFormErrors } from "../hooks/useFormErrors"
 import { OnLoginFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"

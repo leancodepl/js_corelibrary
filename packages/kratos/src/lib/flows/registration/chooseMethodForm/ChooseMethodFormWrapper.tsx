@@ -1,5 +1,6 @@
-import { ComponentType, ReactNode, useMemo } from "react"
-import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
+import { ComponentType, ReactNode } from "react"
+import { useFormErrors } from "../../../hooks"
+import { AuthError } from "../../../utils"
 import { OnRegistrationFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Passkey, Password, PasswordConfirmation, ReturnToTraitsForm } from "./fields"
@@ -25,10 +26,7 @@ export function ChooseMethodFormWrapper({
     onRegisterationSuccess,
 }: ChooseMethodFormWrapperProps) {
     const chooseMethodForm = useChooseMethodForm({ onError, onRegisterationSuccess })
-    const formErrors = useMemo(
-        () => getAuthErrorsFromFormErrorMap(chooseMethodForm.state.errorMap),
-        [chooseMethodForm.state.errorMap],
-    )
+    const formErrors = useFormErrors(chooseMethodForm)
 
     return (
         <ChooseMethodFormProvider chooseMethodForm={chooseMethodForm}>
