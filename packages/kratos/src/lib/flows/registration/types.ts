@@ -1,11 +1,8 @@
-import { AuthError } from "../../utils"
+import { OnFlowError } from "../../utils"
 import { InputFields as ChooseMethodInputFields } from "./chooseMethodForm/types"
 import { InputFields as EmailVerificationInputFields } from "./emailVerificationForm/types"
 
-export type OnRegistrationFlowError = (props: {
-    target: "root" | `${ChooseMethodInputFields}` | `${EmailVerificationInputFields}` | `traits.${string}`
-    errors: AuthError[]
-}) => Promise<void> | void
+export type OnRegistrationFlowError = OnFlowError<`${ChooseMethodInputFields}` | `${EmailVerificationInputFields}`>
 
 type typeofKratosTraitValue = {
     string: string
