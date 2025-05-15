@@ -20,6 +20,7 @@
     "@nx/rollup": "20.6.4",
     "@nx/vite": "20.7.1",
     "@nx/web": "20.7.1",
+    "@openapitools/openapi-generator-cli": "2.17.0",
     "@playwright/test": "^1.36.0",
     "@rollup/plugin-url": "8.0.2",
     "@svgr/rollup": "8.1.0",
