@@ -1,17 +1,7 @@
-const baseKey = "leancode_kratos_registration_flow"
+import { createQueryKey, withPrefix } from "../../../utils"
 
-export const registrationFlowKey = (id: string | undefined) => {
-    if (!id) {
-        return [baseKey] as const
-    }
+const baseKey = withPrefix("registration_flow")
 
-    return [baseKey, id] as const
-}
-
-export const verificationFlowKey = (id: string | undefined) => {
-    if (!id) {
-        return [baseKey] as const
-    }
-
-    return [baseKey, "register_with_verification_flow", id] as const
-}
+export const registrationFlowKey = (id: string | undefined) => createQueryKey([baseKey, id ?? "no_id"] as const)
+export const verificationFlowKey = (id: string | undefined) =>
+    createQueryKey([baseKey, withPrefix("registration_with_verification_flow"), id ?? "no_id"] as const)

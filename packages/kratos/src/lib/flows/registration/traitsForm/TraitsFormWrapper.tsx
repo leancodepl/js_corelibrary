@@ -1,5 +1,6 @@
 import { ComponentType, ReactNode, useMemo } from "react"
-import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
+import { useFormErrors } from "../../../hooks"
+import { AuthError } from "../../../utils"
 import { OnRegistrationFlowError, TraitsConfig } from "../types"
 import { Apple, Facebook, Google, TraitCheckbox, TraitInput } from "./fields"
 import { TraitsFormProvider } from "./traitsFormContext"
@@ -34,10 +35,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
     onRegisterationSuccess,
 }: TraitsFormWrapperProps<TTraitsConfig>) {
     const traitsForm = useTraitsForm({ traitsConfig, onError, onRegisterationSuccess })
-    const formErrors = useMemo(
-        () => getAuthErrorsFromFormErrorMap(traitsForm.state.errorMap),
-        [traitsForm.state.errorMap],
-    )
+    const formErrors = useFormErrors(traitsForm)
 
     const traitComponents = useMemo(
         () =>
