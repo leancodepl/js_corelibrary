@@ -17,15 +17,15 @@ export type ChooseMethodFormProps = {
 type ChooseMethodFormWrapperProps = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
     onError?: OnRegistrationFlowError
-    onRegisterationSuccess?: () => void
+    onRegistrationSuccess?: () => void
 }
 
 export function ChooseMethodFormWrapper({
     chooseMethodForm: ChooseMethodForm,
     onError,
-    onRegisterationSuccess,
+    onRegistrationSuccess,
 }: ChooseMethodFormWrapperProps) {
-    const chooseMethodForm = useChooseMethodForm({ onError, onRegisterationSuccess })
+    const chooseMethodForm = useChooseMethodForm({ onError, onRegistrationSuccess })
     const formErrors = useFormErrors(chooseMethodForm)
 
     return (

@@ -10,10 +10,10 @@ import { InputFields } from "./types"
 
 type UseChooseMethodFormProps = {
     onError?: OnRegistrationFlowError
-    onRegisterationSuccess?: () => void
+    onRegistrationSuccess?: () => void
 }
 
-export function useChooseMethodForm({ onError, onRegisterationSuccess }: UseChooseMethodFormProps) {
+export function useChooseMethodForm({ onError, onRegistrationSuccess }: UseChooseMethodFormProps) {
     const { setTraitsFormCompleted, traits } = useRegistrationFlowContext()
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
     const { data: registrationFlow } = useGetRegistrationFlow()
@@ -38,7 +38,7 @@ export function useChooseMethodForm({ onError, onRegisterationSuccess }: UseChoo
             }
 
             if (instanceOfSuccessfulNativeRegistration(response)) {
-                onRegisterationSuccess?.()
+                onRegistrationSuccess?.()
 
                 return
             }
