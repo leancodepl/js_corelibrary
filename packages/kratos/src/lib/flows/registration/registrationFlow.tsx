@@ -14,7 +14,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     initialFlowId?: string
     returnTo?: string
     onError?: OnRegistrationFlowError
-    onRegisterationSuccess?: () => void
+    onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
 }
 
@@ -26,7 +26,7 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     initialFlowId,
     returnTo,
     onError,
-    onRegisterationSuccess,
+    onRegistrationSuccess,
     onVerificationSuccess,
 }: RegistrationFlowProps<TTraitsConfig>) {
     const { registrationFlowId, setRegistrationFlowId, verificationFlowId, traitsFormCompleted } =
@@ -60,14 +60,14 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
                     traitsConfig={traitsConfig}
                     traitsForm={TraitsForm}
                     onError={onError}
-                    onRegisterationSuccess={onRegisterationSuccess}
+                    onRegistrationSuccess={onRegistrationSuccess}
                 />
             )}
             {step === "credentials" && (
                 <ChooseMethodFormWrapper
                     chooseMethodForm={ChooseMethodForm}
                     onError={onError}
-                    onRegisterationSuccess={onRegisterationSuccess}
+                    onRegistrationSuccess={onRegistrationSuccess}
                 />
             )}
             {step === "emailVerification" && (
@@ -99,8 +99,10 @@ const registrationFlowContext = createContext<RegistrationFlowContext | undefine
 
 export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
     const [registrationFlowId, setRegistrationFlowId] = useState<string>()
+
     const [verificationFlowId, setVerificationFlowId] = useState<string>()
     const [verifableAddress, setVerifiableAddress] = useState<string>()
+
     const [traitsFormCompleted, setTraitsFormCompleted] = useState(false)
     const [traits, setTraits] = useState<Record<string, boolean | string> | undefined>(undefined)
 

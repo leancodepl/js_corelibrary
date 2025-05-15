@@ -25,16 +25,16 @@ type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
     onError?: OnRegistrationFlowError
-    onRegisterationSuccess?: () => void
+    onRegistrationSuccess?: () => void
 }
 
 export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     traitsForm: TraitsForm,
     onError,
-    onRegisterationSuccess,
+    onRegistrationSuccess,
 }: TraitsFormWrapperProps<TTraitsConfig>) {
-    const traitsForm = useTraitsForm({ traitsConfig, onError, onRegisterationSuccess })
+    const traitsForm = useTraitsForm({ traitsConfig, onError, onRegistrationSuccess })
     const formErrors = useFormErrors(traitsForm)
 
     const traitComponents = useMemo(

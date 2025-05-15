@@ -10,13 +10,13 @@ import { OnRegistrationFlowError, TraitsConfig } from "../types"
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     onError?: OnRegistrationFlowError
-    onRegisterationSuccess?: () => void
+    onRegistrationSuccess?: () => void
 }
 
 export function useTraitsForm<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
     onError,
-    onRegisterationSuccess,
+    onRegistrationSuccess,
 }: UsePasswordFormProps<TTraitsConfig>) {
     const { setTraitsFormCompleted, setTraits, traits } = useRegistrationFlowContext()
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
@@ -44,7 +44,7 @@ export function useTraitsForm<TTraitsConfig extends TraitsConfig>({
             }
 
             if (instanceOfSuccessfulNativeRegistration(response)) {
-                onRegisterationSuccess?.()
+                onRegistrationSuccess?.()
 
                 return
             }

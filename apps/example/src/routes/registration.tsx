@@ -30,7 +30,7 @@ function RouteComponent() {
             traitsForm={TraitsForm}
             chooseMethodForm={ChooseMethodForm}
             emailVerificationForm={EmailVerificationForm}
-            onRegisterationSuccess={() => {
+            onRegistrationSuccess={() => {
                 alert("Registration successful")
             }}
             onVerificationSuccess={() => {
