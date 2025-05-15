@@ -2,8 +2,7 @@ import { ComponentType, ReactNode, useMemo } from "react"
 import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
 import { OnRegistrationFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
-import { Password, PasswordConfirmation, ReturnToTraitsForm } from "./fields"
-import { Passkey } from "./fields/Passkey"
+import { Passkey, Password, PasswordConfirmation, ReturnToTraitsForm } from "./fields"
 import { useChooseMethodForm } from "./useChooseMethodForm"
 
 export type ChooseMethodFormProps = {

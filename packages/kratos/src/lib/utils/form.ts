@@ -3,7 +3,12 @@ import { LoginFlow, RegistrationFlow, VerificationFlow } from "../kratos"
 import { AuthError, getAuthErrorsFromUiTextList } from "./errors"
 import { getNodeById, inputNodeMessages } from "./flow"
 
-type FlattenObjectKeys<T extends Record<string, unknown>, Key = keyof T> = Key extends string
+export type OnFlowError<TFlowErrors extends string = string> = (props: {
+    target: "root" | TFlowErrors
+    errors: AuthError[]
+}) => Promise<void> | void
+
+export type FlattenObjectKeys<T extends Record<string, unknown>, Key = keyof T> = Key extends string
     ? T[Key] extends Record<string, unknown>
         ? `${Key}.${FlattenObjectKeys<T[Key]>}`
         : `${Key}`
@@ -26,10 +31,7 @@ export const handleOnSubmitErrors = <
         FormAsyncValidateOrFn<TFields> | undefined,
         unknown
     >,
-    onError?: (props: {
-        target: "root" | Extract<DeepKeys<TFields>, FlattenObjectKeys<TFields>>
-        errors: AuthError[]
-    }) => Promise<void> | void,
+    onError?: OnFlowError<Extract<DeepKeys<TFields>, FlattenObjectKeys<TFields>>>,
 ) => {
     const errors = getAuthErrorsFromUiTextList(response.ui.messages)
 

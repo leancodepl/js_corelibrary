@@ -13,5 +13,5 @@ export const verificationFlowKey = (id: string | undefined) => {
         return [baseKey] as const
     }
 
-    return [baseKey, "register-with-verification-flow", id] as const
+    return [baseKey, "register_with_verification_flow", id] as const
 }
