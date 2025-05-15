@@ -1,2 +1,2 @@
-export * from "./login"
-export * from "./registration"
+export * as loginFlow from "./login"
+export * as registrationFlow from "./registration"

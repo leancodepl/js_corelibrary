@@ -1,4 +1,3 @@
-export * from "./Oidc"
+export * from "./ReturnToTraitsForm"
 export * from "./Password"
 export * from "./PasswordConfirmation"
-export * from "./Trait"
