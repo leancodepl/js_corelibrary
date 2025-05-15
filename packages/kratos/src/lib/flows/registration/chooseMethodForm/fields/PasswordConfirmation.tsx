@@ -6,7 +6,7 @@ import {
     getAuthErrorsFromFormErrorMap,
     mapAdditionalValidationErrorToAuthError,
 } from "../../../../utils"
-import { useRegisterFormContext } from "../registerFormContext"
+import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type PasswordConfirmationProps = {
     children: ReactNode
@@ -23,12 +23,12 @@ export const getPasswordConfirmationErrors = (confirmationValue: string, passwor
 }
 
 export function PasswordConfirmation({ children }: PasswordConfirmationProps) {
-    const { passwordForm } = useRegisterFormContext()
+    const { chooseMethodForm } = useChooseMethodFormContext()
 
     const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
-        <passwordForm.Field
+        <chooseMethodForm.Field
             listeners={{
                 onChange: ({ fieldApi }) => {
                     fieldApi.form.setFieldMeta("password_confirmation", meta => ({
@@ -76,6 +76,6 @@ export function PasswordConfirmation({ children }: PasswordConfirmationProps) {
                     {children}
                 </Comp>
             )}
-        </passwordForm.Field>
+        </chooseMethodForm.Field>
     )
 }

@@ -1,9 +1,9 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { AuthError, getAuthErrorsFromFormErrorMap } from "../../../utils"
 import { OnRegistrationFlowError, TraitsConfig } from "../types"
-import { Apple, Facebook, Google, Password, PasswordConfirmation, TraitCheckbox, TraitInput } from "./fields"
-import { RegisterFormProvider } from "./registerFormContext"
-import { usePasswordForm } from "./usePasswordForm"
+import { Apple, Facebook, Google, TraitCheckbox, TraitInput } from "./fields"
+import { TraitsFormProvider } from "./traitsFormContext"
+import { useTraitsForm } from "./useTraitsForm"
 
 type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
     [K in keyof TTraitsConfig]: TTraitsConfig[K] extends { type: "string" }
@@ -13,33 +13,30 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
           : never
 }
 
-export type RegisterFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
-    Password?: ComponentType<{ children: ReactNode }>
-    PasswordConfirmation?: ComponentType<{ children: ReactNode }>
+export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
     Google?: ComponentType<{ children: ReactNode }>
-    Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
 }
 
-type RegisterFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
+type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
-    registerForm: ComponentType<RegisterFormProps<TTraitsConfig>>
+    traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
     onError?: OnRegistrationFlowError
     onRegisterationSuccess?: () => void
 }
 
-export function RegisterFormWrapper<TTraitsConfig extends TraitsConfig>({
+export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
-    registerForm: RegisterForm,
+    traitsForm: TraitsForm,
     onError,
     onRegisterationSuccess,
-}: RegisterFormWrapperProps<TTraitsConfig>) {
-    const passwordForm = usePasswordForm({ traitsConfig, onError, onRegisterationSuccess })
+}: TraitsFormWrapperProps<TTraitsConfig>) {
+    const traitsForm = useTraitsForm({ traitsConfig, onError, onRegisterationSuccess })
     const formErrors = useMemo(
-        () => getAuthErrorsFromFormErrorMap(passwordForm.state.errorMap),
-        [passwordForm.state.errorMap],
+        () => getAuthErrorsFromFormErrorMap(traitsForm.state.errorMap),
+        [traitsForm.state.errorMap],
     )
 
     const traitComponents = useMemo(
@@ -62,22 +59,20 @@ export function RegisterFormWrapper<TTraitsConfig extends TraitsConfig>({
     )
 
     return (
-        <RegisterFormProvider passwordForm={passwordForm}>
+        <TraitsFormProvider traitsForm={traitsForm}>
             <form
                 onSubmit={e => {
                     e.preventDefault()
-                    passwordForm.handleSubmit()
+                    traitsForm.handleSubmit()
                 }}>
-                <RegisterForm
+                <TraitsForm
                     Apple={Apple}
                     errors={formErrors}
                     Facebook={Facebook}
                     Google={Google}
-                    Password={Password}
-                    PasswordConfirmation={PasswordConfirmation}
                     {...traitComponents}
                 />
             </form>
-        </RegisterFormProvider>
+        </TraitsFormProvider>
     )
 }

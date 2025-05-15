@@ -1,19 +1,19 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
-import { useRegisterFormContext } from "../registerFormContext"
+import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type PasswordProps = {
     children: ReactNode
 }
 
 export function Password({ children }: PasswordProps) {
-    const { passwordForm } = useRegisterFormContext()
+    const { chooseMethodForm } = useChooseMethodFormContext()
 
     const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
-        <passwordForm.Field name="password">
+        <chooseMethodForm.Field name="password">
             {field => (
                 <Comp
                     errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
@@ -24,6 +24,6 @@ export function Password({ children }: PasswordProps) {
                     {children}
                 </Comp>
             )}
-        </passwordForm.Field>
+        </chooseMethodForm.Field>
     )
 }

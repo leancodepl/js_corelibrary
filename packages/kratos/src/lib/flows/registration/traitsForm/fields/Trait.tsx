@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonCheckboxFieldProps, CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
-import { useRegisterFormContext } from "../registerFormContext"
+import { useTraitsFormContext } from "../traitsFormContext"
 
 type TraitProps<TTrait extends string> = {
     children: ReactNode
@@ -9,12 +9,12 @@ type TraitProps<TTrait extends string> = {
 }
 
 export function TraitInput<TTrait extends string>({ trait, children }: TraitProps<TTrait>) {
-    const { passwordForm } = useRegisterFormContext()
+    const { traitsForm } = useTraitsFormContext()
 
     const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
-        <passwordForm.Field name={`traits.${trait}`}>
+        <traitsForm.Field name={`traits.${trait}`}>
             {field => {
                 if (typeof field.state.value === "boolean") {
                     throw new Error("TraitInput: value cannot be boolean")
@@ -25,24 +25,25 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
                         errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                         name={field.name}
                         type="text"
+                        value={field.state.value}
                         onChange={e => field.handleChange(e.target.value)}>
                         {children}
                     </Comp>
                 )
             }}
-        </passwordForm.Field>
+        </traitsForm.Field>
     )
 }
 
 export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitProps<TTrait>) {
-    const { passwordForm } = useRegisterFormContext()
+    const { traitsForm } = useTraitsFormContext()
 
     const Comp: ComponentType<CommonCheckboxFieldProps> = Slot.Root
 
     return (
-        <passwordForm.Field name={`traits.${trait}`}>
+        <traitsForm.Field name={`traits.${trait}`}>
             {field => {
-                if (typeof field.state.value === "string") {
+                if (typeof field.state.value !== "boolean") {
                     throw new Error("TraitCheckbox: value is not boolean")
                 }
 
@@ -57,6 +58,6 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
                     </Comp>
                 )
             }}
-        </passwordForm.Field>
+        </traitsForm.Field>
     )
 }

@@ -1,12 +1,15 @@
-import { ComponentType, createContext, useContext, useEffect, useState } from "react"
+import { ComponentType, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { ChooseMethodFormProps } from "../login"
+import { ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { EmailVerificationFormProps, EmailVerificationFormWrapper } from "./emailVerificationForm"
 import { useCreateRegistrationFlow } from "./hooks/useCreateRegistrationFlow"
-import { RegisterFormProps, RegisterFormWrapper } from "./registerForm"
+import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnRegistrationFlowError, TraitsConfig } from "./types"
 
 export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
-    registerForm: ComponentType<RegisterFormProps<TTraitsConfig>>
+    traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
+    chooseMethodForm: ComponentType<ChooseMethodFormProps>
     emailVerificationForm: ComponentType<EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
@@ -17,7 +20,8 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
 
 function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     traitsConfig,
-    registerForm: RegisterForm,
+    traitsForm: TraitsForm,
+    chooseMethodForm: ChooseMethodForm,
     emailVerificationForm: EmailVerificationForm,
     initialFlowId,
     returnTo,
@@ -25,7 +29,8 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     onRegisterationSuccess,
     onVerificationSuccess,
 }: RegistrationFlowProps<TTraitsConfig>) {
-    const { registrationFlowId, setRegistrationFlowId, verificationFlowId } = useRegistrationFlowContext()
+    const { registrationFlowId, setRegistrationFlowId, verificationFlowId, traitsFormCompleted } =
+        useRegistrationFlowContext()
     const { mutate: createRegistrationFlow } = useCreateRegistrationFlow({ returnTo })
 
     useEffect(() => {
@@ -38,23 +43,41 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
         }
     }, [createRegistrationFlow, registrationFlowId, initialFlowId, setRegistrationFlowId])
 
-    if (verificationFlowId) {
-        return (
-            <EmailVerificationFormWrapper
-                emailVerificationForm={EmailVerificationForm}
-                onError={onError}
-                onVerificationSuccess={onVerificationSuccess}
-            />
-        )
-    }
+    const step = useMemo(() => {
+        if (verificationFlowId) {
+            return "emailVerification"
+        }
+        if (traitsFormCompleted) {
+            return "credentials"
+        }
+        return "traits"
+    }, [traitsFormCompleted, verificationFlowId])
 
     return (
-        <RegisterFormWrapper
-            registerForm={RegisterForm}
-            traitsConfig={traitsConfig}
-            onError={onError}
-            onRegisterationSuccess={onRegisterationSuccess}
-        />
+        <>
+            {step === "traits" && (
+                <TraitsFormWrapper
+                    traitsConfig={traitsConfig}
+                    traitsForm={TraitsForm}
+                    onError={onError}
+                    onRegisterationSuccess={onRegisterationSuccess}
+                />
+            )}
+            {step === "credentials" && (
+                <ChooseMethodFormWrapper
+                    chooseMethodForm={ChooseMethodForm}
+                    onError={onError}
+                    onRegisterationSuccess={onRegisterationSuccess}
+                />
+            )}
+            {step === "emailVerification" && (
+                <EmailVerificationFormWrapper
+                    emailVerificationForm={EmailVerificationForm}
+                    onError={onError}
+                    onVerificationSuccess={onVerificationSuccess}
+                />
+            )}
+        </>
     )
 }
 
@@ -65,6 +88,11 @@ type RegistrationFlowContext = {
     setVerificationFlowId: (verificationFlowId: string | undefined) => void
     verifableAddress?: string
     setVerifiableAddress: (verifableAddress: string | undefined) => void
+    traitsFormCompleted: boolean
+    setTraitsFormCompleted: (traitsFormCompleted: boolean) => void
+    traits: Record<string, boolean | string> | undefined
+    setTraits: (traits: Record<string, boolean | string> | undefined) => void
+    resetContext: () => void
 }
 
 const registrationFlowContext = createContext<RegistrationFlowContext | undefined>(undefined)
@@ -73,6 +101,16 @@ export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: Regi
     const [registrationFlowId, setRegistrationFlowId] = useState<string>()
     const [verificationFlowId, setVerificationFlowId] = useState<string>()
     const [verifableAddress, setVerifiableAddress] = useState<string>()
+    const [traitsFormCompleted, setTraitsFormCompleted] = useState(false)
+    const [traits, setTraits] = useState<Record<string, boolean | string> | undefined>(undefined)
+
+    const resetContext = useCallback(() => {
+        setRegistrationFlowId(undefined)
+        setVerificationFlowId(undefined)
+        setVerifiableAddress(undefined)
+        setTraitsFormCompleted(false)
+        setTraits(undefined)
+    }, [])
 
     return (
         <registrationFlowContext.Provider
@@ -83,6 +121,11 @@ export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: Regi
                 setVerificationFlowId,
                 verifableAddress,
                 setVerifiableAddress,
+                traitsFormCompleted,
+                setTraitsFormCompleted,
+                traits,
+                setTraits,
+                resetContext,
             }}>
             <RegistrationFlowWrapper {...props} />
         </registrationFlowContext.Provider>

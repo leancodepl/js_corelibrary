@@ -1,16 +1,15 @@
-import { OnRegistrationFlowError, RegisterFormProps } from "@leancodepl/kratos"
+import { registrationFlow, AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "@leancodepl/kratos"
+import { ChooseMethodFormProps, EmailVerificationFormProps } from "@leancodepl/kratos/src/lib/flows/registration"
 import { createFileRoute } from "@tanstack/react-router"
-import { AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC, ReactNode } from "react"
 import { z } from "zod"
 import { RegistrationFlow, AuthTraitsConfig } from "../services/kratos"
-import { EmailVerificationFormProps } from "packages/kratos/src/lib/flows/registration/emailVerificationForm/EmailVerificationFormWrapper"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: OnRegistrationFlowError = ({ target, errors }) => {
+const handleError: registrationFlow.OnRegistrationFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
@@ -28,8 +27,15 @@ function RouteComponent() {
 
     return (
         <RegistrationFlow
-            registerForm={RegisterForm}
+            traitsForm={TraitsForm}
+            chooseMethodForm={ChooseMethodForm}
             emailVerificationForm={EmailVerificationForm}
+            onRegisterationSuccess={() => {
+                alert("Registration successful")
+            }}
+            onVerificationSuccess={() => {
+                alert("Verification successful")
+            }}
             initialFlowId={flow}
             onError={handleError}
             returnTo="https://host.local.lncd.pl/"
@@ -100,18 +106,15 @@ const Checkbox: FC<CommonCheckboxFieldProps & { placeholder?: string; children?:
     </div>
 )
 
-function RegisterForm({
+function TraitsForm({
     errors,
-    Password,
-    PasswordConfirmation,
     Email,
     RegulationsAccepted,
     GivenName,
     Google,
     Apple,
     Facebook,
-    Passkey,
-}: RegisterFormProps<AuthTraitsConfig>) {
+}: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
     return (
         <>
             {Email && (
@@ -123,16 +126,6 @@ function RegisterForm({
                 <GivenName>
                     <Input placeholder="First name" />
                 </GivenName>
-            )}
-            {Password && (
-                <Password>
-                    <Input placeholder="Password" />
-                </Password>
-            )}
-            {PasswordConfirmation && (
-                <PasswordConfirmation>
-                    <Input placeholder="Password confirmation" />
-                </PasswordConfirmation>
             )}
             {RegulationsAccepted && (
                 <RegulationsAccepted>
@@ -162,6 +155,38 @@ function RegisterForm({
                 </Facebook>
             )}
 
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+        </>
+    )
+}
+
+function ChooseMethodForm({
+    errors,
+    ReturnToTraitsForm,
+    Password,
+    PasswordConfirmation,
+    Passkey,
+}: ChooseMethodFormProps) {
+    return (
+        <>
+            {ReturnToTraitsForm && (
+                <ReturnToTraitsForm>
+                    <button>Return</button>
+                </ReturnToTraitsForm>
+            )}
+            {Password && (
+                <Password>
+                    <Input placeholder="Password" />
+                </Password>
+            )}
+            {PasswordConfirmation && (
+                <PasswordConfirmation>
+                    <Input placeholder="Password confirmation" />
+                </PasswordConfirmation>
+            )}
+
+            <button type="submit">Register</button>
+
             {Passkey && (
                 <Passkey>
                     <button>Sign up with Passkey</button>
@@ -180,7 +205,7 @@ function EmailVerificationForm({ Code, Resend, errors }: EmailVerificationFormPr
                 <Input placeholder="Code" />
             </Code>
 
-            <button type="submit">Login</button>
+            <button type="submit">Verify</button>
 
             <Resend>
                 <button>Resend code</button>

@@ -6,7 +6,7 @@ import { verificationFlowKey } from "./queryKeys"
 
 export function useUpdateVerificationFlow() {
     const { kratosClient } = useKratosContext()
-    const { verificationFlowId, setVerificationFlowId, setVerifiableAddress } = useRegistrationFlowContext()
+    const { verificationFlowId, resetContext } = useRegistrationFlowContext()
     const client = useQueryClient()
 
     return useMutation<VerificationFlow | undefined, Error, UpdateVerificationFlowBody, unknown>({
@@ -27,13 +27,8 @@ export function useUpdateVerificationFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: () => {
-                        setVerificationFlowId(undefined)
-                        setVerifiableAddress(undefined)
-                    },
-                    onValidationError: body => {
-                        return body
-                    },
+                    onRestartFlow: resetContext,
+                    onValidationError: body => body,
                 })(error)) as VerificationFlow | undefined
             }
         },

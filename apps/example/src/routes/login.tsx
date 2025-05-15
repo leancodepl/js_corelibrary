@@ -1,11 +1,5 @@
-import {
-    ChooseMethodFormProps,
-    OnLoginFlowError,
-    SecondFactorEmailFormProps,
-    SecondFactorFormProps,
-} from "@leancodepl/kratos"
+import { loginFlow, AuthError, CommonInputFieldProps } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
-import { AuthError, CommonInputFieldProps } from "packages/kratos/src/lib/utils"
 import { FC } from "react"
 import { z } from "zod"
 import { LoginFlow } from "../services/kratos"
@@ -14,7 +8,7 @@ const loginSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: OnLoginFlowError = ({ target, errors }) => {
+const handleError: loginFlow.OnLoginFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
@@ -64,7 +58,7 @@ const getErrorMessage = (error: AuthError) => {
         case "Error_InvalidCredentials":
             return "Wprowadzone dane są nieprawidłowe, sprawdź literówki w adresie e-mail lub haśle"
         default:
-            return error.originalError.text
+            return "originalError" in error ? error.originalError.text : error.id
     }
 }
 
@@ -81,7 +75,15 @@ const Input: FC<CommonInputFieldProps & { placeholder?: string }> = ({ errors, .
     </div>
 )
 
-function ChooseMethodForm({ Identifier, Password, Google, Passkey, Apple, Facebook, errors }: ChooseMethodFormProps) {
+function ChooseMethodForm({
+    Identifier,
+    Password,
+    Google,
+    Passkey,
+    Apple,
+    Facebook,
+    errors,
+}: loginFlow.ChooseMethodFormProps) {
     return (
         <>
             {Identifier && (
@@ -126,7 +128,7 @@ function ChooseMethodForm({ Identifier, Password, Google, Passkey, Apple, Facebo
     )
 }
 
-function SecondFactorForm({ Totp, Email, errors }: SecondFactorFormProps) {
+function SecondFactorForm({ Totp, Email, errors }: loginFlow.SecondFactorFormProps) {
     return (
         <>
             {Totp && (
@@ -148,7 +150,7 @@ function SecondFactorForm({ Totp, Email, errors }: SecondFactorFormProps) {
     )
 }
 
-function SecondFactorEmailForm({ Code, Resend, errors }: SecondFactorEmailFormProps) {
+function SecondFactorEmailForm({ Code, Resend, errors }: loginFlow.SecondFactorEmailFormProps) {
     return (
         <>
             <Code>

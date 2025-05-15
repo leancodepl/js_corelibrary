@@ -10,6 +10,29 @@ type PasskeyChallenge = {
         userVerification: UserVerificationRequirement
     }
 }
+
+type PasskeyCreateData = {
+    credentialOptions: {
+        publicKey: {
+            rp: {
+                name: string
+                id: string
+            }
+            user: PublicKeyCredentialUserEntityJSON
+            challenge: string
+            pubKeyCredParams: PublicKeyCredentialParameters[]
+            timeout: number
+            authenticatorSelection: {
+                authenticatorAttachment: AuthenticatorAttachment
+                requireResidentKey: boolean
+                residentKey: ResidentKeyRequirement
+                userVerification: UserVerificationRequirement
+            }
+        }
+    }
+    displayNameFieldName: string
+}
+
 function base64urlDecode(value: string) {
     return Uint8Array.from(atob(value.replaceAll("-", "+").replaceAll("_", "/")), function (c) {
         return c.charCodeAt(0)
@@ -63,6 +86,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
         return undefined
     }
 }
+
 export async function passkeyLogin(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
@@ -97,6 +121,54 @@ export async function passkeyLogin(passkeyChallengeString: string, signal?: Abor
     } catch {
         return undefined
     }
+}
+
+export async function passkeyRegister(
+    passkeyChallengeString: string,
+    signal?: AbortSignal,
+    traits?: Record<string, boolean | string>,
+) {
+    const { credentialOptions: passkeyChallenge, displayNameFieldName } = JSON.parse(
+        passkeyChallengeString,
+    ) as PasskeyCreateData
+
+    const displayNameTraitName = displayNameFieldName.startsWith("traits.")
+        ? displayNameFieldName.slice(7)
+        : displayNameFieldName
+
+    const displayName = typeof traits?.[displayNameTraitName] === "string" ? traits[displayNameTraitName] : ""
+
+    const credential = await navigator.credentials.create({
+        signal,
+        publicKey: {
+            challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
+            timeout: passkeyChallenge.publicKey.timeout,
+            rp: {
+                id: passkeyChallenge.publicKey.rp.id,
+                name: passkeyChallenge.publicKey.rp.name,
+            },
+            user: {
+                id: base64urlDecode(passkeyChallenge.publicKey.user.id),
+                name: displayName,
+                displayName: displayName,
+            },
+            pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
+        },
+    })
+
+    if (!credential) return undefined
+    if (!(credential instanceof PublicKeyCredential)) return undefined
+    if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
+
+    return JSON.stringify({
+        id: credential.id,
+        rawId: base64urlEncode(credential.rawId),
+        type: credential.type,
+        response: {
+            attestationObject: base64urlEncode(credential.response.attestationObject),
+            clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+        },
+    })
 }
 
 // ;(function () {
