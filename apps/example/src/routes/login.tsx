@@ -28,6 +28,7 @@ function RouteComponent() {
             chooseMethodForm={ChooseMethodForm}
             secondFactorForm={SecondFactorForm}
             secondFactorEmailForm={SecondFactorEmailForm}
+            emailVerificationForm={EmailVerificationForm}
             initialFlowId={flow}
             onError={handleError}
             returnTo="https://host.local.lncd.pl/"
@@ -158,6 +159,29 @@ function SecondFactorEmailForm({ Code, Resend, errors }: loginFlow.SecondFactorE
             </Code>
 
             <button type="submit">Login</button>
+
+            <Resend>
+                <button>Resend code</button>
+            </Resend>
+
+            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+        </>
+    )
+}
+
+function EmailVerificationForm({ Code, Resend, errors }: loginFlow.EmailVerificationFormProps) {
+    return (
+        <>
+            <div>
+                Zanim się zalogujesz, musisz zweryfikować swój adres e-mail. Sprawdź swoją skrzynkę odbiorczą i kliknij
+                w link, aby zweryfikować swój adres e-mail.
+            </div>
+
+            <Code>
+                <Input placeholder="Code" />
+            </Code>
+
+            <button type="submit">Verify</button>
 
             <Resend>
                 <button>Resend code</button>
