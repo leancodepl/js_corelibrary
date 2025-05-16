@@ -15,7 +15,7 @@ const traitsConfig = {
     },
 } as const
 
-const { RegistrationFlow, LoginFlow } = mkKratos(traitsConfig)
+const { RegistrationFlow, LoginFlow, LogoutButton } = mkKratos(traitsConfig)
 
-export { RegistrationFlow, LoginFlow }
+export { RegistrationFlow, LoginFlow, LogoutButton }
 export type AuthTraitsConfig = typeof traitsConfig
