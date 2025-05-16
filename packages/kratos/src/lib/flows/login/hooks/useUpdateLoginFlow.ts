@@ -7,7 +7,7 @@ import { loginFlowKey } from "./queryKeys"
 
 export function useUpdateLoginFlow() {
     const { kratosClient } = useKratosContext()
-    const { setLoginFlowId, loginFlowId } = useLoginFlowContext()
+    const { loginFlowId, resetContext } = useLoginFlowContext()
 
     const client = useQueryClient()
 
@@ -36,7 +36,7 @@ export function useUpdateLoginFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: () => setLoginFlowId(undefined),
+                    onRestartFlow: resetContext,
                     onValidationError: body => body,
                 })(error)) as LoginFlow | undefined
             }
