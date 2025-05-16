@@ -1,3 +1,4 @@
 export * as loginFlow from "./login"
+export * as logoutFlow from "./logout"
 export * as registrationFlow from "./registration"
 export * as verificationFlow from "./verification"

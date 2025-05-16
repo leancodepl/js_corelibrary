@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegistrationImport } from './routes/registration'
+import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 
 // Create/Update Routes
@@ -19,6 +20,12 @@ import { Route as LoginImport } from './routes/login'
 const RegistrationRoute = RegistrationImport.update({
   id: '/registration',
   path: '/registration',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LogoutRoute = LogoutImport.update({
+  id: '/logout',
+  path: '/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,6 +46,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
     '/registration': {
       id: '/registration'
       path: '/registration'
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/registration': typeof RegistrationRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/registration': typeof RegistrationRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/registration': typeof RegistrationRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/registration'
+  fullPaths: '/login' | '/logout' | '/registration'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/registration'
-  id: '__root__' | '/login' | '/registration'
+  to: '/login' | '/logout' | '/registration'
+  id: '__root__' | '/login' | '/logout' | '/registration'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
+  LogoutRoute: typeof LogoutRoute
   RegistrationRoute: typeof RegistrationRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
+  LogoutRoute: LogoutRoute,
   RegistrationRoute: RegistrationRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/login",
+        "/logout",
         "/registration"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     },
     "/registration": {
       "filePath": "registration.tsx"
