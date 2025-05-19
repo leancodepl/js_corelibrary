@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
 import {
+    handleContinueWith,
     handleFlowError,
     RegistrationFlow,
     SuccessfulNativeRegistration,
@@ -26,7 +27,10 @@ export function useUpdateRegistrationFlow() {
             try {
                 const response = await kratosClient.updateRegistrationFlowRaw(
                     { flow: registrationFlowId, updateRegistrationFlowBody },
-                    { credentials: "include" },
+                    {
+                        credentials: "include",
+                        headers: { Accept: "application/json", "Content-Type": "application/json" },
+                    },
                 )
 
                 const data = await response.value()
@@ -34,9 +38,15 @@ export function useUpdateRegistrationFlow() {
                 if (data && "continue_with" in data) {
                     const showVerificationUI = data.continue_with?.find(e => e.action === "show_verification_ui")
 
-                    if (showVerificationUI) {
+                    if (showVerificationUI !== undefined) {
                         setVerificationFlowId(showVerificationUI.flow.id)
                         setVerifiableAddress(showVerificationUI.flow.verifiable_address)
+                    } else {
+                        handleContinueWith(data.continue_with, {
+                            onRedirect: (url, _external) => {
+                                window.location.href = url
+                            },
+                        })
                     }
                 }
 
