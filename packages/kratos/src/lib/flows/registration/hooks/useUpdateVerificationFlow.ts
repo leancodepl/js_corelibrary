@@ -21,6 +21,10 @@ export function useUpdateVerificationFlow() {
                     },
                 )
 
+                if (data.return_to) {
+                    window.location.href = data.return_to
+                }
+
                 return data
             } catch (error) {
                 return (await handleFlowError<VerificationFlow>({
