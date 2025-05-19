@@ -3,8 +3,8 @@ import { TraitsConfig } from "../flows/registration/types"
 
 export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTraitsConfig = {} as TTraitsConfig) {
     return {
+        useLogout: logoutFlow.useLogout,
         LoginFlow: loginFlow.LoginFlow,
-        LogoutButton: logoutFlow.LogoutButton,
         RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
             <registrationFlow.RegistrationFlow traitsConfig={traitsConfig} {...props} />
         ),

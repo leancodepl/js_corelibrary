@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { LogoutButton } from "../services/kratos"
+import { useLogout } from "../services/kratos"
+import { useState } from "react"
 
 const verificationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -12,17 +13,24 @@ export const Route = createFileRoute("/logout")({
 })
 
 function RouteComponent() {
+    const { logout } = useLogout({ returnTo: "/redirect-after-logout" })
+
+    const [loggingOut, setLoggingOut] = useState(false)
+    const handleLogout = async () => {
+        setLoggingOut(true)
+        const response = await logout()
+        setLoggingOut(false)
+
+        if (response.isSuccess) {
+            alert("Logout success")
+        } else {
+            alert(response.error)
+        }
+    }
+
     return (
         <div>
-            <LogoutButton
-                onLogoutSuccess={() => {
-                    alert("Wylogowano")
-                }}
-                onLogoutError={() => {
-                    alert("Błędy")
-                }}>
-                <button>Wyloguj</button>
-            </LogoutButton>
+            <button onClick={handleLogout}>{loggingOut ? "Wylogowuję..." : "Wyloguj"}</button>
         </div>
     )
 }
