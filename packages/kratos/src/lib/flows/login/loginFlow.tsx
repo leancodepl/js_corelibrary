@@ -2,7 +2,6 @@ import { ComponentType, createContext, useCallback, useContext, useEffect, useMe
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { EmailVerificationFormProps, EmailVerificationFormWrapper } from "./emailVerificationForm"
 import { useCreateLoginFlow, useGetLoginFlow } from "./hooks"
-import { useCreateVerificationFlow } from "./hooks/useCreateVerificationFlow"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
@@ -28,10 +27,9 @@ function LoginFlowWrapper({
     onError,
     onVerificationSuccess,
 }: LoginFlowProps) {
-    const { loginFlowId, setLoginFlowId, verificationFlowId, verifableAddress } = useLoginFlowContext()
+    const { loginFlowId, setLoginFlowId, verificationFlowId } = useLoginFlowContext()
 
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
-    const { mutate: createVerificationFlow } = useCreateVerificationFlow({ returnTo })
     const { data: loginFlow } = useGetLoginFlow()
 
     useEffect(() => {
@@ -47,7 +45,7 @@ function LoginFlowWrapper({
     const step = useMemo(() => {
         if (!loginFlow) return "chooseMethod"
 
-        if (verifableAddress) return "verifyEmail"
+        if (verificationFlowId) return "verifyEmail"
 
         if (loginFlow.state === "choose_method") {
             if (loginFlow.requested_aal === "aal1") return "chooseMethod"
@@ -57,14 +55,7 @@ function LoginFlowWrapper({
         if (loginFlow.state === "sent_email") return "secondFactorEmail"
 
         throw new Error("Invalid login flow state")
-    }, [loginFlow, verifableAddress])
-
-    useEffect(() => {
-        if (verificationFlowId || step !== "verifyEmail") return
-
-        console.log("Creating verification flow")
-        createVerificationFlow()
-    }, [createLoginFlow, createVerificationFlow, loginFlow, step, verificationFlowId])
+    }, [loginFlow, verificationFlowId])
 
     return (
         <>

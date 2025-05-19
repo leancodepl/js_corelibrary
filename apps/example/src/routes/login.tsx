@@ -31,7 +31,7 @@ function RouteComponent() {
             emailVerificationForm={EmailVerificationForm}
             initialFlowId={flow}
             onError={handleError}
-            returnTo="https://host.local.lncd.pl/"
+            returnTo="https://host.local.lncd.pl/redirect-after-login"
         />
     )
 }

@@ -7,8 +7,7 @@ import { loginFlowKey } from "./queryKeys"
 
 export function useUpdateLoginFlow() {
     const { kratosClient } = useKratosContext()
-    const { loginFlowId, resetContext } = useLoginFlowContext()
-
+    const { loginFlowId, resetContext, setVerificationFlowId, setVerifiableAddress } = useLoginFlowContext()
     const client = useQueryClient()
 
     return useMutation<LoginFlow | SuccessfulNativeLogin | undefined, Error, UpdateLoginFlowBody, unknown>({
@@ -17,17 +16,27 @@ export function useUpdateLoginFlow() {
             try {
                 const response = await kratosClient.updateLoginFlowRaw(
                     { flow: loginFlowId, updateLoginFlowBody },
-                    { credentials: "include" },
+                    {
+                        credentials: "include",
+                        headers: { Accept: "application/json", "Content-Type": "application/json" },
+                    },
                 )
 
                 const data = await response.value()
 
                 if (data && "continue_with" in data) {
-                    handleContinueWith(data.continue_with, {
-                        onRedirect: (url, _external) => {
-                            window.location.href = url
-                        },
-                    })
+                    const showVerificationUI = data.continue_with?.find(e => e.action === "show_verification_ui")
+
+                    if (showVerificationUI !== undefined) {
+                        setVerificationFlowId(showVerificationUI.flow.id)
+                        setVerifiableAddress(showVerificationUI.flow.verifiable_address)
+                    } else {
+                        handleContinueWith(data.continue_with, {
+                            onRedirect: (url, _external) => {
+                                window.location.href = url
+                            },
+                        })
+                    }
                 }
 
                 return data
