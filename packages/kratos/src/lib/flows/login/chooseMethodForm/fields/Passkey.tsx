@@ -1,29 +1,48 @@
 import { ComponentType, ReactNode, useCallback, useMemo } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { useQuery } from "@tanstack/react-query"
-import { CommonButtonProps, getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
+import { instanceOfSuccessfulNativeLogin } from "../../../../kratos"
+import {
+    CommonButtonProps,
+    getCsrfToken,
+    getNodeById,
+    handleOnSubmitErrors,
+    inputNodeAttributes,
+} from "../../../../utils"
 import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
+import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type PasskeyProps = {
     children: ReactNode
 }
 
 export function Passkey({ children }: PasskeyProps) {
-    const { mutate: updateLoginFlow } = useUpdateLoginFlow()
+    const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
+    const { passwordForm } = useChooseMethodFormContext()
 
     const signInWithPasskeyUsingCredential = useCallback(
-        (credential: string) => {
+        async (credential: string) => {
             if (!loginFlow) return
 
-            updateLoginFlow({
+            const response = await updateLoginFlow({
                 method: "passkey",
                 csrf_token: getCsrfToken(loginFlow),
                 passkey_login: credential,
             })
+
+            if (!response) {
+                return
+            }
+
+            if (instanceOfSuccessfulNativeLogin(response)) {
+                return
+            }
+
+            handleOnSubmitErrors(response, passwordForm, () => {})
         },
-        [loginFlow, updateLoginFlow],
+        [loginFlow, passwordForm, updateLoginFlow],
     )
 
     const challenge = useMemo(
