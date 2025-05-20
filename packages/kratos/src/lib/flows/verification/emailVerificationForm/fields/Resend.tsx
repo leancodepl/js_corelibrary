@@ -1,28 +1,27 @@
 import { ReactNode, useCallback } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { useRegistrationFlowContext } from "../.."
 import { getCsrfToken } from "../../../../utils"
-import { useGetVerificationFlow, useUpdateVerificationFlow } from "../../hooks"
+import { useGetVerificationFlow, useUpdateVerificationFlow, useVerificationFlowContext } from "../../hooks"
 
 type ResendProps = {
     children: ReactNode
 }
 
 export function Resend({ children }: ResendProps) {
-    const { verifableAddress } = useRegistrationFlowContext()
+    const { verifiableAddress } = useVerificationFlowContext()
     const { mutate: updateVerificationFlow } = useUpdateVerificationFlow()
     const { data: verificationFlow } = useGetVerificationFlow()
 
     const continueWithEmail = useCallback(() => {
-        if (!verificationFlow || !verifableAddress) return
+        if (!verificationFlow || !verifiableAddress) return
 
         updateVerificationFlow({
             method: "code",
             csrf_token: getCsrfToken(verificationFlow),
-            email: verifableAddress,
+            email: verifiableAddress,
             code: "",
         })
-    }, [verificationFlow, verifableAddress, updateVerificationFlow])
+    }, [verificationFlow, verifiableAddress, updateVerificationFlow])
 
     const Comp = Slot.Root as React.ComponentType<any>
 

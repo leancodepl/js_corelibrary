@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
-import { useRegistrationFlowContext } from "../registrationFlow"
 import { verificationFlowKey } from "./queryKeys"
+import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useGetVerificationFlow() {
     const { kratosClient } = useKratosContext()
-    const { verificationFlowId } = useRegistrationFlowContext()
+    const { verificationFlowId } = useVerificationFlowContext()
 
     return useQuery({
         queryKey: verificationFlowKey(verificationFlowId),

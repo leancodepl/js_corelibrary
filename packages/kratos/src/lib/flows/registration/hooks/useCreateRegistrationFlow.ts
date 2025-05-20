@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
-import { useRegistrationFlowContext } from "../registrationFlow"
 import { registrationFlowKey } from "./queryKeys"
+import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useCreateRegistrationFlow({ returnTo }: { returnTo?: string } = {}) {
     const { kratosClient } = useKratosContext()
