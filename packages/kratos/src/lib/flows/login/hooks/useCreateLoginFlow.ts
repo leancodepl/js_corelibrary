@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
-import { useLoginFlowContext } from "../loginFlow"
 import { loginFlowKey } from "./queryKeys"
+import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useCreateLoginFlow({
     aal,

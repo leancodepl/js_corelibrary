@@ -1,9 +1,7 @@
 import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeLogin } from "../../../kratos"
-import { handleOnSubmitErrors } from "../../../utils"
-import { getCsrfToken } from "../../../utils/flow"
-import { useGetLoginFlow } from "../hooks"
-import { useUpdateLoginFlow } from "../hooks/useUpdateLoginFlow"
+import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
+import { useGetLoginFlow, useUpdateLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
