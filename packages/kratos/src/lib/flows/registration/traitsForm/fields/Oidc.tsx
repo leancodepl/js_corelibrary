@@ -1,8 +1,7 @@
 import { ComponentType, ReactNode, useCallback } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonButtonProps, getCsrfToken } from "../../../../utils"
-import { useGetRegistrationFlow } from "../../hooks/useGetRegistrationFlow"
-import { useUpdateRegistrationFlow } from "../../hooks/useUpdateRegistrationFlow"
+import { useGetRegistrationFlow, useUpdateRegistrationFlow } from "../../hooks"
 
 type OidcProps = {
     children: ReactNode

@@ -7,13 +7,14 @@ import {
     SuccessfulNativeRegistration,
     UpdateRegistrationFlowBody,
 } from "../../../kratos"
-import { useRegistrationFlowContext } from "../registrationFlow"
+import { useVerificationFlowContext } from "../../verification"
 import { registrationFlowKey } from "./queryKeys"
+import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useUpdateRegistrationFlow() {
     const { kratosClient } = useKratosContext()
-    const { resetContext, registrationFlowId, setVerificationFlowId, setVerifiableAddress } =
-        useRegistrationFlowContext()
+    const { resetContext, registrationFlowId } = useRegistrationFlowContext()
+    const { setVerificationFlowId, setVerifiableAddress } = useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<

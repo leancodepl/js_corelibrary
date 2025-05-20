@@ -1,5 +1,10 @@
-import { registrationFlow, AuthError, CommonCheckboxFieldProps, CommonInputFieldProps } from "@leancodepl/kratos"
-import { ChooseMethodFormProps, EmailVerificationFormProps } from "@leancodepl/kratos/src/lib/flows/registration"
+import {
+    registrationFlow,
+    verificationFlow,
+    AuthError,
+    CommonCheckboxFieldProps,
+    CommonInputFieldProps,
+} from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { FC, ReactNode } from "react"
 import { z } from "zod"
@@ -9,7 +14,10 @@ const registrationSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: registrationFlow.OnRegistrationFlowError = ({ target, errors }) => {
+const handleError: registrationFlow.OnRegistrationFlowError & verificationFlow.OnVerificationFlowError = ({
+    target,
+    errors,
+}) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
@@ -38,7 +46,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
-            returnTo="https://host.local.lncd.pl/"
+            returnTo="/redirect-after-registration"
         />
     )
 }
@@ -166,7 +174,7 @@ function ChooseMethodForm({
     Password,
     PasswordConfirmation,
     Passkey,
-}: ChooseMethodFormProps) {
+}: registrationFlow.ChooseMethodFormProps) {
     return (
         <>
             {ReturnToTraitsForm && (
@@ -198,7 +206,7 @@ function ChooseMethodForm({
     )
 }
 
-function EmailVerificationForm({ Code, Resend, errors }: EmailVerificationFormProps) {
+function EmailVerificationForm({ Code, Resend, errors }: verificationFlow.EmailVerificationFormProps) {
     return (
         <>
             <Code>

@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
-import { OnRegistrationFlowError } from "../types"
+import { OnVerificationFlowError } from "../types"
 import { EmailVerificationFormProvider } from "./emailVerificationFormContext"
 import { Code, Resend } from "./fields"
 import { useEmailVerificationForm } from "./useEmailVerificationForm"
@@ -14,7 +14,7 @@ export type EmailVerificationFormProps = {
 
 type EmailVerificationFormWrapperProps = {
     emailVerificationForm: ComponentType<EmailVerificationFormProps>
-    onError?: OnRegistrationFlowError
+    onError?: OnVerificationFlowError
     onVerificationSuccess?: () => void
 }
 

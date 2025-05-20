@@ -1,19 +1,17 @@
 import { useForm } from "@tanstack/react-form"
 import { VerificationFlowState } from "../../../kratos"
 import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
-import { useGetVerificationFlow } from "../hooks"
-import { useUpdateVerificationFlow } from "../hooks/useUpdateVerificationFlow"
-import { useRegistrationFlowContext } from "../registrationFlow"
-import { OnRegistrationFlowError } from "../types"
+import { useGetVerificationFlow, useUpdateVerificationFlow, useVerificationFlowContext } from "../hooks"
+import { OnVerificationFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseEmailVerificationFormProps = {
-    onError?: OnRegistrationFlowError
+    onError?: OnVerificationFlowError
     onVerificationSuccess?: () => void
 }
 
 export function useEmailVerificationForm({ onError, onVerificationSuccess }: UseEmailVerificationFormProps) {
-    const { verifableAddress: email } = useRegistrationFlowContext()
+    const { verifiableAddress: email } = useVerificationFlowContext()
     const { mutateAsync: updateVerificationFlow } = useUpdateVerificationFlow()
     const { data: verificationFlow } = useGetVerificationFlow()
 

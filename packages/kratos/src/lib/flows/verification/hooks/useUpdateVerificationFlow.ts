@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../../hooks"
-import { handleFlowError, UpdateVerificationFlowBody, VerificationFlow } from "../../../kratos"
-import { useRegistrationFlowContext } from "../registrationFlow"
+import { handleFlowError, UpdateVerificationFlowBody, VerificationFlow, VerificationFlowState } from "../../../kratos"
 import { verificationFlowKey } from "./queryKeys"
+import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useUpdateVerificationFlow() {
     const { kratosClient } = useKratosContext()
-    const { verificationFlowId, resetContext } = useRegistrationFlowContext()
+    const { verificationFlowId, resetContext } = useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<VerificationFlow | undefined, Error, UpdateVerificationFlowBody, unknown>({
@@ -21,7 +21,7 @@ export function useUpdateVerificationFlow() {
                     },
                 )
 
-                if (data.return_to) {
+                if (data.state === VerificationFlowState.PassedChallenge && data.return_to) {
                     window.location.href = data.return_to
                 }
 

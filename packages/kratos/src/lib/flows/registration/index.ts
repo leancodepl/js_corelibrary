@@ -1,5 +1,5 @@
 export * from "./registrationFlow"
+export * from "./hooks/useRegistrationFlowContext"
 export type { TraitsFormProps } from "./traitsForm"
 export type { ChooseMethodFormProps } from "./chooseMethodForm"
-export type { EmailVerificationFormProps } from "./emailVerificationForm"
 export type { OnRegistrationFlowError } from "./types"
