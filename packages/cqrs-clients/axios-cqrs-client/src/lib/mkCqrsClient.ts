@@ -9,9 +9,15 @@ function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     }
 }
 
-function createError(error: any): ApiError {
+function createError(
+    error: any,
+    options?: {
+        isAborted?: boolean
+    },
+): ApiError {
     return {
         isSuccess: false,
+        isAborted: !!options?.isAborted,
         error,
     }
 }
@@ -50,7 +56,15 @@ export function mkCqrsClient({
 
             return response
         },
-        async (error: { response: AxiosResponse; config: AxiosRequestConfig }) => {
+        async (error: { code: string; response: AxiosResponse; config: AxiosRequestConfig }) => {
+            if (error.code === "ERR_CANCELED") {
+                return {
+                    data: createError(error, {
+                        isAborted: true,
+                    }),
+                }
+            }
+
             const response = error.response
 
             switch (error.response.status) {
