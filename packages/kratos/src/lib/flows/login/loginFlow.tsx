@@ -1,7 +1,7 @@
-import { ComponentType, createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { ComponentType, useEffect, useMemo } from "react"
+import { verificationFlow } from ".."
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
-import { EmailVerificationFormProps, EmailVerificationFormWrapper } from "./emailVerificationForm"
-import { useCreateLoginFlow, useGetLoginFlow } from "./hooks"
+import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
@@ -10,10 +10,10 @@ export type LoginFlowProps = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
     secondFactorForm: ComponentType<SecondFactorFormProps>
     secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
-    emailVerificationForm: ComponentType<EmailVerificationFormProps>
+    emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
-    onError?: OnLoginFlowError
+    onError?: OnLoginFlowError & verificationFlow.OnVerificationFlowError
     onVerificationSuccess?: () => void
 }
 
@@ -27,7 +27,8 @@ function LoginFlowWrapper({
     onError,
     onVerificationSuccess,
 }: LoginFlowProps) {
-    const { loginFlowId, setLoginFlowId, verificationFlowId } = useLoginFlowContext()
+    const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
+    const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
 
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
     const { data: loginFlow } = useGetLoginFlow()
@@ -69,7 +70,7 @@ function LoginFlowWrapper({
                 <SecondFactorEmailFormWrapper secondFactorForm={SecondFactorEmailForm} onError={onError} />
             )}
             {step === "verifyEmail" && (
-                <EmailVerificationFormWrapper
+                <verificationFlow.VerificationFlowWrapper
                     emailVerificationForm={EmailVerificationForm}
                     onError={onError}
                     onVerificationSuccess={onVerificationSuccess}
@@ -79,52 +80,12 @@ function LoginFlowWrapper({
     )
 }
 
-type LoginFlowContext = {
-    loginFlowId?: string
-    setLoginFlowId: (loginFlowId: string | undefined) => void
-    verificationFlowId?: string
-    setVerificationFlowId: (verificationFlowId: string | undefined) => void
-    verifableAddress?: string
-    setVerifiableAddress: (verifableAddress: string | undefined) => void
-    resetContext: () => void
-}
-
-const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
-
 export function LoginFlow(props: LoginFlowProps) {
-    const [loginFlowId, setLoginFlowId] = useState<string>()
-
-    const [verificationFlowId, setVerificationFlowId] = useState<string>()
-    const [verifableAddress, setVerifiableAddress] = useState<string>()
-
-    const resetContext = useCallback(() => {
-        setLoginFlowId(undefined)
-        setVerificationFlowId(undefined)
-        setVerifiableAddress(undefined)
-    }, [])
-
     return (
-        <loginFlowContext.Provider
-            value={{
-                loginFlowId,
-                setLoginFlowId,
-                verificationFlowId,
-                setVerificationFlowId,
-                verifableAddress,
-                setVerifiableAddress,
-                resetContext,
-            }}>
-            <LoginFlowWrapper {...props} />
-        </loginFlowContext.Provider>
+        <verificationFlow.VerificationFlowProvider>
+            <LoginFlowProvider>
+                <LoginFlowWrapper {...props} />
+            </LoginFlowProvider>
+        </verificationFlow.VerificationFlowProvider>
     )
-}
-
-export function useLoginFlowContext() {
-    const context = useContext(loginFlowContext)
-
-    if (context === undefined) {
-        throw new Error("useLoginFlowContext must be used within a LoginFlow")
-    }
-
-    return context
 }

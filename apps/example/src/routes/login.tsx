@@ -1,4 +1,4 @@
-import { loginFlow, AuthError, CommonInputFieldProps } from "@leancodepl/kratos"
+import { loginFlow, AuthError, CommonInputFieldProps, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { FC } from "react"
 import { z } from "zod"
@@ -8,7 +8,7 @@ const loginSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: loginFlow.OnLoginFlowError = ({ target, errors }) => {
+const handleError: loginFlow.OnLoginFlowError & verificationFlow.OnVerificationFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
@@ -169,7 +169,7 @@ function SecondFactorEmailForm({ Code, Resend, errors }: loginFlow.SecondFactorE
     )
 }
 
-function EmailVerificationForm({ Code, Resend, errors }: loginFlow.EmailVerificationFormProps) {
+function EmailVerificationForm({ Code, Resend, errors }: verificationFlow.EmailVerificationFormProps) {
     return (
         <>
             <div>

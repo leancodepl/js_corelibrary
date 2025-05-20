@@ -1,13 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { verificationFlow } from "../.."
 import { useKratosContext } from "../../../hooks"
 import { LoginFlow, SuccessfulNativeLogin, UpdateLoginFlowBody } from "../../../kratos"
 import { handleContinueWith, handleFlowError } from "../../../kratos/contrib"
-import { useLoginFlowContext } from "../loginFlow"
 import { loginFlowKey } from "./queryKeys"
+import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useUpdateLoginFlow() {
     const { kratosClient } = useKratosContext()
-    const { loginFlowId, resetContext, setVerificationFlowId, setVerifiableAddress } = useLoginFlowContext()
+    const { loginFlowId, resetContext } = useLoginFlowContext()
+    const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<LoginFlow | SuccessfulNativeLogin | undefined, Error, UpdateLoginFlowBody, unknown>({
