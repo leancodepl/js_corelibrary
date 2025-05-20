@@ -1,3 +1,5 @@
+import { traitPrefix } from "../../flows/registration/config"
+
 function isPasskeySupported() {
     return !!window.PublicKeyCredential
 }
@@ -132,8 +134,8 @@ export async function passkeyRegister(
         passkeyChallengeString,
     ) as PasskeyCreateData
 
-    const displayNameTraitName = displayNameFieldName.startsWith("traits.")
-        ? displayNameFieldName.slice(7)
+    const displayNameTraitName = displayNameFieldName.startsWith(traitPrefix)
+        ? displayNameFieldName.slice(traitPrefix.length)
         : displayNameFieldName
 
     const displayName = typeof traits?.[displayNameTraitName] === "string" ? traits[displayNameTraitName] : ""

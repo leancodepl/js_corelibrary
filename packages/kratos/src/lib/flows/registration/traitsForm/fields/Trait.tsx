@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { CommonCheckboxFieldProps, CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
+import { traitPrefix } from "../../config"
 import { useTraitsFormContext } from "../traitsFormContext"
 
 type TraitProps<TTrait extends string> = {
@@ -14,7 +15,7 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
     const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
-        <traitsForm.Field name={`traits.${trait}`}>
+        <traitsForm.Field name={`${traitPrefix}${trait}`}>
             {field => {
                 if (typeof field.state.value === "boolean") {
                     throw new Error("TraitInput: value cannot be boolean")
@@ -41,7 +42,7 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
     const Comp: ComponentType<CommonCheckboxFieldProps> = Slot.Root
 
     return (
-        <traitsForm.Field name={`traits.${trait}`}>
+        <traitsForm.Field name={`${traitPrefix}${trait}`}>
             {field => {
                 if (typeof field.state.value !== "boolean") {
                     throw new Error("TraitCheckbox: value is not boolean")
