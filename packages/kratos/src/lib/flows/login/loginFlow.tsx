@@ -1,4 +1,4 @@
-import { ComponentType, createContext, useContext, useMemo, useState } from "react"
+import { ComponentType, createContext, useContext, useEffect, useMemo, useState } from "react"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { useCreateLoginFlow, useGetLoginFlow } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
@@ -27,13 +27,15 @@ function LoginFlowWrapper({
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
     const { data: loginFlow } = useGetLoginFlow()
 
-    if (!loginFlowId) {
+    useEffect(() => {
+        if (loginFlowId) return
+
         if (initialFlowId) {
             setLoginFlowId(initialFlowId)
         } else {
             createLoginFlow()
         }
-    }
+    }, [loginFlowId, initialFlowId, createLoginFlow, setLoginFlowId])
 
     const step = useMemo(() => {
         if (!loginFlow) return "chooseMethod"
