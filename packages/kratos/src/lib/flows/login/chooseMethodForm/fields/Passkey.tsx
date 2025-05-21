@@ -4,12 +4,15 @@ import { useQuery } from "@tanstack/react-query"
 import { instanceOfSuccessfulNativeLogin } from "../../../../kratos"
 import {
     CommonButtonProps,
+    createQueryKey,
     getCsrfToken,
     getNodeById,
     handleOnSubmitErrors,
     inputNodeAttributes,
+    passkeyLogin,
+    passkeyLoginInit,
+    withQueryKeyPrefix,
 } from "../../../../utils"
-import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
@@ -50,8 +53,13 @@ export function Passkey({ children }: PasskeyProps) {
         [loginFlow?.ui.nodes],
     )
 
+    const passkeyLoginInitQueryKey = useMemo(
+        () => createQueryKey([withQueryKeyPrefix("passkey"), challenge?.value] as const),
+        [challenge?.value],
+    )
+
     useQuery({
-        queryKey: ["leancode_kratos_passkey", challenge?.value],
+        queryKey: passkeyLoginInitQueryKey,
         queryFn: async ({ signal }) => {
             if (!challenge) throw new Error("No challenge provided")
 

@@ -1,5 +1,5 @@
-import { createQueryKey, withPrefix } from "../../../utils"
+import { createQueryKey, withQueryKeyPrefix } from "../../../utils"
 
-const baseKey = withPrefix("verification_flow")
+const baseKey = withQueryKeyPrefix("verification_flow")
 
 export const verificationFlowKey = (id = "no_id") => createQueryKey([baseKey, id] as const)
