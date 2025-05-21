@@ -1,15 +1,13 @@
-import { ApiResponse } from "@leancodepl/cqrs-client-base"
+import { useQueryClient } from "@tanstack/react-query"
 import { useKratosContext } from "../../hooks"
+import { ApiResponse } from "../../types"
+import { baseQueryKey } from "../../utils"
 
-type UseButtonProps = {
-    returnTo?: string
-}
-
-// TODO: maybe we need to invalidate queries?
-export function useLogout({ returnTo }: UseButtonProps) {
+export function useLogout() {
     const { kratosClient } = useKratosContext()
+    const queryClient = useQueryClient()
 
-    const logout = async (): Promise<ApiResponse<{ returnTo: string }>> => {
+    const logout = async ({ returnTo }: { returnTo?: string }): Promise<ApiResponse> => {
         try {
             const logoutFlow = await kratosClient.createBrowserLogoutFlow(
                 { returnTo },
@@ -33,7 +31,9 @@ export function useLogout({ returnTo }: UseButtonProps) {
                 window.location.href = returnTo
             }
 
-            return { isSuccess: true, result: { returnTo } }
+            queryClient.invalidateQueries({ queryKey: [baseQueryKey] })
+
+            return { isSuccess: true }
         } catch (error) {
             return { isSuccess: false, error }
         }
