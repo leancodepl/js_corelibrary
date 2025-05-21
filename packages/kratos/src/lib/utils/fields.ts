@@ -3,12 +3,12 @@ import { AuthError } from "./errors"
 
 export type CommonInputFieldProps = Pick<
     InputHTMLAttributes<HTMLInputElement>,
-    "children" | "name" | "onBlur" | "onChange" | "type" | "value"
+    "children" | "disabled" | "name" | "onBlur" | "onChange" | "type" | "value"
 > & { errors?: Array<AuthError> }
 
 export type CommonCheckboxFieldProps = Pick<
     InputHTMLAttributes<HTMLInputElement>,
-    "checked" | "children" | "name" | "onBlur" | "onChange" | "type"
+    "checked" | "children" | "disabled" | "name" | "onBlur" | "onChange" | "type"
 > & { errors?: Array<AuthError> }
 
 export type CommonButtonProps = Pick<

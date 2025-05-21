@@ -12,6 +12,8 @@ export type ChooseMethodFormProps = {
     PasswordConfirmation?: ComponentType<{ children: ReactNode }>
     Passkey?: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
+    isSubmitting: boolean
+    isValidating: boolean
 }
 
 type ChooseMethodFormWrapperProps = {
@@ -37,6 +39,8 @@ export function ChooseMethodFormWrapper({
                 }}>
                 <ChooseMethodForm
                     errors={formErrors}
+                    isSubmitting={chooseMethodForm.state.isSubmitting}
+                    isValidating={chooseMethodForm.state.isValidating}
                     Passkey={Passkey}
                     Password={Password}
                     PasswordConfirmation={PasswordConfirmation}
