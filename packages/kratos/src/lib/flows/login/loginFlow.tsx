@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import { verificationFlow } from ".."
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
@@ -13,7 +13,7 @@ export type LoginFlowProps = {
     emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
-    onError?: OnLoginFlowError & verificationFlow.OnVerificationFlowError
+    onError?: OnLoginFlowError
     onVerificationSuccess?: () => void
 }
 
