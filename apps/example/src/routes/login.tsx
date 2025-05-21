@@ -8,7 +8,7 @@ const loginSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: loginFlow.OnLoginFlowError & verificationFlow.OnVerificationFlowError = ({ target, errors }) => {
+const handleError: loginFlow.OnLoginFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
