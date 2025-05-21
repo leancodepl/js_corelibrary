@@ -1,8 +1,10 @@
+import { verificationFlow } from ".."
 import { OnFlowError } from "../../utils"
 import { InputFields as ChooseMethodInputFields } from "./chooseMethodForm/types"
 import { traitPrefix } from "./config"
 
-export type OnRegistrationFlowError = OnFlowError<`${ChooseMethodInputFields}` | `${typeof traitPrefix}${string}`>
+export type OnRegistrationFlowError = OnFlowError<`${ChooseMethodInputFields}` | `${typeof traitPrefix}${string}`> &
+    verificationFlow.OnVerificationFlowError
 
 type typeofKratosTraitValue = {
     string: string
