@@ -8,9 +8,10 @@ import { InputFields } from "./types"
 
 type UseTotpFormProps = {
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function useTotpForm({ onError }: UseTotpFormProps) {
+export function useTotpForm({ onError, onLoginSuccess }: UseTotpFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
@@ -30,6 +31,8 @@ export function useTotpForm({ onError }: UseTotpFormProps) {
             }
 
             if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
                 return
             }
 

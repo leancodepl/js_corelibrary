@@ -14,6 +14,7 @@ export type LoginFlowProps = {
     initialFlowId?: string
     returnTo?: string
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
     onVerificationSuccess?: () => void
 }
 
@@ -25,6 +26,7 @@ function LoginFlowWrapper({
     initialFlowId,
     returnTo,
     onError,
+    onLoginSuccess,
     onVerificationSuccess,
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
@@ -61,13 +63,25 @@ function LoginFlowWrapper({
     return (
         <>
             {step === "chooseMethod" && (
-                <ChooseMethodFormWrapper chooseMethodForm={ChooseMethodForm} onError={onError} />
+                <ChooseMethodFormWrapper
+                    chooseMethodForm={ChooseMethodForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
             )}
             {step === "secondFactor" && (
-                <SecondFactorFormWrapper secondFactorForm={SecondFactorForm} onError={onError} />
+                <SecondFactorFormWrapper
+                    secondFactorForm={SecondFactorForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
             )}
             {step === "secondFactorEmail" && (
-                <SecondFactorEmailFormWrapper secondFactorForm={SecondFactorEmailForm} onError={onError} />
+                <SecondFactorEmailFormWrapper
+                    secondFactorForm={SecondFactorEmailForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
             )}
             {step === "verifyEmail" && (
                 <verificationFlow.VerificationFlowWrapper

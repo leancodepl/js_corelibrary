@@ -9,16 +9,23 @@ import { useTotpForm } from "./useTotpForm"
 export type SecondFactorFormProps = {
     Totp?: ComponentType<{ children: ReactNode }>
     Email?: ComponentType<{ children: ReactNode }>
-    errors?: AuthError[]
+    errors: AuthError[]
+    isSubmitting: boolean
+    isValidating: boolean
 }
 
 type SecondFactorFormWrapperProps = {
     secondFactorForm: ComponentType<SecondFactorFormProps>
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function SecondFactorFormWrapper({ secondFactorForm: SecondFactorForm, onError }: SecondFactorFormWrapperProps) {
-    const totpForm = useTotpForm({ onError })
+export function SecondFactorFormWrapper({
+    secondFactorForm: SecondFactorForm,
+    onError,
+    onLoginSuccess,
+}: SecondFactorFormWrapperProps) {
+    const totpForm = useTotpForm({ onError, onLoginSuccess })
     const formErrors = useFormErrors(totpForm)
 
     return (
@@ -28,7 +35,13 @@ export function SecondFactorFormWrapper({ secondFactorForm: SecondFactorForm, on
                     e.preventDefault()
                     totpForm.handleSubmit()
                 }}>
-                <SecondFactorForm Email={Email} errors={formErrors} Totp={Totp} />
+                <SecondFactorForm
+                    Email={Email}
+                    errors={formErrors}
+                    isSubmitting={totpForm.state.isSubmitting}
+                    isValidating={totpForm.state.isValidating}
+                    Totp={Totp}
+                />
             </form>
         </SecondFactorFormProvider>
     )

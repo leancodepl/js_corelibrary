@@ -7,9 +7,10 @@ import { InputFields } from "./types"
 
 type UsePasswordFormProps = {
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function usePasswordForm({ onError }: UsePasswordFormProps) {
+export function usePasswordForm({ onError, onLoginSuccess }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
@@ -33,6 +34,8 @@ export function usePasswordForm({ onError }: UsePasswordFormProps) {
             }
 
             if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
                 return
             }
 
