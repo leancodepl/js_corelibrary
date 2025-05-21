@@ -33,6 +33,7 @@ export function useEmailVerificationForm({ onError, onVerificationSuccess }: Use
 
             if (response.state == VerificationFlowState.PassedChallenge) {
                 onVerificationSuccess?.()
+
                 return
             }
 

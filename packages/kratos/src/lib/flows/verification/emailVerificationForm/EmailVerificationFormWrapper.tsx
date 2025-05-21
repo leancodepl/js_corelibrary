@@ -9,7 +9,9 @@ import { useEmailVerificationForm } from "./useEmailVerificationForm"
 export type EmailVerificationFormProps = {
     Code: ComponentType<{ children: ReactNode }>
     Resend: ComponentType<{ children: ReactNode }>
-    errors?: Array<AuthError>
+    errors: Array<AuthError>
+    isSubmitting: boolean
+    isValidating: boolean
 }
 
 type EmailVerificationFormWrapperProps = {
@@ -33,7 +35,13 @@ export function EmailVerificationFormWrapper({
                     e.preventDefault()
                     emailVerificationForm.handleSubmit()
                 }}>
-                <EmailVerificationForm Code={Code} errors={formErrors} Resend={Resend} />
+                <EmailVerificationForm
+                    Code={Code}
+                    errors={formErrors}
+                    isSubmitting={emailVerificationForm.state.isSubmitting}
+                    isValidating={emailVerificationForm.state.isValidating}
+                    Resend={Resend}
+                />
             </form>
         </EmailVerificationFormProvider>
     )

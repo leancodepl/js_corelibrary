@@ -119,48 +119,59 @@ function TraitsForm({
     Google,
     Apple,
     Facebook,
+    isSubmitting,
+    isValidating,
 }: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
     return (
         <>
             {Email && (
                 <Email>
-                    <Input placeholder="Email" />
+                    <Input placeholder="Email" disabled={isSubmitting || isValidating} />
                 </Email>
             )}
             {GivenName && (
                 <GivenName>
-                    <Input placeholder="First name" />
+                    <Input placeholder="First name" disabled={isSubmitting || isValidating} />
                 </GivenName>
             )}
             {RegulationsAccepted && (
                 <RegulationsAccepted>
-                    <Checkbox type="checkbox" placeholder="Regulations accepted">
+                    <Checkbox
+                        type="checkbox"
+                        placeholder="Regulations accepted"
+                        disabled={isSubmitting || isValidating}>
                         I accept the regulations
                     </Checkbox>
                 </RegulationsAccepted>
             )}
 
-            <button type="submit">Register</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Register
+            </button>
 
             {Google && (
                 <Google>
-                    <button>Sign up with Google</button>
+                    <button disabled={isSubmitting || isValidating}>Sign up with Google</button>
                 </Google>
             )}
 
             {Apple && (
                 <Apple>
-                    <button>Sign up with Apple</button>
+                    <button disabled={isSubmitting || isValidating}>Sign up with Apple</button>
                 </Apple>
             )}
 
             {Facebook && (
                 <Facebook>
-                    <button>Sign up with Facebook</button>
+                    <button disabled={isSubmitting || isValidating}>Sign up with Facebook</button>
                 </Facebook>
             )}
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }
@@ -171,52 +182,72 @@ function ChooseMethodForm({
     Password,
     PasswordConfirmation,
     Passkey,
+    isSubmitting,
+    isValidating,
 }: registrationFlow.ChooseMethodFormProps) {
     return (
         <>
             {ReturnToTraitsForm && (
                 <ReturnToTraitsForm>
-                    <button>Return</button>
+                    <button disabled={isSubmitting || isValidating}>Return</button>
                 </ReturnToTraitsForm>
             )}
             {Password && (
                 <Password>
-                    <Input placeholder="Password" />
+                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
                 </Password>
             )}
             {PasswordConfirmation && (
                 <PasswordConfirmation>
-                    <Input placeholder="Password confirmation" />
+                    <Input placeholder="Password confirmation" disabled={isSubmitting || isValidating} />
                 </PasswordConfirmation>
             )}
 
-            <button type="submit">Register</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Register
+            </button>
 
             {Passkey && (
                 <Passkey>
-                    <button>Sign up with Passkey</button>
+                    <button disabled={isSubmitting || isValidating}>Sign up with Passkey</button>
                 </Passkey>
             )}
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }
 
-function EmailVerificationForm({ Code, Resend, errors }: verificationFlow.EmailVerificationFormProps) {
+function EmailVerificationForm({
+    Code,
+    Resend,
+    errors,
+    isSubmitting,
+    isValidating,
+}: verificationFlow.EmailVerificationFormProps) {
     return (
         <>
             <Code>
-                <Input placeholder="Code" />
+                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
             </Code>
 
-            <button type="submit">Verify</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Verify
+            </button>
 
             <Resend>
-                <button>Resend code</button>
+                <button disabled={isSubmitting || isValidating}>Resend code</button>
             </Resend>
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }

@@ -19,6 +19,8 @@ export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponen
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
+    isSubmitting: boolean
+    isValidating: boolean
 }
 
 type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
@@ -68,6 +70,8 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                     errors={formErrors}
                     Facebook={Facebook}
                     Google={Google}
+                    isSubmitting={traitsForm.state.isSubmitting}
+                    isValidating={traitsForm.state.isValidating}
                     {...traitComponents}
                 />
             </form>
