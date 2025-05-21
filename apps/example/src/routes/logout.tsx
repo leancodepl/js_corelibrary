@@ -13,12 +13,12 @@ export const Route = createFileRoute("/logout")({
 })
 
 function RouteComponent() {
-    const { logout } = useLogout({ returnTo: "/redirect-after-logout" })
+    const { logout } = useLogout()
 
     const [loggingOut, setLoggingOut] = useState(false)
     const handleLogout = async () => {
         setLoggingOut(true)
-        const response = await logout()
+        const response = await logout({ returnTo: "/redirect-after-logout" })
         setLoggingOut(false)
 
         if (response.isSuccess) {
