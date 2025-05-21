@@ -7,9 +7,10 @@ import { InputFields } from "./types"
 
 type UseCodeFormProps = {
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function useCodeForm({ onError }: UseCodeFormProps) {
+export function useCodeForm({ onError, onLoginSuccess }: UseCodeFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
@@ -32,6 +33,8 @@ export function useCodeForm({ onError }: UseCodeFormProps) {
             }
 
             if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
                 return
             }
 

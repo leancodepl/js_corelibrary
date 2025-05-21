@@ -14,13 +14,16 @@ import {
     withQueryKeyPrefix,
 } from "../../../../utils"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
+import { OnLoginFlowError } from "../../types"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type PasskeyProps = {
     children: ReactNode
+    onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function Passkey({ children }: PasskeyProps) {
+export function Passkey({ children, onError, onLoginSuccess }: PasskeyProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
     const { passwordForm } = useChooseMethodFormContext()
@@ -40,12 +43,14 @@ export function Passkey({ children }: PasskeyProps) {
             }
 
             if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
                 return
             }
 
-            handleOnSubmitErrors(response, passwordForm, () => {})
+            handleOnSubmitErrors(response, passwordForm, onError)
         },
-        [loginFlow, passwordForm, updateLoginFlow],
+        [loginFlow, onError, onLoginSuccess, passwordForm, updateLoginFlow],
     )
 
     const challenge = useMemo(

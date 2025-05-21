@@ -9,19 +9,23 @@ import { useCodeForm } from "./useCodeForm"
 export type SecondFactorEmailFormProps = {
     Code: ComponentType<{ children: ReactNode }>
     Resend: ComponentType<{ children: ReactNode }>
-    errors?: AuthError[]
+    errors: AuthError[]
+    isSubmitting: boolean
+    isValidating: boolean
 }
 
 type SecondFactorEmailFormWrapperProps = {
     secondFactorForm: ComponentType<SecondFactorEmailFormProps>
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
 export function SecondFactorEmailFormWrapper({
     secondFactorForm: SecondFactorForm,
     onError,
+    onLoginSuccess,
 }: SecondFactorEmailFormWrapperProps) {
-    const codeForm = useCodeForm({ onError })
+    const codeForm = useCodeForm({ onError, onLoginSuccess })
     const formErrors = useFormErrors(codeForm)
 
     return (
@@ -31,7 +35,13 @@ export function SecondFactorEmailFormWrapper({
                     e.preventDefault()
                     codeForm.handleSubmit()
                 }}>
-                <SecondFactorForm Code={Code} errors={formErrors} Resend={Resend} />
+                <SecondFactorForm
+                    Code={Code}
+                    errors={formErrors}
+                    isSubmitting={codeForm.state.isSubmitting}
+                    isValidating={codeForm.state.isValidating}
+                    Resend={Resend}
+                />
             </form>
         </SecondFactorEmailFormProvider>
     )
