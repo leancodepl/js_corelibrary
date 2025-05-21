@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import { verificationFlow } from ".."
 import { ChooseMethodFormProps } from "../login"
 import { ChooseMethodFormWrapper } from "./chooseMethodForm"
@@ -13,7 +13,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
-    onError?: OnRegistrationFlowError & verificationFlow.OnVerificationFlowError
+    onError?: OnRegistrationFlowError
     onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
 }
@@ -34,15 +34,13 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
 
     const { mutate: createRegistrationFlow } = useCreateRegistrationFlow({ returnTo })
 
-    useEffect(() => {
-        if (registrationFlowId) return
-
+    if (!registrationFlowId) {
         if (initialFlowId) {
             setRegistrationFlowId(initialFlowId)
         } else {
             createRegistrationFlow()
         }
-    }, [createRegistrationFlow, registrationFlowId, initialFlowId, setRegistrationFlowId])
+    }
 
     const step = useMemo(() => {
         if (verificationFlowId) {

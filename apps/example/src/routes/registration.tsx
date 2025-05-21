@@ -14,10 +14,7 @@ const registrationSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: registrationFlow.OnRegistrationFlowError & verificationFlow.OnVerificationFlowError = ({
-    target,
-    errors,
-}) => {
+const handleError: registrationFlow.OnRegistrationFlowError = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {

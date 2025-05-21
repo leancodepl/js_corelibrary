@@ -43,13 +43,9 @@ export function VerificationFlowWrapper({
         }
     }, [createVerificationFlow, initialFlowId, verificationFlowId, setVerificationFlowId])
 
-    useEffect(() => {
-        if (verifiableAddress) return
-
-        if (initialVerifiableAddress) {
-            setVerifiableAddress(initialVerifiableAddress)
-        }
-    }, [initialVerifiableAddress, setVerifiableAddress, verifiableAddress])
+    if (!verifiableAddress && initialVerifiableAddress) {
+        setVerifiableAddress(initialVerifiableAddress)
+    }
 
     return (
         <EmailVerificationFormWrapper
