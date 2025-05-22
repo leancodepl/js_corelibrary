@@ -1,5 +1,5 @@
-import { catchError, MonoTypeOperatorFunction, throwError } from "rxjs"
 import { TokenProvider } from "@leancodepl/cqrs-client-base"
+import { catchError, MonoTypeOperatorFunction, throwError } from "rxjs"
 
 export function authGuard<T>(tokenProvider?: Partial<TokenProvider>): MonoTypeOperatorFunction<T> {
     if (!tokenProvider?.invalidateToken) {

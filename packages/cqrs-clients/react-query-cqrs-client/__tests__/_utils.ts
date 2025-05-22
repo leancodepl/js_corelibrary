@@ -1,7 +1,7 @@
+import { ApiResponse, CommandResult, ValidationError } from "@leancodepl/cqrs-client-base"
 import { delay, mergeMap, Observable, of, throwError } from "rxjs"
 import { AjaxConfig, AjaxError, AjaxResponse } from "rxjs/ajax"
 import { ajax } from "rxjs/internal/ajax/ajax"
-import { ApiResponse, CommandResult, ValidationError } from "@leancodepl/cqrs-client-base"
 
 type MockableFunction = (...args: any[]) => any
 
