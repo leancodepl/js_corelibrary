@@ -31,7 +31,7 @@ export type ApiSuccess<TResult> = {
 export type ApiError = {
     readonly isSuccess: false
     readonly error: any
-    readonly isAborted: boolean
+    readonly isAborted?: boolean
 }
 
 export type ApiResponse<TResult> = ApiError | ApiSuccess<TResult>
