@@ -1,7 +1,6 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { verificationFlow } from ".."
-import { ChooseMethodFormProps } from "../login"
-import { ChooseMethodFormWrapper } from "./chooseMethodForm"
+import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { RegistrationFlowProvider, useCreateRegistrationFlow, useRegistrationFlowContext } from "./hooks"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnRegistrationFlowError, TraitsConfig } from "./types"
