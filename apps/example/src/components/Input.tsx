@@ -1,8 +1,9 @@
 import { CommonInputFieldProps } from "@leancodepl/kratos"
-import { FC } from "react"
 import { getErrorMessage } from "../services/kratos"
 
-export const Input: FC<CommonInputFieldProps & { placeholder?: string }> = ({ errors, ...props }) => (
+type InputProps = CommonInputFieldProps & { placeholder?: string }
+
+export const Input = ({ errors, ...props }: InputProps) => (
     <div>
         <input {...props} />
         {errors && errors.length > 0 && (

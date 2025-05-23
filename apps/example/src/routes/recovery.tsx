@@ -64,6 +64,8 @@ function EmailForm({ errors, Email, isSubmitting, isValidating }: recoveryFlow.E
 function CodeForm({ errors, Code, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
     return (
         <>
+            <p>Please enter the code you received in the email.</p>
+
             {Code && (
                 <Code>
                     <Input placeholder="Code" disabled={isSubmitting || isValidating} />
