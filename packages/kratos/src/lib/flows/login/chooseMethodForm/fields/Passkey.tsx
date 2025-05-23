@@ -1,29 +1,56 @@
 import { ComponentType, ReactNode, useCallback, useMemo } from "react"
 import * as Slot from "@radix-ui/react-slot"
 import { useQuery } from "@tanstack/react-query"
-import { CommonButtonProps, getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../utils"
-import { passkeyLogin, passkeyLoginInit } from "../../../../utils/passkeys"
+import { instanceOfSuccessfulNativeLogin } from "../../../../kratos"
+import {
+    CommonButtonProps,
+    createQueryKey,
+    getCsrfToken,
+    getNodeById,
+    handleOnSubmitErrors,
+    inputNodeAttributes,
+    passkeyLogin,
+    passkeyLoginInit,
+    withQueryKeyPrefix,
+} from "../../../../utils"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
+import { OnLoginFlowError } from "../../types"
+import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
 type PasskeyProps = {
     children: ReactNode
+    onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function Passkey({ children }: PasskeyProps) {
-    const { mutate: updateLoginFlow } = useUpdateLoginFlow()
+export function Passkey({ children, onError, onLoginSuccess }: PasskeyProps) {
+    const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
+    const { passwordForm } = useChooseMethodFormContext()
 
     const signInWithPasskeyUsingCredential = useCallback(
-        (credential: string) => {
+        async (credential: string) => {
             if (!loginFlow) return
 
-            updateLoginFlow({
+            const response = await updateLoginFlow({
                 method: "passkey",
                 csrf_token: getCsrfToken(loginFlow),
                 passkey_login: credential,
             })
+
+            if (!response) {
+                return
+            }
+
+            if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
+                return
+            }
+
+            handleOnSubmitErrors(response, passwordForm, onError)
         },
-        [loginFlow, updateLoginFlow],
+        [loginFlow, onError, onLoginSuccess, passwordForm, updateLoginFlow],
     )
 
     const challenge = useMemo(
@@ -31,8 +58,13 @@ export function Passkey({ children }: PasskeyProps) {
         [loginFlow?.ui.nodes],
     )
 
+    const passkeyLoginInitQueryKey = useMemo(
+        () => createQueryKey([withQueryKeyPrefix("passkey"), challenge?.value] as const),
+        [challenge?.value],
+    )
+
     useQuery({
-        queryKey: ["leancode_kratos_passkey", challenge?.value],
+        queryKey: passkeyLoginInitQueryKey,
         queryFn: async ({ signal }) => {
             if (!challenge) throw new Error("No challenge provided")
 

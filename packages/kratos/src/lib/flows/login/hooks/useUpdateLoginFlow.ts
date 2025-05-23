@@ -1,14 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { verificationFlow } from "../.."
 import { useKratosContext } from "../../../hooks"
 import { LoginFlow, SuccessfulNativeLogin, UpdateLoginFlowBody } from "../../../kratos"
 import { handleContinueWith, handleFlowError } from "../../../kratos/contrib"
-import { useLoginFlowContext } from "../loginFlow"
 import { loginFlowKey } from "./queryKeys"
+import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useUpdateLoginFlow() {
     const { kratosClient } = useKratosContext()
-    const { setLoginFlowId, loginFlowId } = useLoginFlowContext()
-
+    const { loginFlowId, resetContext } = useLoginFlowContext()
+    const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<LoginFlow | SuccessfulNativeLogin | undefined, Error, UpdateLoginFlowBody, unknown>({
@@ -17,17 +18,27 @@ export function useUpdateLoginFlow() {
             try {
                 const response = await kratosClient.updateLoginFlowRaw(
                     { flow: loginFlowId, updateLoginFlowBody },
-                    { credentials: "include" },
+                    {
+                        credentials: "include",
+                        headers: { Accept: "application/json", "Content-Type": "application/json" },
+                    },
                 )
 
                 const data = await response.value()
 
                 if (data && "continue_with" in data) {
-                    handleContinueWith(data.continue_with, {
-                        onRedirect: (url, _external) => {
-                            window.location.href = url
-                        },
-                    })
+                    const showVerificationUI = data.continue_with?.find(e => e.action === "show_verification_ui")
+
+                    if (showVerificationUI !== undefined) {
+                        setVerificationFlowId(showVerificationUI.flow.id)
+                        setVerifiableAddress(showVerificationUI.flow.verifiable_address)
+                    } else {
+                        handleContinueWith(data.continue_with, {
+                            onRedirect: (url, _external) => {
+                                window.location.href = url
+                            },
+                        })
+                    }
                 }
 
                 return data
@@ -36,7 +47,7 @@ export function useUpdateLoginFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: () => setLoginFlowId(undefined),
+                    onRestartFlow: resetContext,
                     onValidationError: body => body,
                 })(error)) as LoginFlow | undefined
             }

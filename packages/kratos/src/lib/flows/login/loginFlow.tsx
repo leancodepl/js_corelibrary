@@ -1,6 +1,7 @@
-import { ComponentType, createContext, useContext, useEffect, useMemo, useState } from "react"
+import { ComponentType, useEffect, useMemo } from "react"
+import { verificationFlow } from ".."
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
-import { useCreateLoginFlow, useGetLoginFlow } from "./hooks"
+import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
@@ -9,20 +10,27 @@ export type LoginFlowProps = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
     secondFactorForm: ComponentType<SecondFactorFormProps>
     secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
+    emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
+    onVerificationSuccess?: () => void
 }
 
 function LoginFlowWrapper({
     chooseMethodForm: ChooseMethodForm,
     secondFactorForm: SecondFactorForm,
     secondFactorEmailForm: SecondFactorEmailForm,
+    emailVerificationForm: EmailVerificationForm,
     initialFlowId,
     returnTo,
     onError,
+    onLoginSuccess,
+    onVerificationSuccess,
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
+    const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
 
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
     const { data: loginFlow } = useGetLoginFlow()
@@ -40,6 +48,8 @@ function LoginFlowWrapper({
     const step = useMemo(() => {
         if (!loginFlow) return "chooseMethod"
 
+        if (verificationFlowId) return "verifyEmail"
+
         if (loginFlow.state === "choose_method") {
             if (loginFlow.requested_aal === "aal1") return "chooseMethod"
             if (loginFlow.requested_aal === "aal2") return "secondFactor"
@@ -48,46 +58,48 @@ function LoginFlowWrapper({
         if (loginFlow.state === "sent_email") return "secondFactorEmail"
 
         throw new Error("Invalid login flow state")
-    }, [loginFlow])
+    }, [loginFlow, verificationFlowId])
 
     return (
         <>
             {step === "chooseMethod" && (
-                <ChooseMethodFormWrapper chooseMethodForm={ChooseMethodForm} onError={onError} />
+                <ChooseMethodFormWrapper
+                    chooseMethodForm={ChooseMethodForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
             )}
             {step === "secondFactor" && (
-                <SecondFactorFormWrapper secondFactorForm={SecondFactorForm} onError={onError} />
+                <SecondFactorFormWrapper
+                    secondFactorForm={SecondFactorForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
             )}
             {step === "secondFactorEmail" && (
-                <SecondFactorEmailFormWrapper secondFactorForm={SecondFactorEmailForm} onError={onError} />
+                <SecondFactorEmailFormWrapper
+                    secondFactorForm={SecondFactorEmailForm}
+                    onError={onError}
+                    onLoginSuccess={onLoginSuccess}
+                />
+            )}
+            {step === "verifyEmail" && (
+                <verificationFlow.VerificationFlowWrapper
+                    emailVerificationForm={EmailVerificationForm}
+                    onError={onError}
+                    onVerificationSuccess={onVerificationSuccess}
+                />
             )}
         </>
     )
 }
 
-type LoginFlowContext = {
-    loginFlowId?: string
-    setLoginFlowId: (loginFlowId: string | undefined) => void
-}
-
-const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
-
 export function LoginFlow(props: LoginFlowProps) {
-    const [loginFlowId, setLoginFlowId] = useState<string>()
-
     return (
-        <loginFlowContext.Provider value={{ loginFlowId, setLoginFlowId }}>
-            <LoginFlowWrapper {...props} />
-        </loginFlowContext.Provider>
+        <verificationFlow.VerificationFlowProvider>
+            <LoginFlowProvider>
+                <LoginFlowWrapper {...props} />
+            </LoginFlowProvider>
+        </verificationFlow.VerificationFlowProvider>
     )
-}
-
-export function useLoginFlowContext() {
-    const context = useContext(loginFlowContext)
-
-    if (context === undefined) {
-        throw new Error("useLoginFlowContext must be used within a LoginFlow")
-    }
-
-    return context
 }

@@ -1,17 +1,16 @@
 import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeLogin } from "../../../kratos"
-import { handleOnSubmitErrors } from "../../../utils"
-import { getCsrfToken } from "../../../utils/flow"
-import { useGetLoginFlow } from "../hooks"
-import { useUpdateLoginFlow } from "../hooks/useUpdateLoginFlow"
+import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
+import { useGetLoginFlow, useUpdateLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UsePasswordFormProps = {
     onError?: OnLoginFlowError
+    onLoginSuccess?: () => void
 }
 
-export function usePasswordForm({ onError }: UsePasswordFormProps) {
+export function usePasswordForm({ onError, onLoginSuccess }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
 
@@ -35,6 +34,8 @@ export function usePasswordForm({ onError }: UsePasswordFormProps) {
             }
 
             if (instanceOfSuccessfulNativeLogin(response)) {
+                onLoginSuccess?.()
+
                 return
             }
 

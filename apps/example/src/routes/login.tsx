@@ -1,4 +1,4 @@
-import { loginFlow, AuthError, CommonInputFieldProps } from "@leancodepl/kratos"
+import { loginFlow, AuthError, CommonInputFieldProps, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { FC } from "react"
 import { z } from "zod"
@@ -28,9 +28,10 @@ function RouteComponent() {
             chooseMethodForm={ChooseMethodForm}
             secondFactorForm={SecondFactorForm}
             secondFactorEmailForm={SecondFactorEmailForm}
+            emailVerificationForm={EmailVerificationForm}
             initialFlowId={flow}
             onError={handleError}
-            returnTo="https://host.local.lncd.pl/"
+            returnTo="https://host.local.lncd.pl/redirect-after-login"
         />
     )
 }
@@ -83,87 +84,148 @@ function ChooseMethodForm({
     Apple,
     Facebook,
     errors,
+    isSubmitting,
+    isValidating,
 }: loginFlow.ChooseMethodFormProps) {
     return (
         <>
             {Identifier && (
                 <Identifier>
-                    <Input placeholder="Identifier" />
+                    <Input placeholder="Identifier" disabled={isSubmitting || isValidating} />
                 </Identifier>
             )}
             {Password && (
                 <Password>
-                    <Input placeholder="Password" />
+                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
                 </Password>
             )}
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Login
+            </button>
 
             {Google && (
                 <Google>
-                    <button>Sign in with Google</button>
+                    <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
                 </Google>
             )}
 
             {Apple && (
                 <Apple>
-                    <button>Sign in with Apple</button>
+                    <button disabled={isSubmitting || isValidating}>Sign in with Apple</button>
                 </Apple>
             )}
 
             {Facebook && (
                 <Facebook>
-                    <button>Sign in with Facebook</button>
+                    <button disabled={isSubmitting || isValidating}>Sign in with Facebook</button>
                 </Facebook>
             )}
 
             {Passkey && (
                 <Passkey>
-                    <button>Sign in with Passkey</button>
+                    <button disabled={isSubmitting || isValidating}>Sign in with Passkey</button>
                 </Passkey>
             )}
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }
 
-function SecondFactorForm({ Totp, Email, errors }: loginFlow.SecondFactorFormProps) {
+function SecondFactorForm({ Totp, Email, errors, isSubmitting, isValidating }: loginFlow.SecondFactorFormProps) {
     return (
         <>
             {Totp && (
                 <Totp>
-                    <Input placeholder="TOTP" />
+                    <Input placeholder="TOTP" disabled={isSubmitting || isValidating} />
                 </Totp>
             )}
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Login
+            </button>
 
             {Email && (
                 <Email>
-                    <button>Continue with email</button>
+                    <button disabled={isSubmitting || isValidating}>Continue with email</button>
                 </Email>
             )}
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }
 
-function SecondFactorEmailForm({ Code, Resend, errors }: loginFlow.SecondFactorEmailFormProps) {
+function SecondFactorEmailForm({
+    Code,
+    Resend,
+    errors,
+    isSubmitting,
+    isValidating,
+}: loginFlow.SecondFactorEmailFormProps) {
     return (
         <>
             <Code>
-                <Input placeholder="Code" />
+                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
             </Code>
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Login
+            </button>
 
             <Resend>
-                <button>Resend code</button>
+                <button disabled={isSubmitting || isValidating}>Resend code</button>
             </Resend>
 
-            <div>{errors?.map(error => <div key={error.id}>{getErrorMessage(error)}</div>)}</div>
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
+        </>
+    )
+}
+
+function EmailVerificationForm({
+    Code,
+    Resend,
+    errors,
+    isSubmitting,
+    isValidating,
+}: verificationFlow.EmailVerificationFormProps) {
+    return (
+        <>
+            <div>
+                Zanim się zalogujesz, musisz zweryfikować swój adres e-mail. Sprawdź swoją skrzynkę odbiorczą i kliknij
+                w link, aby zweryfikować swój adres e-mail.
+            </div>
+
+            <Code>
+                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+            </Code>
+
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Verify
+            </button>
+
+            <Resend>
+                <button disabled={isSubmitting || isValidating}>Resend code</button>
+            </Resend>
+
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </>
     )
 }
