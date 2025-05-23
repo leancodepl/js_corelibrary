@@ -10,104 +10,119 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as RegistrationImport } from './routes/registration'
-import { Route as LogoutImport } from './routes/logout'
-import { Route as LoginImport } from './routes/login'
+import { Route as rootRoute } from "./routes/__root"
+import { Route as RegistrationImport } from "./routes/registration"
+import { Route as LogoutImport } from "./routes/logout"
+import { Route as RecoveryImport } from "./routes/recovery"
+import { Route as LoginImport } from "./routes/login"
 
 // Create/Update Routes
 
 const RegistrationRoute = RegistrationImport.update({
-  id: '/registration',
-  path: '/registration',
-  getParentRoute: () => rootRoute,
+    id: "/registration",
+    path: "/registration",
+    getParentRoute: () => rootRoute,
 } as any)
 
 const LogoutRoute = LogoutImport.update({
-  id: '/logout',
-  path: '/logout',
-  getParentRoute: () => rootRoute,
+    id: "/logout",
+    path: "/logout",
+} as any)
+
+const RecoveryRoute = RecoveryImport.update({
+    id: "/recovery",
+    path: "/recovery",
+    getParentRoute: () => rootRoute,
 } as any)
 
 const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
+    id: "/login",
+    path: "/login",
+    getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
+declare module "@tanstack/react-router" {
+    interface FileRoutesByPath {
+        "/login": {
+            id: "/login"
+            path: "/login"
+            fullPath: "/login"
+            preLoaderRoute: typeof LoginImport
+            parentRoute: typeof rootRoute
+        }
+        "/logout": {
+            id: "/logout"
+            path: "/logout"
+            fullPath: "/logout"
+            preLoaderRoute: typeof LogoutImport
+        }
+        "/recovery": {
+            id: "/recovery"
+            path: "/recovery"
+            fullPath: "/recovery"
+            preLoaderRoute: typeof RecoveryImport
+            parentRoute: typeof rootRoute
+        }
+        "/registration": {
+            id: "/registration"
+            path: "/registration"
+            fullPath: "/registration"
+            preLoaderRoute: typeof RegistrationImport
+            parentRoute: typeof rootRoute
+        }
     }
-    '/logout': {
-      id: '/logout'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof LogoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/registration': {
-      id: '/registration'
-      path: '/registration'
-      fullPath: '/registration'
-      preLoaderRoute: typeof RegistrationImport
-      parentRoute: typeof rootRoute
-    }
-  }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/registration': typeof RegistrationRoute
+    "/login": typeof LoginRoute
+    "/logout": typeof LogoutRoute
+    "/recovery": typeof RecoveryRoute
+    "/registration": typeof RegistrationRoute
 }
 
 export interface FileRoutesByTo {
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/registration': typeof RegistrationRoute
+    "/login": typeof LoginRoute
+    "/logout": typeof LogoutRoute
+    "/recovery": typeof RecoveryRoute
+    "/registration": typeof RegistrationRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/login': typeof LoginRoute
-  '/logout': typeof LogoutRoute
-  '/registration': typeof RegistrationRoute
+    __root__: typeof rootRoute
+    "/login": typeof LoginRoute
+    "/logout": typeof LogoutRoute
+    "/recovery": typeof RecoveryRoute
+    "/registration": typeof RegistrationRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/logout' | '/registration'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/logout' | '/registration'
-  id: '__root__' | '/login' | '/logout' | '/registration'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath
+    fullPaths: "/login" | "/logout" | "/recovery" | "/registration"
+    fileRoutesByTo: FileRoutesByTo
+    to: "/login" | "/logout" | "/recovery" | "/registration"
+    id: "__root__" | "/login" | "/logout" | "/recovery" | "/registration"
+    fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  LoginRoute: typeof LoginRoute
-  LogoutRoute: typeof LogoutRoute
-  RegistrationRoute: typeof RegistrationRoute
+    LoginRoute: typeof LoginRoute
+    LogoutRoute: typeof LogoutRoute
+    RecoveryRoute: typeof RecoveryRoute
+    RegistrationRoute: typeof RegistrationRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  LoginRoute: LoginRoute,
-  LogoutRoute: LogoutRoute,
-  RegistrationRoute: RegistrationRoute,
+    LoginRoute: LoginRoute,
+    LogoutRoute: LogoutRoute,
+    RecoveryRoute: RecoveryRoute,
+    RegistrationRoute: RegistrationRoute,
 }
 
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -117,6 +132,7 @@ export const routeTree = rootRoute
       "children": [
         "/login",
         "/logout",
+        "/recovery",
         "/registration"
       ]
     },
@@ -125,6 +141,8 @@ export const routeTree = rootRoute
     },
     "/logout": {
       "filePath": "logout.tsx"
+    "/recovery": {
+      "filePath": "recovery.tsx"
     },
     "/registration": {
       "filePath": "registration.tsx"
