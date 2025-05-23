@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
+import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
-import { useFormErrors } from "../hooks/useFormErrors"
 import { OnLoginFlowError } from "../types"
 import { Code, Resend } from "./fields"
 import { SecondFactorEmailFormProvider } from "./secondFactorEmailFormContext"

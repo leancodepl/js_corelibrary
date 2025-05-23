@@ -1,3 +1,5 @@
+import { traitPrefix } from "../../flows/registration/config"
+
 function isPasskeySupported() {
     return !!window.PublicKeyCredential
 }
@@ -10,6 +12,29 @@ type PasskeyChallenge = {
         userVerification: UserVerificationRequirement
     }
 }
+
+type PasskeyCreateData = {
+    credentialOptions: {
+        publicKey: {
+            rp: {
+                name: string
+                id: string
+            }
+            user: PublicKeyCredentialUserEntityJSON
+            challenge: string
+            pubKeyCredParams: PublicKeyCredentialParameters[]
+            timeout: number
+            authenticatorSelection: {
+                authenticatorAttachment: AuthenticatorAttachment
+                requireResidentKey: boolean
+                residentKey: ResidentKeyRequirement
+                userVerification: UserVerificationRequirement
+            }
+        }
+    }
+    displayNameFieldName: string
+}
+
 function base64urlDecode(value: string) {
     return Uint8Array.from(atob(value.replaceAll("-", "+").replaceAll("_", "/")), function (c) {
         return c.charCodeAt(0)
@@ -63,6 +88,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
         return undefined
     }
 }
+
 export async function passkeyLogin(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
@@ -99,110 +125,54 @@ export async function passkeyLogin(passkeyChallengeString: string, signal?: Abor
     }
 }
 
-// ;(function () {
-//     function __oryWebAuthnBufferDecode(value) {
-//         return Uint8Array.from(atob(value.replaceAll("-", "+").replaceAll("_", "/")), function (c) {
-//             return c.charCodeAt(0)
-//         })
-//     }
+export async function passkeyRegister(
+    passkeyChallengeString: string,
+    signal?: AbortSignal,
+    traits?: Record<string, boolean | string>,
+) {
+    const { credentialOptions: passkeyChallenge, displayNameFieldName } = JSON.parse(
+        passkeyChallengeString,
+    ) as PasskeyCreateData
 
-//     function __oryWebAuthnBufferEncode(value) {
-//         return btoa(String.fromCharCode.apply(null, new Uint8Array(value)))
-//             .replaceAll("+", "-")
-//             .replaceAll("/", "_")
-//             .replaceAll("=", "")
-//     }
+    const displayNameTraitName = displayNameFieldName.startsWith(traitPrefix)
+        ? displayNameFieldName.slice(traitPrefix.length)
+        : displayNameFieldName
 
-//     function __oryPasskeyRegistration() {
-//         const dataEl = document.getElementsByName("passkey_create_data")[0]
-//         const resultEl = document.getElementsByName("passkey_register")[0]
+    const displayName = typeof traits?.[displayNameTraitName] === "string" ? traits[displayNameTraitName] : ""
 
-//         if (!dataEl || !resultEl) {
-//             console.debug("__oryPasskeyRegistration: mandatory fields not found")
-//             return
-//         }
+    try {
+        const credential = await navigator.credentials.create({
+            signal,
+            publicKey: {
+                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
+                timeout: passkeyChallenge.publicKey.timeout,
+                rp: {
+                    id: passkeyChallenge.publicKey.rp.id,
+                    name: passkeyChallenge.publicKey.rp.name,
+                },
+                user: {
+                    id: base64urlDecode(passkeyChallenge.publicKey.user.id),
+                    name: displayName,
+                    displayName: displayName,
+                },
+                pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
+            },
+        })
 
-//         const createData = JSON.parse(dataEl.value)
+        if (!credential) return undefined
+        if (!(credential instanceof PublicKeyCredential)) return undefined
+        if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
 
-//         // Fetch display name from field value
-//         const displayNameFieldName = createData.displayNameFieldName
-//         const displayName = dataEl.closest("form").querySelector("[name='" + displayNameFieldName + "']").value
-
-//         const opts = createData.credentialOptions
-//         opts.publicKey.user.name = displayName
-//         opts.publicKey.user.displayName = displayName
-//         opts.publicKey.user.id = __oryWebAuthnBufferDecode(opts.publicKey.user.id)
-//         opts.publicKey.challenge = __oryWebAuthnBufferDecode(opts.publicKey.challenge)
-
-//         if (opts.publicKey.excludeCredentials) {
-//             opts.publicKey.excludeCredentials = opts.publicKey.excludeCredentials.map(function (value) {
-//                 return {
-//                     ...value,
-//                     id: __oryWebAuthnBufferDecode(value.id),
-//                 }
-//             })
-//         }
-
-//         navigator.credentials
-//             .create(opts)
-//             .then(function (credential) {
-//                 resultEl.value = JSON.stringify({
-//                     id: credential.id,
-//                     rawId: __oryWebAuthnBufferEncode(credential.rawId),
-//                     type: credential.type,
-//                     response: {
-//                         attestationObject: __oryWebAuthnBufferEncode(credential.response.attestationObject),
-//                         clientDataJSON: __oryWebAuthnBufferEncode(credential.response.clientDataJSON),
-//                     },
-//                 })
-
-//                 resultEl.closest("form").submit()
-//             })
-//             .catch(err => {
-//                 console.error(err)
-//             })
-//     }
-
-//     function __oryPasskeySettingsRegistration() {
-//         const dataEl = document.getElementsByName("passkey_create_data")[0]
-//         const resultEl = document.getElementsByName("passkey_settings_register")[0]
-
-//         if (!dataEl || !resultEl) {
-//             console.debug("__oryPasskeySettingsRegistration: mandatory fields not found")
-//             return
-//         }
-
-//         const opt = JSON.parse(dataEl.value)
-
-//         opt.publicKey.user.id = __oryWebAuthnBufferDecode(opt.publicKey.user.id)
-//         opt.publicKey.challenge = __oryWebAuthnBufferDecode(opt.publicKey.challenge)
-
-//         if (opt.publicKey.excludeCredentials) {
-//             opt.publicKey.excludeCredentials = opt.publicKey.excludeCredentials.map(function (value) {
-//                 return {
-//                     ...value,
-//                     id: __oryWebAuthnBufferDecode(value.id),
-//                 }
-//             })
-//         }
-
-//         navigator.credentials
-//             .create(opt)
-//             .then(function (credential) {
-//                 resultEl.value = JSON.stringify({
-//                     id: credential.id,
-//                     rawId: __oryWebAuthnBufferEncode(credential.rawId),
-//                     type: credential.type,
-//                     response: {
-//                         attestationObject: __oryWebAuthnBufferEncode(credential.response.attestationObject),
-//                         clientDataJSON: __oryWebAuthnBufferEncode(credential.response.clientDataJSON),
-//                     },
-//                 })
-
-//                 resultEl.closest("form").submit()
-//             })
-//             .catch(err => {
-//                 console.error(err)
-//             })
-//     }
-// })()
+        return JSON.stringify({
+            id: credential.id,
+            rawId: base64urlEncode(credential.rawId),
+            type: credential.type,
+            response: {
+                attestationObject: base64urlEncode(credential.response.attestationObject),
+                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+            },
+        })
+    } catch {
+        return undefined
+    }
+}

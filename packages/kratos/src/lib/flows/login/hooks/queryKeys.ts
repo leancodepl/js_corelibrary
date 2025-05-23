@@ -1,9 +1,5 @@
-const baseKey = "leancode_kratos_login_flow"
+import { createQueryKey, withPrefix } from "../../../utils"
 
-export const loginFlowKey = (id: string | undefined) => {
-    if (!id) {
-        return [baseKey] as const
-    }
+const baseKey = withPrefix("login_flow")
 
-    return [baseKey, id] as const
-}
+export const loginFlowKey = (id = "no_id") => createQueryKey([baseKey, id] as const)
