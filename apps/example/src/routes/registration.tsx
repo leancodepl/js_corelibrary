@@ -1,9 +1,9 @@
-import { registrationFlow, verificationFlow, CommonCheckboxFieldProps, CommonInputFieldProps } from "@leancodepl/kratos"
+import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
-import { FC } from "react"
 import { z } from "zod"
 import { RegistrationFlow, AuthTraitsConfig, getErrorMessage } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
+import { Input } from "../components/Input"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -42,19 +42,6 @@ function RouteComponent() {
         />
     )
 }
-
-const Input: FC<CommonInputFieldProps & { placeholder?: string }> = ({ errors, ...props }) => (
-    <div>
-        <input {...props} />
-        {errors && errors.length > 0 && (
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        )}
-    </div>
-)
 
 function TraitsForm({
     errors,

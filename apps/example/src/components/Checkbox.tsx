@@ -1,12 +1,10 @@
 import { CommonCheckboxFieldProps } from "@leancodepl/kratos"
-import { FC, ReactNode } from "react"
+import { ReactNode } from "react"
 import { getErrorMessage } from "../services/kratos"
 
-export const Checkbox: FC<CommonCheckboxFieldProps & { placeholder?: string; children?: ReactNode }> = ({
-    errors,
-    children,
-    ...props
-}) => (
+type CheckboxProps = CommonCheckboxFieldProps & { placeholder?: string; children?: ReactNode }
+
+export const Checkbox = ({ errors, children, ...props }: CheckboxProps) => (
     <div>
         <label>
             <input {...props} />
