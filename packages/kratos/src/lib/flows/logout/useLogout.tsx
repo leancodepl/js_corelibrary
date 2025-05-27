@@ -31,7 +31,7 @@ export function useLogout() {
                 window.location.href = returnTo
             }
 
-            queryClient.invalidateQueries({ queryKey: [baseQueryKey] })
+            queryClient.removeQueries({ queryKey: [baseQueryKey] })
 
             return { isSuccess: true }
         } catch (error) {
