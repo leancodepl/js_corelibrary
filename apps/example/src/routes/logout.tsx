@@ -1,7 +1,8 @@
+import { useRunInTask } from "@leancodepl/utils"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { useLogout } from "../services/kratos"
-import { useState } from "react"
+import { useCallback } from "react"
 
 const verificationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -15,22 +16,23 @@ export const Route = createFileRoute("/logout")({
 function RouteComponent() {
     const { logout } = useLogout()
 
-    const [loggingOut, setLoggingOut] = useState(false)
-    const handleLogout = async () => {
-        setLoggingOut(true)
-        const response = await logout({ returnTo: "/redirect-after-logout" })
-        setLoggingOut(false)
+    const [isRunning, runInTask] = useRunInTask()
 
-        if (response.isSuccess) {
-            alert("Logout success")
-        } else {
-            alert(response.error)
-        }
-    }
+    const handleLogout = useCallback(() => {
+        runInTask(async () => {
+            const response = await logout({ returnTo: "/redirect-after-logout" })
+
+            if (response.isSuccess) {
+                alert("Logout success")
+            } else {
+                alert(response.error)
+            }
+        })
+    }, [logout, runInTask])
 
     return (
         <div>
-            <button onClick={handleLogout}>{loggingOut ? "Wylogowuję..." : "Wyloguj"}</button>
+            <button onClick={handleLogout}>{isRunning ? "Wylogowuję..." : "Wyloguj"}</button>
         </div>
     )
 }
