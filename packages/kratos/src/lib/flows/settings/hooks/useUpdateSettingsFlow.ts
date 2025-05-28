@@ -31,6 +31,7 @@ export function useUpdateSettingsFlow() {
 
                 return data
             } catch (error) {
+                // 403 Forbidden if privileged_session_max_age exceeded
                 return (await handleFlowError<SettingsFlow>({
                     onRedirect: (url, _external) => {
                         window.location.href = url
