@@ -1,21 +1,30 @@
 import { ComponentType, ReactNode, useEffect } from "react"
+import { TraitsConfig } from "../registration/types"
 import { SettingsFlowProvider, useCreateSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
+import { PasskeysFormProps, PasskeysFormWrapper } from "./passkeysForm"
+import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnSettingsFlowError } from "./types"
 
-export type SettingsFlowProps = {
+export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
+    traitsConfig?: TTraitsConfig
+    traitsForm?: ComponentType<TraitsFormProps<TTraitsConfig>>
     newPasswordForm: ComponentType<NewPasswordFormProps>
+    passkeysForm?: ComponentType<PasskeysFormProps>
     initialFlowId?: string
     initialVerifiableAddress?: string
-    returnTo?: string
     onError?: OnSettingsFlowError
     onChangePasswordSuccess?: () => void
+    onChangeTraitsSuccess?: () => void
     settingsForm: ComponentType<{
+        emailVerificationRequired: boolean
         newPasswordFormWrapper: ReactNode
+        traitsFormWrapper?: ReactNode
+        passkeysFormWrapper?: ReactNode
     }>
 }
 
-export function SettingsFlow(props: SettingsFlowProps) {
+export function SettingsFlow<TTraitsConfig extends TraitsConfig>(props: SettingsFlowProps<TTraitsConfig>) {
     return (
         <SettingsFlowProvider>
             <SettingsFlowWrapper {...props} />
@@ -23,17 +32,20 @@ export function SettingsFlow(props: SettingsFlowProps) {
     )
 }
 
-export function SettingsFlowWrapper({
+export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     newPasswordForm: NewPasswordForm,
+    traitsForm: TraitsForm,
+    passkeysForm: PasskeysForm,
+    traitsConfig,
     settingsForm: SettingsForm,
     initialFlowId,
-    returnTo,
     onError,
     onChangePasswordSuccess,
-}: SettingsFlowProps) {
-    const { settingsFlowId, setSettingsFlowId } = useSettingsFlowContext()
+    onChangeTraitsSuccess,
+}: SettingsFlowProps<TTraitsConfig>) {
+    const { settingsFlowId, setSettingsFlowId, emailVerificationRequired } = useSettingsFlowContext()
 
-    const { mutate: createSettingsFlow } = useCreateSettingsFlow({ returnTo })
+    const { mutate: createSettingsFlow } = useCreateSettingsFlow()
 
     useEffect(() => {
         if (settingsFlowId) return
@@ -47,12 +59,27 @@ export function SettingsFlowWrapper({
 
     return (
         <SettingsForm
+            emailVerificationRequired={emailVerificationRequired}
             newPasswordFormWrapper={
                 <NewPasswordFormWrapper
+                    emailVerificationRequired={emailVerificationRequired}
                     newPasswordForm={NewPasswordForm}
                     onChangePasswordSuccess={onChangePasswordSuccess}
                     onError={onError}
                 />
+            }
+            passkeysFormWrapper={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
+            traitsFormWrapper={
+                traitsConfig &&
+                TraitsForm && (
+                    <TraitsFormWrapper
+                        emailVerificationRequired={emailVerificationRequired}
+                        traitsConfig={traitsConfig}
+                        traitsForm={TraitsForm}
+                        onChangeTraitsSuccess={onChangeTraitsSuccess}
+                        onError={onError}
+                    />
+                )
             }
         />
     )

@@ -15,9 +15,10 @@ const traitsConfig = {
     },
 } as const
 
-const { RegistrationFlow, LoginFlow, RecoveryFlow, useLogout } = mkKratos(traitsConfig)
+const { RegistrationFlow, LoginFlow, RecoveryFlow, SettingsFlow, VerificationFlow, useLogout } = mkKratos(traitsConfig)
 
-export { RegistrationFlow, LoginFlow, RecoveryFlow, useLogout }
+export { RegistrationFlow, LoginFlow, RecoveryFlow, SettingsFlow, VerificationFlow, useLogout }
+
 export type AuthTraitsConfig = typeof traitsConfig
 
 export const getErrorMessage = (error: AuthError) => {

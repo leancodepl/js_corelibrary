@@ -4,6 +4,25 @@ function isPasskeySupported() {
     return !!window.PublicKeyCredential
 }
 
+type PasskeyCredentialOptions = {
+    publicKey: {
+        rp: {
+            name: string
+            id: string
+        }
+        user: PublicKeyCredentialUserEntityJSON
+        challenge: string
+        pubKeyCredParams: PublicKeyCredentialParameters[]
+        timeout: number
+        authenticatorSelection: {
+            authenticatorAttachment: AuthenticatorAttachment
+            requireResidentKey: boolean
+            residentKey: ResidentKeyRequirement
+            userVerification: UserVerificationRequirement
+        }
+    }
+}
+
 type PasskeyChallenge = {
     publicKey: {
         challenge: string
@@ -14,26 +33,11 @@ type PasskeyChallenge = {
 }
 
 type PasskeyCreateData = {
-    credentialOptions: {
-        publicKey: {
-            rp: {
-                name: string
-                id: string
-            }
-            user: PublicKeyCredentialUserEntityJSON
-            challenge: string
-            pubKeyCredParams: PublicKeyCredentialParameters[]
-            timeout: number
-            authenticatorSelection: {
-                authenticatorAttachment: AuthenticatorAttachment
-                requireResidentKey: boolean
-                residentKey: ResidentKeyRequirement
-                userVerification: UserVerificationRequirement
-            }
-        }
-    }
+    credentialOptions: PasskeyCredentialOptions
     displayNameFieldName: string
 }
+
+type PasskeySettingsCreateData = PasskeyCredentialOptions
 
 function base64urlDecode(value: string) {
     return Uint8Array.from(atob(value.replaceAll("-", "+").replaceAll("_", "/")), function (c) {
@@ -154,6 +158,46 @@ export async function passkeyRegister(
                     id: base64urlDecode(passkeyChallenge.publicKey.user.id),
                     name: displayName,
                     displayName: displayName,
+                },
+                pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
+            },
+        })
+
+        if (!credential) return undefined
+        if (!(credential instanceof PublicKeyCredential)) return undefined
+        if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
+
+        return JSON.stringify({
+            id: credential.id,
+            rawId: base64urlEncode(credential.rawId),
+            type: credential.type,
+            response: {
+                attestationObject: base64urlEncode(credential.response.attestationObject),
+                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+            },
+        })
+    } catch {
+        return undefined
+    }
+}
+
+export async function passkeySettingsRegister(passkeyChallengeString: string, signal?: AbortSignal) {
+    const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeySettingsCreateData
+
+    try {
+        const credential = await navigator.credentials.create({
+            signal,
+            publicKey: {
+                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
+                timeout: passkeyChallenge.publicKey.timeout,
+                rp: {
+                    id: passkeyChallenge.publicKey.rp.id,
+                    name: passkeyChallenge.publicKey.rp.name,
+                },
+                user: {
+                    id: base64urlDecode(passkeyChallenge.publicKey.user.id),
+                    name: passkeyChallenge.publicKey.user.name,
+                    displayName: passkeyChallenge.publicKey.user.displayName,
                 },
                 pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
             },
