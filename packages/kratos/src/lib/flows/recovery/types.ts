@@ -4,5 +4,5 @@ import { InputFields as CodeFormInputFields } from "./codeForm/types"
 import { InputFields as EmailFormInputFields } from "./emailForm/types"
 
 export type OnRecoveryFlowError = OnFlowError<
-    `${CodeFormInputFields}` | `${EmailFormInputFields} | ${NewPasswordFormInputFields}`
+    `${CodeFormInputFields}` | `${EmailFormInputFields}` | `${NewPasswordFormInputFields}`
 >
