@@ -29,17 +29,10 @@ function RecoveryFlowWrapper({
     const { mutate: createRecoveryFlow } = useCreateRecoveryFlow({ returnTo })
     const { data: recoveryFlow } = useGetRecoveryFlow()
 
-    const settingsFlowId = useMemo(() => {
-        if (recoveryFlow !== undefined && "continue_with" in recoveryFlow) {
-            const showSettingsUIAction = recoveryFlow.continue_with?.find(
-                action => action.action === "show_settings_ui",
-            )
-            if (showSettingsUIAction) {
-                return showSettingsUIAction.flow.id
-            }
-        }
-        return null
-    }, [recoveryFlow])
+    const settingsFlowId = useMemo(
+        () => recoveryFlow?.continue_with?.find(action => action.action === "show_settings_ui")?.flow.id,
+        [recoveryFlow],
+    )
 
     useEffect(() => {
         if (recoveryFlowId) return
@@ -71,7 +64,7 @@ function RecoveryFlowWrapper({
                     newPasswordForm={NewPasswordForm}
                     settingsForm={({ newPasswordFormWrapper }) => newPasswordFormWrapper}
                     onChangePasswordSuccess={onRecoverySuccess}
-                    onError={onError}
+                    onError={onError as settingsFlow.OnSettingsFlowError}
                 />
             )}
         </>
