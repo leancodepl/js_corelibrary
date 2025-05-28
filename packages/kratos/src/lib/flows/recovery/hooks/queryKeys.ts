@@ -1,5 +1,5 @@
-import { createQueryKey, withPrefix } from "../../../utils"
+import { createQueryKey, withQueryKeyPrefix } from "../../../utils"
 
-const baseKey = withPrefix("recovery_flow")
+const baseKey = withQueryKeyPrefix("recovery_flow")
 
 export const recoveryFlowKey = (id = "no_id") => createQueryKey([baseKey, id] as const)
