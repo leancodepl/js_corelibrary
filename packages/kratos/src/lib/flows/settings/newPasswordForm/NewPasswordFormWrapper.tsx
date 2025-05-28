@@ -12,16 +12,19 @@ export type NewPasswordFormProps = {
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
+    emailVerificationRequired?: boolean
 }
 
 type NewPasswordFormWrapperProps = {
     newPasswordForm: ComponentType<NewPasswordFormProps>
+    emailVerificationRequired?: boolean
     onError?: OnSettingsFlowError
     onChangePasswordSuccess?: () => void
 }
 
 export function NewPasswordFormWrapper({
     newPasswordForm: NewPasswordForm,
+    emailVerificationRequired,
     onError,
     onChangePasswordSuccess,
 }: NewPasswordFormWrapperProps) {
@@ -36,6 +39,7 @@ export function NewPasswordFormWrapper({
                     newPasswordForm.handleSubmit()
                 }}>
                 <NewPasswordForm
+                    emailVerificationRequired={emailVerificationRequired}
                     errors={formErrors}
                     isSubmitting={newPasswordForm.state.isSubmitting}
                     isValidating={newPasswordForm.state.isValidating}

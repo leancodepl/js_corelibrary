@@ -3,6 +3,8 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 type SettingsFlowContext = {
     settingsFlowId?: string
     setSettingsFlowId: (settingsFlowId: string | undefined) => void
+    emailVerificationRequired: boolean
+    setEmailVerificationRequired: (emailVerificationRequired: boolean) => void
     resetContext: () => void
 }
 
@@ -10,6 +12,7 @@ const settingsFlowContext = createContext<SettingsFlowContext | undefined>(undef
 
 export function SettingsFlowProvider({ children }: { children: ReactNode }) {
     const [settingsFlowId, setSettingsFlowId] = useState<string>()
+    const [emailVerificationRequired, setEmailVerificationRequired] = useState<boolean>(false)
 
     const resetContext = useCallback(() => {
         setSettingsFlowId(undefined)
@@ -20,6 +23,8 @@ export function SettingsFlowProvider({ children }: { children: ReactNode }) {
             value={{
                 settingsFlowId,
                 setSettingsFlowId,
+                emailVerificationRequired,
+                setEmailVerificationRequired,
                 resetContext,
             }}>
             {children}
