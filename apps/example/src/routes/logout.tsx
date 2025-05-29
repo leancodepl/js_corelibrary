@@ -1,16 +1,10 @@
 import { useRunInTask } from "@leancodepl/utils"
 import { createFileRoute } from "@tanstack/react-router"
-import { z } from "zod"
 import { useLogout } from "../services/kratos"
 import { useCallback } from "react"
 
-const verificationSearchSchema = z.object({
-    flow: z.string().optional(),
-})
-
 export const Route = createFileRoute("/logout")({
     component: RouteComponent,
-    validateSearch: verificationSearchSchema,
 })
 
 function RouteComponent() {
