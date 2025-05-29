@@ -30,12 +30,14 @@ function RouteComponent() {
             newPasswordForm={NewPasswordForm}
             passkeysForm={PasskeysForm}
             totpForm={TotpForm}
+            oidcForm={OidcForm}
             settingsForm={({
                 emailVerificationRequired,
                 newPasswordFormWrapper,
                 traitsFormWrapper,
                 passkeysFormWrapper,
                 totpFormWrapper,
+                oidcFormWrapper,
             }) => {
                 return (
                     <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
@@ -43,6 +45,7 @@ function RouteComponent() {
                         {newPasswordFormWrapper}
                         {passkeysFormWrapper}
                         {totpFormWrapper}
+                        {oidcFormWrapper}
                     </div>
                 )
             }}
@@ -137,15 +140,15 @@ function NewPasswordForm({
     )
 }
 
-function PasskeysForm({ AddPasskey, existingPasskeys, isRemoving }: settingsFlow.PasskeysFormProps) {
+function PasskeysForm({ addNewPasskey, existingPasskeys, isPending }: settingsFlow.PasskeysFormProps) {
     return (
         <div>
             <h2>Passkeys</h2>
 
-            {AddPasskey && (
-                <AddPasskey>
-                    <button disabled={isRemoving}>Add new passkey</button>
-                </AddPasskey>
+            {addNewPasskey && (
+                <button disabled={isPending} onClick={addNewPasskey}>
+                    Add new passkey
+                </button>
             )}
 
             <div>
@@ -155,7 +158,7 @@ function PasskeysForm({ AddPasskey, existingPasskeys, isRemoving }: settingsFlow
                     <div key={passkey.id}>
                         <strong>{passkey.name} </strong>
                         <span>({new Date(passkey.addedAtUnix * 1000).toLocaleString()}) </span>
-                        <button onClick={passkey.removePasskey} disabled={isRemoving}>
+                        <button onClick={passkey.removePasskey} disabled={isPending}>
                             Remove
                         </button>
                     </div>
@@ -216,6 +219,46 @@ function TotpForm({
                         ))}
                     </div>
                 </>
+            )}
+        </div>
+    )
+}
+
+function OidcForm({ Apple, Facebook, Google, UnlinkApple, UnlinkFacebook, UnlinkGoogle }: settingsFlow.OidcFormProps) {
+    return (
+        <div>
+            <h2>OIDC Providers</h2>
+
+            {Apple && (
+                <Apple>
+                    <button type="button">Link Apple</button>
+                </Apple>
+            )}
+            {Facebook && (
+                <Facebook>
+                    <button type="button">Link Facebook</button>
+                </Facebook>
+            )}
+            {Google && (
+                <Google>
+                    <button type="button">Link Google</button>
+                </Google>
+            )}
+
+            {UnlinkApple && (
+                <UnlinkApple>
+                    <button type="button">Unlink Apple</button>
+                </UnlinkApple>
+            )}
+            {UnlinkFacebook && (
+                <UnlinkFacebook>
+                    <button type="button">Unlink Facebook</button>
+                </UnlinkFacebook>
+            )}
+            {UnlinkGoogle && (
+                <UnlinkGoogle>
+                    <button type="button">Unlink Google</button>
+                </UnlinkGoogle>
             )}
         </div>
     )

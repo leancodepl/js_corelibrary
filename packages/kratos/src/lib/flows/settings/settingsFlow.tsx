@@ -2,6 +2,7 @@ import { ComponentType, ReactNode, useEffect } from "react"
 import { TraitsConfig } from "../registration/types"
 import { SettingsFlowProvider, useCreateSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
+import { OidcFormProps, OidcFormWrapper } from "./oidcForm"
 import { PasskeysFormProps, PasskeysFormWrapper } from "./passkeysForm"
 import { TotpFormProps, TotpFormWrapper } from "./totpForm"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
@@ -13,6 +14,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     newPasswordForm: ComponentType<NewPasswordFormProps>
     passkeysForm?: ComponentType<PasskeysFormProps>
     totpForm?: ComponentType<TotpFormProps>
+    oidcForm?: ComponentType<OidcFormProps>
     initialFlowId?: string
     initialVerifiableAddress?: string
     onError?: OnSettingsFlowError
@@ -24,6 +26,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
         traitsFormWrapper?: ReactNode
         passkeysFormWrapper?: ReactNode
         totpFormWrapper?: ReactNode
+        oidcFormWrapper?: ReactNode
     }>
 }
 
@@ -40,6 +43,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     traitsForm: TraitsForm,
     passkeysForm: PasskeysForm,
     totpForm: TotpForm,
+    oidcForm: OidcForm,
     traitsConfig,
     settingsForm: SettingsForm,
     initialFlowId,
@@ -72,6 +76,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
                     onError={onError}
                 />
             }
+            oidcFormWrapper={OidcForm && <OidcFormWrapper oidcForm={OidcForm} />}
             passkeysFormWrapper={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
             totpFormWrapper={
                 TotpForm && (
