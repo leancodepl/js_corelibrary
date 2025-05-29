@@ -3,6 +3,7 @@ import { TraitsConfig } from "../registration/types"
 import { SettingsFlowProvider, useCreateSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
 import { PasskeysFormProps, PasskeysFormWrapper } from "./passkeysForm"
+import { TotpFormProps, TotpFormWrapper } from "./totpForm"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnSettingsFlowError } from "./types"
 
@@ -11,6 +12,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsForm?: ComponentType<TraitsFormProps<TTraitsConfig>>
     newPasswordForm: ComponentType<NewPasswordFormProps>
     passkeysForm?: ComponentType<PasskeysFormProps>
+    totpForm?: ComponentType<TotpFormProps>
     initialFlowId?: string
     initialVerifiableAddress?: string
     onError?: OnSettingsFlowError
@@ -21,6 +23,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
         newPasswordFormWrapper: ReactNode
         traitsFormWrapper?: ReactNode
         passkeysFormWrapper?: ReactNode
+        totpFormWrapper?: ReactNode
     }>
 }
 
@@ -36,6 +39,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     newPasswordForm: NewPasswordForm,
     traitsForm: TraitsForm,
     passkeysForm: PasskeysForm,
+    totpForm: TotpForm,
     traitsConfig,
     settingsForm: SettingsForm,
     initialFlowId,
@@ -69,6 +73,16 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
                 />
             }
             passkeysFormWrapper={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
+            totpFormWrapper={
+                TotpForm && (
+                    <TotpFormWrapper
+                        emailVerificationRequired={emailVerificationRequired}
+                        totpForm={TotpForm}
+                        onError={onError}
+                        onTotpSuccess={onChangeTraitsSuccess}
+                    />
+                )
+            }
             traitsFormWrapper={
                 traitsConfig &&
                 TraitsForm && (
