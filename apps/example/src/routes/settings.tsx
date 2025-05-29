@@ -29,17 +29,20 @@ function RouteComponent() {
             traitsForm={TraitsForm}
             newPasswordForm={NewPasswordForm}
             passkeysForm={PasskeysForm}
+            totpForm={TotpForm}
             settingsForm={({
                 emailVerificationRequired,
                 newPasswordFormWrapper,
                 traitsFormWrapper,
                 passkeysFormWrapper,
+                totpFormWrapper,
             }) => {
                 return (
                     <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
                         {traitsFormWrapper}
                         {newPasswordFormWrapper}
                         {passkeysFormWrapper}
+                        {totpFormWrapper}
                     </div>
                 )
             }}
@@ -158,6 +161,62 @@ function PasskeysForm({ AddPasskey, existingPasskeys, isRemoving }: settingsFlow
                     </div>
                 ))}
             </div>
+        </div>
+    )
+}
+
+function TotpForm({
+    Code,
+    Unlink,
+    totpQrImageSrc,
+    totpSecretKey,
+    errors,
+    isSubmitting,
+    isValidating,
+    isTotpLinked,
+}: settingsFlow.TotpFormProps) {
+    return (
+        <div>
+            <h2>TOTP</h2>
+
+            {isTotpLinked === true && (
+                <>
+                    {Unlink && (
+                        <Unlink>
+                            <button type="button" disabled={isSubmitting || isValidating}>
+                                Unlink TOTP
+                            </button>
+                        </Unlink>
+                    )}
+                </>
+            )}
+
+            {isTotpLinked === false && (
+                <>
+                    {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
+                    {totpSecretKey && <div>Secret Key: {totpSecretKey}</div>}
+
+                    {Code && (
+                        <Code>
+                            <Input
+                                placeholder="Enter TOTP code"
+                                type="password"
+                                disabled={isSubmitting || isValidating}
+                            />
+                        </Code>
+                    )}
+
+                    <button type="submit" disabled={isSubmitting || isValidating}>
+                        Verify TOTP
+                    </button>
+
+                    <div>
+                        {errors.map(error => (
+                            <div key={error.id}>{getErrorMessage(error)}</div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     )
 }
