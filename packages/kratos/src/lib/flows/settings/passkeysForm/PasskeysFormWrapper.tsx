@@ -1,5 +1,5 @@
 import { ComponentType } from "react"
-import { getNodesById, isPasskeyUiNode } from "../../../utils"
+import { getNodesById, isPasskeyRemoveUiNode } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { usePasskeys } from "./hooks"
 
@@ -28,7 +28,7 @@ export function PasskeysFormWrapper({ passkeysForm: PasskeysForm }: PasskeysForm
     }
 
     const existingPasskeys = getNodesById(settingsFlow.ui.nodes, "passkey_remove")
-        .filter(isPasskeyUiNode)
+        .filter(isPasskeyRemoveUiNode)
         .map(({ meta, attributes }) => ({
             addedAt: meta.label.context.added_at,
             addedAtUnix: meta.label.context.added_at_unix,
