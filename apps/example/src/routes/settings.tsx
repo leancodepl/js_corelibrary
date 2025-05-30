@@ -168,58 +168,48 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending }: settingsFl
     )
 }
 
-function TotpForm({
-    Code,
-    Unlink,
-    totpQrImageSrc,
-    totpSecretKey,
-    errors,
-    isSubmitting,
-    isValidating,
-    isTotpLinked,
-}: settingsFlow.TotpFormProps) {
+function TotpForm(props: settingsFlow.TotpFormProps) {
+    if (props.isTotpLinked) {
+        const { Unlink } = props
+
+        return (
+            <div>
+                <h2>TOTP is already linked</h2>
+                <p>You can unlink it if you want to set up a new TOTP.</p>
+
+                {Unlink && (
+                    <Unlink>
+                        <button type="button">Unlink TOTP</button>
+                    </Unlink>
+                )}
+            </div>
+        )
+    }
+
+    const { Code, totpQrImageSrc, totpSecretKey, errors, isSubmitting, isValidating } = props
+
     return (
         <div>
             <h2>TOTP</h2>
 
-            {isTotpLinked === true && (
-                <>
-                    {Unlink && (
-                        <Unlink>
-                            <button type="button" disabled={isSubmitting || isValidating}>
-                                Unlink TOTP
-                            </button>
-                        </Unlink>
-                    )}
-                </>
+            {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
+            {totpSecretKey && <div>Secret Key: {totpSecretKey}</div>}
+
+            {Code && (
+                <Code>
+                    <Input placeholder="Enter TOTP code" type="password" disabled={isSubmitting || isValidating} />
+                </Code>
             )}
 
-            {isTotpLinked === false && (
-                <>
-                    {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
-                    {totpSecretKey && <div>Secret Key: {totpSecretKey}</div>}
+            <button type="submit" disabled={isSubmitting || isValidating}>
+                Verify TOTP
+            </button>
 
-                    {Code && (
-                        <Code>
-                            <Input
-                                placeholder="Enter TOTP code"
-                                type="password"
-                                disabled={isSubmitting || isValidating}
-                            />
-                        </Code>
-                    )}
-
-                    <button type="submit" disabled={isSubmitting || isValidating}>
-                        Verify TOTP
-                    </button>
-
-                    <div>
-                        {errors.map(error => (
-                            <div key={error.id}>{getErrorMessage(error)}</div>
-                        ))}
-                    </div>
-                </>
-            )}
+            <div>
+                {errors.map(error => (
+                    <div key={error.id}>{getErrorMessage(error)}</div>
+                ))}
+            </div>
         </div>
     )
 }

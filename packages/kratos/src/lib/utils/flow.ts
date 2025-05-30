@@ -1,4 +1,11 @@
-import { getNodeId, isUiNodeInputAttributes, UiNode } from "../kratos"
+import {
+    getNodeId,
+    isUiNodeInputAttributes,
+    UiNode,
+    UiNodeGroupEnum,
+    UiNodeScriptAttributesNodeTypeEnum,
+    UiNodeTypeEnum,
+} from "../kratos"
 
 export function getNodeById(nodes: UiNode[] | undefined, name: string) {
     return nodes?.find(node => getNodeId(node) === name)
@@ -32,13 +39,17 @@ export function getCsrfToken(flow: { ui: { nodes: UiNode[] } }) {
     return attributes.value
 }
 
-export const isPasskeyUiNode = (
+export const getNodesOfGroup = <TGroup extends UiNodeGroupEnum>(nodes: UiNode[], group: TGroup) => {
+    return nodes.filter(node => node.group === group) as (UiNode & { group: TGroup })[]
+}
+
+export const isPasskeyRemoveUiNode = (
     node: UiNode,
 ): node is UiNode & {
-    group: "passkey"
-    type: "input"
+    group: typeof UiNodeGroupEnum.Passkey
+    type: typeof UiNodeTypeEnum.Input
     attributes: {
-        node_type: "input"
+        node_type: typeof UiNodeScriptAttributesNodeTypeEnum.Input
         name: "passkey_remove"
     }
     meta: {
@@ -51,9 +62,9 @@ export const isPasskeyUiNode = (
         }
     }
 } => {
-    if (node.group !== "passkey") return false
-    if (node.type !== "input") return false
-    if (node.attributes.node_type !== "input") return false
+    if (node.group !== UiNodeGroupEnum.Passkey) return false
+    if (node.type !== UiNodeTypeEnum.Input) return false
+    if (node.attributes.node_type !== UiNodeScriptAttributesNodeTypeEnum.Input) return false
     if (node.attributes.name !== "passkey_remove") return false
     if (!node.meta?.label?.context) return false
 

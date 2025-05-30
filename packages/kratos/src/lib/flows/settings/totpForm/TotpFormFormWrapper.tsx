@@ -1,5 +1,6 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
+import { UiNodeImageAttributesNodeTypeEnum } from "../../../kratos"
 import { AuthError, getNodeById } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
@@ -8,16 +9,22 @@ import { TotpFormProvider } from "./totpFormContext"
 import { useTotpForm } from "./useTotpForm"
 
 export type TotpFormProps = {
-    Code?: ComponentType<{ children: ReactNode }>
-    Unlink?: ComponentType<{ children: ReactNode }>
-    totpQrImageSrc?: string
-    totpSecretKey?: string
-    errors: Array<AuthError>
-    isSubmitting: boolean
-    isValidating: boolean
     emailVerificationRequired?: boolean
-    isTotpLinked?: boolean
-}
+} & (
+    | {
+          isTotpLinked: false
+          Code?: ComponentType<{ children: ReactNode }>
+          totpQrImageSrc?: string
+          totpSecretKey?: string
+          errors: Array<AuthError>
+          isSubmitting: boolean
+          isValidating: boolean
+      }
+    | {
+          isTotpLinked: true
+          Unlink?: ComponentType<{ children: ReactNode }>
+      }
+)
 
 type TotpFormWrapperProps = {
     totpForm: ComponentType<TotpFormProps>
@@ -42,7 +49,7 @@ export function TotpFormWrapper({
 
         const node = getNodeById(settingsFlow.ui.nodes, "totp_qr")
 
-        if (!node || node.attributes.node_type !== "img") {
+        if (!node || node.attributes.node_type !== UiNodeImageAttributesNodeTypeEnum.Img) {
             return undefined
         }
 
@@ -54,7 +61,7 @@ export function TotpFormWrapper({
 
         const node = getNodeById(settingsFlow.ui.nodes, "totp_secret_key")
 
-        if (!node || node.attributes.node_type !== "text") {
+        if (!node || node.attributes.node_type !== UiNodeImageAttributesNodeTypeEnum.Text) {
             return undefined
         }
 
@@ -73,7 +80,7 @@ export function TotpFormWrapper({
         return !!getNodeById(settingsFlow.ui.nodes, "totp_unlink")
     }, [settingsFlow])
 
-    if (!settingsFlow) {
+    if (!settingsFlow || isTotpLinked === undefined) {
         return null
     }
 
@@ -84,22 +91,20 @@ export function TotpFormWrapper({
                     e.preventDefault()
                     totpForm.handleSubmit()
                 }}>
-                <TotpForm
-                    isTotpLinked={isTotpLinked}
-                    {...(isTotpLinked === true
-                        ? { Unlink }
-                        : isTotpLinked === false
-                          ? {
-                                Code,
-                                totpQrImageSrc,
-                                totpSecretKey,
-                            }
-                          : {})}
-                    emailVerificationRequired={emailVerificationRequired}
-                    errors={formErrors}
-                    isSubmitting={totpForm.state.isSubmitting}
-                    isValidating={totpForm.state.isValidating}
-                />
+                {isTotpLinked ? (
+                    <TotpForm isTotpLinked emailVerificationRequired={emailVerificationRequired} Unlink={Unlink} />
+                ) : (
+                    <TotpForm
+                        Code={Code}
+                        emailVerificationRequired={emailVerificationRequired}
+                        errors={formErrors}
+                        isSubmitting={totpForm.state.isSubmitting}
+                        isTotpLinked={false}
+                        isValidating={totpForm.state.isValidating}
+                        totpQrImageSrc={totpQrImageSrc}
+                        totpSecretKey={totpSecretKey}
+                    />
+                )}
             </form>
         </TotpFormProvider>
     )

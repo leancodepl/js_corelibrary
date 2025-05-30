@@ -1,5 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import { UiNode, UiNodeGroupEnum } from "../../../kratos"
+import { getNodesOfGroup } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Apple, Facebook, Google, UnlinkApple, UnlinkFacebook, UnlinkGoogle } from "./fields"
 
@@ -36,7 +37,7 @@ export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
         return null
     }
 
-    const oidcGroupNodes = settingsFlow.ui.nodes.filter(({ group }) => group === UiNodeGroupEnum.Oidc)
+    const oidcGroupNodes = getNodesOfGroup(settingsFlow.ui.nodes, UiNodeGroupEnum.Oidc)
 
     return (
         <OidcForm
