@@ -103,7 +103,7 @@ export function mkCqrsClient({
                     }
 
                     config ??= { headers: new AxiosHeaders() }
-                    config.params = error.config?.params || {}
+                    config.params ??= {}
                     config.params.isRetry = true
 
                     return await apiAxios.request(config)
