@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import { handleFlowError, RecoveryFlow, UpdateRecoveryFlowBody } from "../../../kratos"
 import { recoveryFlowKey } from "./queryKeys"
 import { useRecoveryFlowContext } from "./useRecoveryFlowContext"
 
 export function useUpdateRecoveryFlow() {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { resetContext, recoveryFlowId } = useRecoveryFlowContext()
     const client = useQueryClient()
 
@@ -16,7 +16,6 @@ export function useUpdateRecoveryFlow() {
                 const data = await kratosClient.updateRecoveryFlow(
                     { flow: recoveryFlowId, updateRecoveryFlowBody },
                     {
-                        credentials: "include",
                         headers: { Accept: "application/json", "Content-Type": "application/json" },
                     },
                 )
