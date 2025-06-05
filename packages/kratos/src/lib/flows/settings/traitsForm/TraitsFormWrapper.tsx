@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
+import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError, TraitsConfig } from "../types"
 import { TraitCheckbox, TraitInput } from "./fields"
 import { TraitsFormProvider } from "./traitsFormContext"
@@ -36,6 +37,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
     onError,
     onChangeTraitsSuccess,
 }: TraitsFormWrapperProps<TTraitsConfig>) {
+    const { data: settingsFlow } = useGetSettingsFlow()
     const traitsForm = useTraitsForm({ traitsConfig, onError, onChangeTraitsSuccess })
     const formErrors = useFormErrors(traitsForm)
 
@@ -57,6 +59,10 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
             ) as TraitsComponents<TTraitsConfig>,
         [traitsConfig],
     )
+
+    if (!settingsFlow) {
+        return null
+    }
 
     return (
         <TraitsFormProvider traitsForm={traitsForm}>
