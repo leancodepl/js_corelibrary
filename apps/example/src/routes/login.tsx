@@ -1,7 +1,7 @@
 import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { getErrorMessage, LoginFlow } from "../services/kratos"
+import { getErrorMessage, LoginFlow, useIsLoggedIn } from "../services/kratos"
 import { Input } from "../components/Input"
 
 const loginSearchSchema = z.object({
@@ -22,7 +22,17 @@ export const Route = createFileRoute("/login")({
 })
 
 function RouteComponent() {
+    const isLoggedIn = useIsLoggedIn()
     const { flow } = Route.useSearch()
+
+    if (isLoggedIn === undefined) {
+        return <p>Loading login page...</p>
+    }
+
+    if (isLoggedIn) {
+        return <p>You are already logged in.</p>
+    }
+
     return (
         <LoginFlow
             chooseMethodForm={ChooseMethodForm}
@@ -63,6 +73,10 @@ function ChooseMethodForm({
             <button type="submit" disabled={isSubmitting || isValidating}>
                 Login
             </button>
+
+            <p>
+                Forgot password? <a href="/recovery">Click here to reset it</a>
+            </p>
 
             {Google && (
                 <Google>

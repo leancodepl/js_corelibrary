@@ -2,7 +2,7 @@ import { z } from "zod"
 import { settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { Input } from "../components/Input"
-import { AuthTraitsConfig, getErrorMessage, SettingsFlow } from "../services/kratos"
+import { AuthTraitsConfig, getErrorMessage, SettingsFlow, useIsLoggedIn } from "../services/kratos"
 
 const settingsSearchSchema = z.object({
     flow: z.string().optional(),
@@ -22,7 +22,16 @@ export const Route = createFileRoute("/settings")({
 })
 
 function RouteComponent() {
+    const isLoggedIn = useIsLoggedIn()
     const { flow } = Route.useSearch()
+
+    if (isLoggedIn === undefined) {
+        return <p>Loading settings page...</p>
+    }
+
+    if (!isLoggedIn) {
+        return <p>You must be logged in to access settings.</p>
+    }
 
     return (
         <SettingsFlow

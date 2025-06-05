@@ -26,8 +26,17 @@ export const UserInfoHeader = () => {
     return (
         <header style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
             {isLoggedIn === undefined && <p>Loading user information...</p>}
-            {isLoggedIn === false && <p>You are not logged in.</p>}
-            {isLoggedIn && !email && (
+            {isLoggedIn === false && (
+                <p>
+                    <button>
+                        <a href="/login">Login</a>
+                    </button>
+                    <button>
+                        <a href="/registration">Register</a>
+                    </button>
+                </p>
+            )}
+            {/* {isLoggedIn && !email && (
                 <p>
                     Welcome, user with ID: <strong>{userId}</strong>
                 </p>
@@ -36,6 +45,18 @@ export const UserInfoHeader = () => {
                 <p>
                     Welcome, <strong>{email}</strong> {isRunning && <p>Wylogowuję...</p>}
                     {isLoggedIn && !isRunning && <button onClick={handleLogout}>Wyloguj</button>}
+                </p>
+            )} */}
+            {isLoggedIn && (
+                <p>
+                    Welcome, <strong>{email || "user with ID: " + userId}</strong>
+                    {isRunning && <p>Logging out...</p>}
+                    {!isRunning && <button onClick={handleLogout}>Logout</button>}
+                    {!isRunning && (
+                        <button>
+                            <a href="/settings">Settings</a>
+                        </button>
+                    )}
                 </p>
             )}
         </header>
