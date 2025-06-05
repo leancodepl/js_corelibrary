@@ -26,19 +26,11 @@ export function useUpdateSettingsFlow() {
 
                     if (showVerificationUI) {
                         setEmailVerificationRequired(true)
-                    } else {
-                        // TODO: Handle continue_with actions if needed
-                        // handleContinueWith(data.continue_with, {
-                        //     onRedirect: (url, _external) => {
-                        //         window.location.href = url
-                        //     },
-                        // })
                     }
                 }
 
                 return data
             } catch (error) {
-                // 403 Forbidden if privileged_session_max_age exceeded
                 return (await handleFlowError<SettingsFlow>({
                     onRedirect: (url, _external) => {
                         window.location.href = url
