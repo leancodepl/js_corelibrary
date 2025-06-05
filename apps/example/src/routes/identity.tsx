@@ -1,19 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { sessionManager } from "../services/kratos"
-import { useObservable } from "react-use"
+import { useIsLoggedIn, useProfileInfo, useUserId } from "../services/kratos"
 
 export const Route = createFileRoute("/identity")({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const userId = useObservable(sessionManager.userId$)
-    const firstName = useObservable(sessionManager.firstName$)
-    const email = useObservable(sessionManager.email$)
+    const isLoggedIn = useIsLoggedIn()
+    const userId = useUserId()
+    const { email, firstName } = useProfileInfo()
 
-    const session = useObservable(sessionManager.session$)
+    if (isLoggedIn === undefined) {
+        return <p>Loading...</p>
+    }
 
-    console.log("Session:", session)
+    if (!isLoggedIn) {
+        return <p>You are not logged in.</p>
+    }
 
     return (
         <div>
