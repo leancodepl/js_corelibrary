@@ -1,3 +1,5 @@
+import type { AuthTraitsConfig } from "./traits"
+
 import { mkKratos } from "@leancodepl/kratos"
 import { SessionManager } from "./session"
 import { traitsConfig } from "./traits"
@@ -10,11 +12,14 @@ const {
     flows: { RegistrationFlow, LoginFlow, RecoveryFlow, SettingsFlow, VerificationFlow, useLogout },
 } = mkKratos({
     basePath: "https://auth.local.lncd.pl",
+    loginPath: "/login",
     traits: traitsConfig,
-    makeSessionManager: (api, basePath, loginPath) => new SessionManager(api, basePath, loginPath),
+    getSessionManagerInstance: (api, basePath, loginPath) => new SessionManager(api, basePath, loginPath),
 })
 
 export {
+    // traits
+    AuthTraitsConfig,
     // session
     sessionManager,
     // providers

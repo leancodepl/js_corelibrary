@@ -11,7 +11,7 @@ function RouteComponent() {
     const { email, firstName } = useProfileInfo()
 
     if (isLoggedIn === undefined) {
-        return <p>Loading...</p>
+        return <p>Loading identity page...</p>
     }
 
     if (!isLoggedIn) {
