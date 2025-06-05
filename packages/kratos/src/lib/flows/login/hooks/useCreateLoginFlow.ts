@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import { loginFlowKey } from "./queryKeys"
 import { useLoginFlowContext } from "./useLoginFlowContext"
 
@@ -8,7 +8,7 @@ export function useCreateLoginFlow({
     refresh,
     returnTo,
 }: { aal?: string; refresh?: boolean; returnTo?: string } = {}) {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { setLoginFlowId } = useLoginFlowContext()
 
     const client = useQueryClient()
@@ -17,7 +17,6 @@ export function useCreateLoginFlow({
         mutationFn: () =>
             kratosClient.createBrowserLoginFlow({ aal, refresh, returnTo }, async ({ init: { headers } }) => ({
                 headers: { ...headers, Accept: "application/json" },
-                credentials: "include",
             })),
         onSuccess(data) {
             client.setQueryDefaults(loginFlowKey(data.id), { staleTime: Infinity })

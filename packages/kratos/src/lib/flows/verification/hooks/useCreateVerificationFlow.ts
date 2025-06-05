@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import { verificationFlowKey } from "./queryKeys"
 import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useCreateVerificationFlow({ returnTo }: { returnTo?: string } = {}) {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { setVerificationFlowId } = useVerificationFlowContext()
 
     const client = useQueryClient()
@@ -13,7 +13,6 @@ export function useCreateVerificationFlow({ returnTo }: { returnTo?: string } = 
         mutationFn: () =>
             kratosClient.createBrowserVerificationFlow({ returnTo }, async ({ init: { headers } }) => ({
                 headers: { ...headers, Accept: "application/json" },
-                credentials: "include",
             })),
         onSuccess(data) {
             client.setQueryDefaults(verificationFlowKey(data.id), { staleTime: Infinity })

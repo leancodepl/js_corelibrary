@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { verificationFlow } from "../.."
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import {
     handleContinueWith,
     handleFlowError,
@@ -12,7 +12,7 @@ import { registrationFlowKey } from "./queryKeys"
 import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useUpdateRegistrationFlow() {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { resetContext, registrationFlowId } = useRegistrationFlowContext()
     const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
     const client = useQueryClient()
@@ -29,7 +29,6 @@ export function useUpdateRegistrationFlow() {
                 const response = await kratosClient.updateRegistrationFlowRaw(
                     { flow: registrationFlowId, updateRegistrationFlowBody },
                     {
-                        credentials: "include",
                         headers: { Accept: "application/json", "Content-Type": "application/json" },
                     },
                 )

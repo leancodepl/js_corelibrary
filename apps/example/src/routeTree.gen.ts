@@ -17,6 +17,7 @@ import { Route as RegistrationImport } from './routes/registration'
 import { Route as RecoveryImport } from './routes/recovery'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
+import { Route as IdentityImport } from './routes/identity'
 
 // Create/Update Routes
 
@@ -56,10 +57,23 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IdentityRoute = IdentityImport.update({
+  id: '/identity',
+  path: '/identity',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/identity': {
+      id: '/identity'
+      path: '/identity'
+      fullPath: '/identity'
+      preLoaderRoute: typeof IdentityImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -108,6 +122,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
+  '/identity': typeof IdentityRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
@@ -117,6 +132,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/identity': typeof IdentityRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
@@ -127,6 +143,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/identity': typeof IdentityRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
@@ -138,6 +155,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/identity'
     | '/login'
     | '/logout'
     | '/recovery'
@@ -145,9 +163,17 @@ export interface FileRouteTypes {
     | '/settings'
     | '/verification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/logout' | '/recovery' | '/registration' | '/settings' | '/verification'
+  to:
+    | '/identity'
+    | '/login'
+    | '/logout'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
   id:
     | '__root__'
+    | '/identity'
     | '/login'
     | '/logout'
     | '/recovery'
@@ -158,6 +184,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IdentityRoute: typeof IdentityRoute
   LoginRoute: typeof LoginRoute
   LogoutRoute: typeof LogoutRoute
   RecoveryRoute: typeof RecoveryRoute
@@ -167,6 +194,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IdentityRoute: IdentityRoute,
   LoginRoute: LoginRoute,
   LogoutRoute: LogoutRoute,
   RecoveryRoute: RecoveryRoute,
@@ -185,6 +213,7 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/identity",
         "/login",
         "/logout",
         "/recovery",
@@ -192,6 +221,9 @@ export const routeTree = rootRoute
         "/settings",
         "/verification"
       ]
+    },
+    "/identity": {
+      "filePath": "identity.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
