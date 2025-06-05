@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
+import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Password, PasswordConfirmation } from "./fields"
 import { NewPasswordFormProvider } from "./newPasswordFormContext"
@@ -28,8 +29,13 @@ export function NewPasswordFormWrapper({
     onError,
     onChangePasswordSuccess,
 }: NewPasswordFormWrapperProps) {
+    const { data: settingsFlow } = useGetSettingsFlow()
     const newPasswordForm = useNewPasswordForm({ onError, onChangePasswordSuccess })
     const formErrors = useFormErrors(newPasswordForm)
+
+    if (!settingsFlow) {
+        return null
+    }
 
     return (
         <NewPasswordFormProvider newPasswordForm={newPasswordForm}>
