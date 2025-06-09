@@ -1,5 +1,6 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { verificationFlow } from ".."
+import { SearchQueryParameters } from "../../utils"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
@@ -32,7 +33,10 @@ function LoginFlowWrapper({
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
     const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
 
-    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo })
+    const searchParams = new URLSearchParams(window.location.search)
+    const aalFromUrl = searchParams.get(SearchQueryParameters.AAL) ?? undefined
+
+    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, aal: aalFromUrl })
     const { data: loginFlow } = useGetLoginFlow()
 
     useEffect(() => {

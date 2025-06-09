@@ -47,6 +47,8 @@ function RouteComponent() {
 }
 
 function ChooseMethodForm({
+    isLoading,
+    identifier,
     Identifier,
     Password,
     Google,
@@ -57,12 +59,21 @@ function ChooseMethodForm({
     isSubmitting,
     isValidating,
 }: loginFlow.ChooseMethodFormProps) {
+    if (isLoading) {
+        return <p>Loading login methods...</p>
+    }
+
     return (
         <>
             {Identifier && (
                 <Identifier>
                     <Input placeholder="Identifier" disabled={isSubmitting || isValidating} />
                 </Identifier>
+            )}
+            {identifier && (
+                <>
+                    Complete login process as <strong>{identifier}</strong>
+                </>
             )}
             {Password && (
                 <Password>

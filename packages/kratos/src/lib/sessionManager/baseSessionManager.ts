@@ -1,31 +1,8 @@
-import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
+import { catchError, from, map, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
 import { TraitsConfig } from "../flows/registration/types"
-import { AuthenticatorAssuranceLevel, FrontendApi } from "../kratos"
+import { AuthenticatorAssuranceLevel, FrontendApi, isSessionAal2Required } from "../kratos"
+import { SearchQueryParameters } from "../utils"
 import { SessionWithTypedUserTraits } from "./types"
-
-export const returnToParameterName = "return_to"
-export const aalParameterName = "aal"
-export const flowIdParameterName = "flow"
-export const refreshParameterName = "refresh"
-
-export enum ErrorId {
-    ErrIDNeedsPrivilegedSession = "session_refresh_required",
-    ErrIDSelfServiceFlowExpired = "self_service_flow_expired",
-    ErrIDSelfServiceFlowDisabled = "self_service_flow_disabled",
-    ErrIDSelfServiceBrowserLocationChangeRequiredError = "browser_location_change_required",
-    ErrIDSelfServiceFlowReplaced = "self_service_flow_replaced",
-
-    ErrIDAlreadyLoggedIn = "session_already_available",
-    ErrIDAddressNotVerified = "session_verified_address_required",
-    ErrIDSessionHasAALAlready = "session_aal_already_fulfilled",
-    ErrIDSessionRequiredForHigherAAL = "session_aal1_required",
-    ErrIDHigherAALRequired = "session_aal2_required",
-    ErrNoActiveSession = "session_inactive",
-    ErrIDRedirectURLNotAllowed = "self_service_flow_return_to_forbidden",
-    ErrIDInitiatedBySomeoneElse = "security_identity_mismatch",
-
-    ErrIDCSRF = "security_csrf_violation",
-}
 
 export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
     api: FrontendApi
@@ -61,7 +38,9 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
                 switchMap(() =>
                     from(this.api.toSession()).pipe(
                         map(session => {
-                            const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName)
+                            const returnTo = new URLSearchParams(window.location.search).get(
+                                SearchQueryParameters.ReturnTo,
+                            )
 
                             if (returnTo) {
                                 window.location.href = returnTo
@@ -69,14 +48,16 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
 
                             return session
                         }),
-                        catchError(err => {
+                        catchError(async err => {
+                            const data = await err.response.json()
+
                             switch (err.response.status) {
                                 case 403:
                                 case 422:
-                                    if (err.response.data.error?.id === ErrorId.ErrIDHigherAALRequired) {
+                                    if (isSessionAal2Required(data)) {
                                         const searchParams = new URLSearchParams(window.location.search)
 
-                                        if (searchParams.get(aalParameterName)) {
+                                        if (searchParams.get(SearchQueryParameters.AAL)) {
                                             break
                                         }
 
@@ -84,12 +65,15 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
 
                                         if (window.location.pathname === this.loginRoute) {
                                             const searchParams = new URLSearchParams(window.location.search)
-                                            searchParams.append(aalParameterName, AuthenticatorAssuranceLevel.Aal2)
+                                            searchParams.append(
+                                                SearchQueryParameters.AAL,
+                                                AuthenticatorAssuranceLevel.Aal2,
+                                            )
                                             redirectUrl.search = searchParams.toString()
                                         } else {
                                             redirectUrl.search = new URLSearchParams({
-                                                [aalParameterName]: AuthenticatorAssuranceLevel.Aal2,
-                                                [returnToParameterName]: `${window.location.pathname}${window.location.search}`,
+                                                [SearchQueryParameters.AAL]: AuthenticatorAssuranceLevel.Aal2,
+                                                [SearchQueryParameters.ReturnTo]: `${window.location.pathname}${window.location.search}`,
                                             }).toString()
                                         }
 
@@ -98,7 +82,7 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
                                     break
                             }
 
-                            return of(undefined)
+                            return undefined
                         }),
                     ),
                 ),

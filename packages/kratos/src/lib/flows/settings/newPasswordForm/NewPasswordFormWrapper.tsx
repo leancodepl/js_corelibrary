@@ -11,6 +11,7 @@ export type NewPasswordFormProps = {
     Password?: ComponentType<{ children: ReactNode }>
     PasswordConfirmation?: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
+    isLoading: boolean
     isSubmitting: boolean
     isValidating: boolean
     emailVerificationRequired?: boolean
@@ -33,10 +34,6 @@ export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
     const newPasswordForm = useNewPasswordForm({ onError, onChangePasswordSuccess })
     const formErrors = useFormErrors(newPasswordForm)
 
-    if (!settingsFlow) {
-        return null
-    }
-
     return (
         <NewPasswordFormProvider newPasswordForm={newPasswordForm}>
             <form
@@ -47,6 +44,7 @@ export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
                 <NewPasswordForm
                     emailVerificationRequired={emailVerificationRequired}
                     errors={formErrors}
+                    isLoading={!settingsFlow}
                     isSubmitting={newPasswordForm.state.isSubmitting}
                     isValidating={newPasswordForm.state.isValidating}
                     Password={Password}

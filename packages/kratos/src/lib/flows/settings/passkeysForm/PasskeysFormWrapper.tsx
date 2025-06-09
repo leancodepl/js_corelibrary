@@ -12,6 +12,7 @@ export type PasskeysFormProps = {
         name: string
         removePasskey: () => void
     }[]
+    isLoading: boolean
     isPending: boolean
 }
 
@@ -23,19 +24,24 @@ export function PasskeysFormWrapper({ passkeysForm: PasskeysForm }: PasskeysForm
     const { data: settingsFlow } = useGetSettingsFlow()
     const { removePasskey, isPending, addNewPasskey } = usePasskeys()
 
-    if (!settingsFlow) {
-        return null
-    }
+    const existingPasskeys = settingsFlow
+        ? getNodesById(settingsFlow.ui.nodes, "passkey_remove")
+              .filter(isPasskeyRemoveUiNode)
+              .map(({ meta, attributes }) => ({
+                  addedAt: meta.label.context.added_at,
+                  addedAtUnix: meta.label.context.added_at_unix,
+                  id: String(attributes.value),
+                  name: meta.label.context.display_name,
+                  removePasskey: () => removePasskey(attributes.value),
+              }))
+        : []
 
-    const existingPasskeys = getNodesById(settingsFlow.ui.nodes, "passkey_remove")
-        .filter(isPasskeyRemoveUiNode)
-        .map(({ meta, attributes }) => ({
-            addedAt: meta.label.context.added_at,
-            addedAtUnix: meta.label.context.added_at_unix,
-            id: String(attributes.value),
-            name: meta.label.context.display_name,
-            removePasskey: () => removePasskey(attributes.value),
-        }))
-
-    return <PasskeysForm addNewPasskey={addNewPasskey} existingPasskeys={existingPasskeys} isPending={isPending} />
+    return (
+        <PasskeysForm
+            addNewPasskey={addNewPasskey}
+            existingPasskeys={existingPasskeys}
+            isLoading={!settingsFlow}
+            isPending={isPending}
+        />
+    )
 }

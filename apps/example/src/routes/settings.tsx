@@ -74,10 +74,15 @@ function TraitsForm({
     errors,
     Email,
     GivenName,
+    isLoading,
     isSubmitting,
     isValidating,
     emailVerificationRequired,
 }: settingsFlow.TraitsFormProps<AuthTraitsConfig>) {
+    if (isLoading) {
+        return <p>Loading traits form...</p>
+    }
+
     return (
         <div>
             <h2>Traits</h2>
@@ -118,9 +123,14 @@ function NewPasswordForm({
     errors,
     Password,
     PasswordConfirmation,
+    isLoading,
     isSubmitting,
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
+    if (isLoading) {
+        return <p>Loading new password form...</p>
+    }
+
     return (
         <div>
             <h2>New password</h2>
@@ -149,7 +159,11 @@ function NewPasswordForm({
     )
 }
 
-function PasskeysForm({ addNewPasskey, existingPasskeys, isPending }: settingsFlow.PasskeysFormProps) {
+function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }: settingsFlow.PasskeysFormProps) {
+    if (isLoading) {
+        return <p>Loading passkeys...</p>
+    }
+
     return (
         <div>
             <h2>Passkeys</h2>
@@ -178,6 +192,10 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending }: settingsFl
 }
 
 function TotpForm(props: settingsFlow.TotpFormProps) {
+    if (props.isLoading) {
+        return <p>Loading TOTP form...</p>
+    }
+
     if (props.isTotpLinked) {
         const { Unlink } = props
 
@@ -223,7 +241,11 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
     )
 }
 
-function OidcForm({ Apple, Facebook, Google }: settingsFlow.OidcFormProps) {
+function OidcForm({ Apple, Facebook, Google, isLoading }: settingsFlow.OidcFormProps) {
+    if (isLoading) {
+        return <p>Loading OIDC providers...</p>
+    }
+
     return (
         <div>
             <h2>OIDC Providers</h2>

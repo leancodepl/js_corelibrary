@@ -9,7 +9,7 @@ type MkKratosConfig<TTraitsConfig extends TraitsConfig, TSessionManager extends 
     basePath: string
     loginPath: string
     traits?: TTraitsConfig
-    getSessionManagerInstance: (api: FrontendApi, basePath: string, loginPath: string) => TSessionManager
+    SessionManager?: new (api: FrontendApi, basePath: string, loginPath: string) => TSessionManager
 }
 
 export function mkKratos<
@@ -19,7 +19,11 @@ export function mkKratos<
     basePath,
     loginPath,
     traits = {} as TTraitsConfig,
-    getSessionManagerInstance,
+    SessionManager = BaseSessionManager as new (
+        api: FrontendApi,
+        basePath: string,
+        loginPath: string,
+    ) => TSessionManager,
 }: MkKratosConfig<TTraitsConfig, TSessionManager>) {
     const api = new FrontendApi(
         new Configuration({
@@ -28,7 +32,7 @@ export function mkKratos<
         }),
     )
 
-    const sessionManager = getSessionManagerInstance(api, basePath, loginPath)
+    const sessionManager = new SessionManager(api, basePath, loginPath)
 
     const flows = {
         useLogout: logoutFlow.useLogout,
