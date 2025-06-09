@@ -12,10 +12,15 @@ export type TotpFormProps = {
     emailVerificationRequired?: boolean
 } & (
     | {
+          isLoading: true
+      }
+    | {
+          isLoading?: false
           isTotpLinked: true
           Unlink?: ComponentType<{ children: ReactNode }>
       }
     | {
+          isLoading?: false
           isTotpLinked?: false
           Code?: ComponentType<{ children: ReactNode }>
           totpQrImageSrc?: string
@@ -80,9 +85,7 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
         return !!getNodeById(settingsFlow.ui.nodes, "totp_unlink")
     }, [settingsFlow])
 
-    if (!settingsFlow || isTotpLinked === undefined) {
-        return null
-    }
+    const isLoading = !settingsFlow || isTotpLinked === undefined
 
     return (
         <TotpFormProvider totpForm={totpForm}>
@@ -91,13 +94,21 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
                     e.preventDefault()
                     totpForm.handleSubmit()
                 }}>
-                {isTotpLinked ? (
-                    <TotpForm isTotpLinked emailVerificationRequired={emailVerificationRequired} Unlink={Unlink} />
+                {isLoading ? (
+                    <TotpForm isLoading />
+                ) : isTotpLinked ? (
+                    <TotpForm
+                        isTotpLinked
+                        emailVerificationRequired={emailVerificationRequired}
+                        isLoading={false}
+                        Unlink={Unlink}
+                    />
                 ) : (
                     <TotpForm
                         Code={Code}
                         emailVerificationRequired={emailVerificationRequired}
                         errors={formErrors}
+                        isLoading={false}
                         isSubmitting={totpForm.state.isSubmitting}
                         isValidating={totpForm.state.isValidating}
                         totpQrImageSrc={totpQrImageSrc}

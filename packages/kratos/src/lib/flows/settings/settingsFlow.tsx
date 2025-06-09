@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode, useEffect } from "react"
 import { TraitsConfig } from "../../utils"
-import { SettingsFlowProvider, useCreateSettingsFlow, useSettingsFlowContext } from "./hooks"
+import { SettingsFlowProvider, useCreateSettingsFlow, useGetSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
 import { OidcFormProps, OidcFormWrapper } from "./oidcForm"
 import { PasskeysFormProps, PasskeysFormWrapper } from "./passkeysForm"
@@ -21,6 +21,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     onChangePasswordSuccess?: () => void
     onChangeTraitsSuccess?: () => void
     settingsForm: ComponentType<{
+        isLoading?: boolean
         emailVerificationRequired: boolean
         newPasswordForm: ReactNode
         traitsForm?: ReactNode
@@ -54,6 +55,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     const { settingsFlowId, setSettingsFlowId, emailVerificationRequired } = useSettingsFlowContext()
 
     const { mutate: createSettingsFlow } = useCreateSettingsFlow()
+    const { data: settingsFlow } = useGetSettingsFlow()
 
     useEffect(() => {
         if (settingsFlowId) return
@@ -68,6 +70,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     return (
         <SettingsForm
             emailVerificationRequired={emailVerificationRequired}
+            isLoading={!settingsFlow}
             newPasswordForm={
                 <NewPasswordFormWrapper
                     emailVerificationRequired={emailVerificationRequired}

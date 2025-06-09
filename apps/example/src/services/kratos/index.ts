@@ -14,7 +14,7 @@ const {
     basePath: "https://auth.local.lncd.pl",
     loginPath: "/login",
     traits: traitsConfig,
-    getSessionManagerInstance: (api, basePath, loginPath) => new SessionManager(api, basePath, loginPath),
+    SessionManager,
 })
 
 export {
