@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type SettingsFlowContext = {
     settingsFlowId?: string
@@ -8,7 +8,7 @@ type SettingsFlowContext = {
 
 const settingsFlowContext = createContext<SettingsFlowContext | undefined>(undefined)
 
-export function SettingsFlowProvider({ children }: { children: React.ReactNode }) {
+export function SettingsFlowProvider({ children }: { children: ReactNode }) {
     const [settingsFlowId, setSettingsFlowId] = useState<string>()
 
     const resetContext = useCallback(() => {

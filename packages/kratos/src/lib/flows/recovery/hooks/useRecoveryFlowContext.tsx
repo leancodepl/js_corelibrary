@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type RecoveryFlowContext = {
     recoveryFlowId?: string
@@ -8,7 +8,7 @@ type RecoveryFlowContext = {
 
 const recoveryFlowContext = createContext<RecoveryFlowContext | undefined>(undefined)
 
-export function RecoveryFlowProvider({ children }: { children: React.ReactNode }) {
+export function RecoveryFlowProvider({ children }: { children: ReactNode }) {
     const [recoveryFlowId, setRecoveryFlowId] = useState<string>()
 
     const resetContext = useCallback(() => {
