@@ -12,7 +12,7 @@ type UseNewPasswordFormProps = {
 
 export function useNewPasswordForm({ onError, onChangePasswordSuccess }: UseNewPasswordFormProps) {
     const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
-    const { data: registrationFlow } = useGetSettingsFlow()
+    const { data: settingsFlow } = useGetSettingsFlow()
 
     return useForm({
         defaultValues: {
@@ -20,10 +20,10 @@ export function useNewPasswordForm({ onError, onChangePasswordSuccess }: UseNewP
             [InputFields.PasswordConfirmation]: "",
         },
         onSubmit: async ({ value, formApi }) => {
-            if (!registrationFlow) return
+            if (!settingsFlow) return
 
             const data = await updateSettingsFlow({
-                csrf_token: getCsrfToken(registrationFlow),
+                csrf_token: getCsrfToken(settingsFlow),
                 method: "password",
                 password: value[InputFields.Password],
             })

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type RegistrationFlowContext = {
     registrationFlowId?: string
@@ -12,7 +12,7 @@ type RegistrationFlowContext = {
 
 const registrationFlowContext = createContext<RegistrationFlowContext | undefined>(undefined)
 
-export function RegistrationFlowProvider({ children }: { children: React.ReactNode }) {
+export function RegistrationFlowProvider({ children }: { children: ReactNode }) {
     const [registrationFlowId, setRegistrationFlowId] = useState<string>()
 
     const [traitsFormCompleted, setTraitsFormCompleted] = useState(false)

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type VerificationFlowContext = {
     verificationFlowId?: string
@@ -10,7 +10,7 @@ type VerificationFlowContext = {
 
 const verificationFlowContext = createContext<VerificationFlowContext | undefined>(undefined)
 
-export function VerificationFlowProvider({ children }: { children: React.ReactNode }) {
+export function VerificationFlowProvider({ children }: { children: ReactNode }) {
     const [verificationFlowId, setVerificationFlowId] = useState<string>()
     const [verifiableAddress, setVerifiableAddress] = useState<string>()
 
