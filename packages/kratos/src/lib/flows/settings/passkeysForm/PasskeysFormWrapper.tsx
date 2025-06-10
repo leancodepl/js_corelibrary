@@ -32,7 +32,7 @@ export function PasskeysFormWrapper({ passkeysForm: PasskeysForm }: PasskeysForm
         .map(({ meta, attributes }) => ({
             addedAt: meta.label.context.added_at,
             addedAtUnix: meta.label.context.added_at_unix,
-            id: attributes.value as string,
+            id: String(attributes.value),
             name: meta.label.context.display_name,
             removePasskey: () => removePasskey(attributes.value),
         }))

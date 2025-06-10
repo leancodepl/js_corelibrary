@@ -214,42 +214,38 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
     )
 }
 
-function OidcForm({ Apple, Facebook, Google, UnlinkApple, UnlinkFacebook, UnlinkGoogle }: settingsFlow.OidcFormProps) {
+function OidcForm({ Apple, Facebook, Google }: settingsFlow.OidcFormProps) {
     return (
         <div>
             <h2>OIDC Providers</h2>
 
             {Apple && (
                 <Apple>
-                    <button type="button">Link Apple</button>
+                    <OidcButton>Apple</OidcButton>
                 </Apple>
             )}
             {Facebook && (
                 <Facebook>
-                    <button type="button">Link Facebook</button>
+                    <OidcButton>Facebook</OidcButton>
                 </Facebook>
             )}
             {Google && (
                 <Google>
-                    <button type="button">Link Google</button>
+                    <OidcButton>Google</OidcButton>
                 </Google>
             )}
-
-            {UnlinkApple && (
-                <UnlinkApple>
-                    <button type="button">Unlink Apple</button>
-                </UnlinkApple>
-            )}
-            {UnlinkFacebook && (
-                <UnlinkFacebook>
-                    <button type="button">Unlink Facebook</button>
-                </UnlinkFacebook>
-            )}
-            {UnlinkGoogle && (
-                <UnlinkGoogle>
-                    <button type="button">Unlink Google</button>
-                </UnlinkGoogle>
-            )}
         </div>
+    )
+}
+
+function OidcButton({ oidcType, children, ...props }: settingsFlow.OidcButtonProps) {
+    if (!oidcType) {
+        throw new Error("OidcButton requires an oidcType prop")
+    }
+
+    return (
+        <button type="button" {...props}>
+            {children} ({oidcType})
+        </button>
     )
 }
