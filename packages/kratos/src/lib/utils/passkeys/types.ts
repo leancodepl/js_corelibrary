@@ -17,7 +17,7 @@ export type PasskeyCredentialOptions = {
     }
 }
 
-export type PasskeyChallenge = {
+export type PasskeyChallengeOptions = {
     publicKey: {
         challenge: string
         timeout: number
