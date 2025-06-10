@@ -52,6 +52,22 @@ function base64urlEncode(value: ArrayBuffer) {
         .replaceAll("=", "")
 }
 
+function safeStringifyCredential(credential: Credential | null) {
+    if (!credential) return undefined
+    if (!(credential instanceof PublicKeyCredential)) return undefined
+    if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
+
+    return JSON.stringify({
+        id: credential.id,
+        rawId: base64urlEncode(credential.rawId),
+        type: credential.type,
+        response: {
+            attestationObject: base64urlEncode(credential.response.attestationObject),
+            clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+        },
+    })
+}
+
 export async function passkeyLoginInit(passkeyChallengeString: string, signal?: AbortSignal) {
     const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
 
@@ -163,19 +179,7 @@ export async function passkeyRegister(
             },
         })
 
-        if (!credential) return undefined
-        if (!(credential instanceof PublicKeyCredential)) return undefined
-        if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
-
-        return JSON.stringify({
-            id: credential.id,
-            rawId: base64urlEncode(credential.rawId),
-            type: credential.type,
-            response: {
-                attestationObject: base64urlEncode(credential.response.attestationObject),
-                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-            },
-        })
+        return safeStringifyCredential(credential)
     } catch {
         return undefined
     }
@@ -203,19 +207,7 @@ export async function passkeySettingsRegister(passkeyChallengeString: string, si
             },
         })
 
-        if (!credential) return undefined
-        if (!(credential instanceof PublicKeyCredential)) return undefined
-        if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
-
-        return JSON.stringify({
-            id: credential.id,
-            rawId: base64urlEncode(credential.rawId),
-            type: credential.type,
-            response: {
-                attestationObject: base64urlEncode(credential.response.attestationObject),
-                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-            },
-        })
+        return safeStringifyCredential(credential)
     } catch {
         return undefined
     }

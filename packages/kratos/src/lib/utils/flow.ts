@@ -62,11 +62,15 @@ export const isPasskeyRemoveUiNode = (
         }
     }
 } => {
-    if (node.group !== UiNodeGroupEnum.Passkey) return false
-    if (node.type !== UiNodeTypeEnum.Input) return false
-    if (node.attributes.node_type !== UiNodeScriptAttributesNodeTypeEnum.Input) return false
-    if (node.attributes.name !== "passkey_remove") return false
-    if (!node.meta?.label?.context) return false
+    if (
+        node.group !== UiNodeGroupEnum.Passkey ||
+        node.type !== UiNodeTypeEnum.Input ||
+        node.attributes.node_type !== UiNodeScriptAttributesNodeTypeEnum.Input ||
+        node.attributes.name !== "passkey_remove" ||
+        !node.meta?.label?.context
+    ) {
+        return false
+    }
 
     const { context } = node.meta.label
 

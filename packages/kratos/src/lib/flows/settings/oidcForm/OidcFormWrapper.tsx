@@ -1,52 +1,57 @@
-import { ComponentType, ReactNode } from "react"
-import { UiNode, UiNodeGroupEnum } from "../../../kratos"
+import { ComponentType, ReactNode, useMemo } from "react"
+import { UiNodeGroupEnum } from "../../../kratos"
 import { getNodesOfGroup } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
-import { Apple, Facebook, Google, UnlinkApple, UnlinkFacebook, UnlinkGoogle } from "./fields"
+import { Oidc } from "./fields"
+import { getOidcProviderType, OidcProvider, providers } from "./providers"
 
-export type OidcFormProps = {
-    Apple?: ComponentType<{ children: ReactNode }>
-    Google?: ComponentType<{ children: ReactNode }>
-    Facebook?: ComponentType<{ children: ReactNode }>
-    UnlinkApple?: ComponentType<{ children: ReactNode }>
-    UnlinkGoogle?: ComponentType<{ children: ReactNode }>
-    UnlinkFacebook?: ComponentType<{ children: ReactNode }>
+type OidcProviderComponents<TProvider extends string> = {
+    [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>
 }
+
+export type OidcFormProps = OidcProviderComponents<OidcProvider>
 
 type OidcFormWrapperProps = {
     oidcForm: ComponentType<OidcFormProps>
 }
 
-const showOidcButton = (
-    nodes: UiNode[],
-    type: "link" | "unlink",
-    provider: "apple" | "facebook" | "google",
-): boolean => {
-    return nodes.some(
-        node =>
-            node.attributes.node_type === "input" &&
-            node.attributes.name === type &&
-            node.attributes.value === provider,
-    )
-}
-
 export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
     const { data: settingsFlow } = useGetSettingsFlow()
 
-    if (!settingsFlow) {
-        return null
-    }
+    const oidcComponents = useMemo(() => {
+        if (!settingsFlow) {
+            return {}
+        }
 
-    const oidcGroupNodes = getNodesOfGroup(settingsFlow.ui.nodes, UiNodeGroupEnum.Oidc)
+        const oidcGroupNodes = getNodesOfGroup(settingsFlow.ui.nodes, UiNodeGroupEnum.Oidc)
 
-    return (
-        <OidcForm
-            Apple={showOidcButton(oidcGroupNodes, "link", "apple") ? Apple : undefined}
-            Facebook={showOidcButton(oidcGroupNodes, "link", "facebook") ? Facebook : undefined}
-            Google={showOidcButton(oidcGroupNodes, "link", "google") ? Google : undefined}
-            UnlinkApple={showOidcButton(oidcGroupNodes, "unlink", "apple") ? UnlinkApple : undefined}
-            UnlinkFacebook={showOidcButton(oidcGroupNodes, "unlink", "facebook") ? UnlinkFacebook : undefined}
-            UnlinkGoogle={showOidcButton(oidcGroupNodes, "unlink", "google") ? UnlinkGoogle : undefined}
-        />
-    )
+        const oidcTypes = providers.reduce(
+            (acc, provider) => {
+                const type = getOidcProviderType(provider, oidcGroupNodes)
+
+                if (type) {
+                    acc[provider] = type
+                }
+
+                return acc
+            },
+            {} as Record<OidcProvider, "link" | "unlink">,
+        )
+
+        return providers.reduce((acc, provider) => {
+            const providerName = (provider.charAt(0).toUpperCase() + provider.slice(1)) as Capitalize<OidcProvider>
+
+            if (oidcTypes[provider]) {
+                acc[providerName] = ({ children }: { children: ReactNode }) => (
+                    <Oidc provider={provider} type={oidcTypes[provider]}>
+                        {children}
+                    </Oidc>
+                )
+            }
+
+            return acc
+        }, {} as OidcFormProps)
+    }, [settingsFlow])
+
+    return <OidcForm {...oidcComponents} />
 }

@@ -1,2 +1,1 @@
-export * from "./LinkOidc"
-export * from "./UnlinkOidc"
+export * from "./Oidc"

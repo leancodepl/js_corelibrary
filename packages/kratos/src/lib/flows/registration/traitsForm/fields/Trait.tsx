@@ -17,8 +17,8 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
     return (
         <traitsForm.Field name={`${traitPrefix}${trait}`}>
             {field => {
-                if (typeof field.state.value === "boolean") {
-                    throw new Error("TraitInput: value cannot be boolean")
+                if (typeof field.state.value !== "string") {
+                    throw new Error("TraitInput: value is not string")
                 }
 
                 return (
