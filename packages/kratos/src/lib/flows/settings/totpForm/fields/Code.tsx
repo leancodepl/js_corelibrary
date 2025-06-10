@@ -18,7 +18,7 @@ export function Code({ children }: CodeProps) {
                 <Comp
                     errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                     name={field.name}
-                    type="password"
+                    type="text"
                     value={field.state.value}
                     onChange={e => field.handleChange(e.target.value)}>
                     {children}

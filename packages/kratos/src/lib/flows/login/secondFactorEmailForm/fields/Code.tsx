@@ -10,7 +10,7 @@ type CodeProps = {
 export function Code({ children }: CodeProps) {
     const { codeForm } = useSecondFactorEmailFormContext()
 
-    const Comp = Slot.Root as ComponentType<CommonInputFieldProps>
+    const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
     return (
         <codeForm.Field name="code">

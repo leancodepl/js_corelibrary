@@ -1,5 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
+import { FieldValidateFn } from "@tanstack/react-form"
 import {
     AdditionalValidationError,
     CommonInputFieldProps,
@@ -7,9 +8,27 @@ import {
     mapAdditionalValidationErrorToAuthError,
 } from "../../../../utils"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
+import { InputFields } from "../types"
 
 type PasswordConfirmationProps = {
     children: ReactNode
+}
+
+const validatorHandler: FieldValidateFn<
+    {
+        [InputFields.Password]: string
+        [InputFields.PasswordConfirmation]: string
+    },
+    "password_confirmation",
+    string
+> = ({ value, fieldApi }) => {
+    const meta = fieldApi.form.getFieldMeta(InputFields.PasswordConfirmation)
+
+    if (meta?.isDirty && meta?.isTouched) {
+        return getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue(InputFields.Password))
+    }
+
+    return undefined
 }
 
 export const getPasswordConfirmationErrors = (confirmationValue: string, passwordValue: string) => {
@@ -31,7 +50,7 @@ export function PasswordConfirmation({ children }: PasswordConfirmationProps) {
         <chooseMethodForm.Field
             listeners={{
                 onChange: ({ fieldApi }) => {
-                    fieldApi.form.setFieldMeta("password_confirmation", meta => ({
+                    fieldApi.form.setFieldMeta(InputFields.PasswordConfirmation, meta => ({
                         ...meta,
                         errorMap: {
                             ...meta.errorMap,
@@ -42,28 +61,12 @@ export function PasswordConfirmation({ children }: PasswordConfirmationProps) {
             }}
             name="password_confirmation"
             validators={{
-                onChangeListenTo: ["password"],
-                onChange: ({ value, fieldApi }) => {
-                    const meta = fieldApi.form.getFieldMeta("password_confirmation")
-
-                    if (meta?.isDirty && meta?.isTouched) {
-                        return getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue("password"))
-                    }
-
-                    return undefined
-                },
-                onBlurListenTo: ["password_confirmation"],
-                onBlur: ({ value, fieldApi }) => {
-                    const meta = fieldApi.form.getFieldMeta("password_confirmation")
-
-                    if (meta?.isDirty && meta?.isTouched) {
-                        return getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue("password"))
-                    }
-
-                    return undefined
-                },
+                onChangeListenTo: [InputFields.Password],
+                onChange: validatorHandler,
+                onBlurListenTo: [InputFields.PasswordConfirmation],
+                onBlur: validatorHandler,
                 onSubmit: ({ value, fieldApi }) =>
-                    getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue("password")),
+                    getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue(InputFields.Password)),
             }}>
             {field => (
                 <Comp
