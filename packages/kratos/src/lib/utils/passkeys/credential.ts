@@ -1,7 +1,7 @@
 import { base64urlDecode, base64urlEncode } from "./helpers"
-import { PasskeyCredentialOptions } from "./types"
+import { PasskeyChallengeOptions, PasskeyCredentialOptions } from "./types"
 
-export function trySafeStringifyCredential(credential: Credential | null) {
+export function trySafeStringifyNewCredential(credential: Credential | null) {
     if (!credential) return undefined
     if (!(credential instanceof PublicKeyCredential)) return undefined
     if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
@@ -18,12 +18,12 @@ export function trySafeStringifyCredential(credential: Credential | null) {
 }
 
 export async function createCredential({
-    passkeyChallenge,
+    credentialOptions,
     signal,
     userName,
     userDisplayName,
 }: {
-    passkeyChallenge: PasskeyCredentialOptions
+    credentialOptions: PasskeyCredentialOptions
     userName: string
     userDisplayName: string
     signal?: AbortSignal
@@ -31,18 +31,54 @@ export async function createCredential({
     return await navigator.credentials.create({
         signal,
         publicKey: {
-            challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
-            timeout: passkeyChallenge.publicKey.timeout,
+            challenge: base64urlDecode(credentialOptions.publicKey.challenge),
+            timeout: credentialOptions.publicKey.timeout,
             rp: {
-                id: passkeyChallenge.publicKey.rp.id,
-                name: passkeyChallenge.publicKey.rp.name,
+                id: credentialOptions.publicKey.rp.id,
+                name: credentialOptions.publicKey.rp.name,
             },
             user: {
-                id: base64urlDecode(passkeyChallenge.publicKey.user.id),
+                id: base64urlDecode(credentialOptions.publicKey.user.id),
                 name: userName,
                 displayName: userDisplayName,
             },
-            pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
+            pubKeyCredParams: credentialOptions.publicKey.pubKeyCredParams,
+        },
+    })
+}
+
+export function trySafeStringifyExistingCredential(credential: Credential | null) {
+    if (!credential) return undefined
+    if (!(credential instanceof PublicKeyCredential)) return undefined
+    if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
+
+    return JSON.stringify({
+        id: credential.id,
+        rawId: base64urlEncode(credential.rawId),
+        type: credential.type,
+        response: {
+            authenticatorData: base64urlEncode(credential.response.authenticatorData),
+            clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+            signature: base64urlEncode(credential.response.signature),
+            userHandle: credential.response.userHandle ? base64urlEncode(credential.response.userHandle) : undefined,
+        },
+    })
+}
+
+export async function getCredential({
+    challengeOptions,
+    signal,
+}: {
+    challengeOptions: PasskeyChallengeOptions
+    signal?: AbortSignal
+}) {
+    return await navigator.credentials.get({
+        signal,
+        publicKey: {
+            challenge: base64urlDecode(challengeOptions.publicKey.challenge),
+            timeout: challengeOptions.publicKey.timeout,
+            rpId: challengeOptions.publicKey.rpId,
+            userVerification: challengeOptions.publicKey.userVerification,
         },
     })
 }
