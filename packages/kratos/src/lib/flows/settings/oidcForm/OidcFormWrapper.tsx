@@ -1,6 +1,4 @@
 import { ComponentType, ReactNode, useMemo } from "react"
-import { UiNodeGroupEnum } from "../../../kratos"
-import { getNodesOfGroup } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
 import { getOidcProviderType, OidcProvider, providers } from "./providers"
@@ -23,27 +21,13 @@ export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
             return {}
         }
 
-        const oidcGroupNodes = getNodesOfGroup(settingsFlow.ui.nodes, UiNodeGroupEnum.Oidc)
-
-        const oidcTypes = providers.reduce(
-            (acc, provider) => {
-                const type = getOidcProviderType(provider, oidcGroupNodes)
-
-                if (type) {
-                    acc[provider] = type
-                }
-
-                return acc
-            },
-            {} as Record<OidcProvider, "link" | "unlink">,
-        )
-
         return providers.reduce((acc, provider) => {
             const providerName = (provider.charAt(0).toUpperCase() + provider.slice(1)) as Capitalize<OidcProvider>
+            const type = getOidcProviderType(provider, settingsFlow.ui.nodes)
 
-            if (oidcTypes[provider]) {
+            if (type) {
                 acc[providerName] = ({ children }: { children: ReactNode }) => (
-                    <Oidc provider={provider} type={oidcTypes[provider]}>
+                    <Oidc provider={provider} type={type}>
                         {children}
                     </Oidc>
                 )
