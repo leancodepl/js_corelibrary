@@ -1,16 +1,19 @@
 import { useForm } from "@tanstack/react-form"
-import { handleOnSubmitErrors } from "../../../utils"
+import { handleOnSubmitErrors, TraitsConfig } from "../../../utils"
 import { getCsrfToken } from "../../../utils/flow"
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { InputFields } from "./types"
 
-type UseTotpFormProps = {
-    onError?: OnSettingsFlowError
+type UseTotpFormProps<TTraitsConfig extends TraitsConfig> = {
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onTotpSuccess?: () => void
 }
 
-export function useTotpForm({ onError, onTotpSuccess }: UseTotpFormProps) {
+export function useTotpForm<TTraitsConfig extends TraitsConfig>({
+    onError,
+    onTotpSuccess,
+}: UseTotpFormProps<TTraitsConfig>) {
     const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
     const { data: registrationFlow } = useGetSettingsFlow()
 

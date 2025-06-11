@@ -6,7 +6,7 @@ import { OnSettingsFlowError } from "../types"
 
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
-    onError?: OnSettingsFlowError
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangeTraitsSuccess?: () => void
 }
 
