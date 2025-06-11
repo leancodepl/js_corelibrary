@@ -1,4 +1,4 @@
-import { traitPrefix } from "../../flows/registration/config"
+import { traitPrefix } from "../traits"
 import {
     createCredential,
     getCredential,
