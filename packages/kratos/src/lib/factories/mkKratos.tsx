@@ -1,5 +1,5 @@
 import { loginFlow, logoutFlow, recoveryFlow, registrationFlow, settingsFlow, verificationFlow } from "../flows"
-import { TraitsConfig } from "../flows/registration/types"
+import { TraitsConfig } from "../utils"
 
 export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTraitsConfig = {} as TTraitsConfig) {
     return {

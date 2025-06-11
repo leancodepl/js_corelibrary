@@ -1,5 +1,5 @@
 import { ComponentType, ReactNode, useEffect } from "react"
-import { TraitsConfig } from "../registration/types"
+import { TraitsConfig } from "../../utils"
 import { SettingsFlowProvider, useCreateSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
 import { OidcFormProps, OidcFormWrapper } from "./oidcForm"
