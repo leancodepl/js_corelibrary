@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from "react"
+import { createContext, ReactNode, useCallback, useContext, useState } from "react"
 
 type LoginFlowContext = {
     loginFlowId?: string
@@ -8,7 +8,7 @@ type LoginFlowContext = {
 
 const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
 
-export function LoginFlowProvider({ children }: { children: React.ReactNode }) {
+export function LoginFlowProvider({ children }: { children: ReactNode }) {
     const [loginFlowId, setLoginFlowId] = useState<string>()
 
     const resetContext = useCallback(() => {

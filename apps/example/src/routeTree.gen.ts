@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegistrationImport } from './routes/registration'
+import { Route as RecoveryImport } from './routes/recovery'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 
@@ -20,6 +21,12 @@ import { Route as LoginImport } from './routes/login'
 const RegistrationRoute = RegistrationImport.update({
   id: '/registration',
   path: '/registration',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RecoveryRoute = RecoveryImport.update({
+  id: '/recovery',
+  path: '/recovery',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
     }
+    '/recovery': {
+      id: '/recovery'
+      path: '/recovery'
+      fullPath: '/recovery'
+      preLoaderRoute: typeof RecoveryImport
+      parentRoute: typeof rootRoute
+    }
     '/registration': {
       id: '/registration'
       path: '/registration'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
 }
 
@@ -81,27 +97,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
+  '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/logout' | '/registration'
+  fullPaths: '/login' | '/logout' | '/recovery' | '/registration'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/logout' | '/registration'
-  id: '__root__' | '/login' | '/logout' | '/registration'
+  to: '/login' | '/logout' | '/recovery' | '/registration'
+  id: '__root__' | '/login' | '/logout' | '/recovery' | '/registration'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   LogoutRoute: typeof LogoutRoute
+  RecoveryRoute: typeof RecoveryRoute
   RegistrationRoute: typeof RegistrationRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   LogoutRoute: LogoutRoute,
+  RecoveryRoute: RecoveryRoute,
   RegistrationRoute: RegistrationRoute,
 }
 
@@ -117,6 +136,7 @@ export const routeTree = rootRoute
       "children": [
         "/login",
         "/logout",
+        "/recovery",
         "/registration"
       ]
     },
@@ -125,6 +145,9 @@ export const routeTree = rootRoute
     },
     "/logout": {
       "filePath": "logout.tsx"
+    },
+    "/recovery": {
+      "filePath": "recovery.tsx"
     },
     "/registration": {
       "filePath": "registration.tsx"

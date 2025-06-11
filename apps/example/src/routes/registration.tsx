@@ -1,14 +1,9 @@
-import {
-    registrationFlow,
-    verificationFlow,
-    AuthError,
-    CommonCheckboxFieldProps,
-    CommonInputFieldProps,
-} from "@leancodepl/kratos"
+import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
-import { FC, ReactNode } from "react"
 import { z } from "zod"
-import { RegistrationFlow, AuthTraitsConfig } from "../services/kratos"
+import { RegistrationFlow, AuthTraitsConfig, getErrorMessage } from "../services/kratos"
+import { Checkbox } from "../components/Checkbox"
+import { Input } from "../components/Input"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -47,69 +42,6 @@ function RouteComponent() {
         />
     )
 }
-
-const getErrorMessage = (error: AuthError) => {
-    switch (error.id) {
-        case "Error_InvalidFormat":
-            return "Nieprawidłowa wartość"
-        case "Error_InvalidFormat_WithContext":
-            return `Nieprawidłowa wartość: ${error.context.reason}`
-        case "Error_MissingProperty":
-            return "To pole jest wymagane"
-        case "Error_MissingProperty_WithContext":
-            return `Pole "${error.context.property}" jest wymagane`
-        case "Error_TooShort_WithContext":
-            return `Liczba znaków musi być większa niż ${error.context.min_length}`
-        case "Error_TooShort":
-            return "Wprowadzona wartość jest zbyt krótka"
-        case "Error_InvalidPattern_WithContext":
-            return `Wartość powinna mieć format: ${error.context.pattern}`
-        case "Error_InvalidPattern":
-            return "Wprowadzona wartość nie pasuje do wzorca"
-        case "Error_PasswordPolicyViolation":
-            return "Wprowadzone hasło nie może zostać użyte"
-        case "Error_InvalidCredentials":
-            return "Wprowadzone dane są nieprawidłowe, sprawdź literówki w adresie e-mail lub haśle"
-        case "Error_MustBeEqualTo_WithContext":
-            return `Wartość musi być: ${error.context.expected}`
-        default:
-            return "originalError" in error ? error.originalError.text : error.id
-    }
-}
-
-const Input: FC<CommonInputFieldProps & { placeholder?: string }> = ({ errors, ...props }) => (
-    <div>
-        <input {...props} />
-        {errors && errors.length > 0 && (
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        )}
-    </div>
-)
-
-const Checkbox: FC<CommonCheckboxFieldProps & { placeholder?: string; children?: ReactNode }> = ({
-    errors,
-    children,
-    ...props
-}) => (
-    <div>
-        <label>
-            <input {...props} />
-            {children}
-        </label>
-
-        {errors && errors.length > 0 && (
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        )}
-    </div>
-)
 
 function TraitsForm({
     errors,
