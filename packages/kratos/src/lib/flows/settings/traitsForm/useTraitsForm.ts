@@ -1,8 +1,8 @@
 import { useForm } from "@tanstack/react-form"
 import { SettingsFlowState } from "../../../kratos"
-import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
+import { getCsrfToken, handleOnSubmitErrors, TraitsConfig } from "../../../utils"
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../hooks"
-import { OnSettingsFlowError, TraitsConfig } from "../types"
+import { OnSettingsFlowError } from "../types"
 
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
