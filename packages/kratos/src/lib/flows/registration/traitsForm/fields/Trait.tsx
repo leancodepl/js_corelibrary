@@ -1,7 +1,11 @@
 import { ComponentType, ReactNode } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { CommonCheckboxFieldProps, CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../../utils"
-import { traitPrefix } from "../../config"
+import {
+    CommonCheckboxFieldProps,
+    CommonInputFieldProps,
+    getAuthErrorsFromFormErrorMap,
+    traitPrefix,
+} from "../../../../utils"
 import { useTraitsFormContext } from "../traitsFormContext"
 
 type TraitProps<TTrait extends string> = {
