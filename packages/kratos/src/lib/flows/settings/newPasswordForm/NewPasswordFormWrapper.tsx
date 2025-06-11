@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
+import { AuthError, TraitsConfig } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Password, PasswordConfirmation } from "./fields"
@@ -16,19 +16,19 @@ export type NewPasswordFormProps = {
     emailVerificationRequired?: boolean
 }
 
-type NewPasswordFormWrapperProps = {
+type NewPasswordFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     newPasswordForm: ComponentType<NewPasswordFormProps>
     emailVerificationRequired?: boolean
-    onError?: OnSettingsFlowError
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangePasswordSuccess?: () => void
 }
 
-export function NewPasswordFormWrapper({
+export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
     newPasswordForm: NewPasswordForm,
     emailVerificationRequired,
     onError,
     onChangePasswordSuccess,
-}: NewPasswordFormWrapperProps) {
+}: NewPasswordFormWrapperProps<TTraitsConfig>) {
     const { data: settingsFlow } = useGetSettingsFlow()
     const newPasswordForm = useNewPasswordForm({ onError, onChangePasswordSuccess })
     const formErrors = useFormErrors(newPasswordForm)

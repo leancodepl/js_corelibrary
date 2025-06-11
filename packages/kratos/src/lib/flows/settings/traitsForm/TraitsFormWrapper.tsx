@@ -26,7 +26,7 @@ type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
     emailVerificationRequired: boolean
-    onError?: OnSettingsFlowError
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangeTraitsSuccess?: () => void
 }
 

@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
 import { UiNodeImageAttributesNodeTypeEnum } from "../../../kratos"
-import { AuthError, getNodeById } from "../../../utils"
+import { AuthError, getNodeById, TraitsConfig } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Code, Unlink } from "./fields"
@@ -12,7 +12,11 @@ export type TotpFormProps = {
     emailVerificationRequired?: boolean
 } & (
     | {
-          isTotpLinked: false
+          isTotpLinked: true
+          Unlink?: ComponentType<{ children: ReactNode }>
+      }
+    | {
+          isTotpLinked?: false
           Code?: ComponentType<{ children: ReactNode }>
           totpQrImageSrc?: string
           totpSecretKey?: string
@@ -20,25 +24,21 @@ export type TotpFormProps = {
           isSubmitting: boolean
           isValidating: boolean
       }
-    | {
-          isTotpLinked: true
-          Unlink?: ComponentType<{ children: ReactNode }>
-      }
 )
 
-type TotpFormWrapperProps = {
+type TotpFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     totpForm: ComponentType<TotpFormProps>
     emailVerificationRequired?: boolean
-    onError?: OnSettingsFlowError
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onTotpSuccess?: () => void
 }
 
-export function TotpFormWrapper({
+export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
     totpForm: TotpForm,
     emailVerificationRequired,
     onError,
     onTotpSuccess,
-}: TotpFormWrapperProps) {
+}: TotpFormWrapperProps<TTraitsConfig>) {
     const totpForm = useTotpForm({ onError, onTotpSuccess })
     const formErrors = useFormErrors(totpForm)
 
@@ -99,7 +99,6 @@ export function TotpFormWrapper({
                         emailVerificationRequired={emailVerificationRequired}
                         errors={formErrors}
                         isSubmitting={totpForm.state.isSubmitting}
-                        isTotpLinked={false}
                         isValidating={totpForm.state.isValidating}
                         totpQrImageSrc={totpQrImageSrc}
                         totpSecretKey={totpSecretKey}

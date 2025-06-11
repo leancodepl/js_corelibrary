@@ -13,7 +13,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
 }

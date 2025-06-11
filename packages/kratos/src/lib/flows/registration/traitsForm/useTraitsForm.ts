@@ -7,7 +7,7 @@ import { OnRegistrationFlowError } from "../types"
 
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 

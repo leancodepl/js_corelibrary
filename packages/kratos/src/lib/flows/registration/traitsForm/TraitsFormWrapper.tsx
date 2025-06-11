@@ -26,7 +26,7 @@ export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponen
 type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 

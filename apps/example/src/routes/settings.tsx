@@ -8,7 +8,7 @@ const settingsSearchSchema = z.object({
     flow: z.string().optional(),
 })
 
-const handleError: settingsFlow.OnSettingsFlowError = ({ target, errors }) => {
+const handleError: settingsFlow.OnSettingsFlowError<AuthTraitsConfig> = ({ target, errors }) => {
     if (target === "root") {
         alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
     } else {
@@ -33,19 +33,19 @@ function RouteComponent() {
             oidcForm={OidcForm}
             settingsForm={({
                 emailVerificationRequired,
-                newPasswordFormWrapper,
-                traitsFormWrapper,
-                passkeysFormWrapper,
-                totpFormWrapper,
-                oidcFormWrapper,
+                newPasswordForm,
+                traitsForm,
+                passkeysForm,
+                totpForm,
+                oidcForm,
             }) => {
                 return (
                     <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
-                        {traitsFormWrapper}
-                        {newPasswordFormWrapper}
-                        {passkeysFormWrapper}
-                        {totpFormWrapper}
-                        {oidcFormWrapper}
+                        {traitsForm}
+                        {newPasswordForm}
+                        {passkeysForm}
+                        {totpForm}
+                        {oidcForm}
                     </div>
                 )
             }}

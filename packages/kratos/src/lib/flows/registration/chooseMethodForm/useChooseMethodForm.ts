@@ -1,19 +1,22 @@
 import { useForm } from "@tanstack/react-form"
 import { useRegistrationFlowContext } from ".."
 import { instanceOfSuccessfulNativeRegistration, RegistrationFlowState } from "../../../kratos"
-import { handleOnSubmitErrors } from "../../../utils"
+import { handleOnSubmitErrors, TraitsConfig } from "../../../utils"
 import { getCsrfToken } from "../../../utils/flow"
 import { useGetRegistrationFlow } from "../hooks"
 import { useUpdateRegistrationFlow } from "../hooks/useUpdateRegistrationFlow"
 import { OnRegistrationFlowError } from "../types"
 import { InputFields } from "./types"
 
-type UseChooseMethodFormProps = {
-    onError?: OnRegistrationFlowError
+type UseChooseMethodFormProps<TTraitsConfig extends TraitsConfig> = {
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 
-export function useChooseMethodForm({ onError, onRegistrationSuccess }: UseChooseMethodFormProps) {
+export function useChooseMethodForm<TTraitsConfig extends TraitsConfig>({
+    onError,
+    onRegistrationSuccess,
+}: UseChooseMethodFormProps<TTraitsConfig>) {
     const { setTraitsFormCompleted, traits } = useRegistrationFlowContext()
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
     const { data: registrationFlow } = useGetRegistrationFlow()

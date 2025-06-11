@@ -1,5 +1,6 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { settingsFlow } from ".."
+import { TraitsConfig } from "../../utils"
 import { CodeFormProps, CodeFormWrapper } from "./codeForm"
 import { EmailFormProps, EmailFormWrapper } from "./emailForm"
 import { RecoveryFlowProvider, useCreateRecoveryFlow, useGetRecoveryFlow, useRecoveryFlowContext } from "./hooks"
@@ -15,7 +16,7 @@ export type RecoveryFlowProps = {
     onRecoverySuccess?: () => void
 }
 
-function RecoveryFlowWrapper({
+function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
     emailForm: EmailForm,
     codeForm: CodeForm,
     newPasswordForm: NewPasswordForm,
@@ -62,9 +63,9 @@ function RecoveryFlowWrapper({
                 <settingsFlow.SettingsFlowWrapper
                     initialFlowId={settingsFlowId}
                     newPasswordForm={NewPasswordForm}
-                    settingsForm={({ newPasswordFormWrapper }) => newPasswordFormWrapper}
+                    settingsForm={({ newPasswordForm }) => newPasswordForm}
                     onChangePasswordSuccess={onRecoverySuccess}
-                    onError={onError as settingsFlow.OnSettingsFlowError}
+                    onError={onError as settingsFlow.OnSettingsFlowError<TTraitsConfig>}
                 />
             )}
         </>

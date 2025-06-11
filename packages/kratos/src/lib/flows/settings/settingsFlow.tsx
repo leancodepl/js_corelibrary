@@ -17,16 +17,16 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     oidcForm?: ComponentType<OidcFormProps>
     initialFlowId?: string
     initialVerifiableAddress?: string
-    onError?: OnSettingsFlowError
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangePasswordSuccess?: () => void
     onChangeTraitsSuccess?: () => void
     settingsForm: ComponentType<{
         emailVerificationRequired: boolean
-        newPasswordFormWrapper: ReactNode
-        traitsFormWrapper?: ReactNode
-        passkeysFormWrapper?: ReactNode
-        totpFormWrapper?: ReactNode
-        oidcFormWrapper?: ReactNode
+        newPasswordForm: ReactNode
+        traitsForm?: ReactNode
+        passkeysForm?: ReactNode
+        totpForm?: ReactNode
+        oidcForm?: ReactNode
     }>
 }
 
@@ -68,7 +68,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     return (
         <SettingsForm
             emailVerificationRequired={emailVerificationRequired}
-            newPasswordFormWrapper={
+            newPasswordForm={
                 <NewPasswordFormWrapper
                     emailVerificationRequired={emailVerificationRequired}
                     newPasswordForm={NewPasswordForm}
@@ -76,9 +76,9 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
                     onError={onError}
                 />
             }
-            oidcFormWrapper={OidcForm && <OidcFormWrapper oidcForm={OidcForm} />}
-            passkeysFormWrapper={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
-            totpFormWrapper={
+            oidcForm={OidcForm && <OidcFormWrapper oidcForm={OidcForm} />}
+            passkeysForm={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
+            totpForm={
                 TotpForm && (
                     <TotpFormWrapper
                         emailVerificationRequired={emailVerificationRequired}
@@ -88,7 +88,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
                     />
                 )
             }
-            traitsFormWrapper={
+            traitsForm={
                 traitsConfig &&
                 TraitsForm && (
                     <TraitsFormWrapper

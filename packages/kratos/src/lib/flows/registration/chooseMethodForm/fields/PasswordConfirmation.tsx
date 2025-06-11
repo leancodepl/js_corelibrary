@@ -14,14 +14,10 @@ type PasswordConfirmationProps = {
     children: ReactNode
 }
 
-const validatorHandler: FieldValidateFn<
-    {
-        [InputFields.Password]: string
-        [InputFields.PasswordConfirmation]: string
-    },
-    "password_confirmation",
-    string
-> = ({ value, fieldApi }) => {
+const validatorHandler: FieldValidateFn<Record<InputFields, string>, "password_confirmation", string> = ({
+    value,
+    fieldApi,
+}) => {
     const meta = fieldApi.form.getFieldMeta(InputFields.PasswordConfirmation)
 
     if (meta?.isDirty && meta?.isTouched) {
