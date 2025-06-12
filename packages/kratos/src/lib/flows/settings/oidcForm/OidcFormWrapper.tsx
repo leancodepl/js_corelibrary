@@ -1,4 +1,5 @@
 import { ComponentType, ReactNode, useMemo } from "react"
+import { toUpperFirst } from "@leancodepl/utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
 import { getOidcProviderType, OidcProvider, providers } from "./providers"
@@ -22,7 +23,7 @@ export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
         }
 
         return providers.reduce((acc, provider) => {
-            const providerName = (provider.charAt(0).toUpperCase() + provider.slice(1)) as Capitalize<OidcProvider>
+            const providerName = toUpperFirst(provider)
             const type = getOidcProviderType(provider, settingsFlow.ui.nodes)
 
             if (type) {
