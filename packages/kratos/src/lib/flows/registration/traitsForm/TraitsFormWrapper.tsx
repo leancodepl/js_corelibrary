@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
-import { OnRegistrationFlowError, TraitsConfig } from "../types"
+import { AuthError, TraitsConfig } from "../../../utils"
+import { OnRegistrationFlowError } from "../types"
 import { Apple, Facebook, Google, TraitCheckbox, TraitInput } from "./fields"
 import { TraitsFormProvider } from "./traitsFormContext"
 import { useTraitsForm } from "./useTraitsForm"
@@ -26,7 +26,7 @@ export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponen
 type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 

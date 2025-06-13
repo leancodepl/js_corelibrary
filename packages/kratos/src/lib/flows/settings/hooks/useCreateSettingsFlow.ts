@@ -3,7 +3,7 @@ import { useKratosContext } from "../../../hooks"
 import { settingsFlowKey } from "./queryKeys"
 import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
-export function useCreateSettingsFlow({ returnTo }: { returnTo?: string } = {}) {
+export function useCreateSettingsFlow() {
     const { kratosClient } = useKratosContext()
     const { setSettingsFlowId } = useSettingsFlowContext()
 
@@ -11,7 +11,7 @@ export function useCreateSettingsFlow({ returnTo }: { returnTo?: string } = {}) 
 
     return useMutation({
         mutationFn: () =>
-            kratosClient.createBrowserSettingsFlow({ returnTo }, async ({ init: { headers } }) => ({
+            kratosClient.createBrowserSettingsFlow({}, async ({ init: { headers } }) => ({
                 headers: { ...headers, Accept: "application/json" },
                 credentials: "include",
             })),

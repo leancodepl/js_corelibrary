@@ -1,55 +1,19 @@
-import { traitPrefix } from "../../flows/registration/config"
+import { traitPrefix } from "../traits"
+import {
+    createCredential,
+    getCredential,
+    trySafeStringifyExistingCredential,
+    trySafeStringifyNewCredential,
+} from "./credential"
+import { base64urlDecode, base64urlEncode } from "./helpers"
+import { PasskeyChallengeOptions, PasskeyCreateData, PasskeySettingsCreateData } from "./types"
 
 function isPasskeySupported() {
     return !!window.PublicKeyCredential
 }
 
-type PasskeyChallenge = {
-    publicKey: {
-        challenge: string
-        timeout: number
-        rpId: string
-        userVerification: UserVerificationRequirement
-    }
-}
-
-type PasskeyCreateData = {
-    credentialOptions: {
-        publicKey: {
-            rp: {
-                name: string
-                id: string
-            }
-            user: PublicKeyCredentialUserEntityJSON
-            challenge: string
-            pubKeyCredParams: PublicKeyCredentialParameters[]
-            timeout: number
-            authenticatorSelection: {
-                authenticatorAttachment: AuthenticatorAttachment
-                requireResidentKey: boolean
-                residentKey: ResidentKeyRequirement
-                userVerification: UserVerificationRequirement
-            }
-        }
-    }
-    displayNameFieldName: string
-}
-
-function base64urlDecode(value: string) {
-    return Uint8Array.from(atob(value.replaceAll("-", "+").replaceAll("_", "/")), function (c) {
-        return c.charCodeAt(0)
-    })
-}
-
-function base64urlEncode(value: ArrayBuffer) {
-    return btoa(String.fromCharCode(...new Uint8Array(value)))
-        .replaceAll("+", "-")
-        .replaceAll("/", "_")
-        .replaceAll("=", "")
-}
-
 export async function passkeyLoginInit(passkeyChallengeString: string, signal?: AbortSignal) {
-    const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
+    const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallengeOptions
 
     if (!isPasskeySupported()) return undefined
     if (!window.PublicKeyCredential.isConditionalMediationAvailable) return undefined
@@ -90,36 +54,15 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
 }
 
 export async function passkeyLogin(passkeyChallengeString: string, signal?: AbortSignal) {
-    const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallenge
+    const challengeOptions = JSON.parse(passkeyChallengeString) as PasskeyChallengeOptions
 
     try {
-        const credential = await navigator.credentials.get({
-            signal,
-            publicKey: {
-                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
-                timeout: passkeyChallenge.publicKey.timeout,
-                rpId: passkeyChallenge.publicKey.rpId,
-                userVerification: passkeyChallenge.publicKey.userVerification,
-            },
-        })
-
-        if (!credential) return undefined
-        if (!(credential instanceof PublicKeyCredential)) return undefined
-        if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
-
-        return JSON.stringify({
-            id: credential.id,
-            rawId: base64urlEncode(credential.rawId),
-            type: credential.type,
-            response: {
-                authenticatorData: base64urlEncode(credential.response.authenticatorData),
-                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-                signature: base64urlEncode(credential.response.signature),
-                userHandle: credential.response.userHandle
-                    ? base64urlEncode(credential.response.userHandle)
-                    : undefined,
-            },
-        })
+        return trySafeStringifyExistingCredential(
+            await getCredential({
+                challengeOptions,
+                signal,
+            }),
+        )
     } catch {
         return undefined
     }
@@ -130,9 +73,7 @@ export async function passkeyRegister(
     signal?: AbortSignal,
     traits?: Record<string, boolean | string>,
 ) {
-    const { credentialOptions: passkeyChallenge, displayNameFieldName } = JSON.parse(
-        passkeyChallengeString,
-    ) as PasskeyCreateData
+    const { credentialOptions, displayNameFieldName } = JSON.parse(passkeyChallengeString) as PasskeyCreateData
 
     const displayNameTraitName = displayNameFieldName.startsWith(traitPrefix)
         ? displayNameFieldName.slice(traitPrefix.length)
@@ -141,37 +82,31 @@ export async function passkeyRegister(
     const displayName = typeof traits?.[displayNameTraitName] === "string" ? traits[displayNameTraitName] : ""
 
     try {
-        const credential = await navigator.credentials.create({
-            signal,
-            publicKey: {
-                challenge: base64urlDecode(passkeyChallenge.publicKey.challenge),
-                timeout: passkeyChallenge.publicKey.timeout,
-                rp: {
-                    id: passkeyChallenge.publicKey.rp.id,
-                    name: passkeyChallenge.publicKey.rp.name,
-                },
-                user: {
-                    id: base64urlDecode(passkeyChallenge.publicKey.user.id),
-                    name: displayName,
-                    displayName: displayName,
-                },
-                pubKeyCredParams: passkeyChallenge.publicKey.pubKeyCredParams,
-            },
-        })
+        return trySafeStringifyNewCredential(
+            await createCredential({
+                credentialOptions,
+                signal,
+                userName: displayName,
+                userDisplayName: displayName,
+            }),
+        )
+    } catch {
+        return undefined
+    }
+}
 
-        if (!credential) return undefined
-        if (!(credential instanceof PublicKeyCredential)) return undefined
-        if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
+export async function passkeySettingsRegister(passkeyChallengeString: string, signal?: AbortSignal) {
+    const credentialOptions = JSON.parse(passkeyChallengeString) as PasskeySettingsCreateData
 
-        return JSON.stringify({
-            id: credential.id,
-            rawId: base64urlEncode(credential.rawId),
-            type: credential.type,
-            response: {
-                attestationObject: base64urlEncode(credential.response.attestationObject),
-                clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-            },
-        })
+    try {
+        return trySafeStringifyNewCredential(
+            await createCredential({
+                credentialOptions,
+                signal,
+                userName: credentialOptions.publicKey.user.name,
+                userDisplayName: credentialOptions.publicKey.user.displayName,
+            }),
+        )
     } catch {
         return undefined
     }

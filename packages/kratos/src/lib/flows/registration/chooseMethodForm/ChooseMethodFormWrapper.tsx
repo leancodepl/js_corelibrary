@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
+import { AuthError, TraitsConfig } from "../../../utils"
 import { OnRegistrationFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Passkey, Password, PasswordConfirmation, ReturnToTraitsForm } from "./fields"
@@ -16,17 +16,17 @@ export type ChooseMethodFormProps = {
     isValidating: boolean
 }
 
-type ChooseMethodFormWrapperProps = {
+type ChooseMethodFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 
-export function ChooseMethodFormWrapper({
+export function ChooseMethodFormWrapper<TTraitsConfig extends TraitsConfig>({
     chooseMethodForm: ChooseMethodForm,
     onError,
     onRegistrationSuccess,
-}: ChooseMethodFormWrapperProps) {
+}: ChooseMethodFormWrapperProps<TTraitsConfig>) {
     const chooseMethodForm = useChooseMethodForm({ onError, onRegistrationSuccess })
     const formErrors = useFormErrors(chooseMethodForm)
 

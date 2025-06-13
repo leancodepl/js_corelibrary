@@ -8,18 +8,23 @@ import {
     handleOnSubmitErrors,
     inputNodeAttributes,
     passkeyRegister,
+    TraitsConfig,
 } from "../../../../utils"
 import { useGetRegistrationFlow, useRegistrationFlowContext, useUpdateRegistrationFlow } from "../../hooks"
 import { OnRegistrationFlowError } from "../../types"
 import { useChooseMethodFormContext } from "../chooseMethodFormContext"
 
-type PasskeyProps = {
+type PasskeyProps<TTraitsConfig extends TraitsConfig> = {
     children: ReactNode
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
 }
 
-export function Passkey({ children, onError, onRegistrationSuccess }: PasskeyProps) {
+export function Passkey<TTraitsConfig extends TraitsConfig>({
+    children,
+    onError,
+    onRegistrationSuccess,
+}: PasskeyProps<TTraitsConfig>) {
     const { traits } = useRegistrationFlowContext()
     const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
     const { data: registrationFlow } = useGetRegistrationFlow()

@@ -1,5 +1,5 @@
-import { loginFlow, logoutFlow, recoveryFlow, registrationFlow, verificationFlow } from "../flows"
-import { TraitsConfig } from "../flows/registration/types"
+import { loginFlow, logoutFlow, recoveryFlow, registrationFlow, settingsFlow, verificationFlow } from "../flows"
+import { TraitsConfig } from "../utils"
 
 export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTraitsConfig = {} as TTraitsConfig) {
     return {
@@ -8,6 +8,9 @@ export function mkKratos<TTraitsConfig extends TraitsConfig>(traitsConfig: TTrai
         RecoveryFlow: recoveryFlow.RecoveryFlow,
         RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
             <registrationFlow.RegistrationFlow traitsConfig={traitsConfig} {...props} />
+        ),
+        SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig>, "traitsConfig">) => (
+            <settingsFlow.SettingsFlow traitsConfig={traitsConfig} {...props} />
         ),
         VerificationFlow: verificationFlow.VerificationFlow,
     }

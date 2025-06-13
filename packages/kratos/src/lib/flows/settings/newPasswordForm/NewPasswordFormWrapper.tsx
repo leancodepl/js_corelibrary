@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
+import { AuthError, TraitsConfig } from "../../../utils"
+import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Password, PasswordConfirmation } from "./fields"
 import { NewPasswordFormProvider } from "./newPasswordFormContext"
@@ -12,21 +13,29 @@ export type NewPasswordFormProps = {
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
+    emailVerificationRequired?: boolean
 }
 
-type NewPasswordFormWrapperProps = {
+type NewPasswordFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     newPasswordForm: ComponentType<NewPasswordFormProps>
-    onError?: OnSettingsFlowError
+    emailVerificationRequired?: boolean
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangePasswordSuccess?: () => void
 }
 
-export function NewPasswordFormWrapper({
+export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
     newPasswordForm: NewPasswordForm,
+    emailVerificationRequired,
     onError,
     onChangePasswordSuccess,
-}: NewPasswordFormWrapperProps) {
+}: NewPasswordFormWrapperProps<TTraitsConfig>) {
+    const { data: settingsFlow } = useGetSettingsFlow()
     const newPasswordForm = useNewPasswordForm({ onError, onChangePasswordSuccess })
     const formErrors = useFormErrors(newPasswordForm)
+
+    if (!settingsFlow) {
+        return null
+    }
 
     return (
         <NewPasswordFormProvider newPasswordForm={newPasswordForm}>
@@ -36,6 +45,7 @@ export function NewPasswordFormWrapper({
                     newPasswordForm.handleSubmit()
                 }}>
                 <NewPasswordForm
+                    emailVerificationRequired={emailVerificationRequired}
                     errors={formErrors}
                     isSubmitting={newPasswordForm.state.isSubmitting}
                     isValidating={newPasswordForm.state.isValidating}

@@ -1,9 +1,10 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { verificationFlow } from ".."
+import { TraitsConfig } from "../../utils"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { RegistrationFlowProvider, useCreateRegistrationFlow, useRegistrationFlowContext } from "./hooks"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
-import { OnRegistrationFlowError, TraitsConfig } from "./types"
+import { OnRegistrationFlowError } from "./types"
 
 export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
@@ -12,7 +13,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
-    onError?: OnRegistrationFlowError
+    onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
 }

@@ -11,12 +11,26 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerificationImport } from './routes/verification'
+import { Route as SettingsImport } from './routes/settings'
 import { Route as RegistrationImport } from './routes/registration'
 import { Route as RecoveryImport } from './routes/recovery'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 
 // Create/Update Routes
+
+const VerificationRoute = VerificationImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SettingsRoute = SettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegistrationRoute = RegistrationImport.update({
   id: '/registration',
@@ -74,6 +88,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistrationImport
       parentRoute: typeof rootRoute
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsImport
+      parentRoute: typeof rootRoute
+    }
+    '/verification': {
+      id: '/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof VerificationImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +112,8 @@ export interface FileRoutesByFullPath {
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +121,8 @@ export interface FileRoutesByTo {
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +131,29 @@ export interface FileRoutesById {
   '/logout': typeof LogoutRoute
   '/recovery': typeof RecoveryRoute
   '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/logout' | '/recovery' | '/registration'
+  fullPaths:
+    | '/login'
+    | '/logout'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/logout' | '/recovery' | '/registration'
-  id: '__root__' | '/login' | '/logout' | '/recovery' | '/registration'
+  to: '/login' | '/logout' | '/recovery' | '/registration' | '/settings' | '/verification'
+  id:
+    | '__root__'
+    | '/login'
+    | '/logout'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +162,8 @@ export interface RootRouteChildren {
   LogoutRoute: typeof LogoutRoute
   RecoveryRoute: typeof RecoveryRoute
   RegistrationRoute: typeof RegistrationRoute
+  SettingsRoute: typeof SettingsRoute
+  VerificationRoute: typeof VerificationRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +171,8 @@ const rootRouteChildren: RootRouteChildren = {
   LogoutRoute: LogoutRoute,
   RecoveryRoute: RecoveryRoute,
   RegistrationRoute: RegistrationRoute,
+  SettingsRoute: SettingsRoute,
+  VerificationRoute: VerificationRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +188,9 @@ export const routeTree = rootRoute
         "/login",
         "/logout",
         "/recovery",
-        "/registration"
+        "/registration",
+        "/settings",
+        "/verification"
       ]
     },
     "/login": {
@@ -151,6 +204,12 @@ export const routeTree = rootRoute
     },
     "/registration": {
       "filePath": "registration.tsx"
+    },
+    "/settings": {
+      "filePath": "settings.tsx"
+    },
+    "/verification": {
+      "filePath": "verification.tsx"
     }
   }
 }

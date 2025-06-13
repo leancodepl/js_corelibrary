@@ -10,6 +10,6 @@ export function toLowerFirst(value: string) {
     return transformFirst(value, value => value.toLowerCase());
 }
 
-export function toUpperFirst(value: string) {
-    return transformFirst(value, value => value.toUpperCase());
+export function toUpperFirst<TValue extends string>(value: TValue) {
+    return transformFirst(value, value => value.toUpperCase()) as Capitalize<TValue>;
 }

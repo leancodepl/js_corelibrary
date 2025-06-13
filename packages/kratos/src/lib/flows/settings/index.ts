@@ -1,4 +1,8 @@
 export * from "./settingsFlow"
 export * from "./hooks/useSettingsFlowContext"
+export type { TraitsFormProps } from "./traitsForm"
 export type { NewPasswordFormProps } from "./newPasswordForm"
+export type { PasskeysFormProps } from "./passkeysForm"
 export type { OnSettingsFlowError } from "./types"
+export type { TotpFormProps } from "./totpForm"
+export type { OidcButtonProps, OidcFormProps } from "./oidcForm"

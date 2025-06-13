@@ -1,16 +1,19 @@
 import { useForm } from "@tanstack/react-form"
-import { handleOnSubmitErrors } from "../../../utils"
+import { handleOnSubmitErrors, TraitsConfig } from "../../../utils"
 import { getCsrfToken } from "../../../utils/flow"
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { InputFields } from "./types"
 
-type UseNewPasswordFormProps = {
-    onError?: OnSettingsFlowError
+type UseNewPasswordFormProps<TTraitsConfig extends TraitsConfig> = {
+    onError?: OnSettingsFlowError<TTraitsConfig>
     onChangePasswordSuccess?: () => void
 }
 
-export function useNewPasswordForm({ onError, onChangePasswordSuccess }: UseNewPasswordFormProps) {
+export function useNewPasswordForm<TTraitsConfig extends TraitsConfig>({
+    onError,
+    onChangePasswordSuccess,
+}: UseNewPasswordFormProps<TTraitsConfig>) {
     const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
     const { data: settingsFlow } = useGetSettingsFlow()
 
