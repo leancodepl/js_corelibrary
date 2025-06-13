@@ -46,11 +46,11 @@ export function ChooseMethodFormWrapper({
 
         const node = getNodeById(loginFlow.ui.nodes, "identifier")
 
-        if (!node || node.attributes.node_type !== "input") {
+        if (!node || node.attributes.node_type !== "input" || typeof node.attributes.value !== "string") {
             return undefined
         }
 
-        return typeof node.attributes.value === "string" ? node.attributes.value : undefined
+        return node.attributes.value
     }, [loginFlow])
 
     return (

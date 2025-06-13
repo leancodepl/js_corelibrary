@@ -1,5 +1,5 @@
 import { catchError, from, map, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
-import { AuthenticatorAssuranceLevel, FrontendApi, isSessionAal2Required } from "../kratos"
+import { FrontendApi, isSessionAal2Required } from "../kratos"
 import { SearchQueryParameters, TraitsConfig } from "../utils"
 import { SessionWithTypedUserTraits } from "./types"
 
@@ -9,6 +9,7 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
     loginRoute: string
 
     session$: Subject<SessionWithTypedUserTraits<TTraitsConfig> | undefined> = new ReplaySubject(1)
+    isAal2Required$: Subject<boolean | undefined> = new ReplaySubject(1)
 
     isLoggedIn$ = this.session$.pipe(
         map(session => !!session?.active),
@@ -45,6 +46,8 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
                                 window.location.href = returnTo
                             }
 
+                            this.isAal2Required$.next(false)
+
                             return session
                         }),
                         catchError(async err => {
@@ -54,29 +57,7 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
                                 case 403:
                                 case 422:
                                     if (isSessionAal2Required(data)) {
-                                        const searchParams = new URLSearchParams(window.location.search)
-
-                                        if (searchParams.get(SearchQueryParameters.AAL)) {
-                                            break
-                                        }
-
-                                        const redirectUrl = new URL(this.loginRoute, window.location.href)
-
-                                        if (window.location.pathname === this.loginRoute) {
-                                            const searchParams = new URLSearchParams(window.location.search)
-                                            searchParams.append(
-                                                SearchQueryParameters.AAL,
-                                                AuthenticatorAssuranceLevel.Aal2,
-                                            )
-                                            redirectUrl.search = searchParams.toString()
-                                        } else {
-                                            redirectUrl.search = new URLSearchParams({
-                                                [SearchQueryParameters.AAL]: AuthenticatorAssuranceLevel.Aal2,
-                                                [SearchQueryParameters.ReturnTo]: `${window.location.pathname}${window.location.search}`,
-                                            }).toString()
-                                        }
-
-                                        window.location.href = redirectUrl.toString()
+                                        this.isAal2Required$.next(true)
                                     }
                                     break
                             }
