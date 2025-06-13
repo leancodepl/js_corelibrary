@@ -8,28 +8,34 @@ import { Code, Unlink } from "./fields"
 import { TotpFormProvider } from "./totpFormContext"
 import { useTotpForm } from "./useTotpForm"
 
-export type TotpFormProps = {
+type TotpFormPropsBase = {
     emailVerificationRequired?: boolean
-} & (
-    | {
-          isLoading: true
-      }
-    | {
-          isLoading?: false
-          isTotpLinked: true
-          Unlink?: ComponentType<{ children: ReactNode }>
-      }
-    | {
-          isLoading?: false
-          isTotpLinked?: false
-          Code?: ComponentType<{ children: ReactNode }>
-          totpQrImageSrc?: string
-          totpSecretKey?: string
-          errors: Array<AuthError>
-          isSubmitting: boolean
-          isValidating: boolean
-      }
-)
+}
+
+type TotpFormPropsLoading = TotpFormPropsBase & {
+    isLoading: true
+}
+
+type TotpFormPropsLoaded = TotpFormPropsBase & {
+    isLoading?: false
+}
+
+type TotpFormPropsLinked = TotpFormPropsLoaded & {
+    isTotpLinked: true
+    Unlink?: ComponentType<{ children: ReactNode }>
+}
+
+type TotpFormPropsUnlinked = TotpFormPropsLoaded & {
+    isTotpLinked?: false
+    Code?: ComponentType<{ children: ReactNode }>
+    totpQrImageSrc?: string
+    totpSecretKey?: string
+    errors: Array<AuthError>
+    isSubmitting: boolean
+    isValidating: boolean
+}
+
+export type TotpFormProps = TotpFormPropsLinked | TotpFormPropsLoading | TotpFormPropsUnlinked
 
 type TotpFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     totpForm: ComponentType<TotpFormProps>
@@ -97,18 +103,12 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
                 {isLoading ? (
                     <TotpForm isLoading />
                 ) : isTotpLinked ? (
-                    <TotpForm
-                        isTotpLinked
-                        emailVerificationRequired={emailVerificationRequired}
-                        isLoading={false}
-                        Unlink={Unlink}
-                    />
+                    <TotpForm isTotpLinked emailVerificationRequired={emailVerificationRequired} Unlink={Unlink} />
                 ) : (
                     <TotpForm
                         Code={Code}
                         emailVerificationRequired={emailVerificationRequired}
                         errors={formErrors}
-                        isLoading={false}
                         isSubmitting={totpForm.state.isSubmitting}
                         isValidating={totpForm.state.isValidating}
                         totpQrImageSrc={totpQrImageSrc}

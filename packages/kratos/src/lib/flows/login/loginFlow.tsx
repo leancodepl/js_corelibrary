@@ -1,6 +1,6 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useEffect, useMemo, useState } from "react"
 import { verificationFlow } from ".."
-import { SearchQueryParameters } from "../../utils"
+import { useKratosSessionContext } from "../../hooks"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
@@ -32,11 +32,17 @@ function LoginFlowWrapper({
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
     const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
+    const { sessionManager } = useKratosSessionContext()
 
-    const searchParams = new URLSearchParams(window.location.search)
-    const aalFromUrl = searchParams.get(SearchQueryParameters.AAL) ?? undefined
+    const [isAal2Required, setIsAal2Required] = useState<boolean | undefined>()
 
-    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, aal: aalFromUrl })
+    useEffect(() => {
+        sessionManager.isAal2Required$.subscribe(value => {
+            setIsAal2Required(value)
+        })
+    }, [sessionManager])
+
+    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, aal: isAal2Required ? "aal2" : undefined })
     const { data: loginFlow } = useGetLoginFlow()
 
     useEffect(() => {
