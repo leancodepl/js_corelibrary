@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo } from "react"
-import { TraitsConfig } from "../flows/registration/types"
 import { BaseSessionManager } from "../sessionManager"
+import { TraitsConfig } from "../utils"
 
 type KratosSessionContext<TTraitsConfig extends TraitsConfig> = {
     sessionManager: BaseSessionManager<TTraitsConfig>

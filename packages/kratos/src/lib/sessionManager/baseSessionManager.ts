@@ -1,7 +1,6 @@
 import { catchError, from, map, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
-import { TraitsConfig } from "../flows/registration/types"
 import { AuthenticatorAssuranceLevel, FrontendApi, isSessionAal2Required } from "../kratos"
-import { SearchQueryParameters } from "../utils"
+import { SearchQueryParameters, TraitsConfig } from "../utils"
 import { SessionWithTypedUserTraits } from "./types"
 
 export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {

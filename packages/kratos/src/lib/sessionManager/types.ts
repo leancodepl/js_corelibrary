@@ -1,5 +1,5 @@
-import { TraitsConfig } from "../flows/registration/types"
 import { Identity, Session } from "../kratos"
+import { TraitsConfig } from "../utils"
 
 export type IdentityWithTypedTraits<TTraitsConfig extends TraitsConfig> = Omit<Identity, "traits"> & {
     traits: {
