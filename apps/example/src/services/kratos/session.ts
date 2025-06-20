@@ -1,61 +1,87 @@
 import { BaseSessionManager } from "@leancodepl/kratos"
-import { map } from "rxjs/operators"
 import { AuthTraitsConfig } from "./traits"
 
 export class SessionManager extends BaseSessionManager<AuthTraitsConfig> {
-    metadata$ = this.identity$.pipe(
-        map(identity => {
-            const metadata: unknown = identity?.metadata_public
+    getTraits = async () => {
+        const identity = await this.getIdentity()
 
-            return metadata && typeof metadata === "object" ? metadata : undefined
-        }),
-    )
+        return identity?.traits
+    }
 
-    wasLoginSet$ = this.metadata$.pipe(
-        map(metadata =>
-            metadata && "was_login_set" in metadata && typeof metadata.was_login_set === "boolean"
-                ? metadata.was_login_set
-                : undefined,
-        ),
-    )
+    getEmail = async () => {
+        const traits = await this.getTraits()
 
-    regulationsAcceptedAt$ = this.metadata$.pipe(
-        map(metadata =>
-            metadata && "regulations_accepted_at" in metadata && typeof metadata.regulations_accepted_at === "string"
-                ? new Date(metadata.regulations_accepted_at)
-                : undefined,
-        ),
-    )
+        return traits?.email
+    }
 
-    regulationsAccepted$ = this.regulationsAcceptedAt$.pipe(map(regulationsAcceptedAt => !!regulationsAcceptedAt))
+    getFirstName = async () => {
+        const traits = await this.getTraits()
 
-    traits$ = this.identity$.pipe(
-        map(identity => {
-            const traits = identity?.traits
+        return traits?.given_name
+    }
 
-            return traits && typeof traits === "object" ? traits : undefined
-        }),
-    )
+    getMetadata = async () => {
+        const identity = await this.getIdentity()
+        const metadata = identity?.metadata_public
 
-    email$ = this.traits$.pipe(
-        map(traits => {
-            return traits && "email" in traits && typeof traits.email === "string" ? traits.email : undefined
-        }),
-    )
+        return metadata && typeof metadata === "object" ? metadata : undefined
+    }
 
-    firstName$ = this.traits$.pipe(
-        map(traits => {
-            return traits && "given_name" in traits && typeof traits.given_name === "string"
-                ? traits.given_name
-                : undefined
-        }),
-    )
+    getRegulationsAccepted = async () => {
+        const traits = await this.getTraits()
 
-    lastName$ = this.traits$.pipe(
-        map(traits => {
-            return traits && "last_name" in traits && typeof traits.last_name === "string"
-                ? traits.last_name
-                : undefined
-        }),
-    )
+        return !!traits?.regulations_accepted
+    }
+
+    // Hooks for React components
+
+    useTraits = () => {
+        const { identity, isLoading, error } = this.useIdentity()
+
+        return {
+            traits: identity?.traits,
+            isLoading,
+            error,
+        }
+    }
+
+    useEmail = () => {
+        const { traits, isLoading, error } = this.useTraits()
+
+        return {
+            email: traits?.email,
+            isLoading,
+            error,
+        }
+    }
+
+    useFirstName = () => {
+        const { traits, isLoading, error } = this.useTraits()
+
+        return {
+            firstName: traits?.given_name,
+            isLoading,
+            error,
+        }
+    }
+
+    useMetadata = () => {
+        const { identity, isLoading, error } = this.useIdentity()
+
+        return {
+            metadata: identity?.metadata_public,
+            isLoading,
+            error,
+        }
+    }
+
+    useRegulationsAccepted = () => {
+        const { traits, isLoading, error } = this.useTraits()
+
+        return {
+            regulationsAccepted: !!traits?.regulations_accepted,
+            isLoading,
+            error,
+        }
+    }
 }

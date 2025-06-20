@@ -1,29 +1,27 @@
 import { ReactNode } from "react"
+import { QueryClient } from "@tanstack/react-query"
 import { loginFlow, logoutFlow, recoveryFlow, registrationFlow, settingsFlow, verificationFlow } from "../flows"
 import { KratosClientProvider, KratosSessionProvider } from "../hooks"
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
+import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
 import { TraitsConfig } from "../utils"
 
 type MkKratosConfig<TTraitsConfig extends TraitsConfig, TSessionManager extends BaseSessionManager<TTraitsConfig>> = {
+    queryClient: QueryClient
     basePath: string
-    loginPath: string
     traits?: TTraitsConfig
-    SessionManager?: new (api: FrontendApi, basePath: string, loginPath: string) => TSessionManager
+    SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
 }
 
 export function mkKratos<
     TTraitsConfig extends TraitsConfig,
     TSessionManager extends BaseSessionManager<TTraitsConfig>,
 >({
+    queryClient,
     basePath,
-    loginPath,
     traits = {} as TTraitsConfig,
-    SessionManager = BaseSessionManager as new (
-        api: FrontendApi,
-        basePath: string,
-        loginPath: string,
-    ) => TSessionManager,
+    SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
 }: MkKratosConfig<TTraitsConfig, TSessionManager>) {
     const api = new FrontendApi(
         new Configuration({
@@ -32,7 +30,7 @@ export function mkKratos<
         }),
     )
 
-    const sessionManager = new SessionManager(api, basePath, loginPath)
+    const sessionManager = new SessionManager({ queryClient, api })
 
     const flows = {
         useLogout: logoutFlow.useLogout,
