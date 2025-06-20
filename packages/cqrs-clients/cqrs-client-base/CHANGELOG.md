@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/cqrs-client-base
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/cqrs-client-base
@@ -16,8 +25,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   unify results and fix types
-    ([8336cb4](https://github.com/leancodepl/js_corelibrary/commit/8336cb42529b0eeb975bccf48952fac33c07948f))
+- unify results and fix types
+  ([8336cb4](https://github.com/leancodepl/js_corelibrary/commit/8336cb42529b0eeb975bccf48952fac33c07948f))
 
 # Change Log
 
@@ -190,8 +199,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated packages.json
-    ([9623b51](https://github.com/leancodepl/js_corelibrary/commit/9623b51149402c2912d5700c1c73c27245c745d8))
+- generated packages.json
+  ([9623b51](https://github.com/leancodepl/js_corelibrary/commit/9623b51149402c2912d5700c1c73c27245c745d8))
 
 # Change Log
 
@@ -292,8 +301,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -304,8 +313,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -352,8 +361,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -364,10 +373,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   add github actions
-    ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
--   add registry option to publish script
-    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+- add github actions
+  ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
+- add registry option to publish script
+  ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
 
 # Change Log
 
@@ -380,8 +389,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   correct module paths in package.json
-    ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
+- correct module paths in package.json
+  ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
 
 <a name="6.2.0"></a>
 
@@ -389,8 +398,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
--   update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
+- update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
+- update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
 
 <a name="6.1.1"></a>
 
@@ -404,4 +413,4 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   split cqrs clients ([07fff4b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/07fff4b))
+- split cqrs clients ([07fff4b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/07fff4b))

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/api-binary-blob
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/api-binary-blob
@@ -241,8 +250,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated package.json
-    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+- generated package.json
+  ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
 
 # Change Log
 
@@ -289,8 +298,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -301,8 +310,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -349,8 +358,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -361,10 +370,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   add github actions
-    ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
--   add registry option to publish script
-    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+- add github actions
+  ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
+- add registry option to publish script
+  ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
 
 # Change Log
 
@@ -375,10 +384,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   correct module paths in package.json
-    ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
+- correct module paths in package.json
+  ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
 
 ### Features
 
--   add support for binary using blob
-    ([44af864](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/44af864))
+- add support for binary using blob
+  ([44af864](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/44af864))

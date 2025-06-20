@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/login-manager
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/login-manager
@@ -97,17 +106,17 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   apply linters config
-    ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
--   typing of removeOnChange
-    ([6314bbb](https://github.com/leancodepl/js_corelibrary/commit/6314bbba9366ab852a81e8c84b53cd50afa0e0de))
+- apply linters config
+  ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
+- typing of removeOnChange
+  ([6314bbb](https://github.com/leancodepl/js_corelibrary/commit/6314bbba9366ab852a81e8c84b53cd50afa0e0de))
 
 ### Features
 
--   add more sign in options to baseLoginManager
-    ([5bb0a5a](https://github.com/leancodepl/js_corelibrary/commit/5bb0a5aa4b33ff7d4f70ad482fc449ae2e42968c))
--   expose acquireToken in baseLoginManager
-    ([2f509ed](https://github.com/leancodepl/js_corelibrary/commit/2f509ed5d01ff81227860acde0ea6299c06bfb50))
+- add more sign in options to baseLoginManager
+  ([5bb0a5a](https://github.com/leancodepl/js_corelibrary/commit/5bb0a5aa4b33ff7d4f70ad482fc449ae2e42968c))
+- expose acquireToken in baseLoginManager
+  ([2f509ed](https://github.com/leancodepl/js_corelibrary/commit/2f509ed5d01ff81227860acde0ea6299c06bfb50))
 
 # Change Log
 
@@ -253,8 +262,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated package.json
-    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+- generated package.json
+  ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
 
 # Change Log
 
@@ -301,8 +310,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -313,8 +322,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -361,8 +370,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 # Change Log
 
@@ -373,8 +382,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   add registry option to publish script
-    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+- add registry option to publish script
+  ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
 
 # Change Log
 
@@ -391,8 +400,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   correct module paths in package.json
-    ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
+- correct module paths in package.json
+  ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
 
 <a name="6.2.0"></a>
 
@@ -400,8 +409,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
--   update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
+- update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
+- update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
 
 <a name="6.1.1"></a>
 
@@ -421,7 +430,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update dependencies ([0fed8db](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/0fed8db))
+- update dependencies ([0fed8db](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/0fed8db))
 
 <a name="5.2.0"></a>
 
@@ -429,10 +438,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update typescript to 4.1
-    ([d37dd16](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/d37dd16))
--   update typescript to 4.1.3
-    ([5e125da](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/5e125da))
+- update typescript to 4.1
+  ([d37dd16](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/d37dd16))
+- update typescript to 4.1.3
+  ([5e125da](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/5e125da))
 
 <a name="5.1.0"></a>
 
@@ -458,12 +467,12 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update to typescript 4.0
-    ([271f089](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/271f089))
+- update to typescript 4.0
+  ([271f089](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/271f089))
 
 ### BREAKING CHANGES
 
--   update peer dependency of TS to 4.0
+- update peer dependency of TS to 4.0
 
 <a name="4.5.0"></a>
 
@@ -489,8 +498,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   **login-manager:** ditch cross-fetch in favor of whatwg-fetch
-    ([4975c0a](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/4975c0a))
+- **login-manager:** ditch cross-fetch in favor of whatwg-fetch
+  ([4975c0a](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/4975c0a))
 
 <a name="4.3.1"></a>
 
@@ -498,14 +507,14 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   change tsconfig target to cope with jest properly
-    ([fcf85d2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/fcf85d2))
--   **login-manager:** fix the same bug in `SyncLoginManager`
-    ([5d648b2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/5d648b2))
--   **login-manager:** fix token refresh flow in `AsyncLoginManager`
-    ([c8ca540](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/c8ca540))
--   **login-manager:** fix types in fixed `getToken`s
-    ([68a4a2c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/68a4a2c))
+- change tsconfig target to cope with jest properly
+  ([fcf85d2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/fcf85d2))
+- **login-manager:** fix the same bug in `SyncLoginManager`
+  ([5d648b2](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/5d648b2))
+- **login-manager:** fix token refresh flow in `AsyncLoginManager`
+  ([c8ca540](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/c8ca540))
+- **login-manager:** fix types in fixed `getToken`s
+  ([68a4a2c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/68a4a2c))
 
 <a name="4.3.0"></a>
 
@@ -513,10 +522,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   **eslint-config:** iterate linters config
-    ([88dac1f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/88dac1f))
--   **login-manager:** Do not require client secret to be used in auth request, pass client id in form data in that case
-    ([51b4a69](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/51b4a69))
+- **eslint-config:** iterate linters config
+  ([88dac1f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/88dac1f))
+- **login-manager:** Do not require client secret to be used in auth request, pass client id in form data in that case
+  ([51b4a69](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/51b4a69))
 
 <a name="4.2.0"></a>
 
@@ -532,45 +541,44 @@ All notable changes to this project will be documented in this file. See
 
 ## 4.1.0 (2020-02-17)
 
--   chore(build): setup rollup ([bc78013](https://bitbucket.org/leancode-team/core-js-library/commits/bc78013))
--   chore(tests): configure jest tests ([71ea688](https://bitbucket.org/leancode-team/core-js-library/commits/71ea688))
--   chore(tests): tests setup continuation
-    ([f73841f](https://bitbucket.org/leancode-team/core-js-library/commits/f73841f))
+- chore(build): setup rollup ([bc78013](https://bitbucket.org/leancode-team/core-js-library/commits/bc78013))
+- chore(tests): configure jest tests ([71ea688](https://bitbucket.org/leancode-team/core-js-library/commits/71ea688))
+- chore(tests): tests setup continuation
+  ([f73841f](https://bitbucket.org/leancode-team/core-js-library/commits/f73841f))
 
 ## 4.1.0 (2020-02-06)
 
--   v4.1.0-alpha.6 ([b8f6eb1](https://bitbucket.org/leancode-team/core-js-library/commits/b8f6eb1))
+- v4.1.0-alpha.6 ([b8f6eb1](https://bitbucket.org/leancode-team/core-js-library/commits/b8f6eb1))
 
 ## 4.1.0-alpha.4 (2020-02-06)
 
--   Upgrade dependencies ([080af01](https://bitbucket.org/leancode-team/core-js-library/commits/080af01))
--   v4.1.0-alpha.4 ([d778eb6](https://bitbucket.org/leancode-team/core-js-library/commits/d778eb6))
+- Upgrade dependencies ([080af01](https://bitbucket.org/leancode-team/core-js-library/commits/080af01))
+- v4.1.0-alpha.4 ([d778eb6](https://bitbucket.org/leancode-team/core-js-library/commits/d778eb6))
 
 ## 4.0.0 (2019-10-23)
 
--   v4.0.0 ([1d5b7a4](https://bitbucket.org/leancode-team/core-js-library/commits/1d5b7a4))
+- v4.0.0 ([1d5b7a4](https://bitbucket.org/leancode-team/core-js-library/commits/1d5b7a4))
 
 ## <small>3.4.95 (2019-09-20)</small>
 
--   Add build system and bump packages versions
-    ([097d5c3](https://bitbucket.org/leancode-team/core-js-library/commits/097d5c3))
--   Add lerna integration ([bc63e46](https://bitbucket.org/leancode-team/core-js-library/commits/bc63e46))
--   Add login result ([084d991](https://bitbucket.org/leancode-team/core-js-library/commits/084d991))
--   Add missing error's prototype ([3635069](https://bitbucket.org/leancode-team/core-js-library/commits/3635069))
--   Add target for updating local packages versions
-    ([7e05e2f](https://bitbucket.org/leancode-team/core-js-library/commits/7e05e2f))
--   Add target for watching all packages
-    ([36b92a7](https://bitbucket.org/leancode-team/core-js-library/commits/36b92a7))
--   Await storing token ([b05fb67](https://bitbucket.org/leancode-team/core-js-library/commits/b05fb67))
--   Bump packages version ([907b7e8](https://bitbucket.org/leancode-team/core-js-library/commits/907b7e8))
--   Make isSigned/signOut always return a Promise to properly handle it without knowledge about implemen
-    ([ef43aed](https://bitbucket.org/leancode-team/core-js-library/commits/ef43aed))
--   Make TokenStorage a module ([1bdf33f](https://bitbucket.org/leancode-team/core-js-library/commits/1bdf33f))
--   Remove console warnings on unsuccessful login
-    ([adcc078](https://bitbucket.org/leancode-team/core-js-library/commits/adcc078))
--   Remove sync flag from token storage ([d1d4fa4](https://bitbucket.org/leancode-team/core-js-library/commits/d1d4fa4))
--   Remove unused package import ([810f354](https://bitbucket.org/leancode-team/core-js-library/commits/810f354))
--   Rollback sync login manager to not using promises
-    ([cb786fc](https://bitbucket.org/leancode-team/core-js-library/commits/cb786fc))
--   Use npm instead of yarn ([0ff29ce](https://bitbucket.org/leancode-team/core-js-library/commits/0ff29ce))
--   v3.4.95 ([c84752b](https://bitbucket.org/leancode-team/core-js-library/commits/c84752b))
+- Add build system and bump packages versions
+  ([097d5c3](https://bitbucket.org/leancode-team/core-js-library/commits/097d5c3))
+- Add lerna integration ([bc63e46](https://bitbucket.org/leancode-team/core-js-library/commits/bc63e46))
+- Add login result ([084d991](https://bitbucket.org/leancode-team/core-js-library/commits/084d991))
+- Add missing error's prototype ([3635069](https://bitbucket.org/leancode-team/core-js-library/commits/3635069))
+- Add target for updating local packages versions
+  ([7e05e2f](https://bitbucket.org/leancode-team/core-js-library/commits/7e05e2f))
+- Add target for watching all packages ([36b92a7](https://bitbucket.org/leancode-team/core-js-library/commits/36b92a7))
+- Await storing token ([b05fb67](https://bitbucket.org/leancode-team/core-js-library/commits/b05fb67))
+- Bump packages version ([907b7e8](https://bitbucket.org/leancode-team/core-js-library/commits/907b7e8))
+- Make isSigned/signOut always return a Promise to properly handle it without knowledge about implemen
+  ([ef43aed](https://bitbucket.org/leancode-team/core-js-library/commits/ef43aed))
+- Make TokenStorage a module ([1bdf33f](https://bitbucket.org/leancode-team/core-js-library/commits/1bdf33f))
+- Remove console warnings on unsuccessful login
+  ([adcc078](https://bitbucket.org/leancode-team/core-js-library/commits/adcc078))
+- Remove sync flag from token storage ([d1d4fa4](https://bitbucket.org/leancode-team/core-js-library/commits/d1d4fa4))
+- Remove unused package import ([810f354](https://bitbucket.org/leancode-team/core-js-library/commits/810f354))
+- Rollback sync login manager to not using promises
+  ([cb786fc](https://bitbucket.org/leancode-team/core-js-library/commits/cb786fc))
+- Use npm instead of yarn ([0ff29ce](https://bitbucket.org/leancode-team/core-js-library/commits/0ff29ce))
+- v3.4.95 ([c84752b](https://bitbucket.org/leancode-team/core-js-library/commits/c84752b))

@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/kratos",
-  "version": "8.3.6",
+  "version": "8.4.0",
   "license": "Apache-2.0",
   "dependencies": {
     "@ory/client": ">=1.14.3",
