@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useMemo, useState } from "react"
+import { ComponentType, useEffect, useMemo } from "react"
 import { verificationFlow } from ".."
 import { useKratosSessionContext } from "../../hooks"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
@@ -33,14 +33,7 @@ function LoginFlowWrapper({
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
     const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
     const { sessionManager } = useKratosSessionContext()
-
-    const [isAal2Required, setIsAal2Required] = useState<boolean | undefined>()
-
-    useEffect(() => {
-        sessionManager.isAal2Required$.subscribe(value => {
-            setIsAal2Required(value)
-        })
-    }, [sessionManager])
+    const { isAal2Required } = sessionManager.useIsAal2Required()
 
     const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, aal: isAal2Required ? "aal2" : undefined })
     const { data: loginFlow } = useGetLoginFlow()

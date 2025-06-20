@@ -1,18 +1,18 @@
 import { useRunInTask } from "@leancodepl/utils"
-import { useIsLoggedIn, useLogout, useProfileInfo, useUserId } from "../services/kratos"
+import { sessionManager, useLogout } from "../services/kratos"
 import { useCallback } from "react"
 
 export const UserInfoHeader = () => {
-    const isLoggedIn = useIsLoggedIn()
-    const userId = useUserId()
-    const { email } = useProfileInfo()
+    const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
+    const { userId } = sessionManager.useUserId()
+    const { email } = sessionManager.useEmail()
 
     const { logout } = useLogout()
 
-    const [isRunning, runInTask] = useRunInTask()
+    const [isLoggingOut, runLoggingOutTask] = useRunInTask()
 
     const handleLogout = useCallback(() => {
-        runInTask(async () => {
+        runLoggingOutTask(async () => {
             const response = await logout({ returnTo: "/login" })
 
             if (response.isSuccess) {
@@ -21,11 +21,11 @@ export const UserInfoHeader = () => {
                 alert(response.error)
             }
         })
-    }, [logout, runInTask])
+    }, [logout, runLoggingOutTask])
 
     return (
         <header style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
-            {isLoggedIn === undefined && <p>Loading user information...</p>}
+            {isLoading && <p>Loading user information...</p>}
             {isLoggedIn === false && (
                 <p>
                     <button>
@@ -36,23 +36,13 @@ export const UserInfoHeader = () => {
                     </button>
                 </p>
             )}
-            {/* {isLoggedIn && !email && (
-                <p>
-                    Welcome, user with ID: <strong>{userId}</strong>
-                </p>
-            )}
-            {isLoggedIn && email && (
-                <p>
-                    Welcome, <strong>{email}</strong> {isRunning && <p>Wylogowuję...</p>}
-                    {isLoggedIn && !isRunning && <button onClick={handleLogout}>Wyloguj</button>}
-                </p>
-            )} */}
             {isLoggedIn && (
                 <p>
                     Welcome, <strong>{email || "user with ID: " + userId}</strong>
-                    {isRunning && <p>Logging out...</p>}
-                    {!isRunning && <button onClick={handleLogout}>Logout</button>}
-                    {!isRunning && (
+                    <button onClick={() => sessionManager.checkIfLoggedIn()}>check if logged in</button>
+                    {isLoggingOut && <p>Logging out...</p>}
+                    {!isLoggingOut && <button onClick={handleLogout}>Logout</button>}
+                    {!isLoggingOut && (
                         <button>
                             <a href="/settings">Settings</a>
                         </button>

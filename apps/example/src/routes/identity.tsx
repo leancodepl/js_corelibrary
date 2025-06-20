@@ -1,16 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { useIsLoggedIn, useProfileInfo, useUserId } from "../services/kratos"
+import { sessionManager } from "../services/kratos"
 
 export const Route = createFileRoute("/identity")({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const isLoggedIn = useIsLoggedIn()
-    const userId = useUserId()
-    const { email, firstName } = useProfileInfo()
+    const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
+    const { userId } = sessionManager.useUserId()
+    const { email } = sessionManager.useEmail()
+    const { firstName } = sessionManager.useFirstName()
 
-    if (isLoggedIn === undefined) {
+    if (isLoading) {
         return <p>Loading identity page...</p>
     }
 

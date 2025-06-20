@@ -3,7 +3,7 @@ import type { AuthTraitsConfig } from "../services/kratos"
 import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { RegistrationFlow, getErrorMessage, useIsLoggedIn } from "../services/kratos"
+import { RegistrationFlow, getErrorMessage, sessionManager } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
 
@@ -25,10 +25,10 @@ export const Route = createFileRoute("/registration")({
 })
 
 function RouteComponent() {
-    const isLoggedIn = useIsLoggedIn()
+    const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
 
-    if (isLoggedIn === undefined) {
+    if (isLoading) {
         return <p>Loading registration page...</p>
     }
 
