@@ -6,7 +6,7 @@ import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useUpdateSettingsFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { settingsFlowId, resetContext, setEmailVerificationRequired } = useSettingsFlowContext()
+    const { settingsFlowId, resetFlow, setEmailVerificationRequired } = useSettingsFlowContext()
     const client = useQueryClient()
 
     return useMutation<SettingsFlow | undefined, Error, UpdateSettingsFlowBody, unknown>({
@@ -35,7 +35,7 @@ export function useUpdateSettingsFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as SettingsFlow | undefined
             }

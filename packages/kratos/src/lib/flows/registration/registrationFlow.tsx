@@ -1,5 +1,6 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import { verificationFlow } from ".."
+import { useFlowManager } from "../../hooks/useFlowManager"
 import { TraitsConfig } from "../../utils"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { RegistrationFlowProvider, useCreateRegistrationFlow, useRegistrationFlowContext } from "./hooks"
@@ -16,6 +17,7 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
+    onFlowRestart?: () => void
 }
 
 function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
@@ -28,21 +30,23 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     onError,
     onRegistrationSuccess,
     onVerificationSuccess,
+    onFlowRestart,
 }: RegistrationFlowProps<TTraitsConfig>) {
     const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
     const { registrationFlowId, setRegistrationFlowId, traitsFormCompleted } = useRegistrationFlowContext()
 
-    const { mutate: createRegistrationFlow } = useCreateRegistrationFlow({ returnTo })
+    const { mutate: createRegistrationFlow, isPending: isCreatingRegistrationFlow } = useCreateRegistrationFlow({
+        returnTo,
+    })
 
-    useEffect(() => {
-        if (registrationFlowId) return
-
-        if (initialFlowId) {
-            setRegistrationFlowId(initialFlowId)
-        } else {
-            createRegistrationFlow()
-        }
-    }, [registrationFlowId, initialFlowId, createRegistrationFlow, setRegistrationFlowId])
+    useFlowManager({
+        initialFlowId,
+        isCreatingFlow: isCreatingRegistrationFlow,
+        currentFlowId: registrationFlowId,
+        onFlowRestart,
+        createFlow: createRegistrationFlow,
+        setFlowId: setRegistrationFlowId,
+    })
 
     const step = useMemo(() => {
         if (verificationFlowId) {
