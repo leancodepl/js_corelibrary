@@ -36,7 +36,7 @@ export function ChooseMethodFormWrapper({
     const { data: loginFlow } = useGetLoginFlow()
     const passwordForm = usePasswordForm({ onError, onLoginSuccess })
     const formErrors = useFormErrors(passwordForm)
-    const { identifier } = useExistingIdentifierFromFlow()
+    const existingIdentifier = useExistingIdentifierFromFlow()
 
     const PasskeyWithFormErrorHandler = useCallback(
         (props: Omit<ComponentProps<typeof Passkey>, "onError">) => <Passkey {...props} onError={onError} />,
@@ -55,8 +55,8 @@ export function ChooseMethodFormWrapper({
                     errors={formErrors}
                     Facebook={Facebook}
                     Google={Google}
-                    Identifier={!identifier ? Identifier : undefined}
-                    identifier={identifier}
+                    Identifier={!existingIdentifier ? Identifier : undefined}
+                    identifier={existingIdentifier}
                     isLoading={!loginFlow}
                     isSubmitting={passwordForm.state.isSubmitting}
                     isValidating={passwordForm.state.isValidating}

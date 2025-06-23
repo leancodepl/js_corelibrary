@@ -71,32 +71,28 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
             retryOnMount: false,
         })
 
-        const result = {
+        return {
             session: session ?? undefined,
             isLoading,
             error,
         }
-
-        return result
     }
 
     useIdentity = () => {
-        const { session, isLoading, error } = this.useSession()
+        const { session, ...rest } = this.useSession()
 
         return {
             identity: session?.identity,
-            isLoading,
-            error,
+            ...rest,
         }
     }
 
     useUserId = () => {
-        const { identity, isLoading, error } = this.useIdentity()
+        const { identity, ...rest } = this.useIdentity()
 
         return {
             userId: identity?.id,
-            isLoading,
-            error,
+            ...rest,
         }
     }
 
