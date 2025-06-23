@@ -1,8 +1,8 @@
-import { useMemo } from "react"
 import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeLogin } from "../../../kratos"
-import { getCsrfToken, getNodeById, handleOnSubmitErrors } from "../../../utils"
+import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../hooks"
+import { useExistingIdentifierFromFlow } from "../hooks/useExistingIdentifierFromFlow"
 import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
@@ -14,22 +14,11 @@ type UsePasswordFormProps = {
 export function usePasswordForm({ onError, onLoginSuccess }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
-
-    const existingIdentifierFromFlow = useMemo(() => {
-        if (!loginFlow) return undefined
-
-        const node = getNodeById(loginFlow.ui.nodes, "identifier")
-
-        if (!node || node.attributes.node_type !== "input" || typeof node.attributes.value !== "string") {
-            return undefined
-        }
-
-        return node.attributes.value
-    }, [loginFlow])
+    const { identifier } = useExistingIdentifierFromFlow()
 
     return useForm({
         defaultValues: {
-            [InputFields.Identifier]: existingIdentifierFromFlow ?? "",
+            [InputFields.Identifier]: identifier ?? "",
             [InputFields.Password]: "",
         } satisfies Record<InputFields, string>,
         onSubmit: async ({ value, formApi }) => {

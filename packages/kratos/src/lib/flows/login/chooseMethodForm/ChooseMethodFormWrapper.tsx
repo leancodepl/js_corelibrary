@@ -1,7 +1,8 @@
-import { ComponentProps, ComponentType, ReactNode, useCallback, useMemo } from "react"
+import { ComponentProps, ComponentType, ReactNode, useCallback } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError, getNodeById } from "../../../utils"
+import { AuthError } from "../../../utils"
 import { useGetLoginFlow } from "../hooks"
+import { useExistingIdentifierFromFlow } from "../hooks/useExistingIdentifierFromFlow"
 import { OnLoginFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"
@@ -35,23 +36,12 @@ export function ChooseMethodFormWrapper({
     const { data: loginFlow } = useGetLoginFlow()
     const passwordForm = usePasswordForm({ onError, onLoginSuccess })
     const formErrors = useFormErrors(passwordForm)
+    const { identifier } = useExistingIdentifierFromFlow()
 
     const PasskeyWithFormErrorHandler = useCallback(
         (props: Omit<ComponentProps<typeof Passkey>, "onError">) => <Passkey {...props} onError={onError} />,
         [onError],
     )
-
-    const existingIdentifierFromFlow = useMemo(() => {
-        if (!loginFlow) return undefined
-
-        const node = getNodeById(loginFlow.ui.nodes, "identifier")
-
-        if (!node || node.attributes.node_type !== "input" || typeof node.attributes.value !== "string") {
-            return undefined
-        }
-
-        return node.attributes.value
-    }, [loginFlow])
 
     return (
         <ChooseMethodFormProvider passwordForm={passwordForm}>
@@ -65,8 +55,8 @@ export function ChooseMethodFormWrapper({
                     errors={formErrors}
                     Facebook={Facebook}
                     Google={Google}
-                    Identifier={!existingIdentifierFromFlow ? Identifier : undefined}
-                    identifier={existingIdentifierFromFlow}
+                    Identifier={!identifier ? Identifier : undefined}
+                    identifier={identifier}
                     isLoading={!loginFlow}
                     isSubmitting={passwordForm.state.isSubmitting}
                     isValidating={passwordForm.state.isValidating}
