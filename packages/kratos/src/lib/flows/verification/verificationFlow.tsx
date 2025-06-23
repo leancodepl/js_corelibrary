@@ -1,4 +1,5 @@
-import { ComponentType, useEffect } from "react"
+import { ComponentType } from "react"
+import { useFlowManager } from "../../hooks/useFlowManager"
 import { EmailVerificationFormProps, EmailVerificationFormWrapper } from "./emailVerificationForm"
 import { useCreateVerificationFlow, useVerificationFlowContext, VerificationFlowProvider } from "./hooks"
 import { OnVerificationFlowError } from "./types"
@@ -10,6 +11,7 @@ export type VerificationFlowProps = {
     returnTo?: string
     onError?: OnVerificationFlowError
     onVerificationSuccess?: () => void
+    onFlowRestart?: () => void
 }
 
 export function VerificationFlow(props: VerificationFlowProps) {
@@ -27,21 +29,23 @@ export function VerificationFlowWrapper({
     returnTo,
     onError,
     onVerificationSuccess,
+    onFlowRestart,
 }: VerificationFlowProps) {
     const { verificationFlowId, setVerificationFlowId, verifiableAddress, setVerifiableAddress } =
         useVerificationFlowContext()
 
-    const { mutate: createVerificationFlow } = useCreateVerificationFlow({ returnTo })
+    const { mutate: createVerificationFlow, isPending: isCreatingVerificationFlow } = useCreateVerificationFlow({
+        returnTo,
+    })
 
-    useEffect(() => {
-        if (verificationFlowId) return
-
-        if (initialFlowId) {
-            setVerificationFlowId(initialFlowId)
-        } else {
-            createVerificationFlow()
-        }
-    }, [createVerificationFlow, initialFlowId, verificationFlowId, setVerificationFlowId])
+    useFlowManager({
+        initialFlowId,
+        isCreatingFlow: isCreatingVerificationFlow,
+        currentFlowId: verificationFlowId,
+        onFlowRestart,
+        createFlow: createVerificationFlow,
+        setFlowId: setVerificationFlowId,
+    })
 
     if (!verifiableAddress && initialVerifiableAddress) {
         setVerifiableAddress(initialVerifiableAddress)

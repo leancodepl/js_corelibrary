@@ -7,7 +7,7 @@ type RegistrationFlowContext = {
     setTraitsFormCompleted: (traitsFormCompleted: boolean) => void
     traits: Record<string, boolean | string> | undefined
     setTraits: (traits: Record<string, boolean | string> | undefined) => void
-    resetContext: () => void
+    resetFlow: () => void
 }
 
 const registrationFlowContext = createContext<RegistrationFlowContext | undefined>(undefined)
@@ -18,7 +18,7 @@ export function RegistrationFlowProvider({ children }: { children: ReactNode }) 
     const [traitsFormCompleted, setTraitsFormCompleted] = useState(false)
     const [traits, setTraits] = useState<Record<string, boolean | string> | undefined>(undefined)
 
-    const resetContext = useCallback(() => {
+    const resetFlow = useCallback(() => {
         setRegistrationFlowId(undefined)
         setTraitsFormCompleted(false)
         setTraits(undefined)
@@ -33,7 +33,7 @@ export function RegistrationFlowProvider({ children }: { children: ReactNode }) 
                 setTraitsFormCompleted,
                 traits,
                 setTraits,
-                resetContext,
+                resetFlow,
             }}>
             {children}
         </registrationFlowContext.Provider>

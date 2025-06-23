@@ -13,7 +13,7 @@ import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useUpdateRegistrationFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { resetContext, registrationFlowId } = useRegistrationFlowContext()
+    const { resetFlow, registrationFlowId } = useRegistrationFlowContext()
     const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
     const client = useQueryClient()
 
@@ -56,7 +56,7 @@ export function useUpdateRegistrationFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as RegistrationFlow | undefined
             }

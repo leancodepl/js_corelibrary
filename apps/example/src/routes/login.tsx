@@ -21,6 +21,12 @@ export const Route = createFileRoute("/login")({
     validateSearch: loginSearchSchema,
 })
 
+const removeFlowIdFromUrl = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete("flow")
+    window.history.replaceState({}, "", url.toString())
+}
+
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
@@ -39,6 +45,7 @@ function RouteComponent() {
             secondFactorForm={SecondFactorForm}
             secondFactorEmailForm={SecondFactorEmailForm}
             emailVerificationForm={EmailVerificationForm}
+            onFlowRestart={removeFlowIdFromUrl}
             initialFlowId={flow}
             onError={handleError}
             returnTo="https://host.local.lncd.pl/redirect-after-login"

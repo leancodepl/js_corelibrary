@@ -21,6 +21,12 @@ export const Route = createFileRoute("/recovery")({
     validateSearch: recoverySearchSchema,
 })
 
+const removeFlowIdFromUrl = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete("flow")
+    window.history.replaceState({}, "", url.toString())
+}
+
 function RouteComponent() {
     const { flow } = Route.useSearch()
 
@@ -34,6 +40,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
+            onFlowRestart={removeFlowIdFromUrl}
             returnTo="/redirect-after-recovery"
         />
     )

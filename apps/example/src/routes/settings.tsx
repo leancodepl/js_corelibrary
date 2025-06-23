@@ -21,6 +21,12 @@ export const Route = createFileRoute("/settings")({
     validateSearch: settingsSearchSchema,
 })
 
+const removeFlowIdFromUrl = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete("flow")
+    window.history.replaceState({}, "", url.toString())
+}
+
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
@@ -66,6 +72,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
+            onFlowRestart={removeFlowIdFromUrl}
         />
     )
 }

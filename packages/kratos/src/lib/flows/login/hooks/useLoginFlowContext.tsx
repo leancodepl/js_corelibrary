@@ -3,7 +3,7 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 type LoginFlowContext = {
     loginFlowId?: string
     setLoginFlowId: (loginFlowId: string | undefined) => void
-    resetContext: () => void
+    resetFlow: () => void
 }
 
 const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
@@ -11,7 +11,7 @@ const loginFlowContext = createContext<LoginFlowContext | undefined>(undefined)
 export function LoginFlowProvider({ children }: { children: ReactNode }) {
     const [loginFlowId, setLoginFlowId] = useState<string>()
 
-    const resetContext = useCallback(() => {
+    const resetFlow = useCallback(() => {
         setLoginFlowId(undefined)
     }, [])
 
@@ -20,7 +20,7 @@ export function LoginFlowProvider({ children }: { children: ReactNode }) {
             value={{
                 loginFlowId,
                 setLoginFlowId,
-                resetContext,
+                resetFlow,
             }}>
             {children}
         </loginFlowContext.Provider>

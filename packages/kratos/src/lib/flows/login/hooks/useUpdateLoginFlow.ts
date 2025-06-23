@@ -8,7 +8,7 @@ import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useUpdateLoginFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { loginFlowId, resetContext } = useLoginFlowContext()
+    const { loginFlowId, resetFlow } = useLoginFlowContext()
     const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
     const client = useQueryClient()
 
@@ -46,7 +46,7 @@ export function useUpdateLoginFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as LoginFlow | undefined
             }

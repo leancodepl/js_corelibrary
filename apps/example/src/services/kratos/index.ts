@@ -17,6 +17,13 @@ const {
     SessionManager,
 })
 
+const getSession = async () => {
+    const result = await sessionManager.getSession()
+    console.log("getSession result:", result)
+}
+
+getSession()
+
 export {
     // traits
     AuthTraitsConfig,

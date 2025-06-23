@@ -1,5 +1,6 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import { settingsFlow } from ".."
+import { useFlowManager } from "../../hooks/useFlowManager"
 import { TraitsConfig } from "../../utils"
 import { CodeFormProps, CodeFormWrapper } from "./codeForm"
 import { EmailFormProps, EmailFormWrapper } from "./emailForm"
@@ -14,6 +15,7 @@ export type RecoveryFlowProps = {
     returnTo?: string
     onError?: OnRecoveryFlowError
     onRecoverySuccess?: () => void
+    onFlowRestart?: () => void
 }
 
 function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
@@ -24,10 +26,11 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
     returnTo,
     onError,
     onRecoverySuccess,
+    onFlowRestart,
 }: RecoveryFlowProps) {
     const { recoveryFlowId, setRecoveryFlowId } = useRecoveryFlowContext()
 
-    const { mutate: createRecoveryFlow } = useCreateRecoveryFlow({ returnTo })
+    const { mutate: createRecoveryFlow, isPending: isCreatingRecoveryFlow } = useCreateRecoveryFlow({ returnTo })
     const { data: recoveryFlow } = useGetRecoveryFlow()
 
     const settingsFlowId = useMemo(
@@ -35,15 +38,14 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
         [recoveryFlow],
     )
 
-    useEffect(() => {
-        if (recoveryFlowId) return
-
-        if (initialFlowId) {
-            setRecoveryFlowId(initialFlowId)
-        } else {
-            createRecoveryFlow()
-        }
-    }, [recoveryFlowId, initialFlowId, createRecoveryFlow, setRecoveryFlowId])
+    useFlowManager({
+        initialFlowId,
+        isCreatingFlow: isCreatingRecoveryFlow,
+        currentFlowId: recoveryFlowId,
+        onFlowRestart,
+        createFlow: createRecoveryFlow,
+        setFlowId: setRecoveryFlowId,
+    })
 
     const step = useMemo(() => {
         if (settingsFlowId) {

@@ -5,7 +5,7 @@ type VerificationFlowContext = {
     setVerificationFlowId: (verificationFlowId: string | undefined) => void
     verifiableAddress?: string
     setVerifiableAddress: (verifiableAddress: string | undefined) => void
-    resetContext: () => void
+    resetFlow: () => void
 }
 
 const verificationFlowContext = createContext<VerificationFlowContext | undefined>(undefined)
@@ -14,7 +14,7 @@ export function VerificationFlowProvider({ children }: { children: ReactNode }) 
     const [verificationFlowId, setVerificationFlowId] = useState<string>()
     const [verifiableAddress, setVerifiableAddress] = useState<string>()
 
-    const resetContext = useCallback(() => {
+    const resetFlow = useCallback(() => {
         setVerificationFlowId(undefined)
         setVerifiableAddress(undefined)
     }, [])
@@ -26,7 +26,7 @@ export function VerificationFlowProvider({ children }: { children: ReactNode }) 
                 setVerificationFlowId,
                 verifiableAddress,
                 setVerifiableAddress,
-                resetContext,
+                resetFlow,
             }}>
             {children}
         </verificationFlowContext.Provider>

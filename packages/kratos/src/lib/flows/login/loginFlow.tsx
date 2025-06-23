@@ -1,6 +1,7 @@
-import { ComponentType, useEffect, useMemo } from "react"
+import { ComponentType, useMemo } from "react"
 import { verificationFlow } from ".."
 import { useKratosSessionContext } from "../../hooks"
+import { useFlowManager } from "../../hooks/useFlowManager"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
 import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./secondFactorEmailForm"
@@ -17,6 +18,7 @@ export type LoginFlowProps = {
     onError?: OnLoginFlowError
     onLoginSuccess?: () => void
     onVerificationSuccess?: () => void
+    onFlowRestart?: () => void
 }
 
 function LoginFlowWrapper({
@@ -29,24 +31,27 @@ function LoginFlowWrapper({
     onError,
     onLoginSuccess,
     onVerificationSuccess,
+    onFlowRestart,
 }: LoginFlowProps) {
     const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
     const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
     const { sessionManager } = useKratosSessionContext()
     const { isAal2Required } = sessionManager.useIsAal2Required()
 
-    const { mutate: createLoginFlow } = useCreateLoginFlow({ returnTo, aal: isAal2Required ? "aal2" : undefined })
+    const { mutate: createLoginFlow, isPending: isCreatingLoginFlow } = useCreateLoginFlow({
+        returnTo,
+        aal: isAal2Required ? "aal2" : undefined,
+    })
     const { data: loginFlow } = useGetLoginFlow()
 
-    useEffect(() => {
-        if (loginFlowId) return
-
-        if (initialFlowId) {
-            setLoginFlowId(initialFlowId)
-        } else {
-            createLoginFlow()
-        }
-    }, [loginFlowId, initialFlowId, createLoginFlow, setLoginFlowId])
+    useFlowManager({
+        initialFlowId,
+        isCreatingFlow: isCreatingLoginFlow,
+        currentFlowId: loginFlowId,
+        onFlowRestart,
+        createFlow: createLoginFlow,
+        setFlowId: setLoginFlowId,
+    })
 
     const step = useMemo(() => {
         if (!loginFlow) return "chooseMethod"

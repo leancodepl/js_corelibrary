@@ -6,7 +6,7 @@ import { useRecoveryFlowContext } from "./useRecoveryFlowContext"
 
 export function useUpdateRecoveryFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { resetContext, recoveryFlowId } = useRecoveryFlowContext()
+    const { resetFlow, recoveryFlowId } = useRecoveryFlowContext()
     const client = useQueryClient()
 
     return useMutation<RecoveryFlow | undefined, Error, UpdateRecoveryFlowBody, unknown>({
@@ -26,7 +26,7 @@ export function useUpdateRecoveryFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as RecoveryFlow | undefined
             }
