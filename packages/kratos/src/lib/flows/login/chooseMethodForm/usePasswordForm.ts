@@ -14,11 +14,11 @@ type UsePasswordFormProps = {
 export function usePasswordForm({ onError, onLoginSuccess }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
-    const { identifier } = useExistingIdentifierFromFlow()
+    const existingIdentifier = useExistingIdentifierFromFlow()
 
     return useForm({
         defaultValues: {
-            [InputFields.Identifier]: identifier ?? "",
+            [InputFields.Identifier]: existingIdentifier ?? "",
             [InputFields.Password]: "",
         } satisfies Record<InputFields, string>,
         onSubmit: async ({ value, formApi }) => {

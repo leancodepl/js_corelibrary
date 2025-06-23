@@ -5,7 +5,7 @@ import { useGetLoginFlow } from "./useGetLoginFlow"
 export const useExistingIdentifierFromFlow = () => {
     const { data: loginFlow } = useGetLoginFlow()
 
-    const identifier = useMemo(() => {
+    return useMemo(() => {
         if (!loginFlow) return undefined
 
         const node = getNodeById(loginFlow.ui.nodes, "identifier")
@@ -16,8 +16,4 @@ export const useExistingIdentifierFromFlow = () => {
 
         return node.attributes.value
     }, [loginFlow])
-
-    return {
-        identifier,
-    }
 }
