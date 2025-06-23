@@ -10,12 +10,12 @@ export function useGetLoginFlow() {
 
     return useQuery({
         queryKey: loginFlowKey(loginFlowId),
-        queryFn: async context => {
+        queryFn: async ({ signal }) => {
             if (!loginFlowId) throw new Error("No login flow ID provided")
 
             try {
                 return await kratosClient.getLoginFlow({ id: loginFlowId }, async ({ init: { headers } }) => ({
-                    signal: context.signal,
+                    signal,
                     headers: { ...headers, Accept: "application/json" },
                 }))
             } catch (error) {
