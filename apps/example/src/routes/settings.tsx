@@ -3,6 +3,7 @@ import { settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { Input } from "../components/Input"
 import { AuthTraitsConfig, getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
+import { removeFlowIdFromUrl } from "../utils/url"
 
 const settingsSearchSchema = z.object({
     flow: z.string().optional(),
@@ -20,12 +21,6 @@ export const Route = createFileRoute("/settings")({
     component: RouteComponent,
     validateSearch: settingsSearchSchema,
 })
-
-const removeFlowIdFromUrl = () => {
-    const url = new URL(window.location.href)
-    url.searchParams.delete("flow")
-    window.history.replaceState({}, "", url.toString())
-}
 
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
