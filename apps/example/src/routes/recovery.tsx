@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { getErrorMessage, RecoveryFlow } from "../services/kratos"
 import { Input } from "../components/Input"
+import { removeFlowIdFromUrl } from "../utils/url"
 
 const recoverySearchSchema = z.object({
     flow: z.string().optional(),
@@ -20,12 +21,6 @@ export const Route = createFileRoute("/recovery")({
     component: RouteComponent,
     validateSearch: recoverySearchSchema,
 })
-
-const removeFlowIdFromUrl = () => {
-    const url = new URL(window.location.href)
-    url.searchParams.delete("flow")
-    window.history.replaceState({}, "", url.toString())
-}
 
 function RouteComponent() {
     const { flow } = Route.useSearch()

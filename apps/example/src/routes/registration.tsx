@@ -6,6 +6,7 @@ import { z } from "zod"
 import { RegistrationFlow, getErrorMessage, sessionManager } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
+import { removeFlowIdFromUrl } from "../utils/url"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -23,12 +24,6 @@ export const Route = createFileRoute("/registration")({
     component: RouteComponent,
     validateSearch: registrationSearchSchema,
 })
-
-const removeFlowIdFromUrl = () => {
-    const url = new URL(window.location.href)
-    url.searchParams.delete("flow")
-    window.history.replaceState({}, "", url.toString())
-}
 
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
