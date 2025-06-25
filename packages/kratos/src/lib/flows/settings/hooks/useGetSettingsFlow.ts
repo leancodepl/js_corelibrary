@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import { settingsFlowKey } from "./queryKeys"
 import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useGetSettingsFlow() {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { settingsFlowId } = useSettingsFlowContext()
 
     return useQuery({
@@ -15,7 +15,6 @@ export function useGetSettingsFlow() {
             return kratosClient.getSettingsFlow({ id: settingsFlowId }, async ({ init: { headers } }) => ({
                 signal,
                 headers: { ...headers, Accept: "application/json" },
-                credentials: "include",
             }))
         },
         enabled: !!settingsFlowId,

@@ -1,19 +1,22 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { createRootRoute, Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { KratosContextProvider } from "@leancodepl/kratos"
-
-const queryClient = new QueryClient()
+import { QueryClientProvider } from "@tanstack/react-query"
+import { KratosProviders } from "../services/kratos"
+import { queryClient } from "../services/query"
+import { UserInfoHeader } from "../components/UserInfoHeader"
 
 export const Route = createRootRoute({
     component: () => (
         <>
             <QueryClientProvider client={queryClient}>
                 <ReactQueryDevtools initialIsOpen={false} />
-                <KratosContextProvider baseUrl="https://auth.local.lncd.pl">
-                    <Outlet />
-                </KratosContextProvider>
+                <KratosProviders>
+                    <>
+                        <UserInfoHeader />
+                        <Outlet />
+                    </>
+                </KratosProviders>
             </QueryClientProvider>
             <TanStackRouterDevtools />
         </>

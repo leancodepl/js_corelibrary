@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form"
 import { instanceOfSuccessfulNativeLogin } from "../../../kratos"
 import { getCsrfToken, handleOnSubmitErrors } from "../../../utils"
 import { useGetLoginFlow, useUpdateLoginFlow } from "../hooks"
+import { useExistingIdentifierFromFlow } from "../hooks/useExistingIdentifierFromFlow"
 import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
@@ -13,10 +14,11 @@ type UsePasswordFormProps = {
 export function usePasswordForm({ onError, onLoginSuccess }: UsePasswordFormProps) {
     const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
     const { data: loginFlow } = useGetLoginFlow()
+    const existingIdentifier = useExistingIdentifierFromFlow()
 
     return useForm({
         defaultValues: {
-            [InputFields.Identifier]: "",
+            [InputFields.Identifier]: existingIdentifier ?? "",
             [InputFields.Password]: "",
         } satisfies Record<InputFields, string>,
         onSubmit: async ({ value, formApi }) => {

@@ -17,6 +17,7 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 
 export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
     errors: Array<AuthError>
+    isLoading: boolean
     isSubmitting: boolean
     isValidating: boolean
     emailVerificationRequired: boolean
@@ -60,10 +61,6 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
         [traitsConfig],
     )
 
-    if (!settingsFlow) {
-        return null
-    }
-
     return (
         <TraitsFormProvider traitsForm={traitsForm}>
             <form
@@ -74,6 +71,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                 <TraitsForm
                     emailVerificationRequired={emailVerificationRequired}
                     errors={formErrors}
+                    isLoading={!settingsFlow}
                     isSubmitting={traitsForm.state.isSubmitting}
                     isValidating={traitsForm.state.isValidating}
                     {...traitComponents}

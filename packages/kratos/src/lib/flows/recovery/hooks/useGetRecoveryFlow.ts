@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
-import { useKratosContext } from "../../../hooks"
+import { useKratosClientContext } from "../../../hooks"
 import { recoveryFlowKey } from "./queryKeys"
 import { useRecoveryFlowContext } from "./useRecoveryFlowContext"
 
 export function useGetRecoveryFlow() {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
     const { recoveryFlowId } = useRecoveryFlowContext()
 
     return useQuery({
@@ -15,7 +15,6 @@ export function useGetRecoveryFlow() {
             return kratosClient.getRecoveryFlow({ id: recoveryFlowId }, async ({ init: { headers } }) => ({
                 signal,
                 headers: { ...headers, Accept: "application/json" },
-                credentials: "include",
             }))
         },
         enabled: !!recoveryFlowId,

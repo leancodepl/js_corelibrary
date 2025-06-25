@@ -8,23 +8,34 @@ import { Code, Unlink } from "./fields"
 import { TotpFormProvider } from "./totpFormContext"
 import { useTotpForm } from "./useTotpForm"
 
-export type TotpFormProps = {
+type TotpFormPropsBase = {
     emailVerificationRequired?: boolean
-} & (
-    | {
-          isTotpLinked: true
-          Unlink?: ComponentType<{ children: ReactNode }>
-      }
-    | {
-          isTotpLinked?: false
-          Code?: ComponentType<{ children: ReactNode }>
-          totpQrImageSrc?: string
-          totpSecretKey?: string
-          errors: Array<AuthError>
-          isSubmitting: boolean
-          isValidating: boolean
-      }
-)
+}
+
+type TotpFormPropsLoading = TotpFormPropsBase & {
+    isLoading: true
+}
+
+type TotpFormPropsLoaded = TotpFormPropsBase & {
+    isLoading?: false
+}
+
+type TotpFormPropsLinked = TotpFormPropsLoaded & {
+    isTotpLinked: true
+    Unlink?: ComponentType<{ children: ReactNode }>
+}
+
+type TotpFormPropsUnlinked = TotpFormPropsLoaded & {
+    isTotpLinked?: false
+    Code?: ComponentType<{ children: ReactNode }>
+    totpQrImageSrc?: string
+    totpSecretKey?: string
+    errors: Array<AuthError>
+    isSubmitting: boolean
+    isValidating: boolean
+}
+
+export type TotpFormProps = TotpFormPropsLinked | TotpFormPropsLoading | TotpFormPropsUnlinked
 
 type TotpFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
     totpForm: ComponentType<TotpFormProps>
@@ -80,9 +91,7 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
         return !!getNodeById(settingsFlow.ui.nodes, "totp_unlink")
     }, [settingsFlow])
 
-    if (!settingsFlow || isTotpLinked === undefined) {
-        return null
-    }
+    const isLoading = !settingsFlow || isTotpLinked === undefined
 
     return (
         <TotpFormProvider totpForm={totpForm}>
@@ -91,7 +100,9 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
                     e.preventDefault()
                     totpForm.handleSubmit()
                 }}>
-                {isTotpLinked ? (
+                {isLoading ? (
+                    <TotpForm isLoading />
+                ) : isTotpLinked ? (
                     <TotpForm isTotpLinked emailVerificationRequired={emailVerificationRequired} Unlink={Unlink} />
                 ) : (
                     <TotpForm

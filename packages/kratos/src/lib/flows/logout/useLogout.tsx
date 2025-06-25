@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { useKratosContext } from "../../hooks"
+import { useKratosClientContext, useKratosSessionContext } from "../../hooks"
 import { ApiResponse } from "../../types"
 import { baseQueryKey } from "../../utils"
 
 export function useLogout() {
-    const { kratosClient } = useKratosContext()
+    const { kratosClient } = useKratosClientContext()
+    const { sessionManager } = useKratosSessionContext()
     const queryClient = useQueryClient()
 
     const logout = async ({ returnTo }: { returnTo?: string }): Promise<ApiResponse> => {
@@ -22,10 +23,11 @@ export function useLogout() {
                     token: logoutFlow.logout_token,
                 },
                 {
-                    credentials: "include",
                     headers: { Accept: "application/json", "Content-Type": "application/json" },
                 },
             )
+
+            sessionManager.checkIfLoggedIn()
 
             if (returnTo) {
                 window.location.href = returnTo

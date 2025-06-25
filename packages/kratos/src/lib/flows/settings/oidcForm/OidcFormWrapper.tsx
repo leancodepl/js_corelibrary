@@ -8,7 +8,9 @@ type OidcProviderComponents<TProvider extends string> = {
     [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>
 }
 
-export type OidcFormProps = OidcProviderComponents<OidcProvider>
+export type OidcFormProps = OidcProviderComponents<OidcProvider> & {
+    isLoading: boolean
+}
 
 type OidcFormWrapperProps = {
     oidcForm: ComponentType<OidcFormProps>
@@ -38,5 +40,5 @@ export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
         }, {} as OidcFormProps)
     }, [settingsFlow])
 
-    return <OidcForm {...oidcComponents} />
+    return <OidcForm {...oidcComponents} isLoading={!settingsFlow} />
 }
