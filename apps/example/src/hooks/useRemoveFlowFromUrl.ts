@@ -1,0 +1,17 @@
+import { useLocation, useNavigate } from "@tanstack/react-router"
+import { useCallback } from "react"
+
+export const useRemoveFlowFromUrl = () => {
+    const nav = useNavigate()
+    const location = useLocation()
+
+    return useCallback(() => {
+        nav({
+            to: location.pathname,
+            search: ({ flow, ...search }) => {
+                return search
+            },
+            replace: true,
+        })
+    }, [nav, location.pathname])
+}

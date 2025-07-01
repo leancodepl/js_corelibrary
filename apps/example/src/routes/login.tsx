@@ -1,9 +1,9 @@
 import { loginFlow, verificationFlow } from "@leancodepl/kratos"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
 import { getErrorMessage, LoginFlow, sessionManager } from "../services/kratos"
 import { Input } from "../components/Input"
-import { removeFlowIdFromUrl } from "../utils/url"
+import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 
 const loginSearchSchema = z.object({
     flow: z.string().optional(),
@@ -23,15 +23,13 @@ export const Route = createFileRoute("/login")({
 })
 
 function RouteComponent() {
-    const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
+    const { isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
+    const removeFlowIdFromUrl = useRemoveFlowFromUrl()
+    const nav = useNavigate()
 
     if (isLoading) {
         return <p>Loading login page...</p>
-    }
-
-    if (isLoggedIn) {
-        return <p>You are already logged in.</p>
     }
 
     return (
@@ -41,6 +39,11 @@ function RouteComponent() {
             secondFactorEmailForm={SecondFactorEmailForm}
             emailVerificationForm={EmailVerificationForm}
             onFlowRestart={removeFlowIdFromUrl}
+            onSessionAlreadyAvailable={() => {
+                nav({
+                    to: "/identity",
+                })
+            }}
             initialFlowId={flow}
             onError={handleError}
             returnTo="https://host.local.lncd.pl/redirect-after-login"
@@ -48,22 +51,66 @@ function RouteComponent() {
     )
 }
 
-function ChooseMethodForm({
-    isLoading,
-    identifier,
-    Identifier,
-    Password,
-    Google,
-    Passkey,
-    Apple,
-    Facebook,
-    errors,
-    isSubmitting,
-    isValidating,
-}: loginFlow.ChooseMethodFormProps) {
-    if (isLoading) {
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+    if (props.isLoading) {
         return <p>Loading login methods...</p>
     }
+
+    const { Password, Google, Passkey, Apple, Facebook, errors, isSubmitting, isValidating } = props
+
+    if (props.isRefresh) {
+        const { identifier } = props
+
+        return (
+            <>
+                <h2>
+                    Complete login process as <strong>{identifier}</strong>
+                </h2>
+
+                {Password && (
+                    <Password>
+                        <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                    </Password>
+                )}
+
+                <button type="submit" disabled={isSubmitting || isValidating}>
+                    Login
+                </button>
+
+                {Google && (
+                    <Google>
+                        <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
+                    </Google>
+                )}
+
+                {Apple && (
+                    <Apple>
+                        <button disabled={isSubmitting || isValidating}>Sign in with Apple</button>
+                    </Apple>
+                )}
+
+                {Facebook && (
+                    <Facebook>
+                        <button disabled={isSubmitting || isValidating}>Sign in with Facebook</button>
+                    </Facebook>
+                )}
+
+                {Passkey && (
+                    <Passkey>
+                        <button disabled={isSubmitting || isValidating}>Sign in with Passkey</button>
+                    </Passkey>
+                )}
+
+                <div>
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            </>
+        )
+    }
+
+    const { Identifier } = props
 
     return (
         <>
@@ -72,11 +119,7 @@ function ChooseMethodForm({
                     <Input placeholder="Identifier" disabled={isSubmitting || isValidating} />
                 </Identifier>
             )}
-            {identifier && (
-                <>
-                    Complete login process as <strong>{identifier}</strong>
-                </>
-            )}
+
             {Password && (
                 <Password>
                     <Input placeholder="Password" disabled={isSubmitting || isValidating} />

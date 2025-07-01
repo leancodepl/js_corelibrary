@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { verificationFlow } from "@leancodepl/kratos"
 import { getErrorMessage, VerificationFlow } from "../services/kratos"
 import { Input } from "../components/Input"
-import { removeFlowIdFromUrl } from "../utils/url"
+import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 
 const verificationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/verification")({
 
 function RouteComponent() {
     const { flow } = Route.useSearch()
+    const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
         <VerificationFlow
