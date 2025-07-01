@@ -1,9 +1,20 @@
-import { ComponentType, useMemo } from "react"
-import { verificationFlow } from ".."
-import { useFlowManager } from "../../hooks/useFlowManager"
+import { ComponentType, useEffect, useMemo } from "react"
+import { useFlowManager } from "../../hooks"
+import { isSessionAlreadyAvailable } from "../../kratos"
 import { TraitsConfig } from "../../utils"
+import {
+    EmailVerificationFormProps,
+    useVerificationFlowContext,
+    VerificationFlowProvider,
+    VerificationFlowWrapper,
+} from "../verification"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
-import { RegistrationFlowProvider, useCreateRegistrationFlow, useRegistrationFlowContext } from "./hooks"
+import {
+    RegistrationFlowProvider,
+    useCreateRegistrationFlow,
+    useGetRegistrationFlow,
+    useRegistrationFlowContext,
+} from "./hooks"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnRegistrationFlowError } from "./types"
 
@@ -11,13 +22,14 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig: TTraitsConfig
     traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
-    emailVerificationForm: ComponentType<verificationFlow.EmailVerificationFormProps>
+    emailVerificationForm: ComponentType<EmailVerificationFormProps>
     initialFlowId?: string
     returnTo?: string
     onError?: OnRegistrationFlowError<TTraitsConfig>
     onRegistrationSuccess?: () => void
     onVerificationSuccess?: () => void
     onFlowRestart?: () => void
+    onSessionAlreadyAvailable?: () => void
 }
 
 function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
@@ -31,22 +43,33 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     onRegistrationSuccess,
     onVerificationSuccess,
     onFlowRestart,
+    onSessionAlreadyAvailable,
 }: RegistrationFlowProps<TTraitsConfig>) {
-    const { verificationFlowId } = verificationFlow.useVerificationFlowContext()
+    const { verificationFlowId } = useVerificationFlowContext()
     const { registrationFlowId, setRegistrationFlowId, traitsFormCompleted } = useRegistrationFlowContext()
 
-    const { mutate: createRegistrationFlow, isPending: isCreatingRegistrationFlow } = useCreateRegistrationFlow({
+    const { error: getRegistrationFlowError } = useGetRegistrationFlow()
+    const { mutate: createRegistrationFlow, error: createRegistrationFlowError } = useCreateRegistrationFlow({
         returnTo,
     })
 
     useFlowManager({
         initialFlowId,
-        isCreatingFlow: isCreatingRegistrationFlow,
         currentFlowId: registrationFlowId,
+        error: getRegistrationFlowError ?? undefined,
         onFlowRestart,
         createFlow: createRegistrationFlow,
         setFlowId: setRegistrationFlowId,
     })
+
+    useEffect(() => {
+        if (
+            isSessionAlreadyAvailable(getRegistrationFlowError) ||
+            isSessionAlreadyAvailable(createRegistrationFlowError)
+        ) {
+            onSessionAlreadyAvailable?.()
+        }
+    }, [getRegistrationFlowError, createRegistrationFlowError, onSessionAlreadyAvailable])
 
     const step = useMemo(() => {
         if (verificationFlowId) {
@@ -76,7 +99,7 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
                 />
             )}
             {step === "emailVerification" && (
-                <verificationFlow.VerificationFlowWrapper
+                <VerificationFlowWrapper
                     emailVerificationForm={EmailVerificationForm}
                     onError={onError}
                     onVerificationSuccess={onVerificationSuccess}
@@ -88,10 +111,10 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
 
 export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
     return (
-        <verificationFlow.VerificationFlowProvider>
+        <VerificationFlowProvider>
             <RegistrationFlowProvider>
                 <RegistrationFlowWrapper {...props} />
             </RegistrationFlowProvider>
-        </verificationFlow.VerificationFlowProvider>
+        </VerificationFlowProvider>
     )
 }

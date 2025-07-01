@@ -1,35 +1,53 @@
 import { ComponentProps, ComponentType, ReactNode, useCallback } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
-import { useGetLoginFlow } from "../hooks"
-import { useExistingIdentifierFromFlow } from "../hooks/useExistingIdentifierFromFlow"
+import { AuthError, getNodeById, getOidcProviderUiNode } from "../../../utils"
+import { useExistingIdentifierFromFlow, useGetLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
 
-export type ChooseMethodFormProps = {
-    identifier?: string
-    Identifier?: ComponentType<{ children: ReactNode }>
+type ChooseMethodFormPropsLoading = {
+    isLoading: true
+}
+
+type ChooseMethodFormPropsLoadedBase = {
+    isLoading?: false
     Password?: ComponentType<{ children: ReactNode }>
     Google?: ComponentType<{ children: ReactNode }>
     Passkey?: ComponentType<{ children: ReactNode }>
     Apple?: ComponentType<{ children: ReactNode }>
     Facebook?: ComponentType<{ children: ReactNode }>
     errors: AuthError[]
-    isLoading: boolean
     isSubmitting: boolean
     isValidating: boolean
 }
 
+type ChooseMethodFormPropsLoaded = ChooseMethodFormPropsLoadedBase & {
+    isRefresh?: false
+    Identifier?: ComponentType<{ children: ReactNode }>
+}
+
+type ChooseMethodFormPropsLoadedRefresh = ChooseMethodFormPropsLoadedBase & {
+    isRefresh: true
+    identifier?: string
+}
+
+export type ChooseMethodFormProps =
+    | ChooseMethodFormPropsLoaded
+    | ChooseMethodFormPropsLoadedRefresh
+    | ChooseMethodFormPropsLoading
+
 type ChooseMethodFormWrapperProps = {
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
+    isRefresh: boolean | undefined
     onError?: OnLoginFlowError
     onLoginSuccess?: () => void
 }
 
 export function ChooseMethodFormWrapper({
     chooseMethodForm: ChooseMethodForm,
+    isRefresh,
     onError,
     onLoginSuccess,
 }: ChooseMethodFormWrapperProps) {
@@ -50,19 +68,34 @@ export function ChooseMethodFormWrapper({
                     e.preventDefault()
                     passwordForm.handleSubmit()
                 }}>
-                <ChooseMethodForm
-                    Apple={Apple}
-                    errors={formErrors}
-                    Facebook={Facebook}
-                    Google={Google}
-                    Identifier={!existingIdentifier ? Identifier : undefined}
-                    identifier={existingIdentifier}
-                    isLoading={!loginFlow}
-                    isSubmitting={passwordForm.state.isSubmitting}
-                    isValidating={passwordForm.state.isValidating}
-                    Passkey={PasskeyWithFormErrorHandler}
-                    Password={Password}
-                />
+                {!loginFlow ? (
+                    <ChooseMethodForm isLoading />
+                ) : isRefresh ? (
+                    <ChooseMethodForm
+                        isRefresh
+                        Apple={getOidcProviderUiNode(loginFlow.ui.nodes, "apple") ? Apple : undefined}
+                        errors={formErrors}
+                        Facebook={getOidcProviderUiNode(loginFlow.ui.nodes, "facebook") ? Facebook : undefined}
+                        Google={getOidcProviderUiNode(loginFlow.ui.nodes, "google") ? Google : undefined}
+                        identifier={existingIdentifier}
+                        isSubmitting={passwordForm.state.isSubmitting}
+                        isValidating={passwordForm.state.isValidating}
+                        Passkey={getNodeById(loginFlow?.ui.nodes, "passkey_login") && PasskeyWithFormErrorHandler}
+                        Password={Password}
+                    />
+                ) : (
+                    <ChooseMethodForm
+                        Apple={Apple}
+                        errors={formErrors}
+                        Facebook={Facebook}
+                        Google={Google}
+                        Identifier={Identifier}
+                        isSubmitting={passwordForm.state.isSubmitting}
+                        isValidating={passwordForm.state.isValidating}
+                        Passkey={PasskeyWithFormErrorHandler}
+                        Password={Password}
+                    />
+                )}
             </form>
         </ChooseMethodFormProvider>
     )

@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { GetFlowError } from "../types"
 
 type UseFlowManagerProps = {
     initialFlowId?: string
-    isCreatingFlow: boolean
     currentFlowId: string | undefined
+    error?: Error
     onFlowRestart?: () => void
     createFlow: () => void
     setFlowId: (flowId: string | undefined) => void
@@ -11,31 +12,39 @@ type UseFlowManagerProps = {
 
 export const useFlowManager = ({
     initialFlowId,
-    isCreatingFlow,
     currentFlowId,
+    error,
     onFlowRestart,
     createFlow,
     setFlowId,
 }: UseFlowManagerProps) => {
-    const isInitialFlowIdUsed = useRef(false)
+    const [initialFlowIdUsed, setInitialFlowIdUsed] = useState(false)
+    const tempInitialFlowId = useRef(initialFlowId)
 
     useEffect(() => {
-        if (currentFlowId || isCreatingFlow) {
+        if (tempInitialFlowId.current !== initialFlowId) {
+            setInitialFlowIdUsed(false)
+            tempInitialFlowId.current = initialFlowId
+        }
+    }, [initialFlowId])
+
+    useEffect(() => {
+        if (currentFlowId) {
             return
         }
 
-        if (initialFlowId && !isInitialFlowIdUsed.current) {
-            isInitialFlowIdUsed.current = true
+        if (initialFlowId && !initialFlowIdUsed) {
             setFlowId(initialFlowId)
+            setInitialFlowIdUsed(true)
         } else {
-            if (isInitialFlowIdUsed.current) {
-                onFlowRestart?.()
-            }
             createFlow()
         }
-    }, [createFlow, initialFlowId, currentFlowId, setFlowId, isCreatingFlow, onFlowRestart])
+    }, [createFlow, initialFlowId, currentFlowId, setFlowId, onFlowRestart, initialFlowIdUsed])
 
-    return {
-        isInitialFlowIdUsed,
-    }
+    useEffect(() => {
+        if (error && error.cause === GetFlowError.FlowRestartRequired) {
+            createFlow()
+            onFlowRestart?.()
+        }
+    }, [createFlow, error, onFlowRestart])
 }

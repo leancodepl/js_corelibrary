@@ -8,7 +8,7 @@ export function useLogout() {
     const { sessionManager } = useKratosSessionContext()
     const queryClient = useQueryClient()
 
-    const logout = async ({ returnTo }: { returnTo?: string }): Promise<ApiResponse> => {
+    const logout = async ({ returnTo }: { returnTo?: string } = {}): Promise<ApiResponse> => {
         try {
             const logoutFlow = await kratosClient.createBrowserLogoutFlow(
                 { returnTo },

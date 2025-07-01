@@ -1,7 +1,12 @@
 import { ComponentType } from "react"
 import { useFlowManager } from "../../hooks/useFlowManager"
 import { EmailVerificationFormProps, EmailVerificationFormWrapper } from "./emailVerificationForm"
-import { useCreateVerificationFlow, useVerificationFlowContext, VerificationFlowProvider } from "./hooks"
+import {
+    useCreateVerificationFlow,
+    useGetVerificationFlow,
+    useVerificationFlowContext,
+    VerificationFlowProvider,
+} from "./hooks"
 import { OnVerificationFlowError } from "./types"
 
 export type VerificationFlowProps = {
@@ -34,14 +39,15 @@ export function VerificationFlowWrapper({
     const { verificationFlowId, setVerificationFlowId, verifiableAddress, setVerifiableAddress } =
         useVerificationFlowContext()
 
-    const { mutate: createVerificationFlow, isPending: isCreatingVerificationFlow } = useCreateVerificationFlow({
+    const { error } = useGetVerificationFlow()
+    const { mutate: createVerificationFlow } = useCreateVerificationFlow({
         returnTo,
     })
 
     useFlowManager({
         initialFlowId,
-        isCreatingFlow: isCreatingVerificationFlow,
         currentFlowId: verificationFlowId,
+        error: error ?? undefined,
         onFlowRestart,
         createFlow: createVerificationFlow,
         setFlowId: setVerificationFlowId,

@@ -1,8 +1,9 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
+import { OidcProvider, providers } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
-import { getOidcProviderType, OidcProvider, providers } from "./providers"
+import { getOidcProviderType } from "./providers"
 
 type OidcProviderComponents<TProvider extends string> = {
     [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>

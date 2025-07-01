@@ -1,10 +1,7 @@
 import { useForm } from "@tanstack/react-form"
-import { useRegistrationFlowContext } from ".."
 import { instanceOfSuccessfulNativeRegistration, RegistrationFlowState } from "../../../kratos"
-import { handleOnSubmitErrors, TraitsConfig } from "../../../utils"
-import { getCsrfToken } from "../../../utils/flow"
-import { useGetRegistrationFlow } from "../hooks"
-import { useUpdateRegistrationFlow } from "../hooks/useUpdateRegistrationFlow"
+import { getCsrfToken, handleOnSubmitErrors, TraitsConfig } from "../../../utils"
+import { useGetRegistrationFlow, useRegistrationFlowContext, useUpdateRegistrationFlow } from "../hooks"
 import { OnRegistrationFlowError } from "../types"
 import { InputFields } from "./types"
 
