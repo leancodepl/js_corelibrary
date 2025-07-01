@@ -1,14 +1,8 @@
 import { UiNode } from "../../../kratos"
-
-export const providers = ["apple", "facebook", "google"] as const
-
-export type OidcProvider = (typeof providers)[number]
+import { getOidcProviderUiNode, OidcProvider } from "../../../utils"
 
 export const getOidcProviderType = (provider: OidcProvider, nodes: UiNode[]): "link" | "unlink" | undefined => {
-    const node = nodes.find(
-        (node): node is UiNode & { group: "oidc"; attributes: { node_type: "input"; value: OidcProvider } } =>
-            node.group === "oidc" && node.attributes.node_type === "input" && node.attributes.value === provider,
-    )
+    const node = getOidcProviderUiNode(nodes, provider)
 
     if (!node) {
         return undefined

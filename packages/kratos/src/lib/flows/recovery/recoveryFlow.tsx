@@ -1,7 +1,7 @@
 import { ComponentType, useMemo } from "react"
-import { settingsFlow } from ".."
-import { useFlowManager } from "../../hooks/useFlowManager"
+import { useFlowManager } from "../../hooks"
 import { TraitsConfig } from "../../utils"
+import { NewPasswordFormProps, OnSettingsFlowError, SettingsFlowProvider, SettingsFlowWrapper } from "../settings"
 import { CodeFormProps, CodeFormWrapper } from "./codeForm"
 import { EmailFormProps, EmailFormWrapper } from "./emailForm"
 import { RecoveryFlowProvider, useCreateRecoveryFlow, useGetRecoveryFlow, useRecoveryFlowContext } from "./hooks"
@@ -10,7 +10,7 @@ import { OnRecoveryFlowError } from "./types"
 export type RecoveryFlowProps = {
     emailForm: ComponentType<EmailFormProps>
     codeForm: ComponentType<CodeFormProps>
-    newPasswordForm: ComponentType<settingsFlow.NewPasswordFormProps>
+    newPasswordForm: ComponentType<NewPasswordFormProps>
     initialFlowId?: string
     returnTo?: string
     onError?: OnRecoveryFlowError
@@ -30,8 +30,8 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
 }: RecoveryFlowProps) {
     const { recoveryFlowId, setRecoveryFlowId } = useRecoveryFlowContext()
 
-    const { mutate: createRecoveryFlow, isPending: isCreatingRecoveryFlow } = useCreateRecoveryFlow({ returnTo })
-    const { data: recoveryFlow } = useGetRecoveryFlow()
+    const { mutate: createRecoveryFlow } = useCreateRecoveryFlow({ returnTo })
+    const { data: recoveryFlow, error } = useGetRecoveryFlow()
 
     const settingsFlowId = useMemo(
         () => recoveryFlow?.continue_with?.find(action => action.action === "show_settings_ui")?.flow.id,
@@ -40,8 +40,8 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
 
     useFlowManager({
         initialFlowId,
-        isCreatingFlow: isCreatingRecoveryFlow,
         currentFlowId: recoveryFlowId,
+        error: error ?? undefined,
         onFlowRestart,
         createFlow: createRecoveryFlow,
         setFlowId: setRecoveryFlowId,
@@ -62,12 +62,12 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
             {step === "email" && <EmailFormWrapper emailForm={EmailForm} onError={onError} />}
             {step === "code" && <CodeFormWrapper codeForm={CodeForm} onError={onError} />}
             {step === "newPassword" && settingsFlowId && (
-                <settingsFlow.SettingsFlowWrapper
+                <SettingsFlowWrapper
                     initialFlowId={settingsFlowId}
                     newPasswordForm={NewPasswordForm}
                     settingsForm={({ newPasswordForm }) => newPasswordForm}
                     onChangePasswordSuccess={onRecoverySuccess}
-                    onError={onError as settingsFlow.OnSettingsFlowError<TTraitsConfig>}
+                    onError={onError as OnSettingsFlowError<TTraitsConfig>}
                 />
             )}
         </>
@@ -76,10 +76,10 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
 
 export function RecoveryFlow(props: RecoveryFlowProps) {
     return (
-        <settingsFlow.SettingsFlowProvider>
+        <SettingsFlowProvider>
             <RecoveryFlowProvider>
                 <RecoveryFlowWrapper {...props} />
             </RecoveryFlowProvider>
-        </settingsFlow.SettingsFlowProvider>
+        </SettingsFlowProvider>
     )
 }

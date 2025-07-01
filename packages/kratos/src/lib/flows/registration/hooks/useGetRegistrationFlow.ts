@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
-import { handleFlowError, RegistrationFlow } from "../../../kratos"
+import { RegistrationFlow } from "../../../kratos"
+import { GetFlowError } from "../../../types"
+import { handleFlowErrorResponse } from "../../../utils"
 import { registrationFlowKey } from "./queryKeys"
 import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
@@ -11,7 +13,11 @@ export function useGetRegistrationFlow() {
     return useQuery({
         queryKey: registrationFlowKey(registrationFlowId),
         queryFn: async ({ signal }) => {
-            if (!registrationFlowId) throw new Error("No registration flow ID provided")
+            if (!registrationFlowId) {
+                throw new Error("No registration flow ID provided", {
+                    cause: GetFlowError.NoFlowId,
+                })
+            }
 
             try {
                 return await kratosClient.getRegistrationFlow(
@@ -22,13 +28,9 @@ export function useGetRegistrationFlow() {
                     }),
                 )
             } catch (error) {
-                return (await handleFlowError<RegistrationFlow>({
-                    onRedirect: (url, _external) => {
-                        window.location.href = url
-                    },
-                    onRestartFlow: resetFlow,
-                    onValidationError: body => body,
-                })(error)) as RegistrationFlow | undefined
+                return handleFlowErrorResponse<RegistrationFlow>({
+                    error,
+                })
             }
         },
         enabled: !!registrationFlowId,

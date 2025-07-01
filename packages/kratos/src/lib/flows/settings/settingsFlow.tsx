@@ -57,13 +57,13 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
 }: SettingsFlowProps<TTraitsConfig>) {
     const { settingsFlowId, setSettingsFlowId, emailVerificationRequired } = useSettingsFlowContext()
 
-    const { mutate: createSettingsFlow, isPending: isCreatingSettingsFlow } = useCreateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+    const { mutate: createSettingsFlow } = useCreateSettingsFlow()
+    const { data: settingsFlow, error } = useGetSettingsFlow()
 
     useFlowManager({
         initialFlowId,
-        isCreatingFlow: isCreatingSettingsFlow,
         currentFlowId: settingsFlowId,
+        error: error ?? undefined,
         onFlowRestart,
         createFlow: createSettingsFlow,
         setFlowId: setSettingsFlowId,

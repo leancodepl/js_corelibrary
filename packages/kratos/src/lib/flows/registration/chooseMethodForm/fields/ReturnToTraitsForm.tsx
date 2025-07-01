@@ -1,6 +1,6 @@
 import { ReactNode, useCallback } from "react"
 import * as Slot from "@radix-ui/react-slot"
-import { useRegistrationFlowContext } from "../.."
+import { useRegistrationFlowContext } from "../../hooks"
 
 type ReturnToTraitsFormProps = {
     children: ReactNode

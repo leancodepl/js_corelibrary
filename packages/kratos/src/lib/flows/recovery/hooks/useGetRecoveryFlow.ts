@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
-import { handleFlowError, RecoveryFlow } from "../../../kratos"
+import { RecoveryFlow } from "../../../kratos"
+import { GetFlowError } from "../../../types"
+import { handleFlowErrorResponse } from "../../../utils"
 import { recoveryFlowKey } from "./queryKeys"
 import { useRecoveryFlowContext } from "./useRecoveryFlowContext"
 
@@ -11,7 +13,11 @@ export function useGetRecoveryFlow() {
     return useQuery({
         queryKey: recoveryFlowKey(recoveryFlowId),
         queryFn: async ({ signal }) => {
-            if (!recoveryFlowId) throw new Error("No recovery flow ID provided")
+            if (!recoveryFlowId) {
+                throw new Error("No recovery flow ID provided", {
+                    cause: GetFlowError.NoFlowId,
+                })
+            }
 
             try {
                 return await kratosClient.getRecoveryFlow({ id: recoveryFlowId }, async ({ init: { headers } }) => ({
@@ -19,13 +25,9 @@ export function useGetRecoveryFlow() {
                     headers: { ...headers, Accept: "application/json" },
                 }))
             } catch (error) {
-                return (await handleFlowError<RecoveryFlow>({
-                    onRedirect: (url, _external) => {
-                        window.location.href = url
-                    },
-                    onRestartFlow: resetFlow,
-                    onValidationError: body => body,
-                })(error)) as RecoveryFlow | undefined
+                return handleFlowErrorResponse<RecoveryFlow>({
+                    error,
+                })
             }
         },
         enabled: !!recoveryFlowId,

@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
-import { handleFlowError, VerificationFlow } from "../../../kratos"
+import { VerificationFlow } from "../../../kratos"
+import { GetFlowError } from "../../../types"
+import { handleFlowErrorResponse } from "../../../utils"
 import { verificationFlowKey } from "./queryKeys"
 import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
@@ -11,7 +13,11 @@ export function useGetVerificationFlow() {
     return useQuery({
         queryKey: verificationFlowKey(verificationFlowId),
         queryFn: async ({ signal }) => {
-            if (!verificationFlowId) throw new Error("No verification flow ID provided")
+            if (!verificationFlowId) {
+                throw new Error("No verification flow ID provided", {
+                    cause: GetFlowError.NoFlowId,
+                })
+            }
 
             try {
                 return await kratosClient.getVerificationFlow(
@@ -22,13 +28,9 @@ export function useGetVerificationFlow() {
                     }),
                 )
             } catch (error) {
-                return (await handleFlowError<VerificationFlow>({
-                    onRedirect: (url, _external) => {
-                        window.location.href = url
-                    },
-                    onRestartFlow: resetFlow,
-                    onValidationError: body => body,
-                })(error)) as VerificationFlow | undefined
+                return handleFlowErrorResponse<VerificationFlow>({
+                    error,
+                })
             }
         },
         enabled: !!verificationFlowId,
