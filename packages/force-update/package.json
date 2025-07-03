@@ -1,0 +1,13 @@
+{
+  "name": "@leancodepl/force-update",
+  "version": "8.3.6",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "rxjs": ">=7.0.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "vite": ">=4.0.0"
+  }
+}
