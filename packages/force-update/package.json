@@ -7,7 +7,6 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-dom": "*",
     "vite": ">=4.0.0"
   }
 }
