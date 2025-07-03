@@ -1,11 +1,42 @@
-# prettier-config
+# @leancodepl/prettier-config
 
-This library was generated with [Nx](https://nx.dev).
+Shareable Prettier configuration for consistent code formatting.
 
-## Building
+## Installation
 
-Run `nx build prettier-config` to build the library.
+```bash
+npm install --save-dev @leancodepl/prettier-config
+# or
+yarn add --dev @leancodepl/prettier-config
+```
 
-## Running unit tests
+## Overview
 
-Run `nx test prettier-config` to execute the unit tests via [Jest](https://jestjs.io).
+This package provides a Prettier configuration with opinionated formatting rules for consistent code style across TypeScript projects.
+
+## Usage
+
+### Prettier Config File
+
+```javascript
+// prettier.config.js or .prettierrc.js
+module.exports = require('@leancodepl/prettier-config');
+```
+
+### Extending Configuration
+
+```javascript
+// prettier.config.js or .prettierrc.js
+const baseConfig = require('@leancodepl/prettier-config');
+
+module.exports = {
+  ...baseConfig,
+  // Override specific options
+  printWidth: 100,
+  singleQuote: true,
+};
+```
+
+## Dependencies
+
+- `prettier`: Code formatter with opinionated defaults
