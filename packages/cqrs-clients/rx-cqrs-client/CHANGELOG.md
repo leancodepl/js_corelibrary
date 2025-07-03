@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/rx-cqrs-client
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/rx-cqrs-client
@@ -34,8 +43,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   allow overriding token header in all cqrs clients
-    ([5a34507](https://github.com/leancodepl/js_corelibrary/commit/5a3450723543f23eee9e5c4c7884fe1adbfd293e))
+- allow overriding token header in all cqrs clients
+  ([5a34507](https://github.com/leancodepl/js_corelibrary/commit/5a3450723543f23eee9e5c4c7884fe1adbfd293e))
 
 # Change Log
 
@@ -100,8 +109,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   apply linters config
-    ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
+- apply linters config
+  ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
 
 # Change Log
 
@@ -166,8 +175,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   packages versions
-    ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
+- packages versions
+  ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
 
 # Change Log
 
@@ -232,8 +241,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   bring back eslint plugin unused imports
-    ([f1f0be3](https://github.com/leancodepl/js_corelibrary/commit/f1f0be3977699ed8be9e9a9496fb79f2cde65437))
+- bring back eslint plugin unused imports
+  ([f1f0be3](https://github.com/leancodepl/js_corelibrary/commit/f1f0be3977699ed8be9e9a9496fb79f2cde65437))
 
 # Change Log
 
@@ -253,8 +262,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated package.json
-    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+- generated package.json
+  ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
 
 # Change Log
 
@@ -301,13 +310,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
 
 # Change Log
 
@@ -318,13 +327,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
 
 # Change Log
 
@@ -371,13 +380,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
 
 # Change Log
 
@@ -388,19 +397,19 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   @leancodepl/linting dependencies
-    ([5a913ce](https://github.com/leancodepl/js_corelibrary/commit/5a913ce371cd3a292cd511d1462ec02f42909f2c))
--   fix building some libraries
-    ([31b48d6](https://github.com/leancodepl/js_corelibrary/commit/31b48d68684d07d5f77b14f2bb12c0a4470fe76f))
--   remove unnecessary files, fix prettier
-    ([68f25c9](https://github.com/leancodepl/js_corelibrary/commit/68f25c931c7d4ca25f09c96c3834c8c331f376d0))
+- @leancodepl/linting dependencies
+  ([5a913ce](https://github.com/leancodepl/js_corelibrary/commit/5a913ce371cd3a292cd511d1462ec02f42909f2c))
+- fix building some libraries
+  ([31b48d6](https://github.com/leancodepl/js_corelibrary/commit/31b48d68684d07d5f77b14f2bb12c0a4470fe76f))
+- remove unnecessary files, fix prettier
+  ([68f25c9](https://github.com/leancodepl/js_corelibrary/commit/68f25c931c7d4ca25f09c96c3834c8c331f376d0))
 
 ### Features
 
--   add github actions
-    ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
--   add registry option to publish script
-    ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
+- add github actions
+  ([15c2060](https://github.com/leancodepl/js_corelibrary/commit/15c2060511e6bec652431f248d6da75c3d194c85))
+- add registry option to publish script
+  ([50f4c08](https://github.com/leancodepl/js_corelibrary/commit/50f4c0877482895b49b62a8f0a1f7ae289898130))
 
 # Change Log
 
@@ -413,12 +422,12 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   correct module paths in package.json
-    ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
+- correct module paths in package.json
+  ([94e0a2b](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/94e0a2b))
 
 ### Features
 
--   add operations support ([4df47ec](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/4df47ec))
+- add operations support ([4df47ec](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/4df47ec))
 
 <a name="6.2.0"></a>
 
@@ -426,10 +435,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   add withCredentials option for rx cqrs client
-    ([306794c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/306794c))
--   update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
--   update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
+- add withCredentials option for rx cqrs client
+  ([306794c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/306794c))
+- update packages ([e7a3cb8](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/e7a3cb8))
+- update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
 
 <a name="6.1.1"></a>
 
@@ -443,13 +452,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   fix generation of create command when there's no error codes
-    ([8820cd9](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/8820cd9))
+- fix generation of create command when there's no error codes
+  ([8820cd9](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/8820cd9))
 
 ### Features
 
--   integrate axios cqrs client with validation errors handling
-    ([889fa2d](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/889fa2d))
--   make token provider optional in cqrs clients
-    ([00e7f32](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/00e7f32))
--   split cqrs clients ([07fff4b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/07fff4b))
+- integrate axios cqrs client with validation errors handling
+  ([889fa2d](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/889fa2d))
+- make token provider optional in cqrs clients
+  ([00e7f32](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/00e7f32))
+- split cqrs clients ([07fff4b](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/07fff4b))

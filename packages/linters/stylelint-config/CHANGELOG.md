@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/stylelint-config
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/stylelint-config
@@ -223,10 +232,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   prettier version
-    ([888bfb8](https://github.com/leancodepl/js_corelibrary/commit/888bfb819845601e6fea131670483e59ce9cebda))
--   stylelint dependencies
-    ([3a3aad5](https://github.com/leancodepl/js_corelibrary/commit/3a3aad53ca223f142a69fed2cb2075e2cb031973))
+- prettier version
+  ([888bfb8](https://github.com/leancodepl/js_corelibrary/commit/888bfb819845601e6fea131670483e59ce9cebda))
+- stylelint dependencies
+  ([3a3aad5](https://github.com/leancodepl/js_corelibrary/commit/3a3aad53ca223f142a69fed2cb2075e2cb031973))
 
 # Change Log
 
@@ -329,7 +338,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   upgrade linters deps ([0d265aa](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/0d265aa))
+- upgrade linters deps ([0d265aa](https://github.com/projects/leancodepl/repos/js_corelibrary/commits/0d265aa))
 
 <a name="6.3.0"></a>
 
@@ -343,7 +352,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
+- update packages ([f67355c](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/f67355c))
 
 <a name="6.1.1"></a>
 
@@ -363,7 +372,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update dependencies ([0fed8db](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/0fed8db))
+- update dependencies ([0fed8db](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/0fed8db))
 
 <a name="5.2.0"></a>
 
@@ -383,8 +392,7 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   bump ts parser version
-    ([1080e75](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/1080e75))
+- bump ts parser version ([1080e75](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/1080e75))
 
 <a name="5.0.1"></a>
 
@@ -398,12 +406,12 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   update to typescript 4.0
-    ([271f089](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/271f089))
+- update to typescript 4.0
+  ([271f089](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/271f089))
 
 ### BREAKING CHANGES
 
--   update peer dependency of TS to 4.0
+- update peer dependency of TS to 4.0
 
 <a name="4.5.0"></a>
 
@@ -441,10 +449,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   **eslint-config:** iterate linters config
-    ([88dac1f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/88dac1f))
--   **prettier-config:** upgrade prettier to v2
-    ([866576d](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/866576d))
+- **eslint-config:** iterate linters config
+  ([88dac1f](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/88dac1f))
+- **prettier-config:** upgrade prettier to v2
+  ([866576d](https://bitbucket.org/projects/leancode-team/repos/core-js-library/commits/866576d))
 
 <a name="4.2.0"></a>
 
@@ -468,47 +476,46 @@ All notable changes to this project will be documented in this file. See
 
 ## 4.1.0 (2020-02-06)
 
--   v4.1.0-alpha.6 ([b8f6eb1](https://bitbucket.org/leancode-team/core-js-library/commits/b8f6eb1))
+- v4.1.0-alpha.6 ([b8f6eb1](https://bitbucket.org/leancode-team/core-js-library/commits/b8f6eb1))
 
 ## 4.1.0-alpha.5 (2020-02-06)
 
--   Relax linters versioning ([6ff5707](https://bitbucket.org/leancode-team/core-js-library/commits/6ff5707))
--   v4.1.0-alpha.5 ([981a306](https://bitbucket.org/leancode-team/core-js-library/commits/981a306))
+- Relax linters versioning ([6ff5707](https://bitbucket.org/leancode-team/core-js-library/commits/6ff5707))
+- v4.1.0-alpha.5 ([981a306](https://bitbucket.org/leancode-team/core-js-library/commits/981a306))
 
 ## 4.1.0-alpha.4 (2020-02-06)
 
--   Fix linters configuration and upgrade
-    ([72ee3c5](https://bitbucket.org/leancode-team/core-js-library/commits/72ee3c5))
--   v4.1.0-alpha.4 ([d778eb6](https://bitbucket.org/leancode-team/core-js-library/commits/d778eb6))
+- Fix linters configuration and upgrade ([72ee3c5](https://bitbucket.org/leancode-team/core-js-library/commits/72ee3c5))
+- v4.1.0-alpha.4 ([d778eb6](https://bitbucket.org/leancode-team/core-js-library/commits/d778eb6))
 
 ## 4.1.0-alpha.2 (2019-11-06)
 
--   Configure prettier and stylelint ([bb0b197](https://bitbucket.org/leancode-team/core-js-library/commits/bb0b197))
--   v4.1.0-alpha.2 ([5ca8c93](https://bitbucket.org/leancode-team/core-js-library/commits/5ca8c93))
+- Configure prettier and stylelint ([bb0b197](https://bitbucket.org/leancode-team/core-js-library/commits/bb0b197))
+- v4.1.0-alpha.2 ([5ca8c93](https://bitbucket.org/leancode-team/core-js-library/commits/5ca8c93))
 
 ## 4.1.0-alpha.0 (2019-11-06)
 
--   Update linters dependencies ([aa28dce](https://bitbucket.org/leancode-team/core-js-library/commits/aa28dce))
--   v4.1.0-alpha.0 ([5fd0ce1](https://bitbucket.org/leancode-team/core-js-library/commits/5fd0ce1))
+- Update linters dependencies ([aa28dce](https://bitbucket.org/leancode-team/core-js-library/commits/aa28dce))
+- v4.1.0-alpha.0 ([5fd0ce1](https://bitbucket.org/leancode-team/core-js-library/commits/5fd0ce1))
 
 ## 4.0.0 (2019-10-23)
 
--   v4.0.0 ([1d5b7a4](https://bitbucket.org/leancode-team/core-js-library/commits/1d5b7a4))
+- v4.0.0 ([1d5b7a4](https://bitbucket.org/leancode-team/core-js-library/commits/1d5b7a4))
 
 ## <small>3.4.97 (2019-09-20)</small>
 
--   Remove unused package ([07b8c2c](https://bitbucket.org/leancode-team/core-js-library/commits/07b8c2c))
--   v3.4.97 ([4363149](https://bitbucket.org/leancode-team/core-js-library/commits/4363149))
+- Remove unused package ([07b8c2c](https://bitbucket.org/leancode-team/core-js-library/commits/07b8c2c))
+- v3.4.97 ([4363149](https://bitbucket.org/leancode-team/core-js-library/commits/4363149))
 
 ## <small>3.4.96 (2019-09-20)</small>
 
--   Add leancode building blocks ([c210acf](https://bitbucket.org/leancode-team/core-js-library/commits/c210acf))
--   v3.4.96 ([bd3998b](https://bitbucket.org/leancode-team/core-js-library/commits/bd3998b))
+- Add leancode building blocks ([c210acf](https://bitbucket.org/leancode-team/core-js-library/commits/c210acf))
+- v3.4.96 ([bd3998b](https://bitbucket.org/leancode-team/core-js-library/commits/bd3998b))
 
 ## <small>3.4.95 (2019-09-20)</small>
 
--   Add build system and bump packages versions
-    ([097d5c3](https://bitbucket.org/leancode-team/core-js-library/commits/097d5c3))
--   Add linting configuration ([d047ffa](https://bitbucket.org/leancode-team/core-js-library/commits/d047ffa))
--   Update linters dependencies ([07d26dc](https://bitbucket.org/leancode-team/core-js-library/commits/07d26dc))
--   v3.4.95 ([c84752b](https://bitbucket.org/leancode-team/core-js-library/commits/c84752b))
+- Add build system and bump packages versions
+  ([097d5c3](https://bitbucket.org/leancode-team/core-js-library/commits/097d5c3))
+- Add linting configuration ([d047ffa](https://bitbucket.org/leancode-team/core-js-library/commits/d047ffa))
+- Update linters dependencies ([07d26dc](https://bitbucket.org/leancode-team/core-js-library/commits/07d26dc))
+- v3.4.95 ([c84752b](https://bitbucket.org/leancode-team/core-js-library/commits/c84752b))

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+**Note:** Version bump only for package @leancodepl/gtag
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/gtag
@@ -241,8 +250,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated package.json
-    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+- generated package.json
+  ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
 
 # Change Log
 
@@ -289,13 +298,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add gtag helper library
-    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+- add gtag helper library
+  ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
 
 # Change Log
 
@@ -306,13 +315,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add gtag helper library
-    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+- add gtag helper library
+  ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
 
 # Change Log
 
@@ -359,10 +368,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add gtag helper library
-    ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))
+- add gtag helper library
+  ([96ece45](https://github.com/leancodepl/js_corelibrary/commit/96ece4560f0828d954167efdd5b64f5873d7d353))

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
+
+### Bug Fixes
+
+- make infinite queries actually usable
+  ([97871bb](https://github.com/leancodepl/js_corelibrary/commit/97871bbb650675fc08744f33164f6dd88aebca90))
+- replace globs with regexes to align with perfectionist breaking changes
+  ([d4562eb](https://github.com/leancodepl/js_corelibrary/commit/d4562eb6e3454dc51decd45d6958b6fe9ecd2889))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.3.6](https://github.com/leancodepl/js_corelibrary/compare/v8.3.5...v8.3.6) (2025-02-14)
 
 **Note:** Version bump only for package @leancodepl/react-query-cqrs-client
@@ -16,8 +30,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   unify results and fix types
-    ([8336cb4](https://github.com/leancodepl/js_corelibrary/commit/8336cb42529b0eeb975bccf48952fac33c07948f))
+- unify results and fix types
+  ([8336cb4](https://github.com/leancodepl/js_corelibrary/commit/8336cb42529b0eeb975bccf48952fac33c07948f))
 
 # Change Log
 
@@ -37,8 +51,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   allow overriding token header in all cqrs clients
-    ([5a34507](https://github.com/leancodepl/js_corelibrary/commit/5a3450723543f23eee9e5c4c7884fe1adbfd293e))
+- allow overriding token header in all cqrs clients
+  ([5a34507](https://github.com/leancodepl/js_corelibrary/commit/5a3450723543f23eee9e5c4c7884fe1adbfd293e))
 
 # Change Log
 
@@ -49,8 +63,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   expose key in commands and operations
-    ([93800a2](https://github.com/leancodepl/js_corelibrary/commit/93800a2f0db7f5ac466cb6395f018798e4353c33))
+- expose key in commands and operations
+  ([93800a2](https://github.com/leancodepl/js_corelibrary/commit/93800a2f0db7f5ac466cb6395f018798e4353c33))
 
 # Change Log
 
@@ -79,8 +93,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   firing onError on failed commands
-    ([2c1204a](https://github.com/leancodepl/js_corelibrary/commit/2c1204ab16557bdd18a92f657ad48bd30f5e7f7d))
+- firing onError on failed commands
+  ([2c1204a](https://github.com/leancodepl/js_corelibrary/commit/2c1204ab16557bdd18a92f657ad48bd30f5e7f7d))
 
 # Change Log
 
@@ -109,13 +123,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   apply linters config
-    ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
+- apply linters config
+  ([2314cff](https://github.com/leancodepl/js_corelibrary/commit/2314cff2d16611d06ebcf5287a166d29ab64c653))
 
 ### Features
 
--   add optimistic updates to commands
-    ([aa4b757](https://github.com/leancodepl/js_corelibrary/commit/aa4b757e17e0514504dcb4e63d610daf1e673c8f))
+- add optimistic updates to commands
+  ([aa4b757](https://github.com/leancodepl/js_corelibrary/commit/aa4b757e17e0514504dcb4e63d610daf1e673c8f))
 
 # Change Log
 
@@ -180,10 +194,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   packages versions
-    ([aa7b005](https://github.com/leancodepl/js_corelibrary/commit/aa7b0050f211207401c8345b58dd7c675145f7f2))
--   packages versions
-    ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
+- packages versions
+  ([aa7b005](https://github.com/leancodepl/js_corelibrary/commit/aa7b0050f211207401c8345b58dd7c675145f7f2))
+- packages versions
+  ([739d722](https://github.com/leancodepl/js_corelibrary/commit/739d72211dff7c15b07e283b2f09a2470a8329c2))
 
 # Change Log
 
@@ -194,8 +208,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   add setQueriesData to queries
-    ([835dcac](https://github.com/leancodepl/js_corelibrary/commit/835dcac07659c3cb7bb3c509bcd6d354bad0f473))
+- add setQueriesData to queries
+  ([835dcac](https://github.com/leancodepl/js_corelibrary/commit/835dcac07659c3cb7bb3c509bcd6d354bad0f473))
 
 # Change Log
 
@@ -269,8 +283,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   generated package.json
-    ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
+- generated package.json
+  ([b7c95fd](https://github.com/leancodepl/js_corelibrary/commit/b7c95fd5719131629fa32722b49596d2c7314168))
 
 # Change Log
 
@@ -281,8 +295,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   allow to change withCredentials option in react-query client
-    ([f09b686](https://github.com/leancodepl/js_corelibrary/commit/f09b686e780ba314d2c1858b5252da8d30740624))
+- allow to change withCredentials option in react-query client
+  ([f09b686](https://github.com/leancodepl/js_corelibrary/commit/f09b686e780ba314d2c1858b5252da8d30740624))
 
 # Change Log
 
@@ -302,10 +316,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   pass queryClient from props to hooks
-    ([8a98f60](https://github.com/leancodepl/js_corelibrary/commit/8a98f60ed7ef1f01682cb09b52a13381fe350345))
--   update react-query to v5
-    ([6ab3dfc](https://github.com/leancodepl/js_corelibrary/commit/6ab3dfc40b29238f970f4c7da15465739e610b63))
+- pass queryClient from props to hooks
+  ([8a98f60](https://github.com/leancodepl/js_corelibrary/commit/8a98f60ed7ef1f01682cb09b52a13381fe350345))
+- update react-query to v5
+  ([6ab3dfc](https://github.com/leancodepl/js_corelibrary/commit/6ab3dfc40b29238f970f4c7da15465739e610b63))
 
 # Change Log
 
@@ -316,10 +330,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
--   pass queryClient from props to hooks
-    ([8a98f60](https://github.com/leancodepl/js_corelibrary/commit/8a98f60ed7ef1f01682cb09b52a13381fe350345))
--   update react-query to v5
-    ([6ab3dfc](https://github.com/leancodepl/js_corelibrary/commit/6ab3dfc40b29238f970f4c7da15465739e610b63))
+- pass queryClient from props to hooks
+  ([8a98f60](https://github.com/leancodepl/js_corelibrary/commit/8a98f60ed7ef1f01682cb09b52a13381fe350345))
+- update react-query to v5
+  ([6ab3dfc](https://github.com/leancodepl/js_corelibrary/commit/6ab3dfc40b29238f970f4c7da15465739e610b63))
 
 # Change Log
 
@@ -330,13 +344,13 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
 
 # Change Log
 
@@ -347,15 +361,15 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
--   update publish scripts
-    ([9301c27](https://github.com/leancodepl/js_corelibrary/commit/9301c277f34230e63bd60735bfbc244825a74405))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update publish scripts
+  ([9301c27](https://github.com/leancodepl/js_corelibrary/commit/9301c277f34230e63bd60735bfbc244825a74405))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
 
 # Change Log
 
@@ -402,8 +416,8 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update publish scripts
-    ([2093426](https://github.com/leancodepl/js_corelibrary/commit/20934263c8dcf540f522f4667dfc2e8e825ff159))
+- update publish scripts
+  ([2093426](https://github.com/leancodepl/js_corelibrary/commit/20934263c8dcf540f522f4667dfc2e8e825ff159))
 
 # Change Log
 
@@ -414,10 +428,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Bug Fixes
 
--   update nx to fix building packages
-    ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
+- update nx to fix building packages
+  ([ff7577c](https://github.com/leancodepl/js_corelibrary/commit/ff7577c489a575818211d68eacacaed0aa309076))
 
 ### Features
 
--   add react-query-cqrs-client library
-    ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
+- add react-query-cqrs-client library
+  ([ec1588a](https://github.com/leancodepl/js_corelibrary/commit/ec1588a64c059619e571c3f92fd1c252480f12a2))
