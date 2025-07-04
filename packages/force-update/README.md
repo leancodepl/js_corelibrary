@@ -1,7 +1,58 @@
-# force-update
+# @leancodepl/force-update
 
-A library for implementing force update functionality in web applications. It includes utilities to monitor app versions
-and prompt users to refresh when a new version is available.
+A library for implementing force update functionality in web applications.
+
+## Installation
+
+```bash
+npm install @leancodepl/force-update
+# or
+yarn add @leancodepl/force-update
+```
+
+## Overview
+
+This package provides utilities to monitor application versions and prompt users to refresh when a new version is
+available. It includes a Vite plugin for version endpoint creation and utilities for user notification on new version
+available.
+
+## API
+
+### `listenOnForceUpdate(options: ForceUpdateOptions): () => void`
+
+Sets up version monitoring with customizable callback and polling interval.
+
+**Parameters:**
+
+- `options.onNewVersionAvailable`: Callback function triggered when a new version is detected
+- `options.versionCheckIntervalPeriod`: Optional polling interval in milliseconds (default: 3 minutes)
+
+**Returns:** Cleanup function to stop version monitoring
+
+### `ForceUpdateNotification: React.ComponentType<{ message?: string }>`
+
+React component that displays a browser prompt when a new version is available.
+
+**Parameters:**
+
+- `message`: Optional custom message for notification prompt
+
+**Returns:** React component that handles version checking and user notification
+
+### `vitePluginForceUpdate(options?: VitePluginOptions): Plugin`
+
+Vite plugin that creates a `/version` endpoint serving the current app version.
+
+**Parameters:**
+
+- `options.envVariableName`: Optional environment variable name (default: 'APP_VERSION')
+
+**Returns:** Vite plugin instance
+
+## TypeScript Types
+
+- `ForceUpdateOptions` - Configuration options for version monitoring
+- `VitePluginOptions` - Configuration options for the Vite plugin
 
 ## Usage
 
@@ -56,14 +107,6 @@ Set the `APP_VERSION` environment variable during build.
 
 1. The Vite plugin reads the `APP_VERSION` environment variable and creates a `/version` endpoint that serves the
    current version. Environment variable name can be overridden.
-2. The `listenOnForceUpdate` function periodically polls this endpoint.
+2. The `listenOnForceUpdate` fetches initial version from the endpoint and then periodically polls it.
 3. When a version mismatch is detected, it triggers the `onNewVersionAvailable` callback.
 4. You can then prompt the user to reload or automatically refresh the page.
-
-## Building
-
-Run `nx build force-update` to build the library.
-
-## Running unit tests
-
-Run `nx test force-update` to execute the unit tests via [Jest](https://jestjs.io).
