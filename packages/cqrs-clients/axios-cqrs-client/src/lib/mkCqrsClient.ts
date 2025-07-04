@@ -1,6 +1,6 @@
+import axios, { AxiosError, AxiosHeaders, CreateAxiosDefaults } from "axios"
 import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"
-import axios, { AxiosError, AxiosHeaders, CreateAxiosDefaults } from "axios"
 
 function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     return {

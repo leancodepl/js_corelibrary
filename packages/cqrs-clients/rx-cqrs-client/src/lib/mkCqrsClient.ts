@@ -1,8 +1,8 @@
-import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
-import { handleResponse } from "@leancodepl/validation"
 import { catchError, from, of } from "rxjs"
 import { ajax, AjaxConfig, AjaxError } from "rxjs/ajax"
 import { map, mergeMap } from "rxjs/operators"
+import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
+import { handleResponse } from "@leancodepl/validation"
 import authGuard from "./authGuard"
 
 export function mkCqrsClient({

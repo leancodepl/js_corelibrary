@@ -1,6 +1,6 @@
+import type { ApiResponse } from "@leancodepl/cqrs-client-base"
 import { uncapitalizeDeep } from "@leancodepl/utils"
 import { mkCqrsClient, type MkCqrsClientParameters } from "./mkCqrsClient"
-import type { ApiResponse } from "@leancodepl/cqrs-client-base"
 
 function uncapitalizeResponse<TResult>(response: ApiResponse<TResult>) {
     if (!response.isSuccess) {
