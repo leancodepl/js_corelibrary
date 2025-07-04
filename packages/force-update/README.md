@@ -12,8 +12,6 @@ import { listenOnForceUpdate } from "@leancodepl/force-update"
 
 useEffect(() => {
     const cleanup = listenOnForceUpdate({
-        appVersion: environment.appVersion, // Current app version
-        isProduction: import.meta.env.PROD,
         onNewVersionAvailable: () => {
             // Show notification to user or force reload
             if (window.confirm("A new version is available. Reload now?")) {
@@ -33,8 +31,6 @@ You can also use component with default behavior - displaying browser prompt wit
 import { ForceUpdateNotification } from "@leancodepl/force-update"
 
 <ForceUpdateNotification
-    appVersion={environment.appVersion}
-    isProduction={import.meta.env.PROD}
     message="A new version of the app is available. Please reload the page to access latest features."
 />
 ```
