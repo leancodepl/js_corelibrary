@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios"
+import axios, { AxiosError, AxiosHeaders, CreateAxiosDefaults } from "axios"
 import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from "@leancodepl/cqrs-client-base"
 import { handleResponse } from "@leancodepl/validation"
 
@@ -9,9 +9,15 @@ function createSuccess<TResult>(result: TResult): ApiSuccess<TResult> {
     }
 }
 
-function createError(error: any): ApiError {
+function createError(
+    error: any,
+    options?: {
+        isAborted?: boolean
+    },
+): ApiError {
     return {
         isSuccess: false,
+        isAborted: !!options?.isAborted,
         error,
     }
 }
@@ -50,14 +56,34 @@ export function mkCqrsClient({
 
             return response
         },
-        async (error: { response: AxiosResponse; config: AxiosRequestConfig }) => {
+        async (error: unknown) => {
+            if (!(error instanceof AxiosError)) {
+                return {
+                    data: createError(`Unknown error ${error}`),
+                }
+            }
+
+            if (error.code === "ERR_CANCELED") {
+                return {
+                    data: createError(error, {
+                        isAborted: true,
+                    }),
+                }
+            }
+
+            if (!error.response) {
+                return {
+                    data: createError(error),
+                }
+            }
+
             const response = error.response
 
             switch (error.response.status) {
                 case 401: {
-                    const config = error.config
+                    let config = error.config
 
-                    if (config.params?.isRetry) {
+                    if (config?.params?.isRetry) {
                         response.data = createError(
                             "The request has not been authorized and token refresh did not help",
                         )
@@ -76,7 +102,8 @@ export function mkCqrsClient({
                         break
                     }
 
-                    config.params = error.config.params || {}
+                    config ??= { headers: new AxiosHeaders() }
+                    config.params ??= {}
                     config.params.isRetry = true
 
                     return await apiAxios.request(config)

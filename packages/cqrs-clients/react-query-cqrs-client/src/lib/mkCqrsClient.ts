@@ -274,10 +274,7 @@ export function mkCqrsClient({
                 TContext
             >
             function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
-                options?: Omit<
-                    UseMutationOptions<TResult, TResult, TCommand, TContext>,
-                    "mutationFn" | "mutationKey"
-                > & {
+                options?: Omit<UseMutationOptions<TResult, TResult, TCommand, TContext>, "mutationFn" | "mutationKey"> & {
                     invalidateQueries?: QueryKey[]
                     handler: (
                         handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
