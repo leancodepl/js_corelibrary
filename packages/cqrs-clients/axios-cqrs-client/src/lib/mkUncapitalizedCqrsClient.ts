@@ -13,6 +13,25 @@ function uncapitalizeResponse<TResult>(response: ApiResponse<TResult>) {
     }
 }
 
+/**
+ * Creates CQRS client with automatic response key uncapitalization using "@leancodepl/utils".
+ * 
+ * Extends the base CQRS client to automatically transform response object keys from
+ * PascalCase to camelCase using deep transformation.
+ * 
+ * @param params - Configuration object for CQRS client
+ * @param params.cqrsEndpoint - Base URL for CQRS API endpoints
+ * @param params.tokenProvider - Optional token provider for authentication
+ * @param params.axiosOptions - Optional Axios configuration options
+ * @param params.tokenHeader - Header name for authentication token (default: "Authorization")
+ * @returns CQRS client with response key transformation
+ * @example
+ * ```typescript
+ * const client = mkUncapitalizedCqrsClient({
+ *   cqrsEndpoint: 'https://api.example.com'
+ * });
+ * ```
+ */
 export function mkUncapitalizedCqrsClient(params: MkCqrsClientParameters) {
     const baseClient = mkCqrsClient(params)
 

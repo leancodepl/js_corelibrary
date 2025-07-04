@@ -10,6 +10,33 @@ type RecoveryFlowSearchParams = {
     [returnToParameterName]?: string
 }
 
+/**
+ * Manages Kratos email/phone verification flow state and form submission.
+ * 
+ * Handles verification flow creation, retrieval, and submission with automatic error handling,
+ * URL parameter management, and verification status tracking.
+ * 
+ * @param initialFlowId - Optional initial flow ID to start with
+ * @param kratosClient - Configured Kratos FrontendApi client
+ * @param onVerified - Callback executed when verification is successful
+ * @param searchParams - URL search parameters for flow state
+ * @param updateSearchParams - Function to update URL search parameters
+ * @returns Object with current flow, submit function, and reset function
+ * @example
+ * ```typescript
+ * import { useVerificationFlow } from '@leancodepl/kratos';
+ * 
+ * function VerifyEmailForm() {
+ *   const { flow, submit, reset } = useVerificationFlow({
+ *     kratosClient,
+ *     onVerified: () => navigate('/dashboard'),
+ *     updateSearchParams: (params) => setSearchParams(params)
+ *   });
+ * 
+ *   return <form onSubmit={submit}>...</form>;
+ * }
+ * ```
+ */
 export function useVerificationFlow({
     initialFlowId,
     kratosClient,

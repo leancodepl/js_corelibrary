@@ -13,6 +13,35 @@ export type LoginSearchParams = {
     [aalParameterName]?: string
 }
 
+/**
+ * Manages Kratos login flow state and form submission.
+ * 
+ * Handles login flow creation, retrieval, and submission with automatic error handling,
+ * URL parameter management, and session callbacks. Supports multi-factor authentication
+ * and refresh flows.
+ * 
+ * @param kratosClient - Configured Kratos FrontendApi client
+ * @param returnTo - URL to redirect after successful login
+ * @param onLoggedIn - Callback executed when user successfully logs in
+ * @param onSessionAlreadyAvailable - Callback when session already exists
+ * @param searchParams - URL search parameters for flow state
+ * @param updateSearchParams - Function to update URL search parameters
+ * @returns Object with current flow and submit function
+ * @example
+ * ```typescript
+ * import { useLoginFlow } from '@leancodepl/kratos';
+ * 
+ * function LoginForm() {
+ *   const { flow, submit } = useLoginFlow({
+ *     kratosClient,
+ *     onLoggedIn: (session) => navigate('/dashboard'),
+ *     updateSearchParams: (params) => setSearchParams(params)
+ *   });
+ * 
+ *   return <form onSubmit={submit}>...</form>;
+ * }
+ * ```
+ */
 export function useLoginFlow({
     kratosClient,
     returnTo,

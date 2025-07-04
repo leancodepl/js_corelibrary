@@ -49,6 +49,26 @@ export interface ValidationErrorsHandler<TRemainingErrors extends Record<string,
         : unknown
 }
 
+/**
+ * Creates a validation error handler that processes errors with type-safe error code mapping.
+ * 
+ * @template TAllErrors - Error codes map type extending Record<string, number>
+ * @template TInResult - Type of results accumulated from previous handlers
+ * @param validationErrors - Array of validation errors to process
+ * @param errorCodesMap - Mapping of error names to numeric codes
+ * @param validationResults - Optional array of previous handler results
+ * @returns Handler with handle, handleAll, and check methods
+ * @example
+ * ```typescript
+ * const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const;
+ * const errors = [{ ErrorCode: 1, ErrorMessage: 'Email exists', PropertyName: 'Email', AttemptedValue: 'test@example.com' }];
+ * 
+ * handleValidationErrors(errors, errorCodes)
+ *   .handle('EmailExists', () => console.warn('Email already registered'))
+ *   .handle('InvalidEmail', () => console.warn('Invalid email format'))
+ *   .check();
+ * ```
+ */
 export function handleValidationErrors<TAllErrors extends Record<string, number>, TInResult = never>(
     validationErrors: ValidationError<TAllErrors>[],
     errorCodesMap: TAllErrors,

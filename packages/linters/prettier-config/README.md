@@ -1,6 +1,6 @@
 # @leancodepl/prettier-config
 
-Shareable Prettier configuration for consistent code formatting.
+Prettier configuration for code formatting.
 
 ## Installation
 
@@ -10,33 +10,24 @@ npm install --save-dev @leancodepl/prettier-config
 yarn add --dev @leancodepl/prettier-config
 ```
 
-## Overview
+## Usage Examples
 
-This package provides a Prettier configuration with opinionated formatting rules for consistent code style across TypeScript projects.
-
-## Usage
-
-### Prettier Config File
+### Basic Setup
 
 ```javascript
-// prettier.config.js or .prettierrc.js
+// prettier.config.js
 module.exports = require('@leancodepl/prettier-config');
 ```
 
-### Extending Configuration
+### With Overrides
 
 ```javascript
-// prettier.config.js or .prettierrc.js
+// prettier.config.js
 const baseConfig = require('@leancodepl/prettier-config');
 
 module.exports = {
   ...baseConfig,
-  // Override specific options
   printWidth: 100,
   singleQuote: true,
 };
 ```
-
-## Dependencies
-
-- `prettier`: Code formatter with opinionated defaults

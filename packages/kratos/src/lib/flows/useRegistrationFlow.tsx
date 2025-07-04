@@ -10,6 +10,33 @@ type RegistrationFlowSearchParams = {
     [returnToParameterName]?: string
 }
 
+/**
+ * Manages Kratos registration flow state and form submission.
+ * 
+ * Handles registration flow creation, retrieval, and submission with automatic error handling,
+ * URL parameter management, and continue-with callbacks for post-registration actions.
+ * 
+ * @param kratosClient - Configured Kratos FrontendApi client
+ * @param onSessionAlreadyAvailable - Callback when session already exists
+ * @param onContinueWith - Optional callback for post-registration actions
+ * @param searchParams - URL search parameters for flow state
+ * @param updateSearchParams - Function to update URL search parameters
+ * @returns Object with current flow, submit function, and registration status
+ * @example
+ * ```typescript
+ * import { useRegisterFlow } from '@leancodepl/kratos';
+ * 
+ * function RegisterForm() {
+ *   const { flow, submit, isRegistered } = useRegisterFlow({
+ *     kratosClient,
+ *     onSessionAlreadyAvailable: () => navigate('/dashboard'),
+ *     updateSearchParams: (params) => setSearchParams(params)
+ *   });
+ * 
+ *   return <form onSubmit={submit}>...</form>;
+ * }
+ * ```
+ */
 export function useRegisterFlow({
     kratosClient,
     onSessionAlreadyAvailable,

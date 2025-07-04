@@ -2,6 +2,20 @@ import type { ApiTimeSpan } from "@leancodepl/api-date";
 
 const parseIntMatched = (value: string | undefined) => parseInt(value ?? "0");
 
+/**
+ * Parses ApiTimeSpan string into structured time components.
+ * 
+ * Extracts sign, days, hours, minutes, seconds, and milliseconds from
+ * ApiTimeSpan string format using regex pattern matching.
+ * 
+ * @param timespan - The ApiTimeSpan string to parse
+ * @returns Object with sign and time component values
+ * @example
+ * ```typescript
+ * const result = parseApiTimeSpan('1.23:45:67.890');
+ * console.log(result.values.hours); // 23
+ * ```
+ */
 export function parseApiTimeSpan(timespan: ApiTimeSpan) {
     /**
      * This regex returns tuple of matched strings (either of string type or undefined) and default match function parameters

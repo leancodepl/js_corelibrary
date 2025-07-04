@@ -1,5 +1,20 @@
 import { SyncTokenStorage, Token } from "./tokenStorage"
 
+/**
+ * Stores OAuth2 tokens in browser sessionStorage.
+ * 
+ * Provides session-based token storage that clears when the browser tab is closed.
+ * Implements SyncTokenStorage interface for synchronous operations.
+ * 
+ * @param tokenKey - sessionStorage key for access token (default: "token")
+ * @param refreshKey - sessionStorage key for refresh token (default: "refresh_token")
+ * @param expiryKey - sessionStorage key for expiry date (default: "expiration_date")
+ * @example
+ * ```typescript
+ * const storage = new SessionTokenStorage();
+ * const loginManager = new SyncLoginManager(storage, endpoint, secret, clientId, scopes);
+ * ```
+ */
 export class SessionTokenStorage implements SyncTokenStorage {
     constructor(
         private tokenKey = "token",

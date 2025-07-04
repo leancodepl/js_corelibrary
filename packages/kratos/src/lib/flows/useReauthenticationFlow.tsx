@@ -4,6 +4,29 @@ import { AxiosError } from "axios";
 import { useKratosContext } from "../kratosContext";
 import { handleCancelError } from "../utils/handleCancelError";
 
+/**
+ * Manages Kratos reauthentication flow for elevated security operations.
+ * 
+ * Handles reauthentication flow creation and submission for operations requiring
+ * fresh authentication, such as changing passwords or accessing sensitive data.
+ * 
+ * @param kratosClient - Configured Kratos FrontendApi client
+ * @param onReauthenticated - Callback executed with session after successful reauthentication
+ * @returns Object with current flow and submit function
+ * @example
+ * ```typescript
+ * import { useReauthenticationFlow } from '@leancodepl/kratos';
+ * 
+ * function ReauthForm() {
+ *   const { flow, submit } = useReauthenticationFlow({
+ *     kratosClient,
+ *     onReauthenticated: (session) => navigate('/secure-area')
+ *   });
+ * 
+ *   return <form onSubmit={submit}>...</form>;
+ * }
+ * ```
+ */
 export function useReauthenticationFlow({
     kratosClient,
     onReauthenticated,

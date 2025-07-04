@@ -1,6 +1,6 @@
 # @leancodepl/utils
 
-A TypeScript utility library with helper functions, React hooks, and type utilities.
+A TypeScript utility library for common development tasks including assertions, object transformations, file operations, and hooks.
 
 ## Installation
 
@@ -10,166 +10,160 @@ npm install @leancodepl/utils
 yarn add @leancodepl/utils
 ```
 
-## Overview
-
-This package provides utilities for common development tasks including assertions, object transformations, file operations, and React hooks.
-
 ## API
 
-### `assertDefined<T>(value: T | undefined, message?: string): asserts value is T`
+### `assertDefined(value, message)`
 
-Assert that a value is not undefined.
-
-**Parameters:**
-- `value`: Value to check (T | undefined)
-- `message`: Optional error message (string)
-
-**Returns:** Type assertion - throws if value is undefined
-
-### `assertNotNull<T>(value: T | null, message?: string): asserts value is T`
-
-Assert that a value is not null.
+Asserts that a value is not undefined. Throws an error if the value is undefined.
 
 **Parameters:**
-- `value`: Value to check (T | null)
-- `message`: Optional error message (string)
+- `value: T | undefined` - The value to check for undefined
+- `message?: string` - Optional error message to use if assertion fails
 
-**Returns:** Type assertion - throws if value is null
+### `assertNotNull(value, message)`
 
-### `assertNotEmpty<T>(value: T | null | undefined, message?: string): asserts value is T`
-
-Assert that a value is not null or undefined.
+Asserts that a value is not null. Throws an error if the value is null.
 
 **Parameters:**
-- `value`: Value to check (T | null | undefined)
-- `message`: Optional error message (string)
+- `value: T | null` - The value to check for null
+- `message?: string` - Optional error message to use if assertion fails
 
-**Returns:** Type assertion - throws if value is null or undefined
+### `assertNotEmpty(value, message)`
 
-### `ensureDefined<T>(value: T | undefined): T`
-
-Ensure a value is defined, returning it or throwing.
+Asserts that a value is not null or undefined. Throws an error if the value is null or undefined.
 
 **Parameters:**
-- `value`: Value to check (T | undefined)
+- `value: T | null | undefined` - The value to check for null or undefined
+- `message?: string` - Optional error message to use if assertion fails
 
-**Returns:** The value (T) - throws if undefined
+### `ensureDefined(value, message)`
 
-### `ensureNotNull<T>(value: T | null): T`
-
-Ensure a value is not null, returning it or throwing.
-
-**Parameters:**
-- `value`: Value to check (T | null)
-
-**Returns:** The value (T) - throws if null
-
-### `ensureNotEmpty<T>(value: T | null | undefined): T`
-
-Ensure a value is not null or undefined, returning it or throwing.
+Ensures that a value is defined, returning it if defined or throwing an error if undefined.
 
 **Parameters:**
-- `value`: Value to check (T | null | undefined)
+- `value: T | undefined` - The value to ensure is defined
+- `message?: string` - Optional error message to use if the value is undefined
 
-**Returns:** The value (T) - throws if null or undefined
+**Returns:** The value if it is defined
 
-### `addPrefix<T extends object, TPrefix extends string>(object: T, prefix: TPrefix): PrefixWith<T, TPrefix>`
+### `ensureNotNull(value, message)`
 
-Add a prefix to all object keys.
-
-**Parameters:**
-- `object`: Object whose keys to prefix (T extends object)
-- `prefix`: String prefix to add (TPrefix extends string)
-
-**Returns:** New object with prefixed keys (PrefixWith<T, TPrefix>)
-
-### `capitalizeDeep<T>(value: T): CapitalizeDeep<T>`
-
-Recursively capitalize all object keys.
+Ensures that a value is not null, returning it if not null or throwing an error if null.
 
 **Parameters:**
-- `value`: Value to transform (T)
+- `value: T | null` - The value to ensure is not null
+- `message?: string` - Optional error message to use if the value is null
 
-**Returns:** Deeply transformed value with capitalized keys (CapitalizeDeep<T>)
+**Returns:** The value if it is not null
 
-### `uncapitalizeDeep<T>(value: T): UncapitalizeDeep<T>`
+### `ensureNotEmpty(value, message)`
 
-Recursively uncapitalize all object keys.
+Ensures that a value is not null or undefined, returning it if valid or throwing an error if empty.
 
 **Parameters:**
-- `value`: Value to transform (T)
+- `value: T | null | undefined` - The value to ensure is not null or undefined
+- `message?: string` - Optional error message to use if the value is null or undefined
 
-**Returns:** Deeply transformed value with uncapitalized keys (UncapitalizeDeep<T>)
+**Returns:** The value if it is not null or undefined
 
-### `downloadFile(url: string, options?: DownloadFileOptions): void`
-### `downloadFile(obj: Blob | MediaSource, options?: DownloadFileOptions): void`
+### `addPrefix(object, prefix)`
+
+Adds a prefix to all keys in an object, creating a new object with prefixed keys.
+
+**Parameters:**
+- `object: T extends object` - The object whose keys will be prefixed
+- `prefix: TPrefix extends string` - The prefix string to add to each key
+
+**Returns:** A new object with all keys prefixed
+
+### `capitalizeDeep(value)`
+
+Recursively transforms all object keys to use capitalized (PascalCase) format.
+
+**Parameters:**
+- `value: T` - The value to transform (can be object, array, or primitive)
+
+**Returns:** A new object with all keys converted to PascalCase
+
+### `uncapitalizeDeep(value)`
+
+Recursively transforms all object keys to use uncapitalized (camelCase) format.
+
+**Parameters:**
+- `value: T` - The value to transform (can be object, array, or primitive)
+
+**Returns:** A new object with all keys converted to camelCase
+
+### `toLowerFirst(value)`
+
+Converts the first character of a string to lowercase.
+
+**Parameters:**
+- `value: string` - The string to transform
+
+**Returns:** The string with the first character in lowercase
+
+### `toUpperFirst(value)`
+
+Converts the first character of a string to uppercase.
+
+**Parameters:**
+- `value: string` - The string to transform
+
+**Returns:** The string with the first character in uppercase
+
+### `downloadFile(dataOrUrl, options)`
 
 Download a file from URL or Blob object.
 
 **Parameters:**
-- `url`: File URL (string) OR `obj`: Blob/MediaSource object
-- `options`: Download options ({ name?: string })
+- `url: string` OR `obj: Blob | MediaSource` - The URL to download from or the Blob/MediaSource object
+- `options?: DownloadFileOptions` - Optional download options
 
-**Returns:** void
+### `useDialog(onAfterClose)`
 
-### `useDialog(onAfterClose?: () => void): { isDialogOpen: boolean; openDialog: () => void; closeDialog: () => void }`
-
-React hook for managing dialog state.
+React hook for managing dialog state with optional callback after closing. Provides convenient open/close functions and tracks the dialog's open state.
 
 **Parameters:**
-- `onAfterClose`: Optional callback after dialog closes (() => void)
+- `onAfterClose?: () => void` - Optional callback function to execute after the dialog closes
 
-**Returns:** Dialog state and controls ({ isDialogOpen: boolean; openDialog: () => void; closeDialog: () => void })
+**Returns:** Object containing `{ isDialogOpen: boolean, openDialog: () => void, closeDialog: () => void }`
 
-### `useRunInTask(): [boolean, <T>(task: () => Promise<T> | T) => Promise<T>]`
+### `useRunInTask()`
 
-React hook for tracking async task execution.
+React hook for tracking async task execution with loading state. Automatically manages a loading counter and provides a wrapper function for tasks.
 
-**Parameters:** None
+**Returns:** A tuple containing `[isLoading: boolean, runInTask: function]`
 
-**Returns:** Tuple of loading state and task runner ([boolean, function])
+### `useBoundRunInTask(block)`
 
-### `useBoundRunInTask<T extends (...args: any[]) => any>(fn: T): [boolean, T]`
-
-React hook for bound task execution with loading state.
+React hook for bound task execution with loading state. Creates a wrapped version of a function that automatically tracks loading state.
 
 **Parameters:**
-- `fn`: Function to bind and track (T extends (...args: any[]) => any)
+- `block: T | undefined` - The function to wrap with task tracking
 
-**Returns:** Tuple of loading state and bound function ([boolean, T])
+**Returns:** A tuple containing `[isLoading: boolean, wrappedFunction: T]`
 
-### `useKeyByRoute(): string`
+### `useKeyByRoute(routeMatches)`
 
-React hook for generating keys based on current route.
+React hook for generating keys based on current route matches.
 
-**Parameters:** None
+**Parameters:**
+- `routeMatches: Record<TKey, (object | null)[] | never | object | null>` - Record of route keys to match objects or arrays
 
-**Returns:** Route-based key (string)
+**Returns:** Array of active route keys
 
-### `useSetUnset<T>(setter: (value: T) => void): [() => void, () => void]`
+### `useSetUnset(set)`
 
 React hook for boolean state management helpers.
 
 **Parameters:**
-- `setter`: State setter function ((value: T) => void)
+- `set: Dispatch<SetStateAction<boolean>>` - The state setter function from useState
 
-**Returns:** Tuple of set and unset functions ([() => void, () => void])
+**Returns:** A tuple containing `[setTrue: function, setFalse: function]`
+
 
 ## Usage Examples
-
-### Assertions
-
-```typescript
-import { assertDefined, assertNotNull, assertNotEmpty } from '@leancodepl/utils';
-
-const user = await getUser();
-assertDefined(user, 'User must be defined');
-assertNotNull(user.email, 'Email is required');
-assertNotEmpty(user.name, 'Name cannot be empty');
-
-// TypeScript now knows user, user.email, and user.name are defined
-console.log(user.name.toUpperCase());
-```
 
 ### Object Transformations
 
@@ -206,12 +200,17 @@ downloadFile(blob, { name: 'hello.txt' });
 ### React Hooks
 
 ```typescript
+import React, { useState } from 'react';
 import { 
   useDialog, 
   useRunInTask, 
   useBoundRunInTask, 
   useSetUnset 
 } from '@leancodepl/utils';
+
+async function saveData() {
+  console.log('Saving data...');
+}
 
 function MyComponent() {
   // Dialog management
@@ -248,10 +247,20 @@ function MyComponent() {
 ### Bound Task Management
 
 ```typescript
+import React, { useState, useEffect } from 'react';
 import { useBoundRunInTask } from '@leancodepl/utils';
 
+interface User {
+  name: string;
+  email: string;
+}
+
+async function fetchUser(userId: string): Promise<User> {
+  return { name: 'John Doe', email: 'john@example.com' };
+}
+
 function UserProfile({ userId }: { userId: string }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   
   const [isLoading, loadUser] = useBoundRunInTask(async () => {
     const userData = await fetchUser(userId);
@@ -272,6 +281,11 @@ function UserProfile({ userId }: { userId: string }) {
 ```typescript
 import { ensureDefined, assertDefined } from '@leancodepl/utils';
 
+interface User {
+  name: string;
+  email: string;
+}
+
 // ensureDefined returns the value or throws
 function processUser(user?: User) {
   const definedUser = ensureDefined(user); // Returns User or throws
@@ -284,18 +298,3 @@ function processUserAssert(user?: User) {
   return user.name; // TypeScript knows user is defined
 }
 ```
-
-## TypeScript Types
-
-The package exports advanced TypeScript utility types:
-
-- `PrefixWith<T, TPrefix>` - Type for objects with prefixed keys
-- `CapitalizeDeep<T>` - Type for deeply capitalized object keys  
-- `UncapitalizeDeep<T>` - Type for deeply uncapitalized object keys
-- `TransformDeep<T, TMode>` - Generic type for deep key transformations
-
-## Dependencies
-
-- `@leancodepl/api-date`: Date handling utilities
-- `tiny-invariant`: Runtime assertions
-- `react`: Peer dependency for React hooks
