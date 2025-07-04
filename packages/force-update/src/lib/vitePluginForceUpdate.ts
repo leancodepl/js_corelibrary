@@ -1,16 +1,16 @@
 import type { Plugin } from "vite"
 
 export interface ForceUpdatePluginOptions {
-    /**
-     * The environment variable name to read the version from
-     * @default 'APP_VERSION'
-     */
     envVarName?: string
 }
 
 /**
  * Vite plugin that emits a version asset file based on an environment variable, 'APP_VERSION' as default
  * This is used for force update mechanism that needs to check the current app version.
+ *
+ * @param options - Configuration options for the plugin
+ * @param options.envVarName - The name of the environment variable to read the version from (default: 'APP_VERSION')
+ * @returns A Vite plugin that creates a /version endpoint serving the current app version
  */
 export function vitePluginForceUpdate(options: ForceUpdatePluginOptions = {}): Plugin {
     const { envVarName = "APP_VERSION" } = options
