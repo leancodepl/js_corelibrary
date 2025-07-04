@@ -1,5 +1,28 @@
 # js_corelibrary
 
+## Development
+
+### Testing
+
+Run tests for a specific package:
+```bash
+nx test [package-name]
+```
+
+### Building
+
+Build a specific package:
+```bash
+nx build [package-name]
+```
+
+### Linting
+
+Run linting for a specific package:
+```bash
+nx lint [package-name]
+```
+
 ## Publishing
 
 1. Create a new branch, name it `release/[version]` e.g. `release/1.2.3`
