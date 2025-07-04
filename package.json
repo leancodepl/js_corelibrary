@@ -62,8 +62,7 @@
     "packages/cqrs-clients/custom-types/date/*",
     "packages/feature-flags/*",
     "packages/linters/*",
-    "packages/pipe-clients/*",
-    "packages/force-update/*"
+    "packages/pipe-clients/*"
   ],
   "nx": {
     "includedScripts": []
