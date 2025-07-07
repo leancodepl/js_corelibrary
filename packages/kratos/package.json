@@ -2,6 +2,13 @@
   "name": "@leancodepl/kratos",
   "version": "8.4.0",
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@ory/client": ">=1.14.3",
     "axios": ">=1.6.0",
@@ -12,5 +19,36 @@
   "peerDependencies": {
     "react": "*",
     "react-dom": "*"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/kratos"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "React components and hooks for Ory Kratos authentication",
+  "keywords": [
+    "ory",
+    "kratos",
+    "authentication",
+    "react",
+    "auth",
+    "identity",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false
 }

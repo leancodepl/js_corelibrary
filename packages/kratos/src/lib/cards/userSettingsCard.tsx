@@ -62,6 +62,8 @@ export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSe
         } else if (flowType === UiNodeGroupEnum.Totp && hasTotp(flow.ui.nodes)) {
             return <TotpSettingsSection flow={flow} TotpSettingsSectionWrapper={TotpSettingsSectionWrapper} />
         }
+
+        return null
     })()
 
     if (!$flow) return null

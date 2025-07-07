@@ -4,5 +4,41 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/pipe": "^1.0.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/pipe-clients/rx-pipe-client"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "RxJS-based client for real-time data streaming",
+  "keywords": [
+    "rxjs",
+    "real-time",
+    "streaming",
+    "websocket",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false
 }

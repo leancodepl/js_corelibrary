@@ -3,30 +3,34 @@ name: Release
 on: workflow_dispatch
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Get the version
-        id: get_version
-        run: echo "version=$(jq -Mr '.version' < lerna.json)" >> $GITHUB_OUTPUT
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: .nvmrc
-          cache: "npm"
-          registry-url: "https://registry.npmjs.org"
-      - name: Install
-        run: npm install
-      - name: Test
-        run: npx nx run-many -t test
-      - name: Test Build
-        run: npx nx run-many -t build  --parallel=1
-      - name: Publish
-        run:
-          npx nx run-many -t publish --registry=npm --ver=${{ format('{0}', steps.get_version.outputs.version)}}
-          --tag=latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Get the version
+              id: get_version
+              run: echo "version=$(jq -Mr '.version' < lerna.json)" >> $GITHUB_OUTPUT
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version-file: .nvmrc
+                  cache: "npm"
+                  registry-url: "https://registry.npmjs.org"
+            - name: Install
+              run: npm install
+            - name: Security Audit
+              run: npm audit
+            - name: Verify Integrity
+              run: npm audit signatures
+            - name: Test
+              run: npx nx run-many -t test
+            - name: Test Build
+              run: npx nx run-many -t build  --parallel=1
+            - name: Publish
+              run:
+                  npx nx run-many -t publish --registry=npm --ver=${{ format('{0}', steps.get_version.outputs.version)}}
+                  --tag=latest
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
