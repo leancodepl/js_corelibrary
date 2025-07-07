@@ -27,23 +27,24 @@ export const listenOnForceUpdate = ({
             url: "/version",
             responseType: "text",
         }).pipe(
-            map(response => response.response),
+            map(response => {
+                const version = response.response
+
+                return typeof version === "string" ? version.trim() : null
+            }),
             catchError(() => of(null)),
         )
 
     const subscription = versionUrl()
         .pipe(
             switchMap(initialVersion => {
-                if (!initialVersion || typeof initialVersion !== "string") {
+                if (!initialVersion) {
                     return EMPTY
                 }
 
                 return interval(versionCheckIntervalPeriod).pipe(
                     mergeMap(versionUrl),
-                    first(
-                        latestVersion =>
-                            typeof latestVersion === "string" && latestVersion.trim() !== initialVersion.trim(),
-                    ),
+                    first(latestVersion => !!latestVersion && latestVersion !== initialVersion),
                 )
             }),
         )
