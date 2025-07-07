@@ -26,6 +26,7 @@
   "description": "React client for feature flag management and evaluation",
   "keywords": [
     "feature-flags",
+    "openfeature",
     "react",
     "typescript",
     "javascript",

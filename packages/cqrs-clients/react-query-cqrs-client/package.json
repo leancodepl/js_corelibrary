@@ -29,10 +29,10 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "React Query integration for CQRS commands and queries",
+  "description": "TanStack Query integration for CQRS commands and queries",
   "keywords": [
     "cqrs",
-    "react-query",
+    "tanstack-query",
     "react",
     "hooks",
     "cache",

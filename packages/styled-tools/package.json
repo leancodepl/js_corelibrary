@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "Utilities for styled-components theme management and proxy creation",
+  "description": "Utilities for styled-components",
   "keywords": [
     "styled-components",
     "theme",

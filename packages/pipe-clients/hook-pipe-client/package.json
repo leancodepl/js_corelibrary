@@ -26,13 +26,15 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "React hooks for real-time data streaming and subscriptions",
+  "description": "React hooks for real-time data streaming and subscriptions using @leancodepl/pipe",
   "keywords": [
     "react",
     "hooks",
     "real-time",
     "streaming",
     "websocket",
+    "signalr",
+    "leanpipe",
     "typescript",
     "javascript",
     "leancode"
