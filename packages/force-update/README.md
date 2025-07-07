@@ -18,41 +18,38 @@ available.
 
 ## API
 
-### `listenOnForceUpdate(options: ForceUpdateOptions): () => void`
+### `listenOnForceUpdate(params)`
 
 Sets up version monitoring with customizable callback and polling interval.
 
 **Parameters:**
 
-- `options.onNewVersionAvailable`: Callback function triggered when a new version is detected
-- `options.versionCheckIntervalPeriod`: Optional polling interval in milliseconds (default: 3 minutes)
+- `params: ForceUpdateParams` - Configuration object for force update listening
+- `params.onNewVersionAvailable: () => void` - Callback function triggered when a new version is detected
+- `params.versionCheckIntervalPeriod?: number` - Optional polling interval in milliseconds (default: 3 minutes)
 
 **Returns:** Cleanup function to stop version monitoring
 
-### `ForceUpdateNotification: React.ComponentType<{ message?: string }>`
+### `ForceUpdateNotification(props)`
 
 React component that displays a browser prompt when a new version is available.
 
 **Parameters:**
 
-- `message`: Optional custom message for notification prompt
+- `props.message?: string` - Optional custom message for notification prompt
 
 **Returns:** React component that handles version checking and user notification
 
-### `vitePluginForceUpdate(options?: VitePluginOptions): Plugin`
+### `vitePluginForceUpdate(options)`
 
 Vite plugin that creates a `/version` endpoint serving the current app version.
 
 **Parameters:**
 
-- `options.envVariableName`: Optional environment variable name (default: 'APP_VERSION')
+- `options: ForceUpdatePluginOptions` - Configuration options for the Vite plugin
+- `options.envVariableName?: string` - Optional environment variable name (default: 'APP_VERSION')
 
 **Returns:** Vite plugin instance
-
-## TypeScript Types
-
-- `ForceUpdateOptions` - Configuration options for version monitoring
-- `VitePluginOptions` - Configuration options for the Vite plugin
 
 ## Usage
 
