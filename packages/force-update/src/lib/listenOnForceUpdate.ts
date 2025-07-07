@@ -26,6 +26,9 @@ export const listenOnForceUpdate = ({
         ajax({
             url: "/version",
             responseType: "text",
+            headers: {
+                "Cache-Control": "no-store",
+            },
         }).pipe(
             map(response => {
                 const version = response.response
