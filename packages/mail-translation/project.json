@@ -1,0 +1,30 @@
+{
+  "name": "@leancodepl/mail-translation",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/mail-translation/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/mail-translation",
+        "tsConfig": "packages/mail-translation/tsconfig.lib.json",
+        "packageJson": "packages/mail-translation/package.json",
+        "main": "packages/mail-translation/src/index.ts",
+        "assets": ["packages/mail-translation/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/mail-translation/jest.config.ts"
+      }
+    }
+  }
+}

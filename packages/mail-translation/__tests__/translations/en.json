@@ -1,0 +1,12 @@
+{
+  "email_verification_title": "Email Verification",
+  "email_verification_preview": "Please verify your email address",
+  "email_verification_greeting": "Hello,",
+  "email_verification_instructions": "Please enter the following code to verify your email address:",
+  "email_verification_footer": "If you didn't request this verification, please ignore this email.",
+  "password_reset_title": "Reset your password",
+  "password_reset_description": "We received a request to help you reset your password. Click the button below to set a new password.",
+  "password_reset_button": "Reset password",
+  "welcome": "Welcome to our platform!",
+  "goodbye": "Thank you for using our service."
+}

@@ -1,0 +1,20 @@
+<mj-head>
+  <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" />
+  <mj-style inline="inline">
+    a {
+      text-decoration: none;
+      color: #2196f3;
+    }
+  </mj-style>
+  <mj-attributes>
+    <mj-all font-family="Inter, Arial, sans-serif" padding="0" font-weight="400" />
+    <mj-class name="main-section" padding="40px 24px"/>
+    <mj-body background-color="#fff" />
+    <mj-class name="title" padding-bottom="24px" align="center" font-size="24px" line-height="32px" font-weight="700" color="#344054" />
+    <mj-class name="body" padding-bottom="40px" align="center" font-size="16px" line-height="24px" color="#344054" />
+    <mj-class name="action" padding-bottom="112px" />
+    <mj-class name="code" padding-bottom="112px"  align="center" font-size="24px" line-height="32px" font-weight="700" color="#344054" />
+    <mj-button inner-padding="10px 16px" font-size="14px" font-weight="500" border-radius="8px" line-height="20px" background-color="#2a96f3" />
+    <mj-divider border-color="#eaecf0" border-width="2px" />
+  </mj-attributes>
+</mj-head>
