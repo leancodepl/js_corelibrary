@@ -25,7 +25,7 @@ export function useGetLoginFlow() {
                     headers: { ...headers, Accept: "application/json" },
                 }))
             } catch (error) {
-                throw handleFlowErrorResponse<LoginFlow>({
+                throw await handleFlowErrorResponse<LoginFlow>({
                     error,
                 })
             }
