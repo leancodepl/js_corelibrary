@@ -91,6 +91,104 @@ describe('Mail Translation', () => {
       expect(result).toContain('Spaced Value');
       expect(result).not.toContain('{{ t  "spaced_key"  }}');
     });
+
+    it('should handle parameterized translations with simple parameters', () => {
+      const template = '<mj-text>{{t "welcome_user", (name: "John")}}</mj-text>';
+      const translations = {
+        welcome_user: 'Welcome {name}!'
+      };
+      
+      const result = processTemplate(template, translations);
+      
+      expect(result).toContain('Welcome John!');
+      expect(result).not.toContain('{{t "welcome_user"');
+    });
+
+    it('should handle parameterized translations with Kratos template expressions', () => {
+      const template = '<mj-text>{{t "recovery_code_message", (code: "{{ .RecoveryCode }}")}}</mj-text>';
+      const translations = {
+        recovery_code_message: 'Your recovery code is: {code}'
+      };
+      
+      const result = processTemplate(template, translations, 'en', 'kratos');
+      
+      expect(result).toContain('Your recovery code is: {{ .RecoveryCode }}');
+      expect(result).not.toContain('{{t "recovery_code_message"');
+    });
+
+    it('should handle parameterized translations with Razor template expressions', () => {
+      const template = '<mj-text>{{t "greeting_with_name", (name: "@Model.UserName")}}</mj-text>';
+      const translations = {
+        greeting_with_name: 'Hello {name}, welcome to our platform!'
+      };
+      
+      const result = processTemplate(template, translations, 'en', 'razor');
+      
+      expect(result).toContain('Hello @Model.UserName, welcome to our platform!');
+      expect(result).not.toContain('{{t "greeting_with_name"');
+    });
+
+    it('should handle parameterized translations with multiple parameters', () => {
+      const template = '<mj-text>{{t "multi_param", (name: "John", age: 25, active: true)}}</mj-text>';
+      const translations = {
+        multi_param: 'User {name} is {age} years old and is {active, select, true {active} false {inactive} other {unknown}}'
+      };
+      
+      const result = processTemplate(template, translations);
+      
+      expect(result).toContain('User John is 25 years old and is active');
+    });
+
+    it('should handle ICU plural formatting', () => {
+      const template = '<mj-text>{{t "photo_count", (count: 5)}}</mj-text>';
+      const translations = {
+        photo_count: 'You have {count, plural, =0 {no photos} =1 {one photo} other {# photos}}.'
+      };
+      
+      const result = processTemplate(template, translations);
+      
+      expect(result).toContain('You have 5 photos.');
+    });
+
+    it('should handle parameterized translations with missing translation key', () => {
+      const template = '<mj-text>{{t "missing_key", (name: "John")}}</mj-text>';
+      const translations = {};
+      
+      const result = processTemplate(template, translations);
+      
+      expect(result).toContain('missing_key'); // Should fallback to key name
+    });
+
+    it('should handle parameterized translations with malformed parameters', () => {
+      const template = '<mj-text>{{t "welcome_user", (invalid_param_format)}}</mj-text>';
+      const translations = {
+        welcome_user: 'Welcome {name}!'
+      };
+      
+      const result = processTemplate(template, translations);
+      
+      // Should fallback to key name when parameter parsing fails
+      expect(result).toContain('welcome_user');
+    });
+
+    it('should handle mixed simple and parameterized translations', () => {
+      const template = `
+        <mj-text>{{t "email_verification_title"}}</mj-text>
+        <mj-text>{{t "greeting_with_name", (name: "John")}}</mj-text>
+        <mj-text>{{t "email_verification_footer"}}</mj-text>
+      `;
+      const translations = {
+        email_verification_title: 'Email Verification',
+        greeting_with_name: 'Hello {name}, welcome!',
+        email_verification_footer: 'Thank you.'
+      };
+      
+      const result = processTemplate(template, translations);
+      
+      expect(result).toContain('Email Verification');
+      expect(result).toContain('Hello John, welcome!');
+      expect(result).toContain('Thank you.');
+    });
   });
 
   describe('compileMjml', () => {
