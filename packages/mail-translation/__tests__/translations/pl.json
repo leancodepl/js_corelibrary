@@ -1,0 +1,12 @@
+{
+  "email_verification_title": "Weryfikacja Email",
+  "email_verification_preview": "Proszę zweryfikować swój adres email",
+  "email_verification_greeting": "Witaj,",
+  "email_verification_instructions": "Proszę wprowadzić poniższy kod, aby zweryfikować swój adres email:",
+  "email_verification_footer": "Jeśli nie prosiłeś o tę weryfikację, zignoruj ten email.",
+  "password_reset_title": "Zresetuj swoje hasło",
+  "password_reset_description": "Otrzymaliśmy prośbę o pomoc w zresetowaniu hasła. Kliknij przycisk poniżej, aby ustawić nowe hasło.",
+  "password_reset_button": "Zresetuj hasło",
+  "welcome": "Witamy na naszej platformie!",
+  "goodbye": "Dziękujemy za korzystanie z naszego serwisu."
+}

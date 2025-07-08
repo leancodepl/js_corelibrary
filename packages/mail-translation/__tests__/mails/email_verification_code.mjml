@@ -1,0 +1,21 @@
+<mjml>
+  <mj-head>
+    <mj-title>{{t "email_verification_title"}}</mj-title>
+    <mj-preview>{{t "email_verification_preview"}}</mj-preview>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          <h1>{{t "email_verification_title"}}</h1>
+          <p>{{t "email_verification_greeting"}}</p>
+          <p>{{t "email_verification_instructions"}}</p>
+          <div style="font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0;">
+            {{ .RecoveryCode }}
+          </div>
+          <p>{{t "email_verification_footer"}}</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml> 
