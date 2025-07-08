@@ -63,7 +63,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     useFlowManager({
         initialFlowId,
         currentFlowId: settingsFlowId,
-        error: error ?? undefined,
+        error,
         onFlowRestart,
         createFlow: createSettingsFlow,
         setFlowId: setSettingsFlowId,

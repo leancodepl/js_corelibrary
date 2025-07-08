@@ -41,7 +41,7 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
     useFlowManager({
         initialFlowId,
         currentFlowId: recoveryFlowId,
-        error: error ?? undefined,
+        error,
         onFlowRestart,
         createFlow: createRecoveryFlow,
         setFlowId: setRecoveryFlowId,

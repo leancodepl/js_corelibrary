@@ -47,7 +47,7 @@ export function VerificationFlowWrapper({
     useFlowManager({
         initialFlowId,
         currentFlowId: verificationFlowId,
-        error: error ?? undefined,
+        error,
         onFlowRestart,
         createFlow: createVerificationFlow,
         setFlowId: setVerificationFlowId,

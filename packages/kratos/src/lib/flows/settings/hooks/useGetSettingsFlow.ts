@@ -25,7 +25,7 @@ export function useGetSettingsFlow() {
                     headers: { ...headers, Accept: "application/json" },
                 }))
             } catch (error) {
-                return handleFlowErrorResponse<SettingsFlow>({
+                throw handleFlowErrorResponse<SettingsFlow>({
                     error,
                 })
             }
