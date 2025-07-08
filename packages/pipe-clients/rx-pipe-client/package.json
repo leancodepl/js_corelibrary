@@ -29,7 +29,9 @@
     "websocket",
     "typescript",
     "javascript",
-    "leancode"
+    "leancode",
+    "signalr",
+    "leanpipe"
   ],
   "author": {
     "name": "LeanCode",
