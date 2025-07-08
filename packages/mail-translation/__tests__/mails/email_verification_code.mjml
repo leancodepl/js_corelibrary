@@ -7,18 +7,13 @@
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-text>
-          <h1>{{t "email_verification_title"}}</h1>
+          <mj-text>{{t "email_verification_title"}}</mj-text>
           <mj-text>{{t "email_verification_greeting"}}</mj-text>
           <mj-text>{{t "email_verification_instructions"}}</mj-text>
           <mj-text>{{t "recovery_code_message", (code: "{{ .RecoveryCode }}")}}</mj-text>
-          <mj-text style="font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0;">
-            {{ .RecoveryCode }}
-          </mj-text>
+          <mj-text>{{ .RecoveryCode }}</mj-text>
           <mj-text>{{t "greeting_with_name", (name: "{{ .Identity.traits.name }}")}}</mj-text>
-          <mj-text>{{t "photo_count", (count: 5)}}</mj-text>
           <mj-text>{{t "email_verification_footer"}}</mj-text>
-        </mj-text>
         <mj-include path="./components/footer.mjml" />
       </mj-column>
     </mj-section>
