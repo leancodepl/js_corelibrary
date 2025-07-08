@@ -83,7 +83,8 @@ export class MailTranslator {
     language: string
   ): TranslatedMail {
     const translations = getTranslationsForLanguage(this.translationData, language);
-    const processedMjml = processTemplate(templateContent, translations);
+    const outputMode = this.options.outputMode || 'kratos';
+    const processedMjml = processTemplate(templateContent, translations, language, outputMode);
     const compileResult = compileMjml(processedMjml, this.options.mjmlOptions);
 
     return {

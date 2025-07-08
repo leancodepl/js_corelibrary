@@ -21,7 +21,7 @@ module.exports = {
     // Output mode: 'kratos' or 'razor'
     // - 'kratos': Single .gotmpl file with all languages for Ory Kratos
     // - 'razor': .cshtml files with language-specific naming for ASP.NET
-    outputMode: "kratos",
+    outputMode: "razor",
 
     // Default language to use as fallback and for naming conventions
     defaultLanguage: "en",

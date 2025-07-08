@@ -5,8 +5,15 @@
   "email_verification_instructions": "Proszę wprowadzić poniższy kod, aby zweryfikować swój adres email:",
   "email_verification_footer": "Jeśli nie prosiłeś o tę weryfikację, zignoruj ten email.",
   "password_reset_title": "Zresetuj swoje hasło",
-  "password_reset_description": "Otrzymaliśmy prośbę o pomoc w zresetowaniu hasła. Kliknij przycisk poniżej, aby ustawić nowe hasło.",
+  "password_reset_description": "Otrzymaliśmy prośbę o pomoc w zresetowaniu hasła. Kliknij poniższy przycisk, aby ustawić nowe hasło.",
   "password_reset_button": "Zresetuj hasło",
-  "welcome": "Witamy na naszej platformie!",
-  "goodbye": "Dziękujemy za korzystanie z naszego serwisu."
+  "welcome": "Witaj na naszej platformie!",
+  "goodbye": "Dziękujemy za korzystanie z naszego serwisu.",
+  "welcome_user": "Witaj {name}!",
+  "greeting_with_name": "Cześć {name}, witaj na naszej platformie!",
+  "recovery_code_message": "Twój kod odzyskiwania to: {code}",
+  "photo_count": "Masz {count, plural, =0 {brak zdjęć} =1 {jedno zdjęcie} few {# zdjęcia} other {# zdjęć}}.",
+  "account_status": "Twoje konto jest {status}.",
+  "expiry_notification": "Twoja subskrypcja wygasa {date, date, long}.",
+  "balance_info": "Twoje aktualne saldo to {amount, number, currency}."
 }
