@@ -2,7 +2,12 @@ import { expect, test } from "@playwright/test"
 import { generateUserData, registerUser } from "../../helpers/users"
 import { IdentityPage } from "../../pageObjects/identity"
 import { LoginPage } from "../../pageObjects/login"
-import { runKratosContainer, runMailpitContainer, stopMailpitContainer } from "../../services/testcontainers"
+import {
+    runKratosContainer,
+    runMailpitContainer,
+    stopKratosContainer,
+    stopMailpitContainer,
+} from "../../services/testcontainers"
 
 test.describe("login page", () => {
     test.beforeAll(async () => {
@@ -12,7 +17,7 @@ test.describe("login page", () => {
 
     test.afterAll(async () => {
         await stopMailpitContainer()
-        await stopMailpitContainer()
+        await stopKratosContainer()
     })
 
     test.beforeEach(async ({ context }) => {

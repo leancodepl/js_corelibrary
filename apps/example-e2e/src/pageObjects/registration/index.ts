@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test"
+import { CommonPage } from "../common"
 
-export class RegistrationPage {
+export class RegistrationPage extends CommonPage {
     static readonly route = "/registration"
     readonly wrapper: Locator
     readonly alreadyLoggedInWrapper: Locator
@@ -35,7 +36,9 @@ export class RegistrationPage {
     readonly emailVerificationSubmitButton: Locator
     readonly emailVerificationResendButton: Locator
 
-    constructor(private readonly page: Page) {
+    constructor(protected readonly page: Page) {
+        super(page)
+
         this.wrapper = page.getByTestId("registration-page")
         this.alreadyLoggedInWrapper = page.getByTestId("already-logged-in")
 

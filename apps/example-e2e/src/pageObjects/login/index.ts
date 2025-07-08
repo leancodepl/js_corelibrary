@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test"
+import { CommonPage } from "../common"
 
-export class LoginPage {
+export class LoginPage extends CommonPage {
     static readonly route = "/login"
     readonly wrapper: Locator
 
@@ -33,7 +34,9 @@ export class LoginPage {
     readonly emailVerificationFormWrapper: Locator
     readonly emailVerificationCodeInput: Locator
 
-    constructor(private readonly page: Page) {
+    constructor(protected readonly page: Page) {
+        super(page)
+
         this.wrapper = page.getByTestId("login-page")
 
         // Common locators
