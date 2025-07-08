@@ -20,17 +20,17 @@ TanStack Query CQRS client with hooks for queries, operations, and commands with
 
 RxJS-based CQRS client for reactive command and query operations with observable streams.
 
-### Binary data types
+### Binary data types and utilities
 
 #### `@leancodepl/api-binary`
 
 Binary data types and utilities for API communication.
 
-### Dates
-
 #### `@leancodepl/api-binary-blob`
 
 Blob utilities for converting between API binary format and JavaScript Blob objects.
+
+### Dates
 
 #### `@leancodepl/api-date`
 
