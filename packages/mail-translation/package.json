@@ -1,12 +1,9 @@
 {
   "name": "@leancodepl/mail-translation",
-  "version": "0.0.1",
-  "private": true,
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "version": "8.4.1",
+  "license": "Apache-2.0",
   "bin": {
-    "mail-translation": "./src/cli.js"
+    "mail-translation": "src/bin.js"
   },
   "dependencies": {
     "commander": "^12.0.0",
