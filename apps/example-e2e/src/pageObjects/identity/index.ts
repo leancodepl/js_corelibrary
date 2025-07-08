@@ -1,12 +1,15 @@
 import { expect, Locator, Page } from "@playwright/test"
+import { CommonPage } from "../common"
 
-export class IdentityPage {
+export class IdentityPage extends CommonPage {
     static readonly route = "/identity"
     readonly wrapper: Locator
     readonly email: Locator
     readonly firstName: Locator
 
     constructor(protected readonly page: Page) {
+        super(page)
+
         this.wrapper = page.getByTestId("identity-page")
         this.email = page.getByTestId("email")
         this.firstName = page.getByTestId("first-name")

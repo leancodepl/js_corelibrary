@@ -24,10 +24,10 @@ export const UserInfoHeader = () => {
     }, [logout, runLoggingOutTask])
 
     return (
-        <header style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
-            {isLoading && <p>Loading user information...</p>}
+        <header data-testid="header" style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
+            {isLoading && <p data-test-id="header-loading">Loading user information...</p>}
             {isLoggedIn === false && (
-                <p>
+                <p data-testid="header-not-logged-in">
                     <button>
                         <a href="/login">Login</a>
                     </button>
@@ -37,11 +37,15 @@ export const UserInfoHeader = () => {
                 </p>
             )}
             {isLoggedIn && (
-                <p>
+                <p data-testid="header-logged-in">
                     Welcome, <strong>{email || "user with ID: " + userId}</strong>
                     <button onClick={() => sessionManager.checkIfLoggedIn()}>check if logged in</button>
                     {isLoggingOut && <p>Logging out...</p>}
-                    {!isLoggingOut && <button onClick={handleLogout}>Logout</button>}
+                    {!isLoggingOut && (
+                        <button data-testid="logout-button" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    )}
                     {!isLoggingOut && (
                         <button>
                             <a href="/settings">Settings</a>
