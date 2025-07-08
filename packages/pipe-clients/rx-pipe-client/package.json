@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "RxJS-based client for real-time data streaming",
+  "description": "RxJS-based client for real-time data streaming using @leancodepl/pipe",
   "keywords": [
     "rxjs",
     "real-time",
