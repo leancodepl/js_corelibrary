@@ -16,7 +16,7 @@ module.exports = {
     mailsPath: "./__tests__/mails",
 
     // Path where translated files will be saved
-    outputPath: "./__tests__/output",
+    outputPath: "./dist/output",
 
     // Output mode: 'kratos' or 'razor'
     // - 'kratos': Single .gotmpl file with all languages for Ory Kratos

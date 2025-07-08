@@ -19,6 +19,7 @@
           <mj-text>{{t "photo_count", (count: 5)}}</mj-text>
           <mj-text>{{t "email_verification_footer"}}</mj-text>
         </mj-text>
+        <mj-include path="./components/footer.mjml" />
       </mj-column>
     </mj-section>
   </mj-body>
