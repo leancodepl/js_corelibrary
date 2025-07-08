@@ -25,6 +25,7 @@ yarn add @leancodepl/kratos
 Creates Ory Kratos FrontendApi client with axios and credentials configuration.
 
 **Parameters:**
+
 - `configuration: ConfigurationParameters` - Kratos client configuration parameters
 
 **Returns:** Configured FrontendApi instance for Kratos operations
@@ -42,6 +43,7 @@ Access Kratos context data with components and error handling.
 Provides Kratos context to child components with customizable configuration.
 
 **Parameters:**
+
 - `components?: Partial<KratosComponents>` - Partial override of default Kratos UI components
 - `useHandleFlowError?: UseHandleFlowError` - Custom error handler for authentication flows
 - `excludeScripts?: boolean` - Whether to exclude script node execution
@@ -54,6 +56,7 @@ Provides Kratos context to child components with customizable configuration.
 Manages Kratos session state with RxJS observables for authentication status.
 
 **Parameters:**
+
 - `authUrl: string` - Base URL for Kratos authentication endpoints
 - `loginRoute: string` - Application route for login page
 
@@ -62,6 +65,7 @@ Manages Kratos session state with RxJS observables for authentication status.
 Manages Kratos login flow state and form submission.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `returnTo?: string` - URL to redirect after successful login
 - `onLoggedIn?: Function` - Callback executed when user successfully logs in
@@ -76,6 +80,7 @@ Manages Kratos login flow state and form submission.
 Manages Kratos registration flow state and form submission.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `onSessionAlreadyAvailable: Function` - Callback when session already exists
 - `onContinueWith?: Function` - Optional callback for post-registration actions
@@ -89,6 +94,7 @@ Manages Kratos registration flow state and form submission.
 Manages Kratos account recovery flow state and form submission.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `onSessionAlreadyAvailable: Function` - Callback when session already exists
 - `onContinueWith?: Function` - Optional callback for post-recovery actions
@@ -102,6 +108,7 @@ Manages Kratos account recovery flow state and form submission.
 Pre-built login card component for Kratos login flows.
 
 **Parameters:**
+
 - `flow: LoginFlow` - Kratos login flow object
 - `onSubmit?: Function` - Form submission handler
 - `className?: string` - Optional CSS class name
@@ -113,6 +120,7 @@ Pre-built login card component for Kratos login flows.
 Pre-built registration card component for Kratos registration flows.
 
 **Parameters:**
+
 - `flow: RegistrationFlow` - Kratos registration flow object
 - `onSubmit?: Function` - Form submission handler
 - `className?: string` - Optional CSS class name
@@ -124,6 +132,7 @@ Pre-built registration card component for Kratos registration flows.
 Pre-built recovery card component for Kratos account recovery flows.
 
 **Parameters:**
+
 - `flow: RecoveryFlow` - Kratos recovery flow object
 - `onSubmit?: Function` - Form submission handler
 - `className?: string` - Optional CSS class name
@@ -135,6 +144,7 @@ Pre-built recovery card component for Kratos account recovery flows.
 Pre-built verification card component for Kratos verification flows.
 
 **Parameters:**
+
 - `flow: VerificationFlow` - Kratos verification flow object
 - `onSubmit?: Function` - Form submission handler
 - `className?: string` - Optional CSS class name
@@ -146,6 +156,7 @@ Pre-built verification card component for Kratos verification flows.
 Manages Kratos email/phone verification flow state and form submission.
 
 **Parameters:**
+
 - `initialFlowId?: string` - Optional initial flow ID to start with
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `onVerified: Function` - Callback executed when verification is successful
@@ -159,6 +170,7 @@ Manages Kratos email/phone verification flow state and form submission.
 Manages Kratos user settings flow state and form submission.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `params?: Object` - Optional Axios request parameters
 - `onContinueWith?: Function` - Optional callback for post-settings actions
@@ -172,6 +184,7 @@ Manages Kratos user settings flow state and form submission.
 Manages Kratos reauthentication flow for elevated security operations.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `onReauthenticated: Function` - Callback executed with session after successful reauthentication
 
@@ -182,6 +195,7 @@ Manages Kratos reauthentication flow for elevated security operations.
 Manages Kratos user logout flow with callback support.
 
 **Parameters:**
+
 - `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
 - `returnTo?: string` - Optional URL to redirect after logout
 - `onLoggedOut?: Function` - Optional callback executed after successful logout
@@ -193,6 +207,7 @@ Manages Kratos user logout flow with callback support.
 Pre-built settings card component for Kratos settings flows.
 
 **Parameters:**
+
 - `flow: SettingsFlow` - Kratos settings flow object
 - `flowType: UserSettingsFlowType` - Type of settings flow to render
 - `onSubmit?: Function` - Form submission handler
@@ -249,29 +264,26 @@ function LoginPage() {
 ### Session Management
 
 ```typescript
-import { BaseSessionManager } from '@leancodepl/kratos';
-import { useEffect, useState } from 'react';
+import { BaseSessionManager } from "@leancodepl/kratos"
+import { useEffect, useState } from "react"
 
-const sessionManager = new BaseSessionManager(
-  'https://auth.example.com',
-  '/login'
-);
+const sessionManager = new BaseSessionManager("https://auth.example.com", "/login")
 
 function useAuth() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState<string>();
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [userId, setUserId] = useState<string>()
 
-  useEffect(() => {
-    const subscription = sessionManager.isLoggedIn.subscribe(setIsLoggedIn);
-    const userSub = sessionManager.userId$.subscribe(setUserId);
+    useEffect(() => {
+        const subscription = sessionManager.isLoggedIn.subscribe(setIsLoggedIn)
+        const userSub = sessionManager.userId$.subscribe(setUserId)
 
-    return () => {
-      subscription.unsubscribe();
-      userSub.unsubscribe();
-    };
-  }, []);
+        return () => {
+            subscription.unsubscribe()
+            userSub.unsubscribe()
+        }
+    }, [])
 
-  return { isLoggedIn, userId };
+    return { isLoggedIn, userId }
 }
 ```
 

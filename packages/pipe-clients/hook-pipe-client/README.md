@@ -17,6 +17,7 @@ yarn add @leancodepl/hook-pipe-client
 Creates React hooks for real-time data subscriptions using @leancodepl/pipe.
 
 **Parameters:**
+
 - `pipe: Pipe` - Pipe instance from @leancodepl/pipe
 
 **Returns:** Object containing `createTopic` method for creating typed hooks
@@ -26,15 +27,15 @@ Creates React hooks for real-time data subscriptions using @leancodepl/pipe.
 ### Basic Setup
 
 ```typescript
-import { mkPipeClient } from '@leancodepl/hook-pipe-client';
-import { createPipe } from '@leancodepl/pipe';
+import { mkPipeClient } from "@leancodepl/hook-pipe-client"
+import { createPipe } from "@leancodepl/pipe"
 
 const pipe = createPipe({
-  url: 'wss://api.example.com/pipe',
-  getAccessToken: () => localStorage.getItem('token'),
-});
+    url: "wss://api.example.com/pipe",
+    getAccessToken: () => localStorage.getItem("token"),
+})
 
-const pipeClient = mkPipeClient({ pipe });
+const pipeClient = mkPipeClient({ pipe })
 ```
 
 ### Chat Messages

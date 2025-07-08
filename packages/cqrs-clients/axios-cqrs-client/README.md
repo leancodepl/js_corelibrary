@@ -17,6 +17,7 @@ yarn add @leancodepl/axios-cqrs-client
 Creates CQRS client with Axios for HTTP communication and command/query handling.
 
 **Parameters:**
+
 - `cqrsEndpoint: string` - Base URL for CQRS API endpoints
 - `tokenProvider?: TokenProvider` - Optional token provider for authentication
 - `axiosOptions?: CreateAxiosDefaults` - Optional Axios configuration options
@@ -29,6 +30,7 @@ Creates CQRS client with Axios for HTTP communication and command/query handling
 Creates CQRS client with automatic response key uncapitalization using "@leancodepl/utils".
 
 **Parameters:**
+
 - `params: MkCqrsClientParameters` - Configuration object for CQRS client
 - `params.cqrsEndpoint: string` - Base URL for CQRS API endpoints
 - `params.tokenProvider?: TokenProvider` - Optional token provider for authentication
@@ -42,36 +44,36 @@ Creates CQRS client with automatic response key uncapitalization using "@leancod
 ### Basic Setup
 
 ```typescript
-import { mkCqrsClient } from '@leancodepl/axios-cqrs-client';
+import { mkCqrsClient } from "@leancodepl/axios-cqrs-client"
 
 const client = mkCqrsClient({
-  cqrsEndpoint: 'https://api.example.com',
-  tokenProvider: {
-    getToken: () => Promise.resolve(localStorage.getItem('token')),
-    invalidateToken: () => Promise.resolve(true)
-  }
-});
+    cqrsEndpoint: "https://api.example.com",
+    tokenProvider: {
+        getToken: () => Promise.resolve(localStorage.getItem("token")),
+        invalidateToken: () => Promise.resolve(true),
+    },
+})
 ```
 
 ### Query Operations
 
 ```typescript
 interface GetUserQuery {
-  userId: string;
+    userId: string
 }
 
 interface UserResult {
-  id: string;
-  name: string;
-  email: string;
+    id: string
+    name: string
+    email: string
 }
 
-const getUser = client.createQuery<GetUserQuery, UserResult>('GetUser');
+const getUser = client.createQuery<GetUserQuery, UserResult>("GetUser")
 
-const response = await getUser({ userId: '123' });
+const response = await getUser({ userId: "123" })
 
 if (response.isSuccess) {
-  console.log('User:', response.result);
+    console.log("User:", response.result)
 }
 ```
 
@@ -79,30 +81,31 @@ if (response.isSuccess) {
 
 ```typescript
 interface CreateUserCommand {
-  name: string;
-  email: string;
+    name: string
+    email: string
 }
 
-const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const;
-const createUser = client.createCommand<CreateUserCommand, typeof errorCodes>('CreateUser', errorCodes);
+const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const
+const createUser = client.createCommand<CreateUserCommand, typeof errorCodes>("CreateUser", errorCodes)
 
-const response = await createUser({ name: 'John', email: 'john@example.com' });
+const response = await createUser({ name: "John", email: "john@example.com" })
 
-createUser.handle({ name: 'John', email: 'john@example.com' })
-  .handle('success', () => console.log('User created'))
-  .handle('EmailExists', () => console.log('Email already exists'))
-  .check();
+createUser
+    .handle({ name: "John", email: "john@example.com" })
+    .handle("success", () => console.log("User created"))
+    .handle("EmailExists", () => console.log("Email already exists"))
+    .check()
 ```
 
 ### Uncapitalized Client
 
 ```typescript
-import { mkUncapitalizedCqrsClient } from '@leancodepl/axios-cqrs-client';
+import { mkUncapitalizedCqrsClient } from "@leancodepl/axios-cqrs-client"
 
 const client = mkUncapitalizedCqrsClient({
-  cqrsEndpoint: 'https://api.example.com'
-});
+    cqrsEndpoint: "https://api.example.com",
+})
 
 // Automatically transforms { UserId: '123' } to { userId: '123' }
-const response = await client.createQuery('GetUser')({ userId: '123' });
+const response = await client.createQuery("GetUser")({ userId: "123" })
 ```

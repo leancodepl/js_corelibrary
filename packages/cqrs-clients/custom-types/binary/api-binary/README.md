@@ -17,6 +17,7 @@ yarn add @leancodepl/api-binary
 Converts ApiBinary to raw string representation.
 
 **Parameters:**
+
 - `apiBinary: ApiBinary` - The ApiBinary value to convert
 
 **Returns:** Raw string representation of the binary data
@@ -26,6 +27,7 @@ Converts ApiBinary to raw string representation.
 Converts raw string to ApiBinary type.
 
 **Parameters:**
+
 - `apiBinaryRaw: ApiBinaryRaw` - The raw string representation to convert
 
 **Returns:** ApiBinary instance from the raw string
@@ -35,9 +37,9 @@ Converts raw string to ApiBinary type.
 ### Basic Conversion
 
 ```typescript
-import { fromRaw, toRaw } from '@leancodepl/api-binary';
+import { fromRaw, toRaw } from "@leancodepl/api-binary"
 
-const binary = fromRaw('SGVsbG8gV29ybGQ=');
-const raw = toRaw(binary);
-console.log(raw); // 'SGVsbG8gV29ybGQ='
+const binary = fromRaw("SGVsbG8gV29ybGQ=")
+const raw = toRaw(binary)
+console.log(raw) // 'SGVsbG8gV29ybGQ='
 ```

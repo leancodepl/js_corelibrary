@@ -1,10 +1,10 @@
 # @leancodepl/react-query-cqrs-client
 
-React Query CQRS client with hooks for queries, operations, and commands.
+TanStack Query CQRS client with hooks for queries, operations, and commands.
 
 ## Features
 
-- **React Query integration** - Built-in caching, optimistic updates, and background refetching
+- **TanStack Query integration** - Built-in caching, optimistic updates, and background refetching
 - **CQRS pattern** - Separate queries, commands, and operations with proper typing
 - **Custom hooks** - Hook factories for all operation types with loading states
 - **Error handling** - Validation errors with custom error codes and handlers
@@ -23,11 +23,12 @@ yarn add @leancodepl/react-query-cqrs-client
 
 ### `mkCqrsClient(cqrsEndpoint, queryClient, tokenProvider, ajaxOptions, tokenHeader)`
 
-Creates React Query CQRS client with hooks for queries, operations, and commands.
+Creates TanStack Query CQRS client with hooks for queries, operations, and commands.
 
 **Parameters:**
+
 - `cqrsEndpoint: string` - Base URL for CQRS API endpoints
-- `queryClient: QueryClient` - React Query client instance
+- `queryClient: QueryClient` - TanStack Query client instance
 - `tokenProvider?: Partial<TokenProvider>` - Optional token provider for authentication
 - `ajaxOptions?: Omit<AjaxConfig, ...>` - Optional RxJS Ajax configuration options
 - `tokenHeader?: string` - Header name for authentication token (default: "Authorization")
@@ -39,18 +40,18 @@ Creates React Query CQRS client with hooks for queries, operations, and commands
 ### Basic Setup
 
 ```typescript
-import { mkCqrsClient } from '@leancodepl/react-query-cqrs-client';
-import { QueryClient } from '@tanstack/react-query';
+import { mkCqrsClient } from "@leancodepl/react-query-cqrs-client"
+import { QueryClient } from "@tanstack/react-query"
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 const client = mkCqrsClient({
-  cqrsEndpoint: 'https://api.example.com',
-  queryClient,
-  tokenProvider: {
-    getToken: () => Promise.resolve(localStorage.getItem('token'))
-  }
-});
+    cqrsEndpoint: "https://api.example.com",
+    queryClient,
+    tokenProvider: {
+        getToken: () => Promise.resolve(localStorage.getItem("token")),
+    },
+})
 ```
 
 ### Query Hook
@@ -144,8 +145,8 @@ function FileUploader() {
   };
 
   return (
-    <input 
-      type="file" 
+    <input
+      type="file"
       onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
       disabled={isPending}
     />
