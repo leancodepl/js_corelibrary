@@ -20,11 +20,13 @@ TanStack Query CQRS client with hooks for queries, operations, and commands with
 
 RxJS-based CQRS client for reactive command and query operations with observable streams.
 
-### Dates
+### Binary data types
 
 #### `@leancodepl/api-binary`
 
 Binary data types and utilities for API communication.
+
+### Dates
 
 #### `@leancodepl/api-binary-blob`
 
@@ -88,7 +90,7 @@ Stylelint configuration for CSS and SCSS with property ordering and best practic
 
 #### `@leancodepl/styled-tools`
 
-TypeScript utilities for styled-components with type-safe theme access and proxy-based theme utilities.
+TypeScript utilities for styled-components with type-safe theme access.
 
 ### Feature Management
 
