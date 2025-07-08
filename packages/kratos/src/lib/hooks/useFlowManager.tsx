@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { GetFlowError } from "../types"
 
 type UseFlowManagerProps = {
     initialFlowId?: string
     currentFlowId: string | undefined
-    error?: Error
+    error?: Error | null
     onFlowRestart?: () => void
     createFlow: () => void
     setFlowId: (flowId: string | undefined) => void
@@ -19,14 +19,12 @@ export const useFlowManager = ({
     setFlowId,
 }: UseFlowManagerProps) => {
     const [initialFlowIdUsed, setInitialFlowIdUsed] = useState(false)
-    const tempInitialFlowId = useRef(initialFlowId)
+    const [tempInitialFlowId, setTempInitialFlowId] = useState(initialFlowId)
 
-    useEffect(() => {
-        if (tempInitialFlowId.current !== initialFlowId) {
-            setInitialFlowIdUsed(false)
-            tempInitialFlowId.current = initialFlowId
-        }
-    }, [initialFlowId])
+    if (tempInitialFlowId !== initialFlowId) {
+        setInitialFlowIdUsed(false)
+        setTempInitialFlowId(initialFlowId)
+    }
 
     useEffect(() => {
         if (currentFlowId) {

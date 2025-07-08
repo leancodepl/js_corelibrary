@@ -28,7 +28,7 @@ export function useGetVerificationFlow() {
                     }),
                 )
             } catch (error) {
-                return handleFlowErrorResponse<VerificationFlow>({
+                throw handleFlowErrorResponse<VerificationFlow>({
                     error,
                 })
             }

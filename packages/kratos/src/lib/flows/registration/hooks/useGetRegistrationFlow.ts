@@ -28,7 +28,7 @@ export function useGetRegistrationFlow() {
                     }),
                 )
             } catch (error) {
-                return handleFlowErrorResponse<RegistrationFlow>({
+                throw handleFlowErrorResponse<RegistrationFlow>({
                     error,
                 })
             }

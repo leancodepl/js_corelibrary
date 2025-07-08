@@ -44,7 +44,6 @@ function LoginFlowWrapper({
     const { verificationFlowId } = useVerificationFlowContext()
     const { sessionManager } = useKratosSessionContext()
     const { isAal2Required } = sessionManager.useIsAal2Required()
-    const { session } = sessionManager.useSession()
 
     const { mutate: createLoginFlow, error: createLoginFlowError } = useCreateLoginFlow({
         returnTo,
@@ -62,10 +61,16 @@ function LoginFlowWrapper({
     })
 
     useEffect(() => {
-        if (isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError)) {
+        if (isSessionAlreadyAvailable(createLoginFlowError)) {
             onSessionAlreadyAvailable?.()
         }
-    }, [createLoginFlowError, getLoginFlowError, onSessionAlreadyAvailable, session])
+    }, [createLoginFlowError, onSessionAlreadyAvailable])
+
+    useEffect(() => {
+        if (isSessionAlreadyAvailable(getLoginFlowError)) {
+            onSessionAlreadyAvailable?.()
+        }
+    }, [getLoginFlowError, onSessionAlreadyAvailable])
 
     const step = useMemo(() => {
         if (!loginFlow) return "chooseMethod"
@@ -82,9 +87,7 @@ function LoginFlowWrapper({
         throw new Error("Invalid login flow state")
     }, [loginFlow, verificationFlowId])
 
-    const isRefresh = useMemo(() => {
-        return loginFlow?.refresh
-    }, [loginFlow])
+    const isRefresh = useMemo(() => loginFlow?.refresh, [loginFlow])
 
     return (
         <>

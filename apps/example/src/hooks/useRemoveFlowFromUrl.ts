@@ -8,9 +8,7 @@ export const useRemoveFlowFromUrl = () => {
     return useCallback(() => {
         nav({
             to: location.pathname,
-            search: ({ flow, ...search }) => {
-                return search
-            },
+            search: ({ flow, ...search }) => search,
             replace: true,
         })
     }, [nav, location.pathname])

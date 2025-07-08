@@ -25,7 +25,7 @@ export function useGetRecoveryFlow() {
                     headers: { ...headers, Accept: "application/json" },
                 }))
             } catch (error) {
-                return handleFlowErrorResponse<RecoveryFlow>({
+                throw handleFlowErrorResponse<RecoveryFlow>({
                     error,
                 })
             }
