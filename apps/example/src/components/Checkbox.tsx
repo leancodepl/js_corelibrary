@@ -12,7 +12,7 @@ export const Checkbox = ({ errors, children, ...props }: CheckboxProps) => (
         </label>
 
         {errors && errors.length > 0 && (
-            <div>
+            <div data-testid="checkbox-errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}

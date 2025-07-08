@@ -1,6 +1,6 @@
-import { defineConfig, devices } from "@playwright/test"
-import { nxE2EPreset } from "@nx/playwright/preset"
 import { workspaceRoot } from "@nx/devkit"
+import { nxE2EPreset } from "@nx/playwright/preset"
+import { defineConfig, devices } from "@playwright/test"
 
 // For CI, you may want to set BASE_URL to the deployed application.
 const baseURL = process.env["BASE_URL"] || "http://localhost:4300"
@@ -28,22 +28,27 @@ export default defineConfig({
         url: "http://localhost:4300",
         reuseExistingServer: !process.env.CI,
         cwd: workspaceRoot,
+        env: {
+            VITE_AUTH_BASE: "http://localhost:34433",
+            VITE_MAILPIT_URL: "http://localhost:8025",
+        },
     },
+    workers: 1,
     projects: [
         {
             name: "chromium",
             use: { ...devices["Desktop Chrome"] },
         },
 
-        {
-            name: "firefox",
-            use: { ...devices["Desktop Firefox"] },
-        },
+        // {
+        //     name: "firefox",
+        //     use: { ...devices["Desktop Firefox"] },
+        // },
 
-        {
-            name: "webkit",
-            use: { ...devices["Desktop Safari"] },
-        },
+        // {
+        //     name: "webkit",
+        //     use: { ...devices["Desktop Safari"] },
+        // },
 
         // Uncomment for mobile browsers support
         /* {

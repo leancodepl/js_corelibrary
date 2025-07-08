@@ -5,6 +5,7 @@ import { SessionManager } from "./session"
 import { traitsConfig } from "./traits"
 import { getErrorMessage } from "./errors"
 import { queryClient } from "../query"
+import { environment } from "../../environments/environment"
 
 const {
     session: { sessionManager },
@@ -12,7 +13,7 @@ const {
     flows: { RegistrationFlow, LoginFlow, RecoveryFlow, SettingsFlow, VerificationFlow, useLogout },
 } = mkKratos({
     queryClient,
-    basePath: "https://auth.local.lncd.pl",
+    basePath: environment.authUrl,
     traits: traitsConfig,
     SessionManager,
 })
