@@ -35,25 +35,27 @@ function RouteComponent() {
     }
 
     if (isLoggedIn) {
-        return <p>You are already logged in.</p>
+        return <p data-testid="already-logged-in">You are already logged in.</p>
     }
 
     return (
-        <RegistrationFlow
-            traitsForm={TraitsForm}
-            chooseMethodForm={ChooseMethodForm}
-            emailVerificationForm={EmailVerificationForm}
-            onRegistrationSuccess={() => {
-                alert("Registration successful")
-            }}
-            onVerificationSuccess={() => {
-                alert("Verification successful")
-            }}
-            initialFlowId={flow}
-            onError={handleError}
-            onFlowRestart={removeFlowIdFromUrl}
-            returnTo="/redirect-after-registration"
-        />
+        <div data-testid="registration-page">
+            <RegistrationFlow
+                traitsForm={TraitsForm}
+                chooseMethodForm={ChooseMethodForm}
+                emailVerificationForm={EmailVerificationForm}
+                onRegistrationSuccess={() => {
+                    alert("Registration successful")
+                }}
+                onVerificationSuccess={() => {
+                    alert("Verification successful")
+                }}
+                initialFlowId={flow}
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
+                returnTo="/redirect-after-registration"
+            />
+        </div>
     )
 }
 
@@ -69,20 +71,25 @@ function TraitsForm({
     isValidating,
 }: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
     return (
-        <>
+        <div data-testid="traits-form">
             {Email && (
                 <Email>
-                    <Input placeholder="Email" disabled={isSubmitting || isValidating} />
+                    <Input data-testid="email-input" placeholder="Email" disabled={isSubmitting || isValidating} />
                 </Email>
             )}
             {GivenName && (
                 <GivenName>
-                    <Input placeholder="First name" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="given-name-input"
+                        placeholder="First name"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </GivenName>
             )}
             {RegulationsAccepted && (
                 <RegulationsAccepted>
                     <Checkbox
+                        data-testid="regulations-checkbox"
                         type="checkbox"
                         placeholder="Regulations accepted"
                         disabled={isSubmitting || isValidating}>
@@ -91,34 +98,40 @@ function TraitsForm({
                 </RegulationsAccepted>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="register-button" type="submit" disabled={isSubmitting || isValidating}>
                 Register
             </button>
 
             {Google && (
                 <Google>
-                    <button disabled={isSubmitting || isValidating}>Sign up with Google</button>
+                    <button data-testid="google-signup-button" disabled={isSubmitting || isValidating}>
+                        Sign up with Google
+                    </button>
                 </Google>
             )}
 
             {Apple && (
                 <Apple>
-                    <button disabled={isSubmitting || isValidating}>Sign up with Apple</button>
+                    <button data-testid="apple-signup-button" disabled={isSubmitting || isValidating}>
+                        Sign up with Apple
+                    </button>
                 </Apple>
             )}
 
             {Facebook && (
                 <Facebook>
-                    <button disabled={isSubmitting || isValidating}>Sign up with Facebook</button>
+                    <button data-testid="facebook-signup-button" disabled={isSubmitting || isValidating}>
+                        Sign up with Facebook
+                    </button>
                 </Facebook>
             )}
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -132,39 +145,51 @@ function ChooseMethodForm({
     isValidating,
 }: registrationFlow.ChooseMethodFormProps) {
     return (
-        <>
+        <div data-testid="choose-method-form">
             {ReturnToTraitsForm && (
                 <ReturnToTraitsForm>
-                    <button disabled={isSubmitting || isValidating}>Return</button>
+                    <button data-testid="return-button" disabled={isSubmitting || isValidating}>
+                        Return
+                    </button>
                 </ReturnToTraitsForm>
             )}
             {Password && (
                 <Password>
-                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="password-input"
+                        placeholder="Password"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Password>
             )}
             {PasswordConfirmation && (
                 <PasswordConfirmation>
-                    <Input placeholder="Password confirmation" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="password-confirmation-input"
+                        placeholder="Password confirmation"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </PasswordConfirmation>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="register-button" type="submit" disabled={isSubmitting || isValidating}>
                 Register
             </button>
 
             {Passkey && (
                 <Passkey>
-                    <button disabled={isSubmitting || isValidating}>Sign up with Passkey</button>
+                    <button data-testid="passkey-signup-button" disabled={isSubmitting || isValidating}>
+                        Sign up with Passkey
+                    </button>
                 </Passkey>
             )}
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -176,24 +201,33 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <>
+        <div data-testid="email-verification-form">
             <Code>
-                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+                <Input
+                    data-testid="email-verification-code-input"
+                    placeholder="Code"
+                    disabled={isSubmitting || isValidating}
+                />
             </Code>
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid="email-verification-submit-button"
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button disabled={isSubmitting || isValidating}>Resend code</button>
+                <button data-testid="email-verification-resend-button" disabled={isSubmitting || isValidating}>
+                    Resend code
+                </button>
             </Resend>
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }

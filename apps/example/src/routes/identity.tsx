@@ -12,26 +12,26 @@ function RouteComponent() {
     const { firstName } = sessionManager.useFirstName()
 
     if (isLoading) {
-        return <p>Loading identity page...</p>
+        return <p data-testid="loading-message">Loading identity page...</p>
     }
 
     if (!isLoggedIn) {
-        return <p>You are not logged in.</p>
+        return <p data-testid="not-logged-in-message">You are not logged in.</p>
     }
 
     return (
-        <div>
+        <div data-testid="identity-page">
             {userId ? (
                 <div>
                     <h1>Identity Information</h1>
                     <p>
-                        <strong>ID:</strong> {userId}
+                        <strong>ID:</strong> <span data-testid="user-id">{userId}</span>
                     </p>
                     <p>
-                        <strong>Email:</strong> {email}
+                        <strong>Email:</strong> <span data-testid="email">{email}</span>
                     </p>
                     <p>
-                        <strong>First Name:</strong> {firstName}
+                        <strong>First Name:</strong> <span data-testid="first-name">{firstName}</span>
                     </p>
                 </div>
             ) : (

@@ -33,21 +33,23 @@ function RouteComponent() {
     }
 
     return (
-        <LoginFlow
-            chooseMethodForm={ChooseMethodForm}
-            secondFactorForm={SecondFactorForm}
-            secondFactorEmailForm={SecondFactorEmailForm}
-            emailVerificationForm={EmailVerificationForm}
-            onFlowRestart={removeFlowIdFromUrl}
-            onSessionAlreadyAvailable={() => {
-                nav({
-                    to: "/identity",
-                })
-            }}
-            initialFlowId={flow}
-            onError={handleError}
-            returnTo="https://host.local.lncd.pl/redirect-after-login"
-        />
+        <div data-testid="login-page">
+            <LoginFlow
+                chooseMethodForm={ChooseMethodForm}
+                secondFactorForm={SecondFactorForm}
+                secondFactorEmailForm={SecondFactorEmailForm}
+                emailVerificationForm={EmailVerificationForm}
+                onFlowRestart={removeFlowIdFromUrl}
+                onSessionAlreadyAvailable={() => {
+                    nav({
+                        to: "/identity",
+                    })
+                }}
+                initialFlowId={flow}
+                onError={handleError}
+                returnTo="/identity?after-login=true"
+            />
+        </div>
     )
 }
 
@@ -62,136 +64,169 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
         const { identifier } = props
 
         return (
-            <>
+            <div data-testid="choose-method-form">
                 <h2>
-                    Complete login process as <strong>{identifier}</strong>
+                    Complete login process as <strong data-testid="existing-identifier">{identifier}</strong>
                 </h2>
 
                 {Password && (
                     <Password>
-                        <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                        <Input
+                            data-testid="password-input"
+                            placeholder="Password"
+                            disabled={isSubmitting || isValidating}
+                        />
                     </Password>
                 )}
 
-                <button type="submit" disabled={isSubmitting || isValidating}>
+                <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
                     Login
                 </button>
 
                 {Google && (
                     <Google>
-                        <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
+                        <button data-testid="google-button" disabled={isSubmitting || isValidating}>
+                            Sign in with Google
+                        </button>
                     </Google>
                 )}
 
                 {Apple && (
                     <Apple>
-                        <button disabled={isSubmitting || isValidating}>Sign in with Apple</button>
+                        <button data-testid="apple-button" disabled={isSubmitting || isValidating}>
+                            Sign in with Apple
+                        </button>
                     </Apple>
                 )}
 
                 {Facebook && (
                     <Facebook>
-                        <button disabled={isSubmitting || isValidating}>Sign in with Facebook</button>
+                        <button data-testid="facebook-button" disabled={isSubmitting || isValidating}>
+                            Sign in with Facebook
+                        </button>
                     </Facebook>
                 )}
 
                 {Passkey && (
                     <Passkey>
-                        <button disabled={isSubmitting || isValidating}>Sign in with Passkey</button>
+                        <button data-testid="passkey-button" disabled={isSubmitting || isValidating}>
+                            Sign in with Passkey
+                        </button>
                     </Passkey>
                 )}
 
-                <div>
+                <div data-testid="errors">
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
                 </div>
-            </>
+            </div>
         )
     }
 
     const { Identifier } = props
 
     return (
-        <>
+        <div data-testid="choose-method-form">
             {Identifier && (
                 <Identifier>
-                    <Input placeholder="Identifier" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="identifier-input"
+                        placeholder="Identifier"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Identifier>
             )}
 
             {Password && (
                 <Password>
-                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="password-input"
+                        placeholder="Password"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Password>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             <p>
-                Forgot password? <a href="/recovery">Click here to reset it</a>
+                Forgot password?{" "}
+                <a data-testid="forgot-password-link" href="/recovery">
+                    Click here to reset it
+                </a>
             </p>
 
             {Google && (
                 <Google>
-                    <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
+                    <button data-testid="google-button" disabled={isSubmitting || isValidating}>
+                        Sign in with Google
+                    </button>
                 </Google>
             )}
 
             {Apple && (
                 <Apple>
-                    <button disabled={isSubmitting || isValidating}>Sign in with Apple</button>
+                    <button data-testid="apple-button" disabled={isSubmitting || isValidating}>
+                        Sign in with Apple
+                    </button>
                 </Apple>
             )}
 
             {Facebook && (
                 <Facebook>
-                    <button disabled={isSubmitting || isValidating}>Sign in with Facebook</button>
+                    <button data-testid="facebook-button" disabled={isSubmitting || isValidating}>
+                        Sign in with Facebook
+                    </button>
                 </Facebook>
             )}
 
             {Passkey && (
                 <Passkey>
-                    <button disabled={isSubmitting || isValidating}>Sign in with Passkey</button>
+                    <button data-testid="passkey-button" disabled={isSubmitting || isValidating}>
+                        Sign in with Passkey
+                    </button>
                 </Passkey>
             )}
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
 function SecondFactorForm({ Totp, Email, errors, isSubmitting, isValidating }: loginFlow.SecondFactorFormProps) {
     return (
-        <>
+        <div data-testid="second-factor-form">
             {Totp && (
                 <Totp>
-                    <Input placeholder="TOTP" disabled={isSubmitting || isValidating} />
+                    <Input data-testid="totp-input" placeholder="TOTP" disabled={isSubmitting || isValidating} />
                 </Totp>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             {Email && (
                 <Email>
-                    <button disabled={isSubmitting || isValidating}>Continue with email</button>
+                    <button data-testid="continue-with-email-button" disabled={isSubmitting || isValidating}>
+                        Continue with email
+                    </button>
                 </Email>
             )}
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -205,18 +240,24 @@ function SecondFactorEmailForm({
     return (
         <>
             <Code>
-                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+                <Input
+                    data-testid="second-factor-code-input"
+                    placeholder="Code"
+                    disabled={isSubmitting || isValidating}
+                />
             </Code>
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             <Resend>
-                <button disabled={isSubmitting || isValidating}>Resend code</button>
+                <button data-testid="resend-code-button" disabled={isSubmitting || isValidating}>
+                    Resend code
+                </button>
             </Resend>
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
@@ -233,29 +274,35 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <>
+        <div data-testid="email-verification-form">
             <div>
                 Zanim się zalogujesz, musisz zweryfikować swój adres e-mail. Sprawdź swoją skrzynkę odbiorczą i kliknij
                 w link, aby zweryfikować swój adres e-mail.
             </div>
 
             <Code>
-                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+                <Input
+                    data-testid="email-verification-code-input"
+                    placeholder="Code"
+                    disabled={isSubmitting || isValidating}
+                />
             </Code>
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="email-verification-button" type="submit" disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button disabled={isSubmitting || isValidating}>Resend code</button>
+                <button data-testid="email-verification-resend-button" disabled={isSubmitting || isValidating}>
+                    Resend code
+                </button>
             </Resend>
 
-            <div>
+            <div data-testid="errors">
                 {errors.map(error => (
                     <div key={error.id}>{getErrorMessage(error)}</div>
                 ))}
             </div>
-        </>
+        </div>
     )
 }
