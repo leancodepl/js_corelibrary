@@ -5,6 +5,7 @@ export interface MjmlCompileOptions {
     beautify?: boolean
     minify?: boolean
     validationLevel?: "skip" | "soft" | "strict"
+    filePath?: string
 }
 
 export interface MjmlCompileResult {
@@ -28,6 +29,7 @@ export function compileMjml(mjmlContent: string, options: MjmlCompileOptions = {
         beautify: false,
         minify: false,
         validationLevel: "soft",
+        filePath: ".",
         ...options,
     }
 
