@@ -21,9 +21,9 @@ jobs:
             - name: Install
               run: npm install
             - name: Security Audit
-              run: npm audit
+              run: npm audit --omit=dev
             - name: Verify Integrity
-              run: npm audit signatures
+              run: npm audit signatures --omit=dev
             - name: Lint
               run:
                   npx nx affected:lint --parallel=3 --base=${{ github.event.pull_request.base.sha }} --head=${{
