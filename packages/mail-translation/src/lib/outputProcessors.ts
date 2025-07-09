@@ -3,6 +3,16 @@ import * as path from "path"
 import { OutputMode } from "./configLoader"
 import { TranslatedMail } from "./mailTranslator"
 
+/**
+ * Escapes @media and @import for Razor syntax compatibility
+ * @param content - The content to process
+ * @returns Content with @media and @import escaped to @@media and @@import
+ */
+function escapeRazorConflicts(content: string): string {
+    // Use negative lookbehind to avoid replacing @media/@import that are already escaped (@@media/@@import)
+    return content.replace(/(?<!@)@media/g, "@@media").replace(/(?<!@)@import/g, "@@import")
+}
+
 export interface OutputProcessor {
     process(
         translatedMails: { [language: string]: TranslatedMail[] },
@@ -39,12 +49,14 @@ export class RazorOutputProcessor implements OutputProcessor {
             // Save default language HTML file without language suffix
             if (languageMails[defaultLanguage]) {
                 const defaultPath = path.join(outputPath, `${templateName}.cshtml`)
-                await fs.writeFile(defaultPath, languageMails[defaultLanguage].html, "utf8")
+                const processedHtml = escapeRazorConflicts(languageMails[defaultLanguage].html)
+                await fs.writeFile(defaultPath, processedHtml, "utf8")
 
                 // Save default language plaintext file if available
                 if (languageMails[defaultLanguage].plaintext) {
                     const defaultPlaintextPath = path.join(outputPath, `${templateName}.txt.cshtml`)
-                    await fs.writeFile(defaultPlaintextPath, languageMails[defaultLanguage].plaintext, "utf8")
+                    const processedPlaintext = escapeRazorConflicts(languageMails[defaultLanguage].plaintext)
+                    await fs.writeFile(defaultPlaintextPath, processedPlaintext, "utf8")
                 }
             }
 
@@ -52,12 +64,14 @@ export class RazorOutputProcessor implements OutputProcessor {
             for (const [language, mail] of Object.entries(languageMails)) {
                 if (language !== defaultLanguage) {
                     const languagePath = path.join(outputPath, `${templateName}.${language}.cshtml`)
-                    await fs.writeFile(languagePath, mail.html, "utf8")
+                    const processedHtml = escapeRazorConflicts(mail.html)
+                    await fs.writeFile(languagePath, processedHtml, "utf8")
 
                     // Save plaintext version if available
                     if (mail.plaintext) {
                         const languagePlaintextPath = path.join(outputPath, `${templateName}.${language}.txt.cshtml`)
-                        await fs.writeFile(languagePlaintextPath, mail.plaintext, "utf8")
+                        const processedPlaintext = escapeRazorConflicts(mail.plaintext)
+                        await fs.writeFile(languagePlaintextPath, processedPlaintext, "utf8")
                     }
                 }
             }
