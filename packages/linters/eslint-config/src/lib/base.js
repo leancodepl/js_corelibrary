@@ -18,8 +18,9 @@ module.exports = [
             "@typescript-eslint/naming-convention": [
                 "error",
                 {
-                    selector: ["variable"],
-                    format: ["camelCase"],
+                    selector: "variable",
+                    format: "camelCase",
+                    leadingUnderscore: "allow",
                 },
             ],
             "perfectionist/sort-array-includes": [
