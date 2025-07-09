@@ -18,11 +18,7 @@ module.exports = [
             "@typescript-eslint/naming-convention": [
                 "error",
                 {
-                    selector: "variable",
-                    format: ["camelCase"],
-                },
-                {
-                    selector: "variableLike",
+                    selector: ["variable", "variableLike"],
                     format: ["camelCase"],
                 },
             ],
