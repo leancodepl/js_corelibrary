@@ -28,48 +28,50 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     if (isLoading) {
-        return <p>Loading settings page...</p>
+        return <p data-testid="settings-loading">Loading settings page...</p>
     }
 
     if (!isLoggedIn) {
-        return <p>You must be logged in to access settings.</p>
+        return <p data-testid="settings-not-logged-in">You must be logged in to access settings.</p>
     }
 
     return (
-        <SettingsFlow
-            traitsForm={TraitsForm}
-            newPasswordForm={NewPasswordForm}
-            passkeysForm={PasskeysForm}
-            totpForm={TotpForm}
-            oidcForm={OidcForm}
-            settingsForm={({
-                emailVerificationRequired,
-                newPasswordForm,
-                traitsForm,
-                passkeysForm,
-                totpForm,
-                oidcForm,
-            }) => {
-                return (
-                    <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
-                        {traitsForm}
-                        {newPasswordForm}
-                        {passkeysForm}
-                        {totpForm}
-                        {oidcForm}
-                    </div>
-                )
-            }}
-            onChangePasswordSuccess={() => {
-                alert("change password success")
-            }}
-            onChangeTraitsSuccess={() => {
-                alert("change traits success")
-            }}
-            initialFlowId={flow}
-            onError={handleError}
-            onFlowRestart={removeFlowIdFromUrl}
-        />
+        <div data-testid="settings-page">
+            <SettingsFlow
+                traitsForm={TraitsForm}
+                newPasswordForm={NewPasswordForm}
+                passkeysForm={PasskeysForm}
+                totpForm={TotpForm}
+                oidcForm={OidcForm}
+                settingsForm={({
+                    emailVerificationRequired,
+                    newPasswordForm,
+                    traitsForm,
+                    passkeysForm,
+                    totpForm,
+                    oidcForm,
+                }) => {
+                    return (
+                        <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
+                            {traitsForm}
+                            {newPasswordForm}
+                            {passkeysForm}
+                            {totpForm}
+                            {oidcForm}
+                        </div>
+                    )
+                }}
+                onChangePasswordSuccess={() => {
+                    alert("change password success")
+                }}
+                onChangeTraitsSuccess={() => {
+                    alert("change traits success")
+                }}
+                initialFlowId={flow}
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
+            />
+        </div>
     )
 }
 
@@ -83,11 +85,11 @@ function TraitsForm({
     emailVerificationRequired,
 }: settingsFlow.TraitsFormProps<AuthTraitsConfig>) {
     if (isLoading) {
-        return <p>Loading traits form...</p>
+        return <p data-testid="traits-form-loading">Loading traits form...</p>
     }
 
     return (
-        <div>
+        <div data-testid="traits-form">
             <h2>Traits</h2>
 
             {emailVerificationRequired && (
@@ -99,25 +101,35 @@ function TraitsForm({
 
             {Email && (
                 <Email>
-                    <Input placeholder="Email" disabled={emailVerificationRequired || isSubmitting || isValidating} />
+                    <Input
+                        data-testid="email-input"
+                        placeholder="Email"
+                        disabled={emailVerificationRequired || isSubmitting || isValidating}
+                    />
                 </Email>
             )}
 
             {GivenName && (
                 <GivenName>
-                    <Input placeholder="First name" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="given-name-input"
+                        placeholder="First name"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </GivenName>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="traits-form-update-button" type="submit" disabled={isSubmitting || isValidating}>
                 Update
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="traits-form-errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -131,60 +143,73 @@ function NewPasswordForm({
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
     if (isLoading) {
-        return <p>Loading new password form...</p>
+        return <p data-testid="new-password-form-loading">Loading new password form...</p>
     }
 
     return (
-        <div>
+        <div data-testid="new-password-form">
             <h2>New password</h2>
 
             {Password && (
                 <Password>
-                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="new-password-input"
+                        placeholder="Password"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Password>
             )}
             {PasswordConfirmation && (
                 <PasswordConfirmation>
-                    <Input placeholder="Password confirmation" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="new-password-confirmation-input"
+                        placeholder="Password confirmation"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </PasswordConfirmation>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="new-password-form-submit-button" type="submit" disabled={isSubmitting || isValidating}>
                 Set new password
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="new-password-form-errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
 
 function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }: settingsFlow.PasskeysFormProps) {
     if (isLoading) {
-        return <p>Loading passkeys...</p>
+        return <p data-testid="passkeys-form-loading">Loading passkeys...</p>
     }
 
     return (
-        <div>
+        <div data-testid="passkeys-form">
             <h2>Passkeys</h2>
 
             {addNewPasskey && (
-                <button disabled={isPending} onClick={addNewPasskey}>
+                <button data-testid="add-new-passkey-button" disabled={isPending} onClick={addNewPasskey}>
                     Add new passkey
                 </button>
             )}
 
-            <div>
+            <div data-testid="existing-passkeys">
                 <h3>Existing Passkeys</h3>
 
                 {existingPasskeys.map(passkey => (
-                    <div key={passkey.id}>
+                    <div data-testid="existing-passkey" key={passkey.id}>
                         <strong>{passkey.name} </strong>
                         <span>({new Date(passkey.addedAtUnix * 1000).toLocaleString()}) </span>
-                        <button onClick={passkey.removePasskey} disabled={isPending}>
+                        <button
+                            data-testid="remove-passkey-button"
+                            onClick={passkey.removePasskey}
+                            disabled={isPending}>
                             Remove
                         </button>
                     </div>
@@ -196,20 +221,22 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }:
 
 function TotpForm(props: settingsFlow.TotpFormProps) {
     if (props.isLoading) {
-        return <p>Loading TOTP form...</p>
+        return <p data-testid="totp-form-loading">Loading TOTP form...</p>
     }
 
     if (props.isTotpLinked) {
         const { Unlink } = props
 
         return (
-            <div>
+            <div data-testid="totp-form-linked">
                 <h2>TOTP is already linked</h2>
                 <p>You can unlink it if you want to set up a new TOTP.</p>
 
                 {Unlink && (
                     <Unlink>
-                        <button type="button">Unlink TOTP</button>
+                        <button data-testid="unlink-totp-button" type="button">
+                            Unlink TOTP
+                        </button>
                     </Unlink>
                 )}
             </div>
@@ -219,27 +246,37 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
     const { Code, totpQrImageSrc, totpSecretKey, errors, isSubmitting, isValidating } = props
 
     return (
-        <div>
+        <div data-testid="totp-form-unlinked">
             <h2>TOTP</h2>
 
             {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
-            {totpSecretKey && <div>Secret Key: {totpSecretKey}</div>}
+            {totpSecretKey && (
+                <div>
+                    Secret Key: <span data-testid="totp-secret-key">{totpSecretKey}</span>
+                </div>
+            )}
 
             {Code && (
                 <Code>
-                    <Input placeholder="Enter TOTP code" type="password" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="totp-code-input"
+                        placeholder="Enter TOTP code"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Code>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="verify-totp-button" type="submit" disabled={isSubmitting || isValidating}>
                 Verify TOTP
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="totp-form-errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -250,22 +287,22 @@ function OidcForm({ Apple, Facebook, Google, isLoading }: settingsFlow.OidcFormP
     }
 
     return (
-        <div>
+        <div data-testid="oidc-form">
             <h2>OIDC Providers</h2>
 
             {Apple && (
                 <Apple>
-                    <OidcButton>Apple</OidcButton>
+                    <OidcButton data-testid="apple-oidc-button">Apple</OidcButton>
                 </Apple>
             )}
             {Facebook && (
                 <Facebook>
-                    <OidcButton>Facebook</OidcButton>
+                    <OidcButton data-testid="facebook-oidc-button">Facebook</OidcButton>
                 </Facebook>
             )}
             {Google && (
                 <Google>
-                    <OidcButton>Google</OidcButton>
+                    <OidcButton data-testid="google-oidc-button">Google</OidcButton>
                 </Google>
             )}
         </div>

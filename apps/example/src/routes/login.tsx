@@ -115,11 +115,13 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
                     </Passkey>
                 )}
 
-                <div data-testid="errors">
-                    {errors.map(error => (
-                        <div key={error.id}>{getErrorMessage(error)}</div>
-                    ))}
-                </div>
+                {errors && errors.length > 0 && (
+                    <div data-testid="errors">
+                        {errors.map(error => (
+                            <div key={error.id}>{getErrorMessage(error)}</div>
+                        ))}
+                    </div>
+                )}
             </div>
         )
     }
@@ -191,11 +193,13 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
                 </Passkey>
             )}
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -221,11 +225,13 @@ function SecondFactorForm({ Totp, Email, errors, isSubmitting, isValidating }: l
                 </Email>
             )}
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -257,11 +263,13 @@ function SecondFactorEmailForm({
                 </button>
             </Resend>
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </>
     )
 }
@@ -298,11 +306,13 @@ function EmailVerificationForm({
                 </button>
             </Resend>
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

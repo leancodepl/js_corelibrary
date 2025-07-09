@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test"
+import { expect, Locator, Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class LoginPage extends CommonPage {
@@ -77,6 +77,12 @@ export class LoginPage extends CommonPage {
         return this.wrapper.isVisible()
     }
 
+    async performCompleteLoginFlow(identifier: string, password: string) {
+        await this.fillPasswordForm(identifier, password)
+        await this.clickLogin()
+        await expect(this.page).toHaveURL(/\/identity.*/)
+    }
+
     // Choose method form
 
     async isChooseMethodFormVisible(): Promise<boolean> {
@@ -89,6 +95,11 @@ export class LoginPage extends CommonPage {
 
     async fillPassword(password: string) {
         await this.passwordInput.fill(password)
+    }
+
+    async fillPasswordForm(identifier: string, password: string) {
+        await this.fillIdentifier(identifier)
+        await this.fillPassword(password)
     }
 
     async clickLogin() {
@@ -117,5 +128,11 @@ export class LoginPage extends CommonPage {
 
     async getErrors(): Promise<string[]> {
         return this.errors.allTextContents()
+    }
+
+    // Second factor form
+
+    async fillTotpInput(totpCode: string) {
+        await this.totpInput.fill(totpCode)
     }
 }

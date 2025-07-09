@@ -25,24 +25,21 @@ test.describe("logging out", () => {
     })
 
     test("should log out the user", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
         await runKratosContainer({
             SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
         })
 
         await registerUser({
-            email: USER_DATA.email,
-            password: USER_DATA.password,
-            firstName: USER_DATA.firstName,
+            email: userData.email,
+            password: userData.password,
+            firstName: userData.firstName,
         })
 
         const loginPage = new LoginPage(page)
         await loginPage.visit()
-        await loginPage.fillIdentifier(USER_DATA.email)
-        await loginPage.fillPassword(USER_DATA.password)
-        await loginPage.clickLogin()
-        await page.waitForURL("**/identity*")
+        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
 
         const identityPage = new IdentityPage(page)
         await expect(identityPage.headerLoggedIn).toBeVisible()

@@ -61,11 +61,13 @@ function EmailVerificationForm({
                 <button disabled={isSubmitting || isValidating}>Resend code</button>
             </Resend>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </>
     )
 }

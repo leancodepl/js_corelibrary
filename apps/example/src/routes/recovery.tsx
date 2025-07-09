@@ -27,64 +27,70 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
-        <RecoveryFlow
-            emailForm={EmailForm}
-            codeForm={CodeForm}
-            newPasswordForm={NewPasswordForm}
-            onRecoverySuccess={() => {
-                alert("Recovery successful")
-            }}
-            initialFlowId={flow}
-            onError={handleError}
-            onFlowRestart={removeFlowIdFromUrl}
-            returnTo="/redirect-after-recovery"
-        />
+        <div data-testid="recovery-page">
+            <RecoveryFlow
+                emailForm={EmailForm}
+                codeForm={CodeForm}
+                newPasswordForm={NewPasswordForm}
+                onRecoverySuccess={() => {
+                    alert("Recovery successful")
+                }}
+                initialFlowId={flow}
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
+                returnTo="/redirect-after-recovery"
+            />
+        </div>
     )
 }
 
 function EmailForm({ errors, Email, isSubmitting, isValidating }: recoveryFlow.EmailFormProps) {
     return (
-        <>
+        <div data-testid="email-form">
             {Email && (
                 <Email>
-                    <Input placeholder="Email" disabled={isSubmitting || isValidating} />
+                    <Input data-testid="email-input" placeholder="Email" disabled={isSubmitting || isValidating} />
                 </Email>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="email-submit-button" type="submit" disabled={isSubmitting || isValidating}>
                 Send code
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        </>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
+        </div>
     )
 }
 
 function CodeForm({ errors, Code, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
     return (
-        <>
+        <div data-testid="code-form">
             <p>Please enter the code you received in the email.</p>
 
             {Code && (
                 <Code>
-                    <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+                    <Input data-testid="code-input" placeholder="Code" disabled={isSubmitting || isValidating} />
                 </Code>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="code-submit-button" type="submit" disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        </>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
+        </div>
     )
 }
 
@@ -96,27 +102,37 @@ function NewPasswordForm({
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
     return (
-        <>
+        <div data-testid="new-password-form">
             {Password && (
                 <Password>
-                    <Input placeholder="Password" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="new-password-input"
+                        placeholder="Password"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Password>
             )}
             {PasswordConfirmation && (
                 <PasswordConfirmation>
-                    <Input placeholder="Password confirmation" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid="new-password-confirmation-input"
+                        placeholder="Password confirmation"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </PasswordConfirmation>
             )}
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="new-password-submit-button" type="submit" disabled={isSubmitting || isValidating}>
                 Set new password
             </button>
 
-            <div>
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        </>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
+        </div>
     )
 }

@@ -1,23 +1,19 @@
 import type { Message, MessagesSummary, SendEmailOptions, SpamAssassin } from "./types"
-import type { APIRequestContext } from "@playwright/test"
 
 export class MailpitHelper {
-    constructor(
-        private readonly request: APIRequestContext,
-        private readonly baseUrl: string = process.env.VITE_MAILPIT_URL ?? "http://localhost:8025",
-    ) {}
+    constructor(private readonly baseUrl: string = process.env.VITE_MAILPIT_URL ?? "http://localhost:8025") {}
 
     private mailpitUrl(path: string, isApi = true): string {
         return `${this.baseUrl}/${isApi ? "api" : ""}${path}`
     }
 
     async getAllMails(start = 0, limit = 50): Promise<MessagesSummary> {
-        const res = await this.request.get(this.mailpitUrl(`/v1/messages?start=${start}&limit=${limit}`))
+        const res = await fetch(this.mailpitUrl(`/v1/messages?start=${start}&limit=${limit}`))
         return await res.json()
     }
 
     async getMail(id = "latest"): Promise<Message> {
-        const res = await this.request.get(this.mailpitUrl(`/v1/message/${id}`))
+        const res = await fetch(this.mailpitUrl(`/v1/message/${id}`))
         return await res.json()
     }
 
@@ -35,15 +31,19 @@ export class MailpitHelper {
             Text: options?.textBody ?? "hello from mailpit",
             To: options?.to ?? [{ Email: "jane@example.com", Name: "Jane" }],
         }
-        const res = await this.request.post(this.mailpitUrl("/v1/send"), {
-            data: body,
+        const res = await fetch(this.mailpitUrl("/v1/send"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
         })
         return await res.json()
     }
 
     async searchEmails(query: string, start = 0, limit = 50): Promise<MessagesSummary> {
         const url = this.mailpitUrl(`/v1/search?query=${encodeURIComponent(query)}&start=${start}&limit=${limit}`)
-        const res = await this.request.get(url)
+        const res = await fetch(url)
         return await res.json()
     }
 
@@ -56,26 +56,30 @@ export class MailpitHelper {
     }
 
     async deleteAllEmails(): Promise<void> {
-        await this.request.delete(this.mailpitUrl("/v1/messages"))
+        await fetch(this.mailpitUrl("/v1/messages"), {
+            method: "DELETE",
+        })
     }
 
     async deleteEmailsBySearch(query: string): Promise<void> {
         const url = this.mailpitUrl(`/v1/search?query=${encodeURIComponent(query)}`)
-        await this.request.delete(url)
+        await fetch(url, {
+            method: "DELETE",
+        })
     }
 
     async getMailHtmlBody(message: Message): Promise<string> {
-        const res = await this.request.get(this.mailpitUrl(`/view/${message.ID}.html`, false))
+        const res = await fetch(this.mailpitUrl(`/view/${message.ID}.html`, false))
         return await res.text()
     }
 
     async getMailTextBody(message: Message): Promise<string> {
-        const res = await this.request.get(this.mailpitUrl(`/view/${message.ID}.txt`, false))
+        const res = await fetch(this.mailpitUrl(`/view/${message.ID}.txt`, false))
         return await res.text()
     }
 
     async getMailSpamAssassinSummary(message: Message): Promise<SpamAssassin> {
-        const res = await this.request.get(this.mailpitUrl(`/v1/message/${message.ID}/sa-check`))
+        const res = await fetch(this.mailpitUrl(`/v1/message/${message.ID}/sa-check`))
         return await res.json()
     }
 
