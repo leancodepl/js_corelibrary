@@ -2,6 +2,7 @@ import * as path from 'path';
 import { getDefaultConfig, mergeWithDefaults, validateConfig } from '../src/lib/configLoader';
 import { MailTranslator } from '../src/lib/mailTranslator';
 import { compileMjml } from '../src/lib/mjmlCompiler';
+import { RazorOutputProcessor } from '../src/lib/outputProcessors';
 import { processTemplate } from '../src/lib/templateProcessor';
 import { loadTranslations } from '../src/lib/translationLoader';
 
@@ -445,6 +446,112 @@ describe('Mail Translation', () => {
       
       expect(plaintextTemplates).toBeDefined();
       expect(Object.keys(plaintextTemplates)).toHaveLength(0);
+    });
+  });
+
+  describe('RazorOutputProcessor', () => {
+    describe('Razor conflict escaping', () => {
+      it('should escape @media and @import in HTML content for razor output', async () => {
+        const processor = new RazorOutputProcessor();
+        
+        // Create mock translated mails with @media and @import
+        const mockTranslatedMails = {
+          'en': [{
+            name: 'test_template',
+            language: 'en',
+            mjml: '<mjml></mjml>',
+            html: `
+              <style>
+                @media screen and (max-width: 600px) {
+                  .responsive { width: 100% !important; }
+                }
+                @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+              </style>
+              <div>Test content</div>
+            `,
+            plaintext: `
+              @media screen and (max-width: 600px) {
+                .responsive { width: 100% !important; }
+              }
+              @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+              Test content
+            `,
+            errors: []
+          }]
+        };
+        
+        // Create a temporary output directory
+        const tempOutputPath = path.join(__dirname, 'temp-output');
+        
+        // Process the mails
+        await processor.process(mockTranslatedMails, tempOutputPath, 'en');
+        
+        // Read the generated file
+        const fs = require('fs-extra');
+        const generatedHtml = await fs.readFile(path.join(tempOutputPath, 'test_template.cshtml'), 'utf8');
+        const generatedPlaintext = await fs.readFile(path.join(tempOutputPath, 'test_template.txt.cshtml'), 'utf8');
+        
+        // Verify @media and @import are escaped
+        expect(generatedHtml).toContain('@@media screen and (max-width: 600px)');
+        expect(generatedHtml).toContain('@@import url(');
+        // Check that unescaped @media and @import patterns are not present
+        expect(generatedHtml).not.toMatch(/(?<!@)@media/);
+        expect(generatedHtml).not.toMatch(/(?<!@)@import/);
+        
+        expect(generatedPlaintext).toContain('@@media screen and (max-width: 600px)');
+        expect(generatedPlaintext).toContain('@@import url(');
+        // Check that unescaped @media and @import patterns are not present
+        expect(generatedPlaintext).not.toMatch(/(?<!@)@media/);
+        expect(generatedPlaintext).not.toMatch(/(?<!@)@import/);
+        
+        // Clean up
+        await fs.remove(tempOutputPath);
+      });
+
+      it('should escape @media and @import in multiple language files', async () => {
+        const processor = new RazorOutputProcessor();
+        
+        // Create mock translated mails with multiple languages
+        const mockTranslatedMails = {
+          'en': [{
+            name: 'test_template',
+            language: 'en',
+            mjml: '<mjml></mjml>',
+            html: '<style>@media screen { .test { color: red; } }</style><div>English content</div>',
+            errors: []
+          }],
+          'pl': [{
+            name: 'test_template',
+            language: 'pl',
+            mjml: '<mjml></mjml>',
+            html: '<style>@import url("fonts.css"); @media print { .test { color: blue; } }</style><div>Polish content</div>',
+            errors: []
+          }]
+        };
+        
+        // Create a temporary output directory
+        const tempOutputPath = path.join(__dirname, 'temp-output-multi');
+        
+        // Process the mails
+        await processor.process(mockTranslatedMails, tempOutputPath, 'en');
+        
+        // Read the generated files
+        const fs = require('fs-extra');
+        const englishHtml = await fs.readFile(path.join(tempOutputPath, 'test_template.cshtml'), 'utf8');
+        const polishHtml = await fs.readFile(path.join(tempOutputPath, 'test_template.pl.cshtml'), 'utf8');
+        
+        // Verify @media and @import are escaped in both files
+        expect(englishHtml).toContain('@@media screen');
+        expect(englishHtml).not.toMatch(/(?<!@)@media/);
+        
+        expect(polishHtml).toContain('@@import url("fonts.css")');
+        expect(polishHtml).toContain('@@media print');
+        expect(polishHtml).not.toMatch(/(?<!@)@import/);
+        expect(polishHtml).not.toMatch(/(?<!@)@media/);
+        
+        // Clean up
+        await fs.remove(tempOutputPath);
+      });
     });
   });
 }); 
