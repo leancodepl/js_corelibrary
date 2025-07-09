@@ -9,5 +9,44 @@
   "peerDependencies": {
     "react": "*",
     "rxjs": ">=7.0.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/pipe-clients/hook-pipe-client"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "React hooks for real-time data streaming and subscriptions using @leancodepl/pipe",
+  "keywords": [
+    "react",
+    "hooks",
+    "real-time",
+    "streaming",
+    "websocket",
+    "signalr",
+    "leanpipe",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false
 }
