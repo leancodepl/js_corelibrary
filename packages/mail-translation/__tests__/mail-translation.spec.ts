@@ -283,6 +283,29 @@ describe('Mail Translation', () => {
         expect(merged.mjmlOptions?.beautify).toBe(true);
         expect(merged.mjmlOptions?.validationLevel).toBe('soft'); // from defaults
       });
+
+      it('should set plaintextMailsPath to mailsPath when not provided', () => {
+        const config = {
+          translationsPath: './translations',
+          mailsPath: './mails'
+        };
+        
+        const merged = mergeWithDefaults(config);
+        
+        expect(merged.plaintextMailsPath).toBe('./mails');
+      });
+
+      it('should preserve plaintextMailsPath when provided', () => {
+        const config = {
+          translationsPath: './translations',
+          mailsPath: './mails',
+          plaintextMailsPath: './plaintext-mails'
+        };
+        
+        const merged = mergeWithDefaults(config);
+        
+        expect(merged.plaintextMailsPath).toBe('./plaintext-mails');
+      });
     });
   });
 
@@ -323,6 +346,105 @@ describe('Mail Translation', () => {
         expect(result.html).toContain('Email Verification');
         expect(result.html).toContain('.RecoveryCode');
       }
+    });
+
+    it('should load plaintext templates for kratos mode', async () => {
+      const kratosTranslator = new MailTranslator({
+        translationsPath: testTranslationsPath,
+        mailsPath: testMailsPath,
+        outputMode: 'kratos'
+      });
+      
+      await kratosTranslator.initialize();
+      
+      const plaintextTemplates = await kratosTranslator.loadPlaintextTemplates();
+      
+      expect(plaintextTemplates).toBeDefined();
+      expect(plaintextTemplates['email_verification_code']).toBeDefined();
+      expect(plaintextTemplates['email_verification_code']).toContain('{{t "email_verification_title"}}');
+    });
+
+    it('should load plaintext templates for razor mode', async () => {
+      const razorTranslator = new MailTranslator({
+        translationsPath: testTranslationsPath,
+        mailsPath: testMailsPath,
+        outputMode: 'razor'
+      });
+      
+      await razorTranslator.initialize();
+      
+      const plaintextTemplates = await razorTranslator.loadPlaintextTemplates();
+      
+      expect(plaintextTemplates).toBeDefined();
+      expect(plaintextTemplates['password_reset']).toBeDefined();
+      expect(plaintextTemplates['password_reset']).toContain('{{t "password_reset_title"}}');
+    });
+
+    it('should translate template with plaintext content', async () => {
+      const kratosTranslator = new MailTranslator({
+        translationsPath: testTranslationsPath,
+        mailsPath: testMailsPath,
+        outputMode: 'kratos'
+      });
+      
+      await kratosTranslator.initialize();
+      
+      const templates = await kratosTranslator.loadTemplates();
+      const plaintextTemplates = await kratosTranslator.loadPlaintextTemplates();
+      const templateName = 'email_verification_code';
+      
+      if (templates[templateName] && plaintextTemplates[templateName]) {
+        const result = kratosTranslator.translateTemplate(
+          templateName,
+          templates[templateName],
+          'en',
+          plaintextTemplates[templateName]
+        );
+        
+        expect(result.name).toBe(templateName);
+        expect(result.language).toBe('en');
+        expect(result.html).toBeDefined();
+        expect(result.plaintext).toBeDefined();
+        expect(result.plaintext).toContain('Email Verification');
+        expect(result.plaintext).toContain('{{ .RecoveryCode }}');
+        expect(result.plaintext).not.toContain('{{t "email_verification_title"}}');
+      }
+    });
+
+    it('should translate all templates with plaintext content', async () => {
+      const kratosTranslator = new MailTranslator({
+        translationsPath: testTranslationsPath,
+        mailsPath: testMailsPath,
+        outputMode: 'kratos'
+      });
+      
+      await kratosTranslator.initialize();
+      
+      const results = await kratosTranslator.translateAllTemplates('en');
+      
+      expect(results).toBeDefined();
+      expect(results.length).toBeGreaterThan(0);
+      
+      const emailVerificationResult = results.find(r => r.name === 'email_verification_code');
+      if (emailVerificationResult) {
+        expect(emailVerificationResult.plaintext).toBeDefined();
+        expect(emailVerificationResult.plaintext).toContain('Email Verification');
+      }
+    });
+
+    it('should handle missing plaintext templates gracefully', async () => {
+      const translator = new MailTranslator({
+        translationsPath: testTranslationsPath,
+        mailsPath: testMailsPath,
+        plaintextMailsPath: './nonexistent-path'
+      });
+      
+      await translator.initialize();
+      
+      const plaintextTemplates = await translator.loadPlaintextTemplates();
+      
+      expect(plaintextTemplates).toBeDefined();
+      expect(Object.keys(plaintextTemplates)).toHaveLength(0);
     });
   });
 }); 
