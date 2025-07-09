@@ -3,6 +3,19 @@ import deepEqual from "deep-equal"
 import { share } from "rxjs"
 import { NotificationsUnion, Pipe } from "@leancodepl/pipe"
 
+/**
+ * Creates React hooks for real-time data subscriptions using "@leancodepl/pipe".
+ * 
+ * @param pipe - Pipe instance from "@leancodepl/pipe"
+ * @returns Object containing `createTopic` method for creating typed hooks
+ * @example
+ * ```typescript
+ * const pipe = createPipe({ url: 'wss://api.example.com/pipe' });
+ * const pipeClient = mkPipeClient({ pipe });
+ * 
+ * const useChatTopic = pipeClient.createTopic('chat');
+ * ```
+ */
 export function mkPipeClient({ pipe }: { pipe: Pipe }) {
     return {
         createTopic<TTopic, TNotifications extends Record<string, unknown>>(topicType: string) {

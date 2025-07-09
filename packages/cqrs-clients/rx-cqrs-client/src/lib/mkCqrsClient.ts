@@ -5,6 +5,25 @@ import { ApiResponse, CommandResult, TokenProvider } from "@leancodepl/cqrs-clie
 import { handleResponse } from "@leancodepl/validation"
 import authGuard from "./authGuard"
 
+/**
+ * Creates RxJS-based CQRS client for reactive command and query operations.
+ * 
+ * Provides observable-based methods for CQRS operations with automatic authentication,
+ * retry logic, and error handling.
+ * 
+ * @param cqrsEndpoint - Base URL for CQRS API endpoints
+ * @param tokenProvider - Optional token provider for authentication
+ * @param ajaxOptions - Optional RxJS Ajax configuration options
+ * @param tokenHeader - Header name for authentication token (default: "Authorization")
+ * @returns Object with `createQuery`, `createOperation`, and `createCommand` observable factories
+ * @example
+ * ```typescript
+ * const client = mkCqrsClient({
+ *   cqrsEndpoint: 'https://api.example.com',
+ *   tokenProvider: { getToken: () => Promise.resolve('token') }
+ * });
+ * ```
+ */
 export function mkCqrsClient({
     cqrsEndpoint,
     tokenProvider,

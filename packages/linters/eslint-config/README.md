@@ -1,11 +1,52 @@
-# eslint-config
+# @leancodepl/eslint-config
 
-This library was generated with [Nx](https://nx.dev).
+ESLint configurations for TypeScript and React projects.
 
-## Building
+## Installation
 
-Run `nx build eslint-config` to build the library.
+```bash
+npm install --save-dev @leancodepl/eslint-config
+# or
+yarn add --dev @leancodepl/eslint-config
+```
 
-## Running unit tests
+## Available Configurations
 
-Run `nx test eslint-config` to execute the unit tests via [Jest](https://jestjs.io).
+- `base` - Core TypeScript rules with sorting and code quality
+- `baseReact` - React-specific rules and JSX formatting  
+- `imports` - Import/export organization and unused import detection
+- `a11y` - Accessibility rules for React components
+
+## Usage Examples
+
+### React TypeScript Project
+
+```javascript
+// eslint.config.js
+import { base, baseReact, imports, a11y } from '@leancodepl/eslint-config';
+
+export default [
+  ...base,
+  ...baseReact,
+  ...imports,
+  ...a11y,
+];
+```
+
+### Custom Rules
+
+```javascript
+// eslint.config.js
+import { base, baseReact } from '@leancodepl/eslint-config';
+
+export default [
+  ...base,
+  ...baseReact,
+  {
+    rules: {
+      'max-params': ['error', { max: 6 }],
+      'no-console': 'off',
+    },
+  },
+];
+```

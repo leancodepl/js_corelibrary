@@ -11,6 +11,30 @@ export type KratosContextProviderProps = {
     children?: ReactNode
 }
 
+/**
+ * Provides Kratos context to child components with customizable configuration.
+ * 
+ * Sets up the React context for Kratos integration, allowing customization of
+ * UI components, error handling, and script loading behavior.
+ * 
+ * @param components - Partial override of default Kratos UI components
+ * @param useHandleFlowError - Custom error handler for authentication flows
+ * @param excludeScripts - Whether to exclude script node execution
+ * @param children - Child React components
+ * @returns JSX element providing Kratos context
+ * @example
+ * ```typescript
+ * import { KratosContextProvider } from '@leancodepl/kratos';
+ * 
+ * function App() {
+ *   return (
+ *     <KratosContextProvider>
+ *       <LoginPage />
+ *     </KratosContextProvider>
+ *   );
+ * }
+ * ```
+ */
 export function KratosContextProvider({
     components = {},
     useHandleFlowError,

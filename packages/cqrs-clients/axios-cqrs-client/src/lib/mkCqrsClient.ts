@@ -29,6 +29,26 @@ export type MkCqrsClientParameters = {
     tokenHeader?: string
 }
 
+/**
+ * Creates CQRS client with Axios for HTTP communication and command/query handling.
+ * 
+ * Provides type-safe methods for creating queries, operations, and commands with automatic
+ * token management, retry logic, and response handling. Supports validation error handling
+ * and HTTP status code management.
+ * 
+ * @param cqrsEndpoint - Base URL for CQRS API endpoints
+ * @param tokenProvider - Optional token provider for authentication
+ * @param axiosOptions - Optional Axios configuration options
+ * @param tokenHeader - Header name for authentication token (default: "Authorization")
+ * @returns Object with `createQuery`, `createOperation`, and `createCommand` methods
+ * @example
+ * ```typescript
+ * const client = mkCqrsClient({
+ *   cqrsEndpoint: 'https://api.example.com',
+ *   tokenProvider: { getToken: () => Promise.resolve('token') }
+ * });
+ * ```
+ */
 export function mkCqrsClient({
     cqrsEndpoint,
     tokenProvider,

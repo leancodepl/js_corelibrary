@@ -258,9 +258,54 @@ function mkCard<TBody, TFlow extends UserAuthCardProps<TBody>["flow"]>(flowType:
     }
 }
 
+/**
+ * Pre-built login card component for Kratos login flows.
+ * 
+ * Renders a complete login form with support for password, passkey, OIDC,
+ * multi-factor authentication, and identifier-first flows.
+ * 
+ * @param flow - Kratos login flow object
+ * @param onSubmit - Form submission handler
+ * @param className - Optional CSS class name
+ * @returns JSX element with login form
+ */
 export const LoginCard = mkCard<UpdateLoginFlowBody, LoginFlow>("login")
+
+/**
+ * Pre-built verification card component for Kratos verification flows.
+ * 
+ * Renders a complete verification form for email/phone verification processes.
+ * 
+ * @param flow - Kratos verification flow object
+ * @param onSubmit - Form submission handler
+ * @param className - Optional CSS class name
+ * @returns JSX element with verification form
+ */
 export const VerificationCard = mkCard<UpdateVerificationFlowBody, VerificationFlow>("verification")
+
+/**
+ * Pre-built registration card component for Kratos registration flows.
+ * 
+ * Renders a complete registration form with support for profile fields,
+ * password, passkey, and OIDC registration methods.
+ * 
+ * @param flow - Kratos registration flow object
+ * @param onSubmit - Form submission handler
+ * @param className - Optional CSS class name
+ * @returns JSX element with registration form
+ */
 export const RegistrationCard = mkCard<UpdateRegistrationFlowBody, RegistrationFlow>("registration")
+
+/**
+ * Pre-built recovery card component for Kratos account recovery flows.
+ * 
+ * Renders a complete recovery form for password reset and account recovery processes.
+ * 
+ * @param flow - Kratos recovery flow object
+ * @param onSubmit - Form submission handler
+ * @param className - Optional CSS class name
+ * @returns JSX element with recovery form
+ */
 export const RecoveryCard = mkCard<UpdateRecoveryFlowBody, RecoveryFlow>("recovery")
 
 // the user might need to logout on the second factor page.

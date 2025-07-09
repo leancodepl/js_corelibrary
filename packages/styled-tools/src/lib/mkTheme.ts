@@ -1,6 +1,26 @@
 import { type ExecutionContext, type RuleSet, useTheme } from "styled-components"
 import { mkProxy, Value } from "./mkProxy"
 
+/**
+ * Creates type-safe theme utilities for styled-components with full TypeScript support.
+ * 
+ * @template TTheme - The theme object type extending Value
+ * @returns Object containing theme proxy and useTheme hook
+ * @example
+ * ```typescript
+ * interface AppTheme {
+ *   colors: { primary: string; secondary: string };
+ *   spacing: { small: string; large: string };
+ * }
+ * 
+ * const { theme, useTheme } = mkTheme<AppTheme>();
+ * 
+ * const Button = styled.button`
+ *   color: ${theme.colors.primary};
+ *   padding: ${theme.spacing.small};
+ * `;
+ * ```
+ */
 export function mkTheme<TTheme extends Value>() {
     return {
         theme: mkProxy(ctx => ctx.theme as TTheme) as unknown as TransformDeep<TTheme>,

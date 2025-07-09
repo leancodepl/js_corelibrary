@@ -33,6 +33,27 @@ export function uncapitalizedParse<TResult>(): OperatorFunction<string, Nullable
     return $source => $source.pipe(map(uncapitalizedJSONParse))
 }
 
+/**
+ * Creates React Query CQRS client with hooks for queries, operations, and commands.
+ * 
+ * Integrates with React Query to provide caching, background updates, and optimistic updates
+ * for CQRS operations. Automatically handles authentication, retries, and response transformation
+ * with uncapitalized keys.
+ * 
+ * @param cqrsEndpoint - Base URL for CQRS API endpoints
+ * @param queryClient - React Query client instance
+ * @param tokenProvider - Optional token provider for authentication
+ * @param ajaxOptions - Optional RxJS Ajax configuration options
+ * @param tokenHeader - Header name for authentication token (default: "Authorization")
+ * @returns Object with `createQuery`, `createOperation`, and `createCommand` hook factories
+ * @example
+ * ```typescript
+ * const client = mkCqrsClient({
+ *   cqrsEndpoint: 'https://api.example.com',
+ *   queryClient: new QueryClient()
+ * });
+ * ```
+ */
 export function mkCqrsClient({
     cqrsEndpoint,
     queryClient,

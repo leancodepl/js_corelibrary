@@ -1,11 +1,56 @@
-# gtag
+# @leancodepl/gtag
 
-This library was generated with [Nx](https://nx.dev).
+Type-safe Google Tag Manager data layer integration.
 
-## Building
+## Installation
 
-Run `nx build gtag` to build the library.
+```bash
+npm install @leancodepl/gtag
+# or
+yarn add @leancodepl/gtag
+```
 
-## Running unit tests
+## API
 
-Run `nx test gtag` to execute the unit tests via [Jest](https://jestjs.io).
+### `mkgtag()`
+
+Creates a type-safe Google Tag Manager data layer push function.
+
+**Returns:** Function that accepts data layer arguments and pushes to GTM
+
+## Usage Examples
+
+### Basic Event Tracking
+
+```typescript
+import { mkgtag } from '@leancodepl/gtag';
+
+const gtag = mkgtag<{ event: 'page_view'; page_title: string }>();
+
+gtag({
+  event: 'page_view',
+  page_title: 'Home Page',
+});
+```
+
+### Custom Events with Callbacks
+
+```typescript
+import { mkgtag } from '@leancodepl/gtag';
+
+interface CustomEvent {
+  event: 'button_click';
+  element_id: string;
+}
+
+const gtag = mkgtag<CustomEvent>();
+
+gtag({
+  event: 'button_click',
+  element_id: 'signup-button',
+  eventCallback: (containerId) => {
+    console.log('Event sent to container:', containerId);
+  },
+  eventTimeout: 2000,
+});
+```

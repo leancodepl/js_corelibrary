@@ -10,6 +10,33 @@ type SettingsFlowSearchParams = {
     [returnToParameterName]?: string
 }
 
+/**
+ * Manages Kratos user settings flow state and form submission.
+ * 
+ * Handles settings flow creation, retrieval, and submission for profile updates,
+ * password changes, and security settings management.
+ * 
+ * @param kratosClient - Configured Kratos FrontendApi client
+ * @param params - Optional Axios request parameters
+ * @param onContinueWith - Optional callback for post-settings actions
+ * @param searchParams - URL search parameters for flow state
+ * @param updateSearchParams - Function to update URL search parameters
+ * @returns Object with current flow and submit function
+ * @example
+ * ```typescript
+ * import { useSettingsFlow } from '@leancodepl/kratos';
+ * 
+ * function UserSettingsForm() {
+ *   const { flow, submit } = useSettingsFlow({
+ *     kratosClient,
+ *     onContinueWith: (actions) => console.log('Settings updated'),
+ *     updateSearchParams: (params) => setSearchParams(params)
+ *   });
+ * 
+ *   return <form onSubmit={submit}>...</form>;
+ * }
+ * ```
+ */
 export function useSettingsFlow({
     kratosClient,
     params,

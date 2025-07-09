@@ -1,11 +1,33 @@
-# prettier-config
+# @leancodepl/prettier-config
 
-This library was generated with [Nx](https://nx.dev).
+Prettier configuration for code formatting.
 
-## Building
+## Installation
 
-Run `nx build prettier-config` to build the library.
+```bash
+npm install --save-dev @leancodepl/prettier-config
+# or
+yarn add --dev @leancodepl/prettier-config
+```
 
-## Running unit tests
+## Usage Examples
 
-Run `nx test prettier-config` to execute the unit tests via [Jest](https://jestjs.io).
+### Basic Setup
+
+```javascript
+// prettier.config.js
+module.exports = require('@leancodepl/prettier-config');
+```
+
+### With Overrides
+
+```javascript
+// prettier.config.js
+const baseConfig = require('@leancodepl/prettier-config');
+
+module.exports = {
+  ...baseConfig,
+  printWidth: 100,
+  singleQuote: true,
+};
+```

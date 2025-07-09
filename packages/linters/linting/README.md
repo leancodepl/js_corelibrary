@@ -1,11 +1,49 @@
-# linting
+# @leancodepl/linting
 
-This library was generated with [Nx](https://nx.dev).
+Linting and formatting setup for TypeScript and React projects.
 
-## Building
+## Installation
 
-Run `nx build linting` to build the library.
+```bash
+npm install --save-dev @leancodepl/linting
+# or
+yarn add --dev @leancodepl/linting
+```
 
-## Running unit tests
+## Included Packages
 
-Run `nx test linting` to execute the unit tests via [Jest](https://jestjs.io).
+- `@leancodepl/eslint-config` - ESLint rules for TypeScript and React
+- `@leancodepl/prettier-config` - Prettier formatting configuration  
+- `@leancodepl/stylelint-config` - Stylelint rules for CSS and SCSS
+
+## Usage Examples
+
+### ESLint Configuration
+
+```javascript
+// eslint.config.js
+import { base, baseReact, imports, a11y } from '@leancodepl/eslint-config';
+
+export default [
+  ...base,
+  ...baseReact,
+  ...imports,
+  ...a11y,
+];
+```
+
+### Prettier Configuration
+
+```javascript
+// prettier.config.js
+module.exports = require('@leancodepl/prettier-config');
+```
+
+### Stylelint Configuration
+
+```javascript
+// stylelint.config.js
+module.exports = {
+  extends: '@leancodepl/stylelint-config',
+};
+```

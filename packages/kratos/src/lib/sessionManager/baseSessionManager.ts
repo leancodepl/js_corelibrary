@@ -4,6 +4,28 @@ import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchM
 import { ErrorId } from "../types/enums/errorId"
 import { aalParameterName, returnToParameterName } from "../utils/variables"
 
+/**
+ * Manages Kratos session state with RxJS observables for authentication status.
+ * 
+ * Provides reactive session management with automatic status checking, user identity
+ * tracking, and AAL (Authenticator Assurance Level) handling for multi-factor authentication.
+ * 
+ * @param authUrl - Base URL for Kratos authentication endpoints
+ * @param loginRoute - Application route for login page
+ * @example
+ * ```typescript
+ * import { BaseSessionManager } from '@leancodepl/kratos';
+ * 
+ * const sessionManager = new BaseSessionManager(
+ *   'https://auth.example.com',
+ *   '/login'
+ * );
+ * 
+ * sessionManager.isLoggedIn.subscribe(loggedIn => {
+ *   console.log('User logged in:', loggedIn);
+ * });
+ * ```
+ */
 export class BaseSessionManager {
     authUrl
     loginRoute

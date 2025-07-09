@@ -1,5 +1,22 @@
 /// <reference types="facebook-js-sdk" />
 
+/**
+ * Integrates Facebook Login SDK for web applications.
+ * 
+ * Handles Facebook authentication flow and provides access tokens for OAuth2 sign-in.
+ * Automatically loads Facebook SDK and manages login state.
+ * 
+ * @param facebookAppId - Facebook App ID
+ * @param facebookPermissions - Comma-separated Facebook permissions
+ * @example
+ * ```typescript
+ * const facebookClient = new FacebookClient('your-app-id', 'email,public_profile');
+ * facebookClient.setup();
+ * facebookClient.login((accessToken) => {
+ *   return loginManager.trySignInWithFacebook(accessToken);
+ * });
+ * ```
+ */
 export class FacebookClient {
     public isSignedIn?: boolean;
     private token: string;

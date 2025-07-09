@@ -2,6 +2,30 @@ import { BaseLoginManager, LoginManager } from "./baseLoginManager";
 import { CannotRefreshToken } from "./cannotRefreshToken";
 import { AsyncTokenStorage } from "./tokenStorage";
 
+/**
+ * Manages OAuth2 authentication with asynchronous token storage.
+ * 
+ * Extends BaseLoginManager to work with async storage implementations like IndexedDB or remote storage.
+ * Handles token refresh, expiration, and authentication state management.
+ * 
+ * @param storage - Token storage implementation
+ * @param endpoint - OAuth2 server endpoint
+ * @param clientSecret - Client secret for authentication
+ * @param clientId - OAuth2 client identifier
+ * @param scopes - Space-separated OAuth2 scopes
+ * @param additionalParams - Additional OAuth2 parameters
+ * @example
+ * ```typescript
+ * const tokenStorage = new CustomAsyncStorage();
+ * const loginManager = new AsyncLoginManager(
+ *   tokenStorage,
+ *   'https://api.example.com',
+ *   'client_secret',
+ *   'client_id',
+ *   'openid profile'
+ * );
+ * ```
+ */
 export class AsyncLoginManager extends BaseLoginManager<AsyncTokenStorage> implements LoginManager {
     public async signOut(): Promise<void> {
         await this.storage.resetToken();

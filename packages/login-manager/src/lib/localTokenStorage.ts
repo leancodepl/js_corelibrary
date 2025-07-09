@@ -1,5 +1,20 @@
 import { SyncTokenStorage, Token } from "./tokenStorage"
 
+/**
+ * Stores OAuth2 tokens in browser localStorage.
+ * 
+ * Provides persistent token storage that survives browser sessions.
+ * Implements SyncTokenStorage interface for synchronous operations.
+ * 
+ * @param tokenKey - localStorage key for access token (default: "token")
+ * @param refreshKey - localStorage key for refresh token (default: "refresh_token")
+ * @param expiryKey - localStorage key for expiry date (default: "expiration_date")
+ * @example
+ * ```typescript
+ * const storage = new LocalTokenStorage();
+ * const loginManager = new SyncLoginManager(storage, endpoint, secret, clientId, scopes);
+ * ```
+ */
 export class LocalTokenStorage implements SyncTokenStorage {
     constructor(
         private tokenKey = "token",

@@ -1,11 +1,55 @@
-# api-date
+# @leancodepl/api-date
 
-This library was generated with [Nx](https://nx.dev).
+Type definitions for API date and time handling.
 
-## Building
+## Installation
 
-Run `nx build api-date` to build the library.
+```bash
+npm install @leancodepl/api-date
+# or
+yarn add @leancodepl/api-date
+```
 
-## Running unit tests
+## API
 
-Run `nx test api-date` to execute the unit tests via [Jest](https://jestjs.io).
+### `ApiDateOnly`
+
+Type representing date-only values for API communication.
+
+### `ApiDateTime`
+
+Type representing date and time values for API communication.
+
+### `ApiTimeSpan`
+
+Type representing time span values for API communication.
+
+### `ApiTimeOnly`
+
+Type representing time-only values for API communication.
+
+### `ApiDateTimeOffset`
+
+Type representing date and time with offset values for API communication.
+
+## Usage Examples
+
+### Type Definitions
+
+```typescript
+import { 
+  ApiDateOnly, 
+  ApiDateTime, 
+  ApiTimeSpan, 
+  ApiTimeOnly, 
+  ApiDateTimeOffset 
+} from '@leancodepl/api-date';
+
+interface UserProfile {
+  birthDate: ApiDateOnly;
+  createdAt: ApiDateTime;
+  sessionDuration: ApiTimeSpan;
+  preferredTime: ApiTimeOnly;
+  lastLogin: ApiDateTimeOffset;
+}
+```

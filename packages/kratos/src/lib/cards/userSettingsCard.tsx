@@ -25,6 +25,32 @@ export type UserSettingsCardProps = UserAuthFormAdditionalProps<UpdateSettingsFl
     className?: string
 }
 
+/**
+ * Pre-built settings card component for Kratos settings flows.
+ * 
+ * Renders different settings sections based on flow type: profile, password,
+ * passkey, TOTP, lookup secrets, or OIDC settings management.
+ * 
+ * @param flow - Kratos settings flow object
+ * @param flowType - Type of settings flow to render
+ * @param onSubmit - Form submission handler
+ * @param className - Optional CSS class name
+ * @returns JSX element with settings form or null if flow type unavailable
+ * @example
+ * ```typescript
+ * import { UserSettingsCard } from '@leancodepl/kratos';
+ * 
+ * function ProfileSettings() {
+ *   return (
+ *     <UserSettingsCard
+ *       flow={settingsFlow}
+ *       flowType="profile"
+ *       onSubmit={handleSubmit}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function UserSettingsCard({ flow, flowType, onSubmit, className }: UserSettingsCardProps): JSX.Element | null {
     const {
         components: {
