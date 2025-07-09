@@ -1,12 +1,12 @@
 import { MailpitHelper } from "../services/mailpit/MailpitHelper"
 
-function extractVerificationCodeFromMailText(text: string): string | null {
+function extract6DigitCodeFromMailText(text: string): string | null {
     // Match a 6-digit code that appears on its own line
     const match = text.match(/^\s*(\d{6})\s*$/m)
     return match ? match[1] : null
 }
 
-export const getVerificationCodeFromEmail = async (
+export const get6DigitCodeFromEmail = async (
     mailpit: MailpitHelper,
     email: string,
     options?: { timeout?: number; interval?: number },
@@ -25,5 +25,5 @@ export const getVerificationCodeFromEmail = async (
     const mailMessage = await mailpit.getMail(message.ID)
     const textBody = await mailpit.getMailTextBody(mailMessage)
 
-    return extractVerificationCodeFromMailText(textBody) || ""
+    return extract6DigitCodeFromMailText(textBody) || ""
 }

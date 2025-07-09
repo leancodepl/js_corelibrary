@@ -126,11 +126,13 @@ function TraitsForm({
                 </Facebook>
             )}
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -184,11 +186,13 @@ function ChooseMethodForm({
                 </Passkey>
             )}
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
@@ -223,11 +227,13 @@ function EmailVerificationForm({
                 </button>
             </Resend>
 
-            <div data-testid="errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
+            {errors && errors.length > 0 && (
+                <div data-testid="errors">
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

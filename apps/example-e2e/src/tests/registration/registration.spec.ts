@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { getVerificationCodeFromEmail } from "../../helpers/mails"
+import { get6DigitCodeFromEmail } from "../../helpers/mails"
 import { generateUserData, registerUser } from "../../helpers/users"
 import { WebAuthnHelper } from "../../helpers/webauthn"
 import { LoginPage } from "../../pageObjects/login"
@@ -28,27 +28,28 @@ test.describe("register page", () => {
     })
 
     test("user should be able to register with password", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
-        const mail = new MailpitHelper(page.request)
+        const mail = new MailpitHelper()
+
         const registrationPage = new RegistrationPage(page)
-
         await registrationPage.visit()
+
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         await expect(registrationPage.chooseMethodFormWrapper).toBeVisible()
 
-        await registrationPage.fillChooseMethodForm(USER_DATA.password, USER_DATA.password)
+        await registrationPage.fillChooseMethodForm(userData.password, userData.password)
         await registrationPage.clickRegisterButton()
 
         const registrationResponse = await registrationPage.waitForRegistrationFlowUpdateResponse()
         expect(registrationResponse.status()).toBe(200)
 
-        const verificationCode = await getVerificationCodeFromEmail(mail, USER_DATA.email)
+        const verificationCode = await get6DigitCodeFromEmail(mail, userData.email)
         expect(verificationCode).not.toBeNull()
 
         await expect(registrationPage.emailVerificationFormWrapper).toBeVisible()
@@ -56,21 +57,21 @@ test.describe("register page", () => {
         await registrationPage.fillEmailVerificationCode(verificationCode)
         await registrationPage.clickEmailVerificationSubmitButton()
 
-        await page.waitForURL("**/redirect-after-registration")
-        expect(page.url()).toContain("/redirect-after-registration")
+        await expect(page).toHaveURL(/\/redirect-after-registration$/)
     })
 
     test("should not show password/passkey form with invalid email", async ({ page }) => {
-        const USER_DATA = generateUserData()
-        const registrationPage = new RegistrationPage(page)
+        const userData = generateUserData()
 
+        const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
+
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
         // Fill traits form with invalid data
         await expect(registrationPage.emailInputErrors).toBeHidden()
-        await registrationPage.fillTraitsForm("invalid-email", USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm("invalid-email", userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         // Expect to see errors
@@ -81,16 +82,17 @@ test.describe("register page", () => {
     })
 
     test("should not show password/passkey form without accepting regulations", async ({ page }) => {
-        const USER_DATA = generateUserData()
-        const registrationPage = new RegistrationPage(page)
+        const userData = generateUserData()
 
+        const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
+
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
         // Fill traits form without accepting regulations
         await expect(registrationPage.regulationsCheckboxErrors).toBeHidden()
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, false)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, false)
         await registrationPage.clickRegisterButton()
 
         // Expect to see errors
@@ -101,7 +103,7 @@ test.describe("register page", () => {
     })
 
     test("user should be able to go back to traits form", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
         const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
@@ -109,7 +111,7 @@ test.describe("register page", () => {
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         await expect(registrationPage.chooseMethodFormWrapper).toBeVisible()
@@ -120,14 +122,15 @@ test.describe("register page", () => {
     })
 
     test("should show error after sending empty password", async ({ page }) => {
-        const USER_DATA = generateUserData()
-        const registrationPage = new RegistrationPage(page)
+        const userData = generateUserData()
 
+        const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
+
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         await expect(registrationPage.passwordInputErrors).toBeHidden()
@@ -145,20 +148,21 @@ test.describe("register page", () => {
     })
 
     test("should show error with not matching password confirmation", async ({ page }) => {
-        const USER_DATA = generateUserData()
-        const registrationPage = new RegistrationPage(page)
+        const userData = generateUserData()
 
+        const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
+
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         await expect(registrationPage.passwordInputErrors).toBeHidden()
         await expect(registrationPage.passwordConfirmationInputErrors).toBeHidden()
 
-        await registrationPage.fillChooseMethodForm(USER_DATA.password, "wrongConfirmation")
+        await registrationPage.fillChooseMethodForm(userData.password, "wrongConfirmation")
         await registrationPage.clickRegisterButton()
 
         // Expect to see errors
@@ -170,41 +174,41 @@ test.describe("register page", () => {
     })
 
     test("should resend verification code", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
-        const mail = new MailpitHelper(page.request)
+        const mail = new MailpitHelper()
+
         const registrationPage = new RegistrationPage(page)
-
         await registrationPage.visit()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
-        await registrationPage.fillChooseMethodForm(USER_DATA.password, USER_DATA.password)
+        await registrationPage.fillChooseMethodForm(userData.password, userData.password)
         await registrationPage.clickRegisterButton()
 
         await mail.waitForCondition(
-            () => mail.getEmailsByTo(USER_DATA.email),
+            () => mail.getEmailsByTo(userData.email),
             result => result.messages_count === 1,
         )
 
-        const verificationCode = await getVerificationCodeFromEmail(mail, USER_DATA.email)
+        const verificationCode = await get6DigitCodeFromEmail(mail, userData.email)
         expect(verificationCode).not.toBeNull()
 
         await registrationPage.clickEmailVerificationResendButton()
 
         await mail.waitForCondition(
-            () => mail.getEmailsByTo(USER_DATA.email),
+            () => mail.getEmailsByTo(userData.email),
             result => result.messages_count === 2,
         )
 
-        const secondVerificationCode = await getVerificationCodeFromEmail(mail, USER_DATA.email)
+        const secondVerificationCode = await get6DigitCodeFromEmail(mail, userData.email)
         expect(secondVerificationCode).not.toBeNull()
         expect(secondVerificationCode).not.toEqual(verificationCode)
     })
 
     test("should be able to register with passkey", async ({ page, context }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
         await runKratosContainer({
             SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
@@ -220,15 +224,16 @@ test.describe("register page", () => {
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
         await expect(registrationPage.chooseMethodFormWrapper).toBeVisible()
         await registrationPage.clickPasskeyButton()
         await webAuthnHelper.setUserVerified(true) // Auto-approve the passkey prompt
 
-        await page.waitForURL("**/redirect-after-registration")
-        expect(page.url()).toContain("/redirect-after-registration")
+        await expect(page).toHaveURL(/\/redirect-after-registration$/)
+
+        await webAuthnHelper.removeAuthenticator()
     })
 
     test("should redirect to google after clicking sign up with google button", async ({ page }) => {
@@ -243,12 +248,11 @@ test.describe("register page", () => {
 
         await registrationPage.clickGoogleButton()
 
-        await page.waitForURL("**/accounts.google.com/**")
-        expect(page.url()).toContain("accounts.google.com")
+        await expect(page).toHaveURL(/\/accounts\.google\.com\//)
     })
 
     test("should not show email verification page if not enabled", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
         await runKratosContainer({
             SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
@@ -257,39 +261,35 @@ test.describe("register page", () => {
         const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
 
-        await registrationPage.fillTraitsForm(USER_DATA.email, USER_DATA.firstName, true)
+        await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
-        await registrationPage.fillChooseMethodForm(USER_DATA.password, USER_DATA.password)
+        await registrationPage.fillChooseMethodForm(userData.password, userData.password)
         await registrationPage.clickRegisterButton()
 
         const registrationResponse = await registrationPage.waitForRegistrationFlowUpdateResponse()
         expect(registrationResponse.status()).toBe(200)
 
-        await page.waitForURL("**/redirect-after-registration")
-        expect(page.url()).toContain("/redirect-after-registration")
+        await expect(page).toHaveURL(/\/redirect-after-registration$/)
         await expect(registrationPage.emailVerificationFormWrapper).toBeHidden()
     })
 
     test("should prevent registration if logged in", async ({ page }) => {
-        const USER_DATA = generateUserData()
+        const userData = generateUserData()
 
         await runKratosContainer({
             SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
         })
 
         await registerUser({
-            email: USER_DATA.email,
-            password: USER_DATA.password,
-            firstName: USER_DATA.firstName,
+            email: userData.email,
+            password: userData.password,
+            firstName: userData.firstName,
         })
 
         const loginPage = new LoginPage(page)
         await loginPage.visit()
-        await loginPage.fillIdentifier(USER_DATA.email)
-        await loginPage.fillPassword(USER_DATA.password)
-        await loginPage.clickLogin()
-        await page.waitForURL("**/identity*")
+        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
 
         const registrationPage = new RegistrationPage(page)
         await registrationPage.visit()
