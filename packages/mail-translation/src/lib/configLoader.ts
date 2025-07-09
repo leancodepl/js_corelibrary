@@ -6,6 +6,7 @@ export type OutputMode = "kratos" | "razor"
 export interface MailTranslationConfig {
     translationsPath: string
     mailsPath: string
+    plaintextMailsPath?: string
     outputPath?: string
     outputMode?: OutputMode
     defaultLanguage?: string
@@ -118,7 +119,7 @@ export function getDefaultConfig(): CliConfig {
 export function mergeWithDefaults(config: Partial<CliConfig>): CliConfig {
     const defaults = getDefaultConfig()
 
-    return {
+    const merged = {
         ...defaults,
         ...config,
         mjmlOptions: {
@@ -126,4 +127,11 @@ export function mergeWithDefaults(config: Partial<CliConfig>): CliConfig {
             ...config.mjmlOptions,
         },
     }
+
+    // If plaintextMailsPath is not provided, use mailsPath as fallback
+    if (!merged.plaintextMailsPath) {
+        merged.plaintextMailsPath = merged.mailsPath
+    }
+
+    return merged
 }

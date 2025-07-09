@@ -9,6 +9,7 @@ import { getTranslationsForLanguage, loadTranslations, TranslationData } from ".
 export interface MailTranslatorOptions {
     translationsPath: string
     mailsPath: string
+    plaintextMailsPath?: string
     outputPath?: string
     outputMode?: OutputMode
     defaultLanguage?: string
@@ -20,6 +21,7 @@ export interface TranslatedMail {
     language: string
     mjml: string
     html: string
+    plaintext?: string
     errors: Array<{
         line: number
         message: string
@@ -75,10 +77,63 @@ export class MailTranslator {
     }
 
     /**
+     * Load all plaintext templates from the plaintext mails directory
+     */
+    async loadPlaintextTemplates(): Promise<{ [name: string]: string }> {
+        const templates: { [name: string]: string } = {}
+        const plaintextPath = this.options.plaintextMailsPath || this.options.mailsPath
+
+        try {
+            const exists = await fs.pathExists(plaintextPath)
+            if (!exists) {
+                // If plaintext directory doesn't exist, return empty templates
+                return templates
+            }
+
+            const files = await fs.readdir(plaintextPath)
+            const outputMode = this.options.outputMode || "kratos"
+
+            // Filter files based on output mode
+            let plaintextFiles: string[]
+            if (outputMode === "kratos") {
+                // Look for .plaintext.gotmpl files
+                plaintextFiles = files.filter(file => file.endsWith(".plaintext.gotmpl"))
+            } else {
+                // Look for .txt.cshtml files
+                plaintextFiles = files.filter(file => file.endsWith(".txt.cshtml"))
+            }
+
+            for (const file of plaintextFiles) {
+                let templateName: string
+                if (outputMode === "kratos") {
+                    // Remove .plaintext.gotmpl extension
+                    templateName = file.replace(/\.plaintext\.gotmpl$/, "")
+                } else {
+                    // Remove .txt.cshtml extension
+                    templateName = file.replace(/\.txt\.cshtml$/, "")
+                }
+
+                const filePath = path.join(plaintextPath, file)
+                const content = await fs.readFile(filePath, "utf8")
+                templates[templateName] = content
+            }
+
+            return templates
+        } catch (error) {
+            throw new Error(`Failed to load plaintext templates: ${error}`)
+        }
+    }
+
+    /**
      * Translate a single template for a specific language
      * New order: 1) MJML compilation, 2) Translation processing, 3) Output
      */
-    translateTemplate(templateName: string, templateContent: string, language: string): TranslatedMail {
+    translateTemplate(
+        templateName: string,
+        templateContent: string,
+        language: string,
+        plaintextContent?: string,
+    ): TranslatedMail {
         // Step 1: Compile MJML first (this resolves all mj-include tags)
         const mjmlOptions = {
             ...this.options.mjmlOptions,
@@ -92,11 +147,18 @@ export class MailTranslator {
         const outputMode = this.options.outputMode || "kratos"
         const translatedHtml = processTemplate(compileResult.html, translations, language, outputMode)
 
+        // Step 3: Process plaintext template if provided
+        let translatedPlaintext: string | undefined
+        if (plaintextContent) {
+            translatedPlaintext = processTemplate(plaintextContent, translations, language, outputMode)
+        }
+
         return {
             name: templateName,
             language,
             mjml: templateContent, // Keep original MJML for reference
             html: translatedHtml,
+            plaintext: translatedPlaintext,
             errors: compileResult.errors,
         }
     }
@@ -106,10 +168,12 @@ export class MailTranslator {
      */
     async translateAllTemplates(language: string): Promise<TranslatedMail[]> {
         const templates = await this.loadTemplates()
+        const plaintextTemplates = await this.loadPlaintextTemplates()
         const translatedMails: TranslatedMail[] = []
 
         for (const [templateName, templateContent] of Object.entries(templates)) {
-            const translatedMail = this.translateTemplate(templateName, templateContent, language)
+            const plaintextContent = plaintextTemplates[templateName]
+            const translatedMail = this.translateTemplate(templateName, templateContent, language, plaintextContent)
             translatedMails.push(translatedMail)
         }
 
@@ -121,13 +185,15 @@ export class MailTranslator {
      */
     async translateAllTemplatesAllLanguages(): Promise<{ [language: string]: TranslatedMail[] }> {
         const templates = await this.loadTemplates()
+        const plaintextTemplates = await this.loadPlaintextTemplates()
         const result: { [language: string]: TranslatedMail[] } = {}
 
         for (const language of Object.keys(this.translationData)) {
             result[language] = []
 
             for (const [templateName, templateContent] of Object.entries(templates)) {
-                const translatedMail = this.translateTemplate(templateName, templateContent, language)
+                const plaintextContent = plaintextTemplates[templateName]
+                const translatedMail = this.translateTemplate(templateName, templateContent, language, plaintextContent)
                 result[language].push(translatedMail)
             }
         }
