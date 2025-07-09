@@ -6,6 +6,7 @@ module.exports = [
             perfectionist,
         },
         rules: {
+            curly: ["error", "multi-line"],
             "max-params": ["error", { max: 4 }],
             "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
             "no-eval": "error",
@@ -14,7 +15,17 @@ module.exports = [
             "@typescript-eslint/no-empty-function": "off",
             "@typescript-eslint/no-empty-object-type": "off",
             "@typescript-eslint/no-explicit-any": "off",
-
+            "@typescript-eslint/naming-convention": [
+                "error",
+                {
+                    selector: "variable",
+                    format: ["camelCase"],
+                },
+                {
+                    selector: "variableLike",
+                    format: ["camelCase"],
+                },
+            ],
             "perfectionist/sort-array-includes": [
                 "error",
                 {
