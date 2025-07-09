@@ -237,9 +237,6 @@ test.describe("register page", () => {
     })
 
     test("should redirect to google after clicking sign up with google button", async ({ page }) => {
-        // page.on("request", request => console.log(">>", request.method(), request.url()))
-        // page.on("response", response => console.log("<<", response.status(), response.url()))
-
         const registrationPage = new RegistrationPage(page)
 
         await registrationPage.visit()

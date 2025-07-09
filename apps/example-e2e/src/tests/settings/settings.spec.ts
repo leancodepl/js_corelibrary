@@ -153,9 +153,6 @@ test.describe("settings page", () => {
         })
 
         test("should require re-authentication for traits update if privileged session expired", async ({ page }) => {
-            page.on("request", request => console.log(">>", request.method(), request.url()))
-            page.on("response", response => console.log("<<", response.status(), response.url()))
-
             const userData = generateUserData()
 
             await runKratosContainer({
