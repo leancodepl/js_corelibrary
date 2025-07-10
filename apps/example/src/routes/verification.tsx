@@ -27,16 +27,18 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
-        <VerificationFlow
-            emailVerificationForm={EmailVerificationForm}
-            onVerificationSuccess={() => {
-                alert("Recovery successful")
-            }}
-            initialFlowId={flow}
-            onError={handleError}
-            onFlowRestart={removeFlowIdFromUrl}
-            returnTo="/redirect-after-recovery"
-        />
+        <div data-testid="verification-page">
+            <VerificationFlow
+                emailVerificationForm={EmailVerificationForm}
+                onVerificationSuccess={() => {
+                    alert("Recovery successful")
+                }}
+                initialFlowId={flow}
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
+                returnTo="/redirect-after-verification"
+            />
+        </div>
     )
 }
 
@@ -48,17 +50,23 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <>
+        <div data-testid="email-verification-form">
             <Code>
-                <Input placeholder="Code" disabled={isSubmitting || isValidating} />
+                <Input
+                    data-testid="verification-code-input"
+                    placeholder="Code"
+                    disabled={isSubmitting || isValidating}
+                />
             </Code>
 
-            <button type="submit" disabled={isSubmitting || isValidating}>
+            <button data-testid="verify-button" type="submit" disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button disabled={isSubmitting || isValidating}>Resend code</button>
+                <button data-testid="resend-code-button" disabled={isSubmitting || isValidating}>
+                    Resend code
+                </button>
             </Resend>
 
             {errors && errors.length > 0 && (
@@ -68,6 +76,6 @@ function EmailVerificationForm({
                     ))}
                 </div>
             )}
-        </>
+        </div>
     )
 }

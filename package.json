@@ -12,6 +12,7 @@
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
+    "@faker-js/faker": "^9.9.0",
     "@nx/devkit": "20.7.1",
     "@nx/eslint": "20.6.4",
     "@nx/eslint-plugin": "20.6.4",

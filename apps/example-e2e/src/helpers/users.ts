@@ -1,42 +1,19 @@
-export const generatePassword = (length = 12) => {
-    const lowLettersCharset = "abcdefghijklmnopqrstuvwxyz"
-    const highLettersCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    const numbersCharset = "0123456789"
-    const specialCharsCharset = "!@#$%^&*()_+[]{}|;:,.<>?`~"
+import { faker } from "@faker-js/faker"
+import { Configuration, IdentityApi } from "packages/kratos/src/lib/kratos"
 
-    const allChars = lowLettersCharset + highLettersCharset + numbersCharset + specialCharsCharset
+export const generateEmail = () =>
+    faker.internet.email({
+        provider: "tmpmail.leancode.dev",
+    })
 
-    if (length < 4) {
-        throw new Error("Password length must be at least 4 to include all character types.")
-    }
+export const generatePassword = () =>
+    faker.internet.password({
+        length: 12,
+    })
 
-    const getRandomChar = (charset: string) => charset[Math.floor(Math.random() * charset.length)]
+export const generateFirstName = () => faker.person.firstName()
 
-    // Ensure at least one character from each charset
-    const passwordChars = [
-        getRandomChar(lowLettersCharset),
-        getRandomChar(highLettersCharset),
-        getRandomChar(numbersCharset),
-        getRandomChar(specialCharsCharset),
-    ]
-
-    // Fill the rest with random characters from all charsets
-    for (let i = 4; i < length; i++) {
-        passwordChars.push(getRandomChar(allChars))
-    }
-
-    // Shuffle the result to avoid predictable positions
-    for (let i = passwordChars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]]
-    }
-
-    return passwordChars.join("")
-}
-
-export const generateEmail = () => `user_${Date.now()}@tmpmail.leancode.dev`
-export const generateFirstName = () => `FirstName_${Date.now()}`
-export const generateLastName = () => `LastName_${Date.now()}`
+export const generateLastName = () => faker.person.lastName()
 
 export const generateUserData = () => ({
     email: generateEmail(),
@@ -44,6 +21,12 @@ export const generateUserData = () => ({
     firstName: generateFirstName(),
     lastName: generateLastName(),
 })
+
+const api = new IdentityApi(
+    new Configuration({
+        basePath: "http://localhost:34434",
+    }),
+)
 
 export const registerUser = async ({
     email,
@@ -56,12 +39,8 @@ export const registerUser = async ({
     firstName: string
     verified?: boolean
 }) => {
-    await fetch("http://localhost:34434/admin/identities", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    await api.createIdentity({
+        createIdentityBody: {
             credentials: {
                 password: {
                     config: {
@@ -71,8 +50,9 @@ export const registerUser = async ({
             },
             recovery_addresses: [
                 {
-                    created_at: "2019-08-24T14:15:22Z",
-                    updated_at: "2019-08-24T14:15:22Z",
+                    id: faker.string.uuid(),
+                    created_at: new Date(),
+                    updated_at: new Date(),
                     value: email,
                     via: "string",
                 },
@@ -85,15 +65,16 @@ export const registerUser = async ({
             },
             verifiable_addresses: [
                 {
-                    created_at: "2014-01-01T23:28:56.782Z",
+                    created_at: new Date(),
                     status: "string",
-                    updated_at: "2014-01-01T23:28:56.782Z",
+                    updated_at: new Date(),
                     value: email,
                     verified,
-                    verified_at: "2019-08-24T14:15:22Z",
+                    verified_at: new Date(),
                     via: "email",
                 },
             ],
-        }),
+            schema_id: "user",
+        },
     })
 }

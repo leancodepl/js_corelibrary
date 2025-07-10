@@ -5,7 +5,48 @@ import path = require("path")
 let mailpitContainer: StartedTestContainer
 let kratosContainer: StartedTestContainer
 
-export const runKratosContainer = async (envs: Environment = {}) => {
+type KratosConfigRules = {
+    totpMethodEnabled?: boolean
+    oidcMethodsEnabled?: boolean
+    passkeyMethodEnabled?: boolean
+    verificationFlowEnabled?: boolean
+    requireVerificationOnLogin?: boolean
+    settingsPrivilegedSession?: "long" | "short"
+}
+
+const mapConfigRulesToEnvs = (rules: KratosConfigRules): Environment => {
+    const envs: Environment = {}
+
+    if (rules.totpMethodEnabled !== undefined) {
+        envs.SELFSERVICE_METHODS_TOTP_ENABLED = rules.totpMethodEnabled.toString()
+    }
+
+    if (rules.oidcMethodsEnabled !== undefined) {
+        envs.SELFSERVICE_METHODS_OIDC_ENABLED = rules.oidcMethodsEnabled.toString()
+    }
+
+    if (rules.passkeyMethodEnabled !== undefined) {
+        envs.SELFSERVICE_METHODS_PASSKEY_ENABLED = rules.passkeyMethodEnabled.toString()
+    }
+
+    if (rules.verificationFlowEnabled !== undefined) {
+        envs.SELFSERVICE_FLOWS_VERIFICATION_ENABLED = rules.verificationFlowEnabled.toString()
+    }
+
+    if (rules.requireVerificationOnLogin !== undefined) {
+        envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_HOOK = "verification"
+        envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_1_HOOK = "show_verification_ui"
+    }
+
+    if (rules.settingsPrivilegedSession !== undefined) {
+        envs.SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE =
+            rules.settingsPrivilegedSession === "long" ? "15m" : "1s"
+    }
+
+    return envs
+}
+
+export const runKratosContainer = async (rules: KratosConfigRules = {}) => {
     await stopKratosContainer()
 
     //   docker run -it -p 34433:4433 -p 34434:4434 \
@@ -19,7 +60,7 @@ export const runKratosContainer = async (envs: Environment = {}) => {
                 mode: "ro",
             },
         ])
-        .withEnvironment(envs)
+        .withEnvironment(mapConfigRulesToEnvs(rules))
         .withExposedPorts({ container: 4433, host: 34433 })
         .withExposedPorts({ container: 4434, host: 34434 })
         .withWaitStrategy(Wait.forListeningPorts())

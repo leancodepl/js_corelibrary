@@ -132,8 +132,7 @@ test.describe("login page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_HOOK: "verification",
-            SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_1_HOOK: "show_verification_ui",
+            requireVerificationOnLogin: true,
         })
 
         await registerUser({
@@ -176,7 +175,7 @@ test.describe("login page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         await registerUser({

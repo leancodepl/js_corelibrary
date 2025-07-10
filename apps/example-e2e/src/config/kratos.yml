@@ -9,7 +9,6 @@ serve:
             enabled: true
             allowed_origins:
                 - http://localhost:4300
-                - http://localhost:4301
                 - http://localhost:4200
 
 cookies:
@@ -36,10 +35,7 @@ selfservice:
     default_browser_return_url: http://localhost:4300
     allowed_return_urls:
         - http://localhost:4300
-        - http://localhost:4301
         - http://localhost:4200
-        - https://host.local.lncd.pl
-
     methods:
         link:
             config:
@@ -61,15 +57,12 @@ selfservice:
                     id: "localhost"
                     origins:
                         - http://localhost:4300
-                        - http://localhost:4301
                         - http://localhost:4200
-                        - http://localhost:34433
 
         profile:
             enabled: true
         code:
             enabled: true
-            # mfa_enabled: true
         oidc:
             enabled: true
             config:
@@ -87,138 +80,41 @@ selfservice:
                       mapper_url: file:///home/ory/common/kratos/oidc.google.mapper.jsonnet
     flows:
         login:
-            # ui_url: https://kratos-ui.${domain}/login
             ui_url: http://localhost:4300/login
             lifespan: 1h
-            # after:
-            #     hooks:
-            #         - hook: require_verified_address
-            #     password:
-            #         hooks:
-            #             - hook: verification
-            #             - hook: show_verification_ui
-            #     passkey:
-            #         hooks:
-            #             - hook: verification
-            #             - hook: show_verification_ui
         registration:
-            # ui_url: https://kratos-ui.${domain}/registration
             ui_url: http://localhost:4300/registration
             lifespan: 1h
             enabled: true
-            # enable_legacy_one_step: false
-            # after:
-            #     password:
-            #         hooks:
-            #             - hook: web_hook
-            #               config:
-            #                   url: "${api}/kratos/sync-identity"
-            #                   method: POST
-            #                   auth:
-            #                       type: api_key
-            #                       config:
-            #                           in: header
-            #                           name: X-Api-Key
-            #                           value: "${web_hook_api_key}"
-            #                   body: file:///home/ory/common/kratos/webhook.identity.mapper.jsonnet
-            #                   response:
-            #                       ignore: true
-            #                       parse: false
-            #     oidc:
-            #         hooks:
-            #             - hook: session
-            #             - hook: web_hook
-            #               config:
-            #                   url: "${api}/kratos/sync-identity"
-            #                   method: POST
-            #                   auth:
-            #                       type: api_key
-            #                       config:
-            #                           in: header
-            #                           name: X-Api-Key
-            #                           value: "${web_hook_api_key}"
-            #                   body: file:///home/ory/common/kratos/webhook.identity.mapper.jsonnet
-            #                   response:
-            #                       ignore: true
-            #                       parse: false
         verification:
-            # ui_url: https://kratos-ui.${domain}/verification
             ui_url: http://localhost:4300/verification
             enabled: true
             use: code
             after:
-                default_browser_return_url: http://localhost:4300/
-                # hooks:
-                #     - hook: web_hook
-                #       config:
-                #           url: "${api}/kratos/sync-identity"
-                #           method: POST
-                #           auth:
-                #               type: api_key
-                #               config:
-                #                   in: header
-                #                   name: X-Api-Key
-                #                   value: "${web_hook_api_key}"
-                #           body: file:///home/ory/common/kratos/webhook.identity.mapper.jsonnet
-                #           response:
-                #               ignore: true
-                #               parse: false
+                default_browser_return_url: http://localhost:4300
         recovery:
-            # ui_url: https://kratos-ui.${domain}/recovery
             ui_url: http://localhost:4300/recovery
             enabled: true
             use: code
-            # after:
-            #     hooks:
-            #         - hook: web_hook
-            #           config:
-            #               url: "${api}/kratos/sync-identity"
-            #               method: POST
-            #               auth:
-            #                   type: api_key
-            #                   config:
-            #                       in: header
-            #                       name: X-Api-Key
-            #                       value: "${web_hook_api_key}"
-            #               body: file:///home/ory/common/kratos/webhook.identity.mapper.jsonnet
-            #               response:
-            #                   ignore: true
-            #                   parse: false
         settings:
-            # ui_url: https://kratos-ui.${domain}/settings
             ui_url: http://localhost:4300/settings
             privileged_session_max_age: 15m
-            # after:
-            #     hooks:
-            #         - hook: web_hook
-            #           config:
-            #               url: "${api}/kratos/sync-identity"
-            #               method: POST
-            #               auth:
-            #                   type: api_key
-            #                   config:
-            #                       in: header
-            #                       name: X-Api-Key
-            #                       value: "${web_hook_api_key}"
-            #               body: file:///home/ory/common/kratos/webhook.identity.mapper.jsonnet
-            #               response:
-            #                   ignore: true
-            #                   parse: false
         error:
             ui_url: http://localhost:4300/error
-log:
-    level: info
-    format: json
+
 ciphers:
     algorithm: xchacha20-poly1305
+
 hashers:
     algorithm: bcrypt
     bcrypt:
         cost: 8
+
 identity:
     default_schema_id: user
     schemas:
         - id: user
           url: file:///home/ory/common/kratos/identity.user.schema.json
+
 feature_flags:
     use_continue_with_transitions: true
