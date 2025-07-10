@@ -1,9 +1,7 @@
 import { MailpitHelper } from "../services/mailpit/MailpitHelper"
 
-function extract6DigitCodeFromMailText(text: string): string | null {
-    // Match a 6-digit code that appears on its own line
-    const match = text.match(/^\s*(\d{6})\s*$/m)
-    return match ? match[1] : null
+function extract6DigitCodeFromMailText(text: string) {
+    return text.match(/^\s*(\d{6})\s*$/m)?.[1] ?? null
 }
 
 export const get6DigitCodeFromEmail = async (
@@ -25,5 +23,5 @@ export const get6DigitCodeFromEmail = async (
     const mailMessage = await mailpit.getMail(message.ID)
     const textBody = await mailpit.getMailTextBody(mailMessage)
 
-    return extract6DigitCodeFromMailText(textBody) || ""
+    return extract6DigitCodeFromMailText(textBody)
 }

@@ -127,7 +127,7 @@ export class LoginPage extends CommonPage {
     }
 
     async getErrors(): Promise<string[]> {
-        return this.errors.allTextContents()
+        return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
     }
 
     // Second factor form

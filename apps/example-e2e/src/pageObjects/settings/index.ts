@@ -107,7 +107,24 @@ export class SettingsPage extends CommonPage {
         await this.page.goto(SettingsPage.route)
     }
 
-    // Traits form actions
+    async waitForSettingsFlowGetResponse(flowId?: string) {
+        return this.page.waitForResponse(response =>
+            response.url().includes(`/self-service/settings/flows?id=${flowId ?? ""}`),
+        )
+    }
+
+    async waitForSettingsFlowUpdateResponse(flowId?: string) {
+        return this.page.waitForResponse(response =>
+            response.url().includes(`/self-service/settings?flow=${flowId ?? ""}`),
+        )
+    }
+
+    async waitForSettingsFlowCreateResponse() {
+        return this.page.waitForResponse(response => response.url().includes("self-service/settings/browser"))
+    }
+
+    // Traits form
+
     async fillEmail(email: string) {
         await this.emailInput.fill(email)
     }
@@ -126,10 +143,11 @@ export class SettingsPage extends CommonPage {
     }
 
     async getTraitsFormErrors(): Promise<string[]> {
-        return this.traitsFormErrors.allTextContents()
+        return (await this.traitsFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
-    // New password form actions
+    // New password form
+
     async fillNewPasswordForm(password: string, confirmation: string) {
         await this.newPasswordInput.fill(password)
         await this.newPasswordConfirmationInput.fill(confirmation)
@@ -140,10 +158,11 @@ export class SettingsPage extends CommonPage {
     }
 
     async getNewPasswordFormErrors(): Promise<string[]> {
-        return this.newPasswordFormErrors.allTextContents()
+        return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
-    // Passkeys form actions
+    // Passkeys form
+
     async clickAddNewPasskeyButton() {
         await this.addNewPasskeyButton.click()
     }
@@ -152,7 +171,8 @@ export class SettingsPage extends CommonPage {
         await this.removePasskeyButton.click()
     }
 
-    // TOTP form actions
+    // TOTP form
+
     async fillTotpCode(code: string) {
         await this.totpCodeInput.fill(code)
     }
@@ -166,10 +186,11 @@ export class SettingsPage extends CommonPage {
     }
 
     async getTotpFormErrors(): Promise<string[]> {
-        return this.totpFormErrors.allTextContents()
+        return (await this.totpFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
-    // OIDC form actions
+    // OIDC form
+
     async clickAppleButton() {
         await this.appleButton.click()
     }
@@ -180,21 +201,5 @@ export class SettingsPage extends CommonPage {
 
     async clickGoogleButton() {
         await this.googleButton.click()
-    }
-
-    async waitForSettingsFlowGetResponse(flowId?: string) {
-        return this.page.waitForResponse(response =>
-            response.url().includes(`/self-service/settings/flows?id=${flowId ?? ""}`),
-        )
-    }
-
-    async waitForSettingsFlowUpdateResponse(flowId?: string) {
-        return this.page.waitForResponse(response =>
-            response.url().includes(`/self-service/settings?flow=${flowId ?? ""}`),
-        )
-    }
-
-    async waitForSettingsFlowCreateResponse() {
-        return this.page.waitForResponse(response => response.url().includes("self-service/settings/browser"))
     }
 }

@@ -53,7 +53,8 @@ export class RecoveryPage extends CommonPage {
         await this.page.goto(RecoveryPage.route)
     }
 
-    // Email form actions
+    // Email form
+
     async fillEmail(email: string) {
         await this.emailInput.fill(email)
     }
@@ -66,7 +67,8 @@ export class RecoveryPage extends CommonPage {
         return (await this.emailFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
-    // Code form actions
+    // Code form
+
     async fillCode(code: string) {
         await this.codeInput.fill(code)
     }
@@ -79,7 +81,8 @@ export class RecoveryPage extends CommonPage {
         return (await this.codeFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
-    // New password form actions
+    // New password form
+
     async fillNewPassword(password: string, confirmation: string) {
         await this.newPasswordInput.fill(password)
         await this.newPasswordConfirmationInput.fill(confirmation)
