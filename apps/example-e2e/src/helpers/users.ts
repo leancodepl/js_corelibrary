@@ -66,11 +66,11 @@ export const registerUser = async ({
             verifiable_addresses: [
                 {
                     created_at: new Date(),
-                    status: "string",
+                    status: "sent",
                     updated_at: new Date(),
                     value: email,
                     verified,
-                    verified_at: new Date(),
+                    verified_at: verified ? new Date() : undefined,
                     via: "email",
                 },
             ],
