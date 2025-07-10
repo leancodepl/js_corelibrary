@@ -12,7 +12,7 @@ import { OnSettingsFlowError } from "./types"
 export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     traitsConfig?: TTraitsConfig
     traitsForm?: ComponentType<TraitsFormProps<TTraitsConfig>>
-    newPasswordForm: ComponentType<NewPasswordFormProps>
+    newPasswordForm?: ComponentType<NewPasswordFormProps>
     passkeysForm?: ComponentType<PasskeysFormProps>
     totpForm?: ComponentType<TotpFormProps>
     oidcForm?: ComponentType<OidcFormProps>
@@ -74,12 +74,14 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
             emailVerificationRequired={emailVerificationRequired}
             isLoading={!settingsFlow}
             newPasswordForm={
-                <NewPasswordFormWrapper
-                    emailVerificationRequired={emailVerificationRequired}
-                    newPasswordForm={NewPasswordForm}
-                    onChangePasswordSuccess={onChangePasswordSuccess}
-                    onError={onError}
-                />
+                NewPasswordForm && (
+                    <NewPasswordFormWrapper
+                        emailVerificationRequired={emailVerificationRequired}
+                        newPasswordForm={NewPasswordForm}
+                        onChangePasswordSuccess={onChangePasswordSuccess}
+                        onError={onError}
+                    />
+                )
             }
             oidcForm={OidcForm && <OidcFormWrapper oidcForm={OidcForm} />}
             passkeysForm={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
