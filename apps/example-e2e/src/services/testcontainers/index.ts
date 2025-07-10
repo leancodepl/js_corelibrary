@@ -49,9 +49,6 @@ const mapConfigRulesToEnvs = (rules: KratosConfigRules): Environment => {
 export const runKratosContainer = async (rules: KratosConfigRules = {}) => {
     await stopKratosContainer()
 
-    //   docker run -it -p 34433:4433 -p 34434:4434 \
-    //   --mount type=bind,source="$(pwd)",target=/home/ory \
-    //   oryd/kratos:v1.3.1 serve --watch-courier --config /home/ory/kratos.yml
     kratosContainer = await new GenericContainer("oryd/kratos:v1.3.1")
         .withBindMounts([
             {
@@ -77,7 +74,6 @@ export const stopKratosContainer = async () => {
 export const runMailpitContainer = async (envs: Environment = {}) => {
     await stopMailpitContainer()
 
-    // docker run -it -p 8025:8025 -p 1025:1025 axllent/mailpit
     mailpitContainer = await new GenericContainer("axllent/mailpit")
         .withEnvironment(envs)
         .withExposedPorts({ container: 8025, host: 8025 })
