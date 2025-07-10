@@ -88,46 +88,6 @@ test.describe("login page", () => {
         await expect(loginPage.errors).toBeVisible()
     })
 
-    // test("should be able to login with valid email and passkey after registration", async ({ page, context }) => {
-    //     const userData = generateUserData()
-
-    //     await runKratosContainer({
-    //         SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-    //     })
-
-    //     // Create and setup the virtual passkey device
-    //     const webAuthnHelper = new WebAuthnHelper(page, context)
-    //     await webAuthnHelper.setupWebAuthnEnvironment()
-
-    //     const registrationPage = new RegistrationPage(page)
-
-    //     await registrationPage.visit()
-    //     await expect(registrationPage.wrapper).toBeVisible()
-    //     await expect(registrationPage.traitsFormWrapper).toBeVisible()
-
-    //     await registrationPage.fillTraitsForm(userData.email, userData.firstName, true)
-    //     await registrationPage.clickRegisterButton()
-
-    //     await expect(registrationPage.chooseMethodFormWrapper).toBeVisible()
-    //     await registrationPage.clickPasskeyButton()
-    //     await webAuthnHelper.setUserVerified(true) // Auto-approve the passkey prompt
-
-    //     await expect(page).toHaveURL(/\/redirect-after-registration$/)
-
-    //     const loginPage = new LoginPage(page)
-    //     await loginPage.visit()
-    //     await loginPage.clickPasskey()
-
-    //     await page.waitForTimeout(5000)
-    //     console.log(await page.innerHTML("body"))
-    //     await expect(page).toHaveURL(/\/identity.*/)
-    //     const identityPage = new IdentityPage(page)
-    //     await expect(identityPage.wrapper).toBeVisible()
-    //     await identityPage.assertEmail(userData.email)
-
-    //     await webAuthnHelper.removeAuthenticator()
-    // })
-
     test("should require email verification if active and user email not verified", async ({ page }) => {
         const userData = generateUserData()
 
