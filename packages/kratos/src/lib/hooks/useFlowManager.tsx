@@ -19,11 +19,11 @@ export const useFlowManager = ({
     setFlowId,
 }: UseFlowManagerProps) => {
     const [initialFlowIdUsed, setInitialFlowIdUsed] = useState(false)
-    const [tempInitialFlowId, setTempInitialFlowId] = useState(initialFlowId)
+    const [prevInitialFlowId, setPrevInitialFlowId] = useState(initialFlowId)
 
-    if (tempInitialFlowId !== initialFlowId) {
+    if (prevInitialFlowId !== initialFlowId) {
         setInitialFlowIdUsed(false)
-        setTempInitialFlowId(initialFlowId)
+        setPrevInitialFlowId(initialFlowId)
     }
 
     useEffect(() => {
