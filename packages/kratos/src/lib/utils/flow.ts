@@ -1,11 +1,13 @@
 import {
     getNodeId,
+    handleFlowError,
     isUiNodeInputAttributes,
     UiNode,
     UiNodeGroupEnum,
     UiNodeScriptAttributesNodeTypeEnum,
     UiNodeTypeEnum,
 } from "../kratos"
+import { GetFlowError } from "../types"
 
 export function getNodeById(nodes: UiNode[] | undefined, name: string) {
     return nodes?.find(node => getNodeId(node) === name)
@@ -82,4 +84,42 @@ export const isPasskeyRemoveUiNode = (
         "added_at_unix" in context &&
         typeof context.added_at_unix === "number"
     )
+}
+
+export const providers = ["apple", "facebook", "google"] as const
+
+export type OidcProvider = (typeof providers)[number]
+
+export type OidcProviderUiNode = UiNode & {
+    group: "oidc"
+    attributes: {
+        node_type: "input"
+        value: OidcProvider
+    }
+}
+
+export const isOidcProviderUiNode = (node: UiNode): node is OidcProviderUiNode => {
+    return node.group === "oidc" && node.attributes.node_type === "input" && providers.includes(node.attributes.value)
+}
+
+export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: OidcProvider) => {
+    return (
+        nodes?.find(
+            (node): node is OidcProviderUiNode => isOidcProviderUiNode(node) && node.attributes.value === provider,
+        ) ?? undefined
+    )
+}
+
+export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown }): Promise<TFlow | undefined> => {
+    return (await handleFlowError<TFlow>({
+        onRedirect: (url, _external) => {
+            window.location.href = url
+        },
+        onRestartFlow: () => {
+            throw new Error("Needs to restart the flow", {
+                cause: GetFlowError.FlowRestartRequired,
+            })
+        },
+        onValidationError: body => body,
+    })(error)) as TFlow | undefined
 }

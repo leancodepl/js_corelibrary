@@ -3,6 +3,7 @@
   "version": "8.3.6",
   "license": "Apache-2.0",
   "dependencies": {
+    "@leancodepl/utils": "8.3.6",
     "@radix-ui/react-slot": ">=1.0.0",
     "@tanstack/react-form": ">=1.0.0",
     "rxjs": ">=7.0.0"

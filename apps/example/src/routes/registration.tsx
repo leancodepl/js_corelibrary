@@ -6,6 +6,7 @@ import { z } from "zod"
 import { RegistrationFlow, getErrorMessage, sessionManager } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
+import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/registration")({
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
+    const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     if (isLoading) {
         return <p>Loading registration page...</p>
@@ -49,6 +51,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
+            onFlowRestart={removeFlowIdFromUrl}
             returnTo="/redirect-after-registration"
         />
     )

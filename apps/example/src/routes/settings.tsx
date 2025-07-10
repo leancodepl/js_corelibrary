@@ -3,6 +3,7 @@ import { settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { Input } from "../components/Input"
 import { AuthTraitsConfig, getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
+import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 
 const settingsSearchSchema = z.object({
     flow: z.string().optional(),
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/settings")({
 function RouteComponent() {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
     const { flow } = Route.useSearch()
+    const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     if (isLoading) {
         return <p>Loading settings page...</p>
@@ -66,6 +68,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
+            onFlowRestart={removeFlowIdFromUrl}
         />
     )
 }

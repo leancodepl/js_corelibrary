@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { getErrorMessage, RecoveryFlow } from "../services/kratos"
 import { Input } from "../components/Input"
+import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 
 const recoverySearchSchema = z.object({
     flow: z.string().optional(),
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/recovery")({
 
 function RouteComponent() {
     const { flow } = Route.useSearch()
+    const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
         <RecoveryFlow
@@ -34,6 +36,7 @@ function RouteComponent() {
             }}
             initialFlowId={flow}
             onError={handleError}
+            onFlowRestart={removeFlowIdFromUrl}
             returnTo="/redirect-after-recovery"
         />
     )

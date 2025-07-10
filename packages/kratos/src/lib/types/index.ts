@@ -16,3 +16,8 @@ export type ApiResponseWithResult<TResult> =
           isSuccess: true
           result: TResult
       }
+
+export enum GetFlowError {
+    NoFlowId,
+    FlowRestartRequired,
+}

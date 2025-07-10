@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
-import { handleFlowError, SettingsFlow, UpdateSettingsFlowBody } from "../../../kratos"
+import { handleContinueWith, handleFlowError, SettingsFlow, UpdateSettingsFlowBody } from "../../../kratos"
 import { settingsFlowKey } from "./queryKeys"
 import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useUpdateSettingsFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { settingsFlowId, resetContext, setEmailVerificationRequired } = useSettingsFlowContext()
+    const { settingsFlowId, resetFlow, setEmailVerificationRequired } = useSettingsFlowContext()
     const client = useQueryClient()
 
     return useMutation<SettingsFlow | undefined, Error, UpdateSettingsFlowBody, unknown>({
@@ -25,6 +25,12 @@ export function useUpdateSettingsFlow() {
 
                     if (showVerificationUI) {
                         setEmailVerificationRequired(true)
+                    } else {
+                        handleContinueWith(data.continue_with, {
+                            onRedirect: (url, _external) => {
+                                window.location.href = url
+                            },
+                        })
                     }
                 }
 
@@ -35,7 +41,7 @@ export function useUpdateSettingsFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as SettingsFlow | undefined
             }

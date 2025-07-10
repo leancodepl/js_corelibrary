@@ -3,7 +3,7 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 type RecoveryFlowContext = {
     recoveryFlowId?: string
     setRecoveryFlowId: (recoveryFlowId: string | undefined) => void
-    resetContext: () => void
+    resetFlow: () => void
 }
 
 const recoveryFlowContext = createContext<RecoveryFlowContext | undefined>(undefined)
@@ -11,7 +11,7 @@ const recoveryFlowContext = createContext<RecoveryFlowContext | undefined>(undef
 export function RecoveryFlowProvider({ children }: { children: ReactNode }) {
     const [recoveryFlowId, setRecoveryFlowId] = useState<string>()
 
-    const resetContext = useCallback(() => {
+    const resetFlow = useCallback(() => {
         setRecoveryFlowId(undefined)
     }, [])
 
@@ -20,7 +20,7 @@ export function RecoveryFlowProvider({ children }: { children: ReactNode }) {
             value={{
                 recoveryFlowId,
                 setRecoveryFlowId,
-                resetContext,
+                resetFlow,
             }}>
             {children}
         </recoveryFlowContext.Provider>

@@ -1,4 +1,5 @@
-import { ComponentType, ReactNode, useEffect } from "react"
+import { ComponentType, ReactNode } from "react"
+import { useFlowManager } from "../../hooks/useFlowManager"
 import { TraitsConfig } from "../../utils"
 import { SettingsFlowProvider, useCreateSettingsFlow, useGetSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
@@ -20,6 +21,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     onError?: OnSettingsFlowError<TTraitsConfig>
     onChangePasswordSuccess?: () => void
     onChangeTraitsSuccess?: () => void
+    onFlowRestart?: () => void
     settingsForm: ComponentType<{
         isLoading?: boolean
         emailVerificationRequired: boolean
@@ -51,21 +53,21 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
     onError,
     onChangePasswordSuccess,
     onChangeTraitsSuccess,
+    onFlowRestart,
 }: SettingsFlowProps<TTraitsConfig>) {
     const { settingsFlowId, setSettingsFlowId, emailVerificationRequired } = useSettingsFlowContext()
 
     const { mutate: createSettingsFlow } = useCreateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+    const { data: settingsFlow, error } = useGetSettingsFlow()
 
-    useEffect(() => {
-        if (settingsFlowId) return
-
-        if (initialFlowId) {
-            setSettingsFlowId(initialFlowId)
-        } else {
-            createSettingsFlow()
-        }
-    }, [createSettingsFlow, initialFlowId, settingsFlowId, setSettingsFlowId])
+    useFlowManager({
+        initialFlowId,
+        currentFlowId: settingsFlowId,
+        error,
+        onFlowRestart,
+        createFlow: createSettingsFlow,
+        setFlowId: setSettingsFlowId,
+    })
 
     return (
         <SettingsForm

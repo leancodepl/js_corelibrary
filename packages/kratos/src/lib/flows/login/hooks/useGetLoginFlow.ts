@@ -1,21 +1,34 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
+import { LoginFlow } from "../../../kratos"
+import { GetFlowError } from "../../../types"
+import { handleFlowErrorResponse } from "../../../utils"
 import { loginFlowKey } from "./queryKeys"
 import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useGetLoginFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { loginFlowId } = useLoginFlowContext()
+    const { loginFlowId, resetFlow } = useLoginFlowContext()
 
     return useQuery({
         queryKey: loginFlowKey(loginFlowId),
-        queryFn: context => {
-            if (!loginFlowId) throw new Error("No login flow ID provided")
+        queryFn: async ({ signal }) => {
+            if (!loginFlowId) {
+                throw new Error("No login flow ID provided", {
+                    cause: GetFlowError.NoFlowId,
+                })
+            }
 
-            return kratosClient.getLoginFlow({ id: loginFlowId }, async ({ init: { headers } }) => ({
-                signal: context.signal,
-                headers: { ...headers, Accept: "application/json" },
-            }))
+            try {
+                return await kratosClient.getLoginFlow({ id: loginFlowId }, async ({ init: { headers } }) => ({
+                    signal,
+                    headers: { ...headers, Accept: "application/json" },
+                }))
+            } catch (error) {
+                throw await handleFlowErrorResponse<LoginFlow>({
+                    error,
+                })
+            }
         },
         enabled: !!loginFlowId,
         staleTime: Infinity,

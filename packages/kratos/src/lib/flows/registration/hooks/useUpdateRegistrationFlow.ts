@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { verificationFlow } from "../.."
 import { useKratosClientContext } from "../../../hooks"
 import {
     handleContinueWith,
@@ -8,13 +7,14 @@ import {
     SuccessfulNativeRegistration,
     UpdateRegistrationFlowBody,
 } from "../../../kratos"
+import { useVerificationFlowContext } from "../../verification"
 import { registrationFlowKey } from "./queryKeys"
 import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useUpdateRegistrationFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { resetContext, registrationFlowId } = useRegistrationFlowContext()
-    const { setVerificationFlowId, setVerifiableAddress } = verificationFlow.useVerificationFlowContext()
+    const { resetFlow, registrationFlowId } = useRegistrationFlowContext()
+    const { setVerificationFlowId, setVerifiableAddress } = useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<
@@ -56,7 +56,7 @@ export function useUpdateRegistrationFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as RegistrationFlow | undefined
             }

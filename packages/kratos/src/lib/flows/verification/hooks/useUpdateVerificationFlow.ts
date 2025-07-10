@@ -6,7 +6,7 @@ import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useUpdateVerificationFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { verificationFlowId, resetContext } = useVerificationFlowContext()
+    const { verificationFlowId, resetFlow } = useVerificationFlowContext()
     const client = useQueryClient()
 
     return useMutation<VerificationFlow | undefined, Error, UpdateVerificationFlowBody, unknown>({
@@ -30,7 +30,7 @@ export function useUpdateVerificationFlow() {
                     onRedirect: (url, _external) => {
                         window.location.href = url
                     },
-                    onRestartFlow: resetContext,
+                    onRestartFlow: resetFlow,
                     onValidationError: body => body,
                 })(error)) as VerificationFlow | undefined
             }

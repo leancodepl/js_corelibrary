@@ -5,7 +5,7 @@ type SettingsFlowContext = {
     setSettingsFlowId: (settingsFlowId: string | undefined) => void
     emailVerificationRequired: boolean
     setEmailVerificationRequired: (emailVerificationRequired: boolean) => void
-    resetContext: () => void
+    resetFlow: () => void
 }
 
 const settingsFlowContext = createContext<SettingsFlowContext | undefined>(undefined)
@@ -14,7 +14,7 @@ export function SettingsFlowProvider({ children }: { children: ReactNode }) {
     const [settingsFlowId, setSettingsFlowId] = useState<string>()
     const [emailVerificationRequired, setEmailVerificationRequired] = useState(false)
 
-    const resetContext = useCallback(() => {
+    const resetFlow = useCallback(() => {
         setSettingsFlowId(undefined)
     }, [])
 
@@ -25,7 +25,7 @@ export function SettingsFlowProvider({ children }: { children: ReactNode }) {
                 setSettingsFlowId,
                 emailVerificationRequired,
                 setEmailVerificationRequired,
-                resetContext,
+                resetFlow,
             }}>
             {children}
         </settingsFlowContext.Provider>

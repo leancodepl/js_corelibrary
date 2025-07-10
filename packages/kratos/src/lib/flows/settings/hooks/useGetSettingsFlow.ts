@@ -1,21 +1,34 @@
 import { useQuery } from "@tanstack/react-query"
 import { useKratosClientContext } from "../../../hooks"
+import { SettingsFlow } from "../../../kratos"
+import { GetFlowError } from "../../../types"
+import { handleFlowErrorResponse } from "../../../utils"
 import { settingsFlowKey } from "./queryKeys"
 import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useGetSettingsFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { settingsFlowId } = useSettingsFlowContext()
+    const { settingsFlowId, resetFlow } = useSettingsFlowContext()
 
     return useQuery({
         queryKey: settingsFlowKey(settingsFlowId),
-        queryFn: ({ signal }) => {
-            if (!settingsFlowId) throw new Error("No settings flow ID provided")
+        queryFn: async ({ signal }) => {
+            if (!settingsFlowId) {
+                throw new Error("No settings flow ID provided", {
+                    cause: GetFlowError.NoFlowId,
+                })
+            }
 
-            return kratosClient.getSettingsFlow({ id: settingsFlowId }, async ({ init: { headers } }) => ({
-                signal,
-                headers: { ...headers, Accept: "application/json" },
-            }))
+            try {
+                return await kratosClient.getSettingsFlow({ id: settingsFlowId }, async ({ init: { headers } }) => ({
+                    signal,
+                    headers: { ...headers, Accept: "application/json" },
+                }))
+            } catch (error) {
+                throw await handleFlowErrorResponse<SettingsFlow>({
+                    error,
+                })
+            }
         },
         enabled: !!settingsFlowId,
         staleTime: Infinity,
