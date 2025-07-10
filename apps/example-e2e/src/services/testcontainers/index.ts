@@ -1,9 +1,9 @@
+import * as path from "path"
 import { GenericContainer, StartedTestContainer, Wait } from "testcontainers"
 import { Environment } from "testcontainers/build/types"
-import path = require("path")
 
-let mailpitContainer: StartedTestContainer
-let kratosContainer: StartedTestContainer
+let mailpitContainer: StartedTestContainer | undefined
+let kratosContainer: StartedTestContainer | undefined
 
 type KratosConfigRules = {
     totpMethodEnabled?: boolean
@@ -66,9 +66,7 @@ export const runKratosContainer = async (rules: KratosConfigRules = {}) => {
 }
 
 export const stopKratosContainer = async () => {
-    if (kratosContainer) {
-        await kratosContainer.stop()
-    }
+    await kratosContainer?.stop()
 }
 
 export const runMailpitContainer = async (envs: Environment = {}) => {
@@ -83,7 +81,5 @@ export const runMailpitContainer = async (envs: Environment = {}) => {
 }
 
 export const stopMailpitContainer = async () => {
-    if (mailpitContainer) {
-        await mailpitContainer.stop()
-    }
+    await mailpitContainer?.stop()
 }
