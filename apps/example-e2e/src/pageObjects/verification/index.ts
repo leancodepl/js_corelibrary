@@ -6,7 +6,7 @@ export class VerificationPage extends CommonPage {
     readonly wrapper: Locator
 
     // Email verification form
-    readonly emailVerificationFormWrapper
+    readonly emailVerificationFormWrapper: Locator
     readonly verificationCodeInput: Locator
     readonly verifyButton: Locator
     readonly resendCodeButton: Locator
@@ -28,6 +28,8 @@ export class VerificationPage extends CommonPage {
     async visit(initialFlowId: string | null = null) {
         await this.page.goto(VerificationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
     }
+
+    // Email verification form
 
     async fillVerificationCode(code: string) {
         await this.verificationCodeInput.fill(code)

@@ -69,15 +69,11 @@ test.describe("register page", () => {
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        // Fill traits form with invalid data
         await expect(registrationPage.emailInputErrors).toBeHidden()
         await registrationPage.fillTraitsForm("invalid-email", userData.firstName, true)
         await registrationPage.clickRegisterButton()
 
-        // Expect to see errors
         await expect(registrationPage.emailInputErrors).toBeVisible()
-
-        // Ensure that the choose method form is not visible
         await expect(registrationPage.chooseMethodFormWrapper).toBeHidden()
     })
 
@@ -90,15 +86,11 @@ test.describe("register page", () => {
         await expect(registrationPage.wrapper).toBeVisible()
         await expect(registrationPage.traitsFormWrapper).toBeVisible()
 
-        // Fill traits form without accepting regulations
         await expect(registrationPage.regulationsCheckboxErrors).toBeHidden()
         await registrationPage.fillTraitsForm(userData.email, userData.firstName, false)
         await registrationPage.clickRegisterButton()
 
-        // Expect to see errors
         await expect(registrationPage.regulationsCheckboxErrors).toBeVisible()
-
-        // Ensure that the choose method form is not visible
         await expect(registrationPage.chooseMethodFormWrapper).toBeHidden()
     })
 
@@ -139,8 +131,6 @@ test.describe("register page", () => {
         await registrationPage.fillChooseMethodForm("", "")
         await registrationPage.clickRegisterButton()
 
-        // Expect to see errors
-        // await expect(registrationPage.passwordInputErrors).toBeHidden()
         await expect(registrationPage.passwordConfirmationInputErrors).toBeVisible()
 
         await expect(registrationPage.chooseMethodFormWrapper).toBeVisible()
@@ -165,7 +155,6 @@ test.describe("register page", () => {
         await registrationPage.fillChooseMethodForm(userData.password, "wrongConfirmation")
         await registrationPage.clickRegisterButton()
 
-        // Expect to see errors
         await expect(registrationPage.passwordInputErrors).toBeHidden()
         await expect(registrationPage.passwordConfirmationInputErrors).toBeVisible()
 
@@ -214,7 +203,6 @@ test.describe("register page", () => {
             verificationFlowEnabled: false,
         })
 
-        // Create and setup the virtual passkey device
         const webAuthnHelper = new WebAuthnHelper(page, context)
         await webAuthnHelper.setupWebAuthnEnvironment()
 

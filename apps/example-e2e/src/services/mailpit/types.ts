@@ -8,39 +8,6 @@ interface EmailAddress {
     Name: string
 }
 
-export interface SendEmailAddress {
-    /** The email address, e.g., "bg@example.com". */
-    Email: string
-    /** The display name associated with the email address, e.g., "Barry Gibbs". */
-    Name: string
-}
-
-export interface SendEmailOptions {
-    /** The list of attachments to send with the email. */
-    attachments?: Array<SendAttachment>
-    /** The list of BCC email addresses. */
-    bcc?: Array<string>
-    /** The list of CC email addresses. */
-    cc?: Array<SendEmailAddress>
-    /** The list of email addresses to send the email to. */
-    from?: SendEmailAddress
-    /** The headers of the email. */
-    //biome-ignore lint: no-any
-    headers?: Record<string, any>
-    /** The HTML body of the email. */
-    htmlBody?: string
-    /** The list of email addresses to send the email to. */
-    replyTo?: Array<SendEmailAddress>
-    /** The subject of the email. */
-    subject?: string
-    /** The list of tags associated with the email. */
-    tags?: Array<string>
-    /** The text body of the email. */
-    textBody?: string
-    /** The list of To email addresses. */
-    to?: Array<SendEmailAddress>
-}
-
 export interface Attachment {
     /** The content of the attachment. */
     ContentID: string
@@ -52,13 +19,6 @@ export interface Attachment {
     PartID: string
     /** The size of the attachment. */
     Size: number
-}
-
-export interface SendAttachment {
-    /** The content of the attachment. */
-    Content: string
-    /** The file name of the attachment. */
-    FileName: string
 }
 
 interface MessageBase {
@@ -134,19 +94,4 @@ export interface MessagesSummary {
     total: number
     /** The total number of unread messages in the mailbox. */
     unread: number
-}
-
-export interface SpamAssassin {
-    /** The error message if any. */
-    Error: string
-    /** If value is true, the email is considered spam. */
-    IsSpam: boolean
-    /** The list of spam rules that matched. */
-    Rules: Array<{
-        Description: string
-        Name: string
-        Score: number
-    }>
-    /** The score of the email. */
-    Score: number
 }

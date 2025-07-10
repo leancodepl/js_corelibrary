@@ -42,11 +42,11 @@ export class RegistrationPage extends CommonPage {
         this.wrapper = page.getByTestId("registration-page")
         this.alreadyLoggedInWrapper = page.getByTestId("already-logged-in")
 
-        // Common locators
+        // Common
         this.registerButton = page.getByTestId("register-button")
         this.errors = page.getByTestId("errors")
 
-        // Traits form locators
+        // Traits form
         this.traitsFormWrapper = page.getByTestId("traits-form")
         this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
         this.emailInputErrors = this.traitsFormWrapper.locator(
@@ -61,7 +61,7 @@ export class RegistrationPage extends CommonPage {
         this.appleButton = this.traitsFormWrapper.getByTestId("apple-signup-button")
         this.facebookButton = this.traitsFormWrapper.getByTestId("facebook-signup-button")
 
-        // Choose method form locators
+        // Choose method form
         this.chooseMethodFormWrapper = page.getByTestId("choose-method-form")
         this.returnButton = this.chooseMethodFormWrapper.getByTestId("return-button")
         this.passwordInput = this.chooseMethodFormWrapper.getByTestId("password-input")
@@ -74,7 +74,7 @@ export class RegistrationPage extends CommonPage {
         )
         this.passkeyButton = this.chooseMethodFormWrapper.getByTestId("passkey-signup-button")
 
-        // Email verification form locators
+        // Email verification form
         this.emailVerificationFormWrapper = page.getByTestId("email-verification-form")
         this.emailVerificationCodeInput = this.emailVerificationFormWrapper.getByTestId("email-verification-code-input")
         this.emailVerificationSubmitButton = this.emailVerificationFormWrapper.getByTestId(

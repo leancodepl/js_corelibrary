@@ -256,7 +256,6 @@ test.describe("settings page", () => {
             await settingsPage.emailInput.fill(newEmail)
             await settingsPage.clickTraitsFormUpdateButton()
 
-            // await page.waitForURL("**/login*")
             await expect(page).toHaveURL(/\/login.*/)
 
             const reAuthLoginPage = new LoginPage(page)
@@ -268,7 +267,6 @@ test.describe("settings page", () => {
             await reAuthLoginPage.fillPassword(userData.password)
             await reAuthLoginPage.clickLogin()
 
-            // await page.waitForURL("**/settings*")
             await expect(page).toHaveURL(/\/settings.*/)
 
             await expect(settingsPage.traitsFormWrapper).toBeVisible()
@@ -367,7 +365,6 @@ test.describe("settings page", () => {
             await expect(settingsPage.newPasswordFormWrapper).toBeVisible()
             await expect(settingsPage.newPasswordFormErrors).toBeHidden()
 
-            // Invalid password
             await settingsPage.fillNewPasswordForm("short", "short")
             await settingsPage.clickNewPasswordFormSubmitButton()
 
@@ -405,7 +402,6 @@ test.describe("settings page", () => {
             await settingsPage.fillNewPasswordForm(newPassword, newPassword)
             await settingsPage.clickNewPasswordFormSubmitButton()
 
-            // await page.waitForURL("**/login*")
             await expect(page).toHaveURL(/\/login.*/)
 
             const reAuthLoginPage = new LoginPage(page)
@@ -417,7 +413,6 @@ test.describe("settings page", () => {
             await reAuthLoginPage.fillPassword(userData.password)
             await reAuthLoginPage.clickLogin()
 
-            // await page.waitForURL("**/settings*")
             await expect(page).toHaveURL(/\/settings.*/)
 
             await expect(settingsPage.newPasswordFormWrapper).toBeVisible()
@@ -450,10 +445,8 @@ test.describe("settings page", () => {
 
             await settingsPage.clickAddNewPasskeyButton()
 
-            // Simulate WebAuthn prompt
-            await webAuthnHelper.setUserVerified(true) // Auto-approve the passkey prompt
+            await webAuthnHelper.setUserVerified(true)
 
-            // Wait for the passkey to be added
             await expect(settingsPage.existingPasskeys).toHaveCount(1)
 
             await webAuthnHelper.removeAuthenticator()
@@ -480,10 +473,8 @@ test.describe("settings page", () => {
             await settingsPage.visit()
             await settingsPage.clickAddNewPasskeyButton()
 
-            // Simulate WebAuthn prompt
-            await webAuthnHelper.setUserVerified(true) // Auto-approve the passkey prompt
+            await webAuthnHelper.setUserVerified(true)
 
-            // Wait for the passkey to be added
             await expect(settingsPage.existingPasskeys).toHaveCount(1)
 
             await settingsPage.clickRemovePasskeyButton()
@@ -546,7 +537,6 @@ test.describe("settings page", () => {
             const settingsPage = new SettingsPage(page)
             await settingsPage.visit()
 
-            // Link TOTP first
             const totpCode = authenticator.generate(await settingsPage.totpSecretKey.textContent())
 
             await settingsPage.totpCodeInput.fill(totpCode)
@@ -558,10 +548,8 @@ test.describe("settings page", () => {
             await expect(settingsPage.totpFormUnlinkedWrapper).toBeHidden()
             await expect(settingsPage.totpFormLinkedWrapper).toBeVisible()
 
-            // Now unlink it
             await settingsPage.unlinkTotpButton.click()
 
-            // Wait for the TOTP to be unlinked
             await expect(settingsPage.totpFormUnlinkedWrapper).toBeVisible()
             await expect(settingsPage.totpFormLinkedWrapper).toBeHidden()
         })
@@ -587,7 +575,6 @@ test.describe("settings page", () => {
             await expect(settingsPage.totpFormUnlinkedWrapper).toBeVisible()
             await expect(settingsPage.totpFormLinkedWrapper).toBeHidden()
 
-            // Use an invalid TOTP code
             await settingsPage.totpCodeInput.fill("123456")
             await settingsPage.verifyTotpButton.click()
 
@@ -596,6 +583,82 @@ test.describe("settings page", () => {
 
             await expect(settingsPage.totpFormUnlinkedWrapper).toBeVisible()
             await expect(settingsPage.totpFormLinkedWrapper).toBeHidden()
+        })
+    })
+
+    test.describe("OIDC form", () => {
+        test("should show OIDC buttons of configured providers", async ({ page }) => {
+            const userData = generateUserData()
+
+            await runKratosContainer({
+                oidcMethodsEnabled: true,
+            })
+
+            await registerUser({
+                email: userData.email,
+                password: userData.password,
+                firstName: userData.firstName,
+            })
+
+            const loginPage = new LoginPage(page)
+            await loginPage.visit()
+            await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+            const settingsPage = new SettingsPage(page)
+            await settingsPage.visit()
+
+            await expect(settingsPage.oidcFormWrapper).toBeVisible()
+            await expect(settingsPage.appleButton).toBeHidden()
+            await expect(settingsPage.facebookButton).toBeHidden()
+            await expect(settingsPage.googleButton).toBeVisible()
+        })
+
+        test("should show link Google OIDC button", async ({ page }) => {
+            const userData = generateUserData()
+
+            await runKratosContainer({
+                oidcMethodsEnabled: true,
+            })
+
+            await registerUser({
+                email: userData.email,
+                password: userData.password,
+                firstName: userData.firstName,
+            })
+
+            const loginPage = new LoginPage(page)
+            await loginPage.visit()
+            await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+            const settingsPage = new SettingsPage(page)
+            await settingsPage.visit()
+
+            await expect(settingsPage.googleButton).toHaveText(/.*\(link\)/)
+        })
+
+        test("Google link OIDC should redirect to Google login", async ({ page }) => {
+            const userData = generateUserData()
+
+            await runKratosContainer({
+                oidcMethodsEnabled: true,
+            })
+
+            await registerUser({
+                email: userData.email,
+                password: userData.password,
+                firstName: userData.firstName,
+            })
+
+            const loginPage = new LoginPage(page)
+            await loginPage.visit()
+            await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+            const settingsPage = new SettingsPage(page)
+            await settingsPage.visit()
+
+            await settingsPage.googleButton.click()
+
+            await expect(page).toHaveURL(/\/accounts\.google\.com\//)
         })
     })
 })
