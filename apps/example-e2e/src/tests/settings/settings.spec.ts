@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test"
 import { authenticator } from "otplib"
-import { generatePassword, generateUserData, registerUser } from "../../helpers/users"
+import { generateEmail, generatePassword, generateUserData, registerUser } from "../../helpers/users"
 import { WebAuthnHelper } from "../../helpers/webauthn"
 import { IdentityPage } from "../../pageObjects/identity"
 import { LoginPage } from "../../pageObjects/login"
@@ -31,7 +31,7 @@ test.describe("settings page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         await registerUser({
@@ -55,12 +55,84 @@ test.describe("settings page", () => {
         await expect(settingsPage.totpFormUnlinkedWrapper).toBeVisible()
     })
 
+    test("should not render totp form if TOTP method is not enabled", async ({ page }) => {
+        const userData = generateUserData()
+
+        await runKratosContainer({
+            totpMethodEnabled: false,
+        })
+
+        await registerUser({
+            email: userData.email,
+            password: userData.password,
+            firstName: userData.firstName,
+        })
+
+        const loginPage = new LoginPage(page)
+        await loginPage.visit()
+        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+        const settingsPage = new SettingsPage(page)
+        await settingsPage.visit()
+
+        await expect(settingsPage.wrapper).toBeVisible()
+        await expect(settingsPage.totpFormUnlinkedWrapper).toBeHidden()
+    })
+
+    test("should not render oidc form if OIDC methods are not enabled", async ({ page }) => {
+        const userData = generateUserData()
+
+        await runKratosContainer({
+            oidcMethodsEnabled: false,
+        })
+
+        await registerUser({
+            email: userData.email,
+            password: userData.password,
+            firstName: userData.firstName,
+        })
+
+        const loginPage = new LoginPage(page)
+        await loginPage.visit()
+        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+        const settingsPage = new SettingsPage(page)
+        await settingsPage.visit()
+
+        await expect(settingsPage.wrapper).toBeVisible()
+        await expect(settingsPage.oidcFormWrapper).toBeHidden()
+    })
+
+    test("should not render passkeys form if Passkey method is not enabled", async ({ page }) => {
+        const userData = generateUserData()
+
+        await runKratosContainer({
+            passkeyMethodEnabled: false,
+        })
+
+        await registerUser({
+            email: userData.email,
+            password: userData.password,
+            firstName: userData.firstName,
+        })
+
+        const loginPage = new LoginPage(page)
+        await loginPage.visit()
+        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+        const settingsPage = new SettingsPage(page)
+        await settingsPage.visit()
+
+        await expect(settingsPage.wrapper).toBeVisible()
+        await expect(settingsPage.passkeysFormWrapper).toBeHidden()
+    })
+
     test.describe("traits form", () => {
         test("should show current traits", async ({ page }) => {
             const userData = generateUserData()
 
             await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+                verificationFlowEnabled: false,
             })
 
             await registerUser({
@@ -85,8 +157,8 @@ test.describe("settings page", () => {
             const userData = generateUserData()
 
             await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-                SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE: "1h",
+                verificationFlowEnabled: false,
+                settingsPrivilegedSession: "long",
             })
 
             await registerUser({
@@ -127,7 +199,7 @@ test.describe("settings page", () => {
             const userData = generateUserData()
 
             await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+                verificationFlowEnabled: false,
             })
 
             await registerUser({
@@ -156,8 +228,8 @@ test.describe("settings page", () => {
             const userData = generateUserData()
 
             await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-                SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE: "1s",
+                verificationFlowEnabled: false,
+                settingsPrivilegedSession: "short",
             })
 
             await registerUser({
@@ -202,15 +274,42 @@ test.describe("settings page", () => {
             await expect(settingsPage.traitsFormWrapper).toBeVisible()
             await expect(settingsPage.emailInput).toHaveValue(newEmail)
         })
+
+        test("should inform about email verification requirement on email update", async ({ page }) => {
+            const userData = generateUserData()
+
+            await runKratosContainer({
+                verificationFlowEnabled: true,
+                settingsPrivilegedSession: "short",
+            })
+
+            await registerUser({
+                email: userData.email,
+                password: userData.password,
+                firstName: userData.firstName,
+            })
+
+            const loginPage = new LoginPage(page)
+            await loginPage.visit()
+            await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+
+            const settingsPage = new SettingsPage(page)
+            await settingsPage.visit()
+
+            const newEmail = generateEmail()
+
+            await settingsPage.emailInput.fill(newEmail)
+            await expect(settingsPage.emailVerificationRequiredInfo).toBeHidden()
+            await settingsPage.clickTraitsFormUpdateButton()
+            await expect(settingsPage.emailVerificationRequiredInfo).toBeVisible()
+        })
     })
 
     test.describe("new password form", () => {
         test("should update password", async ({ page }) => {
             const userData = generateUserData()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -250,9 +349,7 @@ test.describe("settings page", () => {
         test("should show errors when new password form is invalid", async ({ page }) => {
             const userData = generateUserData()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -281,8 +378,7 @@ test.describe("settings page", () => {
             const userData = generateUserData()
 
             await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-                SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE: "1s",
+                settingsPrivilegedSession: "short",
             })
 
             await registerUser({
@@ -334,9 +430,7 @@ test.describe("settings page", () => {
             const webAuthnHelper = new WebAuthnHelper(page, context)
             await webAuthnHelper.setupWebAuthnEnvironment()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -370,9 +464,7 @@ test.describe("settings page", () => {
             const webAuthnHelper = new WebAuthnHelper(page, context)
             await webAuthnHelper.setupWebAuthnEnvironment()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -406,9 +498,7 @@ test.describe("settings page", () => {
         test("should link TOTP", async ({ page }) => {
             const userData = generateUserData()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -441,9 +531,7 @@ test.describe("settings page", () => {
         test("should unlink TOTP", async ({ page }) => {
             const userData = generateUserData()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,
@@ -481,9 +569,7 @@ test.describe("settings page", () => {
         test("should show error when TOTP code is invalid", async ({ page }) => {
             const userData = generateUserData()
 
-            await runKratosContainer({
-                SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
-            })
+            await runKratosContainer()
 
             await registerUser({
                 email: userData.email,

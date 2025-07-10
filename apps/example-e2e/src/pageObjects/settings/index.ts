@@ -7,6 +7,7 @@ export class SettingsPage extends CommonPage {
 
     // Traits form
     readonly traitsFormWrapper: Locator
+    readonly emailVerificationRequiredInfo: Locator
     readonly emailInput: Locator
     readonly emailInputErrors: Locator
     readonly givenNameInput: Locator
@@ -52,6 +53,7 @@ export class SettingsPage extends CommonPage {
 
         // Traits form
         this.traitsFormWrapper = page.getByTestId("traits-form")
+        this.emailVerificationRequiredInfo = this.traitsFormWrapper.getByTestId("email-verification-required-info")
         this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
         this.emailInputErrors = this.traitsFormWrapper.locator(
             'input[data-testid="email-input"]~div[data-testid="input-errors"]',

@@ -211,7 +211,7 @@ test.describe("register page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         // Create and setup the virtual passkey device
@@ -252,7 +252,7 @@ test.describe("register page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         const registrationPage = new RegistrationPage(page)
@@ -275,7 +275,7 @@ test.describe("register page", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         await registerUser({

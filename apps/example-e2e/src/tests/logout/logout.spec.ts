@@ -28,7 +28,7 @@ test.describe("logging out", () => {
         const userData = generateUserData()
 
         await runKratosContainer({
-            SELFSERVICE_FLOWS_VERIFICATION_ENABLED: "false",
+            verificationFlowEnabled: false,
         })
 
         await registerUser({

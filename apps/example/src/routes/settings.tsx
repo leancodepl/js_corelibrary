@@ -93,7 +93,7 @@ function TraitsForm({
             <h2>Traits</h2>
 
             {emailVerificationRequired && (
-                <div>
+                <div data-testid="email-verification-required-info">
                     <h2>Email verification required</h2>
                     <p>Please verify your email address to continue.</p>
                 </div>

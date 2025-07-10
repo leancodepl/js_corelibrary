@@ -1,17 +1,15 @@
 import { BrowserContext, Page } from "@playwright/test"
 
 export class WebAuthnHelper {
-    private page: Page
-    private context: BrowserContext
     private authenticatorId: string | null = null
     private client: any
 
-    constructor(page: Page, context: BrowserContext) {
-        this.page = page
-        this.context = context
-    }
+    constructor(
+        private page: Page,
+        private context: BrowserContext,
+    ) {}
 
-    async setupWebAuthnEnvironment(): Promise<void> {
+    async setupWebAuthnEnvironment() {
         this.client = await this.context.newCDPSession(this.page)
 
         await this.client.send("WebAuthn.enable")
@@ -30,7 +28,7 @@ export class WebAuthnHelper {
         this.authenticatorId = result.authenticatorId
     }
 
-    async setUserVerified(isVerified: boolean): Promise<void> {
+    async setUserVerified(isVerified: boolean) {
         if (!this.authenticatorId || !this.client) {
             throw new Error("Authenticator not initialized.")
         }
@@ -41,7 +39,7 @@ export class WebAuthnHelper {
         })
     }
 
-    async removeAuthenticator(): Promise<void> {
+    async removeAuthenticator() {
         if (!this.authenticatorId || !this.client) {
             return
         }
