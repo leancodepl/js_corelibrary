@@ -124,6 +124,13 @@ export class KratosOutputProcessor implements OutputProcessor {
         defaultLanguage: string,
     ): string {
         const languages = Object.keys(languageMails)
+
+        // If there's only one language, output the template content directly without {{define}} sections
+        if (languages.length === 1) {
+            const mail = languageMails[languages[0]]
+            return mail.html
+        }
+
         let template = ""
 
         // Generate template definitions for each language
@@ -135,20 +142,26 @@ export class KratosOutputProcessor implements OutputProcessor {
         }
 
         // Generate conditional logic for language selection
-        template +=
-            '{{- if eq .Identity.traits.lang "' + languages.filter(lang => lang !== defaultLanguage)[0] + '" -}}\n'
-        template += '{{ template "' + languages.filter(lang => lang !== defaultLanguage)[0] + '" . }}\n'
+        const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
 
-        // Add conditions for other non-default languages
-        for (const language of languages.filter(lang => lang !== defaultLanguage).slice(1)) {
-            template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
-            template += '{{ template "' + language + '" . }}\n'
+        if (nonDefaultLanguages.length > 0) {
+            template += '{{- if eq .Identity.traits.lang "' + nonDefaultLanguages[0] + '" -}}\n'
+            template += '{{ template "' + nonDefaultLanguages[0] + '" . }}\n'
+
+            // Add conditions for other non-default languages
+            for (const language of nonDefaultLanguages.slice(1)) {
+                template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
+                template += '{{ template "' + language + '" . }}\n'
+            }
+
+            // Default fallback
+            template += "{{- else -}}\n"
+            template += '{{ template "' + defaultLanguage + '" . }}\n'
+            template += "{{- end -}}\n"
+        } else {
+            // Only default language available
+            template += '{{ template "' + defaultLanguage + '" . }}\n'
         }
-
-        // Default fallback
-        template += "{{- else -}}\n"
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-        template += "{{- end -}}\n"
 
         return template
     }
@@ -158,6 +171,13 @@ export class KratosOutputProcessor implements OutputProcessor {
         defaultLanguage: string,
     ): string {
         const languages = Object.keys(languageMails)
+
+        // If there's only one language, output the template content directly without {{define}} sections
+        if (languages.length === 1) {
+            const mail = languageMails[languages[0]]
+            return mail.plaintext || ""
+        }
+
         let template = ""
 
         // Generate template definitions for each language
@@ -172,20 +192,26 @@ export class KratosOutputProcessor implements OutputProcessor {
         }
 
         // Generate conditional logic for language selection
-        template +=
-            '{{- if eq .Identity.traits.lang "' + languages.filter(lang => lang !== defaultLanguage)[0] + '" -}}\n'
-        template += '{{ template "' + languages.filter(lang => lang !== defaultLanguage)[0] + '" . }}\n'
+        const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
 
-        // Add conditions for other non-default languages
-        for (const language of languages.filter(lang => lang !== defaultLanguage).slice(1)) {
-            template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
-            template += '{{ template "' + language + '" . }}\n'
+        if (nonDefaultLanguages.length > 0) {
+            template += '{{- if eq .Identity.traits.lang "' + nonDefaultLanguages[0] + '" -}}\n'
+            template += '{{ template "' + nonDefaultLanguages[0] + '" . }}\n'
+
+            // Add conditions for other non-default languages
+            for (const language of nonDefaultLanguages.slice(1)) {
+                template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
+                template += '{{ template "' + language + '" . }}\n'
+            }
+
+            // Default fallback
+            template += "{{- else -}}\n"
+            template += '{{ template "' + defaultLanguage + '" . }}\n'
+            template += "{{- end -}}\n"
+        } else {
+            // Only default language available
+            template += '{{ template "' + defaultLanguage + '" . }}\n'
         }
-
-        // Default fallback
-        template += "{{- else -}}\n"
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-        template += "{{- end -}}\n"
 
         return template
     }

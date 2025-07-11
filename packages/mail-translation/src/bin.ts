@@ -83,6 +83,11 @@ async function translateMails(options: CliOptions): Promise<void> {
       console.log('Available languages:', translator.getAvailableLanguages());
     }
 
+    // Check if we have any translations loaded
+    if (!translator.hasTranslations()) {
+      console.log('No translations found. Processing templates without translations.');
+    }
+
     // Determine which languages to process
     let languagesToProcess: string[];
     if (options.language) {
