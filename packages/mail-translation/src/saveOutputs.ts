@@ -1,9 +1,11 @@
 import * as fs from "fs-extra"
 import * as path from "path"
+import { GenerateResult } from "./generate"
 import { OutputTemplate } from "./generateOutputTemplates"
-import { ProcessedTemplate } from "./processTemplate"
 
-export async function saveOutputs(processedTemplates: ProcessedTemplate[], outputPath: string): Promise<void> {
+export async function saveOutputs(generateResult: GenerateResult, outputPath: string): Promise<void> {
+    const { processedTemplates } = generateResult
+
     const allOutputTemplates: OutputTemplate[] = []
     for (const processedTemplate of processedTemplates) {
         allOutputTemplates.push(...processedTemplate.outputTemplates)
