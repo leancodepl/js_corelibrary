@@ -1,1 +1,1 @@
-export * from "./lib/mail-translation";
+export * from "./lib";
