@@ -83,8 +83,8 @@ describe("listenOnForceUpdate", () => {
         cleanup()
     })
 
-    it("should disable force update mechanism when initial version fetch fails", () => {
-        mockVersionEndpoint([null, "1.0.0", "1.0.1"])
+    it("should notify when initial version is not fetched initially, but fetched eventually", () => {
+        mockVersionEndpoint([null, null, "1.0.0", "1.0.1"])
 
         const onNewVersionAvailable = jest.fn()
 
@@ -95,7 +95,7 @@ describe("listenOnForceUpdate", () => {
 
         jest.advanceTimersByTime(5000)
 
-        expect(onNewVersionAvailable).not.toHaveBeenCalled()
+        expect(onNewVersionAvailable).toHaveBeenCalledTimes(1)
 
         cleanup()
     })

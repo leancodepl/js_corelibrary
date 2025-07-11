@@ -1,6 +1,6 @@
-import { EMPTY, interval, of } from "rxjs"
+import { interval, of } from "rxjs"
 import { ajax } from "rxjs/ajax"
-import { catchError, first, map, mergeMap, switchMap } from "rxjs/operators"
+import { catchError, first, map, mergeMap, pairwise, scan } from "rxjs/operators"
 
 const defaultVersionCheckIntervalPeriod = 3 * 60 * 1000
 
@@ -38,18 +38,12 @@ export const listenOnForceUpdate = ({
             catchError(() => of(null)),
         )
 
-    const subscription = versionUrl()
+    const subscription = interval(versionCheckIntervalPeriod)
         .pipe(
-            switchMap(initialVersion => {
-                if (!initialVersion) {
-                    return EMPTY
-                }
-
-                return interval(versionCheckIntervalPeriod).pipe(
-                    mergeMap(versionUrl),
-                    first(latestVersion => !!latestVersion && latestVersion !== initialVersion),
-                )
-            }),
+            mergeMap(versionUrl),
+            scan((lastVersion, version) => version ?? lastVersion),
+            pairwise(),
+            first(([previousVersion, currentVersion]) => !!previousVersion && previousVersion !== currentVersion),
         )
         .subscribe(() => {
             onNewVersionAvailable()
