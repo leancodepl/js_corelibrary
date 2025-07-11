@@ -1,6 +1,6 @@
 import IntlMessageFormat from 'intl-messageformat';
-import { OutputMode } from './configLoader';
-import { Translations } from './translationLoader';
+import { OutputMode } from './loadConfig';
+import { Translations } from './loadTranslations';
 
 /**
  * Processes a template string by replacing {{t 'key'}} and {{t 'key', (params)}} translation calls
@@ -12,7 +12,7 @@ import { Translations } from './translationLoader';
  * @returns Processed template string with only translations replaced
  */
 
-export function processTemplate(
+export function processTranslations(
   template: string,
   translations: Translations,
   locale = 'en',
@@ -119,26 +119,3 @@ function parseParameters(paramString: string, outputMode: OutputMode): Record<st
   
   return params;
 }
-
-/**
- * Processes multiple templates with the same translations
- * @param templates - Object containing template names and their content
- * @param translations - Translation object for the target language
- * @param locale - The locale for message formatting (defaults to 'en')
- * @param outputMode - The output mode ('kratos' or 'razor') to determine parameter format
- * @returns Object containing processed templates
- */
-export function processTemplates(
-  templates: { [name: string]: string },
-  translations: Translations,
-  locale = 'en',
-  outputMode: OutputMode = 'kratos'
-): { [name: string]: string } {
-  const processedTemplates: { [name: string]: string } = {};
-  
-  for (const [name, template] of Object.entries(templates)) {
-    processedTemplates[name] = processTemplate(template, translations, locale, outputMode);
-  }
-  
-  return processedTemplates;
-} 

@@ -44,22 +44,3 @@ export function compileMjml(mjmlContent: string, options: MjmlCompileOptions = {
         throw new Error(`MJML compilation failed: ${error}`)
     }
 }
-
-/**
- * Compiles multiple MJML templates to HTML
- * @param templates - Object containing template names and their MJML content
- * @param options - Compilation options
- * @returns Object containing compiled HTML templates and any errors
- */
-export function compileMjmlTemplates(
-    templates: { [name: string]: string },
-    options: MjmlCompileOptions = {},
-): { [name: string]: MjmlCompileResult } {
-    const compiledTemplates: { [name: string]: MjmlCompileResult } = {}
-
-    for (const [name, mjmlContent] of Object.entries(templates)) {
-        compiledTemplates[name] = compileMjml(mjmlContent, options)
-    }
-
-    return compiledTemplates
-}

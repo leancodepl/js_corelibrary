@@ -1,5 +1,5 @@
 import { lilconfig } from "lilconfig"
-import { MjmlCompileOptions } from "./mjmlCompiler"
+import { MjmlCompileOptions } from "./compileMjml"
 
 export type OutputMode = "kratos" | "razor"
 

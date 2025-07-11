@@ -1,0 +1,21 @@
+// Re-export all the mail translation functionality
+export * from "./compileMjml"
+export * from "./generateKratosOutputTemplates"
+export * from "./generateOutputTemplates"
+export * from "./generateRazorOutputTemplates"
+export * from "./loadConfig"
+export * from "./loadTranslations"
+export * from "./processTemplate"
+export * from "./processTranslations"
+export * from "./saveOutputs"
+export * from "./templateLoader"
+
+// Main convenience functions
+export { generateKratosOutputTemplates } from "./generateKratosOutputTemplates"
+export { generateOutputTemplates } from "./generateOutputTemplates"
+export { generateRazorOutputTemplates } from "./generateRazorOutputTemplates"
+export { loadTranslations } from "./loadTranslations"
+export { processTemplate } from "./processTemplate"
+export { saveOutputs as saveProcessedTemplates } from "./saveOutputs"
+export { loadPlaintextTemplates, loadTemplates } from "./templateLoader"
+
