@@ -6,7 +6,7 @@ module.exports = [
             perfectionist,
         },
         rules: {
-            curly: ["error", "multi-line"],
+            curly: ["error", "multi-line", "consistent"],
             "max-params": ["error", { max: 4 }],
             "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
             "no-eval": "error",
