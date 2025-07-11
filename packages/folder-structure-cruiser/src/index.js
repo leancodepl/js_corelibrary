@@ -13,11 +13,11 @@ module.exports = {
             comment: "Cannot import from a feature to a nested child of a different feature.",
             severity: "error",
             from: {
-                path: ".*/([^/]+)/[^/]+/.*",
+                path: ".*/([^/]+)/([^/]+)/.*",
             },
             to: {
                 path: ".*/([^/]+)/[^/]+/[^/]+/.*",
-                pathNot: ".*/$1/.*",
+                pathNot: [".*/$1/[^/]+/[a-zA-Z]+\\.[^/]+$", ".*/$1/$2/.*"],
             },
         },
     ],
