@@ -1,8 +1,7 @@
-import { TranslationData } from "../src/loadTranslations"
-import { processTemplate, Template } from "../src/processTemplate"
+import { processTemplate, Template } from "../src"
 
 describe("processTemplate function - Kratos mode", () => {
-    const mockTranslationData: TranslationData = {
+    const mockTranslationData = {
         en: {
             greeting: "Hello",
             farewell: "Goodbye",
@@ -214,9 +213,9 @@ describe("processTemplate function - Kratos mode", () => {
 
     describe("Default language configuration", () => {
         it("should use custom default language", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "kratos", 
-                defaultLanguage: "pl" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "pl",
             })
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -225,9 +224,9 @@ describe("processTemplate function - Kratos mode", () => {
         })
 
         it("should place default language in else clause", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "kratos", 
-                defaultLanguage: "es" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "es",
             })
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -261,7 +260,9 @@ describe("processTemplate function - Kratos mode", () => {
         it("should handle complex parameterized translations in plaintext", () => {
             const result = processTemplate(complexTemplate, mockTranslationData, { outputMode: "kratos" })
 
-            const plaintextTemplate = result.outputTemplates.find(t => t.filename === "complex-template.plaintext.gotmpl")
+            const plaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "complex-template.plaintext.gotmpl",
+            )
             expect(plaintextTemplate?.content).toContain("Your recovery code is: {{ .RecoveryCode }}")
             expect(plaintextTemplate?.content).toContain("Twój kod odzyskiwania to: {{ .RecoveryCode }}")
         })
@@ -269,10 +270,14 @@ describe("processTemplate function - Kratos mode", () => {
 
     describe("No translations scenario", () => {
         it("should generate Kratos template with default language when no translations", () => {
-            const result = processTemplate(basicTemplate, {}, { 
-                outputMode: "kratos", 
-                defaultLanguage: "en" 
-            })
+            const result = processTemplate(
+                basicTemplate,
+                {},
+                {
+                    outputMode: "kratos",
+                    defaultLanguage: "en",
+                },
+            )
 
             expect(result.outputTemplates.length).toBeGreaterThan(0)
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -282,13 +287,17 @@ describe("processTemplate function - Kratos mode", () => {
         })
 
         it("should not generate template definitions when no translations", () => {
-            const result = processTemplate(basicTemplate, {}, { 
-                outputMode: "kratos", 
-                defaultLanguage: "en" 
-            })
+            const result = processTemplate(
+                basicTemplate,
+                {},
+                {
+                    outputMode: "kratos",
+                    defaultLanguage: "en",
+                },
+            )
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).not.toContain('{{define')
+            expect(htmlTemplate?.content).not.toContain("{{define")
             expect(htmlTemplate?.content).not.toContain("{{- if eq .Identity.traits.lang")
         })
     })
@@ -311,7 +320,9 @@ describe("processTemplate function - Kratos mode", () => {
                 `,
             }
 
-            const result = processTemplate(templateWithMissingTranslations, mockTranslationData, { outputMode: "kratos" })
+            const result = processTemplate(templateWithMissingTranslations, mockTranslationData, {
+                outputMode: "kratos",
+            })
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "missing-translations-template.gotmpl")
             expect(htmlTemplate?.content).toContain("Hello")
@@ -327,8 +338,10 @@ describe("processTemplate function - Kratos mode", () => {
 
             const result = processTemplate(longNameTemplate, mockTranslationData, { outputMode: "kratos" })
 
-            const htmlTemplate = result.outputTemplates.find(t => 
-                t.filename === "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems.gotmpl"
+            const htmlTemplate = result.outputTemplates.find(
+                t =>
+                    t.filename ===
+                    "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems.gotmpl",
             )
             expect(htmlTemplate).toBeDefined()
             expect(htmlTemplate?.content).toContain("Hello")
@@ -359,15 +372,13 @@ describe("processTemplate function - Kratos mode", () => {
         })
     })
 
-
-
     describe("MJML compilation with Kratos mode", () => {
         it("should apply MJML options during Kratos template compilation", () => {
             const result = processTemplate(basicTemplate, mockTranslationData, {
                 outputMode: "kratos",
                 mjmlOptions: {
-                    validationLevel: "strict"
-                }
+                    validationLevel: "strict",
+                },
             })
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -398,4 +409,4 @@ describe("processTemplate function - Kratos mode", () => {
             expect(htmlTemplate).toBeDefined()
         })
     })
-}) 
+})

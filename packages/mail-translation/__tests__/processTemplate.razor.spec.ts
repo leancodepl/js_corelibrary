@@ -1,8 +1,7 @@
-import { TranslationData } from "../src/loadTranslations"
-import { processTemplate, Template } from "../src/processTemplate"
+import { processTemplate, Template } from "../src"
 
 describe("processTemplate function - Razor mode", () => {
-    const mockTranslationData: TranslationData = {
+    const mockTranslationData = {
         en: {
             greeting: "Hello",
             farewell: "Goodbye",
@@ -125,9 +124,9 @@ describe("processTemplate function - Razor mode", () => {
         })
 
         it("should generate language-specific Razor templates", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -140,22 +139,26 @@ describe("processTemplate function - Razor mode", () => {
         })
 
         it("should generate Razor plaintext templates when plaintext content exists", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
-            const defaultPlaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.txt.cshtml")
-            const polishPlaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.pl.txt.cshtml")
+            const defaultPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "basic-template.txt.cshtml",
+            )
+            const polishPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "basic-template.pl.txt.cshtml",
+            )
 
             expect(defaultPlaintextTemplate).toBeDefined()
             expect(polishPlaintextTemplate).toBeDefined()
         })
 
         it("should not generate plaintext templates when no plaintext content", () => {
-            const result = processTemplate(templateWithoutPlaintext, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(templateWithoutPlaintext, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
             const plaintextTemplates = result.outputTemplates.filter(t => t.filename.includes(".txt."))
@@ -165,9 +168,9 @@ describe("processTemplate function - Razor mode", () => {
 
     describe("Language-specific content", () => {
         it("should contain correct translations in each language file", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -176,26 +179,30 @@ describe("processTemplate function - Razor mode", () => {
 
             expect(defaultTemplate?.content).toContain("Hello")
             expect(defaultTemplate?.content).toContain("Welcome @Model.UserName!")
-            
+
             expect(polishTemplate?.content).toContain("Cześć")
             expect(polishTemplate?.content).toContain("Witaj @Model.UserName!")
-            
+
             expect(spanishTemplate?.content).toContain("Hola")
             expect(spanishTemplate?.content).toContain("¡Bienvenido @Model.UserName!")
         })
 
         it("should contain correct translations in plaintext files", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
-            const defaultPlaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.txt.cshtml")
-            const polishPlaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.pl.txt.cshtml")
+            const defaultPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "basic-template.txt.cshtml",
+            )
+            const polishPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "basic-template.pl.txt.cshtml",
+            )
 
             expect(defaultPlaintextTemplate?.content).toContain("Hello")
             expect(defaultPlaintextTemplate?.content).toContain("Welcome @Model.UserName!")
-            
+
             expect(polishPlaintextTemplate?.content).toContain("Cześć")
             expect(polishPlaintextTemplate?.content).toContain("Witaj @Model.UserName!")
         })
@@ -203,9 +210,9 @@ describe("processTemplate function - Razor mode", () => {
 
     describe("Default language configuration", () => {
         it("should use custom default language in Razor mode", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "pl" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "pl",
             })
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -216,9 +223,9 @@ describe("processTemplate function - Razor mode", () => {
         })
 
         it("should generate correct file names with custom default language", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "es" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "es",
             })
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -228,7 +235,7 @@ describe("processTemplate function - Razor mode", () => {
             expect(defaultTemplate).toBeDefined()
             expect(englishTemplate).toBeDefined()
             expect(polishTemplate).toBeDefined()
-            
+
             expect(defaultTemplate?.content).toContain("Hola")
             expect(englishTemplate?.content).toContain("Hello")
             expect(polishTemplate?.content).toContain("Cześć")
@@ -296,7 +303,7 @@ describe("processTemplate function - Razor mode", () => {
             const result = processTemplate(templateWithMedia, mockTranslationData, { outputMode: "razor" })
 
             const allTemplates = result.outputTemplates.filter(t => t.filename.endsWith(".cshtml"))
-            
+
             allTemplates.forEach(template => {
                 expect(template.content).toContain("@@media (max-width: 600px)")
                 expect(template.content).toContain("@@import url('https://fonts.googleapis.com/css?family=Open+Sans')")
@@ -329,7 +336,9 @@ describe("processTemplate function - Razor mode", () => {
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "escaped-media-template.cshtml")
             expect(defaultTemplate?.content).toContain("@@media (max-width: 600px)")
-            expect(defaultTemplate?.content).toContain("@@import url('https://fonts.googleapis.com/css?family=Open+Sans')")
+            expect(defaultTemplate?.content).toContain(
+                "@@import url('https://fonts.googleapis.com/css?family=Open+Sans')",
+            )
             expect(defaultTemplate?.content).not.toContain("@@@media")
             expect(defaultTemplate?.content).not.toContain("@@@import")
         })
@@ -344,7 +353,7 @@ describe("processTemplate function - Razor mode", () => {
 
             expect(defaultTemplate?.content).toContain("Your recovery code is: @Model.RecoveryCode")
             expect(defaultTemplate?.content).toContain("Hello @Model.UserName, welcome to our platform!")
-            
+
             expect(polishTemplate?.content).toContain("Twój kod odzyskiwania to: @Model.RecoveryCode")
             expect(polishTemplate?.content).toContain("Cześć @Model.UserName, witaj na naszej platformie!")
         })
@@ -359,8 +368,12 @@ describe("processTemplate function - Razor mode", () => {
         it("should handle Razor variables in plaintext templates", () => {
             const result = processTemplate(complexTemplate, mockTranslationData, { outputMode: "razor" })
 
-            const defaultPlaintextTemplate = result.outputTemplates.find(t => t.filename === "complex-template.txt.cshtml")
-            const polishPlaintextTemplate = result.outputTemplates.find(t => t.filename === "complex-template.pl.txt.cshtml")
+            const defaultPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "complex-template.txt.cshtml",
+            )
+            const polishPlaintextTemplate = result.outputTemplates.find(
+                t => t.filename === "complex-template.pl.txt.cshtml",
+            )
 
             expect(defaultPlaintextTemplate?.content).toContain("Your recovery code is: @Model.RecoveryCode")
             expect(polishPlaintextTemplate?.content).toContain("Twój kod odzyskiwania to: @Model.RecoveryCode")
@@ -369,10 +382,14 @@ describe("processTemplate function - Razor mode", () => {
 
     describe("No translations scenario", () => {
         it("should generate Razor template with default language when no translations", () => {
-            const result = processTemplate(basicTemplate, {}, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
-            })
+            const result = processTemplate(
+                basicTemplate,
+                {},
+                {
+                    outputMode: "razor",
+                    defaultLanguage: "en",
+                },
+            )
 
             expect(result.outputTemplates.length).toBeGreaterThan(0)
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -382,14 +399,20 @@ describe("processTemplate function - Razor mode", () => {
         })
 
         it("should only generate default language files when no translations", () => {
-            const result = processTemplate(basicTemplate, {}, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
-            })
+            const result = processTemplate(
+                basicTemplate,
+                {},
+                {
+                    outputMode: "razor",
+                    defaultLanguage: "en",
+                },
+            )
 
-            const htmlTemplates = result.outputTemplates.filter(t => t.filename.endsWith(".cshtml") && !t.filename.includes(".txt."))
+            const htmlTemplates = result.outputTemplates.filter(
+                t => t.filename.endsWith(".cshtml") && !t.filename.includes(".txt."),
+            )
             const plaintextTemplates = result.outputTemplates.filter(t => t.filename.endsWith(".txt.cshtml"))
-            
+
             expect(htmlTemplates).toHaveLength(1)
             expect(htmlTemplates[0].filename).toBe("basic-template.cshtml")
             expect(plaintextTemplates).toHaveLength(1)
@@ -415,10 +438,16 @@ describe("processTemplate function - Razor mode", () => {
                 `,
             }
 
-            const result = processTemplate(templateWithMissingTranslations, mockTranslationData, { outputMode: "razor" })
+            const result = processTemplate(templateWithMissingTranslations, mockTranslationData, {
+                outputMode: "razor",
+            })
 
-            const defaultTemplate = result.outputTemplates.find(t => t.filename === "missing-translations-template.cshtml")
-            const polishTemplate = result.outputTemplates.find(t => t.filename === "missing-translations-template.pl.cshtml")
+            const defaultTemplate = result.outputTemplates.find(
+                t => t.filename === "missing-translations-template.cshtml",
+            )
+            const polishTemplate = result.outputTemplates.find(
+                t => t.filename === "missing-translations-template.pl.cshtml",
+            )
 
             expect(defaultTemplate?.content).toContain("Hello")
             expect(defaultTemplate?.content).toContain("nonexistent_key")
@@ -434,8 +463,10 @@ describe("processTemplate function - Razor mode", () => {
 
             const result = processTemplate(longNameTemplate, mockTranslationData, { outputMode: "razor" })
 
-            const defaultTemplate = result.outputTemplates.find(t => 
-                t.filename === "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems.cshtml"
+            const defaultTemplate = result.outputTemplates.find(
+                t =>
+                    t.filename ===
+                    "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems.cshtml",
             )
             expect(defaultTemplate).toBeDefined()
             expect(defaultTemplate?.content).toContain("Hello")
@@ -466,15 +497,13 @@ describe("processTemplate function - Razor mode", () => {
         })
     })
 
-
-
     describe("MJML compilation with Razor mode", () => {
         it("should apply MJML options during Razor template compilation", () => {
             const result = processTemplate(basicTemplate, mockTranslationData, {
                 outputMode: "razor",
                 mjmlOptions: {
-                    validationLevel: "strict"
-                }
+                    validationLevel: "strict",
+                },
             })
 
             const defaultTemplate = result.outputTemplates.find(t => t.filename === "basic-template.cshtml")
@@ -508,13 +537,13 @@ describe("processTemplate function - Razor mode", () => {
 
     describe("File naming conventions", () => {
         it("should generate correct file names for different languages", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "en" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "en",
             })
 
             const fileNames = result.outputTemplates.map(t => t.filename).sort()
-            
+
             expect(fileNames).toContain("basic-template.cshtml")
             expect(fileNames).toContain("basic-template.pl.cshtml")
             expect(fileNames).toContain("basic-template.es.cshtml")
@@ -524,17 +553,17 @@ describe("processTemplate function - Razor mode", () => {
         })
 
         it("should not include language suffix for default language", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { 
-                outputMode: "razor", 
-                defaultLanguage: "pl" 
+            const result = processTemplate(basicTemplate, mockTranslationData, {
+                outputMode: "razor",
+                defaultLanguage: "pl",
             })
 
             const fileNames = result.outputTemplates.map(t => t.filename).sort()
-            
+
             expect(fileNames).toContain("basic-template.cshtml") // Default (pl)
             expect(fileNames).toContain("basic-template.en.cshtml")
             expect(fileNames).toContain("basic-template.es.cshtml")
             expect(fileNames).not.toContain("basic-template.pl.cshtml")
         })
     })
-}) 
+})

@@ -2,7 +2,7 @@ module.exports = {
     translationsPath: "./__tests__/translations",
     mailsPath: "./__tests__/mails",
     outputPath: "./dist/output",
-    outputMode: "razor",
+    outputMode: "kratos",
     defaultLanguage: "en",
     languages: ["en", "pl"],
     verbose: false,
