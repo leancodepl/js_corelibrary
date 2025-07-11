@@ -8,13 +8,6 @@ export interface OutputTemplate {
     content: string
 }
 
-/**
- * Generate output templates for the specified mode
- * @param translatedMails - Object containing translated mails grouped by language
- * @param outputMode - The output mode ('kratos' or 'razor')
- * @param defaultLanguage - The default language to use
- * @returns Array of output templates with filename and content
- */
 export function generateOutputTemplates(
     translatedMails: { [language: string]: TranslatedMail[] },
     outputMode: OutputMode,
@@ -28,4 +21,4 @@ export function generateOutputTemplates(
         default:
             throw new Error(`Unsupported output mode: ${outputMode}`)
     }
-} 
+}

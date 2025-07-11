@@ -15,17 +15,12 @@ export interface MailTranslationConfig {
 }
 
 export interface CliConfig extends MailTranslationConfig {
-    // CLI-specific options
     verbose?: boolean
     watch?: boolean
 }
 
 const moduleName = "mail-translation"
 
-/**
- * Load configuration from various sources using lilconfig
- * Supports: package.json, .mailtranslationrc, .mailtranslationrc.json, .mailtranslationrc.js, mail-translation.config.js
- */
 export async function loadConfig(searchFrom?: string): Promise<CliConfig | null> {
     const explorer = lilconfig(moduleName, {
         searchPlaces: [
@@ -47,9 +42,6 @@ export async function loadConfig(searchFrom?: string): Promise<CliConfig | null>
     }
 }
 
-/**
- * Load configuration from a specific file path
- */
 export async function loadConfigFromFile(filepath: string): Promise<CliConfig> {
     const explorer = lilconfig(moduleName)
 
@@ -61,16 +53,11 @@ export async function loadConfigFromFile(filepath: string): Promise<CliConfig> {
     }
 }
 
-/**
- * Validate configuration object
- */
 export function validateConfig(config: CliConfig): void {
-
     if (!config.mailsPath) {
         throw new Error("Configuration must specify mailsPath")
     }
 
-    // Validate output mode if provided
     if (config.outputMode) {
         const validModes: OutputMode[] = ["kratos", "razor"]
         if (!validModes.includes(config.outputMode)) {
@@ -78,7 +65,6 @@ export function validateConfig(config: CliConfig): void {
         }
     }
 
-    // Validate MJML options if provided
     if (config.mjmlOptions?.validationLevel) {
         const validLevels = ["strict", "soft", "skip"]
         if (!validLevels.includes(config.mjmlOptions.validationLevel)) {
@@ -89,9 +75,6 @@ export function validateConfig(config: CliConfig): void {
     }
 }
 
-/**
- * Get default configuration
- */
 export function getDefaultConfig(): CliConfig {
     return {
         translationsPath: "./translations",
@@ -110,9 +93,6 @@ export function getDefaultConfig(): CliConfig {
     }
 }
 
-/**
- * Merge configuration with defaults
- */
 export function mergeWithDefaults(config: Partial<CliConfig>): CliConfig {
     const defaults = getDefaultConfig()
 
@@ -125,7 +105,6 @@ export function mergeWithDefaults(config: Partial<CliConfig>): CliConfig {
         },
     }
 
-    // If plaintextMailsPath is not provided, use mailsPath as fallback
     if (!merged.plaintextMailsPath) {
         merged.plaintextMailsPath = merged.mailsPath
     }

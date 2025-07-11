@@ -3,18 +3,11 @@
 
 import { Command } from "commander"
 import * as path from "path"
-import {
-    CliConfig,
-    loadConfig,
-    loadConfigFromFile,
-    mergeWithDefaults,
-    OutputMode,
-    validateConfig,
-} from "./lib/loadConfig"
-import { loadTranslations, TranslationData } from "./lib/loadTranslations"
-import { ProcessedTemplate, processTemplate, Template } from "./lib/processTemplate"
-import { saveOutputs } from "./lib/saveOutputs"
-import { loadPlaintextTemplates, loadTemplates } from "./lib/templateLoader"
+import { CliConfig, loadConfig, loadConfigFromFile, mergeWithDefaults, OutputMode, validateConfig } from "./loadConfig"
+import { loadTranslations, TranslationData } from "./loadTranslations"
+import { ProcessedTemplate, processTemplate, Template } from "./processTemplate"
+import { saveOutputs } from "./saveOutputs"
+import { loadPlaintextTemplates, loadTemplates } from "./templateLoader"
 
 const program = new Command()
 
@@ -35,7 +28,6 @@ interface CliOptions {
 
 async function translateMails(options: CliOptions): Promise<void> {
     try {
-        // Load configuration
         let config: CliConfig
 
         if (options.config) {
@@ -45,7 +37,6 @@ async function translateMails(options: CliOptions): Promise<void> {
             config = loadedConfig || ({} as CliConfig)
         }
 
-        // Override config with CLI options
         if (options.translationsPath) config.translationsPath = options.translationsPath
         if (options.mailsPath) config.mailsPath = options.mailsPath
         if (options.outputPath) config.outputPath = options.outputPath
@@ -53,7 +44,6 @@ async function translateMails(options: CliOptions): Promise<void> {
         if (options.defaultLanguage) config.defaultLanguage = options.defaultLanguage
         if (options.verbose !== undefined) config.verbose = options.verbose
 
-        // Handle MJML options
         if (options.beautify !== undefined) {
             config.mjmlOptions = config.mjmlOptions || {}
             config.mjmlOptions.beautify = options.beautify
@@ -67,17 +57,14 @@ async function translateMails(options: CliOptions): Promise<void> {
             config.mjmlOptions.validationLevel = options.validationLevel
         }
 
-        // Merge with defaults
         config = mergeWithDefaults(config)
 
-        // Validate configuration
         validateConfig(config)
 
         if (config.verbose) {
             console.log("Configuration:", JSON.stringify(config, null, 2))
         }
 
-        // Load translations
         let translationData: TranslationData = {}
         if (config.translationsPath) {
             translationData = await loadTranslations(config.translationsPath)
@@ -85,7 +72,6 @@ async function translateMails(options: CliOptions): Promise<void> {
             console.warn("No translations path provided. Continuing without translations.")
         }
 
-        // Load templates
         const mjmlTemplates = await loadTemplates(config.mailsPath)
         const plaintextTemplates = await loadPlaintextTemplates(
             config.plaintextMailsPath || config.mailsPath,
@@ -99,12 +85,10 @@ async function translateMails(options: CliOptions): Promise<void> {
             console.log("Available languages:", hasTranslations ? availableLanguages : [config.defaultLanguage])
         }
 
-        // Check if we have any translations loaded
         if (!hasTranslations) {
             console.log("No translations found. Processing templates without translations.")
         }
 
-        // Determine which languages to process
         let languagesToProcess: string[]
         if (options.language) {
             languagesToProcess = [options.language]
@@ -116,7 +100,6 @@ async function translateMails(options: CliOptions): Promise<void> {
             languagesToProcess = hasTranslations ? availableLanguages : [config.defaultLanguage]
         }
 
-        // Validate languages
         const allAvailableLanguages = hasTranslations ? availableLanguages : [config.defaultLanguage]
         for (const lang of languagesToProcess) {
             if (!allAvailableLanguages.includes(lang)) {
@@ -130,7 +113,6 @@ async function translateMails(options: CliOptions): Promise<void> {
         console.log(`Output mode: ${config.outputMode}`)
         console.log(`Default language: ${config.defaultLanguage}`)
 
-        // Process each template
         const processedTemplates: ProcessedTemplate[] = []
 
         for (const [templateName, mjmlContent] of Object.entries(mjmlTemplates)) {
@@ -144,7 +126,6 @@ async function translateMails(options: CliOptions): Promise<void> {
                 plaintext: plaintextTemplates[templateName],
             }
 
-            // Process template - this now includes output template generation
             const processedTemplate = processTemplate(template, translationData, {
                 outputMode: config.outputMode,
                 defaultLanguage: config.defaultLanguage,
@@ -157,12 +138,10 @@ async function translateMails(options: CliOptions): Promise<void> {
             processedTemplates.push(processedTemplate)
         }
 
-        // Log results
         for (const language of languagesToProcess) {
             const templatesForLanguage = processedTemplates.filter(pt => pt.translatedMails[language])
             console.log(`✓ ${language}: ${templatesForLanguage.length} templates processed`)
 
-            // Log errors if any
             for (const processedTemplate of templatesForLanguage) {
                 const translatedMail = processedTemplate.translatedMails[language]
                 if (translatedMail && translatedMail.errors.length > 0) {
@@ -176,7 +155,6 @@ async function translateMails(options: CliOptions): Promise<void> {
             }
         }
 
-        // Save processed templates
         if (config.outputPath) {
             await saveOutputs(processedTemplates, config.outputPath)
             console.log(`✓ Translated mails saved to: ${path.resolve(config.outputPath)}`)
@@ -189,7 +167,6 @@ async function translateMails(options: CliOptions): Promise<void> {
     }
 }
 
-// CLI setup
 program
     .name("@leancodepl/mail-translation")
     .description("CLI tool for translating MJML email templates")
@@ -212,13 +189,11 @@ program
     .option("--validation-level <level>", "MJML validation level (strict|soft|skip)", "soft")
     .action(translateMails)
 
-// Set default command to translate
 program.arguments("[command]").action(cmd => {
     if (cmd) {
         program.outputHelp()
         process.exit(1)
     } else {
-        // If no command is provided, run translate with no options
         translateMails({}).catch(error => {
             console.error("Error:", error instanceof Error ? error.message : error)
             process.exit(1)
@@ -226,10 +201,8 @@ program.arguments("[command]").action(cmd => {
     }
 })
 
-// Parse arguments
 program.parse()
 
-// If no arguments provided, show help
 if (process.argv.length === 2) {
     program.outputHelp()
 }
