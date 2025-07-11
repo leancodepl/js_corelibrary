@@ -1,40 +1,40 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class RegistrationPage extends CommonPage {
     static readonly route = "/registration"
-    readonly wrapper: Locator
-    readonly alreadyLoggedInWrapper: Locator
+    readonly wrapper
+    readonly alreadyLoggedInWrapper
 
     // Common locators
-    readonly registerButton: Locator
-    readonly errors: Locator
+    readonly registerButton
+    readonly errors
 
     // Traits form
-    readonly traitsFormWrapper: Locator
-    readonly emailInput: Locator
-    readonly emailInputErrors: Locator
-    readonly givenNameInput: Locator
-    readonly regulationsCheckbox: Locator
-    readonly regulationsCheckboxErrors: Locator
-    readonly googleButton: Locator
-    readonly appleButton: Locator
-    readonly facebookButton: Locator
+    readonly traitsFormWrapper
+    readonly emailInput
+    readonly emailInputErrors
+    readonly givenNameInput
+    readonly regulationsCheckbox
+    readonly regulationsCheckboxErrors
+    readonly googleButton
+    readonly appleButton
+    readonly facebookButton
 
     // Choose method form
-    readonly chooseMethodFormWrapper: Locator
-    readonly returnButton: Locator
-    readonly passwordInput: Locator
-    readonly passwordInputErrors: Locator
-    readonly passwordConfirmationInput: Locator
-    readonly passwordConfirmationInputErrors: Locator
-    readonly passkeyButton: Locator
+    readonly chooseMethodFormWrapper
+    readonly returnButton
+    readonly passwordInput
+    readonly passwordInputErrors
+    readonly passwordConfirmationInput
+    readonly passwordConfirmationInputErrors
+    readonly passkeyButton
 
     // Email verification form
-    readonly emailVerificationFormWrapper: Locator
-    readonly emailVerificationCodeInput: Locator
-    readonly emailVerificationSubmitButton: Locator
-    readonly emailVerificationResendButton: Locator
+    readonly emailVerificationFormWrapper
+    readonly emailVerificationCodeInput
+    readonly emailVerificationSubmitButton
+    readonly emailVerificationResendButton
 
     constructor(protected readonly page: Page) {
         super(page)

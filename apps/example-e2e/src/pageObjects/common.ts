@@ -1,12 +1,12 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
 
 export class CommonPage {
-    readonly header: Locator
-    readonly logoutButton: Locator
+    readonly header
+    readonly logoutButton
 
-    readonly headerLoading: Locator
-    readonly headerNotLoggedIn: Locator
-    readonly headerLoggedIn: Locator
+    readonly headerLoading
+    readonly headerNotLoggedIn
+    readonly headerLoggedIn
 
     constructor(protected readonly page: Page) {
         this.header = page.getByTestId("header")

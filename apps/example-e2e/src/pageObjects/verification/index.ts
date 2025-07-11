@@ -1,16 +1,16 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class VerificationPage extends CommonPage {
     static readonly route = "/verification"
-    readonly wrapper: Locator
+    readonly wrapper
 
     // Email verification form
-    readonly emailVerificationFormWrapper: Locator
-    readonly verificationCodeInput: Locator
-    readonly verifyButton: Locator
-    readonly resendCodeButton: Locator
-    readonly errors: Locator
+    readonly emailVerificationFormWrapper
+    readonly verificationCodeInput
+    readonly verifyButton
+    readonly resendCodeButton
+    readonly errors
 
     constructor(protected readonly page: Page) {
         super(page)
@@ -43,7 +43,7 @@ export class VerificationPage extends CommonPage {
         await this.resendCodeButton.click()
     }
 
-    async getErrors(): Promise<string[]> {
+    async getErrors() {
         return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
     }
 }

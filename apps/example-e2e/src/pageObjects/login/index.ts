@@ -1,38 +1,38 @@
-import { expect, Locator, Page } from "@playwright/test"
+import { expect, Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class LoginPage extends CommonPage {
     static readonly route = "/login"
-    readonly wrapper: Locator
+    readonly wrapper
 
     // Common locators
-    readonly loginButton: Locator
-    readonly errors: Locator
+    readonly loginButton
+    readonly errors
 
     // Choose method form
-    readonly chooseMethodFormWrapper: Locator
-    readonly forgotPasswordLink: Locator
-    readonly existingIdentifier: Locator
-    readonly identifierInput: Locator
-    readonly passwordInput: Locator
-    readonly googleButton: Locator
-    readonly appleButton: Locator
-    readonly facebookButton: Locator
-    readonly passkeyButton: Locator
+    readonly chooseMethodFormWrapper
+    readonly forgotPasswordLink
+    readonly existingIdentifier
+    readonly identifierInput
+    readonly passwordInput
+    readonly googleButton
+    readonly appleButton
+    readonly facebookButton
+    readonly passkeyButton
 
     // Second factor form
-    readonly secondFactorFormWrapper: Locator
-    readonly totpInput: Locator
-    readonly continueWithEmailButton: Locator
+    readonly secondFactorFormWrapper
+    readonly totpInput
+    readonly continueWithEmailButton
 
     // Second factor email form
-    readonly secondFactorEmailFormWrapper: Locator
-    readonly secondFactorCodeInput: Locator
-    readonly resendCodeButton: Locator
+    readonly secondFactorEmailFormWrapper
+    readonly secondFactorCodeInput
+    readonly resendCodeButton
 
     // Email verification form
-    readonly emailVerificationFormWrapper: Locator
-    readonly emailVerificationCodeInput: Locator
+    readonly emailVerificationFormWrapper
+    readonly emailVerificationCodeInput
 
     constructor(protected readonly page: Page) {
         super(page)
@@ -73,7 +73,7 @@ export class LoginPage extends CommonPage {
         await this.page.goto(LoginPage.route)
     }
 
-    async isVisible(): Promise<boolean> {
+    async isVisible() {
         return this.wrapper.isVisible()
     }
 
@@ -85,7 +85,7 @@ export class LoginPage extends CommonPage {
 
     // Choose method form
 
-    async isChooseMethodFormVisible(): Promise<boolean> {
+    async isChooseMethodFormVisible() {
         return this.chooseMethodFormWrapper.isVisible()
     }
 
@@ -126,7 +126,7 @@ export class LoginPage extends CommonPage {
         await this.forgotPasswordLink.click()
     }
 
-    async getErrors(): Promise<string[]> {
+    async getErrors() {
         return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
     }
 
