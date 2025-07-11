@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
+
+### Bug Fixes
+
+- aborted error response type
+  ([9111bcf](https://github.com/leancodepl/js_corelibrary/commit/9111bcf7a630b37566630c970946804a0594d8e6))
+
+### Features
+
+- handle aborted requests error in axios client
+  ([8a07eeb](https://github.com/leancodepl/js_corelibrary/commit/8a07eeb6c3b7e67046a6f277cdc18a9db2df69ac))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
 
 **Note:** Version bump only for package @leancodepl/cqrs-client-base

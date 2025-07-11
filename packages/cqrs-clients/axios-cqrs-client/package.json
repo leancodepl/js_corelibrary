@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/axios-cqrs-client",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -10,8 +10,8 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "8.4.0",
-    "@leancodepl/validation": "8.4.0",
+    "@leancodepl/cqrs-client-base": "8.5.0",
+    "@leancodepl/validation": "8.5.0",
     "axios": ">=1.6.0"
   },
   "repository": {

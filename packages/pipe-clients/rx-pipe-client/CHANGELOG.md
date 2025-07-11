@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
+
+### Bug Fixes
+
+- adjust rx-pipe-client package description
+  ([76e7813](https://github.com/leancodepl/js_corelibrary/commit/76e781373f427bf85e62fb6cfd18f0e3ceb61666))
+- enhance packages documentation
+  ([ae960c4](https://github.com/leancodepl/js_corelibrary/commit/ae960c469b6231b04ca8b239dc268decbc9f0a18))
+- hook-pipe-client package keywords
+  ([21c1a73](https://github.com/leancodepl/js_corelibrary/commit/21c1a73fde60fb2766091c72a6141f002b785445))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
 
 **Note:** Version bump only for package @leancodepl/rx-pipe-client
