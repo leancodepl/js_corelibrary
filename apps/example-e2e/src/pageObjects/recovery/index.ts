@@ -1,28 +1,28 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class RecoveryPage extends CommonPage {
     static readonly route = "/recovery"
-    readonly wrapper: Locator
+    readonly wrapper
 
     // Email form
-    readonly emailFormWrapper: Locator
-    readonly emailInput: Locator
-    readonly emailSubmitButton: Locator
-    readonly emailFormErrors: Locator
+    readonly emailFormWrapper
+    readonly emailInput
+    readonly emailSubmitButton
+    readonly emailFormErrors
 
     // Code form
-    readonly codeFormWrapper: Locator
-    readonly codeInput: Locator
-    readonly codeSubmitButton: Locator
-    readonly codeFormErrors: Locator
+    readonly codeFormWrapper
+    readonly codeInput
+    readonly codeSubmitButton
+    readonly codeFormErrors
 
     // New password form
-    readonly newPasswordFormWrapper: Locator
-    readonly newPasswordInput: Locator
-    readonly newPasswordConfirmationInput: Locator
-    readonly newPasswordSubmitButton: Locator
-    readonly newPasswordFormErrors: Locator
+    readonly newPasswordFormWrapper
+    readonly newPasswordInput
+    readonly newPasswordConfirmationInput
+    readonly newPasswordSubmitButton
+    readonly newPasswordFormErrors
 
     constructor(protected readonly page: Page) {
         super(page)
@@ -63,7 +63,7 @@ export class RecoveryPage extends CommonPage {
         await this.emailSubmitButton.click()
     }
 
-    async getEmailFormErrors(): Promise<string[]> {
+    async getEmailFormErrors() {
         return (await this.emailFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
@@ -77,7 +77,7 @@ export class RecoveryPage extends CommonPage {
         await this.codeSubmitButton.click()
     }
 
-    async getCodeFormErrors(): Promise<string[]> {
+    async getCodeFormErrors() {
         return (await this.codeFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
@@ -92,7 +92,7 @@ export class RecoveryPage extends CommonPage {
         await this.newPasswordSubmitButton.click()
     }
 
-    async getNewPasswordFormErrors(): Promise<string[]> {
+    async getNewPasswordFormErrors() {
         return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 }

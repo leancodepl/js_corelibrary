@@ -1,50 +1,50 @@
-import { Locator, Page } from "@playwright/test"
+import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class SettingsPage extends CommonPage {
     static readonly route = "/settings"
-    readonly wrapper: Locator
+    readonly wrapper
 
     // Traits form
-    readonly traitsFormWrapper: Locator
-    readonly emailVerificationRequiredInfo: Locator
-    readonly emailInput: Locator
-    readonly emailInputErrors: Locator
-    readonly givenNameInput: Locator
-    readonly givenNameInputErrors: Locator
-    readonly traitsFormUpdateButton: Locator
-    readonly traitsFormErrors: Locator
+    readonly traitsFormWrapper
+    readonly emailVerificationRequiredInfo
+    readonly emailInput
+    readonly emailInputErrors
+    readonly givenNameInput
+    readonly givenNameInputErrors
+    readonly traitsFormUpdateButton
+    readonly traitsFormErrors
 
     // New password form
-    readonly newPasswordFormWrapper: Locator
-    readonly newPasswordInput: Locator
-    readonly newPasswordInputErrors: Locator
-    readonly newPasswordConfirmationInput: Locator
-    readonly newPasswordConfirmationInputErrors: Locator
-    readonly newPasswordFormSubmitButton: Locator
-    readonly newPasswordFormErrors: Locator
+    readonly newPasswordFormWrapper
+    readonly newPasswordInput
+    readonly newPasswordInputErrors
+    readonly newPasswordConfirmationInput
+    readonly newPasswordConfirmationInputErrors
+    readonly newPasswordFormSubmitButton
+    readonly newPasswordFormErrors
 
     // Passkeys form
-    readonly passkeysFormWrapper: Locator
-    readonly addNewPasskeyButton: Locator
-    readonly existingPasskeys: Locator
-    readonly removePasskeyButton: Locator
+    readonly passkeysFormWrapper
+    readonly addNewPasskeyButton
+    readonly existingPasskeys
+    readonly removePasskeyButton
 
     // TOTP form
-    readonly totpFormLinkedWrapper: Locator
-    readonly totpFormUnlinkedWrapper: Locator
-    readonly totpSecretKey: Locator
-    readonly totpCodeInput: Locator
-    readonly totpCodeInputErrors: Locator
-    readonly verifyTotpButton: Locator
-    readonly unlinkTotpButton: Locator
-    readonly totpFormErrors: Locator
+    readonly totpFormLinkedWrapper
+    readonly totpFormUnlinkedWrapper
+    readonly totpSecretKey
+    readonly totpCodeInput
+    readonly totpCodeInputErrors
+    readonly verifyTotpButton
+    readonly unlinkTotpButton
+    readonly totpFormErrors
 
     // OIDC form
-    readonly oidcFormWrapper: Locator
-    readonly appleButton: Locator
-    readonly facebookButton: Locator
-    readonly googleButton: Locator
+    readonly oidcFormWrapper
+    readonly appleButton
+    readonly facebookButton
+    readonly googleButton
 
     constructor(protected readonly page: Page) {
         super(page)
@@ -142,7 +142,7 @@ export class SettingsPage extends CommonPage {
         await this.traitsFormUpdateButton.click()
     }
 
-    async getTraitsFormErrors(): Promise<string[]> {
+    async getTraitsFormErrors() {
         return (await this.traitsFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
@@ -157,7 +157,7 @@ export class SettingsPage extends CommonPage {
         await this.newPasswordFormSubmitButton.click()
     }
 
-    async getNewPasswordFormErrors(): Promise<string[]> {
+    async getNewPasswordFormErrors() {
         return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 
@@ -185,7 +185,7 @@ export class SettingsPage extends CommonPage {
         await this.unlinkTotpButton.click()
     }
 
-    async getTotpFormErrors(): Promise<string[]> {
+    async getTotpFormErrors() {
         return (await this.totpFormErrors.allTextContents()).filter(text => text.trim() !== "")
     }
 

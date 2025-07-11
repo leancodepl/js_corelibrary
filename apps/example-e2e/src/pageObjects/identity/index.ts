@@ -1,11 +1,11 @@
-import { expect, Locator, Page } from "@playwright/test"
+import { expect, Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class IdentityPage extends CommonPage {
     static readonly route = "/identity"
-    readonly wrapper: Locator
-    readonly email: Locator
-    readonly firstName: Locator
+    readonly wrapper
+    readonly email
+    readonly firstName
 
     constructor(protected readonly page: Page) {
         super(page)
@@ -19,7 +19,7 @@ export class IdentityPage extends CommonPage {
         await this.page.goto(IdentityPage.route)
     }
 
-    async isVisible(): Promise<boolean> {
+    async isVisible() {
         return this.wrapper.isVisible()
     }
 
