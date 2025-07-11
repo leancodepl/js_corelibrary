@@ -44,7 +44,8 @@
       "@leancodepl/utils": ["packages/utils/src/index.ts"],
       "@leancodepl/validation": ["packages/validation/src/index.ts"],
       "@leancodepl/mail-translation": ["packages/mail-translation/src/index.ts"],
-      "@leancodepl/intl": ["packages/intl/src/index.ts"]
+      "@leancodepl/intl": ["packages/intl/src/index.ts"],
+      "@leancodepl/folder-structure-cruiser": ["packages/folder-structure-cruiser/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
