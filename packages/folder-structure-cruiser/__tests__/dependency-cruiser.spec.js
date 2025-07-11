@@ -3,7 +3,7 @@ const path = require("path")
 
 describe("Dependency Cruiser Rules", () => {
     const testDir = path.join(__dirname, "test-structure")
-    const configPath = path.resolve(__dirname, "../src/dependency-cruiser.config.js")
+    const configPath = path.resolve(__dirname, "../src/index.js")
 
     test("should allow import from direct sibling index", () => {
         const filePath = path.join(testDir, "polls/PollEditor/index.tsx")
