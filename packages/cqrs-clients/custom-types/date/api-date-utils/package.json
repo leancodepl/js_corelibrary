@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/api-date-utils",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/api-date": "8.4.0"
+    "@leancodepl/api-date": "8.5.0"
   },
   "publishConfig": {
     "access": "public",

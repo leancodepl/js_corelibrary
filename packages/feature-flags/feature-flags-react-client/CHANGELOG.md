@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
+
+### Bug Fixes
+
+- enhance packages documentation
+  ([ae960c4](https://github.com/leancodepl/js_corelibrary/commit/ae960c469b6231b04ca8b239dc268decbc9f0a18))
+- package.json files
+  ([d8ffdf0](https://github.com/leancodepl/js_corelibrary/commit/d8ffdf08fd8cf0e78975160adf95b5e28e45403f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
 
 **Note:** Version bump only for package @leancodepl/feature-flags-react-client

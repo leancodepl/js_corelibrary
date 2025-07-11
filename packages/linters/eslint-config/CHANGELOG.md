@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
+
+### Bug Fixes
+
+- bring back brackets
+  ([27fa689](https://github.com/leancodepl/js_corelibrary/commit/27fa689f3ce69696343693223c858d7bfddfeaea))
+- remove variableLike rule
+  ([c05bd8a](https://github.com/leancodepl/js_corelibrary/commit/c05bd8a1a2fe73b2cd3d161db838c39039858f60))
+- simplify rules
+  ([79007f9](https://github.com/leancodepl/js_corelibrary/commit/79007f996a8529d6f9e6f2ac17b960b1a711bd72))
+
+### Features
+
+- add consistent rule to curly
+  ([f9dfe3c](https://github.com/leancodepl/js_corelibrary/commit/f9dfe3c7c8e7909f42882f9d7d4dde4ce8e5d919))
+- add linting rules
+  ([a2f4879](https://github.com/leancodepl/js_corelibrary/commit/a2f487916916c9bfa96da7e97da106036a237610))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
 
 ### Bug Fixes

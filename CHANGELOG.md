@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
+
+### Bug Fixes
+
+- @leancodepl/force-update version
+  ([6098571](https://github.com/leancodepl/js_corelibrary/commit/60985717e9cf6cada4f933c1517d365354b07a76))
+- aborted error response type
+  ([9111bcf](https://github.com/leancodepl/js_corelibrary/commit/9111bcf7a630b37566630c970946804a0594d8e6))
+- adjust ci audit command
+  ([127eee1](https://github.com/leancodepl/js_corelibrary/commit/127eee109e3b5ee2e50d6872ffed4d8443a0b10e))
+- adjust rx-pipe-client package description
+  ([76e7813](https://github.com/leancodepl/js_corelibrary/commit/76e781373f427bf85e62fb6cfd18f0e3ceb61666))
+- axios error handling typing
+  ([15a8ec0](https://github.com/leancodepl/js_corelibrary/commit/15a8ec04aebbbd9eca9e3c6c2c715f9211ad2413))
+- binary packages in readme
+  ([ac6a2be](https://github.com/leancodepl/js_corelibrary/commit/ac6a2be51a1e4ed16acd08c928d61561e6837b3c))
+- bring back brackets
+  ([27fa689](https://github.com/leancodepl/js_corelibrary/commit/27fa689f3ce69696343693223c858d7bfddfeaea))
+- enhance packages documentation
+  ([ae960c4](https://github.com/leancodepl/js_corelibrary/commit/ae960c469b6231b04ca8b239dc268decbc9f0a18))
+- force-update package dependencies
+  ([76ae525](https://github.com/leancodepl/js_corelibrary/commit/76ae5250d06b6a50d762e90cb74917082dbee682))
+- force-update package readme
+  ([2178807](https://github.com/leancodepl/js_corelibrary/commit/2178807a8474ec5d24a55192d2758617b1dafe46))
+- general readme
+  ([ee68307](https://github.com/leancodepl/js_corelibrary/commit/ee68307dafd7f07df6ee18d3064d193948e77f11))
+- hook-pipe-client package keywords
+  ([21c1a73](https://github.com/leancodepl/js_corelibrary/commit/21c1a73fde60fb2766091c72a6141f002b785445))
+- linting ([b98e361](https://github.com/leancodepl/js_corelibrary/commit/b98e36197069158b434e6e027147ccaaaa4b3da5))
+- linting ([edef3d0](https://github.com/leancodepl/js_corelibrary/commit/edef3d054bd5550bb04e448d8bde2fc3ca6dff69))
+- package.json files
+  ([d8ffdf0](https://github.com/leancodepl/js_corelibrary/commit/d8ffdf08fd8cf0e78975160adf95b5e28e45403f))
+- package.json workspaces
+  ([f40555e](https://github.com/leancodepl/js_corelibrary/commit/f40555ee33e14d8730741fb3453dbe20f6ad398d))
+- readme API documentation
+  ([177f21a](https://github.com/leancodepl/js_corelibrary/commit/177f21a795de4549f42ea1decf1a04411fbf4982))
+- remove variableLike rule
+  ([c05bd8a](https://github.com/leancodepl/js_corelibrary/commit/c05bd8a1a2fe73b2cd3d161db838c39039858f60))
+- simplify listenOnForceUpdate
+  ([23ee951](https://github.com/leancodepl/js_corelibrary/commit/23ee951de37a3b50dde5510e75cde08ec8d333c7))
+- simplify rules
+  ([79007f9](https://github.com/leancodepl/js_corelibrary/commit/79007f996a8529d6f9e6f2ac17b960b1a711bd72))
+- skip audit for dev packages
+  ([28224a2](https://github.com/leancodepl/js_corelibrary/commit/28224a208cf6ed6c0aa4987ef2d9407b27768969))
+- use null coalescing
+  ([d6a0619](https://github.com/leancodepl/js_corelibrary/commit/d6a06199c14c1b54dd8cde8a4c1b58435febe6c8))
+- validation package tests linting
+  ([e12c681](https://github.com/leancodepl/js_corelibrary/commit/e12c681f80beb790bdd277e75e80f75740a769f4))
+
+### Features
+
+- add Cache-Control: no-store header to version url request
+  ([e920844](https://github.com/leancodepl/js_corelibrary/commit/e920844c332c9c1b444ad5a0aba14e904faa0670))
+- add consistent rule to curly
+  ([f9dfe3c](https://github.com/leancodepl/js_corelibrary/commit/f9dfe3c7c8e7909f42882f9d7d4dde4ce8e5d919))
+- add linting rules
+  ([a2f4879](https://github.com/leancodepl/js_corelibrary/commit/a2f487916916c9bfa96da7e97da106036a237610))
+- add listenOnForceUpdate tests
+  ([a104847](https://github.com/leancodepl/js_corelibrary/commit/a104847797ea6db47b51aac3f7ff712adbb5a6d2))
+- fetch initial version instead of passing it to listenOnForceUpdate
+  ([0fce67c](https://github.com/leancodepl/js_corelibrary/commit/0fce67cbd3e5b272f2886b565ce4f5ee15c8d3cb))
+- force update mechanism for web apps
+  ([8a2578d](https://github.com/leancodepl/js_corelibrary/commit/8a2578d341dc2f3cc37f6e7f564783cf5b34db39))
+- handle aborted requests error in axios client
+  ([8a07eeb](https://github.com/leancodepl/js_corelibrary/commit/8a07eeb6c3b7e67046a6f277cdc18a9db2df69ac))
+- retry initial version fetch
+  ([d197bd9](https://github.com/leancodepl/js_corelibrary/commit/d197bd94043df0a03a89f64c2e5d24499e8df946))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.4.0](https://github.com/leancodepl/js_corelibrary/compare/v8.3.6...v8.4.0) (2025-06-20)
 
 ### Bug Fixes

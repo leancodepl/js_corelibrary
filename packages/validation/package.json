@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/validation",
-  "version": "8.4.0",
+  "version": "8.5.0",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "8.4.0"
+    "@leancodepl/cqrs-client-base": "8.5.0"
   },
   "devDependencies": {
     "sinon": "15.2.0"
