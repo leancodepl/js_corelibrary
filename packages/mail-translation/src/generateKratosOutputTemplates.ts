@@ -19,7 +19,10 @@ export function generateKratosOutputTemplates(
     }
 
     for (const [templateName, languageMails] of Object.entries(mailsByTemplate)) {
-        const kratosTemplate = generateKratosTemplate(languageMails, defaultLanguage)
+        const htmlContent = Object.fromEntries(
+            Object.entries(languageMails).map(([lang, mail]) => [lang, mail.html])
+        )
+        const kratosTemplate = generateKratosTemplate(htmlContent, defaultLanguage)
         outputTemplates.push({
             filename: `${templateName}.gotmpl`,
             content: kratosTemplate,
@@ -27,7 +30,10 @@ export function generateKratosOutputTemplates(
 
         const hasPlaintext = Object.values(languageMails).some(mail => mail.plaintext)
         if (hasPlaintext) {
-            const kratosPlaintextTemplate = generateKratosPlaintextTemplate(languageMails, defaultLanguage)
+            const plaintextContent = Object.fromEntries(
+                Object.entries(languageMails).map(([lang, mail]) => [lang, mail.plaintext || ""])
+            )
+            const kratosPlaintextTemplate = generateKratosTemplate(plaintextContent, defaultLanguage)
             outputTemplates.push({
                 filename: `${templateName}.plaintext.gotmpl`,
                 content: kratosPlaintextTemplate,
@@ -39,85 +45,57 @@ export function generateKratosOutputTemplates(
 }
 
 function generateKratosTemplate(
-    languageMails: { [language: string]: TranslatedMail },
+    content: { [language: string]: string },
     defaultLanguage: string,
 ): string {
-    const languages = Object.keys(languageMails)
+    const languages = Object.keys(content)
 
     if (languages.length === 1) {
-        const mail = languageMails[languages[0]]
-        return mail.html
+        return content[languages[0]]
     }
 
     let template = ""
 
-    for (const language of languages) {
-        const mail = languageMails[language]
-        template += `{{define "${language}"}}\n`
-        template += mail.html
-        template += "\n{{end}}\n\n"
-    }
-
-    const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
-
-    if (nonDefaultLanguages.length > 0) {
-        template += '{{- if eq .Identity.traits.lang "' + nonDefaultLanguages[0] + '" -}}\n'
-        template += '{{ template "' + nonDefaultLanguages[0] + '" . }}\n'
-
-        for (const language of nonDefaultLanguages.slice(1)) {
-            template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
-            template += '{{ template "' + language + '" . }}\n'
-        }
-
-        template += "{{- else -}}\n"
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-        template += "{{- end -}}\n"
-    } else {
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-    }
+    template += generateTranslationsSection(content)
+    template += generateConditionalRenderingSection(languages, defaultLanguage)
 
     return template
 }
 
-function generateKratosPlaintextTemplate(
-    languageMails: { [language: string]: TranslatedMail },
-    defaultLanguage: string,
+function generateTranslationsSection(
+    content: { [language: string]: string },
 ): string {
-    const languages = Object.keys(languageMails)
+    let template = ""
+    
+    for (const [language, languageContent] of Object.entries(content)) {
+        template += `{{define "${language}"}}\n`
+        template += languageContent
+        template += "\n{{end}}\n\n"
+    }
+    
+    return template
+}
 
-    if (languages.length === 1) {
-        const mail = languageMails[languages[0]]
-        return mail.plaintext || ""
+function generateConditionalRenderingSection(languages: string[], defaultLanguage: string): string {
+    const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
+
+    if (nonDefaultLanguages.length === 0) {
+        return `{{ template "${defaultLanguage}" . }}\n`
     }
 
     let template = ""
+    
+    template += `{{- if eq .Identity.traits.lang "${nonDefaultLanguages[0]}" -}}\n`
+    template += `{{ template "${nonDefaultLanguages[0]}" . }}\n`
 
-    for (const language of languages) {
-        const mail = languageMails[language]
-        template += `{{define "${language}"}}\n`
-        if (mail.plaintext) {
-            template += mail.plaintext
-        }
-        template += "\n{{end}}\n\n"
+    for (const language of nonDefaultLanguages.slice(1)) {
+        template += `{{- else if eq .Identity.traits.lang "${language}" -}}\n`
+        template += `{{ template "${language}" . }}\n`
     }
-
-    const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
-
-    if (nonDefaultLanguages.length > 0) {
-        template += '{{- if eq .Identity.traits.lang "' + nonDefaultLanguages[0] + '" -}}\n'
-        template += '{{ template "' + nonDefaultLanguages[0] + '" . }}\n'
-
-        for (const language of nonDefaultLanguages.slice(1)) {
-            template += '{{- else if eq .Identity.traits.lang "' + language + '" -}}\n'
-            template += '{{ template "' + language + '" . }}\n'
-        }
-
-        template += "{{- else -}}\n"
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-        template += "{{- end -}}\n"
-    } else {
-        template += '{{ template "' + defaultLanguage + '" . }}\n'
-    }
+    
+    template += "{{- else -}}\n"
+    template += `{{ template "${defaultLanguage}" . }}\n`
+    template += "{{- end -}}\n"
 
     return template
 }
