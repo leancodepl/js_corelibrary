@@ -6,9 +6,6 @@ export interface TemplateData {
     [templateName: string]: string
 }
 
-/**
- * Load all MJML templates from the mails directory
- */
 export async function loadTemplates(mailsPath: string): Promise<TemplateData> {
     const templates: TemplateData = {}
 
@@ -34,9 +31,6 @@ export async function loadTemplates(mailsPath: string): Promise<TemplateData> {
     }
 }
 
-/**
- * Load all plaintext templates from the plaintext mails directory
- */
 export async function loadPlaintextTemplates(
     plaintextMailsPath: string,
     outputMode: OutputMode = "kratos",
@@ -46,29 +40,23 @@ export async function loadPlaintextTemplates(
     try {
         const exists = await fs.pathExists(plaintextMailsPath)
         if (!exists) {
-            // If plaintext directory doesn't exist, return empty templates
             return templates
         }
 
         const files = await fs.readdir(plaintextMailsPath)
 
-        // Filter files based on output mode
         let plaintextFiles: string[]
         if (outputMode === "kratos") {
-            // Look for .plaintext.gotmpl files
             plaintextFiles = files.filter(file => file.endsWith(".plaintext.gotmpl"))
         } else {
-            // Look for .txt.cshtml files
             plaintextFiles = files.filter(file => file.endsWith(".txt.cshtml"))
         }
 
         for (const file of plaintextFiles) {
             let templateName: string
             if (outputMode === "kratos") {
-                // Remove .plaintext.gotmpl extension
                 templateName = file.replace(/\.plaintext\.gotmpl$/, "")
             } else {
-                // Remove .txt.cshtml extension
                 templateName = file.replace(/\.txt\.cshtml$/, "")
             }
 

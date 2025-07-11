@@ -17,12 +17,6 @@ export interface MjmlCompileResult {
     }>
 }
 
-/**
- * Compiles an MJML template to HTML
- * @param mjmlContent - The MJML template content
- * @param options - Compilation options
- * @returns Compiled HTML and any errors
- */
 export function compileMjml(mjmlContent: string, options: MjmlCompileOptions = {}): MjmlCompileResult {
     const defaultOptions: MjmlCompileOptions = {
         keepComments: false,
