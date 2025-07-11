@@ -7,7 +7,7 @@ import { processTemplate } from "./templateProcessor"
 import { getTranslationsForLanguage, loadTranslations, TranslationData } from "./translationLoader"
 
 export interface MailTranslatorOptions {
-    translationsPath: string
+    translationsPath?: string
     mailsPath: string
     plaintextMailsPath?: string
     outputPath?: string
@@ -45,7 +45,12 @@ export class MailTranslator {
      * Initialize the translator by loading all translations
      */
     async initialize(): Promise<void> {
-        this.translationData = await loadTranslations(this.options.translationsPath)
+        if (this.options.translationsPath) {
+            this.translationData = await loadTranslations(this.options.translationsPath)
+        } else {
+            console.warn("No translations path provided. Continuing without translations.")
+            this.translationData = {}
+        }
     }
 
     /**
@@ -188,7 +193,12 @@ export class MailTranslator {
         const plaintextTemplates = await this.loadPlaintextTemplates()
         const result: { [language: string]: TranslatedMail[] } = {}
 
-        for (const language of Object.keys(this.translationData)) {
+        // If no translations are available, use the default language
+        const availableLanguages = Object.keys(this.translationData)
+        const languagesToProcess =
+            availableLanguages.length > 0 ? availableLanguages : [this.options.defaultLanguage || "en"]
+
+        for (const language of languagesToProcess) {
             result[language] = []
 
             for (const [templateName, templateContent] of Object.entries(templates)) {
@@ -229,6 +239,14 @@ export class MailTranslator {
      * Get available languages
      */
     getAvailableLanguages(): string[] {
-        return Object.keys(this.translationData)
+        const availableLanguages = Object.keys(this.translationData)
+        return availableLanguages.length > 0 ? availableLanguages : [this.options.defaultLanguage || "en"]
+    }
+
+    /**
+     * Check if translations are loaded
+     */
+    hasTranslations(): boolean {
+        return Object.keys(this.translationData).length > 0
     }
 }

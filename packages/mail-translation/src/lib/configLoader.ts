@@ -4,7 +4,7 @@ import { MjmlCompileOptions } from "./mjmlCompiler"
 export type OutputMode = "kratos" | "razor"
 
 export interface MailTranslationConfig {
-    translationsPath: string
+    translationsPath?: string
     mailsPath: string
     plaintextMailsPath?: string
     outputPath?: string
@@ -65,9 +65,6 @@ export async function loadConfigFromFile(filepath: string): Promise<CliConfig> {
  * Validate configuration object
  */
 export function validateConfig(config: CliConfig): void {
-    if (!config.translationsPath) {
-        throw new Error("Configuration must specify translationsPath")
-    }
 
     if (!config.mailsPath) {
         throw new Error("Configuration must specify mailsPath")

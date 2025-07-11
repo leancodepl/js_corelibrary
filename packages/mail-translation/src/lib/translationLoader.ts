@@ -21,12 +21,18 @@ export async function loadTranslations(translationsPath: string): Promise<Transl
         // Check if translations directory exists
         const exists = await fs.pathExists(translationsPath)
         if (!exists) {
-            throw new Error(`Translations directory not found: ${translationsPath}`)
+            console.warn(`Translations directory not found: ${translationsPath}. Continuing without translations.`)
+            return translationData
         }
 
         // Read all files in the translations directory
         const files = await fs.readdir(translationsPath)
         const jsonFiles = files.filter(file => path.extname(file) === ".json")
+
+        if (jsonFiles.length === 0) {
+            console.warn(`No translation files found in: ${translationsPath}. Continuing without translations.`)
+            return translationData
+        }
 
         // Load each translation file
         for (const file of jsonFiles) {
@@ -44,7 +50,8 @@ export async function loadTranslations(translationsPath: string): Promise<Transl
 
         return translationData
     } catch (error) {
-        throw new Error(`Failed to load translations: ${error}`)
+        console.warn(`Failed to load translations: ${error}. Continuing without translations.`)
+        return translationData
     }
 }
 

@@ -239,12 +239,12 @@ describe('Mail Translation', () => {
         expect(() => validateConfig(config)).not.toThrow();
       });
 
-      it('should throw error for missing translationsPath', () => {
+      it('should validate valid configuration without translationsPath', () => {
         const config = {
           mailsPath: './mails',
-        } as any;
+        };
         
-        expect(() => validateConfig(config)).toThrow('Configuration must specify translationsPath');
+        expect(() => validateConfig(config)).not.toThrow();
       });
 
       it('should throw error for missing mailsPath', () => {
@@ -446,6 +446,141 @@ describe('Mail Translation', () => {
       
       expect(plaintextTemplates).toBeDefined();
       expect(Object.keys(plaintextTemplates)).toHaveLength(0);
+    });
+
+    describe('Translation-less operation', () => {
+      it('should work without translations directory', async () => {
+        const translator = new MailTranslator({
+          translationsPath: './non-existent-translations',
+          mailsPath: testMailsPath
+        });
+        
+        await translator.initialize();
+        
+        const languages = translator.getAvailableLanguages();
+        expect(languages).toEqual(['en']); // Should return default language
+        expect(translator.hasTranslations()).toBe(false);
+      });
+
+      it('should work without translationsPath', async () => {
+        const translator = new MailTranslator({
+          mailsPath: testMailsPath
+        });
+        
+        await translator.initialize();
+        
+        const languages = translator.getAvailableLanguages();
+        expect(languages).toEqual(['en']); // Should return default language
+        expect(translator.hasTranslations()).toBe(false);
+      });
+
+      it('should process templates without translations', async () => {
+        const translator = new MailTranslator({
+          mailsPath: testMailsPath,
+          defaultLanguage: 'en'
+        });
+        
+        await translator.initialize();
+        
+        const templates = await translator.loadTemplates();
+        const templateName = 'email_verification_code';
+        
+        if (templates[templateName]) {
+          const result = translator.translateTemplate(
+            templateName,
+            templates[templateName],
+            'en'
+          );
+          
+          expect(result.name).toBe(templateName);
+          expect(result.language).toBe('en');
+          expect(result.html).toBeDefined();
+          // Translation keys should remain as keys since no translations are available
+          expect(result.html).toContain('email_verification_title');
+        }
+      });
+
+      it('should translate all templates without translations', async () => {
+        const translator = new MailTranslator({
+          mailsPath: testMailsPath,
+          defaultLanguage: 'en'
+        });
+        
+        await translator.initialize();
+        
+        const results = await translator.translateAllTemplates('en');
+        
+        expect(results).toBeDefined();
+        expect(results.length).toBeGreaterThan(0);
+        
+        for (const result of results) {
+          expect(result.language).toBe('en');
+          expect(result.html).toBeDefined();
+        }
+      });
+
+      it('should translate all templates for all languages without translations', async () => {
+        const translator = new MailTranslator({
+          mailsPath: testMailsPath,
+          defaultLanguage: 'en'
+        });
+        
+        await translator.initialize();
+        
+        const results = await translator.translateAllTemplatesAllLanguages();
+        
+        expect(results).toBeDefined();
+        expect(Object.keys(results)).toEqual(['en']); // Should only have default language
+        expect(results.en).toBeDefined();
+        expect(results.en.length).toBeGreaterThan(0);
+      });
+
+      it('should generate Kratos output without {{define}} sections for single language', async () => {
+        const translator = new MailTranslator({
+          mailsPath: testMailsPath,
+          defaultLanguage: 'en',
+          outputPath: './test-single-lang-output',
+          outputMode: 'kratos'
+        });
+        
+        await translator.initialize();
+        
+        const results = await translator.translateAllTemplatesAllLanguages();
+        
+        // Save the translated mails to generate output
+        await translator.saveTranslatedMails(results);
+        
+        // Check that the output doesn't contain {{define}} sections
+        const fs = require('fs-extra');
+        const outputPath = './test-single-lang-output';
+        const files = await fs.readdir(outputPath);
+        const gotmplFiles = files.filter((file: string) => file.endsWith('.gotmpl') && !file.includes('.plaintext.'));
+        
+        expect(gotmplFiles.length).toBeGreaterThan(0);
+        
+        for (const file of gotmplFiles) {
+          const content = await fs.readFile(`${outputPath}/${file}`, 'utf8');
+          // Should not contain {{define}} sections
+          expect(content).not.toContain('{{define "');
+          expect(content).not.toContain('{{ template "');
+          // Should contain actual HTML content
+          expect(content).toContain('<!doctype html>');
+        }
+        
+        // Check plaintext files separately
+        const plaintextFiles = files.filter((file: string) => file.includes('.plaintext.gotmpl'));
+        for (const file of plaintextFiles) {
+          const content = await fs.readFile(`${outputPath}/${file}`, 'utf8');
+          // Should not contain {{define}} sections
+          expect(content).not.toContain('{{define "');
+          expect(content).not.toContain('{{ template "');
+          // Should contain plaintext content
+          expect(content.trim().length).toBeGreaterThan(0);
+        }
+        
+        // Clean up
+        await fs.remove(outputPath);
+      });
     });
   });
 
