@@ -1,0 +1,39 @@
+{
+  "name": "@leancodepl/force-update",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/force-update/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/force-update",
+        "main": "packages/force-update/src/index.ts",
+        "tsConfig": "packages/force-update/tsconfig.lib.json",
+        "assets": [],
+        "project": "packages/force-update/package.json",
+        "compiler": "swc",
+        "format": ["cjs", "esm"],
+        "generateExportsField": true,
+        "external": ["react"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/force-update {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/force-update/jest.config.ts"
+      }
+    }
+  }
+}
