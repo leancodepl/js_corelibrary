@@ -67,4 +67,17 @@ describe("Dependency Cruiser Rules", () => {
             expect(error.stdout || error.stderr || error.message).toContain("no-cross-feature-nested-imports")
         }
     })
+
+    test("should forbid import from ActivityEditor (nested sibling child import)", () => {
+        const filePath = path.join(testDir, "activities/index.tsx")
+        try {
+            execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
+                cwd: testDir,
+                encoding: "utf8",
+            })
+            throw new Error("Expected violations but none found")
+        } catch (error) {
+            expect(error.stdout || error.stderr || error.message).toContain("no-cross-feature-nested-imports")
+        }
+    })
 })
