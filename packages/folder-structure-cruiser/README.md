@@ -40,7 +40,7 @@ import { ActivityEditor } from "../ActivityEditor" // ✅ same feature sibling
 ```typescript
 // src/surveys/SurveyEditor/index.tsx
 import { ActivityWizard } from "../../wizards/ActivityWizard" // ❌ nested sibling child
-import { NestedChild } from "../../wizards/ActivityWizard/nestedChild" // ❌ deeply nested sibling child
+import { NestedChild } from "../../wizards/ActivityWizard/NestedChild" // ❌ deeply nested sibling child
 ```
 
 ## Rules
@@ -49,4 +49,4 @@ This configuration enforces the following rules:
 
 - **Allowed**: Imports from direct sibling index files (e.g., `wizards/index.tsx`)
 - **Allowed**: Imports within the same feature at any depth
-- **Forbidden**: Imports to nested children of sibling features (depth 2+)
+- **Forbidden**: Imports to nested children of sibling features
