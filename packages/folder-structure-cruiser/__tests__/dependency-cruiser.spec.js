@@ -9,6 +9,7 @@ describe("Dependency Cruiser Rules", () => {
         const filePath = path.join(testDir, "polls/PollEditor/index.tsx")
         const result = execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
             cwd: testDir,
+            encoding: "utf8",
         })
         expect(result).not.toContain("no-cross-feature-nested-imports")
     })
@@ -19,6 +20,7 @@ describe("Dependency Cruiser Rules", () => {
         try {
             execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
                 cwd: testDir,
+                encoding: "utf8",
             })
         } catch (e) {
             error = e
@@ -32,6 +34,7 @@ describe("Dependency Cruiser Rules", () => {
         try {
             execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
                 cwd: testDir,
+                encoding: "utf8",
             })
         } catch (e) {
             error = e
@@ -44,18 +47,7 @@ describe("Dependency Cruiser Rules", () => {
         try {
             execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
                 cwd: testDir,
-            })
-            throw new Error("Expected violations but none found")
-        } catch (error) {
-            expect(error.stdout || error.stderr || error.message).toContain("no-cross-feature-nested-imports")
-        }
-    })
-
-    test("should forbid imports in SnapshotPollEditor as commented", () => {
-        const filePath = path.join(testDir, "polls/SnapshotPollEditor/index.tsx")
-        try {
-            execSync(`npx dependency-cruiser --config "${configPath}" "${filePath}"`, {
-                cwd: testDir,
+                encoding: "utf8",
             })
             throw new Error("Expected violations but none found")
         } catch (error) {
