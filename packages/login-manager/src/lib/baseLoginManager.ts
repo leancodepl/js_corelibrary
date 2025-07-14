@@ -29,8 +29,8 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         private endpoint: string,
         private clientSecret: string | undefined,
         private clientId: string,
-        private scopes: string,
-        private additionalParams?: Record<string, string>,
+        protected scopes: string,
+        protected additionalParams?: Record<string, string>,
     ) {
         if (!clientSecret) {
             this.additionalParams = {
@@ -240,7 +240,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         }
     }
 
-    private prepareHeaders() {
+    protected prepareHeaders() {
         const headers = new Headers()
         if (this.clientSecret) {
             const sec = Buffer.from(`${this.clientId}:${this.clientSecret}`, "binary").toString("base64")
