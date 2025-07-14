@@ -134,27 +134,13 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         }
     }
 
+
     public buildSignInRequest(username: string, password: string): RequestInit {
         const data: Record<string, string> = {
             grant_type: "password",
             scope: this.scopes,
             username: username,
             password: password,
-            ...this.additionalParams,
-        }
-
-        return {
-            method: "POST",
-            headers: this.prepareHeaders(),
-            body: new URLSearchParams(data),
-        }
-    }
-
-    private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
-        const data: Record<string, string> = {
-            grant_type: "facebook",
-            scope: this.scopes,
-            assertion: accessToken,
             ...this.additionalParams,
         }
 
@@ -180,9 +166,9 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         }
     }
 
-    private buildSignInWithGoogleRequest(accessToken: string): RequestInit {
+    public buildAssertionSignInRequest(accessToken: string, grantType: string): RequestInit {
         const data: Record<string, string> = {
-            grant_type: "google",
+            grant_type: grantType,
             scope: this.scopes,
             assertion: accessToken,
             ...this.additionalParams,
@@ -193,36 +179,25 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
             headers: this.prepareHeaders(),
             body: new URLSearchParams(data),
         }
+    }
+
+    private buildSignInWithFacebookRequest(accessToken: string): RequestInit {
+        return this.buildAssertionSignInRequest(accessToken, "facebook")
+        
+    }
+
+    private buildSignInWithGoogleRequest(accessToken: string): RequestInit {
+        return this.buildAssertionSignInRequest(accessToken, "google")
+        
     }
 
     private buildSignInWithLinkedInRequest(accessToken: string): RequestInit {
-        const data: Record<string, string> = {
-            grant_type: "linkedin",
-            scope: this.scopes,
-            assertion: accessToken,
-            ...this.additionalParams,
-        }
+        return this.buildAssertionSignInRequest(accessToken, "linkedin")
 
-        return {
-            method: "POST",
-            headers: this.prepareHeaders(),
-            body: new URLSearchParams(data),
-        }
     }
 
     private buildSignInWithAppleRequest(accessToken: string): RequestInit {
-        const data: Record<string, string> = {
-            grant_type: "apple",
-            scope: this.scopes,
-            assertion: accessToken,
-            ...this.additionalParams,
-        }
-
-        return {
-            method: "POST",
-            headers: this.prepareHeaders(),
-            body: new URLSearchParams(data),
-        }
+        return this.buildAssertionSignInRequest(accessToken, "apple")
     }
 
     private buildRefreshRequest(token: Token) {
