@@ -36,10 +36,5 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "sideEffects": false
 }
