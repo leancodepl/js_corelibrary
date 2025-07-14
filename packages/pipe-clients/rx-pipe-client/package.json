@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/rx-pipe-client",
-  "version": "8.5.0",
+  "version": "8.5.1",
   "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/pipe": "^1.0.0"
@@ -37,10 +37,5 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "sideEffects": false
 }

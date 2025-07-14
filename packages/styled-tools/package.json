@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/styled-tools",
-  "version": "8.5.0",
+  "version": "8.5.1",
   "peerDependencies": {
     "styled-components": ">=6.0.0"
   },
@@ -34,10 +34,5 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "sideEffects": false
 }

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.5.1](https://github.com/leancodepl/js_corelibrary/compare/v8.5.0...v8.5.1) (2025-07-14)
+
+### Bug Fixes
+
+- add actual content to published packages
+  ([cb7dadb](https://github.com/leancodepl/js_corelibrary/commit/cb7dadbc1f2126370f63505f5b8dbac08dad69a3))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.5.0](https://github.com/leancodepl/js_corelibrary/compare/v8.4.0...v8.5.0) (2025-07-11)
 
 **Note:** Version bump only for package @leancodepl/gtag

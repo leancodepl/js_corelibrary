@@ -1,9 +1,9 @@
 {
   "name": "@leancodepl/validation",
-  "version": "8.5.0",
+  "version": "8.5.1",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "8.5.0"
+    "@leancodepl/cqrs-client-base": "8.5.1"
   },
   "devDependencies": {
     "sinon": "15.2.0"
@@ -38,10 +38,5 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "sideEffects": false
 }
