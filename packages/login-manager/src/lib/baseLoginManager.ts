@@ -66,6 +66,10 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         return this.acquireToken(this.buildSignInWithLinkedInRequest(accessToken))
     }
 
+    public trySignInWithApple(accessToken: string): Promise<LoginResult> {
+        return this.acquireToken(this.buildSignInWithAppleRequest(accessToken))
+    }
+
     public async tryRefreshToken() {
         const token = await this.storage.getToken()
         if (token !== null) {
@@ -194,6 +198,21 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     private buildSignInWithLinkedInRequest(accessToken: string): RequestInit {
         const data: Record<string, string> = {
             grant_type: "linkedin",
+            scope: this.scopes,
+            assertion: accessToken,
+            ...this.additionalParams,
+        }
+
+        return {
+            method: "POST",
+            headers: this.prepareHeaders(),
+            body: new URLSearchParams(data),
+        }
+    }
+
+    private buildSignInWithAppleRequest(accessToken: string): RequestInit {
+        const data: Record<string, string> = {
+            grant_type: "apple",
             scope: this.scopes,
             assertion: accessToken,
             ...this.additionalParams,
