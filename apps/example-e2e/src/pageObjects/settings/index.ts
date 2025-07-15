@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { getInputErrors } from "../../helpers/locators"
 import { CommonPage } from "../common"
 
 export class SettingsPage extends CommonPage {
@@ -55,26 +56,18 @@ export class SettingsPage extends CommonPage {
         this.traitsFormWrapper = page.getByTestId("traits-form")
         this.emailVerificationRequiredInfo = this.traitsFormWrapper.getByTestId("email-verification-required-info")
         this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
-        this.emailInputErrors = this.traitsFormWrapper.locator(
-            'input[data-testid="email-input"]~div[data-testid="input-errors"]',
-        )
+        this.emailInputErrors = getInputErrors(this.emailInput)
         this.givenNameInput = this.traitsFormWrapper.getByTestId("given-name-input")
-        this.givenNameInputErrors = this.traitsFormWrapper.locator(
-            'input[data-testid="given-name-input"]~div[data-testid="input-errors"]',
-        )
+        this.givenNameInputErrors = getInputErrors(this.givenNameInput)
         this.traitsFormUpdateButton = this.traitsFormWrapper.getByTestId("traits-form-update-button")
         this.traitsFormErrors = this.traitsFormWrapper.getByTestId("traits-form-errors")
 
         // New password form
         this.newPasswordFormWrapper = page.getByTestId("new-password-form")
         this.newPasswordInput = this.newPasswordFormWrapper.getByTestId("new-password-input")
-        this.newPasswordInputErrors = this.newPasswordFormWrapper.locator(
-            'input[data-testid="new-password-input"]~div[data-testid="input-errors"]',
-        )
+        this.newPasswordInputErrors = getInputErrors(this.newPasswordInput)
         this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId("new-password-confirmation-input")
-        this.newPasswordConfirmationInputErrors = this.newPasswordFormWrapper.locator(
-            'input[data-testid="new-password-confirmation-input"]~div[data-testid="input-errors"]',
-        )
+        this.newPasswordConfirmationInputErrors = getInputErrors(this.newPasswordConfirmationInput)
         this.newPasswordFormSubmitButton = this.newPasswordFormWrapper.getByTestId("new-password-form-submit-button")
         this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId("new-password-form-errors")
 
@@ -89,9 +82,7 @@ export class SettingsPage extends CommonPage {
         this.totpFormUnlinkedWrapper = page.getByTestId("totp-form-unlinked")
         this.totpSecretKey = this.totpFormUnlinkedWrapper.getByTestId("totp-secret-key")
         this.totpCodeInput = this.totpFormUnlinkedWrapper.getByTestId("totp-code-input")
-        this.totpCodeInputErrors = this.totpFormUnlinkedWrapper.locator(
-            'input[data-testid="totp-code-input"]~div[data-testid="input-errors"]',
-        )
+        this.totpCodeInputErrors = getInputErrors(this.totpCodeInput)
         this.verifyTotpButton = this.totpFormUnlinkedWrapper.getByTestId("verify-totp-button")
         this.unlinkTotpButton = this.totpFormLinkedWrapper.getByTestId("unlink-totp-button")
         this.totpFormErrors = this.totpFormUnlinkedWrapper.getByTestId("totp-form-errors")
@@ -183,6 +174,10 @@ export class SettingsPage extends CommonPage {
 
     async clickUnlinkTotpButton() {
         await this.unlinkTotpButton.click()
+    }
+
+    async getTotpSecretKey() {
+        return (await this.totpSecretKey.textContent()) ?? ""
     }
 
     async getTotpFormErrors() {

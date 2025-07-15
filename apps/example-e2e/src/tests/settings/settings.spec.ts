@@ -507,7 +507,7 @@ test.describe("settings page", () => {
             await expect(settingsPage.totpFormUnlinkedWrapper).toBeVisible()
             await expect(settingsPage.totpFormLinkedWrapper).toBeHidden()
 
-            const totpCode = authenticator.generate(await settingsPage.totpSecretKey.textContent())
+            const totpCode = authenticator.generate(await settingsPage.getTotpSecretKey())
 
             await settingsPage.totpCodeInput.fill(totpCode)
             await settingsPage.verifyTotpButton.click()
@@ -537,7 +537,7 @@ test.describe("settings page", () => {
             const settingsPage = new SettingsPage(page)
             await settingsPage.visit()
 
-            const totpCode = authenticator.generate(await settingsPage.totpSecretKey.textContent())
+            const totpCode = authenticator.generate(await settingsPage.getTotpSecretKey())
 
             await settingsPage.totpCodeInput.fill(totpCode)
             await settingsPage.verifyTotpButton.click()

@@ -33,7 +33,7 @@ const mapConfigRulesToEnvs = (rules: KratosConfigRules): Environment => {
         envs.SELFSERVICE_FLOWS_VERIFICATION_ENABLED = rules.verificationFlowEnabled.toString()
     }
 
-    if (rules.requireVerificationOnLogin !== undefined) {
+    if (rules.requireVerificationOnLogin) {
         envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_HOOK = "verification"
         envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_1_HOOK = "show_verification_ui"
     }

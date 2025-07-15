@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { getCheckboxErrors, getInputErrors } from "../../helpers/locators"
 import { CommonPage } from "../common"
 
 export class RegistrationPage extends CommonPage {
@@ -49,14 +50,10 @@ export class RegistrationPage extends CommonPage {
         // Traits form
         this.traitsFormWrapper = page.getByTestId("traits-form")
         this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
-        this.emailInputErrors = this.traitsFormWrapper.locator(
-            'input[data-testid="email-input"]~div[data-testid="input-errors"]',
-        )
+        this.emailInputErrors = getInputErrors(this.emailInput)
         this.givenNameInput = this.traitsFormWrapper.getByTestId("given-name-input")
         this.regulationsCheckbox = this.traitsFormWrapper.getByTestId("regulations-checkbox")
-        this.regulationsCheckboxErrors = this.regulationsCheckbox.locator(
-            'xpath=ancestor::div[1]//div[@data-testid="checkbox-errors"]',
-        )
+        this.regulationsCheckboxErrors = getCheckboxErrors(this.regulationsCheckbox)
         this.googleButton = this.traitsFormWrapper.getByTestId("google-signup-button")
         this.appleButton = this.traitsFormWrapper.getByTestId("apple-signup-button")
         this.facebookButton = this.traitsFormWrapper.getByTestId("facebook-signup-button")
@@ -65,13 +62,9 @@ export class RegistrationPage extends CommonPage {
         this.chooseMethodFormWrapper = page.getByTestId("choose-method-form")
         this.returnButton = this.chooseMethodFormWrapper.getByTestId("return-button")
         this.passwordInput = this.chooseMethodFormWrapper.getByTestId("password-input")
-        this.passwordInputErrors = this.chooseMethodFormWrapper.locator(
-            'input[data-testid="password-input"]~div[data-testid="input-errors"]',
-        )
+        this.passwordInputErrors = getInputErrors(this.passwordInput)
         this.passwordConfirmationInput = this.chooseMethodFormWrapper.getByTestId("password-confirmation-input")
-        this.passwordConfirmationInputErrors = this.chooseMethodFormWrapper.locator(
-            'input[data-testid="password-confirmation-input"]~div[data-testid="input-errors"]',
-        )
+        this.passwordConfirmationInputErrors = getInputErrors(this.passwordConfirmationInput)
         this.passkeyButton = this.chooseMethodFormWrapper.getByTestId("passkey-signup-button")
 
         // Email verification form

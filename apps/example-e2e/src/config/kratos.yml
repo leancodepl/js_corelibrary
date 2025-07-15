@@ -71,8 +71,8 @@ selfservice:
                       provider: google
                       label: Google
                       issuer_url: https://accounts.google.com
-                      client_id: "995142169985-ne1qr6qqgj55am5vbuokr5fi8r4dulv6.apps.googleusercontent.com"
-                      client_secret: "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"
+                      client_id: CLIENT_ID
+                      client_secret: CLIENT_SECRET
                       scope:
                           - openid
                           - email
