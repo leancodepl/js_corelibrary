@@ -8,7 +8,7 @@ export const get6DigitCodeFromEmail = async (
     mailpit: MailpitHelper,
     email: string,
     options?: { timeout?: number; interval?: number },
-): Promise<string> => {
+) => {
     const messages = await mailpit.waitForCondition(
         () => mailpit.getEmailsByTo(email),
         result => result.messages_count > 0,
@@ -23,5 +23,11 @@ export const get6DigitCodeFromEmail = async (
     const mailMessage = await mailpit.getMail(message.ID)
     const textBody = await mailpit.getMailTextBody(mailMessage)
 
-    return extract6DigitCodeFromMailText(textBody)
+    const code = extract6DigitCodeFromMailText(textBody)
+
+    if (!code) {
+        throw new Error(`No 6 digit code found in email for ${email}`)
+    }
+
+    return code
 }

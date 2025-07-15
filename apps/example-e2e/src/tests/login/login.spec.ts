@@ -113,7 +113,9 @@ test.describe("login page", () => {
     test("should not require email verification if unset and user email not verified", async ({ page }) => {
         const userData = generateUserData()
 
-        await runKratosContainer()
+        await runKratosContainer({
+            requireVerificationOnLogin: false,
+        })
 
         await registerUser({
             email: userData.email,
@@ -151,7 +153,7 @@ test.describe("login page", () => {
         const settingsPage = new SettingsPage(page)
         await settingsPage.visit()
 
-        const totpSecretKey = await settingsPage.totpSecretKey.textContent()
+        const totpSecretKey = await settingsPage.getTotpSecretKey()
         const totpCode = authenticator.generate(totpSecretKey)
 
         await settingsPage.totpCodeInput.fill(totpCode)
