@@ -1,10 +1,10 @@
 import { dataTestIds } from "@example/e2e-ids"
-import { recoveryFlow, settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { getErrorMessage, RecoveryFlow } from "../services/kratos"
+import { recoveryFlow, settingsFlow } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
+import { getErrorMessage, RecoveryFlow } from "../services/kratos"
 
 const recoverySearchSchema = z.object({
     flow: z.string().optional(),
@@ -30,16 +30,16 @@ function RouteComponent() {
     return (
         <div data-testid={dataTestIds.recovery.page}>
             <RecoveryFlow
-                emailForm={EmailForm}
                 codeForm={CodeForm}
+                emailForm={EmailForm}
+                initialFlowId={flow}
                 newPasswordForm={NewPasswordForm}
+                returnTo="/redirect-after-recovery"
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
                 onRecoverySuccess={() => {
                     alert("Recovery successful")
                 }}
-                initialFlowId={flow}
-                onError={handleError}
-                onFlowRestart={removeFlowIdFromUrl}
-                returnTo="/redirect-after-recovery"
             />
         </div>
     )
@@ -52,16 +52,16 @@ function EmailForm({ errors, Email, isSubmitting, isValidating }: recoveryFlow.E
                 <Email>
                     <Input
                         data-testid={dataTestIds.recovery.emailForm.emailInput}
-                        placeholder="Email"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Email"
                     />
                 </Email>
             )}
 
             <button
                 data-testid={dataTestIds.recovery.emailForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Send code
             </button>
 
@@ -85,16 +85,16 @@ function CodeForm({ errors, Code, isSubmitting, isValidating }: recoveryFlow.Cod
                 <Code>
                     <Input
                         data-testid={dataTestIds.recovery.codeForm.codeInput}
-                        placeholder="Code"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Code"
                     />
                 </Code>
             )}
 
             <button
                 data-testid={dataTestIds.recovery.codeForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Verify
             </button>
 
@@ -122,8 +122,8 @@ function NewPasswordForm({
                 <Password>
                     <Input
                         data-testid={dataTestIds.recovery.newPasswordForm.newPasswordInput}
-                        placeholder="Password"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password"
                     />
                 </Password>
             )}
@@ -131,16 +131,16 @@ function NewPasswordForm({
                 <PasswordConfirmation>
                     <Input
                         data-testid={dataTestIds.recovery.newPasswordForm.newPasswordConfirmationInput}
-                        placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password confirmation"
                     />
                 </PasswordConfirmation>
             )}
 
             <button
                 data-testid={dataTestIds.recovery.newPasswordForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Set new password
             </button>
 

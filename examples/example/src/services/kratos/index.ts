@@ -1,11 +1,10 @@
-import type { AuthTraitsConfig } from "./traits"
-
 import { mkKratos } from "@leancodepl/kratos"
+import { environment } from "../../environments/environment"
+import { queryClient } from "../query"
+import { getErrorMessage } from "./errors"
 import { SessionManager } from "./session"
 import { traitsConfig } from "./traits"
-import { getErrorMessage } from "./errors"
-import { queryClient } from "../query"
-import { environment } from "../../environments/environment"
+import type { AuthTraitsConfig } from "./traits"
 
 const {
     session: { sessionManager },
@@ -21,17 +20,17 @@ const {
 export {
     // traits
     AuthTraitsConfig,
-    // session
-    sessionManager,
-    // providers
-    KratosProviders,
-    // flows
-    RegistrationFlow,
-    LoginFlow,
-    RecoveryFlow,
-    SettingsFlow,
-    VerificationFlow,
-    useLogout,
     // errors
     getErrorMessage,
+    // providers
+    KratosProviders,
+    LoginFlow,
+    RecoveryFlow,
+    // flows
+    RegistrationFlow,
+    // session
+    sessionManager,
+    SettingsFlow,
+    useLogout,
+    VerificationFlow,
 }

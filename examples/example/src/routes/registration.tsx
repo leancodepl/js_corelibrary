@@ -1,13 +1,12 @@
-import type { AuthTraitsConfig } from "../services/kratos"
-
 import { dataTestIds } from "@example/e2e-ids"
-import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { RegistrationFlow, getErrorMessage, sessionManager } from "../services/kratos"
+import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
+import { getErrorMessage, RegistrationFlow, sessionManager } from "../services/kratos"
+import type { AuthTraitsConfig } from "../services/kratos"
 
 const registrationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -42,19 +41,19 @@ function RouteComponent() {
     return (
         <div data-testid={dataTestIds.registration.page}>
             <RegistrationFlow
-                traitsForm={TraitsForm}
                 chooseMethodForm={ChooseMethodForm}
                 emailVerificationForm={EmailVerificationForm}
+                initialFlowId={flow}
+                returnTo="/redirect-after-registration"
+                traitsForm={TraitsForm}
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
                 onRegistrationSuccess={() => {
                     alert("Registration successful")
                 }}
                 onVerificationSuccess={() => {
                     alert("Verification successful")
                 }}
-                initialFlowId={flow}
-                onError={handleError}
-                onFlowRestart={removeFlowIdFromUrl}
-                returnTo="/redirect-after-registration"
             />
         </div>
     )
@@ -77,8 +76,8 @@ function TraitsForm({
                 <Email>
                     <Input
                         data-testid={dataTestIds.registration.traitsForm.emailInput}
-                        placeholder="Email"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Email"
                     />
                 </Email>
             )}
@@ -86,8 +85,8 @@ function TraitsForm({
                 <GivenName>
                     <Input
                         data-testid={dataTestIds.registration.traitsForm.givenNameInput}
-                        placeholder="First name"
                         disabled={isSubmitting || isValidating}
+                        placeholder="First name"
                     />
                 </GivenName>
             )}
@@ -95,9 +94,9 @@ function TraitsForm({
                 <RegulationsAccepted>
                     <Checkbox
                         data-testid={dataTestIds.registration.traitsForm.regulationsCheckbox}
-                        type="checkbox"
+                        disabled={isSubmitting || isValidating}
                         placeholder="Regulations accepted"
-                        disabled={isSubmitting || isValidating}>
+                        type="checkbox">
                         I accept the regulations
                     </Checkbox>
                 </RegulationsAccepted>
@@ -105,8 +104,8 @@ function TraitsForm({
 
             <button
                 data-testid={dataTestIds.registration.common.registerButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Register
             </button>
 
@@ -175,8 +174,8 @@ function ChooseMethodForm({
                 <Password>
                     <Input
                         data-testid={dataTestIds.registration.chooseMethodForm.passwordInput}
-                        placeholder="Password"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password"
                     />
                 </Password>
             )}
@@ -184,16 +183,16 @@ function ChooseMethodForm({
                 <PasswordConfirmation>
                     <Input
                         data-testid={dataTestIds.registration.chooseMethodForm.passwordConfirmationInput}
-                        placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password confirmation"
                     />
                 </PasswordConfirmation>
             )}
 
             <button
                 data-testid={dataTestIds.registration.common.registerButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Register
             </button>
 
@@ -230,15 +229,15 @@ function EmailVerificationForm({
             <Code>
                 <Input
                     data-testid={dataTestIds.registration.emailVerificationForm.codeInput}
-                    placeholder="Code"
                     disabled={isSubmitting || isValidating}
+                    placeholder="Code"
                 />
             </Code>
 
             <button
                 data-testid={dataTestIds.registration.emailVerificationForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Verify
             </button>
 

@@ -1,5 +1,5 @@
-import { CommonCheckboxFieldProps } from "@leancodepl/kratos"
 import { ReactNode } from "react"
+import { CommonCheckboxFieldProps } from "@leancodepl/kratos"
 import { getErrorMessage } from "../services/kratos"
 
 type CheckboxProps = CommonCheckboxFieldProps & { placeholder?: string; children?: ReactNode }

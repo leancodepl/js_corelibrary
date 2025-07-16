@@ -1,10 +1,10 @@
 import { dataTestIds } from "@example/e2e-ids"
+import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { settingsFlow } from "@leancodepl/kratos"
-import { createFileRoute } from "@tanstack/react-router"
 import { Input } from "../components/Input"
-import { AuthTraitsConfig, getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
+import { AuthTraitsConfig, getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
 
 const settingsSearchSchema = z.object({
     flow: z.string().optional(),
@@ -39,11 +39,10 @@ function RouteComponent() {
     return (
         <div data-testid={dataTestIds.settings.page}>
             <SettingsFlow
-                traitsForm={TraitsForm}
+                initialFlowId={flow}
                 newPasswordForm={NewPasswordForm}
-                passkeysForm={PasskeysForm}
-                totpForm={TotpForm}
                 oidcForm={OidcForm}
+                passkeysForm={PasskeysForm}
                 settingsForm={({
                     emailVerificationRequired,
                     newPasswordForm,
@@ -62,13 +61,14 @@ function RouteComponent() {
                         </div>
                     )
                 }}
+                totpForm={TotpForm}
+                traitsForm={TraitsForm}
                 onChangePasswordSuccess={() => {
                     alert("change password success")
                 }}
                 onChangeTraitsSuccess={() => {
                     alert("change traits success")
                 }}
-                initialFlowId={flow}
                 onError={handleError}
                 onFlowRestart={removeFlowIdFromUrl}
             />
@@ -104,8 +104,8 @@ function TraitsForm({
                 <Email>
                     <Input
                         data-testid={dataTestIds.settings.traitsForm.emailInput}
-                        placeholder="Email"
                         disabled={emailVerificationRequired || isSubmitting || isValidating}
+                        placeholder="Email"
                     />
                 </Email>
             )}
@@ -114,16 +114,16 @@ function TraitsForm({
                 <GivenName>
                     <Input
                         data-testid={dataTestIds.settings.traitsForm.givenNameInput}
-                        placeholder="First name"
                         disabled={isSubmitting || isValidating}
+                        placeholder="First name"
                     />
                 </GivenName>
             )}
 
             <button
                 data-testid={dataTestIds.settings.traitsForm.updateButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Update
             </button>
 
@@ -158,8 +158,8 @@ function NewPasswordForm({
                 <Password>
                     <Input
                         data-testid={dataTestIds.settings.newPasswordForm.passwordInput}
-                        placeholder="Password"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password"
                     />
                 </Password>
             )}
@@ -167,16 +167,16 @@ function NewPasswordForm({
                 <PasswordConfirmation>
                     <Input
                         data-testid={dataTestIds.settings.newPasswordForm.passwordConfirmationInput}
-                        placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password confirmation"
                     />
                 </PasswordConfirmation>
             )}
 
             <button
                 data-testid={dataTestIds.settings.newPasswordForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Set new password
             </button>
 
@@ -213,13 +213,13 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }:
                 <h3>Existing Passkeys</h3>
 
                 {existingPasskeys.map(passkey => (
-                    <div data-testid={dataTestIds.settings.passkeysForm.existingPasskey} key={passkey.id}>
+                    <div key={passkey.id} data-testid={dataTestIds.settings.passkeysForm.existingPasskey}>
                         <strong>{passkey.name} </strong>
                         <span>({new Date(passkey.addedAtUnix * 1000).toLocaleString()}) </span>
                         <button
                             data-testid={dataTestIds.settings.passkeysForm.removeButton}
-                            onClick={passkey.removePasskey}
-                            disabled={isPending}>
+                            disabled={isPending}
+                            onClick={passkey.removePasskey}>
                             Remove
                         </button>
                     </div>
@@ -259,7 +259,7 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
         <div data-testid={dataTestIds.settings.totpForm.wrapperUnlinked}>
             <h2>TOTP</h2>
 
-            {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
+            {totpQrImageSrc && <img alt="TOTP QR Code" src={totpQrImageSrc} />}
             {totpSecretKey && (
                 <div>
                     Secret Key: <span data-testid={dataTestIds.settings.totpForm.secretKey}>{totpSecretKey}</span>
@@ -270,16 +270,16 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
                 <Code>
                     <Input
                         data-testid={dataTestIds.settings.totpForm.codeInput}
-                        placeholder="Enter TOTP code"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Enter TOTP code"
                     />
                 </Code>
             )}
 
             <button
                 data-testid={dataTestIds.settings.totpForm.verifyButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Verify TOTP
             </button>
 
