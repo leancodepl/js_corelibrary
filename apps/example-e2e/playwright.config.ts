@@ -31,6 +31,7 @@ export default defineConfig({
         env: {
             VITE_AUTH_BASE: "http://localhost:34433",
             VITE_MAILPIT_URL: "http://localhost:8025",
+            VITE_SHOW_DEV_TOOLS: "false",
         },
     },
     workers: 1,
