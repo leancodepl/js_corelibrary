@@ -2,12 +2,15 @@
 
 ## 1. README Structure
 ```markdown
-# Package Name - Brief functional description (1-2 sentences)
+# Package Name
+Brief functional description (1-2 sentences)
+
 ## Installation - Standard npm/yarn commands  
-## API - Function docs from JSDoc
+## API - Function docs from JSDoc (skip if only exports linting config)
 ## Usage Examples - Real-world scenarios by category
 ## Features/Configuration (if applicable)
 ```
+**Note:** Do not include license section in READMEs.
 
 ## 2. JSDoc Requirements
 
