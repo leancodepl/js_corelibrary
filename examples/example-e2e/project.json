@@ -2,15 +2,15 @@
   "name": "example-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/example-e2e/src",
+  "sourceRoot": "examples/example-e2e/src",
   "tags": [],
   "implicitDependencies": ["example"],
   "targets": {
     "e2e": {
       "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/example-e2e"],
+      "outputs": ["{workspaceRoot}/dist/.playwright/examples/example-e2e"],
       "options": {
-        "config": "apps/example-e2e/playwright.config.ts"
+        "config": "examples/example-e2e/playwright.config.ts"
       }
     },
     "lint": {

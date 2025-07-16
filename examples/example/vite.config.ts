@@ -7,7 +7,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 
 export default defineConfig(() => ({
     root: __dirname,
-    cacheDir: "../../node_modules/.vite/apps/example",
+    cacheDir: "../../node_modules/.vite/examples/example",
     server: { port: 4200, host: "localhost", allowedHosts: ["local.lncd.pl", "host.local.lncd.pl"] },
     preview: { port: 4300, host: "localhost" },
     plugins: [TanStackRouterVite(), react(), nxViteTsPaths(), nxCopyAssetsPlugin(["*.md"])],
@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     //  plugins: [ nxViteTsPaths() ],
     // },
     build: {
-        outDir: "../../dist/apps/example",
+        outDir: "../../dist/examples/example",
         emptyOutDir: true,
         reportCompressedSize: true,
         commonjsOptions: { transformMixedEsModules: true },
