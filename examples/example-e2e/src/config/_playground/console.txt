@@ -1,9 +1,0 @@
-
-// page.on("request", request => console.log(">>", request.method(), request.url()))
-// page.on("response", response => console.log("<<", response.status(), response.url()))
-
-//   docker run -it -p 34433:4433 -p 34434:4434 \
-//   --mount type=bind,source="$(pwd)",target=/home/ory \
-//   oryd/kratos:v1.3.1 serve --watch-courier --config /home/ory/kratos.yml
-
-// docker run -it -p 8025:8025 -p 1025:1025 axllent/mailpit
