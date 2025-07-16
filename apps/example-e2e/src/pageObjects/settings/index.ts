@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { Page } from "@playwright/test"
 import { getInputErrors } from "../../helpers/locators"
 import { CommonPage } from "../common"
@@ -50,48 +51,58 @@ export class SettingsPage extends CommonPage {
     constructor(protected readonly page: Page) {
         super(page)
 
-        this.wrapper = page.getByTestId("settings-page")
+        this.wrapper = page.getByTestId(dataTestIds.settings.page)
 
         // Traits form
-        this.traitsFormWrapper = page.getByTestId("traits-form")
-        this.emailVerificationRequiredInfo = this.traitsFormWrapper.getByTestId("email-verification-required-info")
-        this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
+        this.traitsFormWrapper = page.getByTestId(dataTestIds.settings.traitsForm.wrapper)
+        this.emailVerificationRequiredInfo = this.traitsFormWrapper.getByTestId(
+            dataTestIds.settings.traitsForm.emailVerificationRequiredInfo,
+        )
+        this.emailInput = this.traitsFormWrapper.getByTestId(dataTestIds.settings.traitsForm.emailInput)
         this.emailInputErrors = getInputErrors(this.emailInput)
-        this.givenNameInput = this.traitsFormWrapper.getByTestId("given-name-input")
+        this.givenNameInput = this.traitsFormWrapper.getByTestId(dataTestIds.settings.traitsForm.givenNameInput)
         this.givenNameInputErrors = getInputErrors(this.givenNameInput)
-        this.traitsFormUpdateButton = this.traitsFormWrapper.getByTestId("traits-form-update-button")
-        this.traitsFormErrors = this.traitsFormWrapper.getByTestId("traits-form-errors")
+        this.traitsFormUpdateButton = this.traitsFormWrapper.getByTestId(dataTestIds.settings.traitsForm.updateButton)
+        this.traitsFormErrors = this.traitsFormWrapper.getByTestId(dataTestIds.settings.traitsForm.errors)
 
         // New password form
-        this.newPasswordFormWrapper = page.getByTestId("new-password-form")
-        this.newPasswordInput = this.newPasswordFormWrapper.getByTestId("new-password-input")
+        this.newPasswordFormWrapper = page.getByTestId(dataTestIds.settings.newPasswordForm.wrapper)
+        this.newPasswordInput = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.settings.newPasswordForm.passwordInput,
+        )
         this.newPasswordInputErrors = getInputErrors(this.newPasswordInput)
-        this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId("new-password-confirmation-input")
+        this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.settings.newPasswordForm.passwordConfirmationInput,
+        )
         this.newPasswordConfirmationInputErrors = getInputErrors(this.newPasswordConfirmationInput)
-        this.newPasswordFormSubmitButton = this.newPasswordFormWrapper.getByTestId("new-password-form-submit-button")
-        this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId("new-password-form-errors")
+        this.newPasswordFormSubmitButton = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.settings.newPasswordForm.submitButton,
+        )
+        this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.settings.newPasswordForm.errors,
+        )
 
         // Passkeys form
-        this.passkeysFormWrapper = page.getByTestId("passkeys-form")
-        this.addNewPasskeyButton = this.passkeysFormWrapper.getByTestId("add-new-passkey-button")
-        this.existingPasskeys = this.passkeysFormWrapper.getByTestId("existing-passkey")
-        this.removePasskeyButton = this.passkeysFormWrapper.getByTestId("remove-passkey-button")
+        this.passkeysFormWrapper = page.getByTestId(dataTestIds.settings.passkeysForm.wrapper)
+        this.addNewPasskeyButton = this.passkeysFormWrapper.getByTestId(dataTestIds.settings.passkeysForm.addNewButton)
+        this.existingPasskeys = this.passkeysFormWrapper.getByTestId(dataTestIds.settings.passkeysForm.existingPasskey)
+        this.removePasskeyButton = this.passkeysFormWrapper.getByTestId(dataTestIds.settings.passkeysForm.removeButton)
 
         // TOTP form
-        this.totpFormLinkedWrapper = page.getByTestId("totp-form-linked")
-        this.totpFormUnlinkedWrapper = page.getByTestId("totp-form-unlinked")
-        this.totpSecretKey = this.totpFormUnlinkedWrapper.getByTestId("totp-secret-key")
-        this.totpCodeInput = this.totpFormUnlinkedWrapper.getByTestId("totp-code-input")
+        this.totpFormLinkedWrapper = page.getByTestId(dataTestIds.settings.totpForm.wrapperLinked)
+        this.totpFormUnlinkedWrapper = page.getByTestId(dataTestIds.settings.totpForm.wrapperUnlinked)
+        this.totpSecretKey = this.totpFormUnlinkedWrapper.getByTestId(dataTestIds.settings.totpForm.secretKey)
+        this.totpCodeInput = this.totpFormUnlinkedWrapper.getByTestId(dataTestIds.settings.totpForm.codeInput)
         this.totpCodeInputErrors = getInputErrors(this.totpCodeInput)
-        this.verifyTotpButton = this.totpFormUnlinkedWrapper.getByTestId("verify-totp-button")
-        this.unlinkTotpButton = this.totpFormLinkedWrapper.getByTestId("unlink-totp-button")
-        this.totpFormErrors = this.totpFormUnlinkedWrapper.getByTestId("totp-form-errors")
+        this.verifyTotpButton = this.totpFormUnlinkedWrapper.getByTestId(dataTestIds.settings.totpForm.verifyButton)
+        this.unlinkTotpButton = this.totpFormLinkedWrapper.getByTestId(dataTestIds.settings.totpForm.unlinkButton)
+        this.totpFormErrors = this.totpFormUnlinkedWrapper.getByTestId(dataTestIds.settings.totpForm.errors)
 
         // OIDC form
-        this.oidcFormWrapper = page.getByTestId("oidc-form")
-        this.appleButton = this.oidcFormWrapper.getByTestId("apple-oidc-button")
-        this.facebookButton = this.oidcFormWrapper.getByTestId("facebook-oidc-button")
-        this.googleButton = this.oidcFormWrapper.getByTestId("google-oidc-button")
+        this.oidcFormWrapper = page.getByTestId(dataTestIds.settings.oidcForm.wrapper)
+        this.appleButton = this.oidcFormWrapper.getByTestId(dataTestIds.settings.oidcForm.appleButton)
+        this.facebookButton = this.oidcFormWrapper.getByTestId(dataTestIds.settings.oidcForm.facebookButton)
+        this.googleButton = this.oidcFormWrapper.getByTestId(dataTestIds.settings.oidcForm.googleButton)
     }
 
     async visit() {

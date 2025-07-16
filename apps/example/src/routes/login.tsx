@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
@@ -33,7 +34,7 @@ function RouteComponent() {
     }
 
     return (
-        <div data-testid="login-page">
+        <div data-testid={dataTestIds.login.page}>
             <LoginFlow
                 chooseMethodForm={ChooseMethodForm}
                 secondFactorForm={SecondFactorForm}
@@ -64,28 +65,34 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
         const { identifier } = props
 
         return (
-            <div data-testid="choose-method-form">
+            <div data-testid={dataTestIds.login.chooseMethodForm.wrapper}>
                 <h2>
-                    Complete login process as <strong data-testid="existing-identifier">{identifier}</strong>
+                    Complete login process as{" "}
+                    <strong data-testid={dataTestIds.login.chooseMethodForm.existingIdentifier}>{identifier}</strong>
                 </h2>
 
                 {Password && (
                     <Password>
                         <Input
-                            data-testid="password-input"
+                            data-testid={dataTestIds.login.chooseMethodForm.passwordInput}
                             placeholder="Password"
                             disabled={isSubmitting || isValidating}
                         />
                     </Password>
                 )}
 
-                <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
+                <button
+                    data-testid={dataTestIds.login.common.loginButton}
+                    type="submit"
+                    disabled={isSubmitting || isValidating}>
                     Login
                 </button>
 
                 {Google && (
                     <Google>
-                        <button data-testid="google-button" disabled={isSubmitting || isValidating}>
+                        <button
+                            data-testid={dataTestIds.login.chooseMethodForm.googleButton}
+                            disabled={isSubmitting || isValidating}>
                             Sign in with Google
                         </button>
                     </Google>
@@ -93,7 +100,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
                 {Apple && (
                     <Apple>
-                        <button data-testid="apple-button" disabled={isSubmitting || isValidating}>
+                        <button
+                            data-testid={dataTestIds.login.chooseMethodForm.appleButton}
+                            disabled={isSubmitting || isValidating}>
                             Sign in with Apple
                         </button>
                     </Apple>
@@ -101,7 +110,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
                 {Facebook && (
                     <Facebook>
-                        <button data-testid="facebook-button" disabled={isSubmitting || isValidating}>
+                        <button
+                            data-testid={dataTestIds.login.chooseMethodForm.facebookButton}
+                            disabled={isSubmitting || isValidating}>
                             Sign in with Facebook
                         </button>
                     </Facebook>
@@ -109,14 +120,16 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
                 {Passkey && (
                     <Passkey>
-                        <button data-testid="passkey-button" disabled={isSubmitting || isValidating}>
+                        <button
+                            data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
+                            disabled={isSubmitting || isValidating}>
                             Sign in with Passkey
                         </button>
                     </Passkey>
                 )}
 
                 {errors && errors.length > 0 && (
-                    <div data-testid="errors">
+                    <div data-testid={dataTestIds.common.errors}>
                         {errors.map(error => (
                             <div key={error.id}>{getErrorMessage(error)}</div>
                         ))}
@@ -129,11 +142,11 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
     const { Identifier } = props
 
     return (
-        <div data-testid="choose-method-form">
+        <div data-testid={dataTestIds.login.chooseMethodForm.wrapper}>
             {Identifier && (
                 <Identifier>
                     <Input
-                        data-testid="identifier-input"
+                        data-testid={dataTestIds.login.chooseMethodForm.identifierInput}
                         placeholder="Identifier"
                         disabled={isSubmitting || isValidating}
                     />
@@ -143,27 +156,32 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
             {Password && (
                 <Password>
                     <Input
-                        data-testid="password-input"
+                        data-testid={dataTestIds.login.chooseMethodForm.passwordInput}
                         placeholder="Password"
                         disabled={isSubmitting || isValidating}
                     />
                 </Password>
             )}
 
-            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.login.common.loginButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             <p>
                 Forgot password?{" "}
-                <a data-testid="forgot-password-link" href="/recovery">
+                <a data-testid={dataTestIds.login.chooseMethodForm.forgotPasswordLink} href="/recovery">
                     Click here to reset it
                 </a>
             </p>
 
             {Google && (
                 <Google>
-                    <button data-testid="google-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.login.chooseMethodForm.googleButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign in with Google
                     </button>
                 </Google>
@@ -171,7 +189,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
             {Apple && (
                 <Apple>
-                    <button data-testid="apple-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.login.chooseMethodForm.appleButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign in with Apple
                     </button>
                 </Apple>
@@ -179,7 +199,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
             {Facebook && (
                 <Facebook>
-                    <button data-testid="facebook-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.login.chooseMethodForm.facebookButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign in with Facebook
                     </button>
                 </Facebook>
@@ -187,14 +209,16 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
             {Passkey && (
                 <Passkey>
-                    <button data-testid="passkey-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign in with Passkey
                     </button>
                 </Passkey>
             )}
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -206,27 +230,36 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
 function SecondFactorForm({ Totp, Email, errors, isSubmitting, isValidating }: loginFlow.SecondFactorFormProps) {
     return (
-        <div data-testid="second-factor-form">
+        <div data-testid={dataTestIds.login.secondFactorForm.wrapper}>
             {Totp && (
                 <Totp>
-                    <Input data-testid="totp-input" placeholder="TOTP" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid={dataTestIds.login.secondFactorForm.totpInput}
+                        placeholder="TOTP"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Totp>
             )}
 
-            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.login.secondFactorForm.loginButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             {Email && (
                 <Email>
-                    <button data-testid="continue-with-email-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.login.secondFactorForm.continueWithEmailButton}
+                        disabled={isSubmitting || isValidating}>
                         Continue with email
                     </button>
                 </Email>
             )}
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -244,33 +277,38 @@ function SecondFactorEmailForm({
     isValidating,
 }: loginFlow.SecondFactorEmailFormProps) {
     return (
-        <>
+        <div data-testid={dataTestIds.login.secondFactorEmailForm.wrapper}>
             <Code>
                 <Input
-                    data-testid="second-factor-code-input"
+                    data-testid={dataTestIds.login.secondFactorEmailForm.codeInput}
                     placeholder="Code"
                     disabled={isSubmitting || isValidating}
                 />
             </Code>
 
-            <button data-testid="login-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.login.common.loginButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Login
             </button>
 
             <Resend>
-                <button data-testid="resend-code-button" disabled={isSubmitting || isValidating}>
+                <button
+                    data-testid={dataTestIds.login.secondFactorEmailForm.resendCodeButton}
+                    disabled={isSubmitting || isValidating}>
                     Resend code
                 </button>
             </Resend>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
                 </div>
             )}
-        </>
+        </div>
     )
 }
 
@@ -282,7 +320,7 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <div data-testid="email-verification-form">
+        <div data-testid={dataTestIds.login.emailVerificationForm.wrapper}>
             <div>
                 Zanim się zalogujesz, musisz zweryfikować swój adres e-mail. Sprawdź swoją skrzynkę odbiorczą i kliknij
                 w link, aby zweryfikować swój adres e-mail.
@@ -290,24 +328,29 @@ function EmailVerificationForm({
 
             <Code>
                 <Input
-                    data-testid="email-verification-code-input"
+                    data-testid={dataTestIds.login.emailVerificationForm.codeInput}
                     placeholder="Code"
                     disabled={isSubmitting || isValidating}
                 />
             </Code>
 
-            <button data-testid="email-verification-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.login.emailVerificationForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button data-testid="email-verification-resend-button" disabled={isSubmitting || isValidating}>
+                <button
+                    data-testid={dataTestIds.login.emailVerificationForm.resendButton}
+                    disabled={isSubmitting || isValidating}>
                     Resend code
                 </button>
             </Resend>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}

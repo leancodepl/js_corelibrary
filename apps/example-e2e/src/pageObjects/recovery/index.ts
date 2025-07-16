@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
@@ -27,26 +28,32 @@ export class RecoveryPage extends CommonPage {
     constructor(protected readonly page: Page) {
         super(page)
 
-        this.wrapper = page.getByTestId("recovery-page")
+        this.wrapper = page.getByTestId(dataTestIds.recovery.page)
 
         // Email form
-        this.emailFormWrapper = page.getByTestId("email-form")
-        this.emailInput = this.emailFormWrapper.getByTestId("email-input")
-        this.emailSubmitButton = this.emailFormWrapper.getByTestId("email-submit-button")
-        this.emailFormErrors = this.emailFormWrapper.getByTestId("errors")
+        this.emailFormWrapper = page.getByTestId(dataTestIds.recovery.emailForm.wrapper)
+        this.emailInput = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.emailInput)
+        this.emailSubmitButton = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.submitButton)
+        this.emailFormErrors = this.emailFormWrapper.getByTestId(dataTestIds.common.errors)
 
         // Code form
-        this.codeFormWrapper = page.getByTestId("code-form")
-        this.codeInput = this.codeFormWrapper.getByTestId("code-input")
-        this.codeSubmitButton = this.codeFormWrapper.getByTestId("code-submit-button")
-        this.codeFormErrors = this.codeFormWrapper.getByTestId("errors")
+        this.codeFormWrapper = page.getByTestId(dataTestIds.recovery.codeForm.wrapper)
+        this.codeInput = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.codeInput)
+        this.codeSubmitButton = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.submitButton)
+        this.codeFormErrors = this.codeFormWrapper.getByTestId(dataTestIds.common.errors)
 
         // New password form
-        this.newPasswordFormWrapper = page.getByTestId("new-password-form")
-        this.newPasswordInput = this.newPasswordFormWrapper.getByTestId("new-password-input")
-        this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId("new-password-confirmation-input")
-        this.newPasswordSubmitButton = this.newPasswordFormWrapper.getByTestId("new-password-submit-button")
-        this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId("errors")
+        this.newPasswordFormWrapper = page.getByTestId(dataTestIds.recovery.newPasswordForm.wrapper)
+        this.newPasswordInput = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.recovery.newPasswordForm.newPasswordInput,
+        )
+        this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.recovery.newPasswordForm.newPasswordConfirmationInput,
+        )
+        this.newPasswordSubmitButton = this.newPasswordFormWrapper.getByTestId(
+            dataTestIds.recovery.newPasswordForm.submitButton,
+        )
+        this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId(dataTestIds.common.errors)
     }
 
     async visit() {

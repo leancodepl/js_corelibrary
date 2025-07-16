@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
@@ -15,14 +16,20 @@ export class VerificationPage extends CommonPage {
     constructor(protected readonly page: Page) {
         super(page)
 
-        this.wrapper = page.getByTestId("verification-page")
+        this.wrapper = page.getByTestId(dataTestIds.verification.page)
 
         // Email verification form
-        this.emailVerificationFormWrapper = page.getByTestId("email-verification-form")
-        this.verificationCodeInput = this.emailVerificationFormWrapper.getByTestId("verification-code-input")
-        this.verifyButton = this.emailVerificationFormWrapper.getByTestId("verify-button")
-        this.resendCodeButton = this.emailVerificationFormWrapper.getByTestId("resend-code-button")
-        this.errors = this.emailVerificationFormWrapper.getByTestId("errors")
+        this.emailVerificationFormWrapper = page.getByTestId(dataTestIds.verification.emailVerificationForm.wrapper)
+        this.verificationCodeInput = this.emailVerificationFormWrapper.getByTestId(
+            dataTestIds.verification.emailVerificationForm.codeInput,
+        )
+        this.verifyButton = this.emailVerificationFormWrapper.getByTestId(
+            dataTestIds.verification.emailVerificationForm.submitButton,
+        )
+        this.resendCodeButton = this.emailVerificationFormWrapper.getByTestId(
+            dataTestIds.verification.emailVerificationForm.resendButton,
+        )
+        this.errors = this.emailVerificationFormWrapper.getByTestId(dataTestIds.common.errors)
     }
 
     async visit(initialFlowId: string | null = null) {

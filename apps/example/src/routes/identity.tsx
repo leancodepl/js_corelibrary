@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { sessionManager } from "../services/kratos"
 
@@ -12,26 +13,27 @@ function RouteComponent() {
     const { firstName } = sessionManager.useFirstName()
 
     if (isLoading) {
-        return <p data-testid="loading-message">Loading identity page...</p>
+        return <p data-testid={dataTestIds.identity.loading}>Loading identity page...</p>
     }
 
     if (!isLoggedIn) {
-        return <p data-testid="not-logged-in-message">You are not logged in.</p>
+        return <p data-testid={dataTestIds.identity.notLoggedIn}>You are not logged in.</p>
     }
 
     return (
-        <div data-testid="identity-page">
+        <div data-testid={dataTestIds.identity.page}>
             {userId ? (
                 <div>
                     <h1>Identity Information</h1>
                     <p>
-                        <strong>ID:</strong> <span data-testid="user-id">{userId}</span>
+                        <strong>ID:</strong> <span data-testid={dataTestIds.identity.userId}>{userId}</span>
                     </p>
                     <p>
-                        <strong>Email:</strong> <span data-testid="email">{email}</span>
+                        <strong>Email:</strong> <span data-testid={dataTestIds.identity.email}>{email}</span>
                     </p>
                     <p>
-                        <strong>First Name:</strong> <span data-testid="first-name">{firstName}</span>
+                        <strong>First Name:</strong>{" "}
+                        <span data-testid={dataTestIds.identity.firstName}>{firstName}</span>
                     </p>
                 </div>
             ) : (
