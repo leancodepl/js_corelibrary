@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.6.0](https://github.com/leancodepl/js_corelibrary/compare/v8.5.1...v8.6.0) (2025-07-16)
+
+### Features
+
+- add apple sign in to BaseLoginManager
+  ([2793f16](https://github.com/leancodepl/js_corelibrary/commit/2793f16e52521eb7385669e0203d6ae588d76715))
+- make scopes, additionalParams and prepareHeaders accessible for derived classes
+  ([c4145f5](https://github.com/leancodepl/js_corelibrary/commit/c4145f5f0e3cd35a7ed5027cc5331ee99a591ecd))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.5.1](https://github.com/leancodepl/js_corelibrary/compare/v8.5.0...v8.5.1) (2025-07-14)
 
 ### Bug Fixes

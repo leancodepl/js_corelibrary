@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/styled-tools",
-  "version": "8.5.1",
+  "version": "8.6.0",
   "peerDependencies": {
     "styled-components": ">=6.0.0"
   },
