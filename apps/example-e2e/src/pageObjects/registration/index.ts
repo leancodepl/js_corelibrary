@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { Page } from "@playwright/test"
 import { getCheckboxErrors, getInputErrors } from "../../helpers/locators"
 import { CommonPage } from "../common"
@@ -40,41 +41,53 @@ export class RegistrationPage extends CommonPage {
     constructor(protected readonly page: Page) {
         super(page)
 
-        this.wrapper = page.getByTestId("registration-page")
-        this.alreadyLoggedInWrapper = page.getByTestId("already-logged-in")
+        this.wrapper = page.getByTestId(dataTestIds.registration.page)
+        this.alreadyLoggedInWrapper = page.getByTestId(dataTestIds.registration.alreadyLoggedIn)
 
         // Common
-        this.registerButton = page.getByTestId("register-button")
-        this.errors = page.getByTestId("errors")
+        this.registerButton = page.getByTestId(dataTestIds.registration.common.registerButton)
+        this.errors = page.getByTestId(dataTestIds.common.errors)
 
         // Traits form
-        this.traitsFormWrapper = page.getByTestId("traits-form")
-        this.emailInput = this.traitsFormWrapper.getByTestId("email-input")
+        this.traitsFormWrapper = page.getByTestId(dataTestIds.registration.traitsForm.wrapper)
+        this.emailInput = this.traitsFormWrapper.getByTestId(dataTestIds.registration.traitsForm.emailInput)
         this.emailInputErrors = getInputErrors(this.emailInput)
-        this.givenNameInput = this.traitsFormWrapper.getByTestId("given-name-input")
-        this.regulationsCheckbox = this.traitsFormWrapper.getByTestId("regulations-checkbox")
+        this.givenNameInput = this.traitsFormWrapper.getByTestId(dataTestIds.registration.traitsForm.givenNameInput)
+        this.regulationsCheckbox = this.traitsFormWrapper.getByTestId(
+            dataTestIds.registration.traitsForm.regulationsCheckbox,
+        )
         this.regulationsCheckboxErrors = getCheckboxErrors(this.regulationsCheckbox)
-        this.googleButton = this.traitsFormWrapper.getByTestId("google-signup-button")
-        this.appleButton = this.traitsFormWrapper.getByTestId("apple-signup-button")
-        this.facebookButton = this.traitsFormWrapper.getByTestId("facebook-signup-button")
+        this.googleButton = this.traitsFormWrapper.getByTestId(dataTestIds.registration.traitsForm.googleButton)
+        this.appleButton = this.traitsFormWrapper.getByTestId(dataTestIds.registration.traitsForm.appleButton)
+        this.facebookButton = this.traitsFormWrapper.getByTestId(dataTestIds.registration.traitsForm.facebookButton)
 
         // Choose method form
-        this.chooseMethodFormWrapper = page.getByTestId("choose-method-form")
-        this.returnButton = this.chooseMethodFormWrapper.getByTestId("return-button")
-        this.passwordInput = this.chooseMethodFormWrapper.getByTestId("password-input")
+        this.chooseMethodFormWrapper = page.getByTestId(dataTestIds.registration.chooseMethodForm.wrapper)
+        this.returnButton = this.chooseMethodFormWrapper.getByTestId(
+            dataTestIds.registration.chooseMethodForm.returnButton,
+        )
+        this.passwordInput = this.chooseMethodFormWrapper.getByTestId(
+            dataTestIds.registration.chooseMethodForm.passwordInput,
+        )
         this.passwordInputErrors = getInputErrors(this.passwordInput)
-        this.passwordConfirmationInput = this.chooseMethodFormWrapper.getByTestId("password-confirmation-input")
+        this.passwordConfirmationInput = this.chooseMethodFormWrapper.getByTestId(
+            dataTestIds.registration.chooseMethodForm.passwordConfirmationInput,
+        )
         this.passwordConfirmationInputErrors = getInputErrors(this.passwordConfirmationInput)
-        this.passkeyButton = this.chooseMethodFormWrapper.getByTestId("passkey-signup-button")
+        this.passkeyButton = this.chooseMethodFormWrapper.getByTestId(
+            dataTestIds.registration.chooseMethodForm.passkeyButton,
+        )
 
         // Email verification form
-        this.emailVerificationFormWrapper = page.getByTestId("email-verification-form")
-        this.emailVerificationCodeInput = this.emailVerificationFormWrapper.getByTestId("email-verification-code-input")
+        this.emailVerificationFormWrapper = page.getByTestId(dataTestIds.registration.emailVerificationForm.wrapper)
+        this.emailVerificationCodeInput = this.emailVerificationFormWrapper.getByTestId(
+            dataTestIds.registration.emailVerificationForm.codeInput,
+        )
         this.emailVerificationSubmitButton = this.emailVerificationFormWrapper.getByTestId(
-            "email-verification-submit-button",
+            dataTestIds.registration.emailVerificationForm.submitButton,
         )
         this.emailVerificationResendButton = this.emailVerificationFormWrapper.getByTestId(
-            "email-verification-resend-button",
+            dataTestIds.registration.emailVerificationForm.resendButton,
         )
     }
 

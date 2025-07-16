@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { z } from "zod"
 import { settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
@@ -28,15 +29,15 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     if (isLoading) {
-        return <p data-testid="settings-loading">Loading settings page...</p>
+        return <p data-testid={dataTestIds.settings.loading}>Loading settings page...</p>
     }
 
     if (!isLoggedIn) {
-        return <p data-testid="settings-not-logged-in">You must be logged in to access settings.</p>
+        return <p data-testid={dataTestIds.settings.notLoggedIn}>You must be logged in to access settings.</p>
     }
 
     return (
-        <div data-testid="settings-page">
+        <div data-testid={dataTestIds.settings.page}>
             <SettingsFlow
                 traitsForm={TraitsForm}
                 newPasswordForm={NewPasswordForm}
@@ -85,15 +86,15 @@ function TraitsForm({
     emailVerificationRequired,
 }: settingsFlow.TraitsFormProps<AuthTraitsConfig>) {
     if (isLoading) {
-        return <p data-testid="traits-form-loading">Loading traits form...</p>
+        return <p data-testid={dataTestIds.settings.traitsForm.loading}>Loading traits form...</p>
     }
 
     return (
-        <div data-testid="traits-form">
+        <div data-testid={dataTestIds.settings.traitsForm.wrapper}>
             <h2>Traits</h2>
 
             {emailVerificationRequired && (
-                <div data-testid="email-verification-required-info">
+                <div data-testid={dataTestIds.settings.traitsForm.emailVerificationRequiredInfo}>
                     <h2>Email verification required</h2>
                     <p>Please verify your email address to continue.</p>
                 </div>
@@ -102,7 +103,7 @@ function TraitsForm({
             {Email && (
                 <Email>
                     <Input
-                        data-testid="email-input"
+                        data-testid={dataTestIds.settings.traitsForm.emailInput}
                         placeholder="Email"
                         disabled={emailVerificationRequired || isSubmitting || isValidating}
                     />
@@ -112,19 +113,22 @@ function TraitsForm({
             {GivenName && (
                 <GivenName>
                     <Input
-                        data-testid="given-name-input"
+                        data-testid={dataTestIds.settings.traitsForm.givenNameInput}
                         placeholder="First name"
                         disabled={isSubmitting || isValidating}
                     />
                 </GivenName>
             )}
 
-            <button data-testid="traits-form-update-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.settings.traitsForm.updateButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Update
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="traits-form-errors">
+                <div data-testid={dataTestIds.settings.traitsForm.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -143,17 +147,17 @@ function NewPasswordForm({
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
     if (isLoading) {
-        return <p data-testid="new-password-form-loading">Loading new password form...</p>
+        return <p data-testid={dataTestIds.settings.newPasswordForm.loading}>Loading new password form...</p>
     }
 
     return (
-        <div data-testid="new-password-form">
+        <div data-testid={dataTestIds.settings.newPasswordForm.wrapper}>
             <h2>New password</h2>
 
             {Password && (
                 <Password>
                     <Input
-                        data-testid="new-password-input"
+                        data-testid={dataTestIds.settings.newPasswordForm.passwordInput}
                         placeholder="Password"
                         disabled={isSubmitting || isValidating}
                     />
@@ -162,19 +166,22 @@ function NewPasswordForm({
             {PasswordConfirmation && (
                 <PasswordConfirmation>
                     <Input
-                        data-testid="new-password-confirmation-input"
+                        data-testid={dataTestIds.settings.newPasswordForm.passwordConfirmationInput}
                         placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
                     />
                 </PasswordConfirmation>
             )}
 
-            <button data-testid="new-password-form-submit-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.settings.newPasswordForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Set new password
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="new-password-form-errors">
+                <div data-testid={dataTestIds.settings.newPasswordForm.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -186,28 +193,31 @@ function NewPasswordForm({
 
 function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }: settingsFlow.PasskeysFormProps) {
     if (isLoading) {
-        return <p data-testid="passkeys-form-loading">Loading passkeys...</p>
+        return <p data-testid={dataTestIds.settings.passkeysForm.loading}>Loading passkeys...</p>
     }
 
     return (
-        <div data-testid="passkeys-form">
+        <div data-testid={dataTestIds.settings.passkeysForm.wrapper}>
             <h2>Passkeys</h2>
 
             {addNewPasskey && (
-                <button data-testid="add-new-passkey-button" disabled={isPending} onClick={addNewPasskey}>
+                <button
+                    data-testid={dataTestIds.settings.passkeysForm.addNewButton}
+                    disabled={isPending}
+                    onClick={addNewPasskey}>
                     Add new passkey
                 </button>
             )}
 
-            <div data-testid="existing-passkeys">
+            <div data-testid={dataTestIds.settings.passkeysForm.existingPasskeys}>
                 <h3>Existing Passkeys</h3>
 
                 {existingPasskeys.map(passkey => (
-                    <div data-testid="existing-passkey" key={passkey.id}>
+                    <div data-testid={dataTestIds.settings.passkeysForm.existingPasskey} key={passkey.id}>
                         <strong>{passkey.name} </strong>
                         <span>({new Date(passkey.addedAtUnix * 1000).toLocaleString()}) </span>
                         <button
-                            data-testid="remove-passkey-button"
+                            data-testid={dataTestIds.settings.passkeysForm.removeButton}
                             onClick={passkey.removePasskey}
                             disabled={isPending}>
                             Remove
@@ -221,20 +231,20 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }:
 
 function TotpForm(props: settingsFlow.TotpFormProps) {
     if (props.isLoading) {
-        return <p data-testid="totp-form-loading">Loading TOTP form...</p>
+        return <p data-testid={dataTestIds.settings.totpForm.loading}>Loading TOTP form...</p>
     }
 
     if (props.isTotpLinked) {
         const { Unlink } = props
 
         return (
-            <div data-testid="totp-form-linked">
+            <div data-testid={dataTestIds.settings.totpForm.wrapperLinked}>
                 <h2>TOTP is already linked</h2>
                 <p>You can unlink it if you want to set up a new TOTP.</p>
 
                 {Unlink && (
                     <Unlink>
-                        <button data-testid="unlink-totp-button" type="button">
+                        <button data-testid={dataTestIds.settings.totpForm.unlinkButton} type="button">
                             Unlink TOTP
                         </button>
                     </Unlink>
@@ -246,32 +256,35 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
     const { Code, totpQrImageSrc, totpSecretKey, errors, isSubmitting, isValidating } = props
 
     return (
-        <div data-testid="totp-form-unlinked">
+        <div data-testid={dataTestIds.settings.totpForm.wrapperUnlinked}>
             <h2>TOTP</h2>
 
             {totpQrImageSrc && <img src={totpQrImageSrc} alt="TOTP QR Code" />}
             {totpSecretKey && (
                 <div>
-                    Secret Key: <span data-testid="totp-secret-key">{totpSecretKey}</span>
+                    Secret Key: <span data-testid={dataTestIds.settings.totpForm.secretKey}>{totpSecretKey}</span>
                 </div>
             )}
 
             {Code && (
                 <Code>
                     <Input
-                        data-testid="totp-code-input"
+                        data-testid={dataTestIds.settings.totpForm.codeInput}
                         placeholder="Enter TOTP code"
                         disabled={isSubmitting || isValidating}
                     />
                 </Code>
             )}
 
-            <button data-testid="verify-totp-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.settings.totpForm.verifyButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Verify TOTP
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="totp-form-errors">
+                <div data-testid={dataTestIds.settings.totpForm.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -287,22 +300,22 @@ function OidcForm({ Apple, Facebook, Google, isLoading }: settingsFlow.OidcFormP
     }
 
     return (
-        <div data-testid="oidc-form">
+        <div data-testid={dataTestIds.settings.oidcForm.wrapper}>
             <h2>OIDC Providers</h2>
 
             {Apple && (
                 <Apple>
-                    <OidcButton data-testid="apple-oidc-button">Apple</OidcButton>
+                    <OidcButton data-testid={dataTestIds.settings.oidcForm.appleButton}>Apple</OidcButton>
                 </Apple>
             )}
             {Facebook && (
                 <Facebook>
-                    <OidcButton data-testid="facebook-oidc-button">Facebook</OidcButton>
+                    <OidcButton data-testid={dataTestIds.settings.oidcForm.facebookButton}>Facebook</OidcButton>
                 </Facebook>
             )}
             {Google && (
                 <Google>
-                    <OidcButton data-testid="google-oidc-button">Google</OidcButton>
+                    <OidcButton data-testid={dataTestIds.settings.oidcForm.googleButton}>Google</OidcButton>
                 </Google>
             )}
         </div>

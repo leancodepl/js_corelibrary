@@ -1,5 +1,6 @@
 import type { AuthTraitsConfig } from "../services/kratos"
 
+import { dataTestIds } from "@example/e2e-ids"
 import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
@@ -35,11 +36,11 @@ function RouteComponent() {
     }
 
     if (isLoggedIn) {
-        return <p data-testid="already-logged-in">You are already logged in.</p>
+        return <p data-testid={dataTestIds.registration.alreadyLoggedIn}>You are already logged in.</p>
     }
 
     return (
-        <div data-testid="registration-page">
+        <div data-testid={dataTestIds.registration.page}>
             <RegistrationFlow
                 traitsForm={TraitsForm}
                 chooseMethodForm={ChooseMethodForm}
@@ -71,16 +72,20 @@ function TraitsForm({
     isValidating,
 }: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
     return (
-        <div data-testid="traits-form">
+        <div data-testid={dataTestIds.registration.traitsForm.wrapper}>
             {Email && (
                 <Email>
-                    <Input data-testid="email-input" placeholder="Email" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid={dataTestIds.registration.traitsForm.emailInput}
+                        placeholder="Email"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Email>
             )}
             {GivenName && (
                 <GivenName>
                     <Input
-                        data-testid="given-name-input"
+                        data-testid={dataTestIds.registration.traitsForm.givenNameInput}
                         placeholder="First name"
                         disabled={isSubmitting || isValidating}
                     />
@@ -89,7 +94,7 @@ function TraitsForm({
             {RegulationsAccepted && (
                 <RegulationsAccepted>
                     <Checkbox
-                        data-testid="regulations-checkbox"
+                        data-testid={dataTestIds.registration.traitsForm.regulationsCheckbox}
                         type="checkbox"
                         placeholder="Regulations accepted"
                         disabled={isSubmitting || isValidating}>
@@ -98,13 +103,18 @@ function TraitsForm({
                 </RegulationsAccepted>
             )}
 
-            <button data-testid="register-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.registration.common.registerButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Register
             </button>
 
             {Google && (
                 <Google>
-                    <button data-testid="google-signup-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.registration.traitsForm.googleButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign up with Google
                     </button>
                 </Google>
@@ -112,7 +122,9 @@ function TraitsForm({
 
             {Apple && (
                 <Apple>
-                    <button data-testid="apple-signup-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.registration.traitsForm.appleButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign up with Apple
                     </button>
                 </Apple>
@@ -120,14 +132,16 @@ function TraitsForm({
 
             {Facebook && (
                 <Facebook>
-                    <button data-testid="facebook-signup-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.registration.traitsForm.facebookButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign up with Facebook
                     </button>
                 </Facebook>
             )}
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -147,10 +161,12 @@ function ChooseMethodForm({
     isValidating,
 }: registrationFlow.ChooseMethodFormProps) {
     return (
-        <div data-testid="choose-method-form">
+        <div data-testid={dataTestIds.registration.chooseMethodForm.wrapper}>
             {ReturnToTraitsForm && (
                 <ReturnToTraitsForm>
-                    <button data-testid="return-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.registration.chooseMethodForm.returnButton}
+                        disabled={isSubmitting || isValidating}>
                         Return
                     </button>
                 </ReturnToTraitsForm>
@@ -158,7 +174,7 @@ function ChooseMethodForm({
             {Password && (
                 <Password>
                     <Input
-                        data-testid="password-input"
+                        data-testid={dataTestIds.registration.chooseMethodForm.passwordInput}
                         placeholder="Password"
                         disabled={isSubmitting || isValidating}
                     />
@@ -167,27 +183,32 @@ function ChooseMethodForm({
             {PasswordConfirmation && (
                 <PasswordConfirmation>
                     <Input
-                        data-testid="password-confirmation-input"
+                        data-testid={dataTestIds.registration.chooseMethodForm.passwordConfirmationInput}
                         placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
                     />
                 </PasswordConfirmation>
             )}
 
-            <button data-testid="register-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.registration.common.registerButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Register
             </button>
 
             {Passkey && (
                 <Passkey>
-                    <button data-testid="passkey-signup-button" disabled={isSubmitting || isValidating}>
+                    <button
+                        data-testid={dataTestIds.registration.chooseMethodForm.passkeyButton}
+                        disabled={isSubmitting || isValidating}>
                         Sign up with Passkey
                     </button>
                 </Passkey>
             )}
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -205,30 +226,32 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <div data-testid="email-verification-form">
+        <div data-testid={dataTestIds.registration.emailVerificationForm.wrapper}>
             <Code>
                 <Input
-                    data-testid="email-verification-code-input"
+                    data-testid={dataTestIds.registration.emailVerificationForm.codeInput}
                     placeholder="Code"
                     disabled={isSubmitting || isValidating}
                 />
             </Code>
 
             <button
-                data-testid="email-verification-submit-button"
+                data-testid={dataTestIds.registration.emailVerificationForm.submitButton}
                 type="submit"
                 disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button data-testid="email-verification-resend-button" disabled={isSubmitting || isValidating}>
+                <button
+                    data-testid={dataTestIds.registration.emailVerificationForm.resendButton}
+                    disabled={isSubmitting || isValidating}>
                     Resend code
                 </button>
             </Resend>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}

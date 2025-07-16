@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { expect, Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
@@ -37,36 +38,36 @@ export class LoginPage extends CommonPage {
     constructor(protected readonly page: Page) {
         super(page)
 
-        this.wrapper = page.getByTestId("login-page")
+        this.wrapper = page.getByTestId(dataTestIds.login.page)
 
         // Common locators
-        this.loginButton = page.getByTestId("login-button")
-        this.errors = page.getByTestId("errors")
+        this.loginButton = page.getByTestId(dataTestIds.login.common.loginButton)
+        this.errors = page.getByTestId(dataTestIds.common.errors)
 
         // Choose method form
-        this.chooseMethodFormWrapper = page.getByTestId("choose-method-form")
-        this.forgotPasswordLink = page.getByTestId("forgot-password-link")
-        this.existingIdentifier = page.getByTestId("existing-identifier")
-        this.identifierInput = page.getByTestId("identifier-input")
-        this.passwordInput = page.getByTestId("password-input")
-        this.googleButton = page.getByTestId("google-button")
-        this.appleButton = page.getByTestId("apple-button")
-        this.facebookButton = page.getByTestId("facebook-button")
-        this.passkeyButton = page.getByTestId("passkey-button")
+        this.chooseMethodFormWrapper = page.getByTestId(dataTestIds.login.chooseMethodForm.wrapper)
+        this.forgotPasswordLink = page.getByTestId(dataTestIds.login.chooseMethodForm.forgotPasswordLink)
+        this.existingIdentifier = page.getByTestId(dataTestIds.login.chooseMethodForm.existingIdentifier)
+        this.identifierInput = page.getByTestId(dataTestIds.login.chooseMethodForm.identifierInput)
+        this.passwordInput = page.getByTestId(dataTestIds.login.chooseMethodForm.passwordInput)
+        this.googleButton = page.getByTestId(dataTestIds.login.chooseMethodForm.googleButton)
+        this.appleButton = page.getByTestId(dataTestIds.login.chooseMethodForm.appleButton)
+        this.facebookButton = page.getByTestId(dataTestIds.login.chooseMethodForm.facebookButton)
+        this.passkeyButton = page.getByTestId(dataTestIds.login.chooseMethodForm.passkeyButton)
 
         // Second factor form
-        this.secondFactorFormWrapper = page.getByTestId("second-factor-form")
-        this.totpInput = page.getByTestId("totp-input")
-        this.continueWithEmailButton = page.getByTestId("continue-with-email-button")
+        this.secondFactorFormWrapper = page.getByTestId(dataTestIds.login.secondFactorForm.wrapper)
+        this.totpInput = page.getByTestId(dataTestIds.login.secondFactorForm.totpInput)
+        this.continueWithEmailButton = page.getByTestId(dataTestIds.login.secondFactorForm.continueWithEmailButton)
 
         // Second factor email form
-        this.secondFactorEmailFormWrapper = page.getByTestId("second-factor-email-form")
-        this.secondFactorCodeInput = page.getByTestId("second-factor-code-input")
-        this.resendCodeButton = page.getByTestId("resend-code-button")
+        this.secondFactorEmailFormWrapper = page.getByTestId(dataTestIds.login.secondFactorEmailForm.wrapper)
+        this.secondFactorCodeInput = page.getByTestId(dataTestIds.login.secondFactorEmailForm.codeInput)
+        this.resendCodeButton = page.getByTestId(dataTestIds.login.secondFactorEmailForm.resendCodeButton)
 
         // Email verification form
-        this.emailVerificationFormWrapper = page.getByTestId("email-verification-form")
-        this.emailVerificationCodeInput = page.getByTestId("email-verification-code-input")
+        this.emailVerificationFormWrapper = page.getByTestId(dataTestIds.login.emailVerificationForm.wrapper)
+        this.emailVerificationCodeInput = page.getByTestId(dataTestIds.login.emailVerificationForm.codeInput)
     }
 
     async visit() {

@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { z } from "zod"
 import { createFileRoute } from "@tanstack/react-router"
 import { verificationFlow } from "@leancodepl/kratos"
@@ -27,7 +28,7 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
-        <div data-testid="verification-page">
+        <div data-testid={dataTestIds.verification.page}>
             <VerificationFlow
                 emailVerificationForm={EmailVerificationForm}
                 onVerificationSuccess={() => {
@@ -50,27 +51,32 @@ function EmailVerificationForm({
     isValidating,
 }: verificationFlow.EmailVerificationFormProps) {
     return (
-        <div data-testid="email-verification-form">
+        <div data-testid={dataTestIds.verification.emailVerificationForm.wrapper}>
             <Code>
                 <Input
-                    data-testid="verification-code-input"
+                    data-testid={dataTestIds.verification.emailVerificationForm.codeInput}
                     placeholder="Code"
                     disabled={isSubmitting || isValidating}
                 />
             </Code>
 
-            <button data-testid="verify-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.verification.emailVerificationForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             <Resend>
-                <button data-testid="resend-code-button" disabled={isSubmitting || isValidating}>
+                <button
+                    data-testid={dataTestIds.verification.emailVerificationForm.resendButton}
+                    disabled={isSubmitting || isValidating}>
                     Resend code
                 </button>
             </Resend>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}

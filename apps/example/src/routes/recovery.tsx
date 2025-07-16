@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { recoveryFlow, settingsFlow } from "@leancodepl/kratos"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
@@ -27,7 +28,7 @@ function RouteComponent() {
     const removeFlowIdFromUrl = useRemoveFlowFromUrl()
 
     return (
-        <div data-testid="recovery-page">
+        <div data-testid={dataTestIds.recovery.page}>
             <RecoveryFlow
                 emailForm={EmailForm}
                 codeForm={CodeForm}
@@ -46,19 +47,26 @@ function RouteComponent() {
 
 function EmailForm({ errors, Email, isSubmitting, isValidating }: recoveryFlow.EmailFormProps) {
     return (
-        <div data-testid="email-form">
+        <div data-testid={dataTestIds.recovery.emailForm.wrapper}>
             {Email && (
                 <Email>
-                    <Input data-testid="email-input" placeholder="Email" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid={dataTestIds.recovery.emailForm.emailInput}
+                        placeholder="Email"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Email>
             )}
 
-            <button data-testid="email-submit-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.recovery.emailForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Send code
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -70,21 +78,28 @@ function EmailForm({ errors, Email, isSubmitting, isValidating }: recoveryFlow.E
 
 function CodeForm({ errors, Code, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
     return (
-        <div data-testid="code-form">
+        <div data-testid={dataTestIds.recovery.codeForm.wrapper}>
             <p>Please enter the code you received in the email.</p>
 
             {Code && (
                 <Code>
-                    <Input data-testid="code-input" placeholder="Code" disabled={isSubmitting || isValidating} />
+                    <Input
+                        data-testid={dataTestIds.recovery.codeForm.codeInput}
+                        placeholder="Code"
+                        disabled={isSubmitting || isValidating}
+                    />
                 </Code>
             )}
 
-            <button data-testid="code-submit-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.recovery.codeForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Verify
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
@@ -102,11 +117,11 @@ function NewPasswordForm({
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
     return (
-        <div data-testid="new-password-form">
+        <div data-testid={dataTestIds.recovery.newPasswordForm.wrapper}>
             {Password && (
                 <Password>
                     <Input
-                        data-testid="new-password-input"
+                        data-testid={dataTestIds.recovery.newPasswordForm.newPasswordInput}
                         placeholder="Password"
                         disabled={isSubmitting || isValidating}
                     />
@@ -115,19 +130,22 @@ function NewPasswordForm({
             {PasswordConfirmation && (
                 <PasswordConfirmation>
                     <Input
-                        data-testid="new-password-confirmation-input"
+                        data-testid={dataTestIds.recovery.newPasswordForm.newPasswordConfirmationInput}
                         placeholder="Password confirmation"
                         disabled={isSubmitting || isValidating}
                     />
                 </PasswordConfirmation>
             )}
 
-            <button data-testid="new-password-submit-button" type="submit" disabled={isSubmitting || isValidating}>
+            <button
+                data-testid={dataTestIds.recovery.newPasswordForm.submitButton}
+                type="submit"
+                disabled={isSubmitting || isValidating}>
                 Set new password
             </button>
 
             {errors && errors.length > 0 && (
-                <div data-testid="errors">
+                <div data-testid={dataTestIds.common.errors}>
                     {errors.map(error => (
                         <div key={error.id}>{getErrorMessage(error)}</div>
                     ))}
