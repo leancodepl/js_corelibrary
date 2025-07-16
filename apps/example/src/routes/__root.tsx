@@ -5,12 +5,13 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import { KratosProviders } from "../services/kratos"
 import { queryClient } from "../services/query"
 import { UserInfoHeader } from "../components/UserInfoHeader"
+import { environment } from "../environments/environment"
 
 export const Route = createRootRoute({
     component: () => (
         <>
             <QueryClientProvider client={queryClient}>
-                <ReactQueryDevtools initialIsOpen={false} />
+                {environment.showDevTools && <ReactQueryDevtools initialIsOpen={false} />}
                 <KratosProviders>
                     <>
                         <UserInfoHeader />
@@ -18,7 +19,7 @@ export const Route = createRootRoute({
                     </>
                 </KratosProviders>
             </QueryClientProvider>
-            <TanStackRouterDevtools />
+            {environment.showDevTools && <TanStackRouterDevtools />}
         </>
     ),
 })
