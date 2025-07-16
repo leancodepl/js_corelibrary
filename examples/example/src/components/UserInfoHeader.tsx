@@ -1,6 +1,6 @@
+import { useCallback } from "react"
 import { useRunInTask } from "@leancodepl/utils"
 import { sessionManager, useLogout } from "../services/kratos"
-import { useCallback } from "react"
 
 export const UserInfoHeader = () => {
     const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()

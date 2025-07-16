@@ -1,10 +1,10 @@
 import { dataTestIds } from "@example/e2e-ids"
-import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
-import { getErrorMessage, LoginFlow, sessionManager } from "../services/kratos"
+import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
+import { getErrorMessage, LoginFlow, sessionManager } from "../services/kratos"
 
 const loginSearchSchema = z.object({
     flow: z.string().optional(),
@@ -37,18 +37,18 @@ function RouteComponent() {
         <div data-testid={dataTestIds.login.page}>
             <LoginFlow
                 chooseMethodForm={ChooseMethodForm}
-                secondFactorForm={SecondFactorForm}
-                secondFactorEmailForm={SecondFactorEmailForm}
                 emailVerificationForm={EmailVerificationForm}
+                initialFlowId={flow}
+                returnTo="/identity?after-login=true"
+                secondFactorEmailForm={SecondFactorEmailForm}
+                secondFactorForm={SecondFactorForm}
+                onError={handleError}
                 onFlowRestart={removeFlowIdFromUrl}
                 onSessionAlreadyAvailable={() => {
                     nav({
                         to: "/identity",
                     })
                 }}
-                initialFlowId={flow}
-                onError={handleError}
-                returnTo="/identity?after-login=true"
             />
         </div>
     )
@@ -75,16 +75,16 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
                     <Password>
                         <Input
                             data-testid={dataTestIds.login.chooseMethodForm.passwordInput}
-                            placeholder="Password"
                             disabled={isSubmitting || isValidating}
+                            placeholder="Password"
                         />
                     </Password>
                 )}
 
                 <button
                     data-testid={dataTestIds.login.common.loginButton}
-                    type="submit"
-                    disabled={isSubmitting || isValidating}>
+                    disabled={isSubmitting || isValidating}
+                    type="submit">
                     Login
                 </button>
 
@@ -147,8 +147,8 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
                 <Identifier>
                     <Input
                         data-testid={dataTestIds.login.chooseMethodForm.identifierInput}
-                        placeholder="Identifier"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Identifier"
                     />
                 </Identifier>
             )}
@@ -157,16 +157,16 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
                 <Password>
                     <Input
                         data-testid={dataTestIds.login.chooseMethodForm.passwordInput}
-                        placeholder="Password"
                         disabled={isSubmitting || isValidating}
+                        placeholder="Password"
                     />
                 </Password>
             )}
 
             <button
                 data-testid={dataTestIds.login.common.loginButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Login
             </button>
 
@@ -235,16 +235,16 @@ function SecondFactorForm({ Totp, Email, errors, isSubmitting, isValidating }: l
                 <Totp>
                     <Input
                         data-testid={dataTestIds.login.secondFactorForm.totpInput}
-                        placeholder="TOTP"
                         disabled={isSubmitting || isValidating}
+                        placeholder="TOTP"
                     />
                 </Totp>
             )}
 
             <button
                 data-testid={dataTestIds.login.secondFactorForm.loginButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Login
             </button>
 
@@ -281,15 +281,15 @@ function SecondFactorEmailForm({
             <Code>
                 <Input
                     data-testid={dataTestIds.login.secondFactorEmailForm.codeInput}
-                    placeholder="Code"
                     disabled={isSubmitting || isValidating}
+                    placeholder="Code"
                 />
             </Code>
 
             <button
                 data-testid={dataTestIds.login.common.loginButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Login
             </button>
 
@@ -329,15 +329,15 @@ function EmailVerificationForm({
             <Code>
                 <Input
                     data-testid={dataTestIds.login.emailVerificationForm.codeInput}
-                    placeholder="Code"
                     disabled={isSubmitting || isValidating}
+                    placeholder="Code"
                 />
             </Code>
 
             <button
                 data-testid={dataTestIds.login.emailVerificationForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Verify
             </button>
 

@@ -179,6 +179,7 @@ test.describe("settings page", () => {
             const newEmail = generateUserData().email
 
             // Ensure privileged session has expired
+            // eslint-disable-next-line playwright/no-wait-for-timeout
             await page.waitForTimeout(1000)
 
             await settingsPage.emailInput.fill(newEmail)
@@ -323,6 +324,7 @@ test.describe("settings page", () => {
             await expect(settingsPage.newPasswordFormErrors).toBeHidden()
 
             // Ensure privileged session has expired
+            // eslint-disable-next-line playwright/no-wait-for-timeout
             await page.waitForTimeout(1000)
 
             const newPassword = generateUserData().password

@@ -1,10 +1,10 @@
 import { dataTestIds } from "@example/e2e-ids"
-import { z } from "zod"
 import { createFileRoute } from "@tanstack/react-router"
+import { z } from "zod"
 import { verificationFlow } from "@leancodepl/kratos"
-import { getErrorMessage, VerificationFlow } from "../services/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
+import { getErrorMessage, VerificationFlow } from "../services/kratos"
 
 const verificationSearchSchema = z.object({
     flow: z.string().optional(),
@@ -31,13 +31,13 @@ function RouteComponent() {
         <div data-testid={dataTestIds.verification.page}>
             <VerificationFlow
                 emailVerificationForm={EmailVerificationForm}
+                initialFlowId={flow}
+                returnTo="/redirect-after-verification"
+                onError={handleError}
+                onFlowRestart={removeFlowIdFromUrl}
                 onVerificationSuccess={() => {
                     alert("Recovery successful")
                 }}
-                initialFlowId={flow}
-                onError={handleError}
-                onFlowRestart={removeFlowIdFromUrl}
-                returnTo="/redirect-after-verification"
             />
         </div>
     )
@@ -55,15 +55,15 @@ function EmailVerificationForm({
             <Code>
                 <Input
                     data-testid={dataTestIds.verification.emailVerificationForm.codeInput}
-                    placeholder="Code"
                     disabled={isSubmitting || isValidating}
+                    placeholder="Code"
                 />
             </Code>
 
             <button
                 data-testid={dataTestIds.verification.emailVerificationForm.submitButton}
-                type="submit"
-                disabled={isSubmitting || isValidating}>
+                disabled={isSubmitting || isValidating}
+                type="submit">
                 Verify
             </button>
 

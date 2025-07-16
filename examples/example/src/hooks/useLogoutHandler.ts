@@ -1,6 +1,6 @@
+import { useCallback } from "react"
 import { useRunInTask } from "@leancodepl/utils"
 import { useLogout } from "../services/kratos"
-import { useCallback } from "react"
 
 export const useLogoutHandler = () => {
     const { logout } = useLogout()
