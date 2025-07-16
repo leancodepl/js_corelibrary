@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-recommended-scss", "stylelint-rscss/config"],
+  "extends": ["stylelint-config-recommended-scss"],
   "plugins": ["stylelint-prettier", "stylelint-order"],
   "rules": {
     "declaration-block-no-shorthand-property-overrides": true,
@@ -13,8 +13,6 @@
     "shorthand-property-no-redundant-values": true,
 
     "prettier/prettier": [true, { "severity": "warning" }],
-
-    "rscss/no-descendant-combinator": false,
 
     "scss/at-import-no-partial-leading-underscore": null,
 
