@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.6.0](https://github.com/leancodepl/js_corelibrary/compare/v8.5.1...v8.6.0) (2025-07-16)
+
+### Features
+
+- remove rscss dependencies from stylelint-config package
+  ([8023bd3](https://github.com/leancodepl/js_corelibrary/commit/8023bd351410c2192ce851b035cf5d05f1d84ec3))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [8.5.1](https://github.com/leancodepl/js_corelibrary/compare/v8.5.0...v8.5.1) (2025-07-14)
 
 **Note:** Version bump only for package @leancodepl/stylelint-config
