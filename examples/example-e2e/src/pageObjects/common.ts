@@ -1,3 +1,4 @@
+import { dataTestIds } from "@example/e2e-ids"
 import { Page } from "@playwright/test"
 
 export class CommonPage {
@@ -9,12 +10,12 @@ export class CommonPage {
     readonly headerLoggedIn
 
     constructor(protected readonly page: Page) {
-        this.header = page.getByTestId("header")
-        this.logoutButton = page.getByTestId("logout-button")
+        this.header = page.getByTestId(dataTestIds.userInfoHeader.header)
+        this.logoutButton = page.getByTestId(dataTestIds.userInfoHeader.logoutButton)
 
-        this.headerLoading = page.getByTestId("header-loading")
-        this.headerNotLoggedIn = page.getByTestId("header-not-logged-in")
-        this.headerLoggedIn = page.getByTestId("header-logged-in")
+        this.headerLoading = page.getByTestId(dataTestIds.userInfoHeader.headerLoading)
+        this.headerNotLoggedIn = page.getByTestId(dataTestIds.userInfoHeader.headerNotLoggedIn)
+        this.headerLoggedIn = page.getByTestId(dataTestIds.userInfoHeader.headerLoggedIn)
     }
 
     async clickLogoutButton() {

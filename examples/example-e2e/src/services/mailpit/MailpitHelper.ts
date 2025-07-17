@@ -13,7 +13,12 @@ export class MailpitHelper {
     }
 
     async searchEmails(query: string, start = 0, limit = 50): Promise<MessagesSummary> {
-        const url = this.mailpitUrl(`/v1/search?query=${encodeURIComponent(query)}&start=${start}&limit=${limit}`)
+        const params = new URLSearchParams({
+            query,
+            start: start.toString(),
+            limit: limit.toString(),
+        })
+        const url = this.mailpitUrl(`/v1/search?${params.toString()}`)
         const res = await fetch(url)
         return await res.json()
     }

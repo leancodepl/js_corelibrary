@@ -15,6 +15,14 @@ export const dataTestIds = {
         errors: "errors",
     },
 
+    userInfoHeader: {
+        header: "header",
+        headerLoading: "header-loading",
+        headerNotLoggedIn: "header-not-logged-in",
+        headerLoggedIn: "header-logged-in",
+        logoutButton: "logout-button",
+    },
+
     identity: {
         page: "identity-page",
         loading: "loading-message",

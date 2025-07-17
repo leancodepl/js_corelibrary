@@ -1,5 +1,6 @@
 import { useCallback } from "react"
 import { useRunInTask } from "@leancodepl/utils"
+import { dataTestIds } from "../../../example-e2e-ids/src"
 import { sessionManager, useLogout } from "../services/kratos"
 
 export const UserInfoHeader = () => {
@@ -24,10 +25,12 @@ export const UserInfoHeader = () => {
     }, [logout, runLoggingOutTask])
 
     return (
-        <header data-testid="header" style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
-            {isLoading && <p data-test-id="header-loading">Loading user information...</p>}
+        <header
+            data-testid={dataTestIds.userInfoHeader.header}
+            style={{ padding: "1rem", backgroundColor: "#f0f0f0", textAlign: "center" }}>
+            {isLoading && <p data-testid={dataTestIds.userInfoHeader.headerLoading}>Loading user information...</p>}
             {isLoggedIn === false && (
-                <p data-testid="header-not-logged-in">
+                <p data-testid={dataTestIds.userInfoHeader.headerNotLoggedIn}>
                     <button>
                         <a href="/login">Login</a>
                     </button>
@@ -37,12 +40,12 @@ export const UserInfoHeader = () => {
                 </p>
             )}
             {isLoggedIn && (
-                <p data-testid="header-logged-in">
+                <p data-testid={dataTestIds.userInfoHeader.headerLoggedIn}>
                     Welcome, <strong>{email || "user with ID: " + userId}</strong>
                     <button onClick={() => sessionManager.checkIfLoggedIn()}>check if logged in</button>
                     {isLoggingOut && <p>Logging out...</p>}
                     {!isLoggingOut && (
-                        <button data-testid="logout-button" onClick={handleLogout}>
+                        <button data-testid={dataTestIds.userInfoHeader.logoutButton} onClick={handleLogout}>
                             Logout
                         </button>
                     )}
