@@ -8,7 +8,7 @@ import {
     ContinueWithSetOrySessionToken,
     ContinueWithSettingsUi,
     ContinueWithVerificationUi,
-} from ".."
+} from "../api.generated"
 
 export type OnRedirectHandler = (url: string, external: boolean) => void
 

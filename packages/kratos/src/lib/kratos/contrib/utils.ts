@@ -1,7 +1,7 @@
 // Copyright © 2024 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
-import { FetchError, RequiredError, ResponseError } from ".."
+import { FetchError, RequiredError, ResponseError } from "../api.generated"
 import { OnRedirectHandler } from "./continueWith"
 import {
     isBrowserLocationChangeRequired,

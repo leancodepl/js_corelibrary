@@ -74,7 +74,7 @@ export function Passkey({ children, onError, onLoginSuccess }: PasskeyProps) {
                 return false
             }
 
-            signInWithPasskeyUsingCredential(credential)
+            return await signInWithPasskeyUsingCredential(credential)
         },
         enabled: !!challenge,
         retry: false,

@@ -105,7 +105,6 @@ test.describe("recovery page", () => {
         await recoveryPage.fillCode("123456")
         await recoveryPage.clickCodeSubmitButton()
 
-        const errors = await recoveryPage.getCodeFormErrors()
-        expect(errors.length).toBeGreaterThan(0)
+        await expect(recoveryPage.codeFormErrors).toBeVisible()
     })
 })

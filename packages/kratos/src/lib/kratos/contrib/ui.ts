@@ -10,7 +10,7 @@ import {
     UiNodeScriptAttributes,
     UiNodeTextAttributes,
     UiText,
-} from ".."
+} from "../api.generated"
 
 /**
  * Returns the node's label.
