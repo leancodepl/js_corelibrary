@@ -19,6 +19,33 @@ export type VerificationFlowProps = {
     onFlowRestart?: () => void
 }
 
+/**
+ * Renders email verification flow with provider context and flow management.
+ *
+ * @param emailVerificationForm - Component to render the verification form UI
+ * @param initialFlowId - Optional flow ID to initialize with existing flow
+ * @param initialVerifiableAddress - Optional email address to pre-populate
+ * @param returnTo - Optional URL to redirect to after successful verification
+ * @param onError - Optional callback for handling verification errors
+ * @param onVerificationSuccess - Optional callback for successful verification
+ * @param onFlowRestart - Optional callback when flow needs to restart
+ * @returns JSX element with verification flow provider and wrapper
+ * @example
+ * ```tsx
+ * import { VerificationFlow } from "@leancodepl/kratos";
+ *
+ * function MyVerificationPage() {
+ *   return (
+ *     <VerificationFlow
+ *       emailVerificationForm={MyEmailForm}
+ *       initialVerifiableAddress="user@example.com"
+ *       onVerificationSuccess={() => navigate("/dashboard")}
+ *       onError={(error) => console.error("Verification failed:", error)}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function VerificationFlow(props: VerificationFlowProps) {
     return (
         <VerificationFlowProvider>

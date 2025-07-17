@@ -32,6 +32,31 @@ export function SettingsFlowProvider({ children }: { children: ReactNode }) {
     )
 }
 
+/**
+ * Accesses the settings flow context for managing user account settings state.
+ *
+ * Provides access to settings flow ID, email verification requirement state, and flow
+ * reset functionality. Must be used within a SettingsFlowProvider context.
+ *
+ * @returns Object containing settings flow state and control functions
+ * @throws {Error} When used outside of SettingsFlowProvider context
+ * @example
+ * ```typescript
+ * import { useSettingsFlowContext } from "@leancodepl/kratos";
+ *
+ * function SettingsComponent() {
+ *   const { settingsFlowId, emailVerificationRequired, resetFlow } = useSettingsFlowContext();
+ *
+ *   return (
+ *     <div>
+ *       <p>Flow ID: {settingsFlowId}</p>
+ *       {emailVerificationRequired && <p>Email verification required</p>}
+ *       <button onClick={resetFlow}>Reset</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useSettingsFlowContext() {
     const context = useContext(settingsFlowContext)
 

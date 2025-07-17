@@ -1,6 +1,6 @@
 export * from "./lib/flows"
-export * from "./lib/hooks"
-export * from "./lib/utils"
 export * from "./lib/factories"
 export * from "./lib/sessionManager"
-export * as kratos from "./lib/kratos"
+
+export type { AuthError } from "./lib/utils/errors"
+export type { CommonButtonProps, CommonCheckboxFieldProps, CommonInputFieldProps } from "./lib/utils/fields"

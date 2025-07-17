@@ -125,6 +125,33 @@ function LoginFlowWrapper({
     )
 }
 
+/**
+ * Renders a complete login flow with multi-step authentication support.
+ *
+ * Handles login method selection, second-factor authentication, email verification,
+ * and session management. Provides context for managing flow state and transitions
+ * between different authentication steps.
+ *
+ * @param props - Configuration and component props for the login flow
+ * @returns JSX element containing the complete login flow interface
+ * @example
+ * ```tsx
+ * import { LoginFlow } from '@leancodepl/kratos';
+ *
+ * function App() {
+ *   return (
+ *     <LoginFlow
+ *       chooseMethodForm={MyChooseMethodForm}
+ *       secondFactorForm={MySecondFactorForm}
+ *       secondFactorEmailForm={MySecondFactorEmailForm}
+ *       emailVerificationForm={MyEmailVerificationForm}
+ *       onLoginSuccess={() => navigate('/dashboard')}
+ *       onSessionAlreadyAvailable={() => navigate('/dashboard')}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function LoginFlow(props: LoginFlowProps) {
     return (
         <VerificationFlowProvider>

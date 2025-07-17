@@ -33,6 +33,31 @@ export function VerificationFlowProvider({ children }: { children: ReactNode }) 
     )
 }
 
+/**
+ * Accesses the verification flow context for managing email verification state.
+ *
+ * Provides access to verification flow ID, verifiable address state, and flow reset
+ * functionality. Must be used within a VerificationFlowProvider context.
+ *
+ * @returns Object containing verification flow state and control functions
+ * @throws {Error} When used outside of VerificationFlowProvider context
+ * @example
+ * ```typescript
+ * import { useVerificationFlowContext } from "@leancodepl/kratos";
+ *
+ * function VerificationComponent() {
+ *   const { verificationFlowId, verifiableAddress, resetFlow } = useVerificationFlowContext();
+ *
+ *   return (
+ *     <div>
+ *       <p>Flow ID: {verificationFlowId}</p>
+ *       <p>Email: {verifiableAddress}</p>
+ *       <button onClick={resetFlow}>Reset</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useVerificationFlowContext() {
     const context = useContext(verificationFlowContext)
 

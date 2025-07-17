@@ -109,6 +109,47 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     )
 }
 
+/**
+ * Provides a complete registration flow with step-by-step form handling and verification.
+ *
+ * Manages the user registration process through multiple steps: traits collection,
+ * credentials selection, and optional email verification. Automatically handles flow
+ * transitions and error states.
+ *
+ * @template TTraitsConfig - Configuration type for user traits schema
+ * @param props - Registration flow configuration and form components
+ * @param props.traitsConfig - Configuration defining user traits schema and validation
+ * @param props.traitsForm - React component for collecting user traits (name, email, etc.)
+ * @param props.chooseMethodForm - React component for selecting authentication method
+ * @param props.emailVerificationForm - React component for email verification process
+ * @param props.initialFlowId - Optional existing flow ID to resume registration
+ * @param props.returnTo - Optional URL to redirect after successful registration
+ * @param props.onError - Optional callback for handling registration flow errors
+ * @param props.onRegistrationSuccess - Optional callback triggered after successful registration
+ * @param props.onVerificationSuccess - Optional callback triggered after email verification
+ * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
+ * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
+ * @returns React component that renders the appropriate registration step
+ * @example
+ * ```typescript
+ * import { RegistrationFlow } from '@leancodepl/kratos';
+ *
+ * const traitsConfig = { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const;
+ *
+ * function App() {
+ *   return (
+ *     <RegistrationFlow
+ *       traitsConfig={traitsConfig}
+ *       traitsForm={UserTraitsForm}
+ *       chooseMethodForm={MethodSelectionForm}
+ *       emailVerificationForm={EmailVerifyForm}
+ *       onRegistrationSuccess={() => console.log('Registration completed')}
+ *       onVerificationSuccess={() => console.log('Email verified')}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
     return (
         <VerificationFlowProvider>

@@ -74,6 +74,39 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
     )
 }
 
+/**
+ * Renders a multi-step password recovery flow with email verification and password reset.
+ *
+ * Manages the complete recovery process from email submission through code verification
+ * to password reset, automatically handling flow state transitions and provider setup.
+ *
+ * @param props.emailForm - React component for email input step
+ * @param props.codeForm - React component for verification code input step
+ * @param props.newPasswordForm - React component for new password input step
+ * @param props.initialFlowId - Optional existing recovery flow ID to continue
+ * @param props.returnTo - Optional URL to redirect after successful recovery
+ * @param props.onError - Optional error handler for recovery flow failures
+ * @param props.onRecoverySuccess - Optional callback fired when password recovery completes
+ * @param props.onFlowRestart - Optional callback fired when flow restarts due to errors
+ * @returns JSX element with configured recovery flow providers and step management
+ *
+ * @example
+ * ```typescript
+ * import { RecoveryFlow } from "@leancodepl/kratos";
+ *
+ * function App() {
+ *   return (
+ *     <RecoveryFlow
+ *       emailForm={EmailForm}
+ *       codeForm={CodeForm}
+ *       newPasswordForm={NewPasswordForm}
+ *       onRecoverySuccess={() => console.log("Recovery completed")}
+ *       onError={(error) => console.error("Recovery failed:", error)}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function RecoveryFlow(props: RecoveryFlowProps) {
     return (
         <SettingsFlowProvider>

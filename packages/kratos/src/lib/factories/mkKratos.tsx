@@ -14,6 +14,43 @@ type MkKratosConfig<TTraitsConfig extends TraitsConfig, TSessionManager extends 
     SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
 }
 
+/**
+ * Creates a Kratos client factory with authentication flows, session management, and React providers.
+ *
+ * @template TTraitsConfig - Configuration type for user traits schema
+ * @template TSessionManager - Session manager implementation extending BaseSessionManager
+ * @param queryClient - React Query client instance for managing server state
+ * @param basePath - Base URL for the Kratos API server
+ * @param traits - Optional traits configuration object for user schema validation
+ * @param SessionManager - Optional session manager constructor, defaults to BaseSessionManager
+ * @returns Object containing authentication flows, React providers, and session manager
+ * @example
+ * ```typescript
+ * import { QueryClient } from "@tanstack/react-query";
+ * import { mkKratos } from "@leancodepl/kratos";
+ *
+ * const queryClient = new QueryClient();
+ * const kratos = mkKratos({
+ *   queryClient,
+ *   basePath: "https://api.example.com/.ory",
+ *   traits: { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const
+ * });
+ *
+ * // Use flows
+ * function LoginPage() {
+ *   return <kratos.flows.LoginFlow onSuccess={() => console.log("Logged in")} />;
+ * }
+ *
+ * // Wrap app with providers
+ * function App() {
+ *   return (
+ *     <kratos.providers.KratosProviders>
+ *       <LoginPage />
+ *     </kratos.providers.KratosProviders>
+ *   );
+ * }
+ * ```
+ */
 export function mkKratos<
     TTraitsConfig extends TraitsConfig,
     TSessionManager extends BaseSessionManager<TTraitsConfig>,

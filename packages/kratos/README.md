@@ -1,14 +1,7 @@
 # @leancodepl/kratos
 
-React components and hooks for Ory Kratos authentication integration.
-
-## Features
-
-- **Complete auth flows** - Login, registration, recovery, verification, and settings flows
-- **Ready-to-use components** - Login, registration, recovery, and settings cards
-- **Session management** - Automatic token handling with RxJS observables
-- **Customizable UI** - Override any component with your own implementation
-- **Error handling** - Built-in validation and flow error management
+React components and hooks for Ory Kratos authentication flows with complete session management and customizable UI
+components.
 
 ## Installation
 
@@ -20,220 +13,131 @@ yarn add @leancodepl/kratos
 
 ## API
 
-### `createKratosClient(configuration)`
+### `mkKratos(queryClient, basePath, traits, SessionManager)`
 
-Creates Ory Kratos FrontendApi client with axios and credentials configuration.
-
-**Parameters:**
-
-- `configuration: ConfigurationParameters` - Kratos client configuration parameters
-
-**Returns:** Configured FrontendApi instance for Kratos operations
-
-### `useKratosContext()`
-
-Access Kratos context data with components and error handling.
-
-**Returns:** Kratos context data with initialized components
-
-**Throws:** Error when Kratos context components are not initialized
-
-### `KratosContextProvider(components, useHandleFlowError, excludeScripts, children)`
-
-Provides Kratos context to child components with customizable configuration.
+Creates a Kratos client factory with authentication flows, session management, and React providers.
 
 **Parameters:**
 
-- `components?: Partial<KratosComponents>` - Partial override of default Kratos UI components
-- `useHandleFlowError?: UseHandleFlowError` - Custom error handler for authentication flows
-- `excludeScripts?: boolean` - Whether to exclude script node execution
-- `children?: ReactNode` - Child React components
+- `queryClient: QueryClient` - React Query client instance for managing server state
+- `basePath: string` - Base URL for the Kratos API server
+- `traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
+- `SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
+  constructor, defaults to BaseSessionManager
 
-**Returns:** JSX element providing Kratos context
+**Returns:** Object containing authentication flows, React providers, and session manager
 
-### `BaseSessionManager(authUrl, loginRoute)`
+### `BaseSessionManager(queryClient, api)`
 
-Manages Kratos session state with RxJS observables for authentication status.
-
-**Parameters:**
-
-- `authUrl: string` - Base URL for Kratos authentication endpoints
-- `loginRoute: string` - Application route for login page
-
-### `useLoginFlow(kratosClient, returnTo, onLoggedIn, onSessionAlreadyAvailable, searchParams, updateSearchParams)`
-
-Manages Kratos login flow state and form submission.
+Manages Ory Kratos session and identity state with React Query integration.
 
 **Parameters:**
 
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `returnTo?: string` - URL to redirect after successful login
-- `onLoggedIn?: Function` - Callback executed when user successfully logs in
-- `onSessionAlreadyAvailable?: Function` - Callback when session already exists
-- `searchParams?: LoginSearchParams` - URL search parameters for flow state
-- `updateSearchParams: Function` - Function to update URL search parameters
+- `queryClient: QueryClient` - React Query `QueryClient` instance for caching and fetching session data
+- `api: FrontendApi` - Ory Kratos `FrontendApi` instance for session and identity requests
 
-**Returns:** Object with current flow and submit function
+### `LoginFlow(props)`
 
-### `useRegistrationFlow(kratosClient, onSessionAlreadyAvailable, onContinueWith, searchParams, updateSearchParams)`
-
-Manages Kratos registration flow state and form submission.
+Renders a complete login flow with multi-step authentication support.
 
 **Parameters:**
 
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `onSessionAlreadyAvailable: Function` - Callback when session already exists
-- `onContinueWith?: Function` - Optional callback for post-registration actions
-- `searchParams?: Object` - URL search parameters for flow state
-- `updateSearchParams: Function` - Function to update URL search parameters
+- `props: LoginFlowProps` - Configuration and component props for the login flow
 
-**Returns:** Object with current flow, submit function, and registration status
+**Returns:** JSX element containing the complete login flow interface
 
-### `useRecoveryFlow(kratosClient, onSessionAlreadyAvailable, onContinueWith, searchParams, updateSearchParams)`
+### `RegistrationFlow(props)`
 
-Manages Kratos account recovery flow state and form submission.
+Provides a complete registration flow with step-by-step form handling and verification.
 
 **Parameters:**
 
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `onSessionAlreadyAvailable: Function` - Callback when session already exists
-- `onContinueWith?: Function` - Optional callback for post-recovery actions
-- `searchParams?: Object` - URL search parameters for flow state
-- `updateSearchParams: Function` - Function to update URL search parameters
+- `props: RegistrationFlowProps<TTraitsConfig>` - Registration flow configuration and form components
 
-**Returns:** Object with current flow, submit function, and recovery status
+**Returns:** React component that renders the appropriate registration step
 
-### `LoginCard(flow, onSubmit, className)`
+### `SettingsFlow(props)`
 
-Pre-built login card component for Kratos login flows.
+Renders a complete settings flow with user account management capabilities.
 
 **Parameters:**
 
-- `flow: LoginFlow` - Kratos login flow object
-- `onSubmit?: Function` - Form submission handler
-- `className?: string` - Optional CSS class name
+- `props: SettingsFlowProps<TTraitsConfig>` - Settings flow configuration and form components
 
-**Returns:** JSX element with login form
+**Returns:** React component for the settings flow
 
-### `RegistrationCard(flow, onSubmit, className)`
+### `RecoveryFlow(props)`
 
-Pre-built registration card component for Kratos registration flows.
+Renders a multi-step password recovery flow with email verification and password reset.
 
 **Parameters:**
 
-- `flow: RegistrationFlow` - Kratos registration flow object
-- `onSubmit?: Function` - Form submission handler
-- `className?: string` - Optional CSS class name
+- `props: RecoveryFlowProps` - Recovery flow configuration with form components
 
-**Returns:** JSX element with registration form
+**Returns:** JSX element with configured recovery flow providers and step management
 
-### `RecoveryCard(flow, onSubmit, className)`
+### `VerificationFlow(props)`
 
-Pre-built recovery card component for Kratos account recovery flows.
+Renders email verification flow with provider context and flow management.
 
 **Parameters:**
 
-- `flow: RecoveryFlow` - Kratos recovery flow object
-- `onSubmit?: Function` - Form submission handler
-- `className?: string` - Optional CSS class name
+- `props: VerificationFlowProps` - Verification flow configuration with form components
 
-**Returns:** JSX element with recovery form
+**Returns:** JSX element with verification flow provider and wrapper
 
-### `VerificationCard(flow, onSubmit, className)`
+### `useLogout()`
 
-Pre-built verification card component for Kratos verification flows.
+Provides logout functionality for Kratos authentication flows.
 
-**Parameters:**
+**Returns:** Object containing logout function that accepts optional returnTo parameter
 
-- `flow: VerificationFlow` - Kratos verification flow object
-- `onSubmit?: Function` - Form submission handler
-- `className?: string` - Optional CSS class name
+### `useVerificationFlowContext()`
 
-**Returns:** JSX element with verification form
+Accesses the verification flow context for managing email verification state.
 
-### `useVerificationFlow(initialFlowId, kratosClient, onVerified, searchParams, updateSearchParams)`
+**Returns:** Object containing verification flow state and control functions
 
-Manages Kratos email/phone verification flow state and form submission.
+**Throws:** `Error` - When used outside of VerificationFlowProvider context
 
-**Parameters:**
+### `useSettingsFlowContext()`
 
-- `initialFlowId?: string` - Optional initial flow ID to start with
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `onVerified: Function` - Callback executed when verification is successful
-- `searchParams?: Object` - URL search parameters for flow state
-- `updateSearchParams: Function` - Function to update URL search parameters
+Accesses the settings flow context for managing user account settings state.
 
-**Returns:** Object with current flow, submit function, and reset function
+**Returns:** Object containing settings flow state and control functions
 
-### `useSettingsFlow(kratosClient, params, onContinueWith, searchParams, updateSearchParams)`
-
-Manages Kratos user settings flow state and form submission.
-
-**Parameters:**
-
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `params?: Object` - Optional Axios request parameters
-- `onContinueWith?: Function` - Optional callback for post-settings actions
-- `searchParams?: Object` - URL search parameters for flow state
-- `updateSearchParams: Function` - Function to update URL search parameters
-
-**Returns:** Object with current flow and submit function
-
-### `useReauthenticationFlow(kratosClient, onReauthenticated)`
-
-Manages Kratos reauthentication flow for elevated security operations.
-
-**Parameters:**
-
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `onReauthenticated: Function` - Callback executed with session after successful reauthentication
-
-**Returns:** Object with current flow and submit function
-
-### `useLogoutFlow(kratosClient, returnTo, onLoggedOut)`
-
-Manages Kratos user logout flow with callback support.
-
-**Parameters:**
-
-- `kratosClient: FrontendApi` - Configured Kratos FrontendApi client
-- `returnTo?: string` - Optional URL to redirect after logout
-- `onLoggedOut?: Function` - Optional callback executed after successful logout
-
-**Returns:** Object with logout function
-
-### `UserSettingsCard(flow, flowType, onSubmit, className)`
-
-Pre-built settings card component for Kratos settings flows.
-
-**Parameters:**
-
-- `flow: SettingsFlow` - Kratos settings flow object
-- `flowType: UserSettingsFlowType` - Type of settings flow to render
-- `onSubmit?: Function` - Form submission handler
-- `className?: string` - Optional CSS class name
-
-**Returns:** JSX element with settings form or null if flow type unavailable
+**Throws:** `Error` - When used outside of SettingsFlowProvider context
 
 ## Usage Examples
 
 ### Basic Setup
 
 ```typescript
-import { createKratosClient, KratosContextProvider } from '@leancodepl/kratos';
+import { QueryClient } from "@tanstack/react-query";
+import { mkKratos } from "@leancodepl/kratos";
 
-const kratosClient = createKratosClient({
-  basePath: 'https://auth.example.com'
+const queryClient = new QueryClient();
+const traitsConfig = {
+  Email: { trait: "email", type: "string" },
+  GivenName: { trait: "given_name", type: "string" },
+  RegulationsAccepted: { trait: "regulations_accepted", type: "boolean" }
+} as const;
+
+const { session, providers, flows } = mkKratos({
+  queryClient,
+  basePath: "https://auth.example.com/.ory",
+  traits: traitsConfig
 });
 
 function App() {
   return (
-    <KratosContextProvider>
+    <providers.KratosProviders>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
-    </KratosContextProvider>
+    </providers.KratosProviders>
   );
 }
 ```
@@ -241,77 +145,25 @@ function App() {
 ### Login Flow
 
 ```typescript
-import { useLoginFlow, LoginCard } from '@leancodepl/kratos';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { flows } from "../services/kratos";
+import { useNavigate } from "@tanstack/react-router";
 
 function LoginPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const { flow, submit } = useLoginFlow({
-    kratosClient,
-    onLoggedIn: (session) => navigate('/dashboard'),
-    searchParams: Object.fromEntries(searchParams),
-    updateSearchParams: (params) => setSearchParams(params)
-  });
-
-  if (!flow) return <div>Loading...</div>;
-
-  return <LoginCard flow={flow} onSubmit={submit} />;
-}
-```
-
-### Session Management
-
-```typescript
-import { BaseSessionManager } from "@leancodepl/kratos"
-import { useEffect, useState } from "react"
-
-const sessionManager = new BaseSessionManager("https://auth.example.com", "/login")
-
-function useAuth() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [userId, setUserId] = useState<string>()
-
-    useEffect(() => {
-        const subscription = sessionManager.isLoggedIn.subscribe(setIsLoggedIn)
-        const userSub = sessionManager.userId$.subscribe(setUserId)
-
-        return () => {
-            subscription.unsubscribe()
-            userSub.unsubscribe()
-        }
-    }, [])
-
-    return { isLoggedIn, userId }
-}
-```
-
-### Custom Components
-
-```typescript
-import { KratosContextProvider, useKratosContext } from '@leancodepl/kratos';
-
-const customComponents = {
-  InputComponent: ({ node, attributes }) => (
-    <input
-      className="custom-input"
-      {...attributes}
-      value={node.attributes.value}
-    />
-  ),
-  ButtonComponent: ({ node, attributes }) => (
-    <button className="custom-button" {...attributes}>
-      {node.meta.label}
-    </button>
-  )
-};
-
-function App() {
   return (
-    <KratosContextProvider components={customComponents}>
-      <LoginForm />
-    </KratosContextProvider>
+    <flows.LoginFlow
+      chooseMethodForm={ChooseMethodForm}
+      secondFactorForm={SecondFactorForm}
+      secondFactorEmailForm={SecondFactorEmailForm}
+      emailVerificationForm={EmailVerificationForm}
+      returnTo="/identity"
+      onLoginSuccess={() => console.log("Login successful")}
+      onSessionAlreadyAvailable={() => navigate({ to: "/identity" })}
+      onError={({ target, errors }) => {
+        console.error(`Error in ${target}:`, errors);
+      }}
+    />
   );
 }
 ```
@@ -319,53 +171,288 @@ function App() {
 ### Registration Flow
 
 ```typescript
-import { useRegistrationFlow, RegistrationCard } from '@leancodepl/kratos';
+import { flows } from "../services/kratos";
+import type { AuthTraitsConfig } from "../services/kratos";
 
 function RegisterPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  return (
+    <flows.RegistrationFlow
+      chooseMethodForm={ChooseMethodForm}
+      emailVerificationForm={EmailVerificationForm}
+      traitsForm={TraitsForm}
+      returnTo="/welcome"
+      onRegistrationSuccess={() => console.log("Registration successful")}
+      onVerificationSuccess={() => console.log("Email verified")}
+      onError={({ target, errors }) => {
+        console.error(`Registration error in ${target}:`, errors);
+      }}
+    />
+  );
+}
+```
 
-  const { flow, submit } = useRegistrationFlow({
-    kratosClient,
-    onRegistrationSuccess: () => navigate('/welcome'),
-    searchParams: Object.fromEntries(searchParams),
-    updateSearchParams: (params) => setSearchParams(params)
-  });
+### Session Management
 
-  if (!flow) return <div>Loading...</div>;
+```typescript
+import { sessionManager } from "../services/kratos";
+
+function UserProfile() {
+  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn();
+  const { userId } = sessionManager.useUserId();
+  const { email } = sessionManager.useEmail();
+  const { firstName } = sessionManager.useFirstName();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!isLoggedIn) return <div>Not logged in</div>;
 
   return (
     <div>
-      <h1>Create Account</h1>
-      <RegistrationCard flow={flow} onSubmit={submit} />
+      <h1>User Profile</h1>
+      <p>ID: {userId}</p>
+      <p>Email: {email}</p>
+      <p>Name: {firstName}</p>
     </div>
   );
 }
 ```
 
-### Error Handling
+### Settings Flow
 
 ```typescript
-import { useHandleFlowError } from '@leancodepl/kratos';
+import { flows } from "../services/kratos";
 
-function useCustomErrorHandler() {
-  return useHandleFlowError({
-    onUnauthenticated: () => navigate('/login'),
-    onValidationError: (error) => {
-      console.error('Validation failed:', error);
-      toast.error('Please check your input');
-    },
-    resetFlow: () => setFlow(undefined)
-  });
-}
+function SettingsPage() {
+  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn();
 
-function AppWithErrorHandling() {
-  const customErrorHandler = useCustomErrorHandler();
+  if (isLoading) return <div>Loading...</div>;
+  if (!isLoggedIn) return <div>Access denied</div>;
 
   return (
-    <KratosContextProvider useHandleFlowError={customErrorHandler}>
-      <App />
-    </KratosContextProvider>
+    <flows.SettingsFlow
+      newPasswordForm={NewPasswordForm}
+      traitsForm={TraitsForm}
+      passkeysForm={PasskeysForm}
+      totpForm={TotpForm}
+      oidcForm={OidcForm}
+      settingsForm={({ traitsForm, newPasswordForm, passkeysForm }) => (
+        <div>
+          {traitsForm}
+          {newPasswordForm}
+          {passkeysForm}
+        </div>
+      )}
+      onChangePasswordSuccess={() => console.log("Password updated")}
+      onChangeTraitsSuccess={() => console.log("Profile updated")}
+    />
   );
+}
+```
+
+### Logout Functionality
+
+```typescript
+import { useLogout } from "../services/kratos";
+
+function LogoutButton() {
+  const { logout } = useLogout();
+
+  const handleLogout = async () => {
+    const result = await logout({ returnTo: "/login" });
+    if (result.isSuccess) {
+      console.log("Logout successful");
+    } else {
+      console.error("Logout failed:", result.error);
+    }
+  };
+
+  return <button onClick={handleLogout}>Logout</button>;
+}
+```
+
+### Recovery Flow
+
+```typescript
+import { flows } from "../services/kratos";
+
+function RecoveryPage() {
+  return (
+    <flows.RecoveryFlow
+      emailForm={EmailForm}
+      codeForm={CodeForm}
+      newPasswordForm={NewPasswordForm}
+      onRecoverySuccess={() => console.log("Password recovery completed")}
+      onError={(error) => console.error("Recovery failed:", error)}
+    />
+  );
+}
+```
+
+### Custom Error Handling
+
+```typescript
+import { AuthError } from "@leancodepl/kratos"
+
+function getErrorMessage(error: AuthError) {
+    switch (error.id) {
+        case "Error_InvalidCredentials":
+            return "Invalid email or password"
+        case "Error_MissingProperty":
+            return "This field is required"
+        case "Error_TooShort":
+            return "Password is too short"
+        default:
+            return "An error occurred"
+    }
+}
+
+function handleError({ target, errors }) {
+    if (target === "root") {
+        console.error("Form errors:", errors.map(getErrorMessage))
+    } else {
+        console.error(`Field ${target} errors:`, errors.map(getErrorMessage))
+    }
+}
+```
+
+### Implementing form of an example flow
+
+```typescript
+import { flows } from "../services/kratos";
+import type { AuthTraitsConfig } from "../services/kratos";
+
+function RegisterPage() {
+  return (
+    <flows.RegistrationFlow
+      chooseMethodForm={ChooseMethodForm}
+    />
+  );
+}
+
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+    if (props.isLoading) {
+        return <p>Loading login methods...</p>
+    }
+
+    const { Password, Google, Passkey, Apple, Facebook, errors, isSubmitting, isValidating } = props
+
+    if (props.isRefresh) {
+        const { identifier } = props
+
+        return (
+            <div>
+                {Password && (
+                    <Password>
+                        <input placeholder="Password" />
+                    </Password>
+                )}
+
+                <button type="submit">
+                    Login
+                </button>
+
+                {Google && (
+                    <Google>
+                        <button>
+                            Sign in with Google
+                        </button>
+                    </Google>
+                )}
+
+                {Apple && (
+                    <Apple>
+                        <button>
+                            Sign in with Apple
+                        </button>
+                    </Apple>
+                )}
+
+                {Facebook && (
+                    <Facebook>
+                        <button>
+                            Sign in with Facebook
+                        </button>
+                    </Facebook>
+                )}
+
+                {Passkey && (
+                    <Passkey>
+                        <button>
+                            Sign in with Passkey
+                        </button>
+                    </Passkey>
+                )}
+
+                {errors && errors.length > 0 && (
+                    <div data-testid={dataTestIds.common.errors}>
+                        {errors.map(error => (
+                            <div key={error.id}>{getErrorMessage(error)}</div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        )
+    }
+
+    const { Identifier } = props
+
+    return (
+        <div>
+            {Identifier && (
+                <Identifier>
+                    <input placeholder="Identifier" />
+                </Identifier>
+            )}
+
+            {Password && (
+                <Password>
+                    <input placeholder="Password" />
+                </Password>
+            )}
+
+            <button type="submit">
+                Login
+            </button>
+
+            {Google && (
+                <Google>
+                    <button>
+                        Sign in with Google
+                    </button>
+                </Google>
+            )}
+
+            {Apple && (
+                <Apple>
+                    <button>
+                        Sign in with Apple
+                    </button>
+                </Apple>
+            )}
+
+            {Facebook && (
+                <Facebook>
+                    <button>
+                        Sign in with Facebook
+                    </button>
+                </Facebook>
+            )}
+
+            {Passkey && (
+                <Passkey>
+                    <button>
+                        Sign in with Passkey
+                    </button>
+                </Passkey>
+            )}
+
+            {errors && errors.length > 0 && (
+                <div data-testid={dataTestIds.common.errors}>
+                    {errors.map(error => (
+                        <div key={error.id}>{getErrorMessage(error)}</div>
+                    ))}
+                </div>
+            )}
+        </div>
+    )
 }
 ```
