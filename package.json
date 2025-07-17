@@ -5,11 +5,14 @@
   "private": true,
   "dependencies": {
     "@tanstack/react-router": "1.115.2",
+    "otplib": "12.0.1",
+    "testcontainers": "11.2.1",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
+    "@faker-js/faker": "^9.9.0",
     "@nx/devkit": "20.7.1",
     "@nx/eslint": "20.6.4",
     "@nx/eslint-plugin": "20.6.4",
@@ -75,7 +78,8 @@
     "verdaccio": "6.1.1",
     "vite": "^6.0.0",
     "vitest": "^3.0.0",
-    "xhr-mock": "2.5.1"
+    "xhr-mock": "2.5.1",
+    "zod": "4.0.5"
   },
   "workspaces": [
     "packages/*",
