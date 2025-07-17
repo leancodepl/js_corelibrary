@@ -8,8 +8,7 @@ export const useRemoveFlowFromUrl = () => {
     return useCallback(() => {
         nav({
             to: location.pathname,
-            // eslint-disable-next-line unused-imports/no-unused-vars
-            search: ({ flow, ...search }) => search,
+            search: ({ flow: _, ...search }) => search,
             replace: true,
         })
     }, [nav, location.pathname])
