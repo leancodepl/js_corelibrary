@@ -125,6 +125,44 @@ function LoginFlowWrapper({
     )
 }
 
+/**
+ * Renders a complete login flow with multi-step authentication support.
+ *
+ * Handles login method selection, second-factor authentication, email verification,
+ * and session management. Provides context for managing flow state and transitions
+ * between different authentication steps.
+ *
+ * @param props - Configuration and component props for the login flow
+ * @param props.chooseMethodForm - React component for login method selection
+ * @param props.secondFactorForm - React component for second factor authentication
+ * @param props.secondFactorEmailForm - React component for email-based second factor
+ * @param props.emailVerificationForm - React component for email verification process
+ * @param props.initialFlowId - Optional existing login flow ID to resume
+ * @param props.returnTo - Optional URL to redirect after successful login
+ * @param props.onError - Optional callback for handling login flow errors
+ * @param props.onLoginSuccess - Optional callback triggered after successful login
+ * @param props.onVerificationSuccess - Optional callback triggered after email verification
+ * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
+ * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
+ * @returns JSX element containing the complete login flow interface
+ * @example
+ * ```tsx
+ * import { LoginFlow } from '@leancodepl/kratos';
+ *
+ * function App() {
+ *   return (
+ *     <LoginFlow
+ *       chooseMethodForm={ChooseMethodForm}
+ *       secondFactorForm={SecondFactorForm}
+ *       secondFactorEmailForm={SecondFactorEmailForm}
+ *       emailVerificationForm={EmailVerificationForm}
+ *       onLoginSuccess={() => navigate('/dashboard')}
+ *       onSessionAlreadyAvailable={() => navigate('/dashboard')}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function LoginFlow(props: LoginFlowProps) {
     return (
         <VerificationFlowProvider>

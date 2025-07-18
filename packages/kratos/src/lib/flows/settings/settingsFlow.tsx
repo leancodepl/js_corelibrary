@@ -33,6 +33,45 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
     }>
 }
 
+/**
+ * Renders a complete settings flow with user account management capabilities.
+ *
+ * @template TTraitsConfig - Configuration type for user traits that extends TraitsConfig
+ * @param props - Settings flow configuration and form components
+ * @param props.traitsConfig - Configuration for user traits fields
+ * @param props.traitsForm - Component for editing user traits/profile information
+ * @param props.newPasswordForm - Component for changing user password
+ * @param props.passkeysForm - Component for managing passkey authentication
+ * @param props.totpForm - Component for TOTP/2FA configuration
+ * @param props.oidcForm - Component for OAuth/OIDC provider management
+ * @param props.initialFlowId - Existing flow ID to resume
+ * @param props.initialVerifiableAddress - Email address requiring verification
+ * @param props.onError - Callback for handling flow errors
+ * @param props.onChangePasswordSuccess - Callback after successful password change
+ * @param props.onChangeTraitsSuccess - Callback after successful traits update
+ * @param props.onFlowRestart - Callback when flow restarts
+ * @param props.settingsForm - Main settings form component that renders all sections
+ * @returns React component for the settings flow
+ * @example
+ * ```tsx
+ * import { SettingsFlow } from '@leancodepl/kratos';
+ *
+ * const traitsConfig = { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const;
+ *
+ * function UserSettings() {
+ *   return (
+ *     <SettingsFlow
+ *       traitsConfig={traitsConfig}
+ *       traitsForm={TraitsForm}
+ *       newPasswordForm={PasswordForm}
+ *       settingsForm={MainSettings}
+ *       onChangePasswordSuccess={() => console.log('Password updated')}
+ *       onError={(error) => console.error('Settings error:', error)}
+ *     />
+ *   );
+ * }
+ * ```
+ */
 export function SettingsFlow<TTraitsConfig extends TraitsConfig>(props: SettingsFlowProps<TTraitsConfig>) {
     return (
         <SettingsFlowProvider>

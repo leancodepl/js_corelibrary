@@ -8,7 +8,7 @@ import { useRecoveryFlowContext } from "./useRecoveryFlowContext"
 
 export function useGetRecoveryFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { recoveryFlowId, resetFlow } = useRecoveryFlowContext()
+    const { recoveryFlowId } = useRecoveryFlowContext()
 
     return useQuery({
         queryKey: recoveryFlowKey(recoveryFlowId),

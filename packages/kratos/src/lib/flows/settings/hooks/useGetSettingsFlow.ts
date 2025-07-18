@@ -8,7 +8,7 @@ import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useGetSettingsFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { settingsFlowId, resetFlow } = useSettingsFlowContext()
+    const { settingsFlowId } = useSettingsFlowContext()
 
     return useQuery({
         queryKey: settingsFlowKey(settingsFlowId),

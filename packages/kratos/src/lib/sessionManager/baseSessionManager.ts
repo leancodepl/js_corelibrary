@@ -36,6 +36,22 @@ const mkSessionQuery = <TTraitsConfig extends TraitsConfig>(api: FrontendApi) =>
         retry: false,
     }) satisfies FetchQueryOptions
 
+/**
+ * Manages Ory Kratos session and identity state with React Query integration.
+ *
+ * @param queryClient - React Query `QueryClient` instance for caching and fetching session data
+ * @param api - Ory Kratos `FrontendApi` instance for session and identity requests
+ * @example
+ * ```typescript
+ * import { QueryClient } from "@tanstack/react-query";
+ * import { FrontendApi } from "../kratos";
+ * import { BaseSessionManager } from "./baseSessionManager";
+ *
+ * const queryClient = new QueryClient();
+ * const api = new FrontendApi();
+ * const sessionManager = new BaseSessionManager({ queryClient, api });
+ * ```
+ */
 export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
     queryClient: QueryClient
     api: FrontendApi

@@ -3,6 +3,31 @@ import { useKratosClientContext, useKratosSessionContext } from "../../hooks"
 import { ApiResponse } from "../../types"
 import { baseQueryKey } from "../../utils"
 
+/**
+ * Provides logout functionality for Kratos authentication flows.
+ *
+ * Handles the complete logout process including creating logout flow,
+ * updating session state, cleaning up cached queries, and optional redirects.
+ *
+ * @returns Object containing logout function that accepts optional returnTo parameter
+ * @example
+ * ```tsx
+ * import { useLogout } from "@leancodepl/kratos";
+ *
+ * function LogoutButton() {
+ *   const { logout } = useLogout();
+ *
+ *   const handleLogout = async () => {
+ *     const result = await logout({ returnTo: "/login" });
+ *     if (!result.isSuccess) {
+ *       console.error("Logout failed:", result.error);
+ *     }
+ *   };
+ *
+ *   return <button onClick={handleLogout}>Logout</button>;
+ * }
+ * ```
+ */
 export function useLogout() {
     const { kratosClient } = useKratosClientContext()
     const { sessionManager } = useKratosSessionContext()
