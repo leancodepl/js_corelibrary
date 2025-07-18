@@ -11,7 +11,7 @@ import { baseQueryKey } from "../../utils"
  *
  * @returns Object containing logout function that accepts optional returnTo parameter
  * @example
- * ```typescript
+ * ```tsx
  * import { useLogout } from "@leancodepl/kratos";
  *
  * function LogoutButton() {

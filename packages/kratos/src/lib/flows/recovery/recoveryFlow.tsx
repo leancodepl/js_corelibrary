@@ -91,7 +91,7 @@ function RecoveryFlowWrapper<TTraitsConfig extends TraitsConfig>({
  * @returns JSX element with configured recovery flow providers and step management
  *
  * @example
- * ```typescript
+ * ```tsx
  * import { RecoveryFlow } from "@leancodepl/kratos";
  *
  * function App() {

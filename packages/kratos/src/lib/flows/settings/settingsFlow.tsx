@@ -53,7 +53,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
  * @param props.settingsForm - Main settings form component that renders all sections
  * @returns React component for the settings flow
  * @example
- * ```typescript
+ * ```tsx
  * import { SettingsFlow } from '@leancodepl/kratos';
  *
  * const traitsConfig = { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const;
@@ -62,9 +62,9 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
  *   return (
  *     <SettingsFlow
  *       traitsConfig={traitsConfig}
- *       traitsForm={MyTraitsForm}
- *       newPasswordForm={MyPasswordForm}
- *       settingsForm={MyMainSettings}
+ *       traitsForm={TraitsForm}
+ *       newPasswordForm={PasswordForm}
+ *       settingsForm={MainSettings}
  *       onChangePasswordSuccess={() => console.log('Password updated')}
  *       onError={(error) => console.error('Settings error:', error)}
  *     />

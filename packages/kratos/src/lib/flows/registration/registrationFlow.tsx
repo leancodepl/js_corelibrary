@@ -131,7 +131,7 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
  * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
  * @returns React component that renders the appropriate registration step
  * @example
- * ```typescript
+ * ```tsx
  * import { RegistrationFlow } from '@leancodepl/kratos';
  *
  * const traitsConfig = { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const;

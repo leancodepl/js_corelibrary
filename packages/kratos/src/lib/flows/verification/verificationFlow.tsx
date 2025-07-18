@@ -37,7 +37,7 @@ export type VerificationFlowProps = {
  * function MyVerificationPage() {
  *   return (
  *     <VerificationFlow
- *       emailVerificationForm={MyEmailForm}
+ *       emailVerificationForm={EmailForm}
  *       initialVerifiableAddress="user@example.com"
  *       onVerificationSuccess={() => navigate("/dashboard")}
  *       onError={(error) => console.error("Verification failed:", error)}
