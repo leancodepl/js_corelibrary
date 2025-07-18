@@ -1,7 +1,6 @@
-export * from "./useReauthenticationFlow";
-export * from "./useRecoveryFlow";
-export * from "./useSettingsFlow";
-export * from "./useLoginFlow";
-export * from "./useRegistrationFlow";
-export * from "./useVerificationFlow";
-export * from "./useLogoutFlow";
+export * as loginFlow from "./login"
+export * as logoutFlow from "./logout"
+export * as registrationFlow from "./registration"
+export * as verificationFlow from "./verification"
+export * as settingsFlow from "./settings"
+export * as recoveryFlow from "./recovery"

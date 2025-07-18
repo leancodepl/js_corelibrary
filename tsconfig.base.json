@@ -21,6 +21,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@example/e2e-ids": ["examples/example-e2e-ids/src/index.ts"],
       "@leancodepl/api-binary": ["packages/cqrs-clients/custom-types/binary/api-binary/src/index.ts"],
       "@leancodepl/api-binary-blob": ["packages/cqrs-clients/custom-types/binary/api-binary-blob/src/index.ts"],
       "@leancodepl/api-date": ["packages/cqrs-clients/custom-types/date/api-date/src/index.ts"],

@@ -1,119 +1,147 @@
-import { AuthenticatorAssuranceLevel, Session } from "@ory/client"
-import axios, { AxiosResponse } from "axios"
-import { catchError, from, map, of, ReplaySubject, shareReplay, Subject, switchMap } from "rxjs"
-import { ErrorId } from "../types/enums/errorId"
-import { aalParameterName, returnToParameterName } from "../utils/variables"
+import { FetchQueryOptions, QueryClient, useQuery } from "@tanstack/react-query"
+import { FrontendApi, isGenericErrorResponse, isSessionAal2Required, ResponseError } from "../kratos"
+import { createQueryKey, TraitsConfig, withQueryKeyPrefix } from "../utils"
+import { IdentityWithTypedTraits, SessionWithTypedUserTraits } from "./types"
+
+export type BaseSessionManagerContructorProps = {
+    queryClient: QueryClient
+    api: FrontendApi
+}
+
+const sessionQueryKey = createQueryKey([withQueryKeyPrefix("session_manager"), "session"])
+
+const mkSessionQuery = <TTraitsConfig extends TraitsConfig>(api: FrontendApi) =>
+    ({
+        queryKey: sessionQueryKey,
+        queryFn: async () => {
+            try {
+                return (await api.toSession()) as SessionWithTypedUserTraits<TTraitsConfig>
+            } catch (error: unknown) {
+                if (error instanceof ResponseError) {
+                    if (error.response.status === 401) {
+                        return null
+                    }
+
+                    const response = await error.response.json()
+
+                    if (isGenericErrorResponse(response)) {
+                        throw new Error("Kratos error occurred while fetching session", { cause: response })
+                    }
+                }
+
+                throw new Error("Unexpected error while fetching session")
+            }
+        },
+        staleTime: Infinity,
+        retry: false,
+    }) satisfies FetchQueryOptions
 
 /**
- * Manages Kratos session state with RxJS observables for authentication status.
- * 
- * Provides reactive session management with automatic status checking, user identity
- * tracking, and AAL (Authenticator Assurance Level) handling for multi-factor authentication.
- * 
- * @param authUrl - Base URL for Kratos authentication endpoints
- * @param loginRoute - Application route for login page
+ * Manages Ory Kratos session and identity state with React Query integration.
+ *
+ * @param queryClient - React Query `QueryClient` instance for caching and fetching session data
+ * @param api - Ory Kratos `FrontendApi` instance for session and identity requests
  * @example
  * ```typescript
- * import { BaseSessionManager } from '@leancodepl/kratos';
- * 
- * const sessionManager = new BaseSessionManager(
- *   'https://auth.example.com',
- *   '/login'
- * );
- * 
- * sessionManager.isLoggedIn.subscribe(loggedIn => {
- *   console.log('User logged in:', loggedIn);
- * });
+ * import { QueryClient } from "@tanstack/react-query";
+ * import { FrontendApi } from "../kratos";
+ * import { BaseSessionManager } from "./baseSessionManager";
+ *
+ * const queryClient = new QueryClient();
+ * const api = new FrontendApi();
+ * const sessionManager = new BaseSessionManager({ queryClient, api });
  * ```
  */
-export class BaseSessionManager {
-    authUrl
-    loginRoute
+export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
+    queryClient: QueryClient
+    api: FrontendApi
 
-    session$: Subject<Session | undefined> = new ReplaySubject(1)
-    isLoggedIn = this.session$.pipe(
-        map(session => !!session?.active),
-        shareReplay(1),
-    )
-    identity$ = this.session$.pipe(
-        map(session => session?.identity),
-        shareReplay(1),
-    )
-    userId$ = this.identity$.pipe(
-        map(identity => identity?.id),
-        shareReplay(1),
-    )
-
-    setSession(session: Session | undefined) {
-        this.session$.next(session)
-
-        if (!session) this.checkIfLoggedIn()
+    getSession = async (): Promise<SessionWithTypedUserTraits<TTraitsConfig> | undefined> => {
+        try {
+            return (await this.queryClient.fetchQuery(mkSessionQuery<TTraitsConfig>(this.api))) ?? undefined
+        } catch {
+            return undefined
+        }
     }
 
-    checkIfLoggedIn = (() => {
-        const fetchSubject = new Subject()
+    getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> => {
+        return (await this.getSession())?.identity
+    }
 
-        fetchSubject
-            .pipe(
-                switchMap(() =>
-                    from(
-                        axios.get(`${this.authUrl}/sessions/whoami`, {
-                            withCredentials: true,
-                        }),
-                    ).pipe(
-                        map((response: AxiosResponse<Session>) => {
-                            const returnTo = new URLSearchParams(window.location.search).get(returnToParameterName)
+    getUserId = async (): Promise<string | undefined> => {
+        return (await this.getIdentity())?.id
+    }
 
-                            if (returnTo) {
-                                window.location.href = returnTo
-                            }
+    isLoggedIn = async (): Promise<boolean> => {
+        return (await this.getSession())?.active ?? false
+    }
 
-                            return response.data
-                        }),
-                        catchError(err => {
-                            switch (err.response.status) {
-                                case 403:
-                                case 422:
-                                    if (err.response.data.error?.id === ErrorId.ErrIDHigherAALRequired) {
-                                        const searchParams = new URLSearchParams(window.location.search)
+    useSession = () => {
+        const {
+            data: session,
+            isLoading,
+            error,
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+        } = useQuery({
+            ...mkSessionQuery<TTraitsConfig>(this.api),
+            retryOnMount: false,
+        })
 
-                                        if (searchParams.get(aalParameterName)) {
-                                            break
-                                        }
+        return {
+            session: session ?? undefined,
+            isLoading,
+            error,
+        }
+    }
 
-                                        const redirectUrl = new URL(this.loginRoute, window.location.href)
+    useIdentity = () => {
+        const { session, ...rest } = this.useSession()
 
-                                        if (window.location.pathname === this.loginRoute) {
-                                            const searchParams = new URLSearchParams(window.location.search)
-                                            searchParams.append(aalParameterName, AuthenticatorAssuranceLevel.Aal2)
-                                            redirectUrl.search = searchParams.toString()
-                                        } else {
-                                            redirectUrl.search = new URLSearchParams({
-                                                [aalParameterName]: AuthenticatorAssuranceLevel.Aal2,
-                                                [returnToParameterName]: `${window.location.pathname}${window.location.search}`,
-                                            }).toString()
-                                        }
+        return {
+            identity: session?.identity,
+            ...rest,
+        }
+    }
 
-                                        window.location.href = redirectUrl.toString()
-                                    }
-                                    break
-                            }
+    useUserId = () => {
+        const { identity, ...rest } = this.useIdentity()
 
-                            return of(undefined)
-                        }),
-                    ),
-                ),
-            )
-            .subscribe({
-                next: session => this.session$.next(session),
-            })
+        return {
+            userId: identity?.id,
+            ...rest,
+        }
+    }
 
-        return () => fetchSubject.next(undefined)
-    })()
+    useIsLoggedIn = () => {
+        const { session, isLoading, error } = this.useSession()
 
-    constructor(authUrl: string, loginRoute: string) {
-        this.authUrl = authUrl
-        this.loginRoute = loginRoute
-        this.checkIfLoggedIn()
+        return {
+            isLoggedIn: session?.active ?? (!isLoading ? false : undefined),
+            isLoading,
+            error,
+        }
+    }
+
+    useIsAal2Required = () => {
+        const session = this.useSession()
+
+        return {
+            isAal2Required: session.error?.cause
+                ? isGenericErrorResponse(session.error.cause) && isSessionAal2Required(session.error.cause)
+                : undefined,
+            isLoading: session.isLoading,
+        }
+    }
+
+    checkIfLoggedIn = async () => {
+        return await this.queryClient.refetchQueries({
+            queryKey: sessionQueryKey,
+            exact: true,
+        })
+    }
+
+    constructor({ queryClient, api }: BaseSessionManagerContructorProps) {
+        this.api = api
+        this.queryClient = queryClient
     }
 }

@@ -10,7 +10,7 @@ module.exports = [
     ...leancode.baseReact,
     ...leancode.a11y,
     {
-        ignores: ["**/dist"],
+        ignores: ["**/dist", "**/vite.config.*.timestamp*", "**/vitest.config.*.timestamp*"],
     },
     {
         files: ["*.ts", "*.tsx", "*.js", "*.jsx"],

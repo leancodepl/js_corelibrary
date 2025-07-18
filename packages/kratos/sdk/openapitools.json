@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.12.0",
+    "generators": {
+      "kratos": {
+        "generatorName": "typescript-fetch",
+        "output": "#{cwd}/../src/lib/kratos/api.generated",
+        "glob": "./openapi-schema/schema.json",
+        "skipValidateSpec": true,
+        "additionalProperties": {
+          "supportsES6": true,
+          "ensureUniqueParams": true,
+          "modelPropertyNaming": "original",
+          "disallowAdditionalPropertiesIfNotPresent": false,
+          "withInterfaces": false,
+          "useSingleRequestParameter": true,
+          "enumUnknownDefaultCase": true
+        }
+      }
+    }
+  }
+}

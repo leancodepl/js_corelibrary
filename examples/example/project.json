@@ -1,0 +1,41 @@
+{
+  "name": "example",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "examples/example/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "lint": { "executor": "@nx/eslint:lint" },
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": { "outputPath": "dist/examples/example" },
+      "configurations": { "development": { "mode": "development" }, "production": { "mode": "production" } }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": { "buildTarget": "example:build", "host": "0.0.0.0" },
+      "configurations": {
+        "development": { "buildTarget": "example:build:development", "hmr": true },
+        "production": { "buildTarget": "example:build:production", "hmr": false }
+      }
+    },
+    "preview": {
+      "dependsOn": ["build"],
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": { "buildTarget": "example:build" },
+      "configurations": {
+        "development": { "buildTarget": "example:build:development" },
+        "production": { "buildTarget": "example:build:production" }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
+      "options": { "buildTarget": "example:build", "spa": true }
+    }
+  }
+}

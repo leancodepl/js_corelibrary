@@ -8,7 +8,8 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "cache": true
+      "cache": true,
+      "dependsOn": ["^build"]
     },
     "@nx/jest:jest": {
       "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
@@ -31,16 +32,32 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
+    },
+    "@nx/vite:test": {
+      "cache": true,
+      "inputs": ["default", "^default"]
+    },
+    "@nx/vite:build": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
     }
   },
   "generators": {
     "@nx/react": {
       "application": {
-        "linter": "eslint"
+        "babel": true,
+        "style": "none",
+        "linter": "eslint",
+        "bundler": "vite"
       },
       "library": {
+        "style": "none",
         "linter": "eslint",
         "unitTestRunner": "jest"
+      },
+      "component": {
+        "style": "none"
       }
     }
   },
