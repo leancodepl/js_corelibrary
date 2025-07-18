@@ -11,6 +11,7 @@
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
     "@faker-js/faker": "9.9.0",
+    "@nx/devkit": "21.2.2",
     "@nx/eslint": "21.2.2",
     "@nx/eslint-plugin": "21.2.2",
     "@nx/jest": "21.2.2",

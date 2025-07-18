@@ -300,12 +300,12 @@ test.describe("register page", () => {
     })
 
     test("should create new flow id if initial flow id is invalid", async ({ page }) => {
-        const FLOW_ID = "invalid-flow-id"
+        const flowId = "invalid-flow-id"
         const registrationPage = new RegistrationPage(page)
 
-        await registrationPage.visit(FLOW_ID)
+        await registrationPage.visit(flowId)
 
-        const getFlowResponse = await registrationPage.waitForRegistrationFlowGetResponse(FLOW_ID)
+        const getFlowResponse = await registrationPage.waitForRegistrationFlowGetResponse(flowId)
         expect(getFlowResponse.status()).toBe(404)
 
         const createFlowResponse = await registrationPage.waitForRegistrationFlowCreateResponse()
