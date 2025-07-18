@@ -66,7 +66,7 @@ OAuth2 authentication management with token storage, refresh capabilities, and s
 
 #### `@leancodepl/kratos`
 
-React components and hooks for Ory Kratos authentication integration with complete auth flows.
+Headless React components library for building Ory Kratos authentication flows.
 
 ### Development Tools
 

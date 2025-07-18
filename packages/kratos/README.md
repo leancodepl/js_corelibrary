@@ -1,6 +1,6 @@
 # @leancodepl/kratos
 
-Headless react components library for building Ory Kratos authentication flows
+Headless React components library for building Ory Kratos authentication flows.
 
 ## Installation
 

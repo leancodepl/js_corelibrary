@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "React components and hooks for Ory Kratos authentication",
+  "description": "Headless React components library for building Ory Kratos authentication flows",
   "keywords": [
     "ory",
     "kratos",
