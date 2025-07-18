@@ -1,7 +1,6 @@
 # @leancodepl/kratos
 
-React components and hooks for Ory Kratos authentication flows with complete session management and customizable UI
-components.
+Headless react components library for building Ory Kratos authentication flows
 
 ## Installation
 
