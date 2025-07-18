@@ -1,4 +1,4 @@
-import { DeepKeys, FormApi, FormAsyncValidateOrFn, FormValidateOrFn } from "@tanstack/react-form"
+import { DeepKeys, DeepRecord, FormApi, FormAsyncValidateOrFn, FormValidateOrFn } from "@tanstack/react-form"
 import { LoginFlow, RegistrationFlow, VerificationFlow } from "../kratos"
 import { AuthError, getAuthErrorsFromUiTextList } from "./errors"
 import { getNodeById, inputNodeMessages } from "./flow"
@@ -12,6 +12,10 @@ export type FlattenObjectKeys<T extends Record<string, unknown>, Key = keyof T> 
     ? T[Key] extends Record<string, unknown>
         ? `${Key}.${FlattenObjectKeys<T[Key]>}`
         : `${Key}`
+    : never
+
+export type TraitValue<TTrait extends string> = `traits.${TTrait}` extends "traits" | `traits.${string}`
+    ? DeepRecord<{ traits: Record<string, boolean | string> }>[`traits.${TTrait}`]
     : never
 
 export const handleOnSubmitErrors = <

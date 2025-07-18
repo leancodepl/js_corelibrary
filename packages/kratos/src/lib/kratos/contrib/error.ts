@@ -8,7 +8,7 @@ import {
     NeedsPrivilegedSessionError,
     ResponseError,
     SelfServiceFlowExpiredError,
-} from ".."
+} from "../api.generated"
 
 export function isGenericErrorResponse(response: unknown): response is { error: GenericError } {
     return (

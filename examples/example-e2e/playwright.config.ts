@@ -26,7 +26,7 @@ export default defineConfig({
     webServer: {
         command: "npx nx run example:preview",
         url: "http://localhost:4300",
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: !process.env["CI"],
         cwd: workspaceRoot,
         env: {
             VITE_AUTH_BASE: "http://localhost:34433",

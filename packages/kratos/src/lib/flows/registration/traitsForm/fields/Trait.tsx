@@ -5,6 +5,7 @@ import {
     CommonInputFieldProps,
     getAuthErrorsFromFormErrorMap,
     traitPrefix,
+    TraitValue,
 } from "../../../../utils"
 import { useTraitsFormContext } from "../traitsFormContext"
 
@@ -31,7 +32,7 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
                         name={field.name}
                         type="text"
                         value={field.state.value}
-                        onChange={e => field.handleChange(e.target.value)}>
+                        onChange={e => field.handleChange(e.target.value as TraitValue<TTrait>)}>
                         {children}
                     </Comp>
                 )
@@ -58,7 +59,7 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
                         errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
                         name={field.name}
                         type="checkbox"
-                        onChange={e => field.handleChange(e.target.checked)}>
+                        onChange={e => field.handleChange(e.target.checked as TraitValue<TTrait>)}>
                         {children}
                     </Comp>
                 )
