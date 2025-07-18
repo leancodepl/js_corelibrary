@@ -4,6 +4,30 @@
   "sourceRoot": "examples/example-e2e-ids/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project utils --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/examples/example-e2e-ids",
+        "main": "examples/example-e2e-ids/src/index.ts",
+        "tsConfig": "examples/example-e2e-ids/tsconfig.lib.json",
+        "project": "examples/example-e2e-ids/package.json",
+        "compiler": "swc",
+        "format": [
+          "cjs",
+          "esm"
+        ],
+        "generateExportsField": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    }
+  }
 }
