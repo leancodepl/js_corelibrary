@@ -18,11 +18,11 @@ type MkKratosConfig<TTraitsConfig extends TraitsConfig, TSessionManager extends 
  * Creates a Kratos client factory with authentication flows, session management, and React providers.
  *
  * @template TTraitsConfig - Configuration type for user traits schema
- * @template TSessionManager - Session manager implementation extending BaseSessionManager
+ * @template TSessionManager - Session manager implementation extending {@link BaseSessionManager}
  * @param queryClient - React Query client instance for managing server state
  * @param basePath - Base URL for the Kratos API server
  * @param traits - Optional traits configuration object for user schema validation
- * @param SessionManager - Optional session manager constructor, defaults to BaseSessionManager
+ * @param SessionManager - Optional session manager constructor, defaults to {@link BaseSessionManager}
  * @returns Object containing authentication flows, React providers, and session manager
  * @example
  * ```tsx
