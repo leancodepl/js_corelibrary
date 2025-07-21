@@ -68,10 +68,12 @@ Manages Ory Kratos session and identity state with React Query integration.
 
 ### Basic Setup
 
-```typescript
-// services/kratos.ts
+To use the library, you need to create new instance of Kratos client with `mkKratos` factory:
 
-import { queryClient } from "./query.ts"
+```typescript
+// kratosService.ts
+
+import { queryClient } from "./queryService"
 
 const traitsConfig = {
   Email: { trait: "email", type: "string" },
@@ -79,33 +81,37 @@ const traitsConfig = {
   RegulationsAccepted: { trait: "regulations_accepted", type: "boolean" },
 } as const
 
-const { session, providers, flows } = mkKratos({
+const {
+  session: { sessionManager },
+  providers: { KratosProviders },
+  flows: { LoginFlow, RegistrationFlow, SettingsFlow, VerificationFlow, RecoveryFlow, useLogout },
+} = mkKratos({
   queryClient,
-  basePath: "https://auth.example.com/.ory",
+  basePath: environment.authUrl,
   traits: traitsConfig,
 })
 
 // session
-export const sessionManager = session.sessionManager
+export { sessionManager }
 
 // providers
-export const KratosProviders = providers.KratosProviders
+export { KratosProviders }
 
 // flows
-export const RegistrationFlow = flows.RegistrationFlow
-export const LoginFlow = flows.LoginFlow
-export const RecoveryFlow = flows.RecoveryFlow
-export const SettingsFlow = flows.SettingsFlow
-export const VerificationFlow = flows.VerificationFlow
-export const useLogout = flows.useLogout
+export { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, useLogout, VerificationFlow }
+
+// traits
+export type AuthTraitsConfig = typeof traitsConfig
 ```
 
-```typescript
+And then wrap your app with `KratosProviders` from `mkKratos`:
+
+```tsx
 // main.tsx
 
 import { QueryClientProvider } from "@tanstack/react-query"
-import { KratosProviders } from "./services/kratos"
-import { queryClient } from "./services/query"
+import { KratosProviders } from "./kratosService"
+import { queryClient } from "./queryService"
 
 function App() {
   return (
@@ -118,23 +124,23 @@ function App() {
         </Routes>
       </KratosProviders>
     </QueryClientProvider>
-  );
+  )
 }
 ```
 
 ### Session Management
 
-```typescript
-import { sessionManager } from "../services/kratos";
+```tsx
+import { sessionManager } from "./kratosService"
 
 function UserProfile() {
-  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn();
-  const { userId } = sessionManager.useUserId();
-  const { email } = sessionManager.useEmail();
-  const { firstName } = sessionManager.useFirstName();
+  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
+  const { userId } = sessionManager.useUserId()
+  const { email } = sessionManager.useEmail()
+  const { firstName } = sessionManager.useFirstName()
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!isLoggedIn) return <div>Not logged in</div>;
+  if (isLoading) return <div>Loading...</div>
+  if (!isLoggedIn) return <div>Not logged in</div>
 
   return (
     <div>
@@ -143,19 +149,16 @@ function UserProfile() {
       <p>Email: {email}</p>
       <p>Name: {firstName}</p>
     </div>
-  );
+  )
 }
 ```
 
 ### Login Flow
 
-```typescript
-import { LoginFlow } from "../services/kratos";
-import { useNavigate } from "@tanstack/react-router";
+```tsx
+import { LoginFlow } from "./kratosService"
 
 function LoginPage() {
-  const navigate = useNavigate();
-
   return (
     <LoginFlow
       chooseMethodForm={ChooseMethodForm}
@@ -163,21 +166,24 @@ function LoginPage() {
       secondFactorEmailForm={SecondFactorEmailForm}
       emailVerificationForm={EmailVerificationForm}
       returnTo="/identity"
-      onLoginSuccess={() => console.log("Login successful")}
-      onSessionAlreadyAvailable={() => navigate({ to: "/identity" })}
+      onLoginSuccess={() => {
+        console.log("Login successful")
+      }}
+      onSessionAlreadyAvailable={() => {
+        location.href = "/identity"
+      }}
       onError={({ target, errors }) => {
-        console.error(`Error in ${target}:`, errors);
+        console.error(`Error in ${target}:`, errors)
       }}
     />
-  );
+  )
 }
 ```
 
 ### Registration Flow
 
-```typescript
-import { RegistrationFlow } from "../services/kratos";
-import type { AuthTraitsConfig } from "../services/kratos";
+```tsx
+import { RegistrationFlow } from "./kratosService"
 
 function RegisterPage() {
   return (
@@ -186,26 +192,30 @@ function RegisterPage() {
       emailVerificationForm={EmailVerificationForm}
       traitsForm={TraitsForm}
       returnTo="/welcome"
-      onRegistrationSuccess={() => console.log("Registration successful")}
-      onVerificationSuccess={() => console.log("Email verified")}
+      onRegistrationSuccess={() => {
+        console.log("Registration successful")
+      }}
+      onVerificationSuccess={() => {
+        console.log("Email verified")
+      }}
       onError={({ target, errors }) => {
-        console.error(`Registration error in ${target}:`, errors);
+        console.error(`Registration error in ${target}:`, errors)
       }}
     />
-  );
+  )
 }
 ```
 
 ### Settings Flow
 
-```typescript
-import { SettingsFlow } from "../services/kratos";
+```tsx
+import { SettingsFlow } from "./kratosService"
 
 function SettingsPage() {
-  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn();
+  const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!isLoggedIn) return <div>Access denied</div>;
+  if (isLoading) return <div>Loading...</div>
+  if (!isLoggedIn) return <div>Access denied</div>
 
   return (
     <SettingsFlow
@@ -221,38 +231,42 @@ function SettingsPage() {
           {passkeysForm}
         </div>
       )}
-      onChangePasswordSuccess={() => console.log("Password updated")}
-      onChangeTraitsSuccess={() => console.log("Profile updated")}
+      onChangePasswordSuccess={() => {
+        console.log("Password updated")
+      }}
+      onChangeTraitsSuccess={() => {
+        console.log("Profile updated")
+      }}
     />
-  );
+  )
 }
 ```
 
 ### Logout Functionality
 
-```typescript
-import { useLogout } from "../services/kratos";
+```tsx
+import { useLogout } from "./kratosService"
 
 function LogoutButton() {
-  const { logout } = useLogout();
+  const { logout } = useLogout()
 
   const handleLogout = async () => {
-    const result = await logout({ returnTo: "/login" });
+    const result = await logout({ returnTo: "/login" })
     if (result.isSuccess) {
-      console.log("Logout successful");
+      console.log("Logout successful")
     } else {
-      console.error("Logout failed:", result.error);
+      console.error("Logout failed:", result.error)
     }
-  };
+  }
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return <button onClick={handleLogout}>Logout</button>
 }
 ```
 
 ### Recovery Flow
 
-```typescript
-import { RecoveryFlow } from "../services/kratos";
+```tsx
+import { RecoveryFlow } from "./kratosService"
 
 function RecoveryPage() {
   return (
@@ -260,10 +274,14 @@ function RecoveryPage() {
       emailForm={EmailForm}
       codeForm={CodeForm}
       newPasswordForm={NewPasswordForm}
-      onRecoverySuccess={() => console.log("Password recovery completed")}
-      onError={(error) => console.error("Recovery failed:", error)}
+      onRecoverySuccess={() => {
+        console.log("Password recovery completed")
+      }}
+      onError={error => {
+        console.error("Recovery failed:", error)
+      }}
     />
-  );
+  )
 }
 ```
 
@@ -294,58 +312,155 @@ function handleError({ target, errors }) {
 }
 ```
 
-### Implementing form of an example flow
+### Implementing flow form
 
-```typescript
-import { RegistrationFlow } from "../services/kratos";
-import type { AuthTraitsConfig } from "../services/kratos";
+Each form in every flow exposes [slot components](https://www.radix-ui.com/primitives/docs/utilities/slot) for inputs
+and buttons. When wrapping your custom components with these slots, relevant props (such as the `onInput` event handler)
+are automatically applied. If you use a custom component as a child, you receive props from one of the following types:
+`CommonInputFieldProps`, `CommonCheckboxFieldProps`, or `CommonButtonProps`.
 
-function RegisterPage() {
+Forms like `TraitsForm` have dynamic parameters determined by the `traitsConfig` you provide to the `mkKratos` factory.
+To type these correctly, use a generic such as `registrationFlow.TraitsFormProps<AuthTraitsConfig>` and pass your traits
+config.
+
+Some forms are typed as discriminated unions with multiple variants.
+
+#### Custom Input component with CommonInputFieldProps
+
+```tsx
+import { CommonInputFieldProps } from "@leancodepl/kratos"
+import { getErrorMessage } from "./kratosService"
+
+type InputProps = CommonInputFieldProps & { placeholder?: string }
+
+export const Input = ({ errors, ...props }: InputProps) => (
+  <div>
+    <input {...props} />
+    {errors && errors.length > 0 && (
+      <div>
+        {errors.map(error => (
+          <div key={error.id}>{getErrorMessage(error)}</div>
+        ))}
+      </div>
+    )}
+  </div>
+)
+```
+
+#### ChooseMethodForm in login flow
+
+```tsx
+import { loginFlow } from "@leancodepl/kratos"
+import { LoginFlow, getErrorMessage } from "./kratosService"
+import type { AuthTraitsConfig } from "./kratosService"
+
+function LoginPage() {
   return (
-    <RegistrationFlow
+    <LoginFlow
       chooseMethodForm={ChooseMethodForm}
+      // other props
     />
-  );
+  )
 }
 
-function ChooseMethodForm({
-  errors,
-  ReturnToTraitsForm,
-  Password,
-  PasswordConfirmation,
-  Passkey,
-  isSubmitting,
-  isValidating,
-}: registrationFlow.ChooseMethodFormProps) {
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+  if (props.isLoading) {
+    return <p>Loading login methods...</p>
+  }
+
+  const { Password, Google, Passkey, Apple, Facebook, errors, isSubmitting, isValidating } = props
+
+  if (props.isRefresh) {
+    const { identifier } = props
+
+    return (
+      <div>
+        <h2>
+          Complete login process as <strong>{identifier}</strong>
+        </h2>
+
+        {Password && (
+          <Password>
+            <input placeholder="Password" />
+          </Password>
+        )}
+
+        <button type="submit">Login</button>
+
+        {Google && (
+          <Google>
+            <button>Sign in with Google</button>
+          </Google>
+        )}
+
+        {Apple && (
+          <Apple>
+            <button>Sign in with Apple</button>
+          </Apple>
+        )}
+
+        {Facebook && (
+          <Facebook>
+            <button>Sign in with Facebook</button>
+          </Facebook>
+        )}
+
+        {Passkey && (
+          <Passkey>
+            <button>Sign in with Passkey</button>
+          </Passkey>
+        )}
+
+        {errors && errors.length > 0 && (
+          <div>
+            {errors.map(error => (
+              <div key={error.id}>{getErrorMessage(error)}</div>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  const { Identifier } = props
+
   return (
     <div>
-      {ReturnToTraitsForm && (
-        <ReturnToTraitsForm>
-          <button>
-            Return
-          </button>
-        </ReturnToTraitsForm>
+      {Identifier && (
+        <Identifier>
+          <input placeholder="Identifier" />
+        </Identifier>
       )}
+
       {Password && (
         <Password>
           <input placeholder="Password" />
         </Password>
       )}
-      {PasswordConfirmation && (
-        <PasswordConfirmation>
-          <input placeholder="Password confirmation" />
-        </PasswordConfirmation>
+
+      <button type="submit">Login</button>
+
+      {Google && (
+        <Google>
+          <button>Sign in with Google</button>
+        </Google>
       )}
 
-      <button type="submit">
-        Register
-      </button>
+      {Apple && (
+        <Apple>
+          <button>Sign in with Apple</button>
+        </Apple>
+      )}
+
+      {Facebook && (
+        <Facebook>
+          <button>Sign in with Facebook</button>
+        </Facebook>
+      )}
 
       {Passkey && (
         <Passkey>
-          <button>
-            Sign up with Passkey
-          </button>
+          <button>Sign in with Passkey</button>
         </Passkey>
       )}
 
@@ -358,5 +473,93 @@ function ChooseMethodForm({
       )}
     </div>
   )
+}
+```
+
+#### TraitsForm in registration flow
+
+```tsx
+import { registrationFlow } from "@leancodepl/kratos"
+import { RegistrationFlow, getErrorMessage } from "./kratosService"
+import type { AuthTraitsConfig } from "./kratosService"
+
+function RegisterPage() {
+  return (
+    <RegistrationFlow
+      traitsForm={TraitsForm}
+      onError={handleError}
+      // other props
+    />
+  )
+}
+
+function TraitsForm({
+  errors,
+  Email,
+  RegulationsAccepted,
+  GivenName,
+  Google,
+  Apple,
+  Facebook,
+  isSubmitting,
+  isValidating,
+}: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
+  return (
+    <div>
+      {Email && (
+        <Email>
+          <input placeholder="Email" />
+        </Email>
+      )}
+      {GivenName && (
+        <GivenName>
+          <input placeholder="First name" />
+        </GivenName>
+      )}
+      {RegulationsAccepted && (
+        <RegulationsAccepted>
+          <input placeholder="Regulations accepted" type="checkbox">
+            I accept the regulations
+          </input>
+        </RegulationsAccepted>
+      )}
+
+      <button type="submit">Register</button>
+
+      {Google && (
+        <Google>
+          <button>Sign up with Google</button>
+        </Google>
+      )}
+
+      {Apple && (
+        <Apple>
+          <button>Sign up with Apple</button>
+        </Apple>
+      )}
+
+      {Facebook && (
+        <Facebook>
+          <button>Sign up with Facebook</button>
+        </Facebook>
+      )}
+
+      {errors && errors.length > 0 && (
+        <div>
+          {errors.map(error => (
+            <div key={error.id}>{getErrorMessage(error)}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+const handleError: registrationFlow.OnRegistrationFlowError<AuthTraitsConfig> = ({ target, errors }) => {
+  if (target === "root") {
+    console.error("Form errors:", errors.map(getErrorMessage))
+  } else {
+    console.error(`Field ${target} errors:`, errors.map(getErrorMessage))
+  }
 }
 ```
