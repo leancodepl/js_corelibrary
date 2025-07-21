@@ -1,32 +1,26 @@
-import { compileMjml, MjmlCompileOptions } from "./compileMjml"
+import { compileMjml } from "./compileMjml"
+import { OutputMode } from "./config"
 import { generateOutputTemplates, OutputTemplate } from "./generateOutputTemplates"
-import { OutputMode } from "./loadConfig"
-import { getTranslationsForLanguage, TranslationData } from "./loadTranslations"
+import { TranslationData } from "./loadTranslations"
 import { processTranslations } from "./processTranslations"
 
 export interface ProcessTemplateOptions {
-    outputMode?: OutputMode
+    outputMode: OutputMode
     defaultLanguage?: string
-    mjmlOptions?: MjmlCompileOptions
-}
-
-export interface TranslatedMail {
-    name: string
-    language: string
-    mjml: string
-    html: string
-    plaintext?: string
-    errors: Array<{
-        line: number
-        message: string
-        tagName: string
-    }>
+    mailsPath?: string
 }
 
 export interface Template {
     name: string
-    mjml: string
-    plaintext?: string
+    content: string
+    isPlaintext: boolean
+}
+
+export interface TranslatedTemplate {
+    name: string
+    content: string
+    isPlaintext: boolean
+    language: string
 }
 
 export interface ProcessedTemplate {
@@ -36,53 +30,43 @@ export interface ProcessedTemplate {
         message: string
         tagName: string
     }>
-    translatedMails: { [language: string]: TranslatedMail }
     outputTemplates: OutputTemplate[]
 }
 
 export function processTemplate(
     template: Template,
     translationData: TranslationData,
-    options: ProcessTemplateOptions = {},
+    options: ProcessTemplateOptions,
 ): ProcessedTemplate {
-    const { outputMode = "kratos", defaultLanguage = "en", mjmlOptions = {} } = options
+    const { outputMode, defaultLanguage, mailsPath } = options
 
     const availableLanguages = Object.keys(translationData)
     const languagesToProcess = availableLanguages.length > 0 ? availableLanguages : [defaultLanguage]
 
-    const compileResult = compileMjml(template.mjml, mjmlOptions)
+    const mjmlCompileResult = template.isPlaintext
+        ? undefined
+        : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
 
-    const translatedMails: { [language: string]: TranslatedMail } = {}
+    const content = template.isPlaintext ? template.content : mjmlCompileResult.html
 
-    for (const language of languagesToProcess) {
-        const translations = getTranslationsForLanguage(translationData, language, defaultLanguage)
-        const translatedHtml = processTranslations(compileResult.html, translations, language, outputMode)
+    const translatedTemplates = languagesToProcess.map(language => {
+        const translations = translationData[language] ?? {}
 
-        let translatedPlaintext: string | undefined
-        if (template.plaintext) {
-            translatedPlaintext = processTranslations(template.plaintext, translations, language, outputMode)
-        }
+        const translatedContent = processTranslations(content, translations, language)
 
-        translatedMails[language] = {
+        return {
             name: template.name,
+            content: translatedContent,
+            isPlaintext: template.isPlaintext,
             language,
-            mjml: template.mjml,
-            html: translatedHtml,
-            plaintext: translatedPlaintext,
-            errors: compileResult.errors,
         }
-    }
+    })
 
-    const singleTemplateTranslatedMails: { [language: string]: TranslatedMail[] } = {}
-    for (const [language, translatedMail] of Object.entries(translatedMails)) {
-        singleTemplateTranslatedMails[language] = [translatedMail]
-    }
-    const outputTemplates = generateOutputTemplates(singleTemplateTranslatedMails, outputMode, defaultLanguage)
+    const outputTemplates = generateOutputTemplates(translatedTemplates, outputMode, defaultLanguage)
 
     return {
         name: template.name,
-        errors: compileResult.errors,
-        translatedMails,
+        errors: mjmlCompileResult?.mjmlParseErrors ?? [],
         outputTemplates,
     }
 }

@@ -1,113 +1,29 @@
-import { lilconfig } from "lilconfig"
-import { MjmlCompileOptions } from "./compileMjml"
+import { OptionsSync as LilconfigOptionsSync, lilconfigSync } from "lilconfig"
+import * as yaml from "yaml"
+import { MailTranslationConfig, mailTranslationConfigSchema } from "./config"
 
-export type OutputMode = "kratos" | "razor"
-
-export interface MailTranslationConfig {
-    translationsPath?: string
-    mailsPath: string
-    plaintextMailsPath?: string
-    outputPath?: string
-    outputMode?: OutputMode
-    defaultLanguage?: string
-    mjmlOptions?: MjmlCompileOptions
-    languages?: string[]
+function loadYaml(filepath: string, content: string) {
+    return yaml.parse(content)
 }
 
-export interface CliConfig extends MailTranslationConfig {
-    verbose?: boolean
-    watch?: boolean
+const options: LilconfigOptionsSync = {
+    loaders: {
+        ".yaml": loadYaml,
+        ".yml": loadYaml,
+    },
 }
 
-const moduleName = "mail-translation"
-
-export async function loadConfig(searchFrom?: string): Promise<CliConfig | null> {
-    const explorer = lilconfig(moduleName, {
-        searchPlaces: [
-            "package.json",
-            `.${moduleName}rc`,
-            `.${moduleName}rc.json`,
-            `.${moduleName}rc.js`,
-            `.${moduleName}rc.cjs`,
-            `${moduleName}.config.js`,
-            `${moduleName}.config.cjs`,
-        ],
-    })
+export function loadConfig(configPath?: string): MailTranslationConfig | null {
+    const searcher = lilconfigSync("mail-translation", options)
 
     try {
-        const result = await explorer.search(searchFrom)
-        return result ? result.config : null
+        const result = configPath ? searcher.load(configPath) : searcher.search()
+        if (!result) {
+            return null
+        }
+
+        return mailTranslationConfigSchema.parse(result.config)
     } catch (error) {
         throw new Error(`Failed to load configuration: ${error}`)
     }
-}
-
-export async function loadConfigFromFile(filepath: string): Promise<CliConfig> {
-    const explorer = lilconfig(moduleName)
-
-    try {
-        const result = await explorer.load(filepath)
-        return result.config
-    } catch (error) {
-        throw new Error(`Failed to load configuration from ${filepath}: ${error}`)
-    }
-}
-
-export function validateConfig(config: CliConfig): void {
-    if (!config.mailsPath) {
-        throw new Error("Configuration must specify mailsPath")
-    }
-
-    if (config.outputMode) {
-        const validModes: OutputMode[] = ["kratos", "razor"]
-        if (!validModes.includes(config.outputMode)) {
-            throw new Error(`Invalid outputMode: ${config.outputMode}. Must be one of: ${validModes.join(", ")}`)
-        }
-    }
-
-    if (config.mjmlOptions?.validationLevel) {
-        const validLevels = ["strict", "soft", "skip"]
-        if (!validLevels.includes(config.mjmlOptions.validationLevel)) {
-            throw new Error(
-                `Invalid validationLevel: ${config.mjmlOptions.validationLevel}. Must be one of: ${validLevels.join(", ")}`,
-            )
-        }
-    }
-}
-
-export function getDefaultConfig(): CliConfig {
-    return {
-        translationsPath: "./translations",
-        mailsPath: "./mails",
-        outputPath: "./output",
-        outputMode: "kratos",
-        defaultLanguage: "en",
-        verbose: false,
-        watch: false,
-        mjmlOptions: {
-            beautify: false,
-            minify: false,
-            validationLevel: "soft",
-            keepComments: false,
-        },
-    }
-}
-
-export function mergeWithDefaults(config: Partial<CliConfig>): CliConfig {
-    const defaults = getDefaultConfig()
-
-    const merged = {
-        ...defaults,
-        ...config,
-        mjmlOptions: {
-            ...defaults.mjmlOptions,
-            ...config.mjmlOptions,
-        },
-    }
-
-    if (!merged.plaintextMailsPath) {
-        merged.plaintextMailsPath = merged.mailsPath
-    }
-
-    return merged
 }

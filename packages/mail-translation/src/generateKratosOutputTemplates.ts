@@ -1,101 +1,61 @@
-import { OutputTemplate } from "./generateOutputTemplates"
-import { TranslatedMail } from "./processTemplate"
+import { partition } from "lodash"
+import { TranslatedTemplate } from "./processTemplate"
 
-export function generateKratosOutputTemplates(
-    translatedMails: { [language: string]: TranslatedMail[] },
-    defaultLanguage: string,
-): OutputTemplate[] {
-    const outputTemplates: OutputTemplate[] = []
+export function generateKratosOutputTemplates({
+    translatedTemplates,
+    defaultLanguage,
+}: {
+    translatedTemplates: TranslatedTemplate[]
+    defaultLanguage: string
+}) {
+    const [plainTextTemplates, htmlTemplates] = partition(translatedTemplates, template => template.isPlaintext)
 
-    const mailsByTemplate: { [templateName: string]: { [language: string]: TranslatedMail } } = {}
+    const htmlOutputTemplates = htmlTemplates.map(template => ({
+        filename: `${template.name}.gotmpl`,
+        content: generateKratosOutputTemplate({ templates: htmlTemplates, defaultLanguage }),
+    }))
 
-    for (const [language, mails] of Object.entries(translatedMails)) {
-        for (const mail of mails) {
-            if (!mailsByTemplate[mail.name]) {
-                mailsByTemplate[mail.name] = {}
-            }
-            mailsByTemplate[mail.name][language] = mail
-        }
-    }
+    const plainTextOutputTemplates = plainTextTemplates.map(template => ({
+        filename: `${template.name}.plaintext.gotmpl`,
+        content: generateKratosOutputTemplate({ templates: plainTextTemplates, defaultLanguage }),
+    }))
 
-    for (const [templateName, languageMails] of Object.entries(mailsByTemplate)) {
-        const htmlContent = Object.fromEntries(
-            Object.entries(languageMails).map(([lang, mail]) => [lang, mail.html])
-        )
-        const kratosTemplate = generateKratosTemplate(htmlContent, defaultLanguage)
-        outputTemplates.push({
-            filename: `${templateName}.gotmpl`,
-            content: kratosTemplate,
-        })
-
-        const hasPlaintext = Object.values(languageMails).some(mail => mail.plaintext)
-        if (hasPlaintext) {
-            const plaintextContent = Object.fromEntries(
-                Object.entries(languageMails).map(([lang, mail]) => [lang, mail.plaintext || ""])
-            )
-            const kratosPlaintextTemplate = generateKratosTemplate(plaintextContent, defaultLanguage)
-            outputTemplates.push({
-                filename: `${templateName}.plaintext.gotmpl`,
-                content: kratosPlaintextTemplate,
-            })
-        }
-    }
-
-    return outputTemplates
+    return [...htmlOutputTemplates, ...plainTextOutputTemplates]
 }
 
-function generateKratosTemplate(
-    content: { [language: string]: string },
-    defaultLanguage: string,
-): string {
-    const languages = Object.keys(content)
-
-    if (languages.length === 1) {
-        return content[languages[0]]
+function generateKratosOutputTemplate({
+    templates,
+    defaultLanguage,
+}: {
+    templates: TranslatedTemplate[]
+    defaultLanguage: string
+}): string {
+    if (templates.length === 1) {
+        return templates.at(0).content
     }
 
-    let template = ""
+    let outputTemplate = ""
 
-    template += generateTranslationsSection(content)
-    template += generateConditionalRenderingSection(languages, defaultLanguage)
+    templates.forEach(template => {
+        outputTemplate += `{{define "${template.language}"}}\n`
+        outputTemplate += template.content
+        outputTemplate += "\n{{end}}\n\n"
+    })
 
-    return template
-}
+    const nonDefaultLanguages = templates
+        .filter(template => template.language !== defaultLanguage)
+        .map(template => template.language)
 
-function generateTranslationsSection(
-    content: { [language: string]: string },
-): string {
-    let template = ""
-    
-    for (const [language, languageContent] of Object.entries(content)) {
-        template += `{{define "${language}"}}\n`
-        template += languageContent
-        template += "\n{{end}}\n\n"
-    }
-    
-    return template
-}
+    nonDefaultLanguages.forEach((language, index) => {
+        const condition = index === 0 ? "if" : "else if"
 
-function generateConditionalRenderingSection(languages: string[], defaultLanguage: string): string {
-    const nonDefaultLanguages = languages.filter(lang => lang !== defaultLanguage)
+        outputTemplate += `{{- ${condition} eq .Identity.traits.lang "${language}" -}}\n`
+        outputTemplate += `{{ template "${language}" . }}\n`
+    })
 
-    if (nonDefaultLanguages.length === 0) {
-        return `{{ template "${defaultLanguage}" . }}\n`
-    }
+    outputTemplate += "{{- else -}}\n"
+    outputTemplate += `{{ template "${defaultLanguage}" . }}\n`
+    outputTemplate += "{{- end -}}\n"
 
-    let template = ""
-    
-    template += `{{- if eq .Identity.traits.lang "${nonDefaultLanguages[0]}" -}}\n`
-    template += `{{ template "${nonDefaultLanguages[0]}" . }}\n`
-
-    for (const language of nonDefaultLanguages.slice(1)) {
-        template += `{{- else if eq .Identity.traits.lang "${language}" -}}\n`
-        template += `{{ template "${language}" . }}\n`
-    }
-    
-    template += "{{- else -}}\n"
-    template += `{{ template "${defaultLanguage}" . }}\n`
-    template += "{{- end -}}\n"
-
-    return template
+    return outputTemplate
 }

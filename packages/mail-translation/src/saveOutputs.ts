@@ -1,28 +1,28 @@
-import * as fs from "fs-extra"
-import * as path from "path"
-import { GenerateResult } from "./generate"
+import { mkdir, writeFile } from "fs/promises"
+import { entries } from "lodash"
+import { join } from "path"
 import { OutputTemplate } from "./generateOutputTemplates"
+import { ProcessedTemplate } from "./processTemplate"
 
-export async function saveOutputs(generateResult: GenerateResult, outputPath: string): Promise<void> {
-    const { processedTemplates } = generateResult
-
+export async function saveOutputs(processedTemplates: ProcessedTemplate[], outputPath: string): Promise<void> {
     const allOutputTemplates: OutputTemplate[] = []
     for (const processedTemplate of processedTemplates) {
         allOutputTemplates.push(...processedTemplate.outputTemplates)
     }
 
-    await fs.ensureDir(outputPath)
+    await mkdir(outputPath, { recursive: true })
 
+    const outputs: Record<string, string> = {}
     for (const template of allOutputTemplates) {
-        const filePath = path.join(outputPath, template.filename)
-        await fs.writeFile(filePath, template.content, "utf8")
+        const filePath = join(outputPath, template.filename)
+        outputs[filePath] = template.content
     }
 
+    await Promise.all(entries(outputs).map(([file, output]) => writeFile(file, output, "utf8")))
+
     for (const processedTemplate of processedTemplates) {
-        for (const [language, translatedMail] of Object.entries(processedTemplate.translatedMails)) {
-            if (translatedMail.errors.length > 0) {
-                console.warn(`Errors in ${translatedMail.name} (${language}):`, translatedMail.errors)
-            }
+        if (processedTemplate.errors.length > 0) {
+            console.warn(`Errors in ${processedTemplate.name}:`, processedTemplate.errors)
         }
     }
 }

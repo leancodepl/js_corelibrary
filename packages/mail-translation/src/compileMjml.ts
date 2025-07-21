@@ -1,38 +1,35 @@
-const mjml = require("mjml")
+import { html as beautifyHtml } from "js-beautify"
+import mjml2html from "mjml"
 
-export interface MjmlCompileOptions {
-    keepComments?: boolean
-    beautify?: boolean
-    minify?: boolean
-    validationLevel?: "skip" | "soft" | "strict"
-    filePath?: string
+export interface MjmlParseError {
+    line: number
+    message: string
+    tagName: string
 }
 
 export interface MjmlCompileResult {
     html: string
-    errors: Array<{
-        line: number
-        message: string
-        tagName: string
-    }>
+    mjmlParseErrors: MjmlParseError[]
 }
 
-export function compileMjml(mjmlContent: string, options: MjmlCompileOptions = {}): MjmlCompileResult {
-    const defaultOptions: MjmlCompileOptions = {
-        keepComments: false,
-        beautify: false,
-        minify: false,
-        validationLevel: "soft",
-        filePath: ".",
-        ...options,
-    }
-
+export function compileMjml({ mjmlContent, filePath }: { mjmlContent: string; filePath: string }): MjmlCompileResult {
     try {
-        const result = mjml(mjmlContent, defaultOptions)
+        const result = mjml2html(mjmlContent, {
+            keepComments: false,
+            validationLevel: "soft",
+            filePath,
+        })
+
+        // js-beautify is used to format the HTML as beautify option is deprecated in mjml-core
+        const html = beautifyHtml(result.html, {
+            indent_size: 2,
+            preserve_newlines: true,
+            max_preserve_newlines: 1,
+        })
 
         return {
-            html: result.html,
-            errors: result.errors || [],
+            html,
+            mjmlParseErrors: result.errors || [],
         }
     } catch (error) {
         throw new Error(`MJML compilation failed: ${error}`)

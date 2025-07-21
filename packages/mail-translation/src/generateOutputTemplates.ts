@@ -1,7 +1,7 @@
+import { OutputMode } from "./config"
 import { generateKratosOutputTemplates } from "./generateKratosOutputTemplates"
 import { generateRazorOutputTemplates } from "./generateRazorOutputTemplates"
-import { OutputMode } from "./loadConfig"
-import { TranslatedMail } from "./processTemplate"
+import { TranslatedTemplate } from "./processTemplate"
 
 export interface OutputTemplate {
     filename: string
@@ -9,16 +9,14 @@ export interface OutputTemplate {
 }
 
 export function generateOutputTemplates(
-    translatedMails: { [language: string]: TranslatedMail[] },
+    translatedTemplates: TranslatedTemplate[],
     outputMode: OutputMode,
     defaultLanguage: string,
 ): OutputTemplate[] {
     switch (outputMode) {
         case "kratos":
-            return generateKratosOutputTemplates(translatedMails, defaultLanguage)
+            return generateKratosOutputTemplates({ translatedTemplates, defaultLanguage })
         case "razor":
-            return generateRazorOutputTemplates(translatedMails, defaultLanguage)
-        default:
-            throw new Error(`Unsupported output mode: ${outputMode}`)
+            return generateRazorOutputTemplates({ translatedTemplates, defaultLanguage })
     }
 }

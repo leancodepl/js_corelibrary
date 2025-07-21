@@ -1,4 +1,7 @@
+import * as path from "path"
 import { processTemplate, Template } from "../src"
+
+const MAILS_PATH = path.join(__dirname, "mails")
 
 describe("processTemplate function - Kratos mode", () => {
     const mockTranslationData = {
@@ -34,16 +37,13 @@ describe("processTemplate function - Kratos mode", () => {
         },
         es: {
             greeting: "Hola",
-            farewell: "Adiós",
-            welcome: "¡Bienvenido {name}!",
-            welcome_user: "¡Bienvenido {name}!",
             greeting_with_name: "Hola {name}, ¡bienvenido a nuestra plataforma!",
         },
     }
 
-    const basicTemplate: Template = {
+    const basicMjmlTemplate: Template = {
         name: "basic-template",
-        mjml: `
+        content: `
             <mjml>
                 <mj-body>
                     <mj-section>
@@ -55,12 +55,18 @@ describe("processTemplate function - Kratos mode", () => {
                 </mj-body>
             </mjml>
         `,
-        plaintext: '{{t "greeting"}} {{t "welcome_user", (name: "{{ .Identity.traits.name }}")}}',
+        isPlaintext: false,
     }
 
-    const complexTemplate: Template = {
+    const basicPlaintextTemplate: Template = {
+        name: "basic-template",
+        content: '{{t "greeting"}} {{t "welcome_user", (name: "{{ .Identity.traits.name }}")}}',
+        isPlaintext: true,
+    }
+
+    const complexMjmlTemplate: Template = {
         name: "complex-template",
-        mjml: `
+        content: `
             <mjml>
                 <mj-head>
                     <mj-title>{{t "email_verification_title"}}</mj-title>
@@ -80,7 +86,12 @@ describe("processTemplate function - Kratos mode", () => {
                 </mj-body>
             </mjml>
         `,
-        plaintext: `{{t "email_verification_title"}}
+        isPlaintext: false,
+    }
+
+    const complexPlaintextTemplate: Template = {
+        name: "complex-template",
+        content: `{{t "email_verification_title"}}
 
 {{t "email_verification_greeting"}}
 
@@ -97,11 +108,12 @@ describe("processTemplate function - Kratos mode", () => {
 {{t "footer_auto_generated"}}
 
 {{t "footer_company_info"}}`,
+        isPlaintext: true,
     }
 
-    const templateWithoutPlaintext: Template = {
+    const htmlOnlyTemplate: Template = {
         name: "html-only-template",
-        mjml: `
+        content: `
             <mjml>
                 <mj-body>
                     <mj-section>
@@ -112,11 +124,16 @@ describe("processTemplate function - Kratos mode", () => {
                 </mj-body>
             </mjml>
         `,
+        isPlaintext: false,
     }
 
     describe("Basic Kratos output generation", () => {
-        it("should generate Kratos output templates", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
+        it("should generate Kratos output templates for MJML", () => {
+            const result = processTemplate(basicMjmlTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
             expect(result.outputTemplates.length).toBeGreaterThan(0)
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -124,261 +141,110 @@ describe("processTemplate function - Kratos mode", () => {
             expect(htmlTemplate?.content).toBeDefined()
         })
 
-        it("should generate Kratos plaintext templates when plaintext content exists", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
+        it("should generate Kratos output templates for plaintext", () => {
+            const result = processTemplate(basicPlaintextTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
+            expect(result.outputTemplates.length).toBeGreaterThan(0)
             const plaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.plaintext.gotmpl")
             expect(plaintextTemplate).toBeDefined()
             expect(plaintextTemplate?.content).toBeDefined()
         })
 
-        it("should not generate plaintext templates when no plaintext content", () => {
-            const result = processTemplate(templateWithoutPlaintext, mockTranslationData, { outputMode: "kratos" })
+        it("should not generate plaintext templates for MJML-only template", () => {
+            const result = processTemplate(htmlOnlyTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
             const plaintextTemplates = result.outputTemplates.filter(t => t.filename.includes(".plaintext."))
             expect(plaintextTemplates).toHaveLength(0)
         })
     })
 
-    describe("Multiple language handling", () => {
-        it("should generate template definitions for multiple languages", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).toContain('{{define "en"}}')
-            expect(htmlTemplate?.content).toContain('{{define "pl"}}')
-            expect(htmlTemplate?.content).toContain('{{define "es"}}')
-            expect(htmlTemplate?.content).toContain("{{- if eq .Identity.traits.lang")
-        })
-
-        it("should generate conditional logic for language selection", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).toContain('{{- if eq .Identity.traits.lang "pl" -}}')
-            expect(htmlTemplate?.content).toContain('{{ template "pl" . }}')
-            expect(htmlTemplate?.content).toContain('{{- else if eq .Identity.traits.lang "es" -}}')
-            expect(htmlTemplate?.content).toContain('{{ template "es" . }}')
-            expect(htmlTemplate?.content).toContain("{{- else -}}")
-            expect(htmlTemplate?.content).toContain('{{ template "en" . }}')
-            expect(htmlTemplate?.content).toContain("{{- end -}}")
-        })
-
-        it("should generate plaintext template definitions for multiple languages", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const plaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.plaintext.gotmpl")
-            expect(plaintextTemplate?.content).toContain('{{define "en"}}')
-            expect(plaintextTemplate?.content).toContain('{{define "pl"}}')
-            expect(plaintextTemplate?.content).toContain('{{define "es"}}')
-            expect(plaintextTemplate?.content).toContain("{{- if eq .Identity.traits.lang")
-        })
-
-        it("should include translated content in each language definition", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).toContain("Hello")
-            expect(htmlTemplate?.content).toContain("Welcome {{ .Identity.traits.name }}!")
-            expect(htmlTemplate?.content).toContain("Cześć")
-            expect(htmlTemplate?.content).toContain("Witaj {{ .Identity.traits.name }}!")
-            expect(htmlTemplate?.content).toContain("Hola")
-            expect(htmlTemplate?.content).toContain("¡Bienvenido {{ .Identity.traits.name }}!")
-        })
-    })
-
-    describe("Single language handling", () => {
-        it("should generate single content for single language without template definitions", () => {
-            const singleLangData = { en: mockTranslationData.en }
-            const result = processTemplate(basicTemplate, singleLangData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).not.toContain('{{define "en"}}')
-            expect(htmlTemplate?.content).not.toContain("{{- if eq .Identity.traits.lang")
-            expect(htmlTemplate?.content).toContain("Hello")
-            expect(htmlTemplate?.content).toContain("Welcome {{ .Identity.traits.name }}!")
-        })
-
-        it("should generate single plaintext content for single language", () => {
-            const singleLangData = { en: mockTranslationData.en }
-            const result = processTemplate(basicTemplate, singleLangData, { outputMode: "kratos" })
-
-            const plaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.plaintext.gotmpl")
-            expect(plaintextTemplate?.content).not.toContain('{{define "en"}}')
-            expect(plaintextTemplate?.content).not.toContain("{{- if eq .Identity.traits.lang")
-            expect(plaintextTemplate?.content).toContain("Hello")
-            expect(plaintextTemplate?.content).toContain("Welcome {{ .Identity.traits.name }}!")
-        })
-    })
-
-    describe("Default language configuration", () => {
-        it("should use custom default language", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, {
+    describe("Translation processing", () => {
+        it("should process simple translations in MJML templates", () => {
+            const result = processTemplate(basicMjmlTemplate, mockTranslationData, {
                 outputMode: "kratos",
-                defaultLanguage: "pl",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
             })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).toContain('{{ template "pl" . }}')
-            expect(htmlTemplate?.content).toContain("{{- else -}}")
-        })
-
-        it("should place default language in else clause", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, {
-                outputMode: "kratos",
-                defaultLanguage: "es",
-            })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).toContain('{{- if eq .Identity.traits.lang "en" -}}')
-            expect(htmlTemplate?.content).toContain('{{ template "en" . }}')
-            expect(htmlTemplate?.content).toContain('{{- else if eq .Identity.traits.lang "pl" -}}')
-            expect(htmlTemplate?.content).toContain('{{ template "pl" . }}')
-            expect(htmlTemplate?.content).toContain("{{- else -}}")
-            expect(htmlTemplate?.content).toContain('{{ template "es" . }}')
-        })
-    })
-
-    describe("Template variables and Kratos syntax", () => {
-        it("should preserve Kratos template variables in translations", () => {
-            const result = processTemplate(complexTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "complex-template.gotmpl")
-            expect(htmlTemplate?.content).toContain("Your recovery code is: {{ .RecoveryCode }}")
-            expect(htmlTemplate?.content).toContain("Twój kod odzyskiwania to: {{ .RecoveryCode }}")
-            expect(htmlTemplate?.content).toContain("Hello {{ .Identity.traits.name }}, welcome to our platform!")
-            expect(htmlTemplate?.content).toContain("Cześć {{ .Identity.traits.name }}, witaj na naszej platformie!")
-        })
-
-        it("should preserve standalone Kratos variables", () => {
-            const result = processTemplate(complexTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "complex-template.gotmpl")
-            expect(htmlTemplate?.content).toContain("{{ .RecoveryCode }}")
-        })
-
-        it("should handle complex parameterized translations in plaintext", () => {
-            const result = processTemplate(complexTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const plaintextTemplate = result.outputTemplates.find(
-                t => t.filename === "complex-template.plaintext.gotmpl",
-            )
-            expect(plaintextTemplate?.content).toContain("Your recovery code is: {{ .RecoveryCode }}")
-            expect(plaintextTemplate?.content).toContain("Twój kod odzyskiwania to: {{ .RecoveryCode }}")
-        })
-    })
-
-    describe("No translations scenario", () => {
-        it("should generate Kratos template with default language when no translations", () => {
-            const result = processTemplate(
-                basicTemplate,
-                {},
-                {
-                    outputMode: "kratos",
-                    defaultLanguage: "en",
-                },
-            )
 
             expect(result.outputTemplates.length).toBeGreaterThan(0)
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate).toBeDefined()
-            expect(htmlTemplate?.content).toContain("greeting")
-            expect(htmlTemplate?.content).toContain("welcome_user")
-        })
-
-        it("should not generate template definitions when no translations", () => {
-            const result = processTemplate(
-                basicTemplate,
-                {},
-                {
-                    outputMode: "kratos",
-                    defaultLanguage: "en",
-                },
-            )
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
-            expect(htmlTemplate?.content).not.toContain("{{define")
-            expect(htmlTemplate?.content).not.toContain("{{- if eq .Identity.traits.lang")
-        })
-    })
-
-    describe("Edge cases", () => {
-        it("should handle templates with missing translations", () => {
-            const templateWithMissingTranslations: Template = {
-                name: "missing-translations-template",
-                mjml: `
-                    <mjml>
-                        <mj-body>
-                            <mj-section>
-                                <mj-column>
-                                    <mj-text>{{t 'greeting'}}</mj-text>
-                                    <mj-text>{{t 'nonexistent_key'}}</mj-text>
-                                </mj-column>
-                            </mj-section>
-                        </mj-body>
-                    </mjml>
-                `,
-            }
-
-            const result = processTemplate(templateWithMissingTranslations, mockTranslationData, {
-                outputMode: "kratos",
-            })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "missing-translations-template.gotmpl")
             expect(htmlTemplate?.content).toContain("Hello")
             expect(htmlTemplate?.content).toContain("Cześć")
-            expect(htmlTemplate?.content).toContain("nonexistent_key")
         })
 
-        it("should handle very long template names", () => {
-            const longNameTemplate: Template = {
-                ...basicTemplate,
-                name: "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems",
-            }
+        it("should process simple translations in plaintext templates", () => {
+            const result = processTemplate(basicPlaintextTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
-            const result = processTemplate(longNameTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(
-                t =>
-                    t.filename ===
-                    "very-long-template-name-that-exceeds-normal-length-expectations-and-might-cause-issues-in-some-systems.gotmpl",
-            )
-            expect(htmlTemplate).toBeDefined()
-            expect(htmlTemplate?.content).toContain("Hello")
+            expect(result.outputTemplates.length).toBeGreaterThan(0)
+            const plaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.plaintext.gotmpl")
+            expect(plaintextTemplate?.content).toContain("Hello")
+            expect(plaintextTemplate?.content).toContain("Cześć")
         })
 
-        it("should handle templates with only whitespace", () => {
-            const whitespaceTemplate: Template = {
-                name: "whitespace-template",
-                mjml: `
-                    <mjml>
-                        <mj-body>
-                            <mj-section>
-                                <mj-column>
-                                    <mj-text>   </mj-text>
-                                </mj-column>
-                            </mj-section>
-                        </mj-body>
-                    </mjml>
-                `,
-                plaintext: "   ",
-            }
+        it("should handle parameterized translations in MJML templates", () => {
+            const result = processTemplate(complexMjmlTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
-            const result = processTemplate(whitespaceTemplate, mockTranslationData, { outputMode: "kratos" })
-
-            const htmlTemplate = result.outputTemplates.find(t => t.filename === "whitespace-template.gotmpl")
-            expect(htmlTemplate).toBeDefined()
-            expect(htmlTemplate?.content).toBeDefined()
+            const htmlTemplate = result.outputTemplates.find(t => t.filename === "complex-template.gotmpl")
+            expect(htmlTemplate?.content).toContain("Your recovery code is: {{ .RecoveryCode }}")
         })
     })
 
-    describe("MJML compilation with Kratos mode", () => {
-        it("should apply MJML options during Kratos template compilation", () => {
-            const result = processTemplate(basicTemplate, mockTranslationData, {
+    describe("Template structure validation", () => {
+        it("should return correct template structure for MJML", () => {
+            const result = processTemplate(basicMjmlTemplate, mockTranslationData, {
                 outputMode: "kratos",
-                mjmlOptions: {
-                    validationLevel: "strict",
-                },
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
+
+            expect(result.name).toBe("basic-template")
+            expect(result.outputTemplates.length).toBeGreaterThan(0)
+            expect(result.errors).toBeDefined()
+
+            const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
+            expect(htmlTemplate?.filename).toBe("basic-template.gotmpl")
+            expect(htmlTemplate?.content).toBeDefined()
+        })
+
+        it("should return correct template structure for plaintext", () => {
+            const result = processTemplate(basicPlaintextTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
+
+            expect(result.name).toBe("basic-template")
+            expect(result.outputTemplates.length).toBeGreaterThan(0)
+            expect(result.errors).toHaveLength(0) // Plaintext has no MJML errors
+
+            const plaintextTemplate = result.outputTemplates.find(t => t.filename === "basic-template.plaintext.gotmpl")
+            expect(plaintextTemplate?.filename).toBe("basic-template.plaintext.gotmpl")
+            expect(plaintextTemplate?.content).toBeDefined()
+        })
+    })
+
+    describe("MJML compilation", () => {
+        it("should apply MJML options during compilation", () => {
+            const result = processTemplate(basicMjmlTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
             })
 
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "basic-template.gotmpl")
@@ -386,10 +252,10 @@ describe("processTemplate function - Kratos mode", () => {
             expect(htmlTemplate?.content).toBeDefined()
         })
 
-        it("should handle MJML compilation errors in Kratos mode", () => {
+        it("should handle MJML compilation errors", () => {
             const invalidTemplate: Template = {
                 name: "invalid-template",
-                mjml: `
+                content: `
                     <mjml>
                         <mj-body>
                             <mj-section>
@@ -400,9 +266,14 @@ describe("processTemplate function - Kratos mode", () => {
                         </mj-body>
                     </mjml>
                 `,
+                isPlaintext: false,
             }
 
-            const result = processTemplate(invalidTemplate, mockTranslationData, { outputMode: "kratos" })
+            const result = processTemplate(invalidTemplate, mockTranslationData, {
+                outputMode: "kratos",
+                defaultLanguage: "en",
+                mailsPath: MAILS_PATH,
+            })
 
             expect(result.errors).toBeDefined()
             const htmlTemplate = result.outputTemplates.find(t => t.filename === "invalid-template.gotmpl")

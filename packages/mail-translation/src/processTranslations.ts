@@ -1,13 +1,7 @@
 import IntlMessageFormat from "intl-messageformat"
-import { OutputMode } from "./loadConfig"
 import { Translations } from "./loadTranslations"
 
-export function processTranslations(
-    template: string,
-    translations: Translations,
-    locale = "en",
-    outputMode: OutputMode = "kratos",
-): string {
+export function processTranslations(template: string, translations: Translations, locale = "en"): string {
     const simpleTranslationRegex = /\{\{\s*t\s+['"]([^'"]+)['"]\s*\}\}/g
 
     const parameterizedTranslationRegex = /\{\{\s*t\s+['"]([^'"]+)['"],\s*\(([^)]+)\)\s*\}\}/g
@@ -19,7 +13,7 @@ export function processTranslations(
         }
 
         try {
-            const params = parseParameters(paramString, outputMode)
+            const params = parseParameters(paramString)
 
             const formatter = new IntlMessageFormat(translationPattern, locale)
             return formatter.format(params)
@@ -36,8 +30,8 @@ export function processTranslations(
     return processedTemplate
 }
 
-function parseParameters(paramString: string, outputMode: OutputMode): Record<string, any> {
-    const params: Record<string, any> = {}
+function parseParameters(paramString: string): Record<string, string> {
+    const params: Record<string, string> = {}
 
     const paramPairs = paramString.split(",").map(pair => pair.trim())
 
@@ -48,31 +42,12 @@ function parseParameters(paramString: string, outputMode: OutputMode): Record<st
         const key = pair.substring(0, colonIndex).trim()
         const valueStr = pair.substring(colonIndex + 1).trim()
 
-        let value: any
-
+        let value: string
         if (
             (valueStr.startsWith('"') && valueStr.endsWith('"')) ||
             (valueStr.startsWith("'") && valueStr.endsWith("'"))
         ) {
-            const rawValue = valueStr.slice(1, -1)
-
-            if (outputMode === "razor" && rawValue.startsWith("@")) {
-                value = rawValue
-            } else if (outputMode === "kratos" && rawValue.includes("{{") && rawValue.includes("}}")) {
-                value = rawValue
-            } else {
-                value = rawValue
-            }
-        } else if (valueStr === "true") {
-            value = true
-        } else if (valueStr === "false") {
-            value = false
-        } else if (!isNaN(Number(valueStr))) {
-            value = Number(valueStr)
-        } else if (outputMode === "razor" && valueStr.startsWith("@")) {
-            value = valueStr
-        } else if (outputMode === "kratos" && valueStr.includes("{{") && valueStr.includes("}}")) {
-            value = valueStr
+            value = valueStr.slice(1, -1)
         } else {
             value = valueStr
         }
