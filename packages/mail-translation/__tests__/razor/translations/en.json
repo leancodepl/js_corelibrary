@@ -1,0 +1,10 @@
+{
+  "notification_title": "System Notification",
+  "notification_preview": "Important update regarding your account",
+  "user_greeting": "Dear {name},",
+  "status_update": "Your account status has been updated to: {status} as of {date}.",
+  "action_required": "Action required: {action}",
+  "action_button": "Take Action Now",
+  "reference_number": "Reference: {ref}",
+  "support_contact": "Need help? Contact our support team at support@example.com"
+} 

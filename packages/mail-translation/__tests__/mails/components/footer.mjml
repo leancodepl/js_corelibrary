@@ -1,7 +1,0 @@
-<mj-divider padding-bottom="40px" />
-<mj-text color="#667085" font-size="12px" line-height="18px" padding-bottom="48px" align="center">
-  {{t "footer_auto_generated"}}
-</mj-text>
-<mj-text color="#98a2b3" font-size="12px" line-height="18px" align="center">
-{{t "footer_company_info"}}
-</mj-text>

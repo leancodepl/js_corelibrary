@@ -1,0 +1,13 @@
+{{t "welcome_title"}}
+
+{{t "welcome_greeting", (name: "{{ .Identity.traits.first_name }}")}}
+
+{{t "welcome_message"}}
+
+{{t "verification_code_label"}}: {{ .VerificationCode }}
+
+{{t "account_info", (email: "{{ .Identity.traits.email }}", plan: "{{ .Identity.traits.subscription_plan }}")}}
+
+{{t "footer_note"}}
+
+{{t "company_info"}} 

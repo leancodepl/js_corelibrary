@@ -3,7 +3,7 @@ import { loadMjmlTemplates, loadPlaintextTemplates } from "./loadTemplates"
 import { loadTranslations } from "./loadTranslations"
 import { processTemplate } from "./processTemplate"
 
-export async function generate(config: MailTranslationConfig) {
+export async function generate(config: Omit<MailTranslationConfig, "outputPath">) {
     const translationData = await loadTranslations(config.translationsPath)
 
     const mjmlTemplates = await loadMjmlTemplates(config.mailsPath)

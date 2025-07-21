@@ -1,0 +1,31 @@
+<mj-head>
+  <mj-font name="Roboto" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+  <mj-style inline="inline">
+    .header { 
+      background-color: #059669; 
+      color: white; 
+    }
+    .alert-box { 
+      background-color: #fef3c7; 
+      border-left: 4px solid #f59e0b; 
+      padding: 16px; 
+    }
+    .footer { 
+      color: #6b7280; 
+      font-size: 12px; 
+    }
+    a {
+      text-decoration: none;
+      color: #059669;
+    }
+  </mj-style>
+  <mj-attributes>
+    <mj-all font-family="Roboto, Arial, sans-serif" padding="0" font-weight="400" />
+    <mj-class name="main-section" padding="20px"/>
+    <mj-body background-color="#f9fafb" />
+    <mj-class name="title" padding-bottom="16px" align="left" font-size="20px" line-height="28px" font-weight="700" color="#059669" />
+    <mj-class name="body" padding-bottom="20px" align="left" font-size="14px" line-height="20px" color="#374151" />
+    <mj-button inner-padding="10px 16px" font-size="14px" font-weight="500" border-radius="6px" line-height="20px" background-color="#2563eb" />
+    <mj-divider border-color="#d1d5db" border-width="1px" />
+  </mj-attributes>
+</mj-head> 

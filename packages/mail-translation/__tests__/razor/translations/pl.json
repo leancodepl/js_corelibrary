@@ -1,0 +1,10 @@
+{
+  "notification_title": "Powiadomienie systemowe",
+  "notification_preview": "Ważna aktualizacja dotycząca Twojego konta",
+  "user_greeting": "Szanowny/a {name},",
+  "status_update": "Status Twojego konta został zaktualizowany na: {status} z dniem {date}.",
+  "action_required": "Wymagane działanie: {action}",
+  "action_button": "Wykonaj działanie teraz",
+  "reference_number": "Numer referencyjny: {ref}",
+  "support_contact": "Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@example.com"
+} 

@@ -1,0 +1,10 @@
+{
+  "welcome_title": "Witamy na naszej platformie!",
+  "welcome_preview": "Dokończ rejestrację",
+  "welcome_greeting": "Witaj {name}!",
+  "welcome_message": "Dziękujemy za rejestrację. Użyj poniższego kodu weryfikacyjnego, aby dokończyć konfigurację konta.",
+  "verification_code_label": "Kod weryfikacyjny",
+  "account_info": "Konto: {email} | Plan: {plan}",
+  "footer_note": "To jest automatyczna wiadomość. Proszę nie odpowiadać na ten email.",
+  "company_info": "© 2024 Przykładowa Firma. Wszelkie prawa zastrzeżone."
+} 
