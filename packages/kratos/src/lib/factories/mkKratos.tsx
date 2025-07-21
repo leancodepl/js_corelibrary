@@ -151,7 +151,7 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
      * />
      * ```
      */
-    RegistrationFlow: ComponentType<RegistrationFlowProps<TTraitsConfig>>
+    RegistrationFlow: ComponentType<Omit<RegistrationFlowProps<TTraitsConfig>, "traitsConfig">>
 
     /**
      * Renders a complete settings flow with user account management capabilities.
@@ -181,7 +181,7 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
      * />
      * ```
      */
-    SettingsFlow: ComponentType<SettingsFlowProps<TTraitsConfig>>
+    SettingsFlow: ComponentType<Omit<SettingsFlowProps<TTraitsConfig>, "traitsConfig">>
 
     /**
      * Renders email verification flow with provider context and flow management.
