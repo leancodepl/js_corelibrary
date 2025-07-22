@@ -18,8 +18,8 @@ export async function saveOutputs({
   )
 
   for (const processedTemplate of processedTemplates) {
-    if (processedTemplate.errors.length > 0) {
-      console.warn(`Errors in ${processedTemplate.name}:`, processedTemplate.errors)
+    if (processedTemplate.mjmlParseErrors.length > 0) {
+      console.warn(`Errors in ${processedTemplate.name}:`, processedTemplate.mjmlParseErrors)
     }
   }
 }

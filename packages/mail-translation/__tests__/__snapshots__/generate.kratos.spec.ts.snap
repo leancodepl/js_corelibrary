@@ -3,7 +3,7 @@
 exports[`generate function - Kratos mode should generate kratos templates matching snapshots 1`] = `
 [
   {
-    "errors": [],
+    "mjmlParseErrors": [],
     "name": "welcome",
     "outputTemplates": [
       {
@@ -959,7 +959,7 @@ exports[`generate function - Kratos mode should generate kratos templates matchi
     ],
   },
   {
-    "errors": [],
+    "mjmlParseErrors": [],
     "name": "welcome",
     "outputTemplates": [
       {

@@ -3,7 +3,7 @@
 exports[`generate function - Razor mode should generate razor templates matching snapshots 1`] = `
 [
   {
-    "errors": [],
+    "mjmlParseErrors": [],
     "name": "notification",
     "outputTemplates": [
       {
@@ -571,7 +571,7 @@ exports[`generate function - Razor mode should generate razor templates matching
     ],
   },
   {
-    "errors": [],
+    "mjmlParseErrors": [],
     "name": "notification",
     "outputTemplates": [
       {

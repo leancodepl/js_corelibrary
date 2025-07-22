@@ -1,4 +1,4 @@
-import { compileMjml } from "./compileMjml"
+import { compileMjml, MjmlParseError } from "./compileMjml"
 import { OutputMode } from "./config"
 import { generateOutputTemplates, OutputTemplate } from "./generateOutputTemplates"
 import { TranslationData } from "./loadTranslations"
@@ -19,11 +19,7 @@ export interface TranslatedTemplate {
 
 export interface ProcessedTemplate {
   name: string
-  errors: Array<{
-    line: number
-    message: string
-    tagName: string
-  }>
+  mjmlParseErrors: MjmlParseError[]
   outputTemplates: OutputTemplate[]
 }
 
@@ -66,7 +62,7 @@ export function processTemplate({
 
   return {
     name: template.name,
-    errors: mjmlCompileResult?.mjmlParseErrors ?? [],
+    mjmlParseErrors: mjmlCompileResult?.mjmlParseErrors ?? [],
     outputTemplates,
   }
 }
