@@ -1,17 +1,210 @@
-import { ReactNode } from "react"
+import { ComponentType, ReactNode } from "react"
 import { QueryClient } from "@tanstack/react-query"
 import { loginFlow, logoutFlow, recoveryFlow, registrationFlow, settingsFlow, verificationFlow } from "../flows"
+import { LoginFlowProps } from "../flows/login"
+import { UseLogout } from "../flows/logout"
+import { RecoveryFlowProps } from "../flows/recovery"
+import { RegistrationFlowProps } from "../flows/registration"
+import { SettingsFlowProps } from "../flows/settings"
+import { VerificationFlowProps } from "../flows/verification"
 import { KratosClientProvider, KratosSessionProvider } from "../hooks"
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
 import { TraitsConfig } from "../utils"
 
-type MkKratosConfig<TTraitsConfig extends TraitsConfig, TSessionManager extends BaseSessionManager<TTraitsConfig>> = {
+export type MkKratosConfig<
+    TTraitsConfig extends TraitsConfig,
+    TSessionManager extends BaseSessionManager<TTraitsConfig>,
+> = {
     queryClient: QueryClient
     basePath: string
     traits?: TTraitsConfig
     SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
+}
+
+export type {
+    LoginFlowProps,
+    RecoveryFlowProps,
+    RegistrationFlowProps,
+    SettingsFlowProps,
+    UseLogout,
+    VerificationFlowProps,
+}
+
+export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
+    /**
+     * Provides logout functionality for Kratos authentication flows.
+     *
+     * Handles the complete logout process including creating logout flow,
+     * updating session state, cleaning up cached queries, and optional redirects.
+     *
+     * @returns Object containing logout function that accepts optional returnTo parameter
+     * @example
+     * ```tsx
+     * function LogoutButton() {
+     *   const { logout } = kratos.flows.useLogout();
+     *
+     *   const handleLogout = async () => {
+     *     const result = await logout({ returnTo: "/login" });
+     *     if (!result.isSuccess) {
+     *       console.error("Logout failed:", result.error);
+     *     }
+     *   };
+     *
+     *   return <button onClick={handleLogout}>Logout</button>;
+     * }
+     * ```
+     */
+    useLogout: UseLogout
+
+    /**
+     * Renders a complete login flow with multi-step authentication support.
+     *
+     * Handles login method selection, second-factor authentication, email verification,
+     * and session management. Provides context for managing flow state and transitions
+     * between different authentication steps.
+     *
+     * @param props - Configuration and component props for the login flow
+     * @param props.chooseMethodForm - React component for login method selection
+     * @param props.secondFactorForm - React component for second factor authentication
+     * @param props.secondFactorEmailForm - React component for email-based second factor
+     * @param props.emailVerificationForm - React component for email verification process
+     * @param props.initialFlowId - Optional existing login flow ID to resume
+     * @param props.returnTo - Optional URL to redirect after successful login
+     * @param props.onError - Optional callback for handling login flow errors
+     * @param props.onLoginSuccess - Optional callback triggered after successful login
+     * @param props.onVerificationSuccess - Optional callback triggered after email verification
+     * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
+     * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
+     * @returns JSX element containing the complete login flow interface
+     * @example
+     * ```tsx
+     * <LoginFlow
+     *   chooseMethodForm={ChooseMethodForm}
+     *   secondFactorForm={SecondFactorForm}
+     *   secondFactorEmailForm={SecondFactorEmailForm}
+     *   emailVerificationForm={EmailVerificationForm}
+     *   onLoginSuccess={() => navigate('/dashboard')}
+     *   onSessionAlreadyAvailable={() => navigate('/dashboard')}
+     * />
+     * ```
+     */
+    LoginFlow: ComponentType<LoginFlowProps>
+
+    /**
+     * Renders a multi-step password recovery flow with email verification and password reset.
+     *
+     * Manages the complete recovery process from email submission through code verification
+     * to password reset, automatically handling flow state transitions and provider setup.
+     *
+     * @param props.emailForm - React component for email input step
+     * @param props.codeForm - React component for verification code input step
+     * @param props.newPasswordForm - React component for new password input step
+     * @param props.initialFlowId - Optional existing recovery flow ID to continue
+     * @param props.returnTo - Optional URL to redirect after successful recovery
+     * @param props.onError - Optional error handler for recovery flow failures
+     * @param props.onRecoverySuccess - Optional callback fired when password recovery completes
+     * @param props.onFlowRestart - Optional callback fired when flow restarts due to errors
+     * @returns JSX element with configured recovery flow providers and step management
+     *
+     * @example
+     * ```tsx
+     * <RecoveryFlow
+     *   emailForm={EmailForm}
+     *   codeForm={CodeForm}
+     *   newPasswordForm={NewPasswordForm}
+     *   onRecoverySuccess={() => console.log("Recovery completed")}
+     *   onError={(error) => console.error("Recovery failed:", error)}
+     * />
+     * ```
+     */
+    RecoveryFlow: ComponentType<RecoveryFlowProps>
+
+    /**
+     * Provides a complete registration flow with step-by-step form handling and verification.
+     *
+     * Manages the user registration process through multiple steps: traits collection,
+     * credentials selection, and optional email verification. Automatically handles flow
+     * transitions and error states.
+     *
+     * @param props - Registration flow configuration and form components
+     * @param props.traitsForm - React component for collecting user traits (name, email, etc.)
+     * @param props.chooseMethodForm - React component for selecting authentication method
+     * @param props.emailVerificationForm - React component for email verification process
+     * @param props.initialFlowId - Optional existing flow ID to resume registration
+     * @param props.returnTo - Optional URL to redirect after successful registration
+     * @param props.onError - Optional callback for handling registration flow errors
+     * @param props.onRegistrationSuccess - Optional callback triggered after successful registration
+     * @param props.onVerificationSuccess - Optional callback triggered after email verification
+     * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
+     * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
+     * @returns React component that renders the appropriate registration step
+     * @example
+     * ```tsx
+     * <RegistrationFlow
+     *   traitsForm={UserTraitsForm}
+     *   chooseMethodForm={MethodSelectionForm}
+     *   emailVerificationForm={EmailVerifyForm}
+     *   onRegistrationSuccess={() => console.log('Registration completed')}
+     *   onVerificationSuccess={() => console.log('Email verified')}
+     * />
+     * ```
+     */
+    RegistrationFlow: ComponentType<Omit<RegistrationFlowProps<TTraitsConfig>, "traitsConfig">>
+
+    /**
+     * Renders a complete settings flow with user account management capabilities.
+     *
+     * @param props - Settings flow configuration and form components
+     * @param props.traitsForm - Component for editing user traits/profile information
+     * @param props.newPasswordForm - Component for changing user password
+     * @param props.passkeysForm - Component for managing passkey authentication
+     * @param props.totpForm - Component for TOTP/2FA configuration
+     * @param props.oidcForm - Component for OAuth/OIDC provider management
+     * @param props.initialFlowId - Existing flow ID to resume
+     * @param props.initialVerifiableAddress - Email address requiring verification
+     * @param props.onError - Callback for handling flow errors
+     * @param props.onChangePasswordSuccess - Callback after successful password change
+     * @param props.onChangeTraitsSuccess - Callback after successful traits update
+     * @param props.onFlowRestart - Callback when flow restarts
+     * @param props.settingsForm - Main settings form component that renders all sections
+     * @returns React component for the settings flow
+     * @example
+     * ```tsx
+     * <SettingsFlow
+     *   traitsForm={TraitsForm}
+     *   newPasswordForm={PasswordForm}
+     *   settingsForm={MainSettings}
+     *   onChangePasswordSuccess={() => console.log('Password updated')}
+     *   onError={(error) => console.error('Settings error:', error)}
+     * />
+     * ```
+     */
+    SettingsFlow: ComponentType<Omit<SettingsFlowProps<TTraitsConfig>, "traitsConfig">>
+
+    /**
+     * Renders email verification flow with provider context and flow management.
+     *
+     * @param emailVerificationForm - Component to render the verification form UI
+     * @param initialFlowId - Optional flow ID to initialize with existing flow
+     * @param initialVerifiableAddress - Optional email address to pre-populate
+     * @param returnTo - Optional URL to redirect to after successful verification
+     * @param onError - Optional callback for handling verification errors
+     * @param onVerificationSuccess - Optional callback for successful verification
+     * @param onFlowRestart - Optional callback when flow needs to restart
+     * @returns JSX element with verification flow provider and wrapper
+     * @example
+     * ```tsx
+     * <VerificationFlow
+     *   emailVerificationForm={EmailForm}
+     *   initialVerifiableAddress="user@example.com"
+     *   onVerificationSuccess={() => navigate("/dashboard")}
+     *   onError={(error) => console.error("Verification failed:", error)}
+     * />
+     * ```
+     */
+    VerificationFlow: ComponentType<VerificationFlowProps>
 }
 
 /**
@@ -69,182 +262,16 @@ export function mkKratos<
 
     const sessionManager = new SessionManager({ queryClient, api })
 
-    const flows = {
-        /**
-         * Provides logout functionality for Kratos authentication flows.
-         *
-         * Handles the complete logout process including creating logout flow,
-         * updating session state, cleaning up cached queries, and optional redirects.
-         *
-         * @returns Object containing logout function that accepts optional returnTo parameter
-         * @example
-         * ```tsx
-         * function LogoutButton() {
-         *   const { logout } = kratos.flows.useLogout();
-         *
-         *   const handleLogout = async () => {
-         *     const result = await logout({ returnTo: "/login" });
-         *     if (!result.isSuccess) {
-         *       console.error("Logout failed:", result.error);
-         *     }
-         *   };
-         *
-         *   return <button onClick={handleLogout}>Logout</button>;
-         * }
-         * ```
-         */
+    const flows: FlowsConfig<TTraitsConfig> = {
         useLogout: logoutFlow.useLogout,
-
-        /**
-         * Renders a complete login flow with multi-step authentication support.
-         *
-         * Handles login method selection, second-factor authentication, email verification,
-         * and session management. Provides context for managing flow state and transitions
-         * between different authentication steps.
-         *
-         * @param props - Configuration and component props for the login flow
-         * @param props.chooseMethodForm - React component for login method selection
-         * @param props.secondFactorForm - React component for second factor authentication
-         * @param props.secondFactorEmailForm - React component for email-based second factor
-         * @param props.emailVerificationForm - React component for email verification process
-         * @param props.initialFlowId - Optional existing login flow ID to resume
-         * @param props.returnTo - Optional URL to redirect after successful login
-         * @param props.onError - Optional callback for handling login flow errors
-         * @param props.onLoginSuccess - Optional callback triggered after successful login
-         * @param props.onVerificationSuccess - Optional callback triggered after email verification
-         * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
-         * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
-         * @returns JSX element containing the complete login flow interface
-         * @example
-         * ```tsx
-         * <LoginFlow
-         *   chooseMethodForm={ChooseMethodForm}
-         *   secondFactorForm={SecondFactorForm}
-         *   secondFactorEmailForm={SecondFactorEmailForm}
-         *   emailVerificationForm={EmailVerificationForm}
-         *   onLoginSuccess={() => navigate('/dashboard')}
-         *   onSessionAlreadyAvailable={() => navigate('/dashboard')}
-         * />
-         * ```
-         */
         LoginFlow: loginFlow.LoginFlow,
-
-        /**
-         * Renders a multi-step password recovery flow with email verification and password reset.
-         *
-         * Manages the complete recovery process from email submission through code verification
-         * to password reset, automatically handling flow state transitions and provider setup.
-         *
-         * @param props.emailForm - React component for email input step
-         * @param props.codeForm - React component for verification code input step
-         * @param props.newPasswordForm - React component for new password input step
-         * @param props.initialFlowId - Optional existing recovery flow ID to continue
-         * @param props.returnTo - Optional URL to redirect after successful recovery
-         * @param props.onError - Optional error handler for recovery flow failures
-         * @param props.onRecoverySuccess - Optional callback fired when password recovery completes
-         * @param props.onFlowRestart - Optional callback fired when flow restarts due to errors
-         * @returns JSX element with configured recovery flow providers and step management
-         *
-         * @example
-         * ```tsx
-         * <RecoveryFlow
-         *   emailForm={EmailForm}
-         *   codeForm={CodeForm}
-         *   newPasswordForm={NewPasswordForm}
-         *   onRecoverySuccess={() => console.log("Recovery completed")}
-         *   onError={(error) => console.error("Recovery failed:", error)}
-         * />
-         * ```
-         */
         RecoveryFlow: recoveryFlow.RecoveryFlow,
-
-        /**
-         * Provides a complete registration flow with step-by-step form handling and verification.
-         *
-         * Manages the user registration process through multiple steps: traits collection,
-         * credentials selection, and optional email verification. Automatically handles flow
-         * transitions and error states.
-         *
-         * @param props - Registration flow configuration and form components
-         * @param props.traitsForm - React component for collecting user traits (name, email, etc.)
-         * @param props.chooseMethodForm - React component for selecting authentication method
-         * @param props.emailVerificationForm - React component for email verification process
-         * @param props.initialFlowId - Optional existing flow ID to resume registration
-         * @param props.returnTo - Optional URL to redirect after successful registration
-         * @param props.onError - Optional callback for handling registration flow errors
-         * @param props.onRegistrationSuccess - Optional callback triggered after successful registration
-         * @param props.onVerificationSuccess - Optional callback triggered after email verification
-         * @param props.onFlowRestart - Optional callback triggered when flow restarts due to expiration
-         * @param props.onSessionAlreadyAvailable - Optional callback triggered when user is already authenticated
-         * @returns React component that renders the appropriate registration step
-         * @example
-         * ```tsx
-         * <RegistrationFlow
-         *   traitsForm={UserTraitsForm}
-         *   chooseMethodForm={MethodSelectionForm}
-         *   emailVerificationForm={EmailVerifyForm}
-         *   onRegistrationSuccess={() => console.log('Registration completed')}
-         *   onVerificationSuccess={() => console.log('Email verified')}
-         * />
-         * ```
-         */
         RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
             <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />
         ),
-
-        /**
-         * Renders a complete settings flow with user account management capabilities.
-         *
-         * @param props - Settings flow configuration and form components
-         * @param props.traitsForm - Component for editing user traits/profile information
-         * @param props.newPasswordForm - Component for changing user password
-         * @param props.passkeysForm - Component for managing passkey authentication
-         * @param props.totpForm - Component for TOTP/2FA configuration
-         * @param props.oidcForm - Component for OAuth/OIDC provider management
-         * @param props.initialFlowId - Existing flow ID to resume
-         * @param props.initialVerifiableAddress - Email address requiring verification
-         * @param props.onError - Callback for handling flow errors
-         * @param props.onChangePasswordSuccess - Callback after successful password change
-         * @param props.onChangeTraitsSuccess - Callback after successful traits update
-         * @param props.onFlowRestart - Callback when flow restarts
-         * @param props.settingsForm - Main settings form component that renders all sections
-         * @returns React component for the settings flow
-         * @example
-         * ```tsx
-         * <SettingsFlow
-         *   traitsForm={TraitsForm}
-         *   newPasswordForm={PasswordForm}
-         *   settingsForm={MainSettings}
-         *   onChangePasswordSuccess={() => console.log('Password updated')}
-         *   onError={(error) => console.error('Settings error:', error)}
-         * />
-         * ```
-         */
         SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig>, "traitsConfig">) => (
             <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />
         ),
-
-        /**
-         * Renders email verification flow with provider context and flow management.
-         *
-         * @param emailVerificationForm - Component to render the verification form UI
-         * @param initialFlowId - Optional flow ID to initialize with existing flow
-         * @param initialVerifiableAddress - Optional email address to pre-populate
-         * @param returnTo - Optional URL to redirect to after successful verification
-         * @param onError - Optional callback for handling verification errors
-         * @param onVerificationSuccess - Optional callback for successful verification
-         * @param onFlowRestart - Optional callback when flow needs to restart
-         * @returns JSX element with verification flow provider and wrapper
-         * @example
-         * ```tsx
-         * <VerificationFlow
-         *   emailVerificationForm={EmailForm}
-         *   initialVerifiableAddress="user@example.com"
-         *   onVerificationSuccess={() => navigate("/dashboard")}
-         *   onError={(error) => console.error("Verification failed:", error)}
-         * />
-         * ```
-         */
         VerificationFlow: verificationFlow.VerificationFlow,
     }
 

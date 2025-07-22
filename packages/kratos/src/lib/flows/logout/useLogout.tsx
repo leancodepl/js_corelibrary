@@ -28,7 +28,11 @@ import { baseQueryKey } from "../../utils"
  * }
  * ```
  */
-export function useLogout() {
+export type UseLogout = () => {
+    logout: ({ returnTo }: { returnTo?: string }) => Promise<ApiResponse>
+}
+
+export const useLogout: UseLogout = () => {
     const { kratosClient } = useKratosClientContext()
     const { sessionManager } = useKratosSessionContext()
     const queryClient = useQueryClient()
