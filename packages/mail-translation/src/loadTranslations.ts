@@ -13,7 +13,6 @@ export async function loadTranslations(translationsPath?: string) {
     const translationData: TranslationData = {}
 
     if (!translationsPath) {
-        console.warn("No translations path provided. Continuing without translations.")
         return translationData
     }
 

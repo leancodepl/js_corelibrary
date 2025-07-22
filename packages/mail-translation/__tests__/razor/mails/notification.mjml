@@ -19,7 +19,7 @@
           {{t "user_greeting", (name: "@Model.User.FullName")}}
         </mj-text>
         <mj-text mj-class="body" css-class="alert-box">
-          {{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate.ToString(\"yyyy-MM-dd\")")}}
+          {{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate")}}
         </mj-text>
         <mj-text mj-class="body">
           {{t "action_required", (action: "@Model.RequiredAction")}}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generate function - Razor mode snapshots should generate razor templates matching snapshots 1`] = `
+exports[`generate function - Razor mode should generate razor templates matching snapshots 1`] = `
 [
   {
     "errors": [],
@@ -201,7 +201,7 @@ exports[`generate function - Razor mode snapshots should generate razor template
                             <tr>
                               <td align="left" class="alert-box" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; font-size: 0px; padding: 0; padding-bottom: 20px; word-break: break-word;" bgcolor="#fef3c7">
 
-                                <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#374151;">{{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate.ToString(\\"yyyy-MM-dd\\")")}}</div>
+                                <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#374151;">Your account status has been updated to: @Model.Status as of @Model.UpdateDate.</div>
 
                               </td>
                             </tr>
@@ -482,7 +482,7 @@ exports[`generate function - Razor mode snapshots should generate razor template
                             <tr>
                               <td align="left" class="alert-box" style="background-color: #fef3c7; border-left: 4px solid #f59e0b; font-size: 0px; padding: 0; padding-bottom: 20px; word-break: break-word;" bgcolor="#fef3c7">
 
-                                <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#374151;">{{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate.ToString(\\"yyyy-MM-dd\\")")}}</div>
+                                <div style="font-family:Roboto, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:left;color:#374151;">Status Twojego konta został zaktualizowany na: @Model.Status z dniem @Model.UpdateDate.</div>
 
                               </td>
                             </tr>
@@ -579,7 +579,7 @@ exports[`generate function - Razor mode snapshots should generate razor template
 
 Szanowny/a @Model.User.FullName,
 
-{{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate.ToString(\\"yyyy-MM-dd\\")")}}
+Status Twojego konta został zaktualizowany na: @Model.Status z dniem @Model.UpdateDate.
 
 Wymagane działanie: @Model.RequiredAction
 
@@ -587,7 +587,7 @@ Wykonaj działanie teraz: @Model.ActionUrl
 
 Numer referencyjny: @Model.ReferenceNumber
 
-Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@example.com ",
+Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@example.com",
         "filename": "notification.pl.txt.cshtml",
       },
       {
@@ -595,7 +595,7 @@ Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@exampl
 
 Dear @Model.User.FullName,
 
-{{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate.ToString(\\"yyyy-MM-dd\\")")}}
+Your account status has been updated to: @Model.Status as of @Model.UpdateDate.
 
 Action required: @Model.RequiredAction
 
@@ -603,7 +603,7 @@ Take Action Now: @Model.ActionUrl
 
 Reference: @Model.ReferenceNumber
 
-Need help? Contact our support team at support@example.com ",
+Need help? Contact our support team at support@example.com",
         "filename": "notification.txt.cshtml",
       },
     ],

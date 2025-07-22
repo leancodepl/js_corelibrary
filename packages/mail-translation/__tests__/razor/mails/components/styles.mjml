@@ -1,6 +1,8 @@
 <mj-head>
   <mj-font name="Roboto" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
   <mj-style inline="inline">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    
     .header { 
       background-color: #059669; 
       color: white; 
@@ -17,6 +19,16 @@
     a {
       text-decoration: none;
       color: #059669;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      .mobile-only { display: block !important; }
+      .desktop-hide { display: none !important; }
+    }
+    
+    @media screen and (min-width: 768px) {
+      .desktop-only { display: block !important; }
+      .mobile-hide { display: none !important; }
     }
   </mj-style>
   <mj-attributes>
