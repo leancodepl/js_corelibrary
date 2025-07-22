@@ -4,19 +4,23 @@ import { generateRazorOutputTemplates } from "./generateRazorOutputTemplates"
 import { TranslatedTemplate } from "./processTemplate"
 
 export interface OutputTemplate {
-    filename: string
-    content: string
+  filename: string
+  content: string
 }
 
-export function generateOutputTemplates(
-    translatedTemplates: TranslatedTemplate[],
-    outputMode: OutputMode,
-    defaultLanguage?: string,
-): OutputTemplate[] {
-    switch (outputMode) {
-        case "kratos":
-            return generateKratosOutputTemplates({ translatedTemplates, defaultLanguage })
-        case "razor":
-            return generateRazorOutputTemplates({ translatedTemplates, defaultLanguage })
-    }
+export function generateOutputTemplates({
+  translatedTemplates,
+  outputMode,
+  defaultLanguage,
+}: {
+  translatedTemplates: TranslatedTemplate[]
+  outputMode: OutputMode
+  defaultLanguage?: string
+}): OutputTemplate[] {
+  switch (outputMode) {
+    case "kratos":
+      return generateKratosOutputTemplates({ translatedTemplates, defaultLanguage })
+    case "razor":
+      return generateRazorOutputTemplates({ translatedTemplates, defaultLanguage })
+  }
 }

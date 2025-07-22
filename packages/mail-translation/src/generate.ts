@@ -4,21 +4,23 @@ import { loadTranslations } from "./loadTranslations"
 import { processTemplate } from "./processTemplate"
 
 export async function generate(config: Omit<MailTranslationConfig, "outputPath">) {
-    const translationData = await loadTranslations(config.translationsPath)
+  const translationData = await loadTranslations(config.translationsPath)
 
-    const mjmlTemplates = await loadMjmlTemplates(config.mailsPath)
-    const plaintextTemplates = config.plaintextMailsPath
-        ? await loadPlaintextTemplates({
-              plaintextMailsPath: config.plaintextMailsPath,
-              outputMode: config.outputMode,
-          })
-        : []
+  const mjmlTemplates = await loadMjmlTemplates(config.mailsPath)
+  const plaintextTemplates = config.plaintextMailsPath
+    ? await loadPlaintextTemplates({
+        plaintextMailsPath: config.plaintextMailsPath,
+        outputMode: config.outputMode,
+      })
+    : []
 
-    return [...mjmlTemplates, ...plaintextTemplates].map(template =>
-        processTemplate(template, translationData, {
-            outputMode: config.outputMode,
-            defaultLanguage: config.defaultLanguage,
-            mailsPath: config.mailsPath,
-        }),
-    )
+  return [...mjmlTemplates, ...plaintextTemplates].map(template =>
+    processTemplate({
+      template,
+      translationData,
+      outputMode: config.outputMode,
+      defaultLanguage: config.defaultLanguage,
+      mailsPath: config.mailsPath,
+    }),
+  )
 }

@@ -5,68 +5,68 @@ import { TranslationData } from "./loadTranslations"
 import { processTranslations } from "./processTranslations"
 
 export interface Template {
-    name: string
-    content: string
-    isPlaintext: boolean
+  name: string
+  content: string
+  isPlaintext: boolean
 }
 
 export interface TranslatedTemplate {
-    name: string
-    content: string
-    isPlaintext: boolean
-    language?: string
+  name: string
+  content: string
+  isPlaintext: boolean
+  language?: string
 }
 
 export interface ProcessedTemplate {
-    name: string
-    errors: Array<{
-        line: number
-        message: string
-        tagName: string
-    }>
-    outputTemplates: OutputTemplate[]
+  name: string
+  errors: Array<{
+    line: number
+    message: string
+    tagName: string
+  }>
+  outputTemplates: OutputTemplate[]
 }
 
-export interface ProcessTemplateOptions {
-    outputMode: OutputMode
-    defaultLanguage?: string
-    mailsPath: string
-}
+export function processTemplate({
+  template,
+  translationData,
+  outputMode,
+  defaultLanguage,
+  mailsPath,
+}: {
+  template: Template
+  translationData: TranslationData
+  outputMode: OutputMode
+  defaultLanguage?: string
+  mailsPath: string
+}): ProcessedTemplate {
+  const availableLanguages = Object.keys(translationData)
+  const languagesToProcess = availableLanguages.length > 0 ? availableLanguages : [defaultLanguage]
 
-export function processTemplate(
-    template: Template,
-    translationData: TranslationData,
-    options: ProcessTemplateOptions,
-): ProcessedTemplate {
-    const { outputMode, defaultLanguage, mailsPath } = options
+  const mjmlCompileResult = template.isPlaintext
+    ? undefined
+    : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
 
-    const availableLanguages = Object.keys(translationData)
-    const languagesToProcess = availableLanguages.length > 0 ? availableLanguages : [defaultLanguage]
+  const content = template.isPlaintext ? template.content : (mjmlCompileResult?.html ?? "")
 
-    const mjmlCompileResult = template.isPlaintext
-        ? undefined
-        : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
+  const translatedTemplates = languagesToProcess.map(language => {
+    const translations = language ? (translationData[language] ?? {}) : {}
 
-    const content = template.isPlaintext ? template.content : (mjmlCompileResult?.html ?? "")
-
-    const translatedTemplates = languagesToProcess.map(language => {
-        const translations = language ? (translationData[language] ?? {}) : {}
-
-        const translatedContent = processTranslations(content, translations, language)
-
-        return {
-            name: template.name,
-            content: translatedContent,
-            isPlaintext: template.isPlaintext,
-            language,
-        }
-    })
-
-    const outputTemplates = generateOutputTemplates(translatedTemplates, outputMode, defaultLanguage)
+    const translatedContent = processTranslations({ template: content, translations, language: language })
 
     return {
-        name: template.name,
-        errors: mjmlCompileResult?.mjmlParseErrors ?? [],
-        outputTemplates,
+      name: template.name,
+      content: translatedContent,
+      isPlaintext: template.isPlaintext,
+      language,
     }
+  })
+
+  const outputTemplates = generateOutputTemplates({ translatedTemplates, outputMode, defaultLanguage })
+
+  return {
+    name: template.name,
+    errors: mjmlCompileResult?.mjmlParseErrors ?? [],
+    outputTemplates,
+  }
 }

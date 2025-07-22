@@ -7,13 +7,13 @@ import { loadConfig } from "./loadConfig"
 import { saveOutputs } from "./saveOutputs"
 
 const argv = yargs(hideBin(process.argv))
-    .option("config", {
-        alias: "c",
-        type: "string",
-        description: "Config file location",
-    })
-    .parseSync()
+  .option("config", {
+    alias: "c",
+    type: "string",
+    description: "Config file location",
+  })
+  .parseSync()
 
 const config = loadConfig(argv.config)
 
-generate(config).then(templates => saveOutputs(templates, config.outputPath))
+generate(config).then(processedTemplates => saveOutputs({ processedTemplates, outputPath: config.outputPath }))
