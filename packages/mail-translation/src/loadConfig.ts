@@ -13,15 +13,15 @@ const options: LilconfigOptionsSync = {
     },
 }
 
-export function loadConfig(configPath?: string): MailTranslationConfig | null {
+export function loadConfig(configPath?: string): MailTranslationConfig {
     const searcher = lilconfigSync("mail-translation", options)
 
-    try {
-        const result = configPath ? searcher.load(configPath) : searcher.search()
-        if (!result) {
-            return null
-        }
+    const result = configPath ? searcher.load(configPath) : searcher.search()
+    if (!result) {
+        throw new Error("No configuration file found")
+    }
 
+    try {
         return mailTranslationConfigSchema.parse(result.config)
     } catch (error) {
         throw new Error(`Failed to load configuration: ${error}`)

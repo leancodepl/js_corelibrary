@@ -1,5 +1,4 @@
 import { mkdir, writeFile } from "fs/promises"
-import { entries } from "lodash"
 import { join } from "path"
 import { OutputTemplate } from "./generateOutputTemplates"
 import { ProcessedTemplate } from "./processTemplate"
@@ -18,7 +17,7 @@ export async function saveOutputs(processedTemplates: ProcessedTemplate[], outpu
         outputs[filePath] = template.content
     }
 
-    await Promise.all(entries(outputs).map(([file, output]) => writeFile(file, output, "utf8")))
+    await Promise.all(Object.entries(outputs).map(([file, output]) => writeFile(file, output, "utf8")))
 
     for (const processedTemplate of processedTemplates) {
         if (processedTemplate.errors.length > 0) {

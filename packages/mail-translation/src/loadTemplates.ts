@@ -31,7 +31,13 @@ export async function loadMjmlTemplates(mailsPath: string): Promise<Template[]> 
     }
 }
 
-export async function loadPlaintextTemplates(plaintextMailsPath: string, outputMode: OutputMode): Promise<Template[]> {
+export async function loadPlaintextTemplates({
+    plaintextMailsPath,
+    outputMode,
+}: {
+    plaintextMailsPath: string
+    outputMode: OutputMode
+}): Promise<Template[]> {
     const templates: Template[] = []
 
     try {

@@ -1,4 +1,3 @@
-import { partition } from "lodash"
 import { TranslatedTemplate } from "./processTemplate"
 
 export function generateKratosOutputTemplates({
@@ -6,9 +5,10 @@ export function generateKratosOutputTemplates({
     defaultLanguage,
 }: {
     translatedTemplates: TranslatedTemplate[]
-    defaultLanguage: string
+    defaultLanguage?: string
 }) {
-    const [plainTextTemplates, htmlTemplates] = partition(translatedTemplates, template => template.isPlaintext)
+    const plainTextTemplates = translatedTemplates.filter(template => template.isPlaintext)
+    const htmlTemplates = translatedTemplates.filter(template => !template.isPlaintext)
 
     const htmlOutputTemplates = htmlTemplates.map(template => ({
         filename: `${template.name}.gotmpl`,
@@ -28,10 +28,10 @@ function generateKratosOutputTemplate({
     defaultLanguage,
 }: {
     templates: TranslatedTemplate[]
-    defaultLanguage: string
+    defaultLanguage?: string
 }): string {
-    if (templates.length === 1) {
-        return templates.at(0).content
+    if (templates.length === 1 || !defaultLanguage) {
+        return templates[0].content
     }
 
     let outputTemplate = ""

@@ -5,7 +5,7 @@ export function generateRazorOutputTemplates({
     defaultLanguage,
 }: {
     translatedTemplates: TranslatedTemplate[]
-    defaultLanguage: string
+    defaultLanguage?: string
 }) {
     return translatedTemplates.map(template => ({
         filename: getFilename(template, defaultLanguage),
@@ -17,8 +17,8 @@ function escapeRazorConflicts(templateContent: string): string {
     return templateContent.replace(/(?<!@)@media/g, "@@media").replace(/(?<!@)@import/g, "@@import")
 }
 
-function getFilename(template: TranslatedTemplate, defaultLanguage: string): string {
-    if (template.language === defaultLanguage) {
+function getFilename(template: TranslatedTemplate, defaultLanguage?: string): string {
+    if (template.language === defaultLanguage || !defaultLanguage) {
         return template.isPlaintext ? `${template.name}.txt.cshtml` : `${template.name}.cshtml`
     } else {
         return template.isPlaintext

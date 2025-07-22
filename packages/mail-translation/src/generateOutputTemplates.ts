@@ -11,7 +11,7 @@ export interface OutputTemplate {
 export function generateOutputTemplates(
     translatedTemplates: TranslatedTemplate[],
     outputMode: OutputMode,
-    defaultLanguage: string,
+    defaultLanguage?: string,
 ): OutputTemplate[] {
     switch (outputMode) {
         case "kratos":

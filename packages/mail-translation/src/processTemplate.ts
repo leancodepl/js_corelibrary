@@ -4,12 +4,6 @@ import { generateOutputTemplates, OutputTemplate } from "./generateOutputTemplat
 import { TranslationData } from "./loadTranslations"
 import { processTranslations } from "./processTranslations"
 
-export interface ProcessTemplateOptions {
-    outputMode: OutputMode
-    defaultLanguage?: string
-    mailsPath?: string
-}
-
 export interface Template {
     name: string
     content: string
@@ -20,7 +14,7 @@ export interface TranslatedTemplate {
     name: string
     content: string
     isPlaintext: boolean
-    language: string
+    language?: string
 }
 
 export interface ProcessedTemplate {
@@ -31,6 +25,12 @@ export interface ProcessedTemplate {
         tagName: string
     }>
     outputTemplates: OutputTemplate[]
+}
+
+export interface ProcessTemplateOptions {
+    outputMode: OutputMode
+    defaultLanguage?: string
+    mailsPath: string
 }
 
 export function processTemplate(
@@ -47,10 +47,10 @@ export function processTemplate(
         ? undefined
         : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
 
-    const content = template.isPlaintext ? template.content : mjmlCompileResult.html
+    const content = template.isPlaintext ? template.content : (mjmlCompileResult?.html ?? "")
 
     const translatedTemplates = languagesToProcess.map(language => {
-        const translations = translationData[language] ?? {}
+        const translations = language ? (translationData[language] ?? {}) : {}
 
         const translatedContent = processTranslations(content, translations, language)
 

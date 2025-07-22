@@ -167,6 +167,7 @@ describe("generate function - Razor mode", () => {
         const configWithMissingTranslations = {
             ...config,
             translationsPath: undefined,
+            defaultLanguage: undefined,
         }
 
         const resultWithMissingTranslations = await generate(configWithMissingTranslations)
