@@ -48,16 +48,12 @@ function parseParameters(paramString: string): Record<string, string> {
     if (colonIndex === -1) continue
 
     const key = pair.substring(0, colonIndex).trim()
-    const valueStr = pair.substring(colonIndex + 1).trim()
+    const value = pair.substring(colonIndex + 1).trim()
 
-    let value: string
-    if ((valueStr.startsWith('"') && valueStr.endsWith('"')) || (valueStr.startsWith("'") && valueStr.endsWith("'"))) {
-      value = valueStr.slice(1, -1)
-    } else {
-      value = valueStr
-    }
-
-    params[key] = value
+    params[key] =
+      (value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))
+        ? value.slice(1, -1)
+        : value
   }
 
   return params

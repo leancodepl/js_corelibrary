@@ -128,6 +128,31 @@ describe("generate function - Kratos mode", () => {
     )
   })
 
+  it("should use custom kratosLanguageVariable when provided", async () => {
+    const configWithCustomLanguageVariable = {
+      ...config,
+      kratosLanguageVariable: ".Identity.traits.locale",
+    }
+
+    const customResult = await generate(configWithCustomLanguageVariable)
+
+    const htmlTemplate = customResult.find(template =>
+      template.outputTemplates.some(o => o.filename === "welcome.gotmpl"),
+    )
+    const plainTextTemplate = customResult.find(template =>
+      template.outputTemplates.some(o => o.filename === "welcome.plaintext.gotmpl"),
+    )
+
+    const htmlOutput = htmlTemplate?.outputTemplates.find(t => t.filename === "welcome.gotmpl")
+    const plainTextOutput = plainTextTemplate?.outputTemplates.find(t => t.filename === "welcome.plaintext.gotmpl")
+
+    expect(htmlOutput?.content).toContain('{{- if eq .Identity.traits.locale "pl" -}}')
+    expect(plainTextOutput?.content).toContain('{{- if eq .Identity.traits.locale "pl" -}}')
+
+    expect(htmlOutput?.content).not.toContain(".Identity.traits.lang")
+    expect(plainTextOutput?.content).not.toContain(".Identity.traits.lang")
+  })
+
   it("should handle missing translations gracefully", async () => {
     const configWithMissingTranslations = {
       ...config,

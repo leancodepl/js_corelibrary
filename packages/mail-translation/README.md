@@ -36,13 +36,14 @@ include:
 
 ```js
 module.exports = {
-    translationsPath: "./translations",
-    mailsPath: "./templates/mjml",
-    plaintextMailsPath: "./templates/plaintext",
-    outputPath: "./dist/emails",
-    outputMode: "kratos",
-    defaultLanguage: "en",
-    languages: ["en", "pl", "de"], // optional - will auto-detect from translation files
+  translationsPath: "./translations",
+  mailsPath: "./templates/mjml",
+  plaintextMailsPath: "./templates/plaintext",
+  outputPath: "./dist/emails",
+  outputMode: "kratos",
+  defaultLanguage: "en",
+  kratosLanguageVariable: ".Identity.traits.locale", // optional - defaults to .Identity.traits.lang
+  languages: ["en", "pl", "de"], // optional - will auto-detect from translation files
 }
 ```
 
@@ -50,9 +51,9 @@ module.exports = {
 
 ```js
 module.exports = {
-    mailsPath: "./templates/mjml",
-    outputPath: "./dist/emails",
-    outputMode: "kratos",
+  mailsPath: "./templates/mjml",
+  outputPath: "./dist/emails",
+  outputMode: "kratos",
 }
 ```
 
@@ -68,6 +69,8 @@ module.exports = {
   with translations
 - `languages` (`string[]`, optional) - Array of language codes to process. When omitted, all languages found in
   translation files are processed
+- `kratosLanguageVariable` (`string`, optional, **Kratos mode only**) - Variable path used for language detection in
+  Kratos templates (defaults to `".Identity.traits.lang"`).
 
 ## Template Structure
 
@@ -99,10 +102,10 @@ Example translation file (`en.json`):
 
 ```json
 {
-    "welcome_title": "Welcome to our platform!",
-    "welcome_greeting": "Hello {name}!",
-    "verify_button": "Verify Account",
-    "footer_text": "© 2024 Company. All rights reserved."
+  "welcome_title": "Welcome to our platform!",
+  "welcome_greeting": "Hello {name}!",
+  "verify_button": "Verify Account",
+  "footer_text": "© 2024 Company. All rights reserved."
 }
 ```
 
@@ -143,7 +146,7 @@ Generates Go template files compatible with Ory Kratos identity management syste
 - Uses Go template `{{define "language"}}` blocks for each language
 - Template selection logic at the bottom using Kratos variables
 - Kratos variables available (e.g., `{{ .Identity.traits.email }}`)
-- Language detection via `{{ .Identity.traits.lang }}`
+- Language detection via `{{ .Identity.traits.lang }}` by default (configurable via `kratosLanguageVariable`)
 
 **Example Output:**
 
@@ -203,14 +206,14 @@ English template (`notification.cshtml`):
 
 ```html
 <html>
-    <body>
-        <h1>System Notification</h1>
-        <p>Dear @Model.User.FullName,</p>
-        <p>Your account status has been updated to: @Model.Status as of @Model.UpdateDate.</p>
-        <p>Action required: @Model.RequiredAction</p>
-        <a href="@Model.ActionUrl">Take Action Now</a>
-        <p>Reference: @Model.ReferenceNumber</p>
-    </body>
+  <body>
+    <h1>System Notification</h1>
+    <p>Dear @Model.User.FullName,</p>
+    <p>Your account status has been updated to: @Model.Status as of @Model.UpdateDate.</p>
+    <p>Action required: @Model.RequiredAction</p>
+    <a href="@Model.ActionUrl">Take Action Now</a>
+    <p>Reference: @Model.ReferenceNumber</p>
+  </body>
 </html>
 ```
 
@@ -218,13 +221,13 @@ Polish template (`notification.pl.cshtml`):
 
 ```html
 <html>
-    <body>
-        <h1>Powiadomienie systemowe</h1>
-        <p>Szanowny/a @Model.User.FullName,</p>
-        <p>Status Twojego konta został zaktualizowany na: @Model.Status z dniem @Model.UpdateDate.</p>
-        <p>Wymagane działanie: @Model.RequiredAction</p>
-        <a href="@Model.ActionUrl">Wykonaj działanie teraz</a>
-        <p>Numer referencyjny: @Model.ReferenceNumber</p>
-    </body>
+  <body>
+    <h1>Powiadomienie systemowe</h1>
+    <p>Szanowny/a @Model.User.FullName,</p>
+    <p>Status Twojego konta został zaktualizowany na: @Model.Status z dniem @Model.UpdateDate.</p>
+    <p>Wymagane działanie: @Model.RequiredAction</p>
+    <a href="@Model.ActionUrl">Wykonaj działanie teraz</a>
+    <p>Numer referencyjny: @Model.ReferenceNumber</p>
+  </body>
 </html>
 ```

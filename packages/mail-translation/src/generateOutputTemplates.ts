@@ -12,14 +12,20 @@ export function generateOutputTemplates({
   translatedTemplates,
   outputMode,
   defaultLanguage,
+  kratosLanguageVariable,
 }: {
   translatedTemplates: TranslatedTemplate[]
   outputMode: OutputMode
   defaultLanguage?: string
+  kratosLanguageVariable?: string
 }): OutputTemplate[] {
   switch (outputMode) {
     case "kratos":
-      return generateKratosOutputTemplates({ translatedTemplates, defaultLanguage })
+      return generateKratosOutputTemplates({
+        translatedTemplates,
+        defaultLanguage,
+        kratosLanguageVariable,
+      })
     case "razor":
       return generateRazorOutputTemplates({ translatedTemplates, defaultLanguage })
   }

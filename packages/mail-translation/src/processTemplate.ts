@@ -28,12 +28,14 @@ export function processTemplate({
   translationData,
   outputMode,
   defaultLanguage,
+  kratosLanguageVariable,
   mailsPath,
 }: {
   template: Template
   translationData: TranslationData
   outputMode: OutputMode
   defaultLanguage?: string
+  kratosLanguageVariable?: string
   mailsPath: string
 }): ProcessedTemplate {
   const availableLanguages = Object.keys(translationData)
@@ -58,7 +60,12 @@ export function processTemplate({
     }
   })
 
-  const outputTemplates = generateOutputTemplates({ translatedTemplates, outputMode, defaultLanguage })
+  const outputTemplates = generateOutputTemplates({
+    translatedTemplates,
+    outputMode,
+    defaultLanguage,
+    kratosLanguageVariable,
+  })
 
   return {
     name: template.name,

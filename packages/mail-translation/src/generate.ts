@@ -20,6 +20,7 @@ export async function generate(config: Omit<MailTranslationConfig, "outputPath">
       translationData,
       outputMode: config.outputMode,
       defaultLanguage: config.defaultLanguage,
+      kratosLanguageVariable: config.kratosLanguageVariable,
       mailsPath: config.mailsPath,
     }),
   )

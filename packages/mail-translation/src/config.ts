@@ -13,6 +13,7 @@ export const mailTranslationConfigSchema = z
     outputMode: outputModeSchema,
     defaultLanguage: z.string().optional(),
     languages: z.array(z.string()).optional(),
+    kratosLanguageVariable: z.string().optional(),
   })
   .transform(config => {
     if (!config.plaintextMailsPath) {

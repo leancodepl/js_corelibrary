@@ -3,21 +3,31 @@ import { TranslatedTemplate } from "./processTemplate"
 export function generateKratosOutputTemplates({
   translatedTemplates,
   defaultLanguage,
+  kratosLanguageVariable,
 }: {
   translatedTemplates: TranslatedTemplate[]
   defaultLanguage?: string
+  kratosLanguageVariable?: string
 }) {
   const plainTextTemplates = translatedTemplates.filter(template => template.isPlaintext)
   const htmlTemplates = translatedTemplates.filter(template => !template.isPlaintext)
 
   const htmlOutputTemplates = htmlTemplates.map(template => ({
     filename: `${template.name}.gotmpl`,
-    content: generateKratosOutputTemplate({ templates: htmlTemplates, defaultLanguage }),
+    content: generateKratosOutputTemplate({
+      templates: htmlTemplates,
+      defaultLanguage,
+      kratosLanguageVariable,
+    }),
   }))
 
   const plainTextOutputTemplates = plainTextTemplates.map(template => ({
     filename: `${template.name}.plaintext.gotmpl`,
-    content: generateKratosOutputTemplate({ templates: plainTextTemplates, defaultLanguage }),
+    content: generateKratosOutputTemplate({
+      templates: plainTextTemplates,
+      defaultLanguage,
+      kratosLanguageVariable,
+    }),
   }))
 
   return [...htmlOutputTemplates, ...plainTextOutputTemplates]
@@ -26,9 +36,11 @@ export function generateKratosOutputTemplates({
 function generateKratosOutputTemplate({
   templates,
   defaultLanguage,
+  kratosLanguageVariable = ".Identity.traits.lang",
 }: {
   templates: TranslatedTemplate[]
   defaultLanguage?: string
+  kratosLanguageVariable?: string
 }): string {
   if (templates.length === 1 || !defaultLanguage) {
     return templates[0].content
@@ -49,7 +61,7 @@ function generateKratosOutputTemplate({
   nonDefaultLanguages.forEach((language, index) => {
     const condition = index === 0 ? "if" : "else if"
 
-    outputTemplate += `{{- ${condition} eq .Identity.traits.lang "${language}" -}}\n`
+    outputTemplate += `{{- ${condition} eq ${kratosLanguageVariable} "${language}" -}}\n`
     outputTemplate += `{{ template "${language}" . }}\n`
   })
 
