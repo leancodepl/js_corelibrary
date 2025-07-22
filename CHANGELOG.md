@@ -3,6 +3,186 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.0.0](https://github.com/leancodepl/js_corelibrary/compare/v8.6.0...v9.0.0) (2025-07-22)
+
+### Bug Fixes
+
+- add better type mismatch checking
+  ([205ac18](https://github.com/leancodepl/js_corelibrary/commit/205ac18019def8418413d8d379e3056e5b517e22))
+- add missing await to flow error handlers
+  ([8c246a6](https://github.com/leancodepl/js_corelibrary/commit/8c246a6b1909e633bd708de6e3ad8a4b72e32a89))
+- add missing newline
+  ([6080aec](https://github.com/leancodepl/js_corelibrary/commit/6080aecdbe2fa869454f7f5366c3d00ba28fcdc7))
+- add missing package
+  ([2a89b7e](https://github.com/leancodepl/js_corelibrary/commit/2a89b7eea1fc8e6769a471a093edc226248af9e3))
+- add workaround to bug in TanStack Form typings
+  ([f08d5ca](https://github.com/leancodepl/js_corelibrary/commit/f08d5cade6f26282aacf8484b5451a05069a5881))
+- bump vulnerable form-data package
+  ([cbb87ba](https://github.com/leancodepl/js_corelibrary/commit/cbb87bace1dc13729712328ca664ef83bac38ee3))
+- correct kratos imports
+  ([e8c277a](https://github.com/leancodepl/js_corelibrary/commit/e8c277ae675eaf110c5e49403b63041e7475ecd4))
+- double function definition after rebase
+  ([1490f41](https://github.com/leancodepl/js_corelibrary/commit/1490f415ccbf47a3ebe58f9079ccf53ad8407c09))
+- fix example-e2e-ids config
+  ([29ad297](https://github.com/leancodepl/js_corelibrary/commit/29ad297683e899995a7a31e00b237b2cead52bc8))
+- fix imports ([86117da](https://github.com/leancodepl/js_corelibrary/commit/86117da9ac7cfd4af9c5f2f53067a5590d7307b2))
+- fix inferred types error
+  ([5615fbf](https://github.com/leancodepl/js_corelibrary/commit/5615fbfa538d797d2e91950ce1df82f087c99504))
+- fix infinitly creating registration flow
+  ([0a8e389](https://github.com/leancodepl/js_corelibrary/commit/0a8e3895c44c4cf38abe5fae67f46e0a97fb11be))
+- fix inifinite creating login flow
+  ([7846473](https://github.com/leancodepl/js_corelibrary/commit/784647301d18bed022202c376823751d7153b78d))
+- fix kratos after rebase to main
+  ([5e4d542](https://github.com/leancodepl/js_corelibrary/commit/5e4d542a2dbac2f21df1cb21bddb4b3e354d52f8))
+- fix login flow with infinite creating
+  ([d3a5bb1](https://github.com/leancodepl/js_corelibrary/commit/d3a5bb11aec2268ef6b3340b6c18d072e7720059))
+- fix package versions
+  ([8e65aef](https://github.com/leancodepl/js_corelibrary/commit/8e65aefa05851fe553011abddec0b97cda1df08a))
+- fix registry url
+  ([d919339](https://github.com/leancodepl/js_corelibrary/commit/d919339d84a63bc296080c3e3cdd96eba0ef59a0))
+- fix wrong import
+  ([df6eb18](https://github.com/leancodepl/js_corelibrary/commit/df6eb18ea60e76e6e6324442dca2de0ce2405538))
+- passkey init loop on cancel
+  ([f7751cb](https://github.com/leancodepl/js_corelibrary/commit/f7751cb5d4d2d9ff0ac9fdd592e420a06bcbbba6))
+- remove unnecessary after login check
+  ([8611ff5](https://github.com/leancodepl/js_corelibrary/commit/8611ff5d71fd56b61f700427d6fb6fc041f99024))
+- remove unnecessary file and add newline
+  ([b1f6823](https://github.com/leancodepl/js_corelibrary/commit/b1f68239967211ab45b869e0ca19fafc50a9e272))
+- remove unnecessary session getter
+  ([80a9dbc](https://github.com/leancodepl/js_corelibrary/commit/80a9dbc065058457a0d3c707c5c403daf8b53718))
+- replace invalid imports after rebase
+  ([98345af](https://github.com/leancodepl/js_corelibrary/commit/98345afa460fddc93a98fe83def03a01f67601bb))
+- typo and error type
+  ([7a69fa4](https://github.com/leancodepl/js_corelibrary/commit/7a69fa4e8d73f3ec681ae277c53dc3323f4a05b7))
+- use correct type for registration and settinfgs flows with omitted traintsConfig
+  ([20f5db3](https://github.com/leancodepl/js_corelibrary/commit/20f5db381bd1a3f171f820988f772c843466f0cc))
+
+### Features
+
+- add detecting fetching session info from logged in and logged out user session
+  ([b726798](https://github.com/leancodepl/js_corelibrary/commit/b726798b64f210f1a179b8a53d8b6ad5f0e19ae3))
+- add disabling fields and buttons feature
+  ([86f116e](https://github.com/leancodepl/js_corelibrary/commit/86f116eded8603818401384f6d758873bfefed49))
+- add disabling fields and buttons feature
+  ([14d4f33](https://github.com/leancodepl/js_corelibrary/commit/14d4f33a8f76f46e127b7c8807aa0bc6c3925af6))
+- add faker to generate data and add kratos rules to container run function
+  ([6c58839](https://github.com/leancodepl/js_corelibrary/commit/6c588395fb9a65aca3bff05eee5b8cf7bf2d335d))
+- add kratos e2e tests
+  ([d2849d5](https://github.com/leancodepl/js_corelibrary/commit/d2849d5a91185c17aa863e3d5d2503d191aaa748))
+- add kratos session manager
+  ([cd8bb62](https://github.com/leancodepl/js_corelibrary/commit/cd8bb626e41990cee5886047f57306f7626cd490))
+- add loader screens to app and handle aal2 requirement
+  ([6926e48](https://github.com/leancodepl/js_corelibrary/commit/6926e48e9df35bbda3a4001f43c7ab89d1990905))
+- add loading state to rest of the app pages
+  ([c1db0f5](https://github.com/leancodepl/js_corelibrary/commit/c1db0f59adde939bb542ce2ecc97418d08eeedb0))
+- add logout flow button
+  ([2d458b2](https://github.com/leancodepl/js_corelibrary/commit/2d458b2927f0f86d69a98a17ffeee4a9229473fb))
+- add logout test
+  ([2088f79](https://github.com/leancodepl/js_corelibrary/commit/2088f79abeb0b865ed01b03bcb461b5da421b712))
+- add oidc form
+  ([bc447fe](https://github.com/leancodepl/js_corelibrary/commit/bc447fe7a29489998bac2491ebc0e95231292750))
+- add oidc tests in settings and remove unused code
+  ([11e5ced](https://github.com/leancodepl/js_corelibrary/commit/11e5ced570e0aedaeb4cd47c34e1db90e04e8135))
+- add recovery flow with basic settings flow
+  ([93370fa](https://github.com/leancodepl/js_corelibrary/commit/93370fa1fc93b22e845cfdd11018885862e6a1d6))
+- add redirecting after registration
+  ([bea20d5](https://github.com/leancodepl/js_corelibrary/commit/bea20d5376e81daedcda3214b3253ce92923ad9a))
+- add register flow
+  ([2de94c0](https://github.com/leancodepl/js_corelibrary/commit/2de94c08814fa4bd51b2b3d9e6f531c50f69a4c2))
+- add runInTask in loogut handler and replace invalidateQueries with removeQueries
+  ([dd54814](https://github.com/leancodepl/js_corelibrary/commit/dd54814b356451d3087fb4a5317382f7c214d917))
+- add settings and recovery tests
+  ([006de8a](https://github.com/leancodepl/js_corelibrary/commit/006de8ad993914ea998851a3ecce3d4af8220103))
+- add settings flow with traits passwords and passkeys
+  ([93bfd99](https://github.com/leancodepl/js_corelibrary/commit/93bfd9914b3d20a8c78b5cce6a67537778cec8c9))
+- add settings flow with traits passwords and passkeys
+  ([8e4993b](https://github.com/leancodepl/js_corelibrary/commit/8e4993b9fb6e618a192426850c3324e2f9372df8))
+- add totp form
+  ([0b9c14d](https://github.com/leancodepl/js_corelibrary/commit/0b9c14d70125786ef7ef6a23786e850643f4cefd))
+- add verification in login flow
+  ([2a5a035](https://github.com/leancodepl/js_corelibrary/commit/2a5a035e54604669d8d93fa7c9ea0454767d0eda))
+- add verification to registration flow
+  ([6b06997](https://github.com/leancodepl/js_corelibrary/commit/6b06997c18f6809ca6b22ead58c3859602e89830))
+- align verification after login implementation with verification after registration
+  ([763744f](https://github.com/leancodepl/js_corelibrary/commit/763744fda6bcd1c80f52d91cc5d6dbb481a6fcb7))
+- allow optional new password form
+  ([1cc5f24](https://github.com/leancodepl/js_corelibrary/commit/1cc5f247da4b9253c9bf53d11c563bab7e214e6e))
+- create factory for kratos flows
+  ([9a8237d](https://github.com/leancodepl/js_corelibrary/commit/9a8237da95ee3311a29e7f577394b46a3f17e864))
+- create logout custom hook
+  ([136018c](https://github.com/leancodepl/js_corelibrary/commit/136018c29a53ba1e490fbc4b319eddfd1366f687))
+- create traitPrefix const
+  ([ed24c61](https://github.com/leancodepl/js_corelibrary/commit/ed24c61a85549ba337b8a2155703b8677101944a))
+- extract getting input and checkbox error locators and remove google oidc credentials
+  ([1c46e51](https://github.com/leancodepl/js_corelibrary/commit/1c46e511e1318c7ec736d73737c53d94ba854c2f))
+- extract verification flow implementation from registration
+  ([0d7f988](https://github.com/leancodepl/js_corelibrary/commit/0d7f988b3c158966f731d42dc9ee84e93c196401))
+- handle invalid initial flow id
+  ([91cc049](https://github.com/leancodepl/js_corelibrary/commit/91cc04988f55fafa41739f82746a404307dd5f83))
+- hide traits and new password form before settings flow loaded
+  ([f2bd211](https://github.com/leancodepl/js_corelibrary/commit/f2bd21148ead310e4acb526738a4eddf8d9ae62a))
+- implement auth errors without enums
+  ([5481c7c](https://github.com/leancodepl/js_corelibrary/commit/5481c7c9d957e11aa84e18f5b1bd425adb8d9df8))
+- Implement error events and refactor existing error logic
+  ([6a1ea95](https://github.com/leancodepl/js_corelibrary/commit/6a1ea95b5256195c4a280ba11cc53c5420bf87bb))
+- implement error handling
+  ([4655fff](https://github.com/leancodepl/js_corelibrary/commit/4655fffbebd46a6029a9a105c94e2093ac8a0c82))
+- invalidate all lib queries on logout
+  ([1cb1a94](https://github.com/leancodepl/js_corelibrary/commit/1cb1a94a4a5e54728229097254e7496b7a08ccc3))
+- make query keys more specific to kratos lib
+  ([d06acce](https://github.com/leancodepl/js_corelibrary/commit/d06acce167a34542c61b745461805badf5bf8537))
+- move data test ids to object from UserInfoHeader and add minor refactor
+  ([8ecc0af](https://github.com/leancodepl/js_corelibrary/commit/8ecc0af2225358932047cefe4da84a6fbaaa73b1))
+- move data-testid hardcoded values to shared object
+  ([1baf658](https://github.com/leancodepl/js_corelibrary/commit/1baf65843310f800162a0ed3e5905fd55e422efb))
+- move redirecting from session manager to login flow
+  ([25cf273](https://github.com/leancodepl/js_corelibrary/commit/25cf273358c862ff774aef156a4e275d3e42e945))
+- preserve current state when removing param from url
+  ([85f4afb](https://github.com/leancodepl/js_corelibrary/commit/85f4afb77d923902b8c3bac50a5447c99e2e9410))
+- refactor settings flow and unify oidc button components
+  ([16c39b8](https://github.com/leancodepl/js_corelibrary/commit/16c39b863d5ad64129cf932f6687d0928d76f9d8))
+- registration with 2 steps and verification
+  ([def3fac](https://github.com/leancodepl/js_corelibrary/commit/def3fac8dc125ef1bd5df52fecdb5b869b7abbb4))
+- remove devtool buttons when running playwright due to overlaying other elements during tests
+  ([c4e9d61](https://github.com/leancodepl/js_corelibrary/commit/c4e9d616ddbf0baccdf3b82d14033c512f569dc1))
+- remove setting returnTo url query
+  ([710dc1e](https://github.com/leancodepl/js_corelibrary/commit/710dc1e1936c60bc4cb8ae30808350666330ec26))
+- remove test with login with passkeys
+  ([ef519a3](https://github.com/leancodepl/js_corelibrary/commit/ef519a39a7dc6cdf9df0b2212d54f0f6961937b9))
+- replace pasted kratos client files with openapi generated
+  ([5cb6588](https://github.com/leancodepl/js_corelibrary/commit/5cb65888b33ac7cf7ee0350917bdc3c5848df6f7))
+- separate kratos context from flow specific context
+  ([5e4e41b](https://github.com/leancodepl/js_corelibrary/commit/5e4e41bc04d8695c05f51ffd1602396ff5231cf3))
+- simplify settings flow id hook and fix settings flow error handling
+  ([f1cf5a5](https://github.com/leancodepl/js_corelibrary/commit/f1cf5a530dad6432d063a9c9f1815fdb5ac6a567))
+- types trait field names in settings and register errors
+  ([e48f2f7](https://github.com/leancodepl/js_corelibrary/commit/e48f2f727a46d7e9cf0a72b89e883da239154ae8))
+- update register user from api body
+  ([cb6876a](https://github.com/leancodepl/js_corelibrary/commit/cb6876a69f2bfe8d427db11c72150796d83e1d06))
+- upgrade eslint config to match the rest of the repo
+  ([8d40f16](https://github.com/leancodepl/js_corelibrary/commit/8d40f16ff660e4ec99a6daa6c3b0c00dd855e1d1))
+- upgrade flow manager and fix circular imports and add support for refresh login flow
+  ([60e5994](https://github.com/leancodepl/js_corelibrary/commit/60e59945b48f681954319fa8862c6af49844eef3))
+- upgrade return type of toUpperFirst
+  ([ad25db7](https://github.com/leancodepl/js_corelibrary/commit/ad25db795c3f65633a9c8f1adc85578c29403ab6))
+- use custom context hooks and refactor code
+  ([6d05588](https://github.com/leancodepl/js_corelibrary/commit/6d05588d500c954a66c0860e40b16ca826e62b79))
+- use more specified error codes
+  ([384fc56](https://github.com/leancodepl/js_corelibrary/commit/384fc56e49c113d5a978dab2d222c7309566fd05))
+- use react query in session manager
+  ([e5a1683](https://github.com/leancodepl/js_corelibrary/commit/e5a16837c58c0769c859268b1883f525abe4e8a1))
+- use tanstack router to remove flow id from url
+  ([c7bb36b](https://github.com/leancodepl/js_corelibrary/commit/c7bb36bb42c95bea9a3b128569c415457a24b205))
+- use verification implementation from verification flow inside login
+  ([b6a9ff4](https://github.com/leancodepl/js_corelibrary/commit/b6a9ff4a40bd0b18c83c7650554db5a914994263))
+- wrap passkey register with try-catch
+  ([8b19bd6](https://github.com/leancodepl/js_corelibrary/commit/8b19bd6e7969c239088889dc211b696f3d68b5a7))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.6.0](https://github.com/leancodepl/js_corelibrary/compare/v8.5.1...v8.6.0) (2025-07-16)
 
 ### Features

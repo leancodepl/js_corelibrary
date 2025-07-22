@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.0.0](https://github.com/leancodepl/js_corelibrary/compare/v8.6.0...v9.0.0) (2025-07-22)
+
+### Features
+
+- upgrade return type of toUpperFirst
+  ([ad25db7](https://github.com/leancodepl/js_corelibrary/commit/ad25db795c3f65633a9c8f1adc85578c29403ab6))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [8.6.0](https://github.com/leancodepl/js_corelibrary/compare/v8.5.1...v8.6.0) (2025-07-16)
 
 **Note:** Version bump only for package @leancodepl/utils
