@@ -24,7 +24,6 @@ npx @leancodepl/mail-translation --config custom-config.js
 Mail translation is configured using [lilconfig](https://github.com/antonk52/lilconfig). Valid configuration sources
 include:
 
-- `mail-translation` property in `package.json`
 - `.mail-translationrc.json` for raw JSON
 - `mail-translation.config.js`, `mail-translation.config.cjs`, `.mail-translationrc.js`, `.mail-translationrc.cjs` for
   JavaScript configuration files
