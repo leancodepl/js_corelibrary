@@ -587,7 +587,8 @@ Wykonaj działanie teraz: @Model.ActionUrl
 
 Numer referencyjny: @Model.ReferenceNumber
 
-Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@example.com",
+Potrzebujesz pomocy? Skontaktuj się z naszym zespołem wsparcia: support@example.com
+",
         "filename": "notification.pl.txt.cshtml",
       },
       {
@@ -603,7 +604,8 @@ Take Action Now: @Model.ActionUrl
 
 Reference: @Model.ReferenceNumber
 
-Need help? Contact our support team at support@example.com",
+Need help? Contact our support team at support@example.com
+",
         "filename": "notification.txt.cshtml",
       },
     ],

@@ -23,4 +23,4 @@
     <mj-button inner-padding="12px 20px" font-size="14px" font-weight="500" border-radius="8px" line-height="20px" background-color="#2563eb" />
     <mj-divider border-color="#e5e7eb" border-width="1px" />
   </mj-attributes>
-</mj-head> 
+</mj-head>

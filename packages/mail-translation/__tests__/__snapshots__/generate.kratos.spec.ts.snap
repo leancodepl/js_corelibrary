@@ -976,7 +976,8 @@ Account: {{ .Identity.traits.email }} | Plan: {{ .Identity.traits.subscription_p
 
 This is an automated message. Please do not reply to this email.
 
-© 2024 Example Company. All rights reserved. 
+© 2024 Example Company. All rights reserved.
+
 {{end}}
 
 {{define "pl"}}
@@ -992,7 +993,8 @@ Konto: {{ .Identity.traits.email }} | Plan: {{ .Identity.traits.subscription_pla
 
 To jest automatyczna wiadomość. Proszę nie odpowiadać na ten email.
 
-© 2024 Przykładowa Firma. Wszelkie prawa zastrzeżone. 
+© 2024 Przykładowa Firma. Wszelkie prawa zastrzeżone.
+
 {{end}}
 
 {{- if eq .Identity.traits.lang "pl" -}}
@@ -1017,7 +1019,8 @@ Account: {{ .Identity.traits.email }} | Plan: {{ .Identity.traits.subscription_p
 
 This is an automated message. Please do not reply to this email.
 
-© 2024 Example Company. All rights reserved. 
+© 2024 Example Company. All rights reserved.
+
 {{end}}
 
 {{define "pl"}}
@@ -1033,7 +1036,8 @@ Konto: {{ .Identity.traits.email }} | Plan: {{ .Identity.traits.subscription_pla
 
 To jest automatyczna wiadomość. Proszę nie odpowiadać na ten email.
 
-© 2024 Przykładowa Firma. Wszelkie prawa zastrzeżone. 
+© 2024 Przykładowa Firma. Wszelkie prawa zastrzeżone.
+
 {{end}}
 
 {{- if eq .Identity.traits.lang "pl" -}}

@@ -40,4 +40,4 @@
     <mj-button inner-padding="10px 16px" font-size="14px" font-weight="500" border-radius="6px" line-height="20px" background-color="#2563eb" />
     <mj-divider border-color="#d1d5db" border-width="1px" />
   </mj-attributes>
-</mj-head> 
+</mj-head>

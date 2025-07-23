@@ -1,1 +1,1 @@
-<mj-image align="center" padding-bottom="32px" width="120px" src="${storage}/static/kratos-logo.png" alt="((t 'welcome_title'))" /> 
+<mj-image align="center" padding-bottom="32px" width="120px" src="${storage}/static/kratos-logo.png" alt="((t 'welcome_title'))" />
