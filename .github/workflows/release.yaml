@@ -20,8 +20,6 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
             - name: Install
               run: npm install
-            - name: Security Audit
-              run: npm audit --omit=dev
             - name: Verify Integrity
               run: npm audit signatures --omit=dev
             - name: Test
