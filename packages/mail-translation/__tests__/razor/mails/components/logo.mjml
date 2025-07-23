@@ -1,1 +1,1 @@
-<mj-image align="center" padding-bottom="24px" width="150px" src="${storage}/static/company-logo.png" alt="{{t 'notification_title'}}" /> 
+<mj-image align="center" padding-bottom="24px" width="150px" src="${storage}/static/company-logo.png" alt="((t 'notification_title'))" /> 

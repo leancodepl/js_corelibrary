@@ -50,7 +50,7 @@ export function processTemplate({
   const translatedTemplates = languagesToProcess.map(language => {
     const translations = language ? (translationData[language] ?? {}) : {}
 
-    const translatedContent = processTranslations({ template: content, translations, language: language })
+    const translatedContent = processTranslations({ template: content, translations, language })
 
     return {
       name: template.name,

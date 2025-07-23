@@ -111,22 +111,22 @@ Example translation file (`en.json`):
 
 ### Template Syntax
 
-Use `{{t "key"}}` for simple translations:
+Use `((t "key"))` for simple translations:
 
 ```mjml
-<mj-text>{{t "welcome_title"}}</mj-text>
+<mj-text>((t "welcome_title"))</mj-text>
 ```
 
-Use `{{t "key", (param: "value")}}` for single parameter translations:
+Use `((t "key", {...}))` for parameterized translations with JSON objects:
 
 ```mjml
-<mj-text>{{t "welcome_greeting", (name: "{{ .Identity.traits.first_name }}")}}</mj-text>
+<mj-text>((t "welcome_greeting", {"name": "{{ .Identity.traits.first_name }}"}))</mj-text>
 ```
 
 Use multiple parameters for complex translations:
 
 ```mjml
-<mj-text>{{t "account_info", (email: "{{ .Identity.traits.email }}", plan: "{{ .Identity.traits.plan }}")}}</mj-text>
+<mj-text>((t "account_info", {"email": "{{ .Identity.traits.email }}", "plan": "{{ .Identity.traits.plan }}"}))</mj-text>
 ```
 
 ## Output Modes

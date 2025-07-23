@@ -1,7 +1,7 @@
 <mj-divider padding-bottom="20px" />
 <mj-text color="#6b7280" font-size="12px" line-height="18px" padding-bottom="16px" align="center">
-  {{t "reference_number", (ref: "@Model.ReferenceNumber")}}
+  ((t "reference_number", {"ref": "@Model.ReferenceNumber"}))
 </mj-text>
 <mj-text color="#9ca3af" font-size="11px" line-height="16px" align="center">
-  {{t "support_contact"}}
+  ((t "support_contact"))
 </mj-text> 

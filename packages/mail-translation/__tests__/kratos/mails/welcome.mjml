@@ -1,27 +1,27 @@
 <mjml>
   <mj-include path="./components/styles.mjml" />
   <mj-head>
-    <mj-title>{{t "welcome_title"}}</mj-title>
-    <mj-preview>{{t "welcome_preview"}}</mj-preview>
+    <mj-title>((t "welcome_title"))</mj-title>
+    <mj-preview>((t "welcome_preview"))</mj-preview>
   </mj-head>
   <mj-body>
     <mj-section>
       <mj-column>
         <mj-include path="./components/logo.mjml" />
         <mj-text mj-class="title">
-          {{t "welcome_title"}}
+          ((t "welcome_title"))
         </mj-text>
         <mj-text mj-class="body">
-          {{t "welcome_greeting", (name: "{{ .Identity.traits.first_name }}")}}
+          ((t "welcome_greeting", {"name": "{{ .Identity.traits.first_name }}"}))
         </mj-text>
         <mj-text mj-class="body">
-          {{t "welcome_message"}}
+          ((t "welcome_message"))
         </mj-text>
         <mj-text mj-class="code" css-class="code-block">
-          {{t "verification_code_label"}}: {{ .VerificationCode }}
+          ((t "verification_code_label")): {{ .VerificationCode }}
         </mj-text>
         <mj-text mj-class="body">
-          {{t "account_info", (email: "{{ .Identity.traits.email }}", plan: "{{ .Identity.traits.subscription_plan }}")}}
+          ((t "account_info", {"email": "{{ .Identity.traits.email }}", "plan": "{{ .Identity.traits.subscription_plan }}"}))
         </mj-text>
         <mj-include path="./components/footer.mjml" />
       </mj-column>

@@ -10,51 +10,29 @@ export function processTranslations({
   translations: Translations
   language?: string
 }): string {
-  const simpleTranslationRegex = /\{\{t\s+['"]([^'"]+)['"]\s*\}\}/g
+  const translationRegex = /\(\(t\s+['"]([^'"]+)['"]\s*(?:,\s*(\{.*?\}))?\s*\)\)/g
 
-  const parameterizedTranslationRegex = /\{\{t\s+['"]([^'"]+)['"],\s*\(([^)]+)\)\s*\}\}/g
+  const processedTemplate = template.replace(translationRegex, (match, key, jsonParams) => {
+    const translation = translations[key]
 
-  let processedTemplate = template.replace(parameterizedTranslationRegex, (match, key, paramString) => {
-    const translationPattern = translations[key]
-    if (!translationPattern || !language) {
+    if (!translation || !language) {
+      console.warn(`Translation is missing for key "${key}"` + (language ? ` for "${language}" language` : ""))
       return key
     }
 
-    try {
-      const params = parseParameters(paramString)
-
-      const formatter = new IntlMessageFormat(translationPattern, language)
-      return formatter.format(params)
-    } catch (error) {
-      console.warn(`Error formatting message for key "${key}":`, error)
-      return key
+    if (jsonParams && language) {
+      try {
+        const params = JSON.parse(jsonParams)
+        const formatter = new IntlMessageFormat(translation, language)
+        return formatter.format(params)
+      } catch (error) {
+        console.warn(`Error parsing JSON parameters or formatting message for key "${key}":`, error)
+        return key
+      }
+    } else {
+      return translation
     }
-  })
-
-  processedTemplate = processedTemplate.replace(simpleTranslationRegex, (match, key) => {
-    return translations[key] || key
   })
 
   return processedTemplate
-}
-
-function parseParameters(paramString: string): Record<string, string> {
-  const params: Record<string, string> = {}
-
-  const paramPairs = paramString.split(",").map(pair => pair.trim())
-
-  for (const pair of paramPairs) {
-    const colonIndex = pair.indexOf(":")
-    if (colonIndex === -1) continue
-
-    const key = pair.substring(0, colonIndex).trim()
-    const value = pair.substring(colonIndex + 1).trim()
-
-    params[key] =
-      (value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))
-        ? value.slice(1, -1)
-        : value
-  }
-
-  return params
 }

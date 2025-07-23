@@ -1,13 +1,13 @@
-{{t "notification_title"}}
+((t "notification_title"))
 
-{{t "user_greeting", (name: "@Model.User.FullName")}}
+((t "user_greeting", {"name": "@Model.User.FullName"}))
 
-{{t "status_update", (status: "@Model.Status", date: "@Model.UpdateDate")}}
+((t "status_update", {"status": "@Model.Status", "date": "@Model.UpdateDate"}))
 
-{{t "action_required", (action: "@Model.RequiredAction")}}
+((t "action_required", {"action": "@Model.RequiredAction"}))
 
-{{t "action_button"}}: @Model.ActionUrl
+((t "action_button")): @Model.ActionUrl
 
-{{t "reference_number", (ref: "@Model.ReferenceNumber")}}
+((t "reference_number", {"ref": "@Model.ReferenceNumber"}))
 
-{{t "support_contact"}}
+((t "support_contact"))
