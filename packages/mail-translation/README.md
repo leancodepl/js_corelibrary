@@ -29,35 +29,6 @@ include:
   JavaScript configuration files
 - Path to JavaScript/JSON/YAML config file passed via `--config/-c` parameter
 
-The package exports a JSON Schema file (`schema.json`) that can be used for configuration validation and IDE autocompletion.
-
-### Example Configuration
-
-**With translations:**
-
-```js
-module.exports = {
-  translationsPath: "./translations",
-  mailsPath: "./templates/mjml",
-  plaintextMailsPath: "./templates/plaintext",
-  outputPath: "./dist/emails",
-  outputMode: "kratos",
-  defaultLanguage: "en",
-  kratosLanguageVariable: ".Identity.traits.locale", // optional - defaults to .Identity.traits.lang
-  languages: ["en", "pl", "de"], // optional - will auto-detect from translation files
-}
-```
-
-**MJML compilation only (no translations):**
-
-```js
-module.exports = {
-  mailsPath: "./templates/mjml",
-  outputPath: "./dist/emails",
-  outputMode: "kratos",
-}
-```
-
 ### Configuration Options
 
 - `mailsPath` (`string`, **required**) - Path to directory containing MJML email templates
@@ -72,6 +43,46 @@ module.exports = {
   translation files are processed
 - `kratosLanguageVariable` (`string`, optional, **Kratos mode only**) - Variable path used for language detection in
   Kratos templates (defaults to `".Identity.traits.lang"`).
+
+### JSON Schema
+
+The package exports a JSON Schema file (`schema.json`) that can be used for configuration validation and IDE autocompletion.
+For JSON configuration files, add the `$schema` property to get autocompletion and validation. Example:
+
+```json
+{
+  "$schema": "./node_modules/@leancodepl/mail-translation/schema.json"
+}
+```
+
+### Example Configuration
+
+**With translations:**
+
+```json
+{
+  "$schema": "./node_modules/@leancodepl/mail-translation/schema.json",
+  "translationsPath": "./translations",
+  "mailsPath": "./templates/mjml",
+  "plaintextMailsPath": "./templates/plaintext",
+  "outputPath": "./dist/emails",
+  "outputMode": "kratos",
+  "defaultLanguage": "en",
+  "kratosLanguageVariable": ".Identity.traits.locale", // optional - defaults to .Identity.traits.lang
+  "languages": ["en", "pl", "de"] // optional - will auto-detect from translation files
+}
+```
+
+**MJML compilation only (no translations):**
+
+```json
+{
+  "$schema": "./node_modules/@leancodepl/mail-translation/schema.json",
+  "mailsPath": "./templates/mjml",
+  "outputPath": "./dist/emails",
+  "outputMode": "kratos"
+}
+```
 
 ## Template Structure
 
