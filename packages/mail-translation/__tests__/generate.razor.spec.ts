@@ -179,5 +179,8 @@ describe("generate function - Razor mode", () => {
 
     expect(htmlOutput?.content).toContain("notification_title")
     expect(htmlOutput?.content).toContain("user_greeting")
+
+    expect(htmlOutput?.content).not.toContain('((t "notification_title"))')
+    expect(htmlOutput?.content).not.toContain('((t "user_greeting", {"name": "@Model.User.FullName"}))')
   })
 })

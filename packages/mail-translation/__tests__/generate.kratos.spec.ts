@@ -171,7 +171,7 @@ describe("generate function - Kratos mode", () => {
     expect(htmlOutput?.content).toContain("welcome_title")
     expect(htmlOutput?.content).toContain("welcome_greeting")
 
-    expect(htmlOutput?.content).not.toContain('{{t "welcome_title"}}')
-    expect(htmlOutput?.content).not.toContain('{{t "welcome_greeting"}}')
+    expect(htmlOutput?.content).not.toContain('((t "welcome_title"))')
+    expect(htmlOutput?.content).not.toContain('((t "welcome_greeting", {"name": "{{ .Identity.traits.first_name }}"}))')
   })
 })
