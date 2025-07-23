@@ -29,6 +29,8 @@ include:
   JavaScript configuration files
 - Path to JavaScript/JSON/YAML config file passed via `--config/-c` parameter
 
+The package exports a JSON Schema file (`schema.json`) that can be used for configuration validation and IDE autocompletion.
+
 ### Example Configuration
 
 **With translations:**
