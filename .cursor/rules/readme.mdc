@@ -1,3 +1,7 @@
+---
+globs: README.md
+alwaysApply: false
+---
 # AI Rules for Creating Package READMEs
 
 ## 1. README Structure
