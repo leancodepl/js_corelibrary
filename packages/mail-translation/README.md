@@ -24,10 +24,11 @@ npx @leancodepl/mail-translation --config custom-config.js
 Mail translation is configured using [lilconfig](https://github.com/antonk52/lilconfig). Valid configuration sources
 include:
 
-- `.mail-translationrc.json` for raw JSON
+- `.mail-translationrc.json`, `.mail-translationrc` for JSON format
+- `.mail-translationrc.yaml`, `.mail-translationrc.yml` for YAML format
 - `mail-translation.config.js`, `mail-translation.config.cjs`, `.mail-translationrc.js`, `.mail-translationrc.cjs` for
   JavaScript configuration files
-- Path to JavaScript/JSON/YAML config file passed via `--config/-c` parameter
+- Path to JavaScript/JSON/YAML config file passed via optional `--config/-c` parameter
 
 ### Configuration Options
 
@@ -46,8 +47,8 @@ include:
 
 ### JSON Schema
 
-The package exports a JSON Schema file (`schema.json`) that can be used for configuration validation and IDE autocompletion.
-For JSON configuration files, add the `$schema` property to get autocompletion and validation. Example:
+The package exports a JSON Schema file (`schema.json`) that can be used for configuration validation and IDE
+autocompletion. For JSON configuration files, add the `$schema` property to get autocompletion and validation. Example:
 
 ```json
 {
@@ -138,7 +139,9 @@ Use `((t "key", {...}))` for parameterized translations with JSON objects:
 Use multiple parameters for complex translations:
 
 ```mjml
-<mj-text>((t "account_info", {"email": "{{ .Identity.traits.email }}", "plan": "{{ .Identity.traits.plan }}"}))</mj-text>
+<mj-text>
+  ((t "account_info", {"email": "{{ .Identity.traits.email }}", "plan": "{{ .Identity.traits.plan }}"}))
+</mj-text>
 ```
 
 ## Output Modes

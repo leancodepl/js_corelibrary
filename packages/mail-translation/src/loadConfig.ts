@@ -6,7 +6,19 @@ function loadYaml(filepath: string, content: string) {
   return yaml.parse(content)
 }
 
+const packageName = "mail-translation"
+
 const options: LilconfigOptionsSync = {
+  searchPlaces: [
+    `.${packageName}rc`,
+    `.${packageName}rc.json`,
+    `.${packageName}rc.yaml`,
+    `.${packageName}rc.yml`,
+    `.${packageName}rc.js`,
+    `.${packageName}rc.cjs`,
+    `${packageName}.config.js`,
+    `${packageName}.config.cjs`,
+  ],
   loaders: {
     ".yaml": loadYaml,
     ".yml": loadYaml,
