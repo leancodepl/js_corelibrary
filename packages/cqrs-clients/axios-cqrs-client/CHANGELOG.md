@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.2.0](https://github.com/leancodepl/js_corelibrary/compare/v9.1.0...v9.2.0) (2025-07-24)
+
+**Note:** Version bump only for package @leancodepl/axios-cqrs-client
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.1.0](https://github.com/leancodepl/js_corelibrary/compare/v9.0.0...v9.1.0) (2025-07-24)
 
 **Note:** Version bump only for package @leancodepl/axios-cqrs-client
