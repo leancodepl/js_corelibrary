@@ -6,7 +6,6 @@
     "mail-translation": "src/bin.js"
   },
   "dependencies": {
-    "cheerio": "1.0.0-rc.12",
     "intl-messageformat": "^10.7.16",
     "js-beautify": "^1.15.4",
     "lilconfig": "^3.1.3",
