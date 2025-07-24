@@ -14,7 +14,13 @@
         "outputPath": "dist/packages/config",
         "main": "packages/config/src/index.ts",
         "tsConfig": "packages/config/tsconfig.lib.json",
-        "assets": [],
+        "assets": [
+          {
+            "glob": "packages/config/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ],
         "project": "packages/config/package.json",
         "compiler": "swc",
         "format": [
