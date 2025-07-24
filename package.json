@@ -21,7 +21,7 @@
     "@nx/rollup": "21.3.1",
     "@nx/vite": "21.3.1",
     "@nx/web": "21.3.1",
-    "@openapitools/openapi-generator-cli": "2.21.2",
+    "@openapitools/openapi-generator-cli": "2.21.4",
     "@playwright/test": "1.54.1",
     "@rollup/plugin-url": "8.0.2",
     "@svgr/rollup": "8.1.0",
