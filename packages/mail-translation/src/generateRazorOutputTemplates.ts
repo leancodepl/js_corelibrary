@@ -53,11 +53,12 @@ function getFilename({
   template: TranslatedTemplate
   defaultLanguage?: string
 }): string {
-  if (template.language === defaultLanguage || !defaultLanguage) {
-    return template.isPlaintext ? `${template.name}.txt.cshtml` : `${template.name}.cshtml`
-  } else {
-    return template.isPlaintext
-      ? `${template.name}.${template.language}.txt.cshtml`
-      : `${template.name}.${template.language}.cshtml`
-  }
+  const includeLanguage = !!defaultLanguage && !!template.language && template.language !== defaultLanguage
+
+  return [
+    template.name,
+    ...(includeLanguage ? [template.language] : []),
+    ...(template.isPlaintext ? ["txt"] : []),
+    "cshtml",
+  ].join(".")
 }
