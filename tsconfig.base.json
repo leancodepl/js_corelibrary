@@ -29,6 +29,7 @@
       "@leancodepl/api-date-dayjs": ["packages/cqrs-clients/custom-types/date/api-date-dayjs/src/index.ts"],
       "@leancodepl/api-date-utils": ["packages/cqrs-clients/custom-types/date/api-date-utils/src/index.ts"],
       "@leancodepl/axios-cqrs-client": ["packages/cqrs-clients/axios-cqrs-client/src/index.ts"],
+      "@leancodepl/config": ["packages/config/src/index.ts"],
       "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
       "@leancodepl/feature-flags-react-client": ["packages/feature-flags/feature-flags-react-client/src/index.ts"],
       "@leancodepl/force-update": ["packages/force-update/src/index.ts"],
