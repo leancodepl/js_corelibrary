@@ -1,0 +1,34 @@
+<mjml>
+  <mj-include path="./components/styles.mjml" />
+  <mj-head>
+    <mj-title>((t "notification_title"))</mj-title>
+    <mj-preview>((t "notification_preview"))</mj-preview>
+  </mj-head>
+  <mj-body>
+    <mj-section css-class="header">
+      <mj-column>
+        <mj-include path="./components/logo.mjml" />
+        <mj-text mj-class="title" color="white">
+          ((t "notification_title"))
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section mj-class="main-section">
+      <mj-column>
+        <mj-text mj-class="body">
+          ((t "user_greeting", {"name": "@Model.User.FullName"}))
+        </mj-text>
+        <mj-text mj-class="body" css-class="alert-box">
+          ((t "status_update", {"status": "@Model.Status", "date": "@Model.UpdateDate"}))
+        </mj-text>
+        <mj-text mj-class="body">
+          ((t "action_required", {"action": "@Model.RequiredAction"}))
+        </mj-text>
+        <mj-button href="@Model.ActionUrl">
+          ((t "action_button"))
+        </mj-button>
+        <mj-include path="./components/footer.mjml" />
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

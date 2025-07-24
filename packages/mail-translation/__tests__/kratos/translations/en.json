@@ -1,0 +1,10 @@
+{
+  "welcome_title": "Welcome to our platform!",
+  "welcome_preview": "Complete your registration",
+  "welcome_greeting": "Hello {name}!",
+  "welcome_message": "Thank you for registering with us. Please use the verification code below to complete your account setup.",
+  "verification_code_label": "Verification Code",
+  "account_info": "Account: {email} | Plan: {plan}",
+  "footer_note": "This is an automated message. Please do not reply to this email.",
+  "company_info": "© 2024 Example Company. All rights reserved."
+}
