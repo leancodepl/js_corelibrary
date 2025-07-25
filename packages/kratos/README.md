@@ -71,15 +71,23 @@ Manages Ory Kratos session and identity state with React Query integration.
 To use the library, you need to create new instance of Kratos client with `mkKratos` factory:
 
 ```typescript
-// kratosService.ts
+// traits.ts
 
-import { queryClient } from "./queryService"
-
-const traitsConfig = {
+export const traitsConfig = {
   Email: { trait: "email", type: "string" },
   GivenName: { trait: "given_name", type: "string" },
   RegulationsAccepted: { trait: "regulations_accepted", type: "boolean" },
 } as const
+
+export type AuthTraitsConfig = typeof traitsConfig
+```
+
+```typescript
+// kratosService.ts
+
+import { environment } from "./environments"
+import { queryClient } from "./queryService"
+import { traitsConfig } from "./traits"
 
 const {
   session: { sessionManager },
@@ -99,9 +107,6 @@ export { KratosProviders }
 
 // flows
 export { LoginFlow, RecoveryFlow, RegistrationFlow, SettingsFlow, useLogout, VerificationFlow }
-
-// traits
-export type AuthTraitsConfig = typeof traitsConfig
 ```
 
 And then wrap your app with `KratosProviders` from `mkKratos`:
@@ -126,6 +131,73 @@ function App() {
     </QueryClientProvider>
   )
 }
+```
+
+### Extending session manager
+
+You can add new functionalities to the session manager by extending `BaseSessionManager` class:
+
+```typescript
+// session.ts
+
+import { queryClient } from "./queryService"
+import type { AuthTraitsConfig } from "./traits"
+
+export class SessionManager extends BaseSessionManager<AuthTraitsConfig> {
+  getTraits = async () => {
+    const identity = await this.getIdentity()
+
+    return identity?.traits
+  }
+
+  getEmail = async () => {
+    const traits = await this.getTraits()
+
+    return traits?.email
+  }
+
+  // Hooks for React components
+
+  useTraits = () => {
+    const { identity, isLoading, error } = this.useIdentity()
+
+    return {
+      traits: identity?.traits,
+      isLoading,
+      error,
+    }
+  }
+
+  useEmail = () => {
+    const { traits, isLoading, error } = this.useTraits()
+
+    return {
+      email: traits?.email,
+      isLoading,
+      error,
+    }
+  }
+}
+```
+
+```typescript
+// kratosService.ts
+
+import { environment } from "./environments"
+import { queryClient } from "./queryService"
+import { SessionManager } from "./session"
+import { traitsConfig } from "./traits"
+
+const {
+  session: { sessionManager },
+  providers: { KratosProviders },
+  flows: { LoginFlow, RegistrationFlow, SettingsFlow, VerificationFlow, RecoveryFlow, useLogout },
+} = mkKratos({
+  queryClient,
+  basePath: environment.authUrl,
+  traits: traitsConfig,
+  SessionManager,
+})
 ```
 
 ### Session Management
@@ -352,7 +424,7 @@ export const Input = ({ errors, ...props }: InputProps) => (
 ```tsx
 import { loginFlow } from "@leancodepl/kratos"
 import { LoginFlow, getErrorMessage } from "./kratosService"
-import type { AuthTraitsConfig } from "./kratosService"
+import type { AuthTraitsConfig } from "./traits"
 
 function LoginPage() {
   return (
@@ -481,7 +553,7 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 ```tsx
 import { registrationFlow } from "@leancodepl/kratos"
 import { RegistrationFlow, getErrorMessage } from "./kratosService"
-import type { AuthTraitsConfig } from "./kratosService"
+import type { AuthTraitsConfig } from "./traits"
 
 function RegisterPage() {
   return (
