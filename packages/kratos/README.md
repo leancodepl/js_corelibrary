@@ -140,6 +140,7 @@ You can add new functionalities to the session manager by extending `BaseSession
 ```typescript
 // session.ts
 
+import { BaseSessionManager } from "@leancodepl/kratos"
 import { queryClient } from "./queryService"
 import type { AuthTraitsConfig } from "./traits"
 
