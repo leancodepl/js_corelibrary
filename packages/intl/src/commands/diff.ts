@@ -43,19 +43,6 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
     } else {
       console.log("\nAll local terms are present in remote")
     }
-
-    console.log(`\nChecking default language translation differences...`)
-
-    if (localTerms.size === remoteTermSet.size) {
-      console.log("Term counts match perfectly")
-    } else {
-      const difference = Math.abs(localTerms.size - remoteTermSet.size)
-      console.log(`Term count difference: ${difference}`)
-    }
-
-    const matchingTerms = [...localTerms].filter(term => remoteTermSet.has(term))
-    console.log(`Matching terms: ${matchingTerms.length}`)
-    console.log(`Total unique terms: ${new Set([...localTerms, ...remoteTermSet]).size}`)
   } catch (error) {
     console.error("Error in diff command:", error)
     process.exit(1)
