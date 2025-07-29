@@ -1,33 +1,32 @@
 /* eslint-disable no-console */
 import { mkdirSync } from "fs"
 import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"
-import { mkTranslationsServiceClient } from "../mkTranslationsServiceClient"
+import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface DownloadCommandOptions {
   outputDir: string
   languages: string[]
-  poeditorApiToken: string
-  poeditorProjectId: number
+  translationsServiceClient: TranslationsServiceClient
 }
 
-export async function download(options: DownloadCommandOptions): Promise<void> {
+export async function download({
+  outputDir,
+  languages,
+  translationsServiceClient,
+}: DownloadCommandOptions): Promise<void> {
   try {
-    console.log("Starting download from POEditor...")
+    console.log("Starting download from translation service...")
 
-    console.log(`Downloading translations for languages: ${options.languages.join(", ")}`)
+    console.log(`Downloading translations for languages: ${languages.join(", ")}`)
 
-    const client = mkTranslationsServiceClient({
-      poeditorApiToken: options.poeditorApiToken,
-      poeditorProjectId: options.poeditorProjectId,
-    })
     const tempDir = createTranslationsTempDir("download-")
 
     try {
-      for (const language of options.languages) {
+      for (const language of languages) {
         console.log(`Downloading ${language} translations...`)
 
-        const translations = await client.downloadTranslations(language)
-        writeTranslationsToTempDir(translations, language, tempDir)
+        const translations = await translationsServiceClient.downloadTranslations(language)
+        writeTranslationsToTempDir({ translations, language, tempDir })
 
         const translationCount = Object.keys(translations).length
         console.log(`Downloaded ${translationCount} translations for ${language}`)
@@ -35,11 +34,11 @@ export async function download(options: DownloadCommandOptions): Promise<void> {
 
       console.log("Compiling translations...")
 
-      mkdirSync(options.outputDir, { recursive: true })
+      mkdirSync(outputDir, { recursive: true })
 
-      await compileTranslations(tempDir, options.outputDir)
+      await compileTranslations({ inputDir: tempDir, outputDir })
 
-      console.log(`Compiled translations saved to ${options.outputDir}`)
+      console.log(`Compiled translations saved to ${outputDir}`)
     } finally {
       const { rmSync } = await import("fs")
       rmSync(tempDir, { recursive: true, force: true })

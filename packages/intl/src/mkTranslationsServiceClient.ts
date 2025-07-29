@@ -3,10 +3,13 @@ import type { TranslationsServiceClient } from "./TranslationsServiceClient"
 
 export type TranslationsService = "poeditor"
 
-export function mkTranslationsServiceClient(
-  config: { poeditorApiToken?: string; poeditorProjectId: number },
-  provider: TranslationsService = "poeditor",
-): TranslationsServiceClient {
+export function mkTranslationsServiceClient({
+  config,
+  provider = "poeditor",
+}: {
+  config: { poeditorApiToken?: string; poeditorProjectId: number }
+  provider?: TranslationsService
+}): TranslationsServiceClient {
   switch (provider) {
     case "poeditor":
       if (!config.poeditorApiToken || !config.poeditorProjectId) {

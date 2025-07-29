@@ -1,19 +1,22 @@
 /* eslint-disable no-console */
 import { extractMessages } from "../formatjs"
-import { mkTranslationsServiceClient } from "../mkTranslationsServiceClient"
+import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface UploadCommandOptions {
   srcPattern: string
-  poeditorApiToken: string
-  poeditorProjectId: number
+  translationsServiceClient: TranslationsServiceClient
   defaultLanguage: string
 }
 
-export async function upload(options: UploadCommandOptions): Promise<void> {
+export async function upload({
+  srcPattern,
+  translationsServiceClient,
+  defaultLanguage,
+}: UploadCommandOptions): Promise<void> {
   try {
     console.log("Extracting messages from source files...")
 
-    const messages = await extractMessages(options.srcPattern)
+    const messages = await extractMessages(srcPattern)
     const messageCount = Object.keys(messages).length
 
     console.log(`Found ${messageCount} messages`)
@@ -23,18 +26,13 @@ export async function upload(options: UploadCommandOptions): Promise<void> {
       return
     }
 
-    console.log("Uploading terms to POEditor...")
+    console.log("Uploading terms to translation service...")
 
-    const client = mkTranslationsServiceClient({
-      poeditorApiToken: options.poeditorApiToken,
-      poeditorProjectId: options.poeditorProjectId,
-    })
+    await translationsServiceClient.uploadTerms(messages)
 
-    await client.uploadTerms(messages)
+    console.log(`Uploading default translations (${defaultLanguage}) to translation service...`)
 
-    console.log(`Uploading default translations (${options.defaultLanguage}) to POEditor...`)
-
-    await client.uploadTranslations(messages, options.defaultLanguage)
+    await translationsServiceClient.uploadTranslations(messages, defaultLanguage)
 
     console.log("Upload completed successfully!")
     console.log("Use 'download' command to fetch translated content.")

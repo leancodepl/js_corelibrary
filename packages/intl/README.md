@@ -10,17 +10,11 @@ npm install -D @leancodepl/intl
 
 ## Setup
 
-1. Create a `.env` file in your project root:
+Configure your POEditor credentials using environment variables:
 
 ```bash
-cp packages/intl/.env.example .env
-```
-
-2. Configure your POEditor credentials:
-
-```env
-POEDITOR_API_TOKEN=your_poeditor_api_token_here
-POEDITOR_PROJECT_ID=123456
+export POEDITOR_API_TOKEN=your_poeditor_api_token_here
+export POEDITOR_PROJECT_ID=123456
 ```
 
 ## Commands

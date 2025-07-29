@@ -39,11 +39,15 @@ export async function extractMessages(pattern = "src/**/*.{ts,tsx}"): Promise<Ex
   }
 }
 
-export async function compileTranslations(
-  inputDir: string,
-  outputDir: string,
-  options: { ast?: boolean; format?: string } = {},
-): Promise<void> {
+export async function compileTranslations({
+  inputDir,
+  outputDir,
+  options = {},
+}: {
+  inputDir: string
+  outputDir: string
+  options?: { ast?: boolean; format?: string }
+}): Promise<void> {
   const { ast = true, format = "simple" } = options
 
   try {
@@ -68,11 +72,15 @@ export function createTranslationsTempDir(prefix = "intl-"): string {
   return mkdtempSync(join(tmpdir(), prefix))
 }
 
-export function writeTranslationsToTempDir(
-  translations: Record<string, string>,
-  language: string,
-  tempDir: string,
-): string {
+export function writeTranslationsToTempDir({
+  translations,
+  language,
+  tempDir,
+}: {
+  translations: Record<string, string>
+  language: string
+  tempDir: string
+}): string {
   const filePath = join(tempDir, `${language}.json`)
   writeFileSync(filePath, JSON.stringify(translations, null, 2))
   return filePath
