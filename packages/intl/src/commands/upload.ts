@@ -8,18 +8,14 @@ export interface UploadCommandOptions {
   defaultLanguage: string
 }
 
-export async function upload({
-  srcPattern,
-  translationsServiceClient,
-  defaultLanguage,
-}: UploadCommandOptions): Promise<void> {
+export async function upload({ srcPattern, translationsServiceClient, defaultLanguage }: UploadCommandOptions) {
   try {
     console.log("Extracting messages from source files...")
 
     const messages = await extractMessages(srcPattern)
     const messageCount = Object.keys(messages).length
 
-    console.log(`Found ${messageCount} messages`)
+    console.log(`Extracted ${messageCount} messages`)
 
     if (messageCount === 0) {
       console.log("No messages found. Make sure your source files contain formatjs messages.")
@@ -35,7 +31,6 @@ export async function upload({
     await translationsServiceClient.uploadTranslations(messages, defaultLanguage)
 
     console.log("Upload completed successfully!")
-    console.log("Use 'download' command to fetch translated content.")
   } catch (error) {
     console.error("Error in upload command:", error)
     process.exit(1)

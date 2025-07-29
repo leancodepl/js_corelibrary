@@ -7,7 +7,7 @@ export interface DiffCommandOptions {
   translationsServiceClient: TranslationsServiceClient
 }
 
-export async function diff({ srcPattern, translationsServiceClient }: DiffCommandOptions): Promise<void> {
+export async function diff({ srcPattern, translationsServiceClient }: DiffCommandOptions) {
   try {
     console.log("Analyzing differences between local and remote translations...")
 

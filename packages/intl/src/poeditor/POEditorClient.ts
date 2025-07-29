@@ -10,28 +10,28 @@ import {
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface POEditorClientConfig {
-  poeditorApiToken: string
-  poeditorProjectId: number
+  token: string
+  projectId: number
 }
 
 export class POEditorClient implements TranslationsServiceClient {
-  private poeditorApiToken: string
-  private poeditorProjectId: number
+  private token: string
+  private projectId: number
   private axiosInstance: AxiosInstance
   private projectsApi: ProjectsApi
   private termsApi: TermsApi
   private translationsApi: TranslationsApi
 
   constructor(config: POEditorClientConfig) {
-    this.poeditorApiToken = config.poeditorApiToken
-    this.poeditorProjectId = config.poeditorProjectId
+    this.token = config.token
+    this.projectId = config.projectId
 
     this.axiosInstance = axios.create({
       baseURL: "https://api.poeditor.com/v2",
     })
 
     const apiConfig = new Configuration({
-      apiKey: config.poeditorApiToken,
+      apiKey: config.token,
     })
 
     this.projectsApi = new ProjectsApi(apiConfig, undefined, this.axiosInstance)
@@ -42,10 +42,10 @@ export class POEditorClient implements TranslationsServiceClient {
   async downloadTranslations(language: string): Promise<Record<string, string>> {
     try {
       const response = await this.projectsApi.projectsExport(
-        this.poeditorProjectId,
+        this.projectId,
         language,
         ProjectsExportTypeEnum.KeyValueJson,
-        this.poeditorApiToken,
+        this.token,
       )
 
       if (response.data.result?.url) {
@@ -61,14 +61,14 @@ export class POEditorClient implements TranslationsServiceClient {
 
   async uploadTerms(messages: ExtractedMessages): Promise<void> {
     try {
-      const terms = Object.entries(messages).map(([key, message]) => ({
+      const terms: Term[] = Object.entries(messages).map(([key, details]) => ({
         term: key,
-        context: message.description || "",
-        reference: message.file || "",
-        plural: "",
+        context: details.description,
+        reference: details.file,
+        comment: `Default: ${details.defaultMessage}`,
       }))
 
-      await this.termsApi.termsAdd(this.poeditorProjectId, JSON.stringify(terms), this.poeditorApiToken)
+      await this.termsApi.termsAdd(this.projectId, JSON.stringify(terms), this.token)
     } catch (error) {
       throw new Error(`Failed to upload terms: ${error}`)
     }
@@ -76,17 +76,15 @@ export class POEditorClient implements TranslationsServiceClient {
 
   async uploadTranslations(messages: ExtractedMessages, language: string): Promise<void> {
     try {
-      const translations = Object.entries(messages).map(([key, message]) => ({
-        term: key,
-        definition: message.defaultMessage,
+      const translations = Object.entries(messages).map(([term, details]) => ({
+        term,
+        translation: {
+          content: details.defaultMessage,
+          fuzzy: 0,
+        },
       }))
 
-      await this.translationsApi.translationsAdd(
-        this.poeditorProjectId,
-        language,
-        JSON.stringify(translations),
-        this.poeditorApiToken,
-      )
+      await this.translationsApi.translationsAdd(this.projectId, language, JSON.stringify(translations), this.token)
     } catch (error) {
       throw new Error(`Failed to upload translations for ${language}: ${error}`)
     }
@@ -94,14 +92,14 @@ export class POEditorClient implements TranslationsServiceClient {
 
   async downloadTerms(): Promise<Term[]> {
     try {
-      const response = await this.termsApi.termsList(this.poeditorProjectId, this.poeditorApiToken)
+      const response = await this.termsApi.termsList(this.projectId, this.token)
 
       if (response.data.result?.terms) {
-        return response.data.result.terms.map((term: any) => ({
+        return response.data.result.terms.map(term => ({
           term: term.term || "",
           context: term.context || "",
           reference: term.reference || "",
-          plural: term.plural || "",
+          comment: term.comment || "",
         }))
       }
 

@@ -4,7 +4,7 @@ export interface Term {
   term: string
   context?: string
   reference?: string
-  plural?: string
+  comment?: string
 }
 
 export interface TranslationsServiceClient {

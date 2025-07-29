@@ -21,7 +21,7 @@ export async function local({
   outputDir,
   srcPattern,
   translationsServiceClient,
-}: LocalCommandOptions): Promise<void> {
+}: LocalCommandOptions) {
   try {
     const extractedTranslations = await extractAndCompile({ srcPattern, defaultLanguage })
 

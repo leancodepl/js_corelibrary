@@ -17,8 +17,8 @@ export function mkTranslationsServiceClient({
       }
 
       return new POEditorClient({
-        poeditorApiToken: config.poeditorApiToken,
-        poeditorProjectId: config.poeditorProjectId,
+        token: config.poeditorApiToken,
+        projectId: config.poeditorProjectId,
       })
     default:
       throw new Error(`Unsupported translations service: ${provider}`)

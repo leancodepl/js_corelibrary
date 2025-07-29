@@ -9,11 +9,7 @@ export interface DownloadCommandOptions {
   translationsServiceClient: TranslationsServiceClient
 }
 
-export async function download({
-  outputDir,
-  languages,
-  translationsServiceClient,
-}: DownloadCommandOptions): Promise<void> {
+export async function download({ outputDir, languages, translationsServiceClient }: DownloadCommandOptions) {
   try {
     console.log("Starting download from translation service...")
 

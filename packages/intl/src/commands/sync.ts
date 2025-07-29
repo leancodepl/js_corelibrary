@@ -17,7 +17,7 @@ export async function sync({
   languages,
   translationsServiceClient,
   defaultLanguage,
-}: SyncCommandOptions): Promise<void> {
+}: SyncCommandOptions) {
   try {
     console.log("Starting sync operation...")
 
