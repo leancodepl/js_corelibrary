@@ -16,7 +16,7 @@ program
   .description("Extract, download from translation service, and compile formatjs translations locally")
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
-  .option("-d, --default-language <lang>", "Default language for translations", "en")
+  .option("-d, --default-language <lang>", "Default language for translations")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .action(async options => {
@@ -52,7 +52,7 @@ program
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
-  .option("-d, --default-language <lang>", "Default language for translations", "en")
+  .option("-d, --default-language <lang>", "Default language for translations")
   .action(async options => {
     const config = mergeWithEnv({
       srcPattern: options.srcPattern,
@@ -90,15 +90,10 @@ program
   .action(async options => {
     const config = mergeWithEnv({
       outputDir: options.outputDir,
-      languages: options.languages || ["en", "pl"],
+      languages: options.languages,
       poeditorApiToken: options.poeditorToken,
       poeditorProjectId: options.poeditorProjectId,
     })
-
-    if (!config.poeditorApiToken || !config.poeditorProjectId) {
-      console.error("Translation service API token and project ID are required for download command")
-      process.exit(1)
-    }
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {
@@ -122,21 +117,16 @@ program
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
-  .option("-d, --default-language <lang>", "Default language for translations", "en")
+  .option("-d, --default-language <lang>", "Default language for translations")
   .action(async options => {
     const config = mergeWithEnv({
       srcPattern: options.srcPattern,
       outputDir: options.outputDir,
-      languages: options.languages || ["en", "pl"],
+      languages: options.languages,
       poeditorApiToken: options.poeditorToken,
       poeditorProjectId: options.poeditorProjectId,
       defaultLanguage: options.defaultLanguage,
     })
-
-    if (!config.poeditorApiToken || !config.poeditorProjectId) {
-      console.error("Translation service API token and project ID are required for sync command")
-      process.exit(1)
-    }
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {
@@ -166,11 +156,6 @@ program
       poeditorApiToken: options.poeditorToken,
       poeditorProjectId: options.poeditorProjectId,
     })
-
-    if (!config.poeditorApiToken || !config.poeditorProjectId) {
-      console.error("Translation service API token and project ID are required for diff command")
-      process.exit(1)
-    }
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {
