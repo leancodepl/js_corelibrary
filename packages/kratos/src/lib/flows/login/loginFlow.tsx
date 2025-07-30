@@ -58,6 +58,7 @@ function LoginFlowWrapper({
         onFlowRestart,
         createFlow: createLoginFlow,
         setFlowId: setLoginFlowId,
+        waitForSession: true,
     })
 
     useEffect(() => {
