@@ -19,7 +19,7 @@ export const useFlowManager = ({
     onFlowRestart,
     createFlow,
     setFlowId,
-    waitForSession = false,
+    waitForSession,
 }: UseFlowManagerProps) => {
     const [initialFlowIdUsed, setInitialFlowIdUsed] = useState(false)
     const [prevInitialFlowId, setPrevInitialFlowId] = useState(initialFlowId)
