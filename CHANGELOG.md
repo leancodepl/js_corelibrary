@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.2.1](https://github.com/leancodepl/js_corelibrary/compare/v9.2.0...v9.2.1) (2025-07-30)
+
+### Bug Fixes
+
+- fix another typo
+  ([abf0f95](https://github.com/leancodepl/js_corelibrary/commit/abf0f9561d3128ed500c244eb1a23c8221431cb1))
+- fix flow creation for totp form when app dont fetch session on its own before form
+  ([f40b3ac](https://github.com/leancodepl/js_corelibrary/commit/f40b3aca0b2ec44e3f58770399985b78d1d61b8c))
+- fix kratos error typo
+  ([14bfec3](https://github.com/leancodepl/js_corelibrary/commit/14bfec3f17a15c9b5165d0976f5ddad3dd76a861))
+
+### Features
+
+- remove useMemo
+  ([f71205a](https://github.com/leancodepl/js_corelibrary/commit/f71205abeb4c708fab4f08b20ed341be01b1a92c))
+- return OpenFeature.setContext in mkFeatureFlags
+  ([b388a28](https://github.com/leancodepl/js_corelibrary/commit/b388a28074fd1ead105ec73416b5c2193e4b84be))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.2.0](https://github.com/leancodepl/js_corelibrary/compare/v9.1.0...v9.2.0) (2025-07-24)
 
 ### Bug Fixes
