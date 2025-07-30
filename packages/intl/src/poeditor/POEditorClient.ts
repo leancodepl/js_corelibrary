@@ -1,21 +1,15 @@
 import axios, { AxiosInstance } from "axios"
 import { ExtractedMessages } from "../formatjs"
-import {
-  Configuration,
-  ProjectsApi,
-  ProjectsExportTypeEnum,
-  TermsApi,
-  TranslationsApi,
-} from "../poeditor/api.generated"
+import { Configuration, ProjectsApi, ProjectsExportTypeEnum, TermsApi, TranslationsApi } from "./api.generated"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface POEditorClientConfig {
-  token: string
+  apiToken: string
   projectId: number
 }
 
 export class POEditorClient implements TranslationsServiceClient {
-  private token: string
+  private apiToken: string
   private projectId: number
   private axiosInstance: AxiosInstance
   private projectsApi: ProjectsApi
@@ -23,7 +17,7 @@ export class POEditorClient implements TranslationsServiceClient {
   private translationsApi: TranslationsApi
 
   constructor(config: POEditorClientConfig) {
-    this.token = config.token
+    this.apiToken = config.apiToken
     this.projectId = config.projectId
 
     this.axiosInstance = axios.create({
@@ -31,7 +25,7 @@ export class POEditorClient implements TranslationsServiceClient {
     })
 
     const apiConfig = new Configuration({
-      apiKey: config.token,
+      apiKey: config.apiToken,
     })
 
     this.projectsApi = new ProjectsApi(apiConfig, undefined, this.axiosInstance)
@@ -45,7 +39,7 @@ export class POEditorClient implements TranslationsServiceClient {
         this.projectId,
         language,
         ProjectsExportTypeEnum.KeyValueJson,
-        this.token,
+        this.apiToken,
       )
 
       if (response.data.result?.url) {
@@ -68,7 +62,7 @@ export class POEditorClient implements TranslationsServiceClient {
         comment: `Default: ${details.defaultMessage}`,
       }))
 
-      await this.termsApi.termsAdd(this.projectId, JSON.stringify(terms), this.token)
+      await this.termsApi.termsAdd(this.projectId, JSON.stringify(terms), this.apiToken)
     } catch (error) {
       throw new Error(`Failed to upload terms: ${error}`)
     }
@@ -84,7 +78,7 @@ export class POEditorClient implements TranslationsServiceClient {
         },
       }))
 
-      await this.translationsApi.translationsAdd(this.projectId, language, JSON.stringify(translations), this.token)
+      await this.translationsApi.translationsAdd(this.projectId, language, JSON.stringify(translations), this.apiToken)
     } catch (error) {
       throw new Error(`Failed to upload translations for ${language}: ${error}`)
     }
@@ -92,7 +86,7 @@ export class POEditorClient implements TranslationsServiceClient {
 
   async downloadTerms(): Promise<Term[]> {
     try {
-      const response = await this.termsApi.termsList(this.projectId, this.token)
+      const response = await this.termsApi.termsList(this.projectId, this.apiToken)
 
       if (response.data.result?.terms) {
         return response.data.result.terms.map(term => ({

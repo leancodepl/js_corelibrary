@@ -38,7 +38,7 @@ npx @leancodepl/intl local [options]
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-d, --default-language <lang>` - Default language for translations (required when using POEditor integration)
-- `-t, --poeditor-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var)
+- `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var)
 
 
@@ -55,7 +55,7 @@ npx @leancodepl/intl upload [options]
 **Options:**
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
 - `-d, --default-language <lang>` - Default language for translations (required)
-- `-t, --poeditor-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
+- `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
 
 ### `download`
@@ -70,7 +70,7 @@ npx @leancodepl/intl download [options]
 **Options:**
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
-- `-t, --poeditor-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
+- `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
 
 ### `sync`
@@ -87,7 +87,7 @@ npx @leancodepl/intl sync [options]
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
 - `-d, --default-language <lang>` - Default language for translations (required)
-- `-t, --poeditor-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
+- `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
 
 ### `diff`
@@ -101,7 +101,7 @@ npx @leancodepl/intl diff [options]
 
 **Options:**
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
-- `-t, --poeditor-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
+- `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
 
 ## Nx Configuration

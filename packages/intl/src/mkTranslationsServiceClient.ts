@@ -17,7 +17,7 @@ export function mkTranslationsServiceClient({
       }
 
       return new POEditorClient({
-        token: config.poeditorApiToken,
+        apiToken: config.poeditorApiToken,
         projectId: config.poeditorProjectId,
       })
     default:

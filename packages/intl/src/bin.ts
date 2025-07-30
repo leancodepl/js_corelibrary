@@ -11,7 +11,7 @@ import { mergeWithEnv } from "./mergeWithEnv"
 import { mkTranslationsServiceClient } from "./mkTranslationsServiceClient"
 
 const poeditorOptionsSchema = z.object({
-  poeditorToken: z.string().optional(),
+  poeditorApiToken: z.string().optional(),
   poeditorProjectId: z.number().optional(),
 })
 
@@ -23,7 +23,7 @@ program
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-d, --default-language <lang>", "Default language for translations")
-  .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
+  .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = localCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
@@ -52,7 +52,7 @@ program
   .command("upload")
   .description("Extract terms and upload to translation service")
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
-  .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
+  .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
   .action(async (options: unknown) => {
@@ -84,7 +84,7 @@ program
   .description("Download translations from translation service and compile them")
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-l, --languages <langs...>", "Languages to download")
-  .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
+  .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = downloadCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
@@ -111,7 +111,7 @@ program
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-l, --languages <langs...>", "Languages to download")
-  .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
+  .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
   .action(async (options: unknown) => {
@@ -139,7 +139,7 @@ program
   .command("diff")
   .description("Compare local terms with translation service to find unused terms")
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
-  .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
+  .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = diffCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
