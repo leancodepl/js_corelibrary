@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
+import { exec } from "child_process"
 import { writeFileSync } from "fs"
 import { mkdir } from "fs/promises"
 import { join } from "path"
+import { promisify } from "util"
+
+const execAsync = promisify(exec)
 
 const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./openapi-schema"
@@ -23,38 +27,27 @@ export async function downloadSwaggerFile() {
   console.log(`Swagger file saved to ${filePath}`)
 }
 
-export async function generateApiClient() {
+export async function generateApiClient(): Promise<void> {
   console.log("Generating API client...")
 
-  const { spawn } = await import("child_process")
-
-  return new Promise<void>((resolve, reject) => {
-    const process = spawn(
+  try {
+    const command = [
       "npx",
-      [
-        "@openapitools/openapi-generator-cli",
-        "generate",
-        "-g",
-        "typescript-axios",
-        "-i",
-        "./openapi-schema/swagger.yaml",
-        "-o",
-        "./src/poeditor/api.generated",
-      ],
-      {
-        stdio: "inherit",
-      },
-    )
+      "@openapitools/openapi-generator-cli",
+      "generate",
+      "-g",
+      "typescript-axios",
+      "-i",
+      "./openapi-schema/swagger.yaml",
+      "-o",
+      "./src/poeditor/api.generated",
+    ].join(" ")
 
-    process.on("close", code => {
-      if (code === 0) {
-        console.log("API client generated successfully!")
-        resolve()
-      } else {
-        reject(new Error(`API client generation failed with code ${code}`))
-      }
-    })
-  })
+    await execAsync(command)
+    console.log("API client generated successfully!")
+  } catch (error) {
+    throw new Error(`API client generation failed. Error: ${error}`)
+  }
 }
 
 export async function generatePoeditorSchema() {

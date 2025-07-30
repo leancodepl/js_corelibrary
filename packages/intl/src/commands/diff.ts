@@ -1,9 +1,13 @@
 /* eslint-disable no-console */
+import { z } from "zod/v4"
 import { extractMessages } from "../formatjs"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
-export interface DiffCommandOptions {
-  srcPattern: string
+export const diffCommandOptionsSchema = z.object({
+  srcPattern: z.string(),
+})
+
+export type DiffCommandOptions = z.infer<typeof diffCommandOptionsSchema> & {
   translationsServiceClient: TranslationsServiceClient
 }
 

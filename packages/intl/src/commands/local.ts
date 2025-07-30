@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs"
 import { join } from "path"
+import { z } from "zod/v4"
 import {
   compileTranslations,
   createTranslationsTempDir,
@@ -9,10 +10,13 @@ import {
 } from "../formatjs"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
-export interface LocalCommandOptions {
-  srcPattern: string
-  outputDir: string
-  defaultLanguage: string
+export const localCommandOptionsSchema = z.object({
+  srcPattern: z.string(),
+  outputDir: z.string(),
+  defaultLanguage: z.string(),
+})
+
+export type LocalCommandOptions = z.infer<typeof localCommandOptionsSchema> & {
   translationsServiceClient?: TranslationsServiceClient
 }
 
@@ -77,11 +81,9 @@ async function extractAndCompile({
       const compiledContent = readFileSync(compiledFilePath, "utf-8")
       return JSON.parse(compiledContent)
     } finally {
-      const { rmSync } = await import("fs")
       rmSync(tempOutputDir, { recursive: true, force: true })
     }
   } finally {
-    const { rmSync } = await import("fs")
     rmSync(tempDir, { recursive: true, force: true })
   }
 }

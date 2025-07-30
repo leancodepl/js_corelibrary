@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 
 import { program } from "commander"
-import { diff } from "./commands/diff"
-import { download } from "./commands/download"
-import { local } from "./commands/local"
-import { sync } from "./commands/sync"
-import { upload } from "./commands/upload"
-import { mergeWithEnv } from "./config"
+import { z } from "zod/v4"
+import { diff, diffCommandOptionsSchema } from "./commands/diff"
+import { download, downloadCommandOptionsSchema } from "./commands/download"
+import { local, localCommandOptionsSchema } from "./commands/local"
+import { sync, syncCommandOptionsSchema } from "./commands/sync"
+import { upload, uploadCommandOptionsSchema } from "./commands/upload"
+import { mergeWithEnv } from "./mergeWithEnv"
 import { mkTranslationsServiceClient } from "./mkTranslationsServiceClient"
+
+const poeditorOptionsSchema = z.object({
+  poeditorToken: z.string().optional(),
+  poeditorProjectId: z.number().optional(),
+})
 
 program.name("intl").description("CLI tool for managing formatjs translations with translation services")
 
@@ -19,14 +25,10 @@ program
   .option("-d, --default-language <lang>", "Default language for translations")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
-  .action(async options => {
-    const config = mergeWithEnv({
-      srcPattern: options.srcPattern,
-      outputDir: options.outputDir,
-      defaultLanguage: options.defaultLanguage,
-      poeditorApiToken: options.poeditorToken,
-      poeditorProjectId: options.poeditorProjectId,
-    })
+  .action(async (options: unknown) => {
+    const parsedOptions = localCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
+
+    const config = mergeWithEnv(parsedOptions)
 
     const translationsServiceClient =
       config.poeditorApiToken && config.poeditorProjectId
@@ -53,13 +55,10 @@ program
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
-  .action(async options => {
-    const config = mergeWithEnv({
-      srcPattern: options.srcPattern,
-      poeditorApiToken: options.poeditorToken,
-      poeditorProjectId: options.poeditorProjectId,
-      defaultLanguage: options.defaultLanguage,
-    })
+  .action(async (options: unknown) => {
+    const parsedOptions = uploadCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
+
+    const config = mergeWithEnv(parsedOptions)
 
     if (!config.poeditorApiToken || !config.poeditorProjectId) {
       console.error("Translation service API token and project ID are required for upload command")
@@ -87,13 +86,10 @@ program
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
-  .action(async options => {
-    const config = mergeWithEnv({
-      outputDir: options.outputDir,
-      languages: options.languages,
-      poeditorApiToken: options.poeditorToken,
-      poeditorProjectId: options.poeditorProjectId,
-    })
+  .action(async (options: unknown) => {
+    const parsedOptions = downloadCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
+
+    const config = mergeWithEnv(parsedOptions)
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {
@@ -118,15 +114,10 @@ program
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
-  .action(async options => {
-    const config = mergeWithEnv({
-      srcPattern: options.srcPattern,
-      outputDir: options.outputDir,
-      languages: options.languages,
-      poeditorApiToken: options.poeditorToken,
-      poeditorProjectId: options.poeditorProjectId,
-      defaultLanguage: options.defaultLanguage,
-    })
+  .action(async (options: unknown) => {
+    const parsedOptions = syncCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
+
+    const config = mergeWithEnv(parsedOptions)
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {
@@ -150,12 +141,10 @@ program
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/*.{ts,tsx}")
   .option("-t, --poeditor-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
-  .action(async options => {
-    const config = mergeWithEnv({
-      srcPattern: options.srcPattern,
-      poeditorApiToken: options.poeditorToken,
-      poeditorProjectId: options.poeditorProjectId,
-    })
+  .action(async (options: unknown) => {
+    const parsedOptions = diffCommandOptionsSchema.extend(poeditorOptionsSchema.shape).parse(options)
+
+    const config = mergeWithEnv(parsedOptions)
 
     const translationsServiceClient = mkTranslationsServiceClient({
       config: {

@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
-import { mkdirSync } from "fs"
+import { mkdirSync, rmSync } from "fs"
+import { z } from "zod/v4"
 import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
-export interface DownloadCommandOptions {
-  outputDir: string
-  languages: string[]
+export const downloadCommandOptionsSchema = z.object({
+  outputDir: z.string(),
+  languages: z.array(z.string()),
+})
+
+export type DownloadCommandOptions = z.infer<typeof downloadCommandOptionsSchema> & {
   translationsServiceClient: TranslationsServiceClient
 }
 
@@ -36,7 +40,6 @@ export async function download({ outputDir, languages, translationsServiceClient
 
       console.log(`Compiled translations saved to ${outputDir}`)
     } finally {
-      const { rmSync } = await import("fs")
       rmSync(tempDir, { recursive: true, force: true })
     }
   } catch (error) {

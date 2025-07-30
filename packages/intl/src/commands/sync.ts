@@ -1,14 +1,18 @@
 /* eslint-disable no-console */
+import { z } from "zod/v4"
 import { download } from "./download"
 import { upload } from "./upload"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
-export interface SyncCommandOptions {
-  srcPattern: string
-  outputDir: string
-  languages: string[]
+export const syncCommandOptionsSchema = z.object({
+  srcPattern: z.string(),
+  outputDir: z.string(),
+  languages: z.array(z.string()),
+  defaultLanguage: z.string(),
+})
+
+export type SyncCommandOptions = z.infer<typeof syncCommandOptionsSchema> & {
   translationsServiceClient: TranslationsServiceClient
-  defaultLanguage: string
 }
 
 export async function sync({

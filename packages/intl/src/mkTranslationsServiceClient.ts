@@ -5,12 +5,12 @@ export type TranslationsService = "poeditor"
 
 export function mkTranslationsServiceClient({
   config,
-  provider = "poeditor",
+  service = "poeditor",
 }: {
-  config: { poeditorApiToken?: string; poeditorProjectId: number }
-  provider?: TranslationsService
+  config: { poeditorApiToken?: string; poeditorProjectId?: number }
+  service?: TranslationsService
 }): TranslationsServiceClient {
-  switch (provider) {
+  switch (service) {
     case "poeditor":
       if (!config.poeditorApiToken || !config.poeditorProjectId) {
         throw new Error("POEditor API token and project ID are required")
@@ -21,6 +21,6 @@ export function mkTranslationsServiceClient({
         projectId: config.poeditorProjectId,
       })
     default:
-      throw new Error(`Unsupported translations service: ${provider}`)
+      throw new Error(`Unsupported translations service: ${service}`)
   }
 }
