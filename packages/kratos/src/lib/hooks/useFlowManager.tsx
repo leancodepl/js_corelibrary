@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { GetFlowError } from "../types"
 import { useKratosSessionContext } from "./useKratosSessionContext"
 
@@ -31,7 +31,7 @@ export const useFlowManager = ({
         setPrevInitialFlowId(initialFlowId)
     }
 
-    const shouldWait = useMemo(() => waitForSession && isLoading, [waitForSession, isLoading])
+    const shouldWait = !!waitForSession && isLoading
 
     useEffect(() => {
         if (currentFlowId || shouldWait) {
