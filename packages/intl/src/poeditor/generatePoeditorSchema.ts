@@ -5,12 +5,28 @@ import { mkdir } from "fs/promises"
 import { join } from "path"
 import { promisify } from "util"
 
+if (require.main === module) {
+  ;(async () => {
+    try {
+      await generatePOEditorSchema()
+    } catch (error) {
+      console.error("Error:", error)
+      process.exit(1)
+    }
+  })()
+}
+
 const execAsync = promisify(exec)
 
 const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./openapi-schema"
 
-export async function downloadSwaggerFile() {
+export async function generatePOEditorSchema() {
+  await downloadSwaggerFile()
+  await generateApiClient()
+}
+
+async function downloadSwaggerFile() {
   console.log("Downloading POEditor swagger file...")
 
   const response = await fetch(swaggerUrl)
@@ -27,7 +43,7 @@ export async function downloadSwaggerFile() {
   console.log(`Swagger file saved to ${filePath}`)
 }
 
-export async function generateApiClient(): Promise<void> {
+async function generateApiClient(): Promise<void> {
   console.log("Generating API client...")
 
   try {
@@ -48,20 +64,4 @@ export async function generateApiClient(): Promise<void> {
   } catch (error) {
     throw new Error(`API client generation failed. Error: ${error}`)
   }
-}
-
-export async function generatePoeditorSchema() {
-  await downloadSwaggerFile()
-  await generateApiClient()
-}
-
-if (require.main === module) {
-  ;(async () => {
-    try {
-      await generatePoeditorSchema()
-    } catch (error) {
-      console.error("Error:", error)
-      process.exit(1)
-    }
-  })()
 }

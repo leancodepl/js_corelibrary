@@ -131,3 +131,24 @@ Configure intl commands as Nx target in your `project.json`. Example configurati
   }
 }
 ```
+
+## Local Development
+
+To simplify local development tests can be used with real POEditor integration.
+
+### Running Tests
+
+#### Run tests with POEditor integration
+Set the following environment variables:
+
+- `POEDITOR_API_TOKEN`: Your POEditor API token
+- `POEDITOR_PROJECT_ID`: Your POEditor project ID
+
+To run specific command run only test for that command. Example for `local` command:
+
+```bash
+POEDITOR_API_TOKEN=your_token POEDITOR_PROJECT_ID=your_project_id npx nx test intl -- local.spec.ts
+```
+
+Tests will use predefined test project for extracting example messages and will save outputs in `/__tests__/testProject/lang`.
+Be careful with running `sync` and `upload` commands. Terms extracted from example project will be added to your POEditor project!
