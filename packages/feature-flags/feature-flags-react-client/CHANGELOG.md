@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.2.1](https://github.com/leancodepl/js_corelibrary/compare/v9.2.0...v9.2.1) (2025-07-30)
+
+### Features
+
+- return OpenFeature.setContext in mkFeatureFlags
+  ([b388a28](https://github.com/leancodepl/js_corelibrary/commit/b388a28074fd1ead105ec73416b5c2193e4b84be))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.2.0](https://github.com/leancodepl/js_corelibrary/compare/v9.1.0...v9.2.0) (2025-07-24)
 
 **Note:** Version bump only for package @leancodepl/feature-flags-react-client
