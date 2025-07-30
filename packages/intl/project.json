@@ -5,10 +5,10 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "generate-client": {
+    "generate-poeditor-client": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx ts-node src/poeditor/generatePoeditorSchema.ts",
+        "command": "npx ts-node src/poeditor/generatePoeditorClient.ts",
         "cwd": "packages/intl"
       }
     },
