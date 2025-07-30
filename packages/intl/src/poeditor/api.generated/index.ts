@@ -1,5 +1,5 @@
 /* tslint:disable */
-/* eslint-disable */
+ 
 /**
  * API V2
  * Connect your software to POEditor with this simple API
