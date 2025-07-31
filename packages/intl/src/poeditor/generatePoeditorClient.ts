@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { execSync } from "child_process"
 import { writeFileSync } from "fs"
 import { mkdir } from "fs/promises"

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs"
 import { join } from "path"
 import { z } from "zod/v4"

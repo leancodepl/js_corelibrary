@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { mkTranslationsServiceClient } from "../src"
 
 export function getTranslationsServiceClient() {

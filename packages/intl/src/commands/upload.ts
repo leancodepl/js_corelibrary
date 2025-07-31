@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { z } from "zod/v4"
 import { extractMessages } from "../formatjs"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"

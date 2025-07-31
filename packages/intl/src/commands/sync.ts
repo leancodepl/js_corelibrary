@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { z } from "zod/v4"
 import { download } from "./download"
 import { upload } from "./upload"
