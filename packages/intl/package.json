@@ -9,11 +9,13 @@
     "@formatjs/cli": "^6.2.15",
     "axios": "^1.7.9",
     "commander": "^12.0.0",
+    "lodash": "^4.17.21",
     "tslib": "^2.8.1",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.15.0",
+    "@types/lodash": "^4.17.20",
     "react": "^18.0.0",
     "react-intl": "^6.0.0"
   }

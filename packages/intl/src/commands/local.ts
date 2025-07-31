@@ -1,4 +1,5 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs"
+import _ from "lodash"
 import { join } from "path"
 import { z } from "zod/v4"
 import {
@@ -169,15 +170,7 @@ function save({
 }): void {
   mkdirSync(outputDir, { recursive: true })
 
-  const sortedTranslations = Object.keys(translations)
-    .sort()
-    .reduce(
-      (sorted, key) => {
-        sorted[key] = translations[key]
-        return sorted
-      },
-      {} as Record<string, string>,
-    )
+  const sortedTranslations = _(translations).toPairs().sortBy(0).fromPairs().value()
 
   const finalFilePath = join(outputDir, `${defaultLanguage}.json`)
   writeFileSync(finalFilePath, JSON.stringify(sortedTranslations, null, 2))
