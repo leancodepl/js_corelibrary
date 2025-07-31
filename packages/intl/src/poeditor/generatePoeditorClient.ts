@@ -10,16 +10,14 @@ const execAsync = promisify(exec)
 const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./src/poeditor/openapi-schema"
 
-if (require.main === module) {
-  ;(async () => {
-    try {
-      await generatePOEditorClient()
-    } catch (error) {
-      console.error("Error:", error)
-      process.exit(1)
-    }
-  })()
-}
+;(async () => {
+  try {
+    await generatePOEditorClient()
+  } catch (error) {
+    console.error("Error:", error)
+    process.exit(1)
+  }
+})()
 
 export async function generatePOEditorClient() {
   await downloadSwaggerFile()
