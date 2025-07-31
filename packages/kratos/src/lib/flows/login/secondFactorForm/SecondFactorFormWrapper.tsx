@@ -15,7 +15,7 @@ import { useTotpForm } from "./useTotpForm"
  * @property {ComponentType<{ children: ReactNode }>} Totp - Component for rendering the TOTP (Time-based One-Time Password) input field.
  * @property {ComponentType<{ children: ReactNode }>} Submit - Component for rendering the TOTP submit button.
  * @property {AuthError[]} errors - Array of authentication errors to display to the user.
- * @property {boolean | undefined} isRefresh - Indicates if the flow is for refresh credentials. Can be undefined during loading.
+ * @property {boolean | undefined} isRefresh - Indicates if the flow is for refresh credentials.
  * @property {boolean} isSubmitting - Indicates if the form is currently being submitted.
  * @property {boolean} isValidating - Indicates if the form is currently being validated.
  */
