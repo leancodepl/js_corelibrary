@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios"
+import axios from "axios"
 import { ExtractedMessages } from "../formatjs"
 import { Configuration, ProjectsApi, ProjectsExportTypeEnum, TermsApi, TranslationsApi } from "./api.generated"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
@@ -9,12 +9,12 @@ export interface POEditorClientConfig {
 }
 
 export class POEditorClient implements TranslationsServiceClient {
-  private apiToken: string
-  private projectId: number
-  private axiosInstance: AxiosInstance
-  private projectsApi: ProjectsApi
-  private termsApi: TermsApi
-  private translationsApi: TranslationsApi
+  private apiToken
+  private projectId
+  private axiosInstance
+  private projectsApi
+  private termsApi
+  private translationsApi
 
   constructor(config: POEditorClientConfig) {
     this.apiToken = config.apiToken
