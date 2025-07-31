@@ -234,6 +234,7 @@ import { LoginFlow } from "./kratosService"
 function LoginPage() {
   return (
     <LoginFlow
+      loaderComponent={Loader}
       chooseMethodForm={ChooseMethodForm}
       secondFactorForm={SecondFactorForm}
       secondFactorEmailForm={SecondFactorEmailForm}
@@ -437,20 +438,18 @@ function LoginPage() {
 }
 
 function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
-  if (props.isLoading) {
-    return <p>Loading login methods...</p>
-  }
-
-  const { Password, Google, Passkey, Apple, Facebook, errors, isSubmitting, isValidating } = props
+  const { errors, isSubmitting, isValidating } = props
 
   if (props.isRefresh) {
-    const { identifier } = props
+    const { Password, PasswordSubmit, Google, Passkey, Apple, Facebook, identifier } = props
 
     return (
       <div>
-        <h2>
-          Complete login process as <strong>{identifier}</strong>
-        </h2>
+        {identifier && (
+          <h2>
+            Complete login process as <strong>{identifier}</strong>
+          </h2>
+        )}
 
         {Password && (
           <Password>
@@ -458,7 +457,11 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
           </Password>
         )}
 
-        <button type="submit">Login</button>
+        {PasswordSubmit && (
+          <PasswordSubmit>
+            <button>Login</button>
+          </PasswordSubmit>
+        )}
 
         {Google && (
           <Google>
@@ -495,47 +498,37 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
     )
   }
 
-  const { Identifier } = props
+  const { Password, PasswordSubmit, Google, Passkey, Apple, Facebook, Identifier } = props
 
   return (
     <div>
-      {Identifier && (
-        <Identifier>
-          <input placeholder="Identifier" />
-        </Identifier>
-      )}
+      <Identifier>
+        <input placeholder="Identifier" />
+      </Identifier>
 
-      {Password && (
-        <Password>
-          <input placeholder="Password" />
-        </Password>
-      )}
+      <Password>
+        <input placeholder="Password" />
+      </Password>
 
-      <button type="submit">Login</button>
+      <PasswordSubmit>
+        <button>Login</button>
+      </PasswordSubmit>
 
-      {Google && (
-        <Google>
-          <button>Sign in with Google</button>
-        </Google>
-      )}
+      <Google>
+        <button>Sign in with Google</button>
+      </Google>
 
-      {Apple && (
-        <Apple>
-          <button>Sign in with Apple</button>
-        </Apple>
-      )}
+      <Apple>
+        <button>Sign in with Apple</button>
+      </Apple>
 
-      {Facebook && (
-        <Facebook>
-          <button>Sign in with Facebook</button>
-        </Facebook>
-      )}
+      <Facebook>
+        <button>Sign in with Facebook</button>
+      </Facebook>
 
-      {Passkey && (
-        <Passkey>
-          <button>Sign in with Passkey</button>
-        </Passkey>
-      )}
+      <Passkey>
+        <button>Sign in with Passkey</button>
+      </Passkey>
 
       {errors && errors.length > 0 && (
         <div>

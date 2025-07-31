@@ -137,6 +137,7 @@ function LoginFlowWrapper({
  * between different authentication steps.
  *
  * @param props - Configuration and component props for the login flow
+ * @param props.loaderComponent - Optional component to display during loading states
  * @param props.chooseMethodForm - React component for login method selection
  * @param props.secondFactorForm - React component for second factor authentication
  * @param props.secondFactorEmailForm - React component for email-based second factor
