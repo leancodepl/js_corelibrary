@@ -67,77 +67,68 @@ function TraitsForm({
     Google,
     Apple,
     Facebook,
+    TraitsSubmit,
     isSubmitting,
     isValidating,
 }: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
     return (
         <div data-testid={dataTestIds.registration.traitsForm.wrapper}>
-            {Email && (
-                <Email>
-                    <Input
-                        data-testid={dataTestIds.registration.traitsForm.emailInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Email"
-                    />
-                </Email>
-            )}
-            {GivenName && (
-                <GivenName>
-                    <Input
-                        data-testid={dataTestIds.registration.traitsForm.givenNameInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="First name"
-                    />
-                </GivenName>
-            )}
-            {RegulationsAccepted && (
-                <RegulationsAccepted>
-                    <Checkbox
-                        data-testid={dataTestIds.registration.traitsForm.regulationsCheckbox}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Regulations accepted"
-                        type="checkbox">
-                        I accept the regulations
-                    </Checkbox>
-                </RegulationsAccepted>
-            )}
+            <Email>
+                <Input
+                    data-testid={dataTestIds.registration.traitsForm.emailInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Email"
+                />
+            </Email>
 
-            <button
-                data-testid={dataTestIds.registration.common.registerButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Register
-            </button>
+            <GivenName>
+                <Input
+                    data-testid={dataTestIds.registration.traitsForm.givenNameInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="First name"
+                />
+            </GivenName>
 
-            {Google && (
-                <Google>
-                    <button
-                        data-testid={dataTestIds.registration.traitsForm.googleButton}
-                        disabled={isSubmitting || isValidating}>
-                        Sign up with Google
-                    </button>
-                </Google>
-            )}
+            <RegulationsAccepted>
+                <Checkbox
+                    data-testid={dataTestIds.registration.traitsForm.regulationsCheckbox}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Regulations accepted">
+                    I accept the regulations
+                </Checkbox>
+            </RegulationsAccepted>
 
-            {Apple && (
-                <Apple>
-                    <button
-                        data-testid={dataTestIds.registration.traitsForm.appleButton}
-                        disabled={isSubmitting || isValidating}>
-                        Sign up with Apple
-                    </button>
-                </Apple>
-            )}
+            <TraitsSubmit>
+                <button
+                    data-testid={dataTestIds.registration.common.registerButton}
+                    disabled={isSubmitting || isValidating}>
+                    Register
+                </button>
+            </TraitsSubmit>
 
-            {Facebook && (
-                <Facebook>
-                    <button
-                        data-testid={dataTestIds.registration.traitsForm.facebookButton}
-                        disabled={isSubmitting || isValidating}>
-                        Sign up with Facebook
-                    </button>
-                </Facebook>
-            )}
+            <Google>
+                <button
+                    data-testid={dataTestIds.registration.traitsForm.googleButton}
+                    disabled={isSubmitting || isValidating}>
+                    Sign up with Google
+                </button>
+            </Google>
+
+            <Apple>
+                <button
+                    data-testid={dataTestIds.registration.traitsForm.appleButton}
+                    disabled={isSubmitting || isValidating}>
+                    Sign up with Apple
+                </button>
+            </Apple>
+
+            <Facebook>
+                <button
+                    data-testid={dataTestIds.registration.traitsForm.facebookButton}
+                    disabled={isSubmitting || isValidating}>
+                    Sign up with Facebook
+                </button>
+            </Facebook>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.common.errors}>
@@ -156,55 +147,51 @@ function ChooseMethodForm({
     Password,
     PasswordConfirmation,
     Passkey,
+    PasswordSubmit,
     isSubmitting,
     isValidating,
 }: registrationFlow.ChooseMethodFormProps) {
     return (
         <div data-testid={dataTestIds.registration.chooseMethodForm.wrapper}>
-            {ReturnToTraitsForm && (
-                <ReturnToTraitsForm>
-                    <button
-                        data-testid={dataTestIds.registration.chooseMethodForm.returnButton}
-                        disabled={isSubmitting || isValidating}>
-                        Return
-                    </button>
-                </ReturnToTraitsForm>
-            )}
-            {Password && (
-                <Password>
-                    <Input
-                        data-testid={dataTestIds.registration.chooseMethodForm.passwordInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Password"
-                    />
-                </Password>
-            )}
-            {PasswordConfirmation && (
-                <PasswordConfirmation>
-                    <Input
-                        data-testid={dataTestIds.registration.chooseMethodForm.passwordConfirmationInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Password confirmation"
-                    />
-                </PasswordConfirmation>
-            )}
+            <ReturnToTraitsForm>
+                <button
+                    data-testid={dataTestIds.registration.chooseMethodForm.returnButton}
+                    disabled={isSubmitting || isValidating}>
+                    Return
+                </button>
+            </ReturnToTraitsForm>
 
-            <button
-                data-testid={dataTestIds.registration.common.registerButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Register
-            </button>
+            <Password>
+                <Input
+                    data-testid={dataTestIds.registration.chooseMethodForm.passwordInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Password"
+                />
+            </Password>
 
-            {Passkey && (
-                <Passkey>
-                    <button
-                        data-testid={dataTestIds.registration.chooseMethodForm.passkeyButton}
-                        disabled={isSubmitting || isValidating}>
-                        Sign up with Passkey
-                    </button>
-                </Passkey>
-            )}
+            <PasswordConfirmation>
+                <Input
+                    data-testid={dataTestIds.registration.chooseMethodForm.passwordConfirmationInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Password confirmation"
+                />
+            </PasswordConfirmation>
+
+            <PasswordSubmit>
+                <button
+                    data-testid={dataTestIds.registration.common.registerButton}
+                    disabled={isSubmitting || isValidating}>
+                    Register
+                </button>
+            </PasswordSubmit>
+
+            <Passkey>
+                <button
+                    data-testid={dataTestIds.registration.chooseMethodForm.passkeyButton}
+                    disabled={isSubmitting || isValidating}>
+                    Sign up with Passkey
+                </button>
+            </Passkey>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.common.errors}>
@@ -219,6 +206,7 @@ function ChooseMethodForm({
 
 function EmailVerificationForm({
     Code,
+    CodeSubmit,
     Resend,
     errors,
     isSubmitting,
@@ -234,12 +222,13 @@ function EmailVerificationForm({
                 />
             </Code>
 
-            <button
-                data-testid={dataTestIds.registration.emailVerificationForm.submitButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Verify
-            </button>
+            <CodeSubmit>
+                <button
+                    data-testid={dataTestIds.registration.emailVerificationForm.submitButton}
+                    disabled={isSubmitting || isValidating}>
+                    Verify
+                </button>
+            </CodeSubmit>
 
             <Resend>
                 <button

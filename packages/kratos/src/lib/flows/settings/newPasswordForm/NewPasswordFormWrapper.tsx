@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError, TraitsConfig } from "../../../utils"
+import { Submit } from "../../fields"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Password, PasswordConfirmation } from "./fields"
@@ -8,8 +9,9 @@ import { NewPasswordFormProvider } from "./newPasswordFormContext"
 import { useNewPasswordForm } from "./useNewPasswordForm"
 
 export type NewPasswordFormProps = {
-    Password?: ComponentType<{ children: ReactNode }>
-    PasswordConfirmation?: ComponentType<{ children: ReactNode }>
+    Password: ComponentType<{ children: ReactNode }>
+    PasswordConfirmation: ComponentType<{ children: ReactNode }>
+    PasswordSubmit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isLoading: boolean
     isSubmitting: boolean
@@ -49,6 +51,7 @@ export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
                     isValidating={newPasswordForm.state.isValidating}
                     Password={Password}
                     PasswordConfirmation={PasswordConfirmation}
+                    PasswordSubmit={Submit}
                 />
             </form>
         </NewPasswordFormProvider>

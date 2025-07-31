@@ -1,6 +1,8 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError } from "../../../utils"
+import { AuthError, getNodeById } from "../../../utils"
+import { Submit } from "../../fields"
+import { useGetLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
 import { Email, Totp } from "./fields"
 import { SecondFactorFormProvider } from "./secondFactorFormContext"
@@ -17,8 +19,9 @@ import { useTotpForm } from "./useTotpForm"
  * @property {boolean} isValidating - Indicates if the form is currently validating.
  */
 export type SecondFactorFormProps = {
-    Totp?: ComponentType<{ children: ReactNode }>
     Email?: ComponentType<{ children: ReactNode }>
+    Totp: ComponentType<{ children: ReactNode }>
+    TotpSubmit: ComponentType<{ children: ReactNode }>
     errors: AuthError[]
     isRefresh: boolean | undefined
     isSubmitting: boolean
@@ -40,6 +43,7 @@ export function SecondFactorFormWrapper({
 }: SecondFactorFormWrapperProps) {
     const totpForm = useTotpForm({ onError, onLoginSuccess })
     const formErrors = useFormErrors(totpForm)
+    const { data: loginFlow } = useGetLoginFlow()
 
     return (
         <SecondFactorFormProvider totpForm={totpForm}>
@@ -49,12 +53,13 @@ export function SecondFactorFormWrapper({
                     totpForm.handleSubmit()
                 }}>
                 <SecondFactorForm
-                    Email={Email}
+                    Email={getNodeById(loginFlow?.ui.nodes, "address") && Email}
                     errors={formErrors}
                     isRefresh={isRefresh}
                     isSubmitting={totpForm.state.isSubmitting}
                     isValidating={totpForm.state.isValidating}
                     Totp={Totp}
+                    TotpSubmit={Submit}
                 />
             </form>
         </SecondFactorFormProvider>

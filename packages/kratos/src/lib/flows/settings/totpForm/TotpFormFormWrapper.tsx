@@ -2,6 +2,7 @@ import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
 import { UiNodeImageAttributesNodeTypeEnum } from "../../../kratos"
 import { AuthError, getNodeById, TraitsConfig } from "../../../utils"
+import { Submit } from "../../fields"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { Code, Unlink } from "./fields"
@@ -27,7 +28,8 @@ type TotpFormPropsLinked = TotpFormPropsLoaded & {
 
 type TotpFormPropsUnlinked = TotpFormPropsLoaded & {
     isTotpLinked?: false
-    Code?: ComponentType<{ children: ReactNode }>
+    Code: ComponentType<{ children: ReactNode }>
+    CodeSubmit: ComponentType<{ children: ReactNode }>
     totpQrImageSrc?: string
     totpSecretKey?: string
     errors: Array<AuthError>
@@ -107,6 +109,7 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
                 ) : (
                     <TotpForm
                         Code={Code}
+                        CodeSubmit={Submit}
                         emailVerificationRequired={emailVerificationRequired}
                         errors={formErrors}
                         isSubmitting={totpForm.state.isSubmitting}

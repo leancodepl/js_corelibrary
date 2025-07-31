@@ -62,24 +62,25 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
         setFlowId: setRegistrationFlowId,
     })
 
-    useEffect(() => {
-        if (
+    const isSessionAvailable = useMemo(() => {
+        return (
             isSessionAlreadyAvailable(getRegistrationFlowError) ||
             isSessionAlreadyAvailable(createRegistrationFlowError)
-        ) {
+        )
+    }, [getRegistrationFlowError, createRegistrationFlowError])
+
+    useEffect(() => {
+        if (isSessionAvailable) {
             onSessionAlreadyAvailable?.()
         }
-    }, [getRegistrationFlowError, createRegistrationFlowError, onSessionAlreadyAvailable])
+    }, [isSessionAvailable, onSessionAlreadyAvailable])
 
     const step = useMemo(() => {
-        if (verificationFlowId) {
-            return "emailVerification"
-        }
-        if (traitsFormCompleted) {
-            return "credentials"
-        }
+        if (isSessionAvailable) return "invalid"
+        if (verificationFlowId) return "emailVerification"
+        if (traitsFormCompleted) return "credentials"
         return "traits"
-    }, [traitsFormCompleted, verificationFlowId])
+    }, [traitsFormCompleted, verificationFlowId, isSessionAvailable])
 
     return (
         <>

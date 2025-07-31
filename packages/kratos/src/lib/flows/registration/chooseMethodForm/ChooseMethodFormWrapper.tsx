@@ -1,16 +1,18 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError, TraitsConfig } from "../../../utils"
+import { Submit } from "../../fields"
 import { OnRegistrationFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Passkey, Password, PasswordConfirmation, ReturnToTraitsForm } from "./fields"
 import { useChooseMethodForm } from "./useChooseMethodForm"
 
 export type ChooseMethodFormProps = {
-    ReturnToTraitsForm?: ComponentType<{ children: ReactNode }>
-    Password?: ComponentType<{ children: ReactNode }>
-    PasswordConfirmation?: ComponentType<{ children: ReactNode }>
-    Passkey?: ComponentType<{ children: ReactNode }>
+    ReturnToTraitsForm: ComponentType<{ children: ReactNode }>
+    Password: ComponentType<{ children: ReactNode }>
+    PasswordConfirmation: ComponentType<{ children: ReactNode }>
+    Passkey: ComponentType<{ children: ReactNode }>
+    PasswordSubmit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
@@ -44,6 +46,7 @@ export function ChooseMethodFormWrapper<TTraitsConfig extends TraitsConfig>({
                     Passkey={Passkey}
                     Password={Password}
                     PasswordConfirmation={PasswordConfirmation}
+                    PasswordSubmit={Submit}
                     ReturnToTraitsForm={ReturnToTraitsForm}
                 />
             </form>

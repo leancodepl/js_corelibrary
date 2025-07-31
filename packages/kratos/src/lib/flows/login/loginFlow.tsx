@@ -14,6 +14,7 @@ import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorFo
 import { OnLoginFlowError } from "./types"
 
 export type LoginFlowProps = {
+    loaderComponent?: ComponentType
     chooseMethodForm: ComponentType<ChooseMethodFormProps>
     secondFactorForm: ComponentType<SecondFactorFormProps>
     secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
@@ -28,6 +29,7 @@ export type LoginFlowProps = {
 }
 
 function LoginFlowWrapper({
+    loaderComponent: LoaderComponent,
     chooseMethodForm: ChooseMethodForm,
     secondFactorForm: SecondFactorForm,
     secondFactorEmailForm: SecondFactorEmailForm,
@@ -61,20 +63,20 @@ function LoginFlowWrapper({
         waitForSession: true,
     })
 
-    useEffect(() => {
-        if (isSessionAlreadyAvailable(createLoginFlowError)) {
-            onSessionAlreadyAvailable?.()
-        }
-    }, [createLoginFlowError, onSessionAlreadyAvailable])
+    const isSessionAvailable = useMemo(() => {
+        return isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError)
+    }, [createLoginFlowError, getLoginFlowError])
 
     useEffect(() => {
-        if (isSessionAlreadyAvailable(getLoginFlowError)) {
+        if (isSessionAvailable) {
             onSessionAlreadyAvailable?.()
         }
-    }, [getLoginFlowError, onSessionAlreadyAvailable])
+    }, [isSessionAvailable, onSessionAlreadyAvailable])
 
     const step = useMemo(() => {
-        if (!loginFlow) return "chooseMethod"
+        if (isSessionAvailable) return "invalid"
+
+        if (!loginFlow) return "loader"
 
         if (verificationFlowId) return "verifyEmail"
 
@@ -86,12 +88,13 @@ function LoginFlowWrapper({
         if (loginFlow.state === "sent_email") return "secondFactorEmail"
 
         throw new Error("Invalid login flow state")
-    }, [loginFlow, verificationFlowId])
+    }, [loginFlow, verificationFlowId, isSessionAvailable])
 
     const isRefresh = useMemo(() => loginFlow?.refresh, [loginFlow])
 
     return (
         <>
+            {step === "loader" && LoaderComponent && <LoaderComponent />}
             {step === "chooseMethod" && (
                 <ChooseMethodFormWrapper
                     chooseMethodForm={ChooseMethodForm}

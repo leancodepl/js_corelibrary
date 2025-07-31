@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError } from "../../../utils"
+import { Submit } from "../../fields"
 import { OnLoginFlowError } from "../types"
 import { Code, Resend } from "./fields"
 import { SecondFactorEmailFormProvider } from "./secondFactorEmailFormContext"
@@ -9,6 +10,7 @@ import { useCodeForm } from "./useCodeForm"
 export type SecondFactorEmailFormProps = {
     Code: ComponentType<{ children: ReactNode }>
     Resend: ComponentType<{ children: ReactNode }>
+    CodeSubmit: ComponentType<{ children: ReactNode }>
     errors: AuthError[]
     isSubmitting: boolean
     isValidating: boolean
@@ -37,6 +39,7 @@ export function SecondFactorEmailFormWrapper({
                 }}>
                 <SecondFactorForm
                     Code={Code}
+                    CodeSubmit={Submit}
                     errors={formErrors}
                     isSubmitting={codeForm.state.isSubmitting}
                     isValidating={codeForm.state.isValidating}

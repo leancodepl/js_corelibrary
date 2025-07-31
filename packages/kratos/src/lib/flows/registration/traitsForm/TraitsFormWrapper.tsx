@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError, TraitsConfig } from "../../../utils"
+import { Submit } from "../../fields"
 import { OnRegistrationFlowError } from "../types"
 import { Apple, Facebook, Google, TraitCheckbox, TraitInput } from "./fields"
 import { TraitsFormProvider } from "./traitsFormContext"
@@ -15,9 +16,10 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 }
 
 export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
-    Google?: ComponentType<{ children: ReactNode }>
-    Apple?: ComponentType<{ children: ReactNode }>
-    Facebook?: ComponentType<{ children: ReactNode }>
+    TraitsSubmit: ComponentType<{ children: ReactNode }>
+    Google: ComponentType<{ children: ReactNode }>
+    Apple: ComponentType<{ children: ReactNode }>
+    Facebook: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
@@ -72,6 +74,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                     Google={Google}
                     isSubmitting={traitsForm.state.isSubmitting}
                     isValidating={traitsForm.state.isValidating}
+                    TraitsSubmit={Submit}
                     {...traitComponents}
                 />
             </form>

@@ -80,6 +80,7 @@ function TraitsForm({
     errors,
     Email,
     GivenName,
+    TraitsSubmit,
     isLoading,
     isSubmitting,
     isValidating,
@@ -100,32 +101,29 @@ function TraitsForm({
                 </div>
             )}
 
-            {Email && (
-                <Email>
-                    <Input
-                        data-testid={dataTestIds.settings.traitsForm.emailInput}
-                        disabled={emailVerificationRequired || isSubmitting || isValidating}
-                        placeholder="Email"
-                    />
-                </Email>
-            )}
+            <Email>
+                <Input
+                    data-testid={dataTestIds.settings.traitsForm.emailInput}
+                    disabled={emailVerificationRequired || isSubmitting || isValidating}
+                    placeholder="Email"
+                />
+            </Email>
 
-            {GivenName && (
-                <GivenName>
-                    <Input
-                        data-testid={dataTestIds.settings.traitsForm.givenNameInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="First name"
-                    />
-                </GivenName>
-            )}
+            <GivenName>
+                <Input
+                    data-testid={dataTestIds.settings.traitsForm.givenNameInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="First name"
+                />
+            </GivenName>
 
-            <button
-                data-testid={dataTestIds.settings.traitsForm.updateButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Update
-            </button>
+            <TraitsSubmit>
+                <button
+                    data-testid={dataTestIds.settings.traitsForm.updateButton}
+                    disabled={isSubmitting || isValidating}>
+                    Update
+                </button>
+            </TraitsSubmit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.settings.traitsForm.errors}>
@@ -142,6 +140,7 @@ function NewPasswordForm({
     errors,
     Password,
     PasswordConfirmation,
+    PasswordSubmit,
     isLoading,
     isSubmitting,
     isValidating,
@@ -154,31 +153,29 @@ function NewPasswordForm({
         <div data-testid={dataTestIds.settings.newPasswordForm.wrapper}>
             <h2>New password</h2>
 
-            {Password && (
-                <Password>
-                    <Input
-                        data-testid={dataTestIds.settings.newPasswordForm.passwordInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Password"
-                    />
-                </Password>
-            )}
-            {PasswordConfirmation && (
-                <PasswordConfirmation>
-                    <Input
-                        data-testid={dataTestIds.settings.newPasswordForm.passwordConfirmationInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Password confirmation"
-                    />
-                </PasswordConfirmation>
-            )}
+            <Password>
+                <Input
+                    data-testid={dataTestIds.settings.newPasswordForm.passwordInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Password"
+                />
+            </Password>
 
-            <button
-                data-testid={dataTestIds.settings.newPasswordForm.submitButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Set new password
-            </button>
+            <PasswordConfirmation>
+                <Input
+                    data-testid={dataTestIds.settings.newPasswordForm.passwordConfirmationInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Password confirmation"
+                />
+            </PasswordConfirmation>
+
+            <PasswordSubmit>
+                <button
+                    data-testid={dataTestIds.settings.newPasswordForm.submitButton}
+                    disabled={isSubmitting || isValidating}>
+                    Set new password
+                </button>
+            </PasswordSubmit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.settings.newPasswordForm.errors}>
@@ -253,35 +250,35 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
         )
     }
 
-    const { Code, totpQrImageSrc, totpSecretKey, errors, isSubmitting, isValidating } = props
+    const { Code, CodeSubmit, totpQrImageSrc, totpSecretKey, errors, isSubmitting, isValidating } = props
 
     return (
         <div data-testid={dataTestIds.settings.totpForm.wrapperUnlinked}>
             <h2>TOTP</h2>
 
             {totpQrImageSrc && <img alt="TOTP QR Code" src={totpQrImageSrc} />}
+
             {totpSecretKey && (
                 <div>
                     Secret Key: <span data-testid={dataTestIds.settings.totpForm.secretKey}>{totpSecretKey}</span>
                 </div>
             )}
 
-            {Code && (
-                <Code>
-                    <Input
-                        data-testid={dataTestIds.settings.totpForm.codeInput}
-                        disabled={isSubmitting || isValidating}
-                        placeholder="Enter TOTP code"
-                    />
-                </Code>
-            )}
+            <Code>
+                <Input
+                    data-testid={dataTestIds.settings.totpForm.codeInput}
+                    disabled={isSubmitting || isValidating}
+                    placeholder="Enter TOTP code"
+                />
+            </Code>
 
-            <button
-                data-testid={dataTestIds.settings.totpForm.verifyButton}
-                disabled={isSubmitting || isValidating}
-                type="submit">
-                Verify TOTP
-            </button>
+            <CodeSubmit>
+                <button
+                    data-testid={dataTestIds.settings.totpForm.verifyButton}
+                    disabled={isSubmitting || isValidating}>
+                    Verify TOTP
+                </button>
+            </CodeSubmit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.settings.totpForm.errors}>
