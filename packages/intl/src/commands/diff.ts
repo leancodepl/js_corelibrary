@@ -16,7 +16,7 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
     console.log("Analyzing differences between local and remote translations...")
 
     console.log("Extracting local messages...")
-    const localMessages = await extractMessages(srcPattern)
+    const localMessages = extractMessages(srcPattern)
     const localTerms = new Set(Object.keys(localMessages))
 
     console.log("Fetching remote terms...")

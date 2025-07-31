@@ -16,7 +16,7 @@ export async function upload({ srcPattern, translationsServiceClient, defaultLan
   try {
     console.log("Extracting messages from source files...")
 
-    const messages = await extractMessages(srcPattern)
+    const messages = extractMessages(srcPattern)
     const messageCount = Object.keys(messages).length
 
     console.log(`Extracted ${messageCount} messages`)

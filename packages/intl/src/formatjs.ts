@@ -1,10 +1,7 @@
-import { exec } from "child_process"
+import { execSync } from "child_process"
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs"
 import { tmpdir } from "os"
 import { join } from "path"
-import { promisify } from "util"
-
-const execAsync = promisify(exec)
 
 export interface ExtractedMessage {
   defaultMessage: string
@@ -14,7 +11,7 @@ export interface ExtractedMessage {
 
 export type ExtractedMessages = Record<string, ExtractedMessage>
 
-export async function extractMessages(pattern = "src/**/*.{ts,tsx}"): Promise<ExtractedMessages> {
+export function extractMessages(pattern = "src/**/*.{ts,tsx}"): ExtractedMessages {
   const tempFile = join(tmpdir(), `messages-${Date.now()}.json`)
 
   try {
@@ -29,7 +26,7 @@ export async function extractMessages(pattern = "src/**/*.{ts,tsx}"): Promise<Ex
       "--extract-source-location",
     ].join(" ")
 
-    await execAsync(command)
+    execSync(command)
 
     const messagesText = readFileSync(tempFile, "utf-8")
     rmSync(tempFile)
@@ -39,7 +36,7 @@ export async function extractMessages(pattern = "src/**/*.{ts,tsx}"): Promise<Ex
   }
 }
 
-export async function compileTranslations({
+export function compileTranslations({
   inputDir,
   outputDir,
   options = {},
@@ -47,7 +44,7 @@ export async function compileTranslations({
   inputDir: string
   outputDir: string
   options?: { ast?: boolean; format?: string }
-}): Promise<void> {
+}) {
   const { ast = true, format = "simple" } = options
 
   try {
@@ -61,8 +58,7 @@ export async function compileTranslations({
       inputDir,
       outputDir,
     ].join(" ")
-
-    await execAsync(command)
+    execSync(command)
   } catch (error) {
     throw new Error(`Failed to compile translations. Error: ${error}`)
   }

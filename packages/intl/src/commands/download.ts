@@ -36,7 +36,7 @@ export async function download({ outputDir, languages, translationsServiceClient
 
       mkdirSync(outputDir, { recursive: true })
 
-      await compileTranslations({ inputDir: tempDir, outputDir })
+      compileTranslations({ inputDir: tempDir, outputDir })
 
       console.log(`Compiled translations saved to ${outputDir}`)
     } finally {

@@ -27,7 +27,7 @@ export async function local({
   translationsServiceClient,
 }: LocalCommandOptions) {
   try {
-    const extractedTranslations = await extractAndCompile({ srcPattern, defaultLanguage })
+    const extractedTranslations = extractAndCompile({ srcPattern, defaultLanguage })
 
     const downloadedTranslations = translationsServiceClient
       ? await downloadAndCompile({ defaultLanguage, client: translationsServiceClient })
@@ -42,16 +42,16 @@ export async function local({
   }
 }
 
-async function extractAndCompile({
+function extractAndCompile({
   srcPattern,
   defaultLanguage,
 }: {
   srcPattern: string
   defaultLanguage: string
-}): Promise<Record<string, string>> {
+}): Record<string, string> {
   console.log("Extracting messages from source files...")
 
-  const messages = await extractMessages(srcPattern)
+  const messages = extractMessages(srcPattern)
   const messageCount = Object.keys(messages).length
 
   console.log(`Extracted ${messageCount} messages`)
@@ -75,7 +75,7 @@ async function extractAndCompile({
     const tempOutputDir = createTranslationsTempDir("compiled-")
 
     try {
-      await compileTranslations({ inputDir: tempDir, outputDir: tempOutputDir })
+      compileTranslations({ inputDir: tempDir, outputDir: tempOutputDir })
 
       const compiledFilePath = join(tempOutputDir, `${defaultLanguage}.json`)
       const compiledContent = readFileSync(compiledFilePath, "utf-8")
@@ -119,7 +119,7 @@ async function downloadAndCompile({
       const downloadTempOutputDir = createTranslationsTempDir("download-compiled-")
 
       try {
-        await compileTranslations({ inputDir: downloadTempDir, outputDir: downloadTempOutputDir })
+        compileTranslations({ inputDir: downloadTempDir, outputDir: downloadTempOutputDir })
 
         const downloadedCompiledFilePath = join(downloadTempOutputDir, `${defaultLanguage}.json`)
         const downloadedCompiledContent = readFileSync(downloadedCompiledFilePath, "utf-8")
