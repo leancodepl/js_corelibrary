@@ -44,7 +44,7 @@ export const useFlowManager = ({
         } else {
             createFlow()
         }
-    }, [createFlow, initialFlowId, currentFlowId, setFlowId, onFlowRestart, initialFlowIdUsed, shouldWait])
+    }, [createFlow, currentFlowId, initialFlowId, initialFlowIdUsed, setFlowId, shouldWait])
 
     useEffect(() => {
         if (error && error.cause === GetFlowError.FlowRestartRequired) {

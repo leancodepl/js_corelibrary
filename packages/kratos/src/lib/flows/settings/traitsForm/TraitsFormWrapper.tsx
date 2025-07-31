@@ -1,6 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { useFormErrors } from "../../../hooks"
 import { AuthError, TraitsConfig } from "../../../utils"
+import { Submit } from "../../fields"
 import { useGetSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 import { TraitCheckbox, TraitInput } from "./fields"
@@ -16,6 +17,7 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 }
 
 export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
+    Submit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isLoading: boolean
     isSubmitting: boolean
@@ -74,6 +76,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                     isLoading={!settingsFlow}
                     isSubmitting={traitsForm.state.isSubmitting}
                     isValidating={traitsForm.state.isValidating}
+                    Submit={Submit}
                     {...traitComponents}
                 />
             </form>
