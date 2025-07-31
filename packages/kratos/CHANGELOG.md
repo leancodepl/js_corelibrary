@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.3.0](https://github.com/leancodepl/js_corelibrary/compare/v9.2.1...v9.3.0) (2025-07-31)
+
+### Features
+
+- add nesting to group of fields
+  ([3929a43](https://github.com/leancodepl/js_corelibrary/commit/3929a435d6e81c8ebf28166cb14edbbe35352001))
+- wrap submit buttons and separate login loader
+  ([b553960](https://github.com/leancodepl/js_corelibrary/commit/b553960d3696c145ca4535182866a0ebba935d96))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.2.1](https://github.com/leancodepl/js_corelibrary/compare/v9.2.0...v9.2.1) (2025-07-30)
 
 ### Bug Fixes
