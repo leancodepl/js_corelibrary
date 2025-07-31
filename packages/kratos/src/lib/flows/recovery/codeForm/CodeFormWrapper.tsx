@@ -9,7 +9,7 @@ import { useCodeForm } from "./useCodeForm"
 
 export type CodeFormProps = {
     Code: ComponentType<{ children: ReactNode }>
-    CodeSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
@@ -33,10 +33,10 @@ export function CodeFormWrapper({ codeForm: CodeForm, onError }: CodeFormWrapper
                 }}>
                 <CodeForm
                     Code={Code}
-                    CodeSubmit={Submit}
                     errors={formErrors}
                     isSubmitting={codeForm.state.isSubmitting}
                     isValidating={codeForm.state.isValidating}
+                    Submit={Submit}
                 />
             </form>
         </CodeFormProvider>

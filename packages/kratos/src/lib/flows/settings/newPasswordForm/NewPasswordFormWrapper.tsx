@@ -11,7 +11,7 @@ import { useNewPasswordForm } from "./useNewPasswordForm"
 export type NewPasswordFormProps = {
     Password: ComponentType<{ children: ReactNode }>
     PasswordConfirmation: ComponentType<{ children: ReactNode }>
-    PasswordSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isLoading: boolean
     isSubmitting: boolean
@@ -51,7 +51,7 @@ export function NewPasswordFormWrapper<TTraitsConfig extends TraitsConfig>({
                     isValidating={newPasswordForm.state.isValidating}
                     Password={Password}
                     PasswordConfirmation={PasswordConfirmation}
-                    PasswordSubmit={Submit}
+                    Submit={Submit}
                 />
             </form>
         </NewPasswordFormProvider>

@@ -61,13 +61,10 @@ function RouteComponent() {
 
 function TraitsForm({
     errors,
-    Email,
-    RegulationsAccepted,
-    GivenName,
     Google,
     Apple,
     Facebook,
-    TraitsSubmit,
+    traitFields: { Email, GivenName, RegulationsAccepted, Submit },
     isSubmitting,
     isValidating,
 }: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
@@ -98,13 +95,13 @@ function TraitsForm({
                 </Checkbox>
             </RegulationsAccepted>
 
-            <TraitsSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.registration.common.registerButton}
                     disabled={isSubmitting || isValidating}>
                     Register
                 </button>
-            </TraitsSubmit>
+            </Submit>
 
             <Google>
                 <button
@@ -144,10 +141,8 @@ function TraitsForm({
 function ChooseMethodForm({
     errors,
     ReturnToTraitsForm,
-    Password,
-    PasswordConfirmation,
     Passkey,
-    PasswordSubmit,
+    passwordFields: { Password, PasswordConfirmation, Submit },
     isSubmitting,
     isValidating,
 }: registrationFlow.ChooseMethodFormProps) {
@@ -177,13 +172,13 @@ function ChooseMethodForm({
                 />
             </PasswordConfirmation>
 
-            <PasswordSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.registration.common.registerButton}
                     disabled={isSubmitting || isValidating}>
                     Register
                 </button>
-            </PasswordSubmit>
+            </Submit>
 
             <Passkey>
                 <button
@@ -206,7 +201,7 @@ function ChooseMethodForm({
 
 function EmailVerificationForm({
     Code,
-    CodeSubmit,
+    Submit,
     Resend,
     errors,
     isSubmitting,
@@ -222,13 +217,13 @@ function EmailVerificationForm({
                 />
             </Code>
 
-            <CodeSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.registration.emailVerificationForm.submitButton}
                     disabled={isSubmitting || isValidating}>
                     Verify
                 </button>
-            </CodeSubmit>
+            </Submit>
 
             <Resend>
                 <button

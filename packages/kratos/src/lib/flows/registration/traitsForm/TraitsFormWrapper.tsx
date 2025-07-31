@@ -15,8 +15,10 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
           : never
 }
 
-export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
-    TraitsSubmit: ComponentType<{ children: ReactNode }>
+export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = {
+    traitFields: TraitsComponents<TTraitsConfig> & {
+        Submit: ComponentType<{ children: ReactNode }>
+    }
     Google: ComponentType<{ children: ReactNode }>
     Apple: ComponentType<{ children: ReactNode }>
     Facebook: ComponentType<{ children: ReactNode }>
@@ -74,8 +76,10 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                     Google={Google}
                     isSubmitting={traitsForm.state.isSubmitting}
                     isValidating={traitsForm.state.isValidating}
-                    TraitsSubmit={Submit}
-                    {...traitComponents}
+                    traitFields={{
+                        ...traitComponents,
+                        Submit,
+                    }}
                 />
             </form>
         </TraitsFormProvider>

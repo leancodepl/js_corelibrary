@@ -45,7 +45,7 @@ function RouteComponent() {
 
 function EmailVerificationForm({
     Code,
-    CodeSubmit,
+    Submit,
     Resend,
     errors,
     isSubmitting,
@@ -61,13 +61,13 @@ function EmailVerificationForm({
                 />
             </Code>
 
-            <CodeSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.verification.emailVerificationForm.submitButton}
                     disabled={isSubmitting || isValidating}>
                     Verify
                 </button>
-            </CodeSubmit>
+            </Submit>
 
             <Resend>
                 <button

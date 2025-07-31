@@ -29,7 +29,7 @@ type TotpFormPropsLinked = TotpFormPropsLoaded & {
 type TotpFormPropsUnlinked = TotpFormPropsLoaded & {
     isTotpLinked?: false
     Code: ComponentType<{ children: ReactNode }>
-    CodeSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     totpQrImageSrc?: string
     totpSecretKey?: string
     errors: Array<AuthError>
@@ -109,11 +109,11 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
                 ) : (
                     <TotpForm
                         Code={Code}
-                        CodeSubmit={Submit}
                         emailVerificationRequired={emailVerificationRequired}
                         errors={formErrors}
                         isSubmitting={totpForm.state.isSubmitting}
                         isValidating={totpForm.state.isValidating}
+                        Submit={Submit}
                         totpQrImageSrc={totpQrImageSrc}
                         totpSecretKey={totpSecretKey}
                     />

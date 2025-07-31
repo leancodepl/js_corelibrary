@@ -9,12 +9,10 @@ import { Apple, Facebook, Google, Identifier, Passkey, Password } from "./fields
 import { usePasswordForm } from "./usePasswordForm"
 
 type ChooseMethodFormPropsComponentsBase = {
-    Password: ComponentType<{ children: ReactNode }>
     Google: ComponentType<{ children: ReactNode }>
     Passkey: ComponentType<{ children: ReactNode }>
     Apple: ComponentType<{ children: ReactNode }>
     Facebook: ComponentType<{ children: ReactNode }>
-    PasswordSubmit: ComponentType<{ children: ReactNode }>
 }
 
 type ChooseMethodFormPropsLoadedBase = {
@@ -23,16 +21,24 @@ type ChooseMethodFormPropsLoadedBase = {
     isValidating: boolean
 }
 
-type ChooseMethodFormPropsLoaded = ChooseMethodFormPropsComponentsBase &
-    ChooseMethodFormPropsLoadedBase & {
-        isRefresh?: false
-        Identifier: ComponentType<{ children: ReactNode }>
-    }
-
 type ChooseMethodFormPropsLoadedRefresh = ChooseMethodFormPropsLoadedBase &
     Partial<ChooseMethodFormPropsComponentsBase> & {
         isRefresh: true
         identifier?: string
+        passwordFields?: {
+            Password: ComponentType<{ children: ReactNode }>
+            Submit: ComponentType<{ children: ReactNode }>
+        }
+    }
+
+type ChooseMethodFormPropsLoaded = ChooseMethodFormPropsComponentsBase &
+    ChooseMethodFormPropsLoadedBase & {
+        isRefresh?: false
+        passwordFields: {
+            Identifier: ComponentType<{ children: ReactNode }>
+            Password: ComponentType<{ children: ReactNode }>
+            Submit: ComponentType<{ children: ReactNode }>
+        }
     }
 
 export type ChooseMethodFormProps = ChooseMethodFormPropsLoaded | ChooseMethodFormPropsLoadedRefresh
@@ -80,8 +86,12 @@ export function ChooseMethodFormWrapper({
                         isSubmitting={passwordForm.state.isSubmitting}
                         isValidating={passwordForm.state.isValidating}
                         Passkey={getNodeById(loginFlow.ui.nodes, "passkey_login") && PasskeyWithFormErrorHandler}
-                        Password={getNodeById(loginFlow.ui.nodes, "password") && Password}
-                        PasswordSubmit={getNodeById(loginFlow.ui.nodes, "password") && Submit}
+                        passwordFields={
+                            getNodeById(loginFlow.ui.nodes, "password") && {
+                                Password,
+                                Submit,
+                            }
+                        }
                     />
                 ) : (
                     <ChooseMethodForm
@@ -89,12 +99,14 @@ export function ChooseMethodFormWrapper({
                         errors={formErrors}
                         Facebook={Facebook}
                         Google={Google}
-                        Identifier={Identifier}
                         isSubmitting={passwordForm.state.isSubmitting}
                         isValidating={passwordForm.state.isValidating}
                         Passkey={PasskeyWithFormErrorHandler}
-                        Password={Password}
-                        PasswordSubmit={Submit}
+                        passwordFields={{
+                            Identifier,
+                            Password,
+                            Submit,
+                        }}
                     />
                 )}
             </form>

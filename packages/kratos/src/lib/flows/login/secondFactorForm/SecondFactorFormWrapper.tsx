@@ -13,7 +13,7 @@ import { useTotpForm } from "./useTotpForm"
  *
  * @property {ComponentType<{ children: ReactNode }>} [Email] - Optional component for rendering the Email button for second factor authentication.
  * @property {ComponentType<{ children: ReactNode }>} Totp - Component for rendering the TOTP (Time-based One-Time Password) input field.
- * @property {ComponentType<{ children: ReactNode }>} TotpSubmit - Component for rendering the TOTP submit button.
+ * @property {ComponentType<{ children: ReactNode }>} Submit - Component for rendering the TOTP submit button.
  * @property {AuthError[]} errors - Array of authentication errors to display to the user.
  * @property {boolean | undefined} isRefresh - Indicates if the flow is for refresh credentials. Can be undefined during loading.
  * @property {boolean} isSubmitting - Indicates if the form is currently being submitted.
@@ -22,7 +22,7 @@ import { useTotpForm } from "./useTotpForm"
 export type SecondFactorFormProps = {
     Email?: ComponentType<{ children: ReactNode }>
     Totp: ComponentType<{ children: ReactNode }>
-    TotpSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     errors: AuthError[]
     isRefresh: boolean | undefined
     isSubmitting: boolean
@@ -59,8 +59,8 @@ export function SecondFactorFormWrapper({
                     isRefresh={isRefresh}
                     isSubmitting={totpForm.state.isSubmitting}
                     isValidating={totpForm.state.isValidating}
+                    Submit={Submit}
                     Totp={Totp}
-                    TotpSubmit={Submit}
                 />
             </form>
         </SecondFactorFormProvider>

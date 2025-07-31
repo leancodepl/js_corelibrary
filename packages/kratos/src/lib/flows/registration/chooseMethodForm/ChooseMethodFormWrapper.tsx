@@ -9,10 +9,12 @@ import { useChooseMethodForm } from "./useChooseMethodForm"
 
 export type ChooseMethodFormProps = {
     ReturnToTraitsForm: ComponentType<{ children: ReactNode }>
-    Password: ComponentType<{ children: ReactNode }>
-    PasswordConfirmation: ComponentType<{ children: ReactNode }>
     Passkey: ComponentType<{ children: ReactNode }>
-    PasswordSubmit: ComponentType<{ children: ReactNode }>
+    passwordFields: {
+        Password: ComponentType<{ children: ReactNode }>
+        PasswordConfirmation: ComponentType<{ children: ReactNode }>
+        Submit: ComponentType<{ children: ReactNode }>
+    }
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
@@ -44,9 +46,11 @@ export function ChooseMethodFormWrapper<TTraitsConfig extends TraitsConfig>({
                     isSubmitting={chooseMethodForm.state.isSubmitting}
                     isValidating={chooseMethodForm.state.isValidating}
                     Passkey={Passkey}
-                    Password={Password}
-                    PasswordConfirmation={PasswordConfirmation}
-                    PasswordSubmit={Submit}
+                    passwordFields={{
+                        Password,
+                        PasswordConfirmation,
+                        Submit,
+                    }}
                     ReturnToTraitsForm={ReturnToTraitsForm}
                 />
             </form>

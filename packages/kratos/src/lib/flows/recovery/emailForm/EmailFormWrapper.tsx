@@ -9,7 +9,7 @@ import { useEmailForm } from "./useEmailForm"
 
 export type EmailFormProps = {
     Email: ComponentType<{ children: ReactNode }>
-    EmailSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isSubmitting: boolean
     isValidating: boolean
@@ -33,10 +33,10 @@ export function EmailFormWrapper({ emailForm: EmailForm, onError }: EmailFormWra
                 }}>
                 <EmailForm
                     Email={Email}
-                    EmailSubmit={Submit}
                     errors={formErrors}
                     isSubmitting={emailForm.state.isSubmitting}
                     isValidating={emailForm.state.isValidating}
+                    Submit={Submit}
                 />
             </form>
         </EmailFormProvider>

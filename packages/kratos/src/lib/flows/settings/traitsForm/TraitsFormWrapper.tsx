@@ -17,7 +17,7 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 }
 
 export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = TraitsComponents<TTraitsConfig> & {
-    TraitsSubmit: ComponentType<{ children: ReactNode }>
+    Submit: ComponentType<{ children: ReactNode }>
     errors: Array<AuthError>
     isLoading: boolean
     isSubmitting: boolean
@@ -76,7 +76,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
                     isLoading={!settingsFlow}
                     isSubmitting={traitsForm.state.isSubmitting}
                     isValidating={traitsForm.state.isValidating}
-                    TraitsSubmit={Submit}
+                    Submit={Submit}
                     {...traitComponents}
                 />
             </form>

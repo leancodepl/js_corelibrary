@@ -45,7 +45,7 @@ function RouteComponent() {
     )
 }
 
-function EmailForm({ errors, Email, EmailSubmit, isSubmitting, isValidating }: recoveryFlow.EmailFormProps) {
+function EmailForm({ errors, Email, Submit, isSubmitting, isValidating }: recoveryFlow.EmailFormProps) {
     return (
         <div data-testid={dataTestIds.recovery.emailForm.wrapper}>
             <Email>
@@ -56,13 +56,13 @@ function EmailForm({ errors, Email, EmailSubmit, isSubmitting, isValidating }: r
                 />
             </Email>
 
-            <EmailSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.recovery.emailForm.submitButton}
                     disabled={isSubmitting || isValidating}>
                     Send code
                 </button>
-            </EmailSubmit>
+            </Submit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.common.errors}>
@@ -75,7 +75,7 @@ function EmailForm({ errors, Email, EmailSubmit, isSubmitting, isValidating }: r
     )
 }
 
-function CodeForm({ errors, Code, CodeSubmit, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
+function CodeForm({ errors, Code, Submit, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
     return (
         <div data-testid={dataTestIds.recovery.codeForm.wrapper}>
             <p>Please enter the code you received in the email.</p>
@@ -88,13 +88,13 @@ function CodeForm({ errors, Code, CodeSubmit, isSubmitting, isValidating }: reco
                 />
             </Code>
 
-            <CodeSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.recovery.codeForm.submitButton}
                     disabled={isSubmitting || isValidating}>
                     Verify
                 </button>
-            </CodeSubmit>
+            </Submit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.common.errors}>
@@ -111,7 +111,7 @@ function NewPasswordForm({
     errors,
     Password,
     PasswordConfirmation,
-    PasswordSubmit,
+    Submit,
     isSubmitting,
     isValidating,
 }: settingsFlow.NewPasswordFormProps) {
@@ -133,13 +133,13 @@ function NewPasswordForm({
                 />
             </PasswordConfirmation>
 
-            <PasswordSubmit>
+            <Submit>
                 <button
                     data-testid={dataTestIds.recovery.newPasswordForm.submitButton}
                     disabled={isSubmitting || isValidating}>
                     Set new password
                 </button>
-            </PasswordSubmit>
+            </Submit>
 
             {errors && errors.length > 0 && (
                 <div data-testid={dataTestIds.common.errors}>

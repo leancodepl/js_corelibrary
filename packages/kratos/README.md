@@ -441,7 +441,7 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
   const { errors, isSubmitting, isValidating } = props
 
   if (props.isRefresh) {
-    const { Password, PasswordSubmit, Google, Passkey, Apple, Facebook, identifier } = props
+    const { passwordFields, Google, Passkey, Apple, Facebook, identifier } = props
 
     return (
       <div>
@@ -451,16 +451,16 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
           </h2>
         )}
 
-        {Password && (
-          <Password>
-            <input placeholder="Password" />
-          </Password>
-        )}
+        {passwordFields && (
+          <>
+            <passwordFields.Password>
+              <input placeholder="Password" />
+            </passwordFields.Password>
 
-        {PasswordSubmit && (
-          <PasswordSubmit>
-            <button>Login</button>
-          </PasswordSubmit>
+            <passwordFields.Submit>
+              <button>Login</button>
+            </passwordFields.Submit>
+          </>
         )}
 
         {Google && (
@@ -498,7 +498,13 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
     )
   }
 
-  const { Password, PasswordSubmit, Google, Passkey, Apple, Facebook, Identifier } = props
+  const {
+    passwordFields: { Identifier, Password, Submit },
+    Google,
+    Passkey,
+    Apple,
+    Facebook,
+  } = props
 
   return (
     <div>
@@ -510,9 +516,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
         <input placeholder="Password" />
       </Password>
 
-      <PasswordSubmit>
+      <Submit>
         <button>Login</button>
-      </PasswordSubmit>
+      </Submit>
 
       <Google>
         <button>Sign in with Google</button>
