@@ -6,7 +6,7 @@ export function getTranslationsServiceClient() {
 
   if (!poeditorApiToken || !poeditorProjectId) {
     console.log("Skipping test - no POEditor credentials provided")
-    return null
+    return undefined
   }
 
   return mkTranslationsServiceClient({

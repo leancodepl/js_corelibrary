@@ -30,7 +30,7 @@ export async function local({
 
     const downloadedTranslations = translationsServiceClient
       ? await downloadAndCompile({ defaultLanguage, client: translationsServiceClient })
-      : null
+      : undefined
 
     const translations = mergeTranslations({ extractedTranslations, downloadedTranslations })
 
@@ -93,7 +93,7 @@ async function downloadAndCompile({
 }: {
   defaultLanguage: string
   client: TranslationsServiceClient
-}): Promise<Record<string, string> | null> {
+}): Promise<Record<string, string> | undefined> {
   try {
     console.log(`Downloading ${defaultLanguage} translations...`)
 
@@ -102,7 +102,7 @@ async function downloadAndCompile({
     console.log(`Downloaded ${downloadedCount} translations`)
 
     if (downloadedCount === 0) {
-      return null
+      return undefined
     }
 
     const downloadTempDir = createTranslationsTempDir("download-")
@@ -132,7 +132,7 @@ async function downloadAndCompile({
   } catch (error) {
     console.warn(`Failed to download translations from translation service: ${error}`)
     console.log("Using extracted translations only")
-    return null
+    return undefined
   }
 }
 
@@ -141,7 +141,7 @@ function mergeTranslations({
   downloadedTranslations,
 }: {
   extractedTranslations: Record<string, string>
-  downloadedTranslations: Record<string, string> | null
+  downloadedTranslations: Record<string, string> | undefined
 }): Record<string, string> {
   if (!downloadedTranslations) {
     return extractedTranslations
