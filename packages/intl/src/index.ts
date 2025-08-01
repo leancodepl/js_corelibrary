@@ -1,0 +1,6 @@
+export { diff } from "./commands/diff"
+export { download } from "./commands/download"
+export { local } from "./commands/local"
+export { sync } from "./commands/sync"
+export { upload } from "./commands/upload"
+export { mkTranslationsServiceClient } from "./mkTranslationsServiceClient"
