@@ -10,9 +10,7 @@ export function getTranslationsServiceClient() {
   }
 
   return mkTranslationsServiceClient({
-    config: {
-      poeditorApiToken,
-      poeditorProjectId: parseInt(poeditorProjectId, 10),
-    },
+    poeditorApiToken,
+    poeditorProjectId: parseInt(poeditorProjectId, 10),
   })
 }
