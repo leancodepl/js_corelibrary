@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.4.0](https://github.com/leancodepl/js_corelibrary/compare/v9.3.0...v9.4.0) (2025-08-04)
+
+**Note:** Version bump only for package @leancodepl/force-update
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.3.0](https://github.com/leancodepl/js_corelibrary/compare/v9.2.1...v9.3.0) (2025-07-31)
 
 **Note:** Version bump only for package @leancodepl/force-update
