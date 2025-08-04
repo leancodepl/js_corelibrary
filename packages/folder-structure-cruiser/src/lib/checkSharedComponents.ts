@@ -37,7 +37,7 @@ export function checkSharedComponents(result: IReporterOutput): CheckResult {
     }
 
     const dependents = module.dependents || []
-    console.log(dependents)
+
     // Only check modules with multiple dependents
     if (dependents.length <= 1) {
       continue
