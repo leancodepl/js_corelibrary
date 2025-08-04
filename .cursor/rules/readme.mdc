@@ -1,4 +1,5 @@
 ---
+description: 
 globs: README.md
 alwaysApply: false
 ---
@@ -10,7 +11,7 @@ alwaysApply: false
 Brief functional description (1-2 sentences)
 
 ## Installation - Standard npm/yarn commands  
-## API - Function docs from JSDoc (skip if only exports linting config)
+## API - Function docs from JSDoc
 ## Usage Examples - Real-world scenarios by category
 ## Features/Configuration (if applicable)
 ```
