@@ -2,10 +2,12 @@ import { IReporterOutput } from "dependency-cruiser"
 import { findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
 import { Message } from "./formatMessages.js"
 
+type CheckResult = { messages: Message[]; dependentsLength: number; modulesLength: number }
+
 /**
  * Checks for cross-feature imports that violate folder structure rules
  */
-export function checkCrossFeatureImports(result: IReporterOutput): Message[] {
+export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
   const modules = typeof result.output === "object" ? result.output.modules : []
   const errorMessages: Message[] = []
 
@@ -49,5 +51,7 @@ export function checkCrossFeatureImports(result: IReporterOutput): Message[] {
     })
   }
 
-  return errorMessages
+  const dependentsCount = modules.reduce((acc, module) => acc + (module.dependents ? module.dependents.length : 0), 0)
+
+  return { messages: errorMessages, modulesLength: modules.length, dependentsLength: dependentsCount }
 }

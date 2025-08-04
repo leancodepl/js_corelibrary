@@ -1,2 +1,2 @@
-export * from "./validateCrossFeatureImports.js"
-export * from "./validateSharedComponent.js"
+export * from "./commands/validateCrossFeatureImports.js"
+export * from "./commands/validateSharedComponent.js"

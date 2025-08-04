@@ -2,6 +2,8 @@ import { IReporterOutput } from "dependency-cruiser"
 import { findCommonPathsPrefix, findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
 import { Message } from "./formatMessages.js"
 
+type CheckResult = { messages: Message[]; dependentsLength: number; modulesLength: number }
+
 /**
  * Checks if an index file is properly positioned within its containing folder
  */
@@ -12,7 +14,7 @@ function isIndexFileProperlyPositioned(
 ) {
   const fileName = pathParts[pathParts.length - 1]
 
-  if (!/index\.(tsx?|jsx?)$/.test(fileName)) {
+  if (!/index\.(tsx?|jsx?|ts|js)$/.test(fileName)) {
     return false
   }
 
@@ -25,7 +27,7 @@ function isIndexFileProperlyPositioned(
 /**
  * Checks for components that should be moved to shared level based on dependent patterns
  */
-export function checkSharedComponents(result: IReporterOutput): Message[] {
+export function checkSharedComponents(result: IReporterOutput): CheckResult {
   const modules = typeof result.output === "object" ? result.output.modules : []
   const infoMessages: Message[] = []
 
@@ -71,5 +73,7 @@ export function checkSharedComponents(result: IReporterOutput): Message[] {
     }
   }
 
-  return infoMessages
+  const dependentsCount = modules.reduce((acc, module) => acc + (module.dependents ? module.dependents.length : 0), 0)
+
+  return { messages: infoMessages, modulesLength: modules.length, dependentsLength: dependentsCount }
 }
