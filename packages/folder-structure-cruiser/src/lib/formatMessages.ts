@@ -8,7 +8,7 @@ export interface Message {
   source: string
   target: string
   rule: string
-  type: "info" | "error"
+  type: "error" | "info"
 }
 
 export function formatMessages(messages: Message[]) {

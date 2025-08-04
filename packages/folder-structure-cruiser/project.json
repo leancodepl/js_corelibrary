@@ -17,7 +17,7 @@
           {
             "glob": "**/*.json",
             "input": "packages/folder-structure-cruiser/src",
-            "output": "src"
+            "output": "."
           }
         ],
         "project": "packages/folder-structure-cruiser/package.json"

@@ -1,7 +1,7 @@
 import { cruise } from "dependency-cruiser"
+import { baseConfigOptions } from "./lib/baseConfigOptions.js"
 import { checkSharedComponents } from "./lib/checkSharedComponents.js"
 import { formatMessages } from "./lib/formatMessages.js"
-import { baseConfigOptions } from "./lib/baseConfigOptions.js"
 
 export async function validateSharedComponent(directories: string[] = [".*"], excludePaths: string[] = []) {
   try {
@@ -16,15 +16,16 @@ export async function validateSharedComponent(directories: string[] = [".*"], ex
       },
     })
 
-    const sharedComponentMessages = checkSharedComponents(cruiseResult)
+    const infoMessages = checkSharedComponents(cruiseResult)
 
-    if (sharedComponentMessages.length === 0) {
+    if (infoMessages.length === 0) {
       console.info("\n✅ No shared component issues found!")
     }
 
-    if (sharedComponentMessages.length > 0) {
-      const messages = formatMessages(sharedComponentMessages)
+    if (infoMessages.length > 0) {
+      const messages = formatMessages(infoMessages)
       console.info(messages.join("\n"))
+      console.info(`\nx Found ${infoMessages.length} violations(s)`)
     }
   } catch (pError) {
     console.error(pError)
