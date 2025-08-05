@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.5.0](https://github.com/leancodepl/js_corelibrary/compare/v9.4.0...v9.5.0) (2025-08-05)
+
+**Note:** Version bump only for package @leancodepl/hook-pipe-client
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.4.0](https://github.com/leancodepl/js_corelibrary/compare/v9.3.0...v9.4.0) (2025-08-04)
 
 **Note:** Version bump only for package @leancodepl/hook-pipe-client
