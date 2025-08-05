@@ -3,6 +3,12 @@
   "plugins": ["stylelint-order"],
   "rules": {
     "length-zero-no-unit": true,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "export"]
+      }
+    ],
 
     "order/order": [
       "custom-properties",
@@ -303,13 +309,6 @@
           "clip-rule",
           "stroke"
         ]
-      }
-    ],
-
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["global", "export"]
       }
     ]
   }

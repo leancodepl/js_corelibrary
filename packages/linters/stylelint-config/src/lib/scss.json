@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-recommended-scss"],
+  "extends": ["stylelint-config-recommended-scss", "stylelint-config-css-modules"],
   "plugins": ["stylelint-prettier", "stylelint-order"],
   "rules": {
     "declaration-block-no-shorthand-property-overrides": true,
@@ -7,7 +7,7 @@
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": ["global", "local"]
+        "ignorePseudoClasses": ["global", "local", "export"]
       }
     ],
     "shorthand-property-no-redundant-values": true,
