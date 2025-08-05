@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-prettier/recommended"],
+  "extends": ["stylelint-prettier/recommended", "stylelint-config-css-modules"],
   "plugins": ["stylelint-order"],
   "rules": {
     "length-zero-no-unit": true,
@@ -303,6 +303,13 @@
           "clip-rule",
           "stroke"
         ]
+      }
+    ],
+
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "export"]
       }
     ]
   }

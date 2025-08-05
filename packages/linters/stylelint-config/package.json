@@ -12,6 +12,7 @@
   "dependencies": {
     "prettier": ">=3.0.0",
     "stylelint": ">=16.0.0",
+    "stylelint-config-css-modules": ">=4.0.0",
     "stylelint-config-recommended-scss": ">=14.0.0",
     "stylelint-order": ">=5.0.0",
     "stylelint-prettier": ">=5.0.0"
