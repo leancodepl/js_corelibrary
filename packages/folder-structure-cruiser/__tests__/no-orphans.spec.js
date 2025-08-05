@@ -1,9 +1,9 @@
 const { execSync } = require("child_process")
 const path = require("path")
 
-describe("no-orphans dpendency cruiser rule", () => {
+describe("no-orphans dependency cruiser rule", () => {
   const testDir = path.join(__dirname, "test-structure")
-  const configPath = path.resolve(__dirname, "../src/index.js")
+  const configPath = path.resolve(__dirname, "../src/.dependency-cruiser.json")
 
   test("should flag orphaned files with fewer than 2 dependents", () => {
     const filePath = path.join(testDir, "surveys/orphan.ts")
