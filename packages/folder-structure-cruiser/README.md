@@ -1,11 +1,8 @@
 # @leancodepl/folder-structure-cruiser
 
-A command-line tool for validating folder structure rules in LeanCode projects. Enforces cross-feature import
-restrictions and identifies shared components that should be moved to appropriate levels.
+Validates folder structure rules and enforces cross-feature import restrictions in TypeScript/JavaScript projects.
 
 ## Installation
-
-This package requires `dependency-cruiser` to be installed in your project:
 
 ```sh
 npm install -D dependency-cruiser @leancodepl/folder-structure-cruiser
@@ -13,114 +10,78 @@ npm install -D dependency-cruiser @leancodepl/folder-structure-cruiser
 
 ## API
 
-### `validateCrossFeatureImports(directories, excludePaths, tsConfigPath)`
+### `validateCrossFeatureImports(cruiseParams)`
 
-Validates if cross-feature nested imports are allowed according to folder structure rules.
+Validates cross-feature nested imports according to folder structure rules.
 
 **Parameters:**
 
-- `directories: string[]` - Directories to analyze for cross-feature import violations (default: `[".*"]`)
-- `excludePaths: string[]` - Paths to exclude from analysis (default: `[]`)
-- `tsConfigPath?: string` - Optional path to TypeScript configuration file
+- `cruiseParams: CruiseParams` - Configuration parameters for the dependency analysis
+  - `directory: string` - Directory to analyze. Defaults to `".*"` if not provided
+  - `configPath: string` - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
+  - `tsConfigPath: string` - Path to TypeScript configuration file for enhanced type resolution
+  - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
-**Example:**
+**Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
 
-```typescript
-import { validateCrossFeatureImports } from "@leancodepl/folder-structure-cruiser"
+**Throws:** `Error` - Throws an error if the dependency analysis fails or configuration is invalid
 
-await validateCrossFeatureImports({
-  directories: ["src"],
-  excludePaths: ["__tests__"],
-  tsConfigPath: "./tsconfig.json",
-})
-```
-
-### `validateSharedComponent(directories, excludePaths, tsConfigPath)`
+### `validateSharedComponent(cruiseParams)`
 
 Validates if shared components are located at the first shared level.
 
 **Parameters:**
 
-- `directories: string[]` - Directories to analyze for shared component issues (default: `[".*"]`)
-- `excludePaths: string[]` - Paths to exclude from analysis (default: `[]`)
-- `tsConfigPath?: string` - Optional path to TypeScript configuration file
+- `cruiseParams: CruiseParams` - Configuration parameters for the dependency analysis
+  - `directory: string` - Directory to analyze. Defaults to `".*"` if not provided
+  - `configPath: string` - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
+  - `tsConfigPath: string` - Path to TypeScript configuration file for enhanced type resolution
+  - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
-**Example:**
+**Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
 
-```typescript
-import { validateSharedComponent } from "@leancodepl/folder-structure-cruiser"
-
-await validateSharedComponent({
-  directories: ["src"],
-  excludePaths: ["__tests__"],
-  tsConfigPath: "./tsconfig.json",
-})
-```
+**Throws:** `Error` - Throws an error if the dependency analysis fails or configuration is invalid
 
 ## Usage Examples
 
-### Command Line Interface
+### Cross-Feature Import Validation
 
 ```sh
-# Validate cross-feature imports
-npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --tsConfig "./tsconfig.base.json" --directory "packages/admin"
+# Basic validation
+npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --directory "packages/admin" --config "./.dependency-cruiser.json"
 
-# Use dependency-cruiser directly
+# With both TypeScript and webpack config
+npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --directory "packages/admin" --config "./.dependency-cruiser.json" --tsConfig "./tsconfig.base.json" --webpackConfig "./webpack.config.js"
+```
+
+### Shared Component Validation
+
+```sh
+# Basic validation
+npx @leancodepl/folder-structure-cruiser validate-shared-components --directory "packages/admin" --config "./.dependency-cruiser.json"
+
+# With both TypeScript and webpack config
+npx @leancodepl/folder-structure-cruiser validate-shared-components --directory "packages/admin" --config "./.dependency-cruiser.json" --tsConfig "./tsconfig.base.json" --webpackConfig "./webpack.config.js"
+```
+
+### No-Orphan Rule Validation
+
+```sh
+# Use dependency-cruiser directly for no-orphan rule
+npx depcruise --config ./.dependency-cruiser.json ./packages/admin/.*
+
+# With TypeScript config
 npx depcruise --ts-config ./tsconfig.base.json --config ./.dependency-cruiser.json ./packages/admin/.*
+
+# With both TypeScript and webpack config
+npx depcruise --ts-config ./tsconfig.base.json --webpack-config ./webpack.config.js --config ./.dependency-cruiser.json ./packages/admin/.*
 ```
 
-### Programmatic Usage
-
-```typescript
-import { validateCrossFeatureImports, validateSharedComponent } from "@leancodepl/folder-structure-cruiser"
-
-// Validate cross-feature imports
-await validateCrossFeatureImports({
-  directories: ["src/features"],
-  excludePaths: ["__tests__", "node_modules"],
-  tsConfigPath: "./tsconfig.json",
-})
-
-// Validate shared components
-await validateSharedComponent({
-  directories: ["src/components"],
-  excludePaths: ["__tests__"],
-  tsConfigPath: "./tsconfig.json",
-})
-```
-
-### Configuration
-
-Create a `.dependency-cruiser.json` file in your project root:
+**Configuration:**
 
 ```json
 {
   "extends": ["@leancodepl/folder-structure-cruiser/.dependency-cruiser.json"]
-}
-```
-
-This configuration serves as a base config that can be extended with your own rules. You can overwrite any options or
-add additional rules to customize the validation for your project's specific needs.
-
-## Nx Configuration
-
-Configure folder-structure-cruiser commands as Nx target in your `project.json`. Example configuration:
-
-```json
-"folder-structure": {
-  "executor": "nx:run-commands",
-  "defaultConfiguration": "validate",
-  "configurations": {
-    "validate": {
-      "command": "npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --tsConfig './tsconfig.base.json' --directory '{projectRoot}'"
-    },
-    "shared-components": {
-      "command": "npx @leancodepl/folder-structure-cruiser validate-shared-components --tsConfig './tsconfig.base.json' --directory '{projectRoot}'"
-    },
-    "depcruise": {
-      "command": "npx depcruise --ts-config ./tsconfig.base.json --config ./.dependency-cruiser.json '{projectRoot}/.*'"
-    }
-  }
 }
 ```
 
@@ -130,14 +91,11 @@ Configure folder-structure-cruiser commands as Nx target in your `project.json`.
 
 Imports are allowed only if they meet one of these conditions:
 
-1. **Inside module directory**: Import is within the same module/sub-feature
+1. **Inside module directory**: Import is within the same module
    - ✅ `src/feature1/subfeature1/ComponentA` → `src/feature1/subfeature1/ComponentB`
 
-2. **Sibling's immediate child**: Import is from a sibling sub-feature at the same level
+2. **Sibling's immediate child**: Import is from an immediate sibling's or ancestors siblings' child
    - ✅ `src/feature1/subfeature1/ComponentA` → `src/feature1/subfeature2/ComponentB`
-
-3. **Ancestor's sibling's immediate child**: Import is from a different feature at the same level
-   - ✅ `src/feature1/subfeature1/ComponentA` → `src/feature2/ComponentB`
 
 ### Shared Component Detection
 
@@ -145,3 +103,37 @@ Identifies components that should be moved to shared levels when:
 
 - Multiple dependents use the same component
 - The component is not positioned at the first shared level among its dependents
+
+## Configuration
+
+Create a `.dependency-cruiser.json` file in your project root:
+
+```json
+{
+  "extends": ["@leancodepl/folder-structure-cruiser/.dependency-cruiser.json"]
+}
+```
+
+This configuration serves as a base config that can be extended with your own rules.
+
+## Nx Configuration
+
+Configure folder-structure-cruiser commands as Nx target in your `project.json`. Example configuration:
+
+```json
+"folder-structure": {
+  "executor": "nx:run-commands",
+  "defaultConfiguration": "validate-cross-feature-imports",
+  "configurations": {
+    "validate-cross-feature-imports": {
+      "command": "npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --config ./.dependency-cruiser.json --ts-config ./tsconfig.base.json --directory '{projectRoot}'"
+    },
+    "validate-shared-components": {
+      "command": "npx @leancodepl/folder-structure-cruiser validate-shared-components --config ./.dependency-cruiser.json --ts-config ./tsconfig.base.json --directory '{projectRoot}'"
+    },
+    "validate-no-orphans": {
+      "command": "npx depcruise --ts-config ./tsconfig.base.json --config ./.dependency-cruiser.json '{projectRoot}/.*'"
+    }
+  }
+}
+```

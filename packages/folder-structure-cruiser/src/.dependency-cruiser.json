@@ -1,32 +1,24 @@
 {
-    "forbidden": [
-      {
-        "name": "no-orphans",
-        "from": { "orphan": true,
-          "pathNot": [
-            "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$",
-            "[.]d[.]ts$",
-            "(^|/)tsconfig[.]json$"
-          ]
-        },
-        "to": {}
-      }
-    ],
-    "options": {
-      "doNotFollow": {
-        "path": ["node_modules"],
-        "dependencyTypes": ["npm-no-pkg", "npm-unknown"]
-      },
-      "tsPreCompilationDeps": true,
-      "enhancedResolveOptions": {
-        "exportsFields": ["exports"],
-        "conditionNames": ["import", "require", "node", "default"]
-      },
-      "reporterOptions": {
-        "dot": {
-          "collapsePattern": "node_modules/[^/]+"
-        }
-      }
+  "forbidden": [
+    {
+      "name": "no-orphans",
+      "from": {
+        "orphan": true      },
+      "to": {}
+    }
+  ],
+  "options": {
+    "doNotFollow": {
+      "path": ["node_modules", "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$", "[.]d[.]ts$", "(^|/)tsconfig[.]json$"],
+      "dependencyTypes": ["npm-no-pkg", "npm-unknown"]
+    },
+    "exclude": {
+      "path": ["node_modules", "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$", "[.]d[.]ts$", "(^|/)tsconfig[.]json$"]
+    },
+    "tsPreCompilationDeps": true,
+    "enhancedResolveOptions": {
+      "exportsFields": ["exports"],
+      "conditionNames": ["import", "require", "node", "default"]
     }
   }
-  
+}

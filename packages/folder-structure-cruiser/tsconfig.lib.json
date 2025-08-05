@@ -2,8 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "resolveJsonModule": true,
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "noEmit": false,
     "outDir": "../../dist/packages/folder-structure-cruiser",
     "declaration": true,
     "types": ["node"]
