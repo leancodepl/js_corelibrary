@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.5.1](https://github.com/leancodepl/js_corelibrary/compare/v9.5.0...v9.5.1) (2025-08-05)
+
+### Bug Fixes
+
+- add css modules config to scss in stylelint
+  ([2babed8](https://github.com/leancodepl/js_corelibrary/commit/2babed87f8defddf3a9ea3d767b457b17e103e54))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.5.0](https://github.com/leancodepl/js_corelibrary/compare/v9.4.0...v9.5.0) (2025-08-05)
 
 ### Features
