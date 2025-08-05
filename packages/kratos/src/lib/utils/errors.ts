@@ -494,7 +494,7 @@ export const mapToAuthError = (error: UiTextError) => {
 
         // Verification Flow Errors
         case 4070001:
-            return createVerificationFlowError("InvalidVerificationCodeOrAlreadyUsed")
+            return createVerificationFlowError("InvalidVerificationTokenOrAlreadyUsed")
         case 4070002:
             return createVerificationFlowError("VerificationRequestAlreadyCompletedSuccessfully")
         case 4070003:
