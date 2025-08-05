@@ -15,8 +15,9 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  *
  * @param cruiseParams - Configuration parameters for the dependency analysis
  * @param cruiseParams.directories - Array of directory paths to analyze. Defaults to `[".*"]` if not provided
- * @param cruiseParams.optionsConfigPath - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
- * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
+ * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
+ * @param cruiseParams.tsConfigPath - Path to TypeScript configuration file for enhanced type resolution
+ * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
  *
  * @returns Promise<void> - The function doesn't return a value but outputs results to console
  *
@@ -27,14 +28,16 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  * // Basic usage with default settings
  * await validateSharedComponent({
  *   directories: ["src"],
- *   optionsConfigPath: ".dependency-cruiser.js"
+ *   configPath: ".dependency-cruiser.js",
+ *   tsConfigPath: "./tsconfig.base.json"
  * });
  *
- * // Advanced usage with TypeScript support
+ * // Advanced usage with webpack support
  * await validateSharedComponent({
  *   directories: ["src", "packages"],
- *   optionsConfigPath: ".dependency-cruiser.js",
- *   tsConfigPath: "./tsconfig.json"
+ *   configPath: ".dependency-cruiser.js",
+ *   tsConfigPath: "./tsconfig.base.json",
+ *   webpackConfigPath: "./webpack.config.js"
  * });
  * ```
  *
@@ -46,8 +49,8 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  * try {
  *   await validateSharedComponent({
  *     directories: ["src"],
- *     optionsConfigPath: ".dependency-cruiser.js",
- *     tsConfigPath: "./tsconfig.json"
+ *     configPath: ".dependency-cruiser.js",
+ *     tsConfigPath: "./tsconfig.base.json"
  *   });
  *   console.log("✅ Shared component validation passed");
  * } catch (error) {

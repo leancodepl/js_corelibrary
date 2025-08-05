@@ -19,7 +19,7 @@ Validates cross-feature nested imports according to folder structure rules.
 - `cruiseParams: CruiseParams` - Configuration parameters for the dependency analysis
   - `directory: string` - Directory to analyze. Defaults to `".*"` if not provided
   - `configPath: string` - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
-  - `tsConfigPath: string` - Path to TypeScript configuration file for enhanced type resolution
+  - `tsConfigPath: string` - Optional path to TypeScript configuration file for enhanced type resolution
   - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
 **Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
@@ -35,7 +35,7 @@ Validates if shared components are located at the first shared level.
 - `cruiseParams: CruiseParams` - Configuration parameters for the dependency analysis
   - `directory: string` - Directory to analyze. Defaults to `".*"` if not provided
   - `configPath: string` - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
-  - `tsConfigPath: string` - Path to TypeScript configuration file for enhanced type resolution
+  - `tsConfigPath: string` - Optional path to TypeScript configuration file for enhanced type resolution
   - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
 **Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console

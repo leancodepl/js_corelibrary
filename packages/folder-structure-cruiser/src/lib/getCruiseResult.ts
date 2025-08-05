@@ -6,7 +6,7 @@ import extractWebpackResolveConfig from "dependency-cruiser/config-utl/extract-w
 export type CruiseParams = {
   directories: string[]
   configPath: string
-  tsConfigPath: string
+  tsConfigPath?: string
   webpackConfigPath?: string
 }
 
@@ -18,7 +18,7 @@ export async function getCruiseResult({
 }: CruiseParams) {
   const depcruiseOptions: ICruiseOptions = await extractDepcruiseOptions(configPath)
   const webpackConfig = webpackConfigPath ? await extractWebpackResolveConfig(webpackConfigPath) : undefined
-  const tsConfig = extractTSConfig(tsConfigPath)
+  const tsConfig = tsConfigPath ? extractTSConfig(tsConfigPath) : undefined
 
   const cruiseResult = await cruise(directories, { ...depcruiseOptions }, webpackConfig as IResolveOptions, {
     tsConfig,
