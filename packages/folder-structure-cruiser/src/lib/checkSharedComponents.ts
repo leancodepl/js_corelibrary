@@ -68,7 +68,7 @@ export function checkSharedComponents(result: IReporterOutput): CheckResult {
         source: module.source,
         target: commonDependentPrefix.join("/"),
         rule: "not-shared-level",
-        type: "info",
+        severity: "info",
       })
     }
   }

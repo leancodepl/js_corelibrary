@@ -45,7 +45,7 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
           source: module.source,
           target: dependent,
           rule: "cross-feature-nested-imports",
-          type: "error",
+          severity: "error",
         })
       }
     })
