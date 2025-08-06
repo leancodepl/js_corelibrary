@@ -5,9 +5,6 @@
   "bin": {
     "folder-structure-cruiser": "src/bin.js"
   },
-  "scripts": {
-    "test": "jest"
-  },
   "dependencies": {
     "commander": "^14.0.0",
     "picocolors": "^1.1.1"
