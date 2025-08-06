@@ -1,7 +1,8 @@
 {
   "name": "@leancodepl/folder-structure-cruiser",
-  "version": "1.0.0",
+  "version": "9.5.1",
   "license": "Apache-2.0",
+  "type": "module",
   "bin": {
     "folder-structure-cruiser": "src/bin.js"
   },
