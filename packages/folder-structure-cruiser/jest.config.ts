@@ -21,6 +21,7 @@ const config = {
   transform: {
     "^.+\\.(ts|js|mts|mjs)$": ["@swc/jest", swcJestConfig],
   },
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   displayName: "@leancode/folder-structure-cruiser",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "mts", "mjs"],
   preset: "../../jest.preset.js",

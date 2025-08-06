@@ -1,12 +1,13 @@
-// Forbidden: import from sibling's nested child
+import { Footer } from "../../activities/Footer"
 import { SurveyEditor } from "../../surveys/SurveyEditor"
 import { PollHeader } from "../PollEditor/PollHeader"
 
 export function SnapshotPollEditor() {
-    return (
-        <>
-            <PollHeader />
-            <SurveyEditor />
-        </>
-    )
+  return (
+    <>
+      <PollHeader />
+      <SurveyEditor />
+      <Footer />
+    </>
+  )
 }

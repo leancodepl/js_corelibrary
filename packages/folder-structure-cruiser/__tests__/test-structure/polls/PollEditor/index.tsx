@@ -1,18 +1,18 @@
-// Allowed: import from direct sibling index
+import { Footer } from "../../activities/Footer"
 import { ActivityWizard } from "../../wizards"
 import { ActivityEditor } from "../ActivityEditor"
-// Allowed: import from own child (same feature)
 import { validateDescription } from "./validators"
 import { validateName } from "./validators/validateName"
 
 export function PollEditor() {
-    validateDescription("test")
-    validateName("test")
+  validateDescription("test")
+  validateName("test")
 
-    return (
-        <>
-            <ActivityWizard />
-            <ActivityEditor />
-        </>
-    )
+  return (
+    <>
+      <ActivityWizard />
+      <ActivityEditor />
+      <Footer />
+    </>
+  )
 }

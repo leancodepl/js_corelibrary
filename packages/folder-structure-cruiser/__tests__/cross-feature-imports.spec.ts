@@ -1,84 +1,99 @@
+import { jest } from "@jest/globals"
 import { join } from "path"
 import { validateCrossFeatureImports } from "../src/commands/validateCrossFeatureImports"
 
 describe("cross-feature-imports validation", () => {
+  let consoleSpy
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(global.console, "error").mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    consoleSpy.mockRestore()
+  })
+
   it("should detect violations in SurveyEditor (nested sibling child import)", async () => {
-    const testDir = join(__dirname, "test-structure")
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
-    const configPath = join(__dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    // Mock console.error to capture output
-    const originalError = console.error
-    const errorOutput: string[] = []
-    console.error = (...args: any[]) => errorOutput.push(args.join(" "))
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
 
-    try {
-      await validateCrossFeatureImports({
-        directories: [filePath],
-        configPath: configPath,
-        tsConfigPath: join(__dirname, "../tsconfig.json"),
-      })
-    } catch (error: any) {
-      // Expected to fail with violations
-    }
-
-    // Restore console.error
-    console.error = originalError
-
-    // Should find violations in SurveyEditor
-    expect(errorOutput.length).toBeGreaterThan(0)
-    expect(errorOutput.some(output => output.includes("cross-feature-nested-imports"))).toBe(true)
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
   }, 30000)
 
   it("should detect violations in SnapshotPollEditor (nested sibling child)", async () => {
-    const testDir = join(__dirname, "test-structure")
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
-    const configPath = join(__dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    const originalError = console.error
-    const errorOutput: string[] = []
-    console.error = (...args: any[]) => errorOutput.push(args.join(" "))
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
 
-    try {
-      await validateCrossFeatureImports({
-        directories: [filePath],
-        configPath: configPath,
-        tsConfigPath: join(__dirname, "../tsconfig.json"),
-      })
-    } catch (error: any) {
-      // Expected to fail with violations
-    }
-
-    console.error = originalError
-
-    // Should find violations in SnapshotPollEditor
-    expect(errorOutput.length).toBeGreaterThan(0)
-    expect(errorOutput.some(output => output.includes("cross-feature-nested-imports"))).toBe(true)
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
   }, 30000)
 
   it("should detect violations in ActivityEditor (nested sibling child import)", async () => {
-    const testDir = join(__dirname, "test-structure")
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "activities/index.tsx")
-    const configPath = join(__dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    const originalError = console.error
-    const errorOutput: string[] = []
-    console.error = (...args: any[]) => errorOutput.push(args.join(" "))
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
 
-    try {
-      await validateCrossFeatureImports({
-        directories: [filePath],
-        configPath: configPath,
-        tsConfigPath: join(__dirname, "../tsconfig.json"),
-      })
-    } catch (error: any) {
-      // Expected to fail with violations
-    }
-
-    console.error = originalError
-
-    // Should find violations in ActivityEditor
-    expect(errorOutput.length).toBeGreaterThan(0)
-    expect(errorOutput.some(output => output.includes("cross-feature-nested-imports"))).toBe(true)
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
   }, 30000)
+
+  it("should allow import from direct sibling index", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "polls/PollEditor/index.tsx")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
+
+    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+  })
+
+  it("should allow import from immediate sibling child file", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "polls/PollEditor/index.tsx")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
+
+    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+  })
+
+  it("should allow import from own child", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "polls/PollEditor/index.tsx")
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+    })
+
+    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+  })
 })
