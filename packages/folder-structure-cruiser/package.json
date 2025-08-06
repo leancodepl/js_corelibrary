@@ -6,9 +6,6 @@
   "bin": {
     "folder-structure-cruiser": "src/bin.js"
   },
-  "scripts": {
-    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx nx run folder-structure-cruiser:test"
-  },
   "dependencies": {
     "commander": "^14.0.0",
     "picocolors": "^1.1.1"
