@@ -14,9 +14,9 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  * should be moved to shared levels for better code organization and reusability.
  *
  * @param cruiseParams - Configuration parameters for the dependency analysis
- * @param cruiseParams.directories - Array of directory paths to analyze. Defaults to `[".*"]` if not provided
- * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
- * @param cruiseParams.tsConfigPath - Path to TypeScript configuration file for enhanced type resolution
+ * @param cruiseParams.directories - Array of directory paths to analyze. Defaults to [".*"] if not provided
+ * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., .dependency-cruiser.js)
+ * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
  * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
  *
  * @returns Promise<void> - The function doesn't return a value but outputs results to console
