@@ -3,13 +3,19 @@
     {
       "name": "no-orphans",
       "from": {
-        "orphan": true      },
+        "orphan": true
+      },
       "to": {}
     }
   ],
   "options": {
     "doNotFollow": {
-      "path": ["node_modules", "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$", "[.]d[.]ts$", "(^|/)tsconfig[.]json$"],
+      "path": [
+        "node_modules",
+        "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$",
+        "[.]d[.]ts$",
+        "(^|/)tsconfig[.]json$"
+      ],
       "dependencyTypes": ["npm-no-pkg", "npm-unknown"]
     },
     "exclude": {

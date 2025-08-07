@@ -3,7 +3,7 @@ import { join } from "path"
 import { validateCrossFeatureImports } from "../src/commands/validateCrossFeatureImports"
 
 describe("cross-feature-imports validation", () => {
-  let consoleSpy
+  let consoleSpy: jest.SpiedFunction<typeof console.error>
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(global.console, "error").mockImplementation(() => {})

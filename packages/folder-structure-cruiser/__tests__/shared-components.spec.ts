@@ -3,7 +3,7 @@ import { join } from "path"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {
-  let consoleSpy
+  let consoleSpy: jest.SpiedFunction<typeof console.log>
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(global.console, "info").mockImplementation(() => {})

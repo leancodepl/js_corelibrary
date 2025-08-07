@@ -9,14 +9,14 @@ function isIndexFileProperlyPositioned(
   commonDependentPrefix: string[],
   commonPrefixLength: number,
 ) {
-  const fileName = pathParts[pathParts.length - 1]
+  const fileName = pathParts.at(-1) ?? ""
 
   if (!/index\.(tsx?|jsx?|ts|js)$/.test(fileName)) {
     return false
   }
 
-  const parentFolder = pathParts[pathParts.length - 3]
-  const expectedParentFolder = commonDependentPrefix[commonDependentPrefix.length - 1]
+  const parentFolder = pathParts.at(-3) ?? ""
+  const expectedParentFolder = commonDependentPrefix.at(-1)
 
   return parentFolder === expectedParentFolder && commonPrefixLength === pathParts.length - 2
 }
@@ -38,8 +38,9 @@ export function checkSharedComponents(result: IReporterOutput): CheckResult {
     }
 
     const pathParts = module.source.split("/")
+    const pathPartsLength = pathParts.length
 
-    if (pathParts.length <= 2) {
+    if (pathPartsLength <= 2) {
       continue
     }
 
@@ -52,7 +53,7 @@ export function checkSharedComponents(result: IReporterOutput): CheckResult {
       continue
     }
 
-    if (commonPrefixLength < pathParts.length - 1) {
+    if (commonPrefixLength < pathPartsLength - 1) {
       infoMessages.push({
         source: module.source,
         target: commonDependentPrefix.join("/"),
