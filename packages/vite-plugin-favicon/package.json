@@ -1,0 +1,36 @@
+{
+  "name": "@leancodepl/vite-plugin-favicon",
+  "version": "9.5.1",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/vite-plugin-favicon"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Vite plugin for generating favicons",
+  "keywords": [
+    "vite",
+    "favicon",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "favicons": "^7.2.0",
+    "parse5": "^8.0.0"
+  }
+}
