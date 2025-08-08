@@ -1,56 +1,84 @@
-# @leancodepl/gtag
+# @leancodepl/vite-plugin-favicon
 
-Type-safe Google Tag Manager data layer integration.
+A Typescript library for generating favicon formats and sizes from a source logo and injecting the HTML tags into the
+build output. Extracted from [vite favicon plugin](https://github.com/josh-hemphill/) and adjusted to be dev mode
+compatible.
 
 ## Installation
 
 ```bash
-npm install @leancodepl/gtag
-# or
-yarn add @leancodepl/gtag
+npm install @leancodepl/vite-plugin-favicon
 ```
 
 ## API
 
-### `mkgtag()`
+### `ViteFaviconsPlugin(options)`
 
-Creates a type-safe Google Tag Manager data layer push function.
+Creates a Vite plugin for generating favicons from a source logo.
 
-**Returns:** Function that accepts data layer arguments and pushes to GTM
+**Parameters:**
+
+- `options` - Configuration options for favicon generation
+
+**Returns:** Vite plugin instance
+
+### `ViteFaviconsPluginOptions`
+
+Configuration options for the Vite favicon plugin.
+
+**Properties:**
+
+- `logo?: string` - Source logo path for favicon generation (default: "assets/logo.png")
+- `inject?: boolean` - Whether to inject HTML links and metadata (default: true)
+- `favicons?: Partial<FaviconOptions>` - Favicons configuration options
+- `projectRoot?: string` - Project root directory for metadata loading (default: process.cwd())
 
 ## Usage Examples
 
-### Basic Event Tracking
+### Basic Configuration
 
-```typescript
-import { mkgtag } from '@leancodepl/gtag';
+```javascript
+// vite.config.js
+import { ViteFaviconsPlugin } from "@leancodepl/vite-plugin-favicon"
 
-const gtag = mkgtag<{ event: 'page_view'; page_title: string }>();
-
-gtag({
-  event: 'page_view',
-  page_title: 'Home Page',
-});
+export default {
+  plugins: [ViteFaviconsPlugin()],
+}
 ```
 
-### Custom Events with Callbacks
+### Custom Logo Path
 
-```typescript
-import { mkgtag } from '@leancodepl/gtag';
+```javascript
+// vite.config.js
+import { ViteFaviconsPlugin } from "@leancodepl/vite-plugin-favicon"
 
-interface CustomEvent {
-  event: 'button_click';
-  element_id: string;
+export default {
+  plugins: [
+    ViteFaviconsPlugin({
+      logo: "src/assets/logo.png",
+    }),
+  ],
 }
+```
 
-const gtag = mkgtag<CustomEvent>();
+### Advanced Favicon Configuration
 
-gtag({
-  event: 'button_click',
-  element_id: 'signup-button',
-  eventCallback: (containerId) => {
-    console.log('Event sent to container:', containerId);
-  },
-  eventTimeout: 2000,
-});
+```javascript
+// vite.config.js
+import { ViteFaviconsPlugin } from "@leancodepl/vite-plugin-favicon"
+
+export default {
+  plugins: [
+    ViteFaviconsPlugin({
+      logo: "src/assets/logo.png",
+      favicons: {
+        appName: "My Application",
+        appShortName: "MyApp",
+        themeColor: "#ffffff",
+        background: "#000000",
+        display: "standalone",
+      },
+    }),
+  ],
+}
 ```

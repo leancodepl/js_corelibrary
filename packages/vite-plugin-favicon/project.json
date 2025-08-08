@@ -13,7 +13,7 @@
       "options": {
         "outputPath": "dist/packages/vite-plugin-favicon",
         "main": "packages/vite-plugin-favicon/src/index.ts",
-        "tsConfig": "packages/vite-plugin-favicon/tsconfig.lib.json",
+        "tsConfig": "packages/vite-plugin-favicon/tsconfig.json",
         "assets": [
           {
             "glob": "packages/vite-plugin-favicon/README.md",
@@ -22,7 +22,6 @@
           }
         ],
         "project": "packages/vite-plugin-favicon/package.json",
-        "compiler": "swc",
         "format": [
           "cjs",
           "esm"

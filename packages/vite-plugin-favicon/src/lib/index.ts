@@ -4,36 +4,39 @@ import path from "path"
 import type { PluginContext } from "rollup"
 import type { HtmlTagDescriptor, Plugin } from "vite"
 
+/**
+ * Configuration options for the Vite favicon plugin.
+ */
 export type ViteFaviconsPluginOptions = {
-  /** Your source logo (Will default to )
-		@default "assets/logo.png"
-	 */
+  /** Source logo path for favicon generation.
+   * @default "assets/logo.png"
+   */
   logo?: string
-  /** Inject html links/metadata.
-		@default true
-	 */
+  /** Whether to inject HTML links and metadata.
+   * @default true
+   */
   inject?: boolean
-  /** `Favicons` configuration options
-   *  - [See `favicons` documentation](https://github.com/itgalaxy/favicons)
+  /** Favicons configuration options.
+   * See [favicons documentation](https://github.com/itgalaxy/favicons) for details.
    */
   favicons?: Partial<FaviconOptions>
-  /** The root of the project from which you want to load metadata
-		@default process.cwd()
-	 */
+  /** Project root directory for metadata loading.
+   * @default process.cwd()
+   */
   projectRoot?: string
-  /** prefix is delegated to Rollup/Vite (keeping for people migrating from Webpack)
+  /** Prefix for asset paths (deprecated - delegated to Rollup/Vite).
    * @deprecated
    */
   prefix?: string
-  /** Caching is delegated to Rollup/Vite (keeping for people migrating from Webpack)
+  /** Enable caching (deprecated - delegated to Rollup/Vite).
    * @deprecated
    */
   cache?: boolean
-  /** Public Path is delegated to Rollup/Vite (keeping for people migrating from Webpack)
+  /** Public path for assets (deprecated - delegated to Rollup/Vite).
    * @deprecated
    */
   publicPath?: string
-  /** Output Path is delegated to Rollup/Vite (keeping for people migrating from Webpack)
+  /** Output path for assets (deprecated - delegated to Rollup/Vite).
    * @deprecated
    */
   outputPath?: string
@@ -41,6 +44,33 @@ export type ViteFaviconsPluginOptions = {
 
 type FaviconsPluginArgs = Partial<ViteFaviconsPluginOptions>
 
+/**
+ * Creates a Vite plugin for generating favicons from a source logo.
+ *
+ * Generates various favicon formats and sizes, then injects the appropriate
+ * HTML tags into the build output. Supports watching for logo changes during development.
+ *
+ * @param options - Configuration options for favicon generation
+ * @returns Vite plugin instance
+ * @example
+ * ```javascript
+ * // vite.config.js
+ * import { ViteFaviconsPlugin } from '@leancodepl/vite-plugin-favicon'
+ *
+ * export default {
+ *   plugins: [
+ *     ViteFaviconsPlugin({
+ *       logo: 'src/assets/logo.png',
+ *       favicons: {
+ *         appName: 'My App',
+ *         appShortName: 'App',
+ *         themeColor: '#ffffff'
+ *       }
+ *     })
+ *   ]
+ * }
+ * ```
+ */
 export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
   options.inject ??= true
   options.projectRoot ??= process.cwd()
