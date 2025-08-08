@@ -23,12 +23,10 @@
  * ```
  */
 
-import { Linter } from "eslint"
-
 // Resolves flat config issue: https://github.com/eslint/eslintrc/issues/135
-function resolveFlatConfig(allModules: Linter.Config[]): Linter.Config[] {
+function resolveFlatConfig(allModules) {
   let plugins = {}
-  let configsWithoutPlugins: Linter.Config[] = []
+  let configsWithoutPlugins = []
 
   allModules.forEach(config => {
     if (config.plugins) {
