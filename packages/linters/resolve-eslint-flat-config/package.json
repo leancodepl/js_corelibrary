@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "Resolve eslint flat config for LeanCode projects",
+  "description": "Resolve ESlint flat config for LeanCode projects",
   "keywords": [
     "eslint",
     "flat",
