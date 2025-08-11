@@ -17,18 +17,6 @@ yarn add --dev @leancodepl/eslint-config
 - `imports` - Import/export organization and unused import detection
 - `a11y` - Accessibility rules for React components
 
-## API
-
-### `resolveFlatConfig(allModules)`
-
-Resolves ESLint flat config by merging plugins and separating configurations.
-
-**Parameters:**
-
-- `allModules` - Array of ESLint flat config objects to merge
-
-**Returns:** Array containing merged plugins object followed by individual configs
-
 ## Usage Examples
 
 ### React TypeScript Project
@@ -56,18 +44,4 @@ export default [
     },
   },
 ]
-```
-
-### Resolving Flat Config
-
-```javascript
-// eslint.config.js
-import { base, resolveFlatConfig } from "@leancodepl/eslint-config"
-
-const customConfigs = [
-  { plugins: { custom: customPlugin }, rules: { "custom/rule": "error" } },
-  { plugins: { another: anotherPlugin }, rules: { "another/rule": "warn" } },
-]
-
-export default resolveFlatConfig(customConfigs)
 ```

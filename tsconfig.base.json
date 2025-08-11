@@ -45,7 +45,8 @@
       "@leancodepl/validation": ["packages/validation/src/index.ts"],
       "@leancodepl/mail-translation": ["packages/mail-translation/src/index.ts"],
       "@leancodepl/intl": ["packages/intl/src/index.ts"],
-      "@leancodepl/folder-structure-cruiser": ["packages/folder-structure-cruiser/src/index.ts"]
+      "@leancodepl/folder-structure-cruiser": ["packages/folder-structure-cruiser/src/index.ts"],
+      "@leancodepl/resolve-eslint-flat-config": ["packages/linters/resolve-eslint-flat-config/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
