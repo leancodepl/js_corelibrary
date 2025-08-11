@@ -28,6 +28,7 @@
   "keywords": [
     "linting",
     "eslint",
+    "resolve",
     "prettier",
     "stylelint",
     "typescript",
