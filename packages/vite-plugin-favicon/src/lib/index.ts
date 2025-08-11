@@ -23,22 +23,6 @@ export type ViteFaviconsPluginOptions = {
   /** Project root directory for metadata loading.
    * @default process.cwd()
    */
-  projectRoot?: string
-  /** Prefix for asset paths (deprecated - delegated to Rollup/Vite).
-   * @deprecated
-   */
-  prefix?: string
-  /** Enable caching (deprecated - delegated to Rollup/Vite).
-   * @deprecated
-   */
-  cache?: boolean
-  /** Public path for assets (deprecated - delegated to Rollup/Vite).
-   * @deprecated
-   */
-  publicPath?: string
-  /** Output path for assets (deprecated - delegated to Rollup/Vite).
-   * @deprecated
-   */
   outputPath?: string
 }
 
@@ -73,7 +57,6 @@ type FaviconsPluginArgs = Partial<ViteFaviconsPluginOptions>
  */
 export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
   options.inject ??= true
-  options.projectRoot ??= process.cwd()
 
   const logoPath = path.resolve(options.logo ?? path.join("assets", "logo.png"))
 
@@ -83,10 +66,7 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
     ctx.addWatchFile(logoPath)
     faviconResponse = await favicons(logoPath, options.favicons)
 
-    for (const { name, contents } of faviconResponse.files) {
-      ctx.emitFile({ type: "asset", name, source: contents })
-    }
-    for (const { name, contents } of faviconResponse.images) {
+    for (const { name, contents } of [...faviconResponse.files, ...faviconResponse.images]) {
       ctx.emitFile({ type: "asset", name, source: contents })
     }
   }
@@ -97,7 +77,7 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
     async buildStart() {
       await rebuildFavicons(this)
     },
-    transformIndexHtml(html, ctx) {
+    transformIndexHtml(_, ctx) {
       if (!options.inject || !faviconResponse) return
 
       const tags: HtmlTagDescriptor[] = []

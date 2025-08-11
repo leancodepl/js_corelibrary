@@ -1,8 +1,8 @@
 # @leancodepl/vite-plugin-favicon
 
 A Typescript library for generating favicon formats and sizes from a source logo and injecting the HTML tags into the
-build output. Extracted from [vite favicon plugin](https://github.com/josh-hemphill/) and adjusted to be dev mode
-compatible.
+build output. Extracted from [vite favicon plugin](https://github.com/josh-hemphill/vite-plugin-favicon) and adjusted to
+be dev mode compatible.
 
 ## Installation
 
@@ -30,8 +30,8 @@ Configuration options for the Vite favicon plugin.
 
 - `logo?: string` - Source logo path for favicon generation (default: "assets/logo.png")
 - `inject?: boolean` - Whether to inject HTML links and metadata (default: true)
-- `favicons?: Partial<FaviconOptions>` - Favicons configuration options
-- `projectRoot?: string` - Project root directory for metadata loading (default: process.cwd())
+- `favicons?: Partial<FaviconOptions>`
+- `outputPath?: string`
 
 ## Usage Examples
 

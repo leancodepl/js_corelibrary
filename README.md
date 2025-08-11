@@ -114,6 +114,10 @@ Utility library for common development tasks including assertions, transformatio
 
 Validation utilities for handling API responses and error management with custom error codes.
 
+#### `@leancodepl/vite-plugin-favicon`
+
+Vite plugin for generating favicons from source logos with automatic HTML injection and multiple format support.
+
 ## Development
 
 ### Testing
