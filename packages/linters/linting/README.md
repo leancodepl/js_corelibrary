@@ -48,7 +48,7 @@ module.exports = {
 
 ```javascript
 // eslint.config.js
-import { base, resolveFlatConfig } from "@leancodepl/eslint-config"
+const { resolveFlatConfig } = require("@leancodepl/resolve-eslint-flat-config")
 
 const customConfigs = [
   { plugins: { custom: customPlugin }, rules: { "custom/rule": "error" } },
