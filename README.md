@@ -86,6 +86,10 @@ Prettier configuration for consistent code formatting across projects.
 
 Stylelint configuration for CSS and SCSS with property ordering and best practices enforcement.
 
+#### `@leancodepl/folder-structure-cruiser`
+
+Dependency cruiser configuration for enforcing folder structure rules and cross-feature import validation.
+
 ### UI & Styling
 
 #### `@leancodepl/styled-tools`

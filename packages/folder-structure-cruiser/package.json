@@ -1,0 +1,51 @@
+{
+  "name": "@leancodepl/folder-structure-cruiser",
+  "version": "9.5.1",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "folder-structure-cruiser": "src/bin.js"
+  },
+  "dependencies": {
+    "commander": "^14.0.0",
+    "picocolors": "^1.1.1"
+  },
+  "peerDependencies": {
+    "dependency-cruiser": "^17.0.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.0.5",
+    "jest": "^29.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/linters/folder-structure-cruiser"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Dependency-cruiser configuration for enforcing folder structure rules. Requires dependency-cruiser to be installed in your project.",
+  "keywords": [
+    "dependency-cruiser",
+    "folder-structure",
+    "import-rules",
+    "linting",
+    "javascript",
+    "typescript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false
+}
