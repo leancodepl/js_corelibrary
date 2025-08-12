@@ -27,17 +27,26 @@ import { Linter } from "eslint"
 
 // Resolves flat config issue: https://github.com/eslint/eslintrc/issues/135
 export function resolveFlatConfig(allModules: Linter.Config[]): Linter.Config[] {
-  let plugins = {}
-  let configsWithoutPlugins: Linter.Config[] = []
+  const plugins = {}
+  const configsWithoutPlugins: Linter.Config[] = []
 
   allModules.forEach(config => {
     if (config.plugins) {
-      plugins = { ...plugins, ...config.plugins }
+      Object.assign(plugins, config.plugins)
 
       const { plugins: _ignoredPlugins, ...configWithoutPlugins } = config
-      configsWithoutPlugins = [...configsWithoutPlugins, configWithoutPlugins]
+
+      if (Object.keys(configWithoutPlugins).length) {
+        configsWithoutPlugins.push(configWithoutPlugins)
+      }
+    } else {
+      configsWithoutPlugins.push(config)
     }
   })
 
-  return [{ plugins }, ...configsWithoutPlugins]
+  if (Object.keys(plugins).length) {
+    return [{ plugins }, ...configsWithoutPlugins]
+  }
+
+  return configsWithoutPlugins
 }
