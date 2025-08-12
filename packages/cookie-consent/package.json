@@ -1,0 +1,43 @@
+{
+  "name": "@leancodepl/cookie-consent",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@leancodepl/gtag": "^9.5.1",
+    "vanilla-cookieconsent": "^3.1.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.0.5",
+    "jest": "^29.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/cookie-consent"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Cookie consent library",
+  "keywords": [
+    "cookie-consent",
+    "javascript",
+    "typescript",
+    "leancode",
+    "vanilla-cookieconsent"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false
+}
