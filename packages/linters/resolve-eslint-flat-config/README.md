@@ -1,6 +1,6 @@
 # @leancodepl/resolve-eslint-flat-config
 
-A TypeScript library for resolving ESLint flat configurations.
+A TypeScript library for resolving ESLint flat config plugin collisions.
 
 ## Installation
 
@@ -26,7 +26,7 @@ Resolves ESLint flat config by merging plugins and separating configurations.
 
 ```javascript
 // eslint.config.js
-import { base, resolveFlatConfig } from "@leancodepl/eslint-config"
+const { resolveFlatConfig } = require("@leancodepl/resolve-eslint-flat-config")
 
 const customConfigs = [
   { plugins: { custom: customPlugin }, rules: { "custom/rule": "error" } },
