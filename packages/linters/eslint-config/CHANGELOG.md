@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.5.2](https://github.com/leancodepl/js_corelibrary/compare/v9.5.1...v9.5.2) (2025-08-13)
+
+### Bug Fixes
+
+- packages linting
+  ([0141878](https://github.com/leancodepl/js_corelibrary/commit/014187861255ad5760062a6862e32b785758d4b7))
+
+### Features
+
+- create resolveFlatConfig function
+  ([35b0fc2](https://github.com/leancodepl/js_corelibrary/commit/35b0fc2b108a23bfd20afa19133cb9e68f3cc9b4))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.5.1](https://github.com/leancodepl/js_corelibrary/compare/v9.5.0...v9.5.1) (2025-08-05)
 
 **Note:** Version bump only for package @leancodepl/eslint-config
