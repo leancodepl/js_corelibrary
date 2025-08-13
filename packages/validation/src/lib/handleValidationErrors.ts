@@ -18,7 +18,7 @@ export type ValidationErrorHandlerFunc<
 
 export type ValidationErrorsHandleFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
-        validationErrors: THandledErrors | THandledErrors[],
+        validationErrors: ReadonlyArray<THandledErrors> | THandledErrors,
         handler: ValidationErrorHandlerFunc<TErrorsToHandle, THandledErrors, TResult>,
     ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>
 }
@@ -36,7 +36,7 @@ export type ValidationErrorHandlerAllFunc<
 
 export type ValidationErrorsHandleAllFunc<TErrorsToHandle extends Record<string, number>, TInResult> = {
     <THandledErrors extends keyof TErrorsToHandle, TResult>(
-        validationErrors: THandledErrors | THandledErrors[],
+        validationErrors: ReadonlyArray<THandledErrors> | THandledErrors,
         handler: ValidationErrorHandlerAllFunc<TErrorsToHandle, THandledErrors, TResult>,
     ): ValidationErrorsHandler<Omit<TErrorsToHandle, THandledErrors>, TInResult | TResult>
 }
@@ -78,7 +78,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         THandledErrors extends keyof TAllErrors,
         TResult,
     >(
-        validationErrorsToHandle: THandledErrors | THandledErrors[],
+        validationErrorsToHandle: ReadonlyArray<THandledErrors> | THandledErrors,
         handler: ValidationErrorHandlerFunc<TAllErrors, THandledErrors, TResult>,
     ) => {
         let result: TResult | undefined = undefined
@@ -113,7 +113,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
         THandledErrors extends keyof TAllErrors,
         TResult,
     >(
-        _validationErrorsToHandle: THandledErrors | THandledErrors[],
+        _validationErrorsToHandle: ReadonlyArray<THandledErrors> | THandledErrors,
         handler: ValidationErrorHandlerAllFunc<TAllErrors, THandledErrors, TResult>,
     ) => {
         let result: TResult | undefined = undefined
