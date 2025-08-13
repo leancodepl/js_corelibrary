@@ -13,7 +13,7 @@ yarn add --dev @leancodepl/eslint-config
 ## Available Configurations
 
 - `base` - Core TypeScript rules with sorting and code quality
-- `baseReact` - React-specific rules and JSX formatting  
+- `baseReact` - React-specific rules and JSX formatting
 - `imports` - Import/export organization and unused import detection
 - `a11y` - Accessibility rules for React components
 
@@ -23,30 +23,25 @@ yarn add --dev @leancodepl/eslint-config
 
 ```javascript
 // eslint.config.js
-import { base, baseReact, imports, a11y } from '@leancodepl/eslint-config';
+import { base, baseReact, imports, a11y } from "@leancodepl/eslint-config"
 
-export default [
-  ...base,
-  ...baseReact,
-  ...imports,
-  ...a11y,
-];
+export default [...base, ...baseReact, ...imports, ...a11y]
 ```
 
 ### Custom Rules
 
 ```javascript
 // eslint.config.js
-import { base, baseReact } from '@leancodepl/eslint-config';
+import { base, baseReact } from "@leancodepl/eslint-config"
 
 export default [
   ...base,
   ...baseReact,
   {
     rules: {
-      'max-params': ['error', { max: 6 }],
-      'no-console': 'off',
+      "max-params": ["error", { max: 6 }],
+      "no-console": "off",
     },
   },
-];
+]
 ```

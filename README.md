@@ -90,6 +90,10 @@ Stylelint configuration for CSS and SCSS with property ordering and best practic
 
 Dependency cruiser configuration for enforcing folder structure rules and cross-feature import validation.
 
+#### `@leancodepl/resolve-eslint-flat-config`
+
+ESLint flat config resolver for merging configuration plugins.
+
 ### UI & Styling
 
 #### `@leancodepl/styled-tools`

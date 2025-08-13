@@ -4,8 +4,8 @@ const baseReact = require("./lib/base-react")
 const imports = require("./lib/imports")
 
 module.exports = {
-    imports,
-    base,
-    baseReact,
-    a11y,
+  imports,
+  base,
+  baseReact,
+  a11y,
 }

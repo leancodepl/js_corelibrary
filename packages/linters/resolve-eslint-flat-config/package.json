@@ -1,12 +1,9 @@
 {
-  "name": "@leancodepl/linting",
+  "name": "@leancodepl/resolve-eslint-flat-config",
   "version": "9.5.1",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@leancodepl/eslint-config": "9.5.1",
-    "@leancodepl/prettier-config": "9.5.1",
-    "@leancodepl/stylelint-config": "9.5.1",
-    "@leancodepl/resolve-eslint-flat-config": "9.5.1"
+  "peerDependencies": {
+    "eslint": ">=8.9.0"
   },
   "publishConfig": {
     "access": "public",
@@ -18,21 +15,20 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
-    "directory": "packages/linters/linting"
+    "directory": "packages/linters/resolve-eslint-flat-config"
   },
   "homepage": "https://github.com/leancodepl/js_corelibrary",
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "Meta-package for LeanCode linting configurations",
+  "description": "Resolve ESlint flat config plugin collisions",
   "keywords": [
-    "linting",
     "eslint",
-    "resolve",
-    "prettier",
-    "stylelint",
-    "typescript",
+    "flat",
+    "config",
+    "linting",
     "javascript",
+    "typescript",
     "leancode"
   ],
   "author": {

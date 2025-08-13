@@ -1,0 +1,33 @@
+{
+  "name": "@leancodepl/resolve-eslint-flat-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/linters/resolve-eslint-flat-config/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "tsConfig": "packages/linters/resolve-eslint-flat-config/tsconfig.json",
+        "project": "packages/linters/resolve-eslint-flat-config/package.json",
+        "main": "packages/linters/resolve-eslint-flat-config/src/index.ts",
+        "outputPath": "dist/packages/linters/resolve-eslint-flat-config",
+        "assets": [
+          {
+            "glob": "packages/linters/resolve-eslint-flat-config/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ],
+        "compiler": "swc",
+        "format": ["cjs", "esm"],
+        "generateExportsField": true
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/resolve-eslint-flat-config {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  }
+}
