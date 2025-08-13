@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/mail-translation",
-  "version": "9.5.1",
+  "version": "9.5.2",
   "license": "Apache-2.0",
   "bin": {
     "mail-translation": "src/bin.js"

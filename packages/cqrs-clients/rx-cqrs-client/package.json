@@ -1,10 +1,10 @@
 {
   "name": "@leancodepl/rx-cqrs-client",
-  "version": "9.5.1",
+  "version": "9.5.2",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "9.5.1",
-    "@leancodepl/validation": "9.5.1",
+    "@leancodepl/cqrs-client-base": "9.5.2",
+    "@leancodepl/validation": "9.5.2",
     "rxjs": ">=7.0.0"
   },
   "devDependencies": {
