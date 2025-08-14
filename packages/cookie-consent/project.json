@@ -11,7 +11,7 @@
       "options": {
         "outputPath": "dist/packages/cookie-consent",
         "main": "packages/cookie-consent/src/index.ts",
-        "tsConfig": "packages/cookie-consent/tsconfig.lib.json",
+        "tsConfig": "packages/cookie-consent/tsconfig.json",
         "assets": [
           "packages/cookie-consent/*.md",
           {
@@ -35,13 +35,6 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "command": "NODE_OPTIONS='--experimental-vm-modules' npx jest --config packages/cookie-consent/jest.config.ts"
-      }
     }
   }
 }

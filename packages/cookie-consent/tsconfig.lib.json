@@ -1,13 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "outDir": "../../dist/packages/folder-structure-cruiser",
+    "outDir": "../../dist/packages/cookie-consent",
     "declaration": true,
     "types": ["node"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "include": ["src/**/*"]
 }
