@@ -112,6 +112,10 @@ React client for feature flag management using OpenFeature standard.
 
 Type-safe Google Tag Manager data layer integration for web analytics and event tracking.
 
+#### `@leancodepl/cookie-consent`
+
+Cookie consent helper integrating `vanilla-cookieconsent` with Google Consent Mode.
+
 ### Utilities
 
 #### `@leancodepl/utils`
