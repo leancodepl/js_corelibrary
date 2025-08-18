@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
-    "@leancodepl/gtag": "^9.5.1",
+    "@leancodepl/gtag": "^9.5.2",
     "vanilla-cookieconsent": "^3.1.0"
   },
   "publishConfig": {
