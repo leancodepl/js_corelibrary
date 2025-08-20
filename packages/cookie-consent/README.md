@@ -12,6 +12,20 @@ yarn add @leancodepl/cookie-consent
 
 ## API
 
+### `getDefaultConsentConfig(options)`
+
+Creates a default cookie consent configuration with configurable languages and categories.
+
+- **Parameters**
+  - `options: DefaultConsentOptions` – Configuration options for languages and enabled categories
+    - `language: ("en" | "pl")[]` – Supported languages array
+    - `advertisement?: boolean` – Enable advertisement category
+    - `analytics?: boolean` – Enable analytics category
+    - `security?: boolean` – Enable security category
+    - `functionality?: boolean` – Enable functionality category
+- **Returns**
+  - `CookieConsentConfig` – Complete cookie consent configuration ready for `runCookieConsent`
+
 ### `runCookieConsent(config)`
 
 Runs cookie consent and synchronizes consent state with Google via `"@leancodepl/gtag"`.
@@ -23,6 +37,26 @@ Runs cookie consent and synchronizes consent state with Google via `"@leancodepl
   - `Promise<typeof CookieConsent>` – The `vanilla-cookieconsent` module instance after initialization
 
 ## Usage Examples
+
+### Using Default Configuration
+
+```jsx
+import "vanilla-cookieconsent/dist/cookieconsent.css"
+import { getDefaultConsentConfig, runCookieConsent } from "@leancodepl/cookie-consent"
+
+useEffect(() => {
+  const config = getDefaultConsentConfig({
+    language: ["en", "pl"], // English as default
+    analytics: true,
+    advertisement: true,
+    functionality: true,
+  })
+
+  runCookieConsent(config)
+}, [])
+```
+
+### Custom Configuration
 
 ```jsx
 import "vanilla-cookieconsent/dist/cookieconsent.css"
