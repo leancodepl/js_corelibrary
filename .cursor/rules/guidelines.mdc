@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+
+## Code Documentation Guidelines
+
+- **Avoid commenting simple functions**: Do not add comments to simple, self-explanatory functions, especially if they
+  are internal and not exported by the library. Let the code speak for itself when the functionality is obvious.
