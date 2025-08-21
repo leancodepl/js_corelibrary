@@ -37,6 +37,7 @@ function buildPreferencesSections(
   return sections
 }
 
+const fallbackLanguage: Language = "en"
 /**
  * Creates a default cookie consent configuration with configurable languages and categories.
  *
@@ -55,18 +56,22 @@ function buildPreferencesSections(
  * runCookieConsent(config)
  * ```
  */
-export function getDefaultConsentConfig(options: DefaultConsentOptions): CookieConsentConfig {
-  const { language, advertisement = false, analytics = false, security = false, functionality = false } = options
-
+export function getDefaultConsentConfig({
+  language = [fallbackLanguage],
+  advertisement = false,
+  analytics = false,
+  security = false,
+  functionality = false,
+}: DefaultConsentOptions): CookieConsentConfig {
   const categoryOptions = { analytics, advertisement, functionality, security }
 
-  const defaultLang = language[0]
-  const defaultLangConfig = config[defaultLang]
+  const defaultLanguage = language.at(0) ?? fallbackLanguage
+  const defaultLanguageConfig = config[defaultLanguage]
 
   const supportedCategories: CookieConsentConfig["categories"] = {}
   for (const key of categories) {
     if (categoryOptions[key]) {
-      supportedCategories[key] = defaultLangConfig.categories[key]
+      supportedCategories[key] = defaultLanguageConfig.categories[key]
     }
   }
 
@@ -87,7 +92,7 @@ export function getDefaultConsentConfig(options: DefaultConsentOptions): CookieC
   return {
     categories: supportedCategories,
     language: {
-      default: language[0],
+      default: defaultLanguage,
       translations: languageTranslations,
     },
   }
