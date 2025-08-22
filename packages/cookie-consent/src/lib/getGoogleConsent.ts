@@ -50,7 +50,7 @@ export function getGoogleConsent() {
   function setDefaultConsent(serviceKeys: ServiceKey[]) {
     gtag({
       event: "default_cookie_consent",
-      settings: Object.fromEntries(serviceKeys.map(serviceName => [serviceName as ServiceKey, "denied"])),
+      settings: Object.fromEntries(serviceKeys.map(serviceName => [serviceName, "denied"])),
     })
   }
 

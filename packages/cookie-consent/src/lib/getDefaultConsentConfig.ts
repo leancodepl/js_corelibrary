@@ -1,3 +1,4 @@
+import { Translation } from "vanilla-cookieconsent"
 import { config } from "./config"
 import { catAdvertisement, catAnalytics, catFunctionality, catSecurity } from "./getGoogleConsent"
 import type { CookieConsentConfig } from "./runCookieConsent"
@@ -17,7 +18,7 @@ function buildPreferencesSections(
   langConfig: (typeof config)[Language],
   options: { analytics?: boolean; advertisement?: boolean; functionality?: boolean; security?: boolean },
 ) {
-  const sections: any[] = [
+  const sections = [
     langConfig.language.preferencesModal.baseSection,
     {
       ...langConfig.language.preferencesModal.necessarySection,
@@ -75,7 +76,7 @@ export function getDefaultConsentConfig({
     }
   }
 
-  const languageTranslations: Record<string, any> = {}
+  const languageTranslations: Record<string, Translation> = {}
 
   for (const lang of language) {
     const langConfig = config[lang]
