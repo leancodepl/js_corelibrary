@@ -33,5 +33,5 @@ const customConfigs = [
   { plugins: { another: anotherPlugin }, rules: { "another/rule": "warn" } },
 ]
 
-export default resolveFlatConfig(customConfigs)
+module.exports = resolveFlatConfig(customConfigs)
 ```
