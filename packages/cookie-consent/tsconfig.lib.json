@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "outDir": "../../dist/packages/cookie-consent",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*"]
+}
