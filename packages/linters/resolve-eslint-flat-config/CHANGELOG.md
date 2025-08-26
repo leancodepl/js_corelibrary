@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.5.3](https://github.com/leancodepl/js_corelibrary/compare/v9.5.2...v9.5.3) (2025-08-26)
+
+### Bug Fixes
+
+- adjust readme example
+  ([1e700ca](https://github.com/leancodepl/js_corelibrary/commit/1e700ca12b83df9c2696ec411f0ab5b7f32ad229))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.5.2](https://github.com/leancodepl/js_corelibrary/compare/v9.5.1...v9.5.2) (2025-08-13)
 
 ### Bug Fixes
