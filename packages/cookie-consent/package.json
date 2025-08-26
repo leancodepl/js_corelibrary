@@ -1,0 +1,40 @@
+{
+  "name": "@leancodepl/cookie-consent",
+  "version": "9.5.2",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@leancodepl/gtag": "^9.5.2",
+    "vanilla-cookieconsent": "^3.1.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/cookie-consent"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Cookie consent library with Google Consent Mode support",
+  "keywords": [
+    "cookie-consent",
+    "google-consent-mode",
+    "javascript",
+    "typescript",
+    "leancode",
+    "vanilla-cookieconsent"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false
+}

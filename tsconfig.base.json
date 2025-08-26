@@ -47,7 +47,8 @@
       "@leancodepl/intl": ["packages/intl/src/index.ts"],
       "@leancodepl/folder-structure-cruiser": ["packages/folder-structure-cruiser/src/index.ts"],
       "@leancodepl/resolve-eslint-flat-config": ["packages/linters/resolve-eslint-flat-config/src/index.ts"],
-      "@leancodepl/vite-plugin-favicon": ["packages/vite-plugin-favicon/src/index.ts"]
+      "@leancodepl/vite-plugin-favicon": ["packages/vite-plugin-favicon/src/index.ts"],
+      "@leancodepl/cookie-consent": ["packages/cookie-consent/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,40 @@
+{
+  "name": "@leancodepl/cookie-consent",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/cookie-consent/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/cookie-consent",
+        "main": "packages/cookie-consent/src/index.ts",
+        "tsConfig": "packages/cookie-consent/tsconfig.json",
+        "assets": [
+          "packages/cookie-consent/*.md",
+          {
+            "glob": "**/*.json",
+            "input": "packages/cookie-consent/src",
+            "output": "."
+          }
+        ],
+        "project": "packages/cookie-consent/package.json"
+      },
+      "compiler": "swc",
+      "format": [
+        "cjs",
+        "esm"
+      ]
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/cookie-consent {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}
