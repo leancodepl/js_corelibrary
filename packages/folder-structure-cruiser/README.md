@@ -126,10 +126,10 @@ Configure folder-structure-cruiser commands as Nx target in your `project.json`.
   "defaultConfiguration": "validate-cross-feature-imports",
   "configurations": {
     "validate-cross-feature-imports": {
-      "command": "npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --config ./.dependency-cruiser.json --ts-config ./tsconfig.base.json --directory '{projectRoot}'"
+      "command": "npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --config ./.dependency-cruiser.json --tsConfig ./tsconfig.base.json --directory '{projectRoot}'"
     },
     "validate-shared-components": {
-      "command": "npx @leancodepl/folder-structure-cruiser validate-shared-components --config ./.dependency-cruiser.json --ts-config ./tsconfig.base.json --directory '{projectRoot}'"
+      "command": "npx @leancodepl/folder-structure-cruiser validate-shared-components --config ./.dependency-cruiser.json --tsConfig ./tsconfig.base.json --directory '{projectRoot}'"
     },
     "validate-no-orphans": {
       "command": "npx depcruise --ts-config ./tsconfig.base.json --config ./.dependency-cruiser.json '{projectRoot}/.*'"
