@@ -35,7 +35,7 @@ npx @leancodepl/intl local [options]
 ```
 
 **Options:**
-- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
+- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-d, --default-language <lang>` - Default language for translations (required when using POEditor integration)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var)
@@ -53,7 +53,7 @@ npx @leancodepl/intl upload [options]
 ```
 
 **Options:**
-- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
+- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-d, --default-language <lang>` - Default language for translations (required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
@@ -83,7 +83,7 @@ npx @leancodepl/intl sync [options]
 ```
 
 **Options:**
-- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
+- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
 - `-d, --default-language <lang>` - Default language for translations (required)
@@ -100,7 +100,7 @@ npx @leancodepl/intl diff [options]
 ```
 
 **Options:**
-- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/*.{ts,tsx}"`)
+- `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
 
@@ -114,19 +114,19 @@ Configure intl commands as Nx target in your `project.json`. Example configurati
   "defaultConfiguration": "local",
   "configurations": {
     "local": {
-      "command": "npx @leancodepl/intl local --src-pattern 'src/**/*.{ts,tsx}' --output-dir '{projectRoot}/lang' --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl local --src-pattern 'src/**/!(*.d).{ts,tsx}' --output-dir '{projectRoot}/lang' --default-language pl --poeditor-project-id 123456"
     },
     "download": {
       "command": "npx @leancodepl/intl download --output-dir '{projectRoot}/lang' --languages pl en --poeditor-project-id 123456"
     },
     "diff": {
-      "command": "npx @leancodepl/intl diff --src-pattern 'src/**/*.{ts,tsx}' --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl diff --src-pattern 'src/**/!(*.d).{ts,tsx}' --poeditor-project-id 123456"
     },
     "upload": {
-      "command": "npx @leancodepl/intl upload --src-pattern 'src/**/*.{ts,tsx}' --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl upload --src-pattern 'src/**/!(*.d).{ts,tsx}' --default-language pl --poeditor-project-id 123456"
     },
     "sync": {
-      "command": "npx @leancodepl/intl sync --src-pattern 'src/**/*.{ts,tsx}' --output-dir '{projectRoot}/lang' --languages pl en --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl sync --src-pattern 'src/**/!(*.d).{ts,tsx}' --output-dir '{projectRoot}/lang' --languages pl en --default-language pl --poeditor-project-id 123456"
     }
   }
 }
