@@ -16,7 +16,7 @@ npm install -D @leancodepl/mail-translation
 npx @leancodepl/mail-translation
 
 # Or with custom config file
-npx @leancodepl/mail-translation --config custom-config.js
+npx @leancodepl/mail-translation --config custom-config.json
 ```
 
 ## Configuration
