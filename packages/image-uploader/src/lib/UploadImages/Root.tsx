@@ -1,10 +1,10 @@
 import { ReactNode } from "react"
-import { useImageUploader } from "../_hooks/useImageUploader"
+import { useUploadImages } from "../_hooks/useUploadImages"
 import { UploadImagesProvider } from "./Provider"
 
 export interface UploadImagesRootProps {
   children: ReactNode
-  uploader: ReturnType<typeof useImageUploader>
+  uploader: ReturnType<typeof useUploadImages>
   className?: string
 }
 

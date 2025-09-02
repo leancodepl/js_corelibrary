@@ -6,14 +6,14 @@ import { isExactFile } from "../_utils/isExactFile"
 import { defaultAccept } from "../config"
 import { FileWithId } from "../types"
 
-export type UseImageUploaderProps = {
+export type UseUploadImagesProps = {
   value?: FileWithId[]
   accept?: Accept
   onError?: (errorCode: ErrorCode) => void
   onChange?: (files: FileWithId[]) => void
 }
 
-export function useImageUploader({ value, accept = defaultAccept, onError, onChange }: UseImageUploaderProps) {
+export function useUploadImages({ value, accept = defaultAccept, onError, onChange }: UseUploadImagesProps) {
   const addFiles = useCallback(
     (newFiles: FileWithId[]) => {
       const uniqueNewFiles = newFiles.filter(
