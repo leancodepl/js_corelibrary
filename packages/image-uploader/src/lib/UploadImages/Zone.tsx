@@ -1,16 +1,16 @@
 import { ReactNode } from "react"
 import { UploadZoneChildProps } from "../types"
-import { useUploadContext } from "./Provider"
+import { useUploadImagesContext } from "./Provider"
 
-export interface UploadZoneProps {
+export interface UploadImagesZoneProps {
   children: (props: UploadZoneChildProps) => ReactNode
   className?: string
 }
 
-export function UploadZone({ children, className }: UploadZoneProps) {
+export function UploadImagesZone({ children, className }: UploadImagesZoneProps) {
   const {
     dropzone: { getRootProps, getInputProps, isDragActive, isFocused, isFileDialogActive },
-  } = useUploadContext()
+  } = useUploadImagesContext()
 
   return (
     <div {...getRootProps()} className={className}>

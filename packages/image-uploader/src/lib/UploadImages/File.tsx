@@ -1,16 +1,16 @@
 import { ReactNode, useEffect, useState } from "react"
 import { getImagePreviewData } from "../_utils/getImagePreviewData"
 import { FileWithId, UploadFileItemChildProps } from "../types"
-import { useUploadContext } from "./Provider"
+import { useUploadImagesContext } from "./Provider"
 
-export interface UploadFileItemProps {
+export interface UploadImagesFileItemProps {
   children: (props: UploadFileItemChildProps) => ReactNode
   className?: string
   file: FileWithId
 }
 
-export function UploadFileItem({ children, className, file }: UploadFileItemProps) {
-  const { removeFile } = useUploadContext()
+export function UploadImagesFileItem({ children, className, file }: UploadImagesFileItemProps) {
+  const { removeFile } = useUploadImagesContext()
 
   const [previewData, setPreviewData] = useState<string>()
 
