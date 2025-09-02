@@ -1,12 +1,12 @@
-export type { FileRejection } from "react-dropzone"
+export type { Accept, FileRejection } from "react-dropzone"
 
-export type UploadFile = {
+export type FileWithId = {
   originalFile: File
   id: string
 }
 
 export type FileItemProps = {
-  file: UploadFile
+  file: FileWithId
   remove: () => void
 }
 

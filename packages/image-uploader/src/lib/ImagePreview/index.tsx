@@ -1,9 +1,9 @@
 import { HTMLAttributes, useEffect, useState } from "react"
 import { getImagePreviewData } from "../_utils/getImagePreviewData"
-import { UploadFile } from "../types"
+import { FileWithId } from "../types"
 
 export type ImagePreviewProps = Omit<HTMLAttributes<HTMLImageElement>, "alt" | "src"> & {
-  file: UploadFile
+  file: FileWithId
   className?: string
 }
 

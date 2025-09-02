@@ -1,6 +1,6 @@
-import { UploadFile } from "../types"
+import { FileWithId } from "../types"
 
-export async function getImagePreviewData(file: UploadFile) {
+export async function getImagePreviewData(file: FileWithId) {
   return file.originalFile ? await getBase64(file.originalFile) : ""
 }
 

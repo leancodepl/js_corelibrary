@@ -1,10 +1,10 @@
 import { ReactNode } from "react"
-import { FileItemProps, UploadFile } from "../types"
+import { FileItemProps, FileWithId } from "../types"
 
 export type FilesProps = {
   FileItem: (props: FileItemProps) => ReactNode
   onRemove: (id: string) => void
-  files?: UploadFile[]
+  files?: FileWithId[]
   filesClassName?: string
 }
 
