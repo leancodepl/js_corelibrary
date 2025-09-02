@@ -1,0 +1,47 @@
+{
+  "name": "@leancodepl/image-uploader",
+  "version": "9.5.3",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "react-dropzone": "14.3.8"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "clsx": "*",
+    "uuid": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/image-uploader"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "React component for uploading images",
+  "keywords": [
+    "image",
+    "uploader",
+    "react",
+    "component",
+    "upload",
+    "image-uploader",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false
+}
