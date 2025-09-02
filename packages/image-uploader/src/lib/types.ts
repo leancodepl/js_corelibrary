@@ -5,11 +5,16 @@ export type FileWithId = {
   id: string
 }
 
-export type FileItemProps = {
+export type UploadFilesChildProps = {
+  files?: FileWithId[]
+}
+
+export type UploadFileItemChildProps = {
   file: FileWithId
+  preview?: string
   remove: () => void
 }
 
-export type ZoneProps = {
+export type UploadZoneChildProps = {
   isDragActive: boolean
 }

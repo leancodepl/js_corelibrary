@@ -1,19 +1,21 @@
 import { ReactNode } from "react"
-import { useImageUploader } from "../hooks/useImageUploader"
+import { useUploadContext } from "../contexts/UploadContext"
+import { UploadZoneChildProps } from "../types"
 
 export interface UploadZoneProps {
-  children: ((props: { isDragActive: boolean }) => ReactNode) | ReactNode
+  children: (props: UploadZoneChildProps) => ReactNode
   className?: string
-  uploader: ReturnType<typeof useImageUploader>
 }
 
-export function UploadZone({ children, className, uploader }: UploadZoneProps) {
-  const { getRootProps, getInputProps, isDragActive } = uploader.dropzone
+export function UploadZone({ children, className }: UploadZoneProps) {
+  const {
+    dropzone: { getRootProps, getInputProps, isDragActive },
+  } = useUploadContext()
 
   return (
     <div {...getRootProps()} className={className} data-upload-zone="">
       <input {...getInputProps()} />
-      {typeof children === "function" ? children({ isDragActive }) : children}
+      {children({ isDragActive })}
     </div>
   )
 }

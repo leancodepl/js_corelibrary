@@ -1,19 +1,18 @@
 import { ReactNode } from "react"
-import { useImageUploader } from "../hooks/useImageUploader"
-import { FileWithId } from "../types"
+import { useUploadContext } from "../contexts/UploadContext"
+import { UploadFilesChildProps } from "../types"
 
 export interface UploadFilesProps {
-  children: ((props: { files?: FileWithId[]; removeFile: (id: string) => void }) => ReactNode) | ReactNode
+  children: (props: UploadFilesChildProps) => ReactNode
   className?: string
-  uploader: ReturnType<typeof useImageUploader>
 }
 
-export function UploadFiles({ children, className, uploader }: UploadFilesProps) {
-  const { value, removeFile } = uploader
+export function UploadFiles({ children, className }: UploadFilesProps) {
+  const { value } = useUploadContext()
 
   return (
     <div className={className} data-upload-files="">
-      {typeof children === "function" ? children({ files: value, removeFile }) : children}
+      {children({ files: value })}
     </div>
   )
 }

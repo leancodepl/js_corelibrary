@@ -37,16 +37,14 @@ export function useImageUploader({ value, accept = defaultAccept, onError, onCha
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const uploadFilesWithId = acceptedFiles.map(file => ({ originalFile: file, id: uuid() }))
-      addFiles(uploadFilesWithId)
+      addFiles(acceptedFiles.map(file => ({ originalFile: file, id: uuid() })))
     },
     [addFiles],
   )
 
   const handleDropRejected = useCallback(
     (fileRejections: FileRejection[]) => {
-      const errorCode = mapFileRejectionsToErrorCode(fileRejections)
-      onError?.(errorCode)
+      onError?.(mapFileRejectionsToErrorCode(fileRejections))
     },
     [onError],
   )
