@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
-import { useUploadContext } from "../contexts/UploadContext"
 import { UploadZoneChildProps } from "../types"
+import { useUploadContext } from "./Provider"
 
 export interface UploadZoneProps {
   children: (props: UploadZoneChildProps) => ReactNode

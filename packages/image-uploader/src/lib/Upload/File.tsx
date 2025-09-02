@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react"
 import { getImagePreviewData } from "../_utils/getImagePreviewData"
-import { useUploadContext } from "../contexts/UploadContext"
 import { FileWithId, UploadFileItemChildProps } from "../types"
+import { useUploadContext } from "./Provider"
 
 export interface UploadFileItemProps {
   children: (props: UploadFileItemChildProps) => ReactNode

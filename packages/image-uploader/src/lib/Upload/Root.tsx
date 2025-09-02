@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
-import { UploadProvider } from "../contexts/UploadContext"
-import { useImageUploader } from "../hooks/useImageUploader"
+import { useImageUploader } from "../_hooks/useImageUploader"
+import { UploadProvider } from "./Provider"
 
 export interface UploadRootProps {
   children: ReactNode

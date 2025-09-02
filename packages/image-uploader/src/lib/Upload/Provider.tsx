@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react"
-import { useImageUploader } from "../hooks/useImageUploader"
+import { useImageUploader } from "../_hooks/useImageUploader"
 
 type UploadContextValue = ReturnType<typeof useImageUploader>
 
