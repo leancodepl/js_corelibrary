@@ -17,4 +17,6 @@ export type UploadFileItemChildProps = {
 
 export type UploadZoneChildProps = {
   isDragActive: boolean
+  isFileDialogActive: boolean
+  isFocused: boolean
 }

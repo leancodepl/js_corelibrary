@@ -9,13 +9,13 @@ export interface UploadZoneProps {
 
 export function UploadZone({ children, className }: UploadZoneProps) {
   const {
-    dropzone: { getRootProps, getInputProps, isDragActive },
+    dropzone: { getRootProps, getInputProps, isDragActive, isFocused, isFileDialogActive },
   } = useUploadContext()
 
   return (
-    <div {...getRootProps()} className={className} data-upload-zone="">
+    <div {...getRootProps()} className={className}>
       <input {...getInputProps()} />
-      {children({ isDragActive })}
+      {children({ isDragActive, isFocused, isFileDialogActive })}
     </div>
   )
 }

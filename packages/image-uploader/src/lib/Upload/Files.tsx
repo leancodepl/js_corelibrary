@@ -10,9 +10,5 @@ export interface UploadFilesProps {
 export function UploadFiles({ children, className }: UploadFilesProps) {
   const { value } = useUploadContext()
 
-  return (
-    <div className={className} data-upload-files="">
-      {children({ files: value })}
-    </div>
-  )
+  return <div className={className}>{children({ files: value })}</div>
 }
