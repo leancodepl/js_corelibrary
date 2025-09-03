@@ -55,11 +55,16 @@ export function useUploadImages({ value, accept = defaultAccept, onError, onChan
     accept,
   })
 
-  return {
+  const uploader = {
     value,
     dropzone,
     addFiles,
     removeFile,
     clearFiles,
+  }
+
+  return {
+    ...uploader,
+    uploader,
   }
 }
