@@ -1,24 +1,10 @@
 import { ReactNode, useCallback } from "react"
 import { defaultCrop, defaultRotation, defaultZoom } from "../../config"
-import { FileWithId } from "../../types"
+import { FileWithId, UploadImagesCropperEditorChildProps } from "../../types"
 import { useUploadImagesContext } from "../Provider"
 
 export type UploadImagesCropperProps = {
-  children: ({
-    zoom,
-    rotation,
-    setZoom,
-    setRotation,
-    accept,
-    close,
-  }: {
-    zoom: number
-    rotation: number
-    setZoom: (zoom: number) => void
-    setRotation: (rotation: number) => void
-    accept: () => void
-    close: () => void
-  }) => ReactNode
+  children: ((props: UploadImagesCropperEditorChildProps) => ReactNode) | ReactNode
 }
 
 export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
@@ -125,7 +111,7 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
 
   if (!config) return null
 
-  return children({ zoom, rotation, setZoom, setRotation, accept, close })
+  return typeof children === "function" ? children({ zoom, rotation, setZoom, setRotation, accept, close }) : children
 }
 
 export type CropperConfig = {

@@ -34,13 +34,6 @@
       "options": {
         "jestConfig": "packages/image-uploader/jest.config.ts"
       }
-    },
-    "sass-types": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx typed-scss-modules src --watch --nameFormat none",
-        "cwd": "packages/image-uploader"
-      }
     }
   }
 }

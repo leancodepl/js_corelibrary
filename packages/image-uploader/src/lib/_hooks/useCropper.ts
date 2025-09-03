@@ -49,6 +49,8 @@ export function useCropper({ value, onChange }: UseCropperProps) {
     [onChange, value],
   )
 
+  const isOpen = useMemo(() => !!currentCropperFile, [currentCropperFile])
+
   return {
     cropperFiles,
     currentCropperFile,
@@ -57,6 +59,7 @@ export function useCropper({ value, onChange }: UseCropperProps) {
     crop,
     zoom,
     rotation,
+    isOpen,
     setCropperFiles,
     setCropperModalImage,
     setCropArea,

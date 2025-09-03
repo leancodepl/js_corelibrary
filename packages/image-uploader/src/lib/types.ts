@@ -20,3 +20,12 @@ export type UploadZoneChildProps = {
   isFileDialogActive: boolean
   isFocused: boolean
 }
+
+export type UploadImagesCropperEditorChildProps = {
+  zoom: number
+  rotation: number
+  setZoom: (zoom: number) => void
+  setRotation: (rotation: number) => void
+  accept: () => void
+  close: () => void
+}
