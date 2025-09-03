@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useState } from "react"
 import { Area } from "react-easy-crop"
 import { defaultCrop, defaultRotation, defaultZoom } from "../config"
 import { FileWithId } from "../types"
@@ -18,7 +18,8 @@ export function useCropper({ value, onChange }: UseCropperProps) {
   const [zoom, setZoom] = useState(defaultZoom)
   const [rotation, setRotation] = useState(defaultRotation)
 
-  const currentCropperFile = useMemo(() => cropperFiles.at(0), [cropperFiles])
+  const currentCropperFile = cropperFiles.at(0)
+  const isOpen = !!currentCropperFile
 
   useSyncState(currentCropperFile, () => {
     setCropperModalImage(undefined)
@@ -49,8 +50,6 @@ export function useCropper({ value, onChange }: UseCropperProps) {
     },
     [onChange, value],
   )
-
-  const isOpen = useMemo(() => !!currentCropperFile, [currentCropperFile])
 
   return {
     cropperFiles,
