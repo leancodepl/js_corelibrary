@@ -21,10 +21,10 @@ export function useCropper({ value, onChange }: UseCropperProps) {
   const cropperFile = cropperFileQueue.at(0)
   const isOpen = !!cropperFile
 
-  useSyncState(cropperFile, () => {
+  useSyncState(cropperFile, newCropperFile => {
     setCropperEditorImage(undefined)
 
-    if (!cropperFile) {
+    if (!newCropperFile) {
       return
     }
 
@@ -36,7 +36,7 @@ export function useCropper({ value, onChange }: UseCropperProps) {
       }
     })
 
-    reader.readAsDataURL(cropperFile.originalFile)
+    reader.readAsDataURL(newCropperFile.originalFile)
   })
 
   const closeCropperFile = useCallback(() => {
