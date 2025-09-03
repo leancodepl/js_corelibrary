@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Area } from "react-easy-crop"
 import { defaultCrop, defaultRotation, defaultZoom } from "../config"
 import { FileWithId } from "../types"
+import { useSyncState } from "./useSyncState"
 
 export type UseCropperProps = {
   value?: FileWithId[]
@@ -19,7 +20,7 @@ export function useCropper({ value, onChange }: UseCropperProps) {
 
   const currentCropperFile = useMemo(() => cropperFiles.at(0), [cropperFiles])
 
-  useEffect(() => {
+  useSyncState(currentCropperFile, () => {
     setCropperModalImage(undefined)
 
     if (!currentCropperFile) {
@@ -35,7 +36,7 @@ export function useCropper({ value, onChange }: UseCropperProps) {
     })
 
     reader.readAsDataURL(currentCropperFile.originalFile)
-  }, [currentCropperFile])
+  })
 
   const closeCurrentCropperFile = useCallback(() => {
     setCropperFiles(cropperFiles.filter(file => file.id !== currentCropperFile?.id))
