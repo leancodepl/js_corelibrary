@@ -8,22 +8,26 @@ export type UploadImagesCropperProps = {
 }
 
 export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
+  const { cropper } = useUploadImagesContext()
+
+  if (!cropper) {
+    throw new Error("Cropper config is not defined")
+  }
+
   const {
-    cropper: {
-      file,
-      editorImage,
-      acceptImage,
-      closeImage,
-      config,
-      cropArea,
-      zoom,
-      rotation,
-      setCropArea,
-      setCrop,
-      setZoom,
-      setRotation,
-    },
-  } = useUploadImagesContext()
+    file,
+    editorImage,
+    acceptImage,
+    closeImage,
+    config,
+    cropArea,
+    zoom,
+    rotation,
+    setCropArea,
+    setCrop,
+    setZoom,
+    setRotation,
+  } = cropper
 
   const close = useCallback(() => {
     closeImage()
@@ -34,7 +38,7 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   }, [closeImage, setCrop, setCropArea, setRotation, setZoom])
 
   const accept = useCallback(() => {
-    if (!editorImage || !config) return
+    if (!editorImage) return
 
     const canvas = document.createElement("canvas")
     const canvas2 = document.createElement("canvas")
@@ -108,8 +112,6 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
     }
     img.src = editorImage
   }, [close, config, cropArea, file, editorImage, rotation, acceptImage])
-
-  if (!config) return null
 
   return typeof children === "function" ? children({ zoom, rotation, setZoom, setRotation, accept, close }) : children
 }

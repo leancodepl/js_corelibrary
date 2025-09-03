@@ -100,7 +100,7 @@ export function useUploadImages({
     addFiles,
     removeFile,
     clearFiles,
-    cropper: {
+    cropper: cropperConfig && {
       config: cropperConfig,
       fileQueue,
       file,

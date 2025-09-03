@@ -1,22 +1,21 @@
-import { CSSProperties } from "react"
+import { HTMLAttributes } from "react"
 import EasyCrop from "react-easy-crop"
 import { useUploadImagesContext } from "./Provider"
 
-export type UploadImagesCropperEditorProps = {
-  className?: string
-  style?: CSSProperties
-}
+export type UploadImagesCropperEditorProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
 
-export function UploadImagesCropperEditor({ className, style }: UploadImagesCropperEditorProps) {
-  const {
-    cropper: { config, crop, editorImage, rotation, zoom, setCrop, setCropArea, setRotation, setZoom },
-  } = useUploadImagesContext()
+export function UploadImagesCropperEditor({ style, ...props }: UploadImagesCropperEditorProps) {
+  const { cropper } = useUploadImagesContext()
 
-  if (!config) return null
+  if (!cropper) {
+    throw new Error("Cropper config is not defined")
+  }
+
+  const { editorImage, config, zoom, rotation, crop, setCropArea, setCrop, setZoom, setRotation } = cropper
 
   return (
     <div
-      className={className}
+      {...props}
       style={{
         position: "relative",
         width: "100%",
