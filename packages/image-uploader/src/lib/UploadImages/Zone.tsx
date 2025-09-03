@@ -3,7 +3,7 @@ import { UploadZoneChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
 export interface UploadImagesZoneProps {
-  children: (props: UploadZoneChildProps) => ReactNode
+  children: ((props: UploadZoneChildProps) => ReactNode) | ReactNode
   className?: string
 }
 
@@ -15,7 +15,7 @@ export function UploadImagesZone({ children, className }: UploadImagesZoneProps)
   return (
     <div {...getRootProps()} className={className}>
       <input {...getInputProps()} />
-      {children({ isDragActive, isFocused, isFileDialogActive })}
+      {typeof children === "function" ? children({ isDragActive, isFocused, isFileDialogActive }) : children}
     </div>
   )
 }

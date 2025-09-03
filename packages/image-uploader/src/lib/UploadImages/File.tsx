@@ -4,7 +4,7 @@ import { FileWithId, UploadFileItemChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
 export interface UploadImagesFileItemProps {
-  children: (props: UploadFileItemChildProps) => ReactNode
+  children: ((props: UploadFileItemChildProps) => ReactNode) | ReactNode
   className?: string
   file: FileWithId
 }
@@ -23,5 +23,11 @@ export function UploadImagesFileItem({ children, className, file }: UploadImages
     loadPreview()
   }, [file])
 
-  return <div className={className}>{children({ file, preview: previewData, remove: () => removeFile(file.id) })}</div>
+  return (
+    <div className={className}>
+      {typeof children === "function"
+        ? children({ file, preview: previewData, remove: () => removeFile(file.id) })
+        : children}
+    </div>
+  )
 }
