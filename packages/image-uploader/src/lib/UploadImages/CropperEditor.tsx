@@ -9,7 +9,7 @@ export type UploadImagesCropperEditorProps = {
 
 export function UploadImagesCropperEditor({ className, style }: UploadImagesCropperEditorProps) {
   const {
-    cropper: { config, crop, modalImage, rotation, zoom, setCrop, setCropArea, setRotation, setZoom },
+    cropper: { config, crop, editorImage, rotation, zoom, setCrop, setCropArea, setRotation, setZoom },
   } = useUploadImagesContext()
 
   if (!config) return null
@@ -26,7 +26,7 @@ export function UploadImagesCropperEditor({ className, style }: UploadImagesCrop
       <EasyCrop
         aspect={config.aspect}
         crop={crop}
-        image={modalImage}
+        image={editorImage}
         rotation={rotation}
         zoom={zoom}
         onCropChange={setCrop}

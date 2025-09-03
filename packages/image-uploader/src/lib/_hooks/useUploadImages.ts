@@ -11,12 +11,18 @@ import { useCropper } from "./useCropper"
 export type UseUploadImagesProps = {
   value?: FileWithId[]
   accept?: Accept
+  cropper?: CropperConfig
   onError?: (errorCode: ErrorCode) => void
   onChange?: (files: FileWithId[]) => void
-  cropper?: CropperConfig
 }
 
-export function useUploadImages({ value, accept = defaultAccept, onError, onChange, cropper }: UseUploadImagesProps) {
+export function useUploadImages({
+  value,
+  accept = defaultAccept,
+  cropper: cropperConfig,
+  onError,
+  onChange,
+}: UseUploadImagesProps) {
   const {
     cropperFileQueue,
     cropperFile,
@@ -37,13 +43,13 @@ export function useUploadImages({ value, accept = defaultAccept, onError, onChan
 
   const handleNewFiles = useCallback(
     (newFiles: FileWithId[]) => {
-      if (cropper) {
+      if (cropperConfig) {
         setCropperFileQueue(newFiles)
       } else {
         onChange?.([...(value ?? []), ...newFiles])
       }
     },
-    [cropper, onChange, value, setCropperFileQueue],
+    [cropperConfig, onChange, value, setCropperFileQueue],
   )
 
   const addFiles = useCallback(
@@ -95,10 +101,10 @@ export function useUploadImages({ value, accept = defaultAccept, onError, onChan
     removeFile,
     clearFiles,
     cropper: {
-      config: cropper,
-      files: cropperFileQueue,
-      modalImage: cropperEditorImage,
-      currentFile: cropperFile,
+      config: cropperConfig,
+      fileQueue: cropperFileQueue,
+      file: cropperFile,
+      editorImage: cropperEditorImage,
       isOpen,
       close: closeCropperFile,
       accept: acceptCropperFile,

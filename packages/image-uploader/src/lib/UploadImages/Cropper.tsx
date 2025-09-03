@@ -10,8 +10,8 @@ export type UploadImagesCropperProps = {
 export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   const {
     cropper: {
-      currentFile,
-      modalImage,
+      file,
+      editorImage,
       accept: onAccept,
       close: onClose,
       config,
@@ -34,7 +34,7 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   }, [onClose, setCrop, setCropArea, setRotation, setZoom])
 
   const accept = useCallback(() => {
-    if (!modalImage || !config) return
+    if (!editorImage || !config) return
 
     const canvas = document.createElement("canvas")
     const canvas2 = document.createElement("canvas")
@@ -88,17 +88,17 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
       )
 
       canvas2.toBlob(blob => {
-        if (!currentFile) {
+        if (!file) {
           return
         }
 
-        const newFile = new File([blob as BlobPart], currentFile.originalFile.name ?? "image.png", {
-          type: currentFile.originalFile.type ?? "image/png",
+        const newFile = new File([blob as BlobPart], file.originalFile.name ?? "image.png", {
+          type: file.originalFile.type ?? "image/png",
         })
 
         const uploadFile: FileWithId = {
           originalFile: newFile,
-          id: currentFile.id,
+          id: file.id,
         }
 
         onAccept(uploadFile)
@@ -106,8 +106,8 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
 
       close()
     }
-    img.src = modalImage
-  }, [close, config, cropArea, currentFile, modalImage, rotation, onAccept])
+    img.src = editorImage
+  }, [close, config, cropArea, file, editorImage, rotation, onAccept])
 
   if (!config) return null
 
