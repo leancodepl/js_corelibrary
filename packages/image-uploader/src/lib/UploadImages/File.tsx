@@ -3,7 +3,7 @@ import { getImagePreviewData } from "../_utils/getImagePreviewData"
 import { FileWithId, UploadFileItemChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
-export interface UploadImagesFileItemProps {
+export type UploadImagesFileItemProps = {
   children: ((props: UploadFileItemChildProps) => ReactNode) | ReactNode
   className?: string
   file: FileWithId

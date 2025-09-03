@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { UploadZoneChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
-export interface UploadImagesZoneProps {
+export type UploadImagesZoneProps = {
   children: ((props: UploadZoneChildProps) => ReactNode) | ReactNode
   className?: string
 }
