@@ -40,8 +40,8 @@ export function useCropper({ value, onChange }: UseCropperProps) {
   })
 
   const closeImage = useCallback(() => {
-    setFileQueue(fileQueue.filter(file => file.id !== file?.id))
-  }, [fileQueue])
+    setFileQueue(fileQueue.filter(({ id }) => id !== file?.id))
+  }, [fileQueue, file?.id])
 
   const acceptImage = useCallback((file: FileWithId) => onChange?.([...(value ?? []), file]), [onChange, value])
 
