@@ -10,21 +10,21 @@ export type UseCropperProps = {
 }
 
 export function useCropper({ value, onChange }: UseCropperProps) {
-  const [cropperFiles, setCropperFiles] = useState<FileWithId[]>([])
-  const [cropperModalImage, setCropperModalImage] = useState<string>()
+  const [cropperFileQueue, setCropperFileQueue] = useState<FileWithId[]>([])
+  const [cropperEditorImage, setCropperEditorImage] = useState<string>()
 
   const [cropArea, setCropArea] = useState<Area>()
   const [crop, setCrop] = useState(defaultCrop)
   const [zoom, setZoom] = useState(defaultZoom)
   const [rotation, setRotation] = useState(defaultRotation)
 
-  const currentCropperFile = cropperFiles.at(0)
-  const isOpen = !!currentCropperFile
+  const cropperFile = cropperFileQueue.at(0)
+  const isOpen = !!cropperFile
 
-  useSyncState(currentCropperFile, () => {
-    setCropperModalImage(undefined)
+  useSyncState(cropperFile, () => {
+    setCropperEditorImage(undefined)
 
-    if (!currentCropperFile) {
+    if (!cropperFile) {
       return
     }
 
@@ -32,38 +32,35 @@ export function useCropper({ value, onChange }: UseCropperProps) {
 
     reader.addEventListener("load", () => {
       if (typeof reader.result === "string") {
-        setCropperModalImage(reader.result)
+        setCropperEditorImage(reader.result)
       }
     })
 
-    reader.readAsDataURL(currentCropperFile.originalFile)
+    reader.readAsDataURL(cropperFile.originalFile)
   })
 
-  const closeCurrentCropperFile = useCallback(() => {
-    setCropperFiles(cropperFiles.filter(file => file.id !== currentCropperFile?.id))
-  }, [cropperFiles, currentCropperFile?.id])
+  const closeCropperFile = useCallback(() => {
+    setCropperFileQueue(cropperFileQueue.filter(file => file.id !== cropperFile?.id))
+  }, [cropperFileQueue, cropperFile?.id])
 
-  const acceptCurrentCropperFile = useCallback(
-    (file: FileWithId) => onChange?.([...(value ?? []), file]),
-    [onChange, value],
-  )
+  const acceptCropperFile = useCallback((file: FileWithId) => onChange?.([...(value ?? []), file]), [onChange, value])
 
   return {
-    cropperFiles,
-    currentCropperFile,
-    cropperModalImage,
+    cropperFileQueue,
+    cropperFile,
+    cropperEditorImage,
     cropArea,
     crop,
     zoom,
     rotation,
     isOpen,
-    setCropperFiles,
-    setCropperModalImage,
+    setCropperFileQueue,
+    setCropperEditorImage,
     setCropArea,
     setCrop,
     setZoom,
     setRotation,
-    closeCurrentCropperFile,
-    acceptCurrentCropperFile,
+    closeCropperFile,
+    acceptCropperFile,
   }
 }
