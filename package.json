@@ -51,6 +51,7 @@
     "jest": "30.0.4",
     "jest-environment-jsdom": "30.0.4",
     "jest-environment-node": "^29.4.1",
+    "jest-util": "30.0.5",
     "jsdom": "~22.1.0",
     "lerna": "^8.0.0",
     "nx": "21.3.5",
