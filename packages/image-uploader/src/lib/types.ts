@@ -5,6 +5,16 @@ export type FileWithId = {
   id: string
 }
 
+export type UploadedFileWithId = FileWithId & {
+  url: string
+}
+
+export type UploadParams = {
+  uri: string
+  method: string
+  requiredHeaders: Record<string, string>
+}
+
 export type UploadFilesChildProps = {
   files?: FileWithId[]
 }
