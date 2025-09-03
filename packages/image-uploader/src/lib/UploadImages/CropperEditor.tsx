@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 import EasyCrop from "react-easy-crop"
-import { useUploadImagesContext } from "../Provider"
+import { useUploadImagesContext } from "./Provider"
 
 export type UploadImagesCropperEditorProps = {
   className?: string

@@ -1,7 +1,7 @@
 import { ReactNode, useCallback } from "react"
-import { defaultCrop, defaultRotation, defaultZoom } from "../../config"
-import { FileWithId, UploadImagesCropperEditorChildProps } from "../../types"
-import { useUploadImagesContext } from "../Provider"
+import { defaultCrop, defaultRotation, defaultZoom } from "../config"
+import { FileWithId, UploadImagesCropperEditorChildProps } from "../types"
+import { useUploadImagesContext } from "./Provider"
 
 export type UploadImagesCropperProps = {
   children: ((props: UploadImagesCropperEditorChildProps) => ReactNode) | ReactNode
