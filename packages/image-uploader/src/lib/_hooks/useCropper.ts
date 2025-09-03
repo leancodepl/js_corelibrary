@@ -44,10 +44,7 @@ export function useCropper({ value, onChange }: UseCropperProps) {
   }, [cropperFiles, currentCropperFile?.id])
 
   const acceptCurrentCropperFile = useCallback(
-    (file: FileWithId) => {
-      if (!file) return
-      onChange?.([...(value ?? []), file])
-    },
+    (file: FileWithId) => onChange?.([...(value ?? []), file]),
     [onChange, value],
   )
 
