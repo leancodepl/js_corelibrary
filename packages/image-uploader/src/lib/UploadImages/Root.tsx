@@ -1,17 +1,16 @@
-import { ReactNode } from "react"
+import { HTMLAttributes, ReactNode } from "react"
 import { useUploadImages } from "../_hooks/useUploadImages"
 import { UploadImagesProvider } from "./Provider"
 
-export type UploadImagesRootProps = {
+export type UploadImagesRootProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children: ReactNode
   uploader: ReturnType<typeof useUploadImages>
-  className?: string
 }
 
-export function UploadImagesRoot({ children, className, uploader }: UploadImagesRootProps) {
+export function UploadImagesRoot({ children, uploader, ...props }: UploadImagesRootProps) {
   return (
     <UploadImagesProvider uploader={uploader}>
-      <div className={className}>{children}</div>
+      <div {...props}>{children}</div>
     </UploadImagesProvider>
   )
 }

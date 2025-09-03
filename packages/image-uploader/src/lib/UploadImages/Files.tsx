@@ -1,14 +1,13 @@
-import { ReactNode } from "react"
+import { HTMLAttributes, ReactNode } from "react"
 import { UploadFilesChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
-export type UploadImagesFilesProps = {
+export type UploadImagesFilesProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children: ((props: UploadFilesChildProps) => ReactNode) | ReactNode
-  className?: string
 }
 
-export function UploadImagesFiles({ children, className }: UploadImagesFilesProps) {
+export function UploadImagesFiles({ children, ...props }: UploadImagesFilesProps) {
   const { value } = useUploadImagesContext()
 
-  return <div className={className}>{typeof children === "function" ? children({ files: value }) : children}</div>
+  return <div {...props}>{typeof children === "function" ? children({ files: value }) : children}</div>
 }
