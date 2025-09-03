@@ -12,8 +12,8 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
     cropper: {
       file,
       editorImage,
-      accept: onAccept,
-      close: onClose,
+      acceptImage,
+      closeImage,
       config,
       cropArea,
       zoom,
@@ -26,12 +26,12 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   } = useUploadImagesContext()
 
   const close = useCallback(() => {
-    onClose()
+    closeImage()
     setCrop(defaultCrop)
     setZoom(defaultZoom)
     setRotation(defaultRotation)
     setCropArea(undefined)
-  }, [onClose, setCrop, setCropArea, setRotation, setZoom])
+  }, [closeImage, setCrop, setCropArea, setRotation, setZoom])
 
   const accept = useCallback(() => {
     if (!editorImage || !config) return
@@ -101,13 +101,13 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
           id: file.id,
         }
 
-        onAccept(uploadFile)
+        acceptImage(uploadFile)
       })
 
       close()
     }
     img.src = editorImage
-  }, [close, config, cropArea, file, editorImage, rotation, onAccept])
+  }, [close, config, cropArea, file, editorImage, rotation, acceptImage])
 
   if (!config) return null
 

@@ -10,19 +10,19 @@ export type UseCropperProps = {
 }
 
 export function useCropper({ value, onChange }: UseCropperProps) {
-  const [cropperFileQueue, setCropperFileQueue] = useState<FileWithId[]>([])
-  const [cropperEditorImage, setCropperEditorImage] = useState<string>()
+  const [fileQueue, setFileQueue] = useState<FileWithId[]>([])
+  const [editorImage, setEditorImage] = useState<string>()
 
   const [cropArea, setCropArea] = useState<Area>()
   const [crop, setCrop] = useState(defaultCrop)
   const [zoom, setZoom] = useState(defaultZoom)
   const [rotation, setRotation] = useState(defaultRotation)
 
-  const cropperFile = cropperFileQueue.at(0)
-  const isOpen = !!cropperFile
+  const file = fileQueue.at(0)
+  const isOpen = !!file
 
-  useSyncState(cropperFile, newCropperFile => {
-    setCropperEditorImage(undefined)
+  useSyncState(file, newCropperFile => {
+    setEditorImage(undefined)
 
     if (!newCropperFile) {
       return
@@ -32,35 +32,35 @@ export function useCropper({ value, onChange }: UseCropperProps) {
 
     reader.addEventListener("load", () => {
       if (typeof reader.result === "string") {
-        setCropperEditorImage(reader.result)
+        setEditorImage(reader.result)
       }
     })
 
     reader.readAsDataURL(newCropperFile.originalFile)
   })
 
-  const closeCropperFile = useCallback(() => {
-    setCropperFileQueue(cropperFileQueue.filter(file => file.id !== cropperFile?.id))
-  }, [cropperFileQueue, cropperFile?.id])
+  const closeImage = useCallback(() => {
+    setFileQueue(fileQueue.filter(file => file.id !== file?.id))
+  }, [fileQueue])
 
-  const acceptCropperFile = useCallback((file: FileWithId) => onChange?.([...(value ?? []), file]), [onChange, value])
+  const acceptImage = useCallback((file: FileWithId) => onChange?.([...(value ?? []), file]), [onChange, value])
 
   return {
-    cropperFileQueue,
-    cropperFile,
-    cropperEditorImage,
+    fileQueue,
+    file,
+    editorImage,
     cropArea,
     crop,
     zoom,
     rotation,
     isOpen,
-    setCropperFileQueue,
-    setCropperEditorImage,
+    setFileQueue,
+    setEditorImage,
     setCropArea,
     setCrop,
     setZoom,
     setRotation,
-    closeCropperFile,
-    acceptCropperFile,
+    closeImage,
+    acceptImage,
   }
 }
