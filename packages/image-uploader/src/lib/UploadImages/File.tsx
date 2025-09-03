@@ -15,12 +15,12 @@ export function UploadImagesFileItem({ children, file, ...props }: UploadImagesF
 
   useEffect(() => {
     const loadPreview = async () => {
-      const preview = await getImagePreviewData(file)
+      const preview = await getImagePreviewData(file.originalFile)
       setPreviewData(preview)
     }
 
     loadPreview()
-  }, [file])
+  }, [file.originalFile])
 
   return (
     <div {...props}>
