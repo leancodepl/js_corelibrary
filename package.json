@@ -51,6 +51,7 @@
     "jest": "30.0.4",
     "jest-environment-jsdom": "30.0.4",
     "jest-environment-node": "^29.4.1",
+    "jest-util": "30.0.5",
     "jsdom": "~22.1.0",
     "lerna": "^8.0.0",
     "nx": "21.3.5",
@@ -68,12 +69,12 @@
     "ts-node": "10.9.1",
     "typescript": "5.8.3",
     "typescript-eslint": "8.36.0",
+    "uuid": "11.1.0",
     "verdaccio": "6.1.1",
     "vite": "^6.0.0",
     "vitest": "^3.0.0",
     "xhr-mock": "2.5.1",
-    "zod": "4.0.5",
-    "jest-util": "30.0.5"
+    "zod": "4.0.5"
   },
   "workspaces": [
     "packages/*",
