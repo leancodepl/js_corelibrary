@@ -23,23 +23,7 @@ export function useUploadImages({
   onError,
   onChange,
 }: UseUploadImagesProps) {
-  const {
-    fileQueue,
-    file,
-    editorImage,
-    cropArea,
-    crop,
-    zoom,
-    rotation,
-    isOpen,
-    setFileQueue: setCropperFileQueue,
-    setCropArea,
-    setCrop,
-    setZoom,
-    setRotation,
-    closeImage,
-    acceptImage,
-  } = useCropper({ value, onChange })
+  const { setFileQueue: setCropperFileQueue, ...cropperProps } = useCropper({ value, onChange })
 
   const handleNewFiles = useCallback(
     (newFiles: FileWithId[]) => {
@@ -102,20 +86,7 @@ export function useUploadImages({
     clearFiles,
     cropper: cropperConfig && {
       config: cropperConfig,
-      fileQueue,
-      file,
-      editorImage,
-      isOpen,
-      closeImage,
-      acceptImage,
-      cropArea,
-      crop,
-      zoom,
-      rotation,
-      setCropArea,
-      setCrop,
-      setZoom,
-      setRotation,
+      ...cropperProps,
     },
   }
 
