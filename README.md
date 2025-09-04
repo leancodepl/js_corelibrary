@@ -102,7 +102,7 @@ TypeScript utilities for styled-components with type-safe theme access.
 
 #### `@leancodepl/image-uploader`
 
-React component library for image upload with drag-and-drop, cropping, and validation features.
+React component for image uploads.
 
 ### Feature Management
 

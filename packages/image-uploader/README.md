@@ -1,6 +1,6 @@
 # @leancodepl/image-uploader
 
-React component library for image upload with drag-and-drop, cropping, and validation features.
+React component for image uploads.
 
 ## Installation
 
