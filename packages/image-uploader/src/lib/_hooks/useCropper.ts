@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react"
 import { Area } from "react-easy-crop"
+import { useSyncState } from "@leancodepl/utils"
 import { defaultCrop, defaultRotation, defaultZoom } from "../config"
 import { FileWithId } from "../types"
-import { useSyncState } from "./useSyncState"
 
 export type UseCropperProps = {
   value?: FileWithId[]

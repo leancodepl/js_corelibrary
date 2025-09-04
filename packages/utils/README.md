@@ -28,13 +28,13 @@ Asserts that a value is not undefined. Throws an error if the value is undefined
 import { assertDefined } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processUserAssert(user?: User) {
-    assertDefined(user) // Throws if undefined, no return value
-    return user.name // TypeScript knows user is defined
+  assertDefined(user) // Throws if undefined, no return value
+  return user.name // TypeScript knows user is defined
 }
 ```
 
@@ -53,13 +53,13 @@ Asserts that a value is not null. Throws an error if the value is null.
 import { assertNotNull } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processData(data: string | null) {
-    assertNotNull(data, "Data cannot be null")
-    return data.toUpperCase() // TypeScript knows data is string
+  assertNotNull(data, "Data cannot be null")
+  return data.toUpperCase() // TypeScript knows data is string
 }
 ```
 
@@ -78,13 +78,13 @@ Asserts that a value is not null or undefined. Throws an error if the value is n
 import { assertNotEmpty } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processValue(value: string | null | undefined) {
-    assertNotEmpty(value, "Value is required")
-    return value.length // TypeScript knows value is string
+  assertNotEmpty(value, "Value is required")
+  return value.length // TypeScript knows value is string
 }
 ```
 
@@ -105,13 +105,13 @@ Ensures that a value is defined, returning it if defined or throwing an error if
 import { ensureDefined } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processUser(user?: User) {
-    const definedUser = ensureDefined(user) // Returns User or throws
-    return definedUser.name
+  const definedUser = ensureDefined(user) // Returns User or throws
+  return definedUser.name
 }
 ```
 
@@ -132,13 +132,13 @@ Ensures that a value is not null, returning it if not null or throwing an error 
 import { ensureNotNull } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processData(data: string | null) {
-    const validData = ensureNotNull(data, "Data cannot be null")
-    return validData.toUpperCase()
+  const validData = ensureNotNull(data, "Data cannot be null")
+  return validData.toUpperCase()
 }
 ```
 
@@ -159,13 +159,13 @@ Ensures that a value is not null or undefined, returning it if valid or throwing
 import { ensureNotEmpty } from "@leancodepl/utils"
 
 interface User {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 function processValue(value: string | null | undefined) {
-    const validValue = ensureNotEmpty(value, "Value is required")
-    return validValue.length
+  const validValue = ensureNotEmpty(value, "Value is required")
+  return validValue.length
 }
 ```
 
@@ -461,5 +461,30 @@ function MyComponent() {
       {isVisible && <div>Visible content</div>}
     </div>
   );
+}
+```
+
+### `useSyncState(state, onChange, compare)`
+
+Synchronizes external state changes with a callback function, calling the callback only when state actually changes.
+
+**Parameters:**
+
+- `state: T` - The current state value to monitor for changes
+- `onChange: (state: T) => void` - Callback function executed when state changes
+- `compare?: (a: T, b: T) => boolean` - Optional comparison function to determine if state has changed (defaults to
+  strict equality)
+
+**Usage:**
+
+```typescript
+import { useSyncState } from "@leancodepl/utils";
+
+function MyComponent({ externalValue }: { externalValue: string }) {
+  useSyncState(externalValue, (newValue) => {
+    console.log('Value changed to:', newValue);
+  });
+
+  return <div>{externalValue}</div>;
 }
 ```
