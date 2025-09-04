@@ -8,6 +8,9 @@ import { FileWithId } from "../types"
 import { CropperConfig } from "../UploadImages/Cropper"
 import { useCropper } from "./useCropper"
 
+/**
+ * Configuration for the image upload hook.
+ */
 export type UseUploadImagesProps = {
   value?: FileWithId[]
   accept?: Accept
@@ -16,6 +19,31 @@ export type UseUploadImagesProps = {
   onChange?: (files: FileWithId[]) => void
 }
 
+/**
+ * Manages image upload state and provides drag-and-drop functionality.
+ *
+ * Creates a complete image upload solution with file validation, drag-and-drop support,
+ * optional cropping, and duplicate detection. Returns upload state and control functions.
+ *
+ * @param value - Current array of uploaded files with IDs
+ * @param accept - File types to accept (defaults to image types)
+ * @param cropper - Optional cropper configuration for image editing
+ * @param onError - Callback for handling upload errors
+ * @param onChange - Callback when file list changes
+ * @returns Upload state and control functions including dropzone props
+ *
+ * @example
+ * ```typescript
+ * import { useUploadImages } from "@leancodepl/image-uploader";
+ *
+ * const uploader = useUploadImages({
+ *   value: files,
+ *   onChange: setFiles,
+ *   onError: (error) => console.error("Upload error:", error),
+ *   accept: { "image/*": [".jpg", ".png"] }
+ * });
+ * ```
+ */
 export function useUploadImages({
   value,
   accept = defaultAccept,
