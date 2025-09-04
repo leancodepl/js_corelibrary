@@ -5,23 +5,46 @@ import { ErrorCode, mapFileRejectionsToErrorCode } from "../_utils/errors"
 import { isExactFile } from "../_utils/isExactFile"
 import { defaultAccept } from "../config"
 import { FileWithId } from "../types"
+import { CropperConfig } from "../UploadImages/Cropper"
+import { useCropper } from "./useCropper"
 
 export type UseUploadImagesProps = {
   value?: FileWithId[]
   accept?: Accept
+  cropper?: CropperConfig
   onError?: (errorCode: ErrorCode) => void
   onChange?: (files: FileWithId[]) => void
 }
 
-export function useUploadImages({ value, accept = defaultAccept, onError, onChange }: UseUploadImagesProps) {
+export function useUploadImages({
+  value,
+  accept = defaultAccept,
+  cropper: cropperConfig,
+  onError,
+  onChange,
+}: UseUploadImagesProps) {
+  const { setFileQueue: setCropperFileQueue, ...cropperProps } = useCropper({ value, onChange })
+
+  const handleNewFiles = useCallback(
+    (newFiles: FileWithId[]) => {
+      if (cropperConfig) {
+        setCropperFileQueue(newFiles)
+      } else {
+        onChange?.([...(value ?? []), ...newFiles])
+      }
+    },
+    [cropperConfig, onChange, value, setCropperFileQueue],
+  )
+
   const addFiles = useCallback(
     (newFiles: FileWithId[]) => {
       const uniqueNewFiles = newFiles.filter(
         newFile => !value?.some(existingFile => isExactFile(existingFile.originalFile, newFile.originalFile)),
       )
-      onChange?.([...(value ?? []), ...uniqueNewFiles])
+
+      handleNewFiles(uniqueNewFiles)
     },
-    [value, onChange],
+    [handleNewFiles, value],
   )
 
   const removeFile = useCallback(
@@ -61,6 +84,10 @@ export function useUploadImages({ value, accept = defaultAccept, onError, onChan
     addFiles,
     removeFile,
     clearFiles,
+    cropper: cropperConfig && {
+      config: cropperConfig,
+      ...cropperProps,
+    },
   }
 
   return {

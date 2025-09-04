@@ -1,7 +1,5 @@
-import { FileWithId } from "../types"
-
-export async function getImagePreviewData(file: FileWithId) {
-  return file.originalFile ? await getBase64(file.originalFile) : ""
+export async function getImagePreviewData(file: File) {
+  return file ? await getBase64(file) : ""
 }
 
 const getBase64 = (file: File): Promise<string> =>
