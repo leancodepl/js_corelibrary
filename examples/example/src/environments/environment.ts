@@ -1,5 +1,5 @@
 declare global {
-    // eslint-disable-next-line no-var, @typescript-eslint/naming-convention
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     var app_config:
         | {
               readonly NX_AUTH_BASE: string

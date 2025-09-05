@@ -8,7 +8,7 @@ import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useGetVerificationFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { verificationFlowId, resetFlow } = useVerificationFlowContext()
+    const { verificationFlowId } = useVerificationFlowContext()
 
     return useQuery({
         queryKey: verificationFlowKey(verificationFlowId),

@@ -63,9 +63,10 @@ function LoginFlowWrapper({
         waitForSession: true,
     })
 
-    const isSessionAvailable = useMemo(() => {
-        return isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError)
-    }, [createLoginFlowError, getLoginFlowError])
+    const isSessionAvailable = useMemo(
+        () => isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError),
+        [createLoginFlowError, getLoginFlowError],
+    )
 
     useEffect(() => {
         if (isSessionAvailable) {

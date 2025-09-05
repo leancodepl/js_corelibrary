@@ -8,7 +8,7 @@ import { useRegistrationFlowContext } from "./useRegistrationFlowContext"
 
 export function useGetRegistrationFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { registrationFlowId, resetFlow } = useRegistrationFlowContext()
+    const { registrationFlowId } = useRegistrationFlowContext()
 
     return useQuery({
         queryKey: registrationFlowKey(registrationFlowId),

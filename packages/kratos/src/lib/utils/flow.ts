@@ -41,9 +41,8 @@ export function getCsrfToken(flow: { ui: { nodes: UiNode[] } }) {
     return attributes.value
 }
 
-export const getNodesOfGroup = <TGroup extends UiNodeGroupEnum>(nodes: UiNode[], group: TGroup) => {
-    return nodes.filter(node => node.group === group) as (UiNode & { group: TGroup })[]
-}
+export const getNodesOfGroup = <TGroup extends UiNodeGroupEnum>(nodes: UiNode[], group: TGroup) =>
+    nodes.filter(node => node.group === group) as (UiNode & { group: TGroup })[]
 
 export const isPasskeyRemoveUiNode = (
     node: UiNode,
@@ -98,20 +97,16 @@ export type OidcProviderUiNode = UiNode & {
     }
 }
 
-export const isOidcProviderUiNode = (node: UiNode): node is OidcProviderUiNode => {
-    return node.group === "oidc" && node.attributes.node_type === "input" && providers.includes(node.attributes.value)
-}
+export const isOidcProviderUiNode = (node: UiNode): node is OidcProviderUiNode =>
+    node.group === "oidc" && node.attributes.node_type === "input" && providers.includes(node.attributes.value)
 
-export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: OidcProvider) => {
-    return (
-        nodes?.find(
-            (node): node is OidcProviderUiNode => isOidcProviderUiNode(node) && node.attributes.value === provider,
-        ) ?? undefined
-    )
-}
+export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: OidcProvider) =>
+    nodes?.find(
+        (node): node is OidcProviderUiNode => isOidcProviderUiNode(node) && node.attributes.value === provider,
+    ) ?? undefined
 
-export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown }): Promise<TFlow | undefined> => {
-    return (await handleFlowError<TFlow>({
+export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown }): Promise<TFlow | undefined> =>
+    (await handleFlowError<TFlow>({
         onRedirect: (url, _external) => {
             window.location.href = url
         },
@@ -122,4 +117,3 @@ export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown
         },
         onValidationError: body => body,
     })(error)) as TFlow | undefined
-}
