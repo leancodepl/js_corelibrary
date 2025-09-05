@@ -3,10 +3,43 @@ import { defaultCrop, defaultRotation, defaultZoom } from "../config"
 import { FileWithId, UploadImagesCropperEditorChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
+/**
+ * Props for the image cropper component.
+ */
 export type UploadImagesCropperProps = {
   children: ((props: UploadImagesCropperEditorChildProps) => ReactNode) | ReactNode
 }
 
+/**
+ * Image cropper component with editing controls.
+ *
+ * Provides image cropping functionality with zoom, rotation, and crop area controls.
+ * Processes cropped images and integrates with the upload state management.
+ *
+ * @param children - Content or render function receiving cropper controls
+ * @returns JSX element with cropper editing interface
+ * @throws {Error} When cropper config is not defined in context
+ *
+ * @example
+ * ```typescript
+ * import { UploadImages } from "@leancodepl/image-uploader";
+ *
+ * <UploadImages.Cropper>
+ *   {({ zoom, rotation, setZoom, setRotation, accept, close }) => (
+ *     <div>
+ *       <UploadImages.CropperEditor />
+ *       <input
+ *         type="range"
+ *         value={zoom}
+ *         onChange={(e) => setZoom(Number(e.target.value))}
+ *       />
+ *       <button onClick={accept}>Accept</button>
+ *       <button onClick={close}>Cancel</button>
+ *     </div>
+ *   )}
+ * </UploadImages.Cropper>
+ * ```
+ */
 export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   const { cropper } = useUploadImagesContext()
 
@@ -116,6 +149,9 @@ export function UploadImagesCropper({ children }: UploadImagesCropperProps) {
   return typeof children === "function" ? children({ zoom, rotation, setZoom, setRotation, accept, close }) : children
 }
 
+/**
+ * Configuration for image cropper functionality.
+ */
 export type CropperConfig = {
   aspect: number
   maxWidth?: number

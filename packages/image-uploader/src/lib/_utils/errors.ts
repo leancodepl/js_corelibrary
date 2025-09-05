@@ -1,5 +1,19 @@
 import { ErrorCode as DropzoneErrorCode, FileRejection } from "react-dropzone"
 
+/**
+ * Error codes for file upload validation failures.
+ *
+ * Wraps `"react-dropzone"` error codes with an additional Unknown state.
+ *
+ * @example
+ * ```typescript
+ * import { ErrorCode } from "@leancodepl/image-uploader";
+ *
+ * if (errorCode === ErrorCode.FileTooLarge) {
+ *   console.log("File exceeds maximum size limit");
+ * }
+ * ```
+ */
 export enum ErrorCode {
   FileTooLarge = DropzoneErrorCode.FileTooLarge,
   FileTooSmall = DropzoneErrorCode.FileTooSmall,

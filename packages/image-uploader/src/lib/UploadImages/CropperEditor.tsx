@@ -2,8 +2,40 @@ import { HTMLAttributes } from "react"
 import EasyCrop from "react-easy-crop"
 import { useUploadImagesContext } from "./Provider"
 
+/**
+ * Props for the cropper editor visual component.
+ */
 export type UploadImagesCropperEditorProps = Omit<HTMLAttributes<HTMLDivElement>, "children">
 
+/**
+ * Visual editor component for image cropping.
+ *
+ * Renders the interactive crop editor interface using `"react-easy-crop"`.
+ * Provides visual feedback for crop area, zoom, and rotation adjustments.
+ *
+ * @param style - CSS style object, merged with default positioning styles
+ * @param props - Additional HTML div attributes
+ * @returns JSX element with interactive crop editor
+ * @throws {Error} When cropper config is not defined in context
+ *
+ * @example
+ * ```typescript
+ * import { UploadImages } from "@leancodepl/image-uploader";
+ *
+ * <UploadImages.Cropper>
+ *   {({ zoom, setZoom, rotation, setRotation, accept, close }) => (
+ *     <div>
+ *       <UploadImages.CropperEditor />
+ *       <div>
+ *         <label>Zoom: <input type="range" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} /></label>
+ *         <button onClick={accept}>Accept</button>
+ *         <button onClick={close}>Cancel</button>
+ *       </div>
+ *     </div>
+ *   )}
+ * </UploadImages.Cropper>
+ * ```
+ */
 export function UploadImagesCropperEditor({ style, ...props }: UploadImagesCropperEditorProps) {
   const { cropper } = useUploadImagesContext()
 

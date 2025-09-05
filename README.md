@@ -100,6 +100,10 @@ ESLint flat config resolver for merging configuration plugins.
 
 TypeScript utilities for styled-components with type-safe theme access.
 
+#### `@leancodepl/image-uploader`
+
+React component for image uploads.
+
 ### Feature Management
 
 #### `@leancodepl/feature-flags-react-client`
