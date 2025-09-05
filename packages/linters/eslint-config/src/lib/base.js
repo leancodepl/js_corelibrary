@@ -11,6 +11,7 @@ module.exports = [
             "no-console": ["warn", { allow: ["warn", "error", "assert"] }],
             "no-eval": "error",
             "no-useless-rename": "error",
+            "arrow-body-style": ["error", "as-needed"],
 
             "@typescript-eslint/no-empty-function": "off",
             "@typescript-eslint/no-empty-object-type": "off",
