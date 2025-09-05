@@ -50,8 +50,7 @@ function RouteComponent() {
                     passkeysForm,
                     totpForm,
                     oidcForm,
-                }) => {
-                    return (
+                }) => (
                         <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
                             {traitsForm}
                             {newPasswordForm}
@@ -59,8 +58,7 @@ function RouteComponent() {
                             {totpForm}
                             {oidcForm}
                         </div>
-                    )
-                }}
+                    )}
                 totpForm={TotpForm}
                 traitsForm={TraitsForm}
                 onChangePasswordSuccess={() => {

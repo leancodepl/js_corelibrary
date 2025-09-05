@@ -8,7 +8,7 @@ import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useGetLoginFlow() {
     const { kratosClient } = useKratosClientContext()
-    const { loginFlowId, resetFlow } = useLoginFlowContext()
+    const { loginFlowId } = useLoginFlowContext()
 
     return useQuery({
         queryKey: loginFlowKey(loginFlowId),

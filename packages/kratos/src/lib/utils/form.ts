@@ -55,14 +55,12 @@ export const handleOnSubmitErrors = <
         const errors = getAuthErrorsFromUiTextList(inputNodeMessages(getNodeById(response.ui.nodes, id)))
 
         if (errors.length > 0) {
-            formApi.setFieldMeta(id, meta => {
-                return {
-                    ...meta,
-                    errorMap: {
-                        onSubmit: errors,
-                    },
-                }
-            })
+            formApi.setFieldMeta(id, meta => ({
+                ...meta,
+                errorMap: {
+                    onSubmit: errors,
+                },
+            }))
             onError?.({ target: id, errors })
         }
     }

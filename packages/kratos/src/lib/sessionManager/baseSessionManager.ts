@@ -64,17 +64,12 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
         }
     }
 
-    getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> => {
-        return (await this.getSession())?.identity
-    }
+    getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> =>
+        (await this.getSession())?.identity
 
-    getUserId = async (): Promise<string | undefined> => {
-        return (await this.getIdentity())?.id
-    }
+    getUserId = async (): Promise<string | undefined> => (await this.getIdentity())?.id
 
-    isLoggedIn = async (): Promise<boolean> => {
-        return (await this.getSession())?.active ?? false
-    }
+    isLoggedIn = async (): Promise<boolean> => (await this.getSession())?.active ?? false
 
     useSession = () => {
         const {
@@ -133,12 +128,11 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
         }
     }
 
-    checkIfLoggedIn = async () => {
-        return await this.queryClient.refetchQueries({
+    checkIfLoggedIn = async () =>
+        await this.queryClient.refetchQueries({
             queryKey: sessionQueryKey,
             exact: true,
         })
-    }
 
     constructor({ queryClient, api }: BaseSessionManagerContructorProps) {
         this.api = api

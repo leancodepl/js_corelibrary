@@ -62,12 +62,12 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
         setFlowId: setRegistrationFlowId,
     })
 
-    const isSessionAvailable = useMemo(() => {
-        return (
+    const isSessionAvailable = useMemo(
+        () =>
             isSessionAlreadyAvailable(getRegistrationFlowError) ||
-            isSessionAlreadyAvailable(createRegistrationFlowError)
-        )
-    }, [getRegistrationFlowError, createRegistrationFlowError])
+            isSessionAlreadyAvailable(createRegistrationFlowError),
+        [getRegistrationFlowError, createRegistrationFlowError],
+    )
 
     useEffect(() => {
         if (isSessionAvailable) {

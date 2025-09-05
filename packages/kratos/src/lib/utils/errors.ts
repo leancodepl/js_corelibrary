@@ -39,9 +39,8 @@ export const isAuthError = (error: unknown): error is AuthError => {
     return true
 }
 
-export const getAuthErrorsFromUiTextList = (messages: UiText[] | undefined): AuthError[] => {
-    return messages?.filter(isUiTextError).map(mapToAuthError) ?? []
-}
+export const getAuthErrorsFromUiTextList = (messages: UiText[] | undefined): AuthError[] =>
+    messages?.filter(isUiTextError).map(mapToAuthError) ?? []
 
 export const getAuthErrorsFromFormErrorMap = ({
     onSubmit: errors,
@@ -62,11 +61,9 @@ export enum AdditionalValidationError {
     FieldRequired = "FieldRequired",
 }
 
-export const mapAdditionalValidationErrorToAuthError = (error: AdditionalValidationError) => {
-    return {
-        id: `AdditionalValidationError_${error}` as const,
-    }
-}
+export const mapAdditionalValidationErrorToAuthError = (error: AdditionalValidationError) => ({
+    id: `AdditionalValidationError_${error}` as const,
+})
 
 const getErrorMappers = (error: UiTextError) => {
     type ErrorPrefix =

@@ -46,18 +46,16 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
     const traitComponents = useMemo(
         () =>
             Object.fromEntries(
-                Object.entries(traitsConfig).map(([key, value]) => {
-                    return [
-                        key,
-                        value.type === "boolean"
-                            ? ({ children }: { children: ReactNode }) => (
-                                  <TraitCheckbox children={children} trait={value.trait} />
-                              )
-                            : ({ children }: { children: ReactNode }) => (
-                                  <TraitInput children={children} trait={value.trait} />
-                              ),
-                    ]
-                }),
+                Object.entries(traitsConfig).map(([key, value]) => [
+                    key,
+                    value.type === "boolean"
+                        ? ({ children }: { children: ReactNode }) => (
+                              <TraitCheckbox children={children} trait={value.trait} />
+                          )
+                        : ({ children }: { children: ReactNode }) => (
+                              <TraitInput children={children} trait={value.trait} />
+                          ),
+                ]),
             ) as TraitsComponents<TTraitsConfig>,
         [traitsConfig],
     )
