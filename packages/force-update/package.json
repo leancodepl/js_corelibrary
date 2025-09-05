@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/force-update",
-  "version": "9.6.0",
+  "version": "9.6.1",
   "license": "Apache-2.0",
   "dependencies": {
     "rxjs": ">=7.0.0"
