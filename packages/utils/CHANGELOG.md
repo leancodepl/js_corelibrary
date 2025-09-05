@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.6.0](https://github.com/leancodepl/js_corelibrary/compare/v9.5.3...v9.6.0) (2025-09-05)
+
+### Features
+
+- add useSyncState to utils lib
+  ([cbd08f0](https://github.com/leancodepl/js_corelibrary/commit/cbd08f039678484d52d1156ceb1552b7acd40c47))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.5.3](https://github.com/leancodepl/js_corelibrary/compare/v9.5.2...v9.5.3) (2025-08-26)
 
 **Note:** Version bump only for package @leancodepl/utils
