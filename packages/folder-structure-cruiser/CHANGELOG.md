@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.1](https://github.com/leancodepl/js_corelibrary/compare/v9.5.3...v9.6.1) (2025-09-05)
+
+### Bug Fixes
+
+- fix lint error
+  ([9288967](https://github.com/leancodepl/js_corelibrary/commit/92889676cf4bccd35257146b2a86bdc600437edb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.5.3](https://github.com/leancodepl/js_corelibrary/compare/v9.5.2...v9.5.3) (2025-08-26)
 
 ### Bug Fixes
