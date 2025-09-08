@@ -43,22 +43,7 @@ function RouteComponent() {
                 newPasswordForm={NewPasswordForm}
                 oidcForm={OidcForm}
                 passkeysForm={PasskeysForm}
-                settingsForm={({
-                    emailVerificationRequired,
-                    newPasswordForm,
-                    traitsForm,
-                    passkeysForm,
-                    totpForm,
-                    oidcForm,
-                }) => (
-                        <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
-                            {traitsForm}
-                            {newPasswordForm}
-                            {passkeysForm}
-                            {totpForm}
-                            {oidcForm}
-                        </div>
-                    )}
+                settingsForm={SettingsForm}
                 totpForm={TotpForm}
                 traitsForm={TraitsForm}
                 onChangePasswordSuccess={() => {
@@ -70,6 +55,30 @@ function RouteComponent() {
                 onError={handleError}
                 onFlowRestart={removeFlowIdFromUrl}
             />
+        </div>
+    )
+}
+
+function SettingsForm({
+    isLoading,
+    emailVerificationRequired,
+    newPasswordForm,
+    traitsForm,
+    passkeysForm,
+    totpForm,
+    oidcForm,
+}: settingsFlow.SettingsFormProps) {
+    if (isLoading) {
+        return <div>Loading settings form...</div>
+    }
+
+    return (
+        <div style={emailVerificationRequired ? { backgroundColor: "#f8d7da" } : {}}>
+            {traitsForm}
+            {newPasswordForm}
+            {passkeysForm}
+            {totpForm}
+            {oidcForm}
         </div>
     )
 }

@@ -283,7 +283,7 @@ function RegisterPage() {
 ### Settings Flow
 
 ```tsx
-import { SettingsFlow } from "./kratosService"
+import { SettingsFlow, settingsFlow } from "./kratosService"
 
 function SettingsPage() {
   const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
@@ -298,13 +298,7 @@ function SettingsPage() {
       passkeysForm={PasskeysForm}
       totpForm={TotpForm}
       oidcForm={OidcForm}
-      settingsForm={({ traitsForm, newPasswordForm, passkeysForm }) => (
-        <div>
-          {traitsForm}
-          {newPasswordForm}
-          {passkeysForm}
-        </div>
-      )}
+      settingsForm={SettingsForm}
       onChangePasswordSuccess={() => {
         console.log("Password updated")
       }}
@@ -312,6 +306,20 @@ function SettingsPage() {
         console.log("Profile updated")
       }}
     />
+  )
+}
+
+function SettingsForm({ isLoading, traitsForm, newPasswordForm, passkeysForm }: settingsFlow.SettingsFormProps) {
+  if (isLoading) {
+    return <div>...loading</div>
+  }
+
+  return (
+    <div>
+      {traitsForm}
+      {newPasswordForm}
+      {passkeysForm}
+    </div>
   )
 }
 ```
