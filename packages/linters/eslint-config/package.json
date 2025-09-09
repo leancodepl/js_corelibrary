@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/eslint-config",
-  "version": "9.6.1",
+  "version": "9.6.2",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "dependencies": {
