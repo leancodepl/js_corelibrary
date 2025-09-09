@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.2](https://github.com/leancodepl/js_corelibrary/compare/v9.6.1...v9.6.2) (2025-09-09)
+
+### Features
+
+- export settings form type
+  ([14d1f13](https://github.com/leancodepl/js_corelibrary/commit/14d1f13c3a9f07fc390b8f69d7dc37ba233d820f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.1](https://github.com/leancodepl/js_corelibrary/compare/v9.6.0...v9.6.1) (2025-09-05)
 
 **Note:** Version bump only for package @leancodepl/config

@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/prettier-config",
-  "version": "9.6.1",
+  "version": "9.6.2",
   "license": "Apache-2.0",
   "dependencies": {
     "prettier": ">=3.0.0"
