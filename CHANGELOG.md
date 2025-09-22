@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.3](https://github.com/leancodepl/js_corelibrary/compare/v9.6.2...v9.6.3) (2025-09-22)
+
+### Bug Fixes
+
+- setFeatureFlagsContext
+  ([2ea5872](https://github.com/leancodepl/js_corelibrary/commit/2ea587225ac4f3f847473744d8945b2393d64c2f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.2](https://github.com/leancodepl/js_corelibrary/compare/v9.6.1...v9.6.2) (2025-09-09)
 
 ### Features
