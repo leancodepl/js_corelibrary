@@ -70,7 +70,7 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.36.0",
     "uuid": "11.1.0",
-    "verdaccio": "6.1.1",
+    "verdaccio": "6.1.6",
     "vite": "^6.0.0",
     "vitest": "^3.0.0",
     "xhr-mock": "2.5.1",
