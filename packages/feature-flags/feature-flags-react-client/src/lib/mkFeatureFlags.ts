@@ -31,6 +31,6 @@ export function mkFeatureFlags<TFlags extends Flags>(flags: TFlags, provider: Pr
         useFeatureFlag: <TKey extends keyof TFlags>(key: TKey, defaultValue?: TFlags[TKey]["defaultValue"]) =>
             useFlag<TFlags[TKey]["defaultValue"]>(key.toString(), defaultValue ?? flags[key].defaultValue),
         FeatureFlagsProvider: OpenFeatureProvider,
-        setFeatureFlagsContext: OpenFeature.setContext
+        setFeatureFlagsContext: OpenFeature.setContext.bind(OpenFeature)
     }
 }
