@@ -16,7 +16,7 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.15.0",
     "@types/lodash": "^4.17.20",
-    "react": "^18.0.0",
+    "react": "*",
     "react-intl": "^6.0.0"
   }
 }
