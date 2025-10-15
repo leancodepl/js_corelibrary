@@ -25,8 +25,8 @@ export function mkPipeClient({ pipe }: { pipe: Pipe }) {
                 const onDataRef = useRef(onData)
                 onDataRef.current = onData
 
-                const memoizedTopic = useRef<TTopic>()
-                if (memoizedTopic.current === undefined || !deepEqual(memoizedTopic.current, topic)) {
+                const memoizedTopic = useRef<TTopic>(null)
+                if (memoizedTopic.current === null || !deepEqual(memoizedTopic.current, topic)) {
                     memoizedTopic.current = topic
                 }
 

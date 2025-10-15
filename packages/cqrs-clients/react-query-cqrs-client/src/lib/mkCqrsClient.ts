@@ -1,7 +1,9 @@
 import {
+    DefaultError,
     FetchQueryOptions,
     InfiniteData,
     QueryClient,
+    QueryFilters,
     QueryFunctionContext,
     QueryKey,
     UndefinedInitialDataInfiniteOptions,
@@ -35,11 +37,11 @@ export function uncapitalizedParse<TResult>(): OperatorFunction<string, Nullable
 
 /**
  * Creates React Query CQRS client with hooks for queries, operations, and commands.
- * 
+ *
  * Integrates with React Query to provide caching, background updates, and optimistic updates
  * for CQRS operations. Automatically handles authentication, retries, and response transformation
  * with uncapitalized keys.
- * 
+ *
  * @param cqrsEndpoint - Base URL for CQRS API endpoints
  * @param queryClient - React Query client instance
  * @param tokenProvider - Optional token provider for authentication
@@ -67,8 +69,8 @@ export function mkCqrsClient({
     ajaxOptions?: Omit<AjaxConfig, "body" | "headers" | "method" | "responseType" | "url">
     tokenHeader?: string
 }) {
-    function mkFetcher<TData>(endpoint: string, config: Partial<AjaxConfig> = {}) {
-        const apiCall = <TResult>(data: TData, token?: string) =>
+    function mkFetcher<TData, TResult>(endpoint: string, config: Partial<AjaxConfig> = {}) {
+        const apiCall = (data: TData, token?: string) =>
             ajax<TResult>({
                 ...ajaxOptions,
                 ...config,
@@ -84,29 +86,33 @@ export function mkCqrsClient({
 
         const getToken = tokenProvider?.getToken
 
-        const mk$apiCall = <TResult>(data: TData, token?: string) =>
-            apiCall<TResult>(data, token).pipe(
+        const mk$apiCall = (data: TData, token?: string) =>
+            apiCall(data, token).pipe(
                 authGuard(tokenProvider),
                 map(result => result.response),
             )
 
         if (getToken) {
-            return <TResult>(data: TData) => from(getToken()).pipe(mergeMap(token => mk$apiCall<TResult>(data, token)))
+            return (data: TData) => from(getToken()).pipe(mergeMap(token => mk$apiCall(data, token)))
         }
 
-        return <TResult>(data: TData) => mk$apiCall<TResult>(data)
+        return (data: TData) => mk$apiCall(data)
     }
 
     return {
         createQuery<TQuery, TResult>(type: string) {
-            const fetcher = mkFetcher<TQuery>(`query/${type}`, { responseType: "text" })
-            type Result = NullableUncapitalizeDeep<TResult>
+            const fetcher = mkFetcher<TQuery, string>(`query/${type}`, { responseType: "text" })
+            type TUncapitalizedResult = NullableUncapitalizeDeep<TResult>
+            type TQueryKey = Readonly<[string, Partial<TQuery>?]>
 
             function useApiQuery(
                 data: TQuery,
-                options?: Omit<UndefinedInitialDataOptions<Result, unknown>, "queryFn" | "queryKey">,
+                options?: Omit<
+                    UndefinedInitialDataOptions<TUncapitalizedResult, DefaultError, TUncapitalizedResult, TQueryKey>,
+                    "queryFn" | "queryKey"
+                >,
             ) {
-                return useQuery<Result, unknown>(
+                return useQuery<TUncapitalizedResult, DefaultError, TUncapitalizedResult, TQueryKey>(
                     {
                         queryKey: useApiQuery.key(data),
                         queryFn: context => firstValueFrom(useApiQuery.fetcher(data, context)),
@@ -118,9 +124,12 @@ export function mkCqrsClient({
 
             useApiQuery.type = type
 
-            useApiQuery.fetcher = (data: TQuery, context?: QueryFunctionContext<QueryKey>): Observable<Result> =>
+            useApiQuery.fetcher = (
+                data: TQuery,
+                context?: QueryFunctionContext<TQueryKey>,
+            ): Observable<TUncapitalizedResult> =>
                 race([
-                    fetcher<string>(data).pipe(uncapitalizedParse<TResult>()),
+                    fetcher(data).pipe(uncapitalizedParse<TResult>()),
                     ...(context?.signal
                         ? [
                               fromEvent<AbortSignalEventMap["abort"]>(context.signal, "abort").pipe(
@@ -132,7 +141,10 @@ export function mkCqrsClient({
 
             useApiQuery.fetch = (
                 data: TQuery,
-                options?: Omit<FetchQueryOptions<Result, unknown>, "queryFn" | "queryKey">,
+                options?: Omit<
+                    FetchQueryOptions<TUncapitalizedResult, DefaultError, TUncapitalizedResult, TQueryKey>,
+                    "queryFn" | "queryKey"
+                >,
             ) =>
                 queryClient.fetchQuery({
                     queryKey: useApiQuery.key(data),
@@ -140,11 +152,14 @@ export function mkCqrsClient({
                     ...options,
                 })
 
-            useApiQuery.lazy = function <TContext = unknown>(
-                options: Omit<UseMutationOptions<Result, unknown, TQuery, TContext>, "mutationFn" | "mutationKey"> = {},
+            useApiQuery.lazy = function <TOnMutateResult = unknown>(
+                options: Omit<
+                    UseMutationOptions<TUncapitalizedResult, DefaultError, TQuery, TOnMutateResult>,
+                    "mutationFn" | "mutationKey"
+                > = {},
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                return useMutation<Result, unknown, TQuery, TContext>(
+                return useMutation<TUncapitalizedResult, DefaultError, TQuery, TOnMutateResult>(
                     {
                         mutationKey: [type],
                         mutationFn: variables => firstValueFrom(useApiQuery.fetcher(variables)),
@@ -156,16 +171,27 @@ export function mkCqrsClient({
             useApiQuery.infinite = function (
                 initialPageData: TQuery,
                 options: Omit<
-                    UndefinedInitialDataInfiniteOptions<Result, unknown, InfiniteData<Result>, QueryKey, TQuery>,
+                    UndefinedInitialDataInfiniteOptions<
+                        TUncapitalizedResult,
+                        DefaultError,
+                        InfiniteData<TUncapitalizedResult>,
+                        TQueryKey,
+                        TQuery
+                    >,
                     "initialPageParam" | "queryFn" | "queryKey" | "select"
                 >,
             ) {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
-                return useInfiniteQuery<Result, unknown, InfiniteData<Result, TQuery>, QueryKey, TQuery>(
+                return useInfiniteQuery<
+                    TUncapitalizedResult,
+                    DefaultError,
+                    InfiniteData<TUncapitalizedResult, TQuery>,
+                    TQueryKey,
+                    TQuery
+                >(
                     {
                         queryKey: [type],
-                        queryFn: async context =>
-                            await firstValueFrom(useApiQuery.fetcher(context.pageParam as TQuery, context)),
+                        queryFn: context => firstValueFrom(useApiQuery.fetcher(context.pageParam as TQuery, context)),
                         initialPageParam: initialPageData,
                         ...options,
                     },
@@ -173,38 +199,44 @@ export function mkCqrsClient({
                 )
             }
 
-            useApiQuery.key = (query: Partial<TQuery>) => [type, query] as const
+            useApiQuery.key = (query: Partial<TQuery>) => [type, query] as TQueryKey
             function setQueryData(
                 query: TQuery,
-                updater: Updater<Result | undefined, Result | undefined>,
-            ): Result | undefined
+                updater: Updater<TUncapitalizedResult | undefined, TUncapitalizedResult | undefined>,
+            ): TUncapitalizedResult | undefined
             function setQueryData(
-                queryKey: QueryKey,
-                updater: Updater<Result | undefined, Result | undefined>,
-            ): Result | undefined
+                queryKey: TQueryKey,
+                updater: Updater<TUncapitalizedResult | undefined, TUncapitalizedResult | undefined>,
+            ): TUncapitalizedResult | undefined
             function setQueryData(
-                queryOrQueryKey: QueryKey | TQuery,
-                updater: Updater<Result | undefined, Result | undefined>,
-            ): Result | undefined {
+                queryOrQueryKey: TQuery | TQueryKey,
+                updater: Updater<TUncapitalizedResult | undefined, TUncapitalizedResult | undefined>,
+            ): TUncapitalizedResult | undefined {
                 const key = Array.isArray(queryOrQueryKey)
-                    ? queryOrQueryKey
+                    ? (queryOrQueryKey as TQueryKey)
                     : useApiQuery.key(queryOrQueryKey as TQuery)
-                return queryClient.setQueryData(key, updater)
+                return queryClient.setQueryData<TUncapitalizedResult, TQueryKey, TUncapitalizedResult>(key, updater)
             }
             useApiQuery.setQueryData = setQueryData
             useApiQuery.setQueriesData = (
                 query: Partial<TQuery>,
-                updater: Updater<Result | undefined, Result | undefined>,
+                updater: Updater<TUncapitalizedResult | undefined, TUncapitalizedResult | undefined>,
             ) => queryClient.setQueriesData({ queryKey: useApiQuery.key(query) }, updater)
-            useApiQuery.getQueryData = (query: TQuery) => queryClient.getQueryData<Result>(useApiQuery.key(query))
+            useApiQuery.getQueryData = (query: TQuery) =>
+                queryClient.getQueryData<TUncapitalizedResult, TQueryKey>(useApiQuery.key(query))
             useApiQuery.getQueriesData = (query: Partial<TQuery>) =>
-                queryClient.getQueriesData<Result>({ queryKey: useApiQuery.key(query) })
+                queryClient.getQueriesData<TUncapitalizedResult, QueryFilters<TQueryKey>>({
+                    queryKey: useApiQuery.key(query),
+                })
 
             useApiQuery.prefetch = (
                 data: TQuery,
-                options?: Omit<FetchQueryOptions<Result, unknown>, "initialData" | "queryFn" | "queryKey">,
+                options?: Omit<
+                    FetchQueryOptions<TUncapitalizedResult, DefaultError, TUncapitalizedResult, TQueryKey>,
+                    "initialData" | "queryFn" | "queryKey"
+                >,
             ) =>
-                queryClient.prefetchQuery<Result, unknown>({
+                queryClient.prefetchQuery<TUncapitalizedResult, DefaultError, TUncapitalizedResult, TQueryKey>({
                     queryKey: useApiQuery.key(data),
                     queryFn: context => firstValueFrom(useApiQuery.fetcher(data, context)),
                     ...options,
@@ -217,7 +249,7 @@ export function mkCqrsClient({
                 queryClient.cancelQueries({ queryKey: useApiQuery.key(query) })
 
             useApiQuery.optimisticUpdate = async (
-                updater: Updater<Result | undefined, Result | undefined>,
+                updater: Updater<TUncapitalizedResult | undefined, TUncapitalizedResult | undefined>,
                 query: Partial<TQuery> = {},
             ) => {
                 await useApiQuery.cancel(query)
@@ -226,29 +258,34 @@ export function mkCqrsClient({
 
                 useApiQuery.setQueriesData(query, updater)
 
-                return () => data.forEach(([key, result]) => queryClient.setQueryData<Result>(key, result))
+                return () =>
+                    data.forEach(([key, result]) => queryClient.setQueryData<TUncapitalizedResult>(key, result))
             }
 
             return useApiQuery
         },
         createOperation<TOperation, TResult>(type: string) {
-            const fetcher = mkFetcher<TOperation>(`operation/${type}`, { responseType: "text" })
-            type Result = NullableUncapitalizeDeep<TResult>
+            const fetcher = mkFetcher<TOperation, string>(`operation/${type}`, { responseType: "text" })
+            type TUncapitalizedResult = NullableUncapitalizeDeep<TResult>
+            type TOperationKey = Readonly<[string]>
 
-            function useApiOperation<TContext = unknown>({
+            function useApiOperation<TOnMutateResult = unknown>({
                 onSuccess: onSuccessBase,
                 invalidateQueries,
                 ...options
-            }: Omit<UseMutationOptions<Result, unknown, TOperation, TContext>, "mutationFn" | "mutationKey"> & {
+            }: Omit<
+                UseMutationOptions<TUncapitalizedResult, DefaultError, TOperation, TOnMutateResult>,
+                "mutationFn" | "mutationKey"
+            > & {
                 invalidateQueries?: QueryKey[]
             } = {}) {
-                return useMutation<Result, unknown, TOperation, TContext>(
+                return useMutation<TUncapitalizedResult, DefaultError, TOperation, TOnMutateResult>(
                     {
                         mutationKey: useApiOperation.key,
                         mutationFn: variables => firstValueFrom(useApiOperation.fetcher(variables)),
                         ...options,
-                        async onSuccess(data, variables, context) {
-                            const result = await onSuccessBase?.(data, variables, context)
+                        async onSuccess(data, variables, onMutateResult, context) {
+                            const result = await onSuccessBase?.(data, variables, onMutateResult, context)
 
                             if (invalidateQueries) {
                                 await Promise.allSettled(
@@ -264,23 +301,24 @@ export function mkCqrsClient({
             }
 
             useApiOperation.type = type
-            useApiOperation.key = [useApiOperation.type]
+            useApiOperation.key = [useApiOperation.type] as TOperationKey
 
-            useApiOperation.fetcher = (variables: TOperation): Observable<Result> =>
-                fetcher<string>(variables).pipe(uncapitalizedParse())
+            useApiOperation.fetcher = (variables: TOperation): Observable<TUncapitalizedResult> =>
+                fetcher(variables).pipe(uncapitalizedParse())
 
             return useApiOperation
         },
         createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(type: string, errorCodes: TErrorCodes) {
-            const fetcher = mkFetcher<TCommand>(`command/${type}`)
+            const fetcher = mkFetcher<TCommand, SuccessfulCommandResult>(`command/${type}`)
+            type TCommandKey = Readonly<[string]>
 
-            function useApiCommand<TContext extends Record<string, unknown> = {}>(
+            function useApiCommand<TOnMutateResult extends Record<string, unknown> = {}>(
                 options?: Omit<
                     UseMutationOptions<
                         ApiSuccess<SuccessfulCommandResult>,
                         ApiResponse<FailedCommandResult<TErrorCodes>>,
                         TCommand,
-                        TContext
+                        TOnMutateResult
                     >,
                     "mutationFn" | "mutationKey"
                 > & {
@@ -292,18 +330,21 @@ export function mkCqrsClient({
                 ApiSuccess<SuccessfulCommandResult>,
                 ApiResponse<FailedCommandResult<TErrorCodes>>,
                 TCommand,
-                TContext
+                TOnMutateResult
             >
-            function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>(
-                options?: Omit<UseMutationOptions<TResult, TResult, TCommand, TContext>, "mutationFn" | "mutationKey"> & {
+            function useApiCommand<TResult, TOnMutateResult extends Record<string, unknown> = {}>(
+                options?: Omit<
+                    UseMutationOptions<TResult, TResult, TCommand, TOnMutateResult>,
+                    "mutationFn" | "mutationKey"
+                > & {
                     invalidateQueries?: QueryKey[]
                     handler: (
                         handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>,
                     ) => TResult
                     optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
                 },
-            ): UseMutationResult<TResult, TResult, TCommand, TContext>
-            function useApiCommand<TResult, TContext extends Record<string, unknown> = {}>({
+            ): UseMutationResult<TResult, TResult, TCommand, TOnMutateResult>
+            function useApiCommand<TResult, TOnMutateResult extends Record<string, unknown> = {}>({
                 invalidateQueries,
                 handler,
                 optimisticUpdate,
@@ -316,7 +357,7 @@ export function mkCqrsClient({
                     ApiSuccess<SuccessfulCommandResult> | TResult,
                     ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
                     TCommand,
-                    TContext
+                    TOnMutateResult
                 >,
                 "mutationFn" | "mutationKey"
             > & {
@@ -330,37 +371,38 @@ export function mkCqrsClient({
                     ApiSuccess<SuccessfulCommandResult> | TResult,
                     ApiResponse<FailedCommandResult<TErrorCodes>> | TResult,
                     TCommand,
-                    TContext & { revertOptimisticUpdate: () => void }
+                    TOnMutateResult & { revertOptimisticUpdate: () => void }
                 >(
                     {
                         ...options,
                         mutationKey: useApiCommand.key,
-                        mutationFn: (variables: TCommand) => firstValueFrom(useApiCommand.call(variables, handler)),
-                        async onMutate(variables) {
+                        mutationFn: variables => firstValueFrom(useApiCommand.call(variables, handler)),
+                        async onMutate(variables, context) {
                             // there's really no good way to do it without type cast
-                            const baseContext = (await onMutate?.(variables)) as TContext
+                            const baseResult = (await onMutate?.(variables, context)) as TOnMutateResult
 
                             const optimisticUpdateReverts = await Promise.all(optimisticUpdate?.(variables) ?? [])
 
                             return {
-                                ...baseContext,
+                                ...baseResult,
                                 revertOptimisticUpdate: () =>
                                     optimisticUpdateReverts.forEach(revertOptimisticUpdate => revertOptimisticUpdate()),
                             }
                         },
-                        async onError(error, variables, context) {
-                            await onError?.(error, variables, context)
+                        async onError(error, variables, onMutateResult, context) {
+                            await onError?.(error, variables, onMutateResult, context)
 
-                            context?.revertOptimisticUpdate()
+                            onMutateResult?.revertOptimisticUpdate()
                         },
-                        async onSettled(data, error, variables, context) {
+                        // eslint-disable-next-line max-params
+                        async onSettled(data, error, variables, onMutateResult, context) {
                             if (invalidateQueries) {
                                 await Promise.allSettled(
                                     invalidateQueries.map(queryKey => queryClient.invalidateQueries({ queryKey })),
                                 )
                             }
 
-                            return await onSettled?.(data, error, variables, context)
+                            return await onSettled?.(data, error, variables, onMutateResult, context)
                         },
                     },
                     queryClient,
@@ -368,9 +410,9 @@ export function mkCqrsClient({
             }
 
             useApiCommand.type = type
-            useApiCommand.key = [useApiCommand.type]
+            useApiCommand.key = [useApiCommand.type] as TCommandKey
 
-            useApiCommand.fetcher = (variables: TCommand) => fetcher<SuccessfulCommandResult>(variables)
+            useApiCommand.fetcher = fetcher
 
             useApiCommand.call = <TResult>(
                 variables: TCommand,
