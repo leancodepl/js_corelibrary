@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/rx-pipe-client",
-  "version": "9.6.3",
+  "version": "9.6.4",
   "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/pipe": "^1.0.0"

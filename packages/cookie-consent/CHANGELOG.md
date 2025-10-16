@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.4](https://github.com/leancodepl/js_corelibrary/compare/v9.6.3...v9.6.4) (2025-10-16)
+
+**Note:** Version bump only for package @leancodepl/cookie-consent
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.3](https://github.com/leancodepl/js_corelibrary/compare/v9.6.2...v9.6.3) (2025-09-22)
 
 **Note:** Version bump only for package @leancodepl/cookie-consent
