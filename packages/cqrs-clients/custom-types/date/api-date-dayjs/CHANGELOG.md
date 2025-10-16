@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.5](https://github.com/leancodepl/js_corelibrary/compare/v9.6.4...v9.6.5) (2025-10-16)
+
+**Note:** Version bump only for package @leancodepl/api-date-dayjs
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.4](https://github.com/leancodepl/js_corelibrary/compare/v9.6.3...v9.6.4) (2025-10-16)
 
 **Note:** Version bump only for package @leancodepl/api-date-dayjs
