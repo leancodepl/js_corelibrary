@@ -8,5 +8,37 @@
   "peerDependencies": {
     "react": "*",
     "vite": ">=4.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/force-update"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "A library for implementing force update functionality in web applications",
+  "keywords": [
+    "force-update",
+    "version-check",
+    "react",
+    "vite",
+    "vite-plugin",
+    "polling",
+    "notification",
+    "typescript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
   }
 }
