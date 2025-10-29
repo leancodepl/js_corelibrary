@@ -19,6 +19,13 @@
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/eslint-config {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/linters/eslint-config/jest.config.ts"
+      }
     }
   }
 }
