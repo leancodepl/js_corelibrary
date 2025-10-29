@@ -1,9 +1,11 @@
 const perfectionist = require("eslint-plugin-perfectionist")
+const customRules = require("./custom-rules/custom-rules-plugin")
 
 module.exports = [
   {
     plugins: {
       perfectionist,
+      "custom-rules": customRules,
     },
     rules: {
       curly: ["error", "multi-line", "consistent"],
@@ -12,6 +14,9 @@ module.exports = [
       "no-eval": "error",
       "no-useless-rename": "error",
       "arrow-body-style": ["error", "as-needed"],
+      "no-case-declarations": "off",
+
+      "custom-rules/switch-case-braces": "error",
 
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",
