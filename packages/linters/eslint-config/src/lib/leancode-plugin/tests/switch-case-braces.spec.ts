@@ -1,4 +1,5 @@
-import { RuleTester } from "eslint"
+const { RuleTester } = require("@typescript-eslint/rule-tester")
+const ruleFile = require("../rules/switch-case-braces")
 
 const ruleTester = new RuleTester({
   languageOptions: { ecmaVersion: 2015 },
@@ -16,7 +17,7 @@ const unexpectedLexical = {
   output: `switch (test) { case "test": { const test = "test"; console.log("test"); break; } }`,
 }
 
-ruleTester.run("switch-case-braces", require("../rules/switch-case-braces"), {
+ruleTester.run("switch-case-braces", ruleFile, {
   valid: [
     {
       code: unexpectedBracesWithNoLexical.valid,

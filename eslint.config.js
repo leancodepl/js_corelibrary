@@ -5,8 +5,8 @@ module.exports = [
   ...nx.configs["flat/base"],
   ...nx.configs["flat/typescript"],
   ...nx.configs["flat/javascript"],
-  ...leancode.imports,
   ...leancode.base,
+  ...leancode.imports,
   ...leancode.baseReact,
   ...leancode.a11y,
   {

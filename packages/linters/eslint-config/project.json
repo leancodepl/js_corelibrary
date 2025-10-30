@@ -6,14 +6,14 @@
   "tags": [],
   "targets": {
     "build": {
-      "command": "node tools/scripts/copy.mjs packages/linters/eslint-config {args.outputPath}",
-      "configurations": {
-        "args": {
-          "outputPath": "{options.outputPath}"
-        }
-      },
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/linters/eslint-config"
+        "outputPath": "dist/packages/linters/eslint-config",
+        "tsConfig": "packages/linters/eslint-config/tsconfig.lib.json",
+        "packageJson": "packages/linters/eslint-config/package.json",
+        "main": "packages/linters/eslint-config/src/index.ts",
+        "assets": ["packages/linters/eslint-config/*.md"]
       }
     },
     "publish": {

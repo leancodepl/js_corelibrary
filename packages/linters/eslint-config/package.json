@@ -18,6 +18,11 @@
     "prettier": ">=3.0.0",
     "typescript-eslint": ">=7.0.0"
   },
+  "devDependencies": {
+    "@typescript-eslint/rule-tester": ">=8.0.0",
+    "@typescript-eslint/utils": ">=8.0.0",
+    "jiti": "^2.6.1"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
