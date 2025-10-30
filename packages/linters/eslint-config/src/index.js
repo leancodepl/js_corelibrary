@@ -1,11 +1,5 @@
-const a11y = require("./lib/a11y")
-const base = require("./lib/base")
-const baseReact = require("./lib/base-react")
-const imports = require("./lib/imports")
+const { createJiti } = require("jiti")
 
-module.exports = {
-  imports,
-  base,
-  baseReact,
-  a11y,
-}
+const jiti = createJiti(__filename)
+
+module.exports = jiti("./index.ts")
