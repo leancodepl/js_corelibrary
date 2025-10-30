@@ -1,12 +1,12 @@
 const eslintConfigPrettier = require("eslint-config-prettier")
 const perfectionist = require("eslint-plugin-perfectionist")
-const customRules = require("./custom-rules/custom-rules-plugin")
+const leancodePlugin = require("./leancode-plugin/leancode-plugin")
 
 module.exports = [
   {
     plugins: {
       perfectionist,
-      "custom-rules": customRules,
+      leancode: leancodePlugin,
     },
     rules: {
       curly: ["error", "multi-line", "consistent"],
@@ -17,7 +17,7 @@ module.exports = [
       "arrow-body-style": ["error", "as-needed"],
       "no-case-declarations": "off",
 
-      "custom-rules/switch-case-braces": "error",
+      "leancode/switch-case-braces": "error",
 
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",
