@@ -1,3 +1,4 @@
+const eslintConfigPrettier = require("eslint-config-prettier")
 const perfectionist = require("eslint-plugin-perfectionist")
 const customRules = require("./custom-rules/custom-rules-plugin")
 
@@ -60,4 +61,5 @@ module.exports = [
       ],
     },
   },
+  eslintConfigPrettier,
 ]
