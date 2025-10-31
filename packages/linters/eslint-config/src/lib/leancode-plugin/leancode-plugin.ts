@@ -1,13 +1,7 @@
-const switchCaseBraces = require("./rules/switch-case-braces")
-
-// eslint-disable-next-line import/first, perfectionist/sort-imports
+import { switchCaseBracesRules } from "./rules/switch-case-braces.js"
 import type { TSESLint } from "@typescript-eslint/utils"
 
-const leancodePlugin: TSESLint.FlatConfig.Plugin = {
+export const leancodePlugin: TSESLint.FlatConfig.Plugin = {
   meta: { name: "leancode" },
-  rules: { "switch-case-braces": switchCaseBraces },
+  rules: { "switch-case-braces": switchCaseBracesRules },
 }
-
-module.exports = leancodePlugin
-
-export {}

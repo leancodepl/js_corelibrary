@@ -5,7 +5,7 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
+    "build-to-dist": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -15,6 +15,12 @@
         "main": "packages/linters/eslint-config/src/index.ts",
         "assets": ["packages/linters/eslint-config/*.md"]
       }
+    },
+    "copy-from-dist": {
+      "command": "node tools/scripts/copy.mjs dist/packages/linters/eslint-config packages/linters/eslint-config/build"
+    },
+    "build": {
+      "command": "nx run eslint-config:build-to-dist && nx run eslint-config:copy-from-dist"
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/eslint-config {args.registry} {args.ver} {args.tag}",

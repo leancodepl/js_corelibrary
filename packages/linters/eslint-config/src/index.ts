@@ -1,13 +1,6 @@
-const a11y = require("./lib/a11y")
-const base = require("./lib/base")
-const baseReact = require("./lib/base-react")
-const imports = require("./lib/imports")
+import { a11y } from "./lib/a11y"
+import { base } from "./lib/base"
+import { baseReact } from "./lib/base-react"
+import { imports } from "./lib/imports"
 
-module.exports = {
-  imports,
-  base,
-  baseReact,
-  a11y,
-}
-
-export {}
+export { a11y, base, baseReact, imports }

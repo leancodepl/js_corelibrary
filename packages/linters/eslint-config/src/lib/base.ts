@@ -1,11 +1,9 @@
-const eslintConfigPrettier = require("eslint-config-prettier")
-const perfectionist = require("eslint-plugin-perfectionist")
-const leancodePlugin = require("./leancode-plugin/leancode-plugin")
-
-// eslint-disable-next-line import/first, perfectionist/sort-imports
+import eslintConfigPrettier from "eslint-config-prettier"
+import perfectionist from "eslint-plugin-perfectionist"
+import { leancodePlugin } from "./leancode-plugin/leancode-plugin.js"
 import type { TSESLint } from "@typescript-eslint/utils"
 
-const baseConfig: TSESLint.FlatConfig.Config[] = [
+export const base: TSESLint.FlatConfig.Config[] = [
   {
     plugins: {
       perfectionist,
@@ -66,7 +64,3 @@ const baseConfig: TSESLint.FlatConfig.Config[] = [
   },
   eslintConfigPrettier,
 ]
-
-module.exports = baseConfig
-
-export {}

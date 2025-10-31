@@ -1,11 +1,9 @@
-const react = require("eslint-plugin-react")
-const reactHooks = require("eslint-plugin-react-hooks")
-const globals = require("globals")
-
-// eslint-disable-next-line import/first, perfectionist/sort-imports
+import react from "eslint-plugin-react"
+import reactHooks from "eslint-plugin-react-hooks"
+import globals from "globals"
 import type { TSESLint } from "@typescript-eslint/utils"
 
-const baseReactConfig: TSESLint.FlatConfig.Config[] = [
+export const baseReact: TSESLint.FlatConfig.Config[] = [
   {
     plugins: {
       react,
@@ -44,7 +42,3 @@ const baseReactConfig: TSESLint.FlatConfig.Config[] = [
     },
   },
 ]
-
-module.exports = baseReactConfig
-
-export {}
