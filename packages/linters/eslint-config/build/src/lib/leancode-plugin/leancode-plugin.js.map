@@ -1,0 +1,1 @@
+{"version":3,"file":"leancode-plugin.js","sourceRoot":"","sources":["../../../../../../../packages/linters/eslint-config/src/lib/leancode-plugin/leancode-plugin.ts"],"names":[],"mappings":";;;AAAA,kGAA4D;AAG5D,MAAM,cAAc,GAA+B;IACjD,IAAI,EAAE,EAAE,IAAI,EAAE,UAAU,EAAE;IAC1B,KAAK,EAAE,EAAE,oBAAoB,EAAE,+BAAgB,EAAE;CAClD,CAAA;AAED,kBAAe,cAAc,CAAA"}

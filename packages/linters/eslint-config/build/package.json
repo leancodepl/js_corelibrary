@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/eslint-config",
-  "version": "9.6.6",
+  "version": "9.6.3",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "dependencies": {
@@ -52,5 +52,7 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "types": "./src/index.d.ts",
+  "type": "commonjs"
 }

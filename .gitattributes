@@ -2,3 +2,4 @@
 
 /packages/kratos/src/lib/kratos/api.generated/** linguist-generated=true
 /packages/intl/src/poeditor/api.generated/** linguist-generated=true
+/packages/linters/eslint-config/build/** linguist-generated=true

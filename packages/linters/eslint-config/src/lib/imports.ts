@@ -1,14 +1,12 @@
-const imports = require("eslint-plugin-import")
-const unusedImports = require("eslint-plugin-unused-imports")
-
-// eslint-disable-next-line import/first, perfectionist/sort-imports
+import * as importsPlugin from "eslint-plugin-import"
+import unusedImports from "eslint-plugin-unused-imports"
 import type { TSESLint } from "@typescript-eslint/utils"
 
-const importsConfig: TSESLint.FlatConfig.Config[] = [
+export const imports: TSESLint.FlatConfig.Config[] = [
   {
     plugins: {
       "unused-imports": unusedImports,
-      import: imports,
+      import: importsPlugin,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
@@ -76,7 +74,3 @@ const importsConfig: TSESLint.FlatConfig.Config[] = [
     },
   },
 ]
-
-module.exports = importsConfig
-
-export {}

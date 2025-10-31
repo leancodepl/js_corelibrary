@@ -113,12 +113,8 @@ const create = (context: RuleContext) => {
   }
 }
 
-const rule: Rule = {
+export const switchCaseBracesRules: Rule = {
   meta,
   create,
   defaultOptions: [],
 }
-
-module.exports = rule
-
-export {}
