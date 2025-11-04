@@ -488,3 +488,49 @@ function MyComponent({ externalValue }: { externalValue: string }) {
   return <div>{externalValue}</div>;
 }
 ```
+
+### `mkValueContext()`
+
+Creates a React context hook for managing optional state values with Provider and setter utilities. Returns a hook with
+attached Provider component and set function for declarative value management.
+
+**Returns:** Hook function with attached `Provider` component and `set` function
+
+**Usage:**
+
+```typescript
+import { mkValueContext } from "@leancodepl/utils";
+
+const useTheme = mkValueContext<string>();
+
+function App() {
+  return (
+    <useTheme.Provider initialValue="dark">
+      <ThemeConsumer />
+    </useTheme.Provider>
+  );
+}
+
+function ThemeConsumer() {
+  const [theme] = useTheme();
+  return <div>Current theme: {theme}</div>;
+}
+```
+
+**Using set to declaratively set context value:**
+
+```typescript
+import { mkValueContext } from "@leancodepl/utils";
+
+const useActiveUser = mkValueContext<string>();
+
+function UserProfile({ userId }: { userId: string }) {
+  useActiveUser.set(userId); // Sets value on mount, clears on unmount
+  return <div>Profile content</div>;
+}
+
+function UserBadge() {
+  const [activeUserId] = useActiveUser();
+  return <div>Active user: {activeUserId}</div>;
+}
+```
