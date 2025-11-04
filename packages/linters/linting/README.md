@@ -15,7 +15,7 @@ yarn add --dev @leancodepl/linting
 - `@leancodepl/eslint-config` - ESLint rules for TypeScript and React
 - `@leancodepl/prettier-config` - Prettier formatting configuration
 - `@leancodepl/stylelint-config` - Stylelint rules for CSS and SCSS
-- `@leancodepl/resolve-eslint-flat-confgi` - TypeScript resolver for ESlint flat config
+- `@leancodepl/resolve-eslint-flat-config` - TypeScript resolver for ESlint flat config
 
 ## Usage Examples
 
