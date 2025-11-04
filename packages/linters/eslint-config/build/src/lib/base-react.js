@@ -1,12 +1,14 @@
-const react = require("eslint-plugin-react")
-const reactHooks = require("eslint-plugin-react-hooks")
-const globals = require("globals")
-
-module.exports = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const eslint_plugin_react_1 = tslib_1.__importDefault(require("eslint-plugin-react"));
+const eslint_plugin_react_hooks_1 = tslib_1.__importDefault(require("eslint-plugin-react-hooks"));
+const globals_1 = tslib_1.__importDefault(require("globals"));
+const baseReactConfig = [
     {
         plugins: {
-            react,
-            "react-hooks": reactHooks,
+            react: eslint_plugin_react_1.default,
+            "react-hooks": eslint_plugin_react_hooks_1.default,
         },
         languageOptions: {
             parserOptions: {
@@ -15,7 +17,7 @@ module.exports = [
                 },
             },
             globals: {
-                ...globals.browser,
+                ...globals_1.default.browser,
             },
         },
         rules: {
@@ -35,9 +37,10 @@ module.exports = [
                 },
             ],
             "react/self-closing-comp": "error",
-
             "react-hooks/exhaustive-deps": "error",
             "react-hooks/rules-of-hooks": "error",
         },
     },
-]
+];
+exports.default = baseReactConfig;
+//# sourceMappingURL=base-react.js.map

@@ -1,13 +1,13 @@
-const imports = require("eslint-plugin-import")
-const perfectionist = require("eslint-plugin-perfectionist")
-const unusedImports = require("eslint-plugin-unused-imports")
-
-module.exports = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const importsPlugin = tslib_1.__importStar(require("eslint-plugin-import"));
+const eslint_plugin_unused_imports_1 = tslib_1.__importDefault(require("eslint-plugin-unused-imports"));
+const importsConfig = [
     {
         plugins: {
-            "unused-imports": unusedImports,
-            import: imports,
-            perfectionist,
+            "unused-imports": eslint_plugin_unused_imports_1.default,
+            import: importsPlugin,
         },
         rules: {
             "@typescript-eslint/no-unused-vars": "off",
@@ -74,4 +74,6 @@ module.exports = [
             ],
         },
     },
-]
+];
+exports.default = importsConfig;
+//# sourceMappingURL=imports.js.map
