@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.5](https://github.com/leancodepl/js_corelibrary/compare/v9.6.4...v9.6.5) (2025-10-16)
+
+**Note:** Version bump only for package @leancodepl/kratos
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [9.6.4](https://github.com/leancodepl/js_corelibrary/compare/v9.6.3...v9.6.4) (2025-10-16)
+
+### Bug Fixes
+
+- use new tanstack query keys
+  ([66737dd](https://github.com/leancodepl/js_corelibrary/commit/66737dd2767c857adb6c8d0aee12fa5ff744f618))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.3](https://github.com/leancodepl/js_corelibrary/compare/v9.6.2...v9.6.3) (2025-09-22)
 
 **Note:** Version bump only for package @leancodepl/kratos

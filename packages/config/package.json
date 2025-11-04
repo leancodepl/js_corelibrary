@@ -1,5 +1,35 @@
 {
   "name": "@leancodepl/config",
-  "version": "9.6.3",
-  "license": "Apache-2.0"
+  "version": "9.6.5",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/config"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Utility for creating configuration getters that access Vite-injected values in development and environment variables in production",
+  "keywords": [
+    "config",
+    "configuration",
+    "vite",
+    "environment-variables",
+    "env",
+    "typescript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  }
 }

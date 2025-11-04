@@ -1,6 +1,6 @@
 export function base64toBlob(base64Data: string, contentType?: string, sliceSize = 512) {
     const byteCharacters = atob(base64Data);
-    const byteArrays: Uint8Array[] = [];
+    const byteArrays: ArrayBuffer[] = [];
 
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
         const slice = byteCharacters.slice(offset, offset + sliceSize);
@@ -10,7 +10,7 @@ export function base64toBlob(base64Data: string, contentType?: string, sliceSize
             byteNumbers[i] = slice.charCodeAt(i);
         }
 
-        byteArrays.push(new Uint8Array(byteNumbers));
+        byteArrays.push(new Uint8Array(byteNumbers).buffer);
     }
 
     const blob = new Blob(byteArrays, { type: contentType });

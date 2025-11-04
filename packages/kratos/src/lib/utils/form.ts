@@ -32,6 +32,8 @@ export const handleOnSubmitErrors = <
         FormAsyncValidateOrFn<TFields> | undefined,
         FormValidateOrFn<TFields> | undefined,
         FormAsyncValidateOrFn<TFields> | undefined,
+        FormValidateOrFn<TFields> | undefined,
+        FormAsyncValidateOrFn<TFields> | undefined,
         FormAsyncValidateOrFn<TFields> | undefined,
         unknown
     >,

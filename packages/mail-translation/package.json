@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/mail-translation",
-  "version": "9.6.3",
+  "version": "9.6.5",
   "license": "Apache-2.0",
   "bin": {
     "mail-translation": "src/bin.js"
@@ -20,5 +20,38 @@
     "@types/mjml": "^4.7.4",
     "@types/yaml": "^1.9.7",
     "@types/yargs": "^17.0.33"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/mail-translation"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "A command-line tool for processing MJML and plaintext email templates with optional internationalization support",
+  "keywords": [
+    "mjml",
+    "email",
+    "templates",
+    "i18n",
+    "internationalization",
+    "kratos",
+    "razor",
+    "cli",
+    "typescript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
   }
 }
