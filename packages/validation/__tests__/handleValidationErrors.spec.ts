@@ -10,7 +10,6 @@ const errorCodesMap = {
 function mkError<TErrorCode extends number>(errorCode: TErrorCode) {
   return {
     ErrorCode: errorCode,
-    AttemptedValue: "AttemptedValue",
     ErrorMessage: "ErrorMessage",
     PropertyName: "PropertyName",
   }

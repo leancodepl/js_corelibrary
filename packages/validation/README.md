@@ -43,9 +43,7 @@ Handles CQRS command responses and transforms them into validation error handler
 import { handleValidationErrors } from "@leancodepl/validation"
 
 const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const
-const errors = [
-  { ErrorCode: 1, ErrorMessage: "Email exists", PropertyName: "Email", AttemptedValue: "user@example.com" },
-]
+const errors = [{ ErrorCode: 1, ErrorMessage: "Email exists", PropertyName: "Email" }]
 
 handleValidationErrors(errors, errorCodes)
   .handle("EmailExists", () => console.log("Email already registered"))
