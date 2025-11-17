@@ -1,2 +1,2 @@
-export * from "./lib/handleResponse";
-export * from "./lib/handleValidationErrors";
+export * from "./lib/handleResponse"
+export * from "./lib/handleValidationErrors"

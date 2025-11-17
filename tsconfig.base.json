@@ -37,6 +37,7 @@
       "@leancodepl/force-update": ["packages/force-update/src/index.ts"],
       "@leancodepl/gtag": ["packages/gtag/src/index.ts"],
       "@leancodepl/hook-pipe-client": ["packages/pipe-clients/hook-pipe-client/src/index.ts"],
+      "@leancodepl/image-uploader": ["packages/image-uploader/src/index.ts"],
       "@leancodepl/intl": ["packages/intl/src/index.ts"],
       "@leancodepl/kratos": ["packages/kratos/src/index.ts"],
       "@leancodepl/login-manager": ["packages/login-manager/src/index.ts"],
@@ -48,8 +49,7 @@
       "@leancodepl/styled-tools": ["packages/styled-tools/src/index.ts"],
       "@leancodepl/utils": ["packages/utils/src/index.ts"],
       "@leancodepl/validation": ["packages/validation/src/index.ts"],
-      "@leancodepl/vite-plugin-favicon": ["packages/vite-plugin-favicon/src/index.ts"],
-      "@leancodepl/image-uploader": ["packages/image-uploader/src/index.ts"]
+      "@leancodepl/vite-plugin-favicon": ["packages/vite-plugin-favicon/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

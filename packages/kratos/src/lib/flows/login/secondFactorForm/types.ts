@@ -1,3 +1,3 @@
 export enum InputFields {
-    TotpCode = "totp_code",
+  TotpCode = "totp_code",
 }

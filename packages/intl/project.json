@@ -20,9 +20,7 @@
         "tsConfig": "packages/intl/tsconfig.lib.json",
         "packageJson": "packages/intl/package.json",
         "main": "packages/intl/src/index.ts",
-        "assets": [
-          "packages/intl/*.md"
-        ]
+        "assets": ["packages/intl/*.md"]
       }
     },
     "publish": {

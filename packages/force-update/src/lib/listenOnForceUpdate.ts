@@ -5,8 +5,8 @@ import { catchError, first, map, mergeMap, pairwise, scan } from "rxjs/operators
 const defaultVersionCheckIntervalPeriod = 3 * 60 * 1000
 
 export type ForceUpdateParams = {
-    versionCheckIntervalPeriod?: number
-    onNewVersionAvailable: () => void
+  versionCheckIntervalPeriod?: number
+  onNewVersionAvailable: () => void
 }
 
 /**
@@ -19,37 +19,37 @@ export type ForceUpdateParams = {
  * @returns A cleanup function that unsubscribes from the version checking
  */
 export const listenOnForceUpdate = ({
-    versionCheckIntervalPeriod = defaultVersionCheckIntervalPeriod,
-    onNewVersionAvailable,
+  versionCheckIntervalPeriod = defaultVersionCheckIntervalPeriod,
+  onNewVersionAvailable,
 }: ForceUpdateParams) => {
-    const versionUrl = () =>
-        ajax({
-            url: "/version",
-            responseType: "text",
-            headers: {
-                "Cache-Control": "no-store",
-            },
-        }).pipe(
-            map(response => {
-                const version = response.response
+  const versionUrl = () =>
+    ajax({
+      url: "/version",
+      responseType: "text",
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    }).pipe(
+      map(response => {
+        const version = response.response
 
-                return typeof version === "string" ? version.trim() : null
-            }),
-            catchError(() => of(null)),
-        )
+        return typeof version === "string" ? version.trim() : null
+      }),
+      catchError(() => of(null)),
+    )
 
-    const subscription = interval(versionCheckIntervalPeriod)
-        .pipe(
-            mergeMap(versionUrl),
-            scan((lastVersion, version) => version ?? lastVersion),
-            pairwise(),
-            first(([previousVersion, currentVersion]) => !!previousVersion && previousVersion !== currentVersion),
-        )
-        .subscribe(() => {
-            onNewVersionAvailable()
+  const subscription = interval(versionCheckIntervalPeriod)
+    .pipe(
+      mergeMap(versionUrl),
+      scan((lastVersion, version) => version ?? lastVersion),
+      pairwise(),
+      first(([previousVersion, currentVersion]) => !!previousVersion && previousVersion !== currentVersion),
+    )
+    .subscribe(() => {
+      onNewVersionAvailable()
 
-            subscription.unsubscribe()
-        })
+      subscription.unsubscribe()
+    })
 
-    return () => subscription.unsubscribe()
+  return () => subscription.unsubscribe()
 }

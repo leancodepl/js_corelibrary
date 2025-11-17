@@ -2,10 +2,10 @@ import { ComponentType, useEffect, useMemo } from "react"
 import { useFlowManager, useKratosSessionContext } from "../../hooks"
 import { isSessionAlreadyAvailable } from "../../kratos"
 import {
-    EmailVerificationFormProps,
-    useVerificationFlowContext,
-    VerificationFlowProvider,
-    VerificationFlowWrapper,
+  EmailVerificationFormProps,
+  useVerificationFlowContext,
+  VerificationFlowProvider,
+  VerificationFlowWrapper,
 } from "../verification"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import { LoginFlowProvider, useCreateLoginFlow, useGetLoginFlow, useLoginFlowContext } from "./hooks"
@@ -14,120 +14,120 @@ import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorFo
 import { OnLoginFlowError } from "./types"
 
 export type LoginFlowProps = {
-    loaderComponent?: ComponentType
-    chooseMethodForm: ComponentType<ChooseMethodFormProps>
-    secondFactorForm: ComponentType<SecondFactorFormProps>
-    secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
-    emailVerificationForm: ComponentType<EmailVerificationFormProps>
-    initialFlowId?: string
-    returnTo?: string
-    onError?: OnLoginFlowError
-    onLoginSuccess?: () => void
-    onVerificationSuccess?: () => void
-    onFlowRestart?: () => void
-    onSessionAlreadyAvailable?: () => void
+  loaderComponent?: ComponentType
+  chooseMethodForm: ComponentType<ChooseMethodFormProps>
+  secondFactorForm: ComponentType<SecondFactorFormProps>
+  secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
+  emailVerificationForm: ComponentType<EmailVerificationFormProps>
+  initialFlowId?: string
+  returnTo?: string
+  onError?: OnLoginFlowError
+  onLoginSuccess?: () => void
+  onVerificationSuccess?: () => void
+  onFlowRestart?: () => void
+  onSessionAlreadyAvailable?: () => void
 }
 
 function LoginFlowWrapper({
-    loaderComponent: LoaderComponent,
-    chooseMethodForm: ChooseMethodForm,
-    secondFactorForm: SecondFactorForm,
-    secondFactorEmailForm: SecondFactorEmailForm,
-    emailVerificationForm: EmailVerificationForm,
-    initialFlowId,
-    returnTo,
-    onError,
-    onLoginSuccess,
-    onVerificationSuccess,
-    onFlowRestart,
-    onSessionAlreadyAvailable,
+  loaderComponent: LoaderComponent,
+  chooseMethodForm: ChooseMethodForm,
+  secondFactorForm: SecondFactorForm,
+  secondFactorEmailForm: SecondFactorEmailForm,
+  emailVerificationForm: EmailVerificationForm,
+  initialFlowId,
+  returnTo,
+  onError,
+  onLoginSuccess,
+  onVerificationSuccess,
+  onFlowRestart,
+  onSessionAlreadyAvailable,
 }: LoginFlowProps) {
-    const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
-    const { verificationFlowId } = useVerificationFlowContext()
-    const { sessionManager } = useKratosSessionContext()
-    const { isAal2Required } = sessionManager.useIsAal2Required()
+  const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
+  const { verificationFlowId } = useVerificationFlowContext()
+  const { sessionManager } = useKratosSessionContext()
+  const { isAal2Required } = sessionManager.useIsAal2Required()
 
-    const { mutate: createLoginFlow, error: createLoginFlowError } = useCreateLoginFlow({
-        returnTo,
-        aal: isAal2Required ? "aal2" : undefined,
-    })
-    const { data: loginFlow, error: getLoginFlowError } = useGetLoginFlow()
+  const { mutate: createLoginFlow, error: createLoginFlowError } = useCreateLoginFlow({
+    returnTo,
+    aal: isAal2Required ? "aal2" : undefined,
+  })
+  const { data: loginFlow, error: getLoginFlowError } = useGetLoginFlow()
 
-    useFlowManager({
-        initialFlowId,
-        currentFlowId: loginFlowId,
-        error: getLoginFlowError ?? undefined,
-        onFlowRestart,
-        createFlow: createLoginFlow,
-        setFlowId: setLoginFlowId,
-        waitForSession: true,
-    })
+  useFlowManager({
+    initialFlowId,
+    currentFlowId: loginFlowId,
+    error: getLoginFlowError ?? undefined,
+    onFlowRestart,
+    createFlow: createLoginFlow,
+    setFlowId: setLoginFlowId,
+    waitForSession: true,
+  })
 
-    const isSessionAvailable = useMemo(
-        () => isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError),
-        [createLoginFlowError, getLoginFlowError],
-    )
+  const isSessionAvailable = useMemo(
+    () => isSessionAlreadyAvailable(createLoginFlowError) || isSessionAlreadyAvailable(getLoginFlowError),
+    [createLoginFlowError, getLoginFlowError],
+  )
 
-    useEffect(() => {
-        if (isSessionAvailable) {
-            onSessionAlreadyAvailable?.()
-        }
-    }, [isSessionAvailable, onSessionAlreadyAvailable])
+  useEffect(() => {
+    if (isSessionAvailable) {
+      onSessionAlreadyAvailable?.()
+    }
+  }, [isSessionAvailable, onSessionAlreadyAvailable])
 
-    const step = useMemo(() => {
-        if (isSessionAvailable) return "invalid"
+  const step = useMemo(() => {
+    if (isSessionAvailable) return "invalid"
 
-        if (!loginFlow) return "loader"
+    if (!loginFlow) return "loader"
 
-        if (verificationFlowId) return "verifyEmail"
+    if (verificationFlowId) return "verifyEmail"
 
-        if (loginFlow.state === "choose_method") {
-            if (loginFlow.requested_aal === "aal1") return "chooseMethod"
-            if (loginFlow.requested_aal === "aal2") return "secondFactor"
-        }
+    if (loginFlow.state === "choose_method") {
+      if (loginFlow.requested_aal === "aal1") return "chooseMethod"
+      if (loginFlow.requested_aal === "aal2") return "secondFactor"
+    }
 
-        if (loginFlow.state === "sent_email") return "secondFactorEmail"
+    if (loginFlow.state === "sent_email") return "secondFactorEmail"
 
-        throw new Error("Invalid login flow state")
-    }, [loginFlow, verificationFlowId, isSessionAvailable])
+    throw new Error("Invalid login flow state")
+  }, [loginFlow, verificationFlowId, isSessionAvailable])
 
-    const isRefresh = useMemo(() => loginFlow?.refresh, [loginFlow])
+  const isRefresh = useMemo(() => loginFlow?.refresh, [loginFlow])
 
-    return (
-        <>
-            {step === "loader" && LoaderComponent && <LoaderComponent />}
-            {step === "chooseMethod" && (
-                <ChooseMethodFormWrapper
-                    chooseMethodForm={ChooseMethodForm}
-                    isRefresh={isRefresh}
-                    onError={onError}
-                    onLoginSuccess={onLoginSuccess}
-                />
-            )}
-            {step === "secondFactor" && (
-                <SecondFactorFormWrapper
-                    isRefresh={isRefresh}
-                    secondFactorForm={SecondFactorForm}
-                    onError={onError}
-                    onLoginSuccess={onLoginSuccess}
-                />
-            )}
-            {step === "secondFactorEmail" && (
-                <SecondFactorEmailFormWrapper
-                    secondFactorForm={SecondFactorEmailForm}
-                    onError={onError}
-                    onLoginSuccess={onLoginSuccess}
-                />
-            )}
-            {step === "verifyEmail" && (
-                <VerificationFlowWrapper
-                    emailVerificationForm={EmailVerificationForm}
-                    onError={onError}
-                    onVerificationSuccess={onVerificationSuccess}
-                />
-            )}
-        </>
-    )
+  return (
+    <>
+      {step === "loader" && LoaderComponent && <LoaderComponent />}
+      {step === "chooseMethod" && (
+        <ChooseMethodFormWrapper
+          chooseMethodForm={ChooseMethodForm}
+          isRefresh={isRefresh}
+          onError={onError}
+          onLoginSuccess={onLoginSuccess}
+        />
+      )}
+      {step === "secondFactor" && (
+        <SecondFactorFormWrapper
+          isRefresh={isRefresh}
+          secondFactorForm={SecondFactorForm}
+          onError={onError}
+          onLoginSuccess={onLoginSuccess}
+        />
+      )}
+      {step === "secondFactorEmail" && (
+        <SecondFactorEmailFormWrapper
+          secondFactorForm={SecondFactorEmailForm}
+          onError={onError}
+          onLoginSuccess={onLoginSuccess}
+        />
+      )}
+      {step === "verifyEmail" && (
+        <VerificationFlowWrapper
+          emailVerificationForm={EmailVerificationForm}
+          onError={onError}
+          onVerificationSuccess={onVerificationSuccess}
+        />
+      )}
+    </>
+  )
 }
 
 /**
@@ -170,11 +170,11 @@ function LoginFlowWrapper({
  * ```
  */
 export function LoginFlow(props: LoginFlowProps) {
-    return (
-        <VerificationFlowProvider>
-            <LoginFlowProvider>
-                <LoginFlowWrapper {...props} />
-            </LoginFlowProvider>
-        </VerificationFlowProvider>
-    )
+  return (
+    <VerificationFlowProvider>
+      <LoginFlowProvider>
+        <LoginFlowWrapper {...props} />
+      </LoginFlowProvider>
+    </VerificationFlowProvider>
+  )
 }

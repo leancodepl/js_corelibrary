@@ -1,3 +1,3 @@
-import { UncapitalizeDeep } from "@leancodepl/utils";
+import { UncapitalizeDeep } from "@leancodepl/utils"
 
-export type NullableUncapitalizeDeep<T> = T extends null ? null : UncapitalizeDeep<T>;
+export type NullableUncapitalizeDeep<T> = T extends null ? null : UncapitalizeDeep<T>

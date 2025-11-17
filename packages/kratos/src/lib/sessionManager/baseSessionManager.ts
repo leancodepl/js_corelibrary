@@ -4,37 +4,37 @@ import { createQueryKey, TraitsConfig, withQueryKeyPrefix } from "../utils"
 import { IdentityWithTypedTraits, SessionWithTypedUserTraits } from "./types"
 
 export type BaseSessionManagerContructorProps = {
-    queryClient: QueryClient
-    api: FrontendApi
+  queryClient: QueryClient
+  api: FrontendApi
 }
 
 const sessionQueryKey = createQueryKey([withQueryKeyPrefix("session_manager"), "session"])
 
 const mkSessionQuery = <TTraitsConfig extends TraitsConfig>(api: FrontendApi) =>
-    ({
-        queryKey: sessionQueryKey,
-        queryFn: async () => {
-            try {
-                return (await api.toSession()) as SessionWithTypedUserTraits<TTraitsConfig>
-            } catch (error: unknown) {
-                if (error instanceof ResponseError) {
-                    if (error.response.status === 401) {
-                        return null
-                    }
+  ({
+    queryKey: sessionQueryKey,
+    queryFn: async () => {
+      try {
+        return (await api.toSession()) as SessionWithTypedUserTraits<TTraitsConfig>
+      } catch (error: unknown) {
+        if (error instanceof ResponseError) {
+          if (error.response.status === 401) {
+            return null
+          }
 
-                    const response = await error.response.json()
+          const response = await error.response.json()
 
-                    if (isGenericErrorResponse(response)) {
-                        throw new Error("Kratos error occurred while fetching session", { cause: response })
-                    }
-                }
+          if (isGenericErrorResponse(response)) {
+            throw new Error("Kratos error occurred while fetching session", { cause: response })
+          }
+        }
 
-                throw new Error("Unexpected error while fetching session")
-            }
-        },
-        staleTime: Infinity,
-        retry: false,
-    }) satisfies FetchQueryOptions
+        throw new Error("Unexpected error while fetching session")
+      }
+    },
+    staleTime: Infinity,
+    retry: false,
+  }) satisfies FetchQueryOptions
 
 /**
  * Manages Ory Kratos session and identity state with React Query integration.
@@ -53,89 +53,89 @@ const mkSessionQuery = <TTraitsConfig extends TraitsConfig>(api: FrontendApi) =>
  * ```
  */
 export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
-    queryClient: QueryClient
-    api: FrontendApi
+  queryClient: QueryClient
+  api: FrontendApi
 
-    getSession = async (): Promise<SessionWithTypedUserTraits<TTraitsConfig> | undefined> => {
-        try {
-            return (await this.queryClient.fetchQuery(mkSessionQuery<TTraitsConfig>(this.api))) ?? undefined
-        } catch {
-            return undefined
-        }
+  getSession = async (): Promise<SessionWithTypedUserTraits<TTraitsConfig> | undefined> => {
+    try {
+      return (await this.queryClient.fetchQuery(mkSessionQuery<TTraitsConfig>(this.api))) ?? undefined
+    } catch {
+      return undefined
     }
+  }
 
-    getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> =>
-        (await this.getSession())?.identity
+  getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> =>
+    (await this.getSession())?.identity
 
-    getUserId = async (): Promise<string | undefined> => (await this.getIdentity())?.id
+  getUserId = async (): Promise<string | undefined> => (await this.getIdentity())?.id
 
-    isLoggedIn = async (): Promise<boolean> => (await this.getSession())?.active ?? false
+  isLoggedIn = async (): Promise<boolean> => (await this.getSession())?.active ?? false
 
-    useSession = () => {
-        const {
-            data: session,
-            isLoading,
-            error,
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-        } = useQuery({
-            ...mkSessionQuery<TTraitsConfig>(this.api),
-            retryOnMount: false,
-        })
+  useSession = () => {
+    const {
+      data: session,
+      isLoading,
+      error,
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+    } = useQuery({
+      ...mkSessionQuery<TTraitsConfig>(this.api),
+      retryOnMount: false,
+    })
 
-        return {
-            session: session ?? undefined,
-            isLoading,
-            error,
-        }
+    return {
+      session: session ?? undefined,
+      isLoading,
+      error,
     }
+  }
 
-    useIdentity = () => {
-        const { session, ...rest } = this.useSession()
+  useIdentity = () => {
+    const { session, ...rest } = this.useSession()
 
-        return {
-            identity: session?.identity,
-            ...rest,
-        }
+    return {
+      identity: session?.identity,
+      ...rest,
     }
+  }
 
-    useUserId = () => {
-        const { identity, ...rest } = this.useIdentity()
+  useUserId = () => {
+    const { identity, ...rest } = this.useIdentity()
 
-        return {
-            userId: identity?.id,
-            ...rest,
-        }
+    return {
+      userId: identity?.id,
+      ...rest,
     }
+  }
 
-    useIsLoggedIn = () => {
-        const { session, isLoading, error } = this.useSession()
+  useIsLoggedIn = () => {
+    const { session, isLoading, error } = this.useSession()
 
-        return {
-            isLoggedIn: session?.active ?? (!isLoading ? false : undefined),
-            isLoading,
-            error,
-        }
+    return {
+      isLoggedIn: session?.active ?? (!isLoading ? false : undefined),
+      isLoading,
+      error,
     }
+  }
 
-    useIsAal2Required = () => {
-        const session = this.useSession()
+  useIsAal2Required = () => {
+    const session = this.useSession()
 
-        return {
-            isAal2Required: session.error?.cause
-                ? isGenericErrorResponse(session.error.cause) && isSessionAal2Required(session.error.cause)
-                : undefined,
-            isLoading: session.isLoading,
-        }
+    return {
+      isAal2Required: session.error?.cause
+        ? isGenericErrorResponse(session.error.cause) && isSessionAal2Required(session.error.cause)
+        : undefined,
+      isLoading: session.isLoading,
     }
+  }
 
-    checkIfLoggedIn = async () =>
-        await this.queryClient.refetchQueries({
-            queryKey: sessionQueryKey,
-            exact: true,
-        })
+  checkIfLoggedIn = async () =>
+    await this.queryClient.refetchQueries({
+      queryKey: sessionQueryKey,
+      exact: true,
+    })
 
-    constructor({ queryClient, api }: BaseSessionManagerContructorProps) {
-        this.api = api
-        this.queryClient = queryClient
-    }
+  constructor({ queryClient, api }: BaseSessionManagerContructorProps) {
+    this.api = api
+    this.queryClient = queryClient
+  }
 }

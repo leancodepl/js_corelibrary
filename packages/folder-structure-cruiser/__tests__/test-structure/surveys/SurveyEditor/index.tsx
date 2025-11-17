@@ -2,5 +2,5 @@
 import { ActivityWizard } from "../../wizards/ActivityWizard"
 
 export function SurveyEditor() {
-    return <ActivityWizard />
+  return <ActivityWizard />
 }

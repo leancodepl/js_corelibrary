@@ -91,16 +91,16 @@ import { SyncLoginManager, LocalTokenStorage } from "@leancodepl/login-manager"
 
 const tokenStorage = new LocalTokenStorage()
 const loginManager = new SyncLoginManager(
-    tokenStorage,
-    "https://api.example.com",
-    "client_secret",
-    "client_id",
-    "openid profile email",
+  tokenStorage,
+  "https://api.example.com",
+  "client_secret",
+  "client_id",
+  "openid profile email",
 )
 
 const result = await loginManager.trySignIn("user@example.com", "password")
 if (result.type === "success") {
-    console.log("Signed in successfully")
+  console.log("Signed in successfully")
 }
 ```
 
@@ -111,11 +111,11 @@ import { AsyncLoginManager, SessionTokenStorage } from "@leancodepl/login-manage
 
 const tokenStorage = new SessionTokenStorage()
 const loginManager = new AsyncLoginManager(
-    tokenStorage,
-    "https://api.example.com",
-    undefined, // No client secret for public clients
-    "public_client_id",
-    "openid profile",
+  tokenStorage,
+  "https://api.example.com",
+  undefined, // No client secret for public clients
+  "public_client_id",
+  "openid profile",
 )
 
 await loginManager.load()
@@ -130,19 +130,19 @@ import { FacebookClient, SyncLoginManager, LocalTokenStorage } from "@leancodepl
 
 const facebookClient = new FacebookClient("your-facebook-app-id", "email,public_profile")
 const loginManager = new SyncLoginManager(
-    new LocalTokenStorage(),
-    "https://api.example.com",
-    "client_secret",
-    "client_id",
-    "openid profile",
+  new LocalTokenStorage(),
+  "https://api.example.com",
+  "client_secret",
+  "client_id",
+  "openid profile",
 )
 
 facebookClient.setup()
 facebookClient.login(async accessToken => {
-    const result = await loginManager.trySignInWithFacebook(accessToken)
-    if (result.type === "success") {
-        console.log("Facebook login successful")
-    }
+  const result = await loginManager.trySignInWithFacebook(accessToken)
+  if (result.type === "success") {
+    console.log("Facebook login successful")
+  }
 })
 ```
 
@@ -153,21 +153,21 @@ import { CannotRefreshToken, SyncLoginManager, LocalTokenStorage } from "@leanco
 
 const tokenStorage = new LocalTokenStorage()
 const loginManager = new SyncLoginManager(
-    tokenStorage,
-    "https://api.example.com",
-    "client_secret",
-    "client_id",
-    "openid profile",
+  tokenStorage,
+  "https://api.example.com",
+  "client_secret",
+  "client_id",
+  "openid profile",
 )
 
 try {
-    const token = await loginManager.getToken()
-    console.log("Access token:", token)
+  const token = await loginManager.getToken()
+  console.log("Access token:", token)
 } catch (error) {
-    if (error instanceof CannotRefreshToken) {
-        console.log("Token expired, user needs to sign in again")
-        await loginManager.signOut()
-    }
+  if (error instanceof CannotRefreshToken) {
+    console.log("Token expired, user needs to sign in again")
+    await loginManager.signOut()
+  }
 }
 ```
 
@@ -178,19 +178,19 @@ import { SyncLoginManager, LocalTokenStorage } from "@leancodepl/login-manager"
 
 const tokenStorage = new LocalTokenStorage()
 const loginManager = new SyncLoginManager(
-    tokenStorage,
-    "https://api.example.com",
-    "client_secret",
-    "client_id",
-    "openid profile",
+  tokenStorage,
+  "https://api.example.com",
+  "client_secret",
+  "client_id",
+  "openid profile",
 )
 
 loginManager.onChange(isSignedIn => {
-    if (isSignedIn) {
-        console.log("User is now signed in")
-    } else {
-        console.log("User signed out")
-    }
+  if (isSignedIn) {
+    console.log("User is now signed in")
+  } else {
+    console.log("User signed out")
+  }
 })
 ```
 
@@ -201,11 +201,11 @@ import { SyncLoginManager, LocalTokenStorage } from "@leancodepl/login-manager"
 
 const tokenStorage = new LocalTokenStorage()
 const loginManager = new SyncLoginManager(
-    tokenStorage,
-    "https://api.example.com",
-    "client_secret",
-    "client_id",
-    "openid profile",
+  tokenStorage,
+  "https://api.example.com",
+  "client_secret",
+  "client_id",
+  "openid profile",
 )
 
 const googleResult = await loginManager.trySignInWithGoogle("google_access_token")

@@ -33,8 +33,8 @@ import { mkFeatureFlags } from "@leancodepl/feature-flags-react-client"
 import { ConfigCatWebProvider } from "@openfeature/config-cat-web-provider"
 
 const flags = {
-    enableNewFeature: { defaultValue: false },
-    maxRetries: { defaultValue: 3 },
+  enableNewFeature: { defaultValue: false },
+  maxRetries: { defaultValue: 3 },
 }
 
 const provider = ConfigCatWebProvider.create("sdk-key")

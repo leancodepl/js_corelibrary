@@ -7,9 +7,9 @@ import type { ApiDateTimeOffset } from "@leancodepl/api-date"
 export function fromApiDateTimeOffset(dateTimeOffset: ApiDateTimeOffset): Date
 export function fromApiDateTimeOffset(dateTimeOffset: ApiDateTimeOffset | undefined): Date | undefined
 export function fromApiDateTimeOffset(dateTimeOffset: ApiDateTimeOffset | undefined): Date | undefined {
-    if (!dateTimeOffset) {
-        return undefined
-    }
+  if (!dateTimeOffset) {
+    return undefined
+  }
 
-    return parse(dateTimeOffset as any, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", new Date())
+  return parse(dateTimeOffset as any, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", new Date())
 }

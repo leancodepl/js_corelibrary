@@ -1,3 +1,3 @@
 export enum InputFields {
-    Code = "code",
+  Code = "code",
 }

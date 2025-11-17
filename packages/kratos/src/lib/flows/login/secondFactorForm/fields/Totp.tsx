@@ -4,25 +4,25 @@ import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../.
 import { useSecondFactorFormContext } from "../secondFactorFormContext"
 
 type TotpProps = {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function Totp({ children }: TotpProps) {
-    const { totpForm } = useSecondFactorFormContext()
-    const Comp = Slot.Root as ComponentType<CommonInputFieldProps>
+  const { totpForm } = useSecondFactorFormContext()
+  const Comp = Slot.Root as ComponentType<CommonInputFieldProps>
 
-    return (
-        <totpForm.Field name="totp_code">
-            {field => (
-                <Comp
-                    errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
-                    name={field.name}
-                    type="text"
-                    value={field.state.value}
-                    onChange={e => field.handleChange(e.target.value)}>
-                    {children}
-                </Comp>
-            )}
-        </totpForm.Field>
-    )
+  return (
+    <totpForm.Field name="totp_code">
+      {field => (
+        <Comp
+          errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
+          name={field.name}
+          type="text"
+          value={field.state.value}
+          onChange={e => field.handleChange(e.target.value)}>
+          {children}
+        </Comp>
+      )}
+    </totpForm.Field>
+  )
 }

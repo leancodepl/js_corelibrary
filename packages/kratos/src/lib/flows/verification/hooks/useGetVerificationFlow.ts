@@ -7,33 +7,30 @@ import { verificationFlowKey } from "./queryKeys"
 import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useGetVerificationFlow() {
-    const { kratosClient } = useKratosClientContext()
-    const { verificationFlowId } = useVerificationFlowContext()
+  const { kratosClient } = useKratosClientContext()
+  const { verificationFlowId } = useVerificationFlowContext()
 
-    return useQuery({
-        queryKey: verificationFlowKey(verificationFlowId),
-        queryFn: async ({ signal }) => {
-            if (!verificationFlowId) {
-                throw new Error("No verification flow ID provided", {
-                    cause: GetFlowError.NoFlowId,
-                })
-            }
+  return useQuery({
+    queryKey: verificationFlowKey(verificationFlowId),
+    queryFn: async ({ signal }) => {
+      if (!verificationFlowId) {
+        throw new Error("No verification flow ID provided", {
+          cause: GetFlowError.NoFlowId,
+        })
+      }
 
-            try {
-                return await kratosClient.getVerificationFlow(
-                    { id: verificationFlowId },
-                    async ({ init: { headers } }) => ({
-                        signal,
-                        headers: { ...headers, Accept: "application/json" },
-                    }),
-                )
-            } catch (error) {
-                throw await handleFlowErrorResponse<VerificationFlow>({
-                    error,
-                })
-            }
-        },
-        enabled: !!verificationFlowId,
-        staleTime: Infinity,
-    })
+      try {
+        return await kratosClient.getVerificationFlow({ id: verificationFlowId }, async ({ init: { headers } }) => ({
+          signal,
+          headers: { ...headers, Accept: "application/json" },
+        }))
+      } catch (error) {
+        throw await handleFlowErrorResponse<VerificationFlow>({
+          error,
+        })
+      }
+    },
+    enabled: !!verificationFlowId,
+    staleTime: Infinity,
+  })
 }

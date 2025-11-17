@@ -6,39 +6,39 @@ import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseCodeFormProps = {
-    onError?: OnLoginFlowError
-    onLoginSuccess?: () => void
+  onError?: OnLoginFlowError
+  onLoginSuccess?: () => void
 }
 
 export function useCodeForm({ onError, onLoginSuccess }: UseCodeFormProps) {
-    const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
-    const { data: loginFlow } = useGetLoginFlow()
+  const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
+  const { data: loginFlow } = useGetLoginFlow()
 
-    return useForm({
-        defaultValues: { [InputFields.Code]: "" } satisfies Record<InputFields, string>,
-        onSubmit: async ({ value, formApi }) => {
-            if (!loginFlow) return
+  return useForm({
+    defaultValues: { [InputFields.Code]: "" } satisfies Record<InputFields, string>,
+    onSubmit: async ({ value, formApi }) => {
+      if (!loginFlow) return
 
-            const identifier = inputNodeAttributes(getNodeById(loginFlow.ui.nodes, "identifier"))?.value
+      const identifier = inputNodeAttributes(getNodeById(loginFlow.ui.nodes, "identifier"))?.value
 
-            const response = await updateLoginFlow({
-                csrf_token: getCsrfToken(loginFlow),
-                method: "code",
-                code: value.code,
-                identifier,
-            })
+      const response = await updateLoginFlow({
+        csrf_token: getCsrfToken(loginFlow),
+        method: "code",
+        code: value.code,
+        identifier,
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            if (instanceOfSuccessfulNativeLogin(response)) {
-                onLoginSuccess?.()
+      if (instanceOfSuccessfulNativeLogin(response)) {
+        onLoginSuccess?.()
 
-                return
-            }
+        return
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

@@ -7,36 +7,36 @@ import { OnLoginFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseTotpFormProps = {
-    onError?: OnLoginFlowError
-    onLoginSuccess?: () => void
+  onError?: OnLoginFlowError
+  onLoginSuccess?: () => void
 }
 
 export function useTotpForm({ onError, onLoginSuccess }: UseTotpFormProps) {
-    const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
-    const { data: loginFlow } = useGetLoginFlow()
+  const { mutateAsync: updateLoginFlow } = useUpdateLoginFlow()
+  const { data: loginFlow } = useGetLoginFlow()
 
-    return useForm({
-        defaultValues: { [InputFields.TotpCode]: "" } satisfies Record<InputFields, string>,
-        onSubmit: async ({ value, formApi }) => {
-            if (!loginFlow) return
+  return useForm({
+    defaultValues: { [InputFields.TotpCode]: "" } satisfies Record<InputFields, string>,
+    onSubmit: async ({ value, formApi }) => {
+      if (!loginFlow) return
 
-            const response = await updateLoginFlow({
-                csrf_token: getCsrfToken(loginFlow),
-                method: "totp",
-                totp_code: value.totp_code,
-            })
+      const response = await updateLoginFlow({
+        csrf_token: getCsrfToken(loginFlow),
+        method: "totp",
+        totp_code: value.totp_code,
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            if (instanceOfSuccessfulNativeLogin(response)) {
-                onLoginSuccess?.()
+      if (instanceOfSuccessfulNativeLogin(response)) {
+        onLoginSuccess?.()
 
-                return
-            }
+        return
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

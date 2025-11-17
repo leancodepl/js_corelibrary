@@ -59,17 +59,17 @@ Vite plugin that creates a `/version` endpoint serving the current app version.
 import { listenOnForceUpdate } from "@leancodepl/force-update"
 
 useEffect(() => {
-    const cleanup = listenOnForceUpdate({
-        onNewVersionAvailable: () => {
-            // Show notification to user or force reload
-            if (window.confirm("A new version is available. Reload now?")) {
-                window.location.reload()
-            }
-        },
-        versionCheckIntervalPeriod: 5 * 60 * 1000, // Check every 5 minutes (optional)
-    })
+  const cleanup = listenOnForceUpdate({
+    onNewVersionAvailable: () => {
+      // Show notification to user or force reload
+      if (window.confirm("A new version is available. Reload now?")) {
+        window.location.reload()
+      }
+    },
+    versionCheckIntervalPeriod: 5 * 60 * 1000, // Check every 5 minutes (optional)
+  })
 
-    return cleanup
+  return cleanup
 }, [])
 ```
 
@@ -92,7 +92,7 @@ import { defineConfig } from "vite"
 import { vitePluginForceUpdate } from "@leancodepl/force-update"
 
 export default defineConfig({
-    plugins: [vitePluginForceUpdate()],
+  plugins: [vitePluginForceUpdate()],
 })
 ```
 

@@ -1,65 +1,61 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://auth.local.lncd.pl/schemas/identity.user.schema.json",
-    "title": "User",
-    "type": "object",
-    "properties": {
-        "traits": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "format": "email",
-                    "title": "E-Mail",
-                    "minLength": 3,
-                    "maxLength": 250,
-                    "ory.sh/kratos": {
-                        "credentials": {
-                            "password": {
-                                "identifier": true
-                            },
-                            "totp": {
-                                "account_name": true
-                            },
-                            "passkey": {
-                                "display_name": true
-                            },
-                            "code": {
-                                "identifier": true,
-                                "via": "email"
-                            }
-                        },
-                        "recovery": {
-                            "via": "email"
-                        },
-                        "verification": {
-                            "via": "email"
-                        }
-                    }
-                },
-                "given_name": {
-                    "type": "string",
-                    "title": "Given name",
-                    "maxLength": 250
-                },
-                "family_name": {
-                    "type": "string",
-                    "title": "Family name",
-                    "maxLength": 250
-                },
-                "regulations_accepted": {
-                    "type": "boolean",
-                    "title": "I accept Terms of Service and Privacy Policy",
-                    "const": true,
-                    "readOnly": true
-                }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://auth.local.lncd.pl/schemas/identity.user.schema.json",
+  "title": "User",
+  "type": "object",
+  "properties": {
+    "traits": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "title": "E-Mail",
+          "minLength": 3,
+          "maxLength": 250,
+          "ory.sh/kratos": {
+            "credentials": {
+              "password": {
+                "identifier": true
+              },
+              "totp": {
+                "account_name": true
+              },
+              "passkey": {
+                "display_name": true
+              },
+              "code": {
+                "identifier": true,
+                "via": "email"
+              }
             },
-            "required": [
-                "email",
-                "given_name",
-                "regulations_accepted"
-            ],
-            "additionalProperties": false
+            "recovery": {
+              "via": "email"
+            },
+            "verification": {
+              "via": "email"
+            }
+          }
+        },
+        "given_name": {
+          "type": "string",
+          "title": "Given name",
+          "maxLength": 250
+        },
+        "family_name": {
+          "type": "string",
+          "title": "Family name",
+          "maxLength": 250
+        },
+        "regulations_accepted": {
+          "type": "boolean",
+          "title": "I accept Terms of Service and Privacy Policy",
+          "const": true,
+          "readOnly": true
         }
+      },
+      "required": ["email", "given_name", "regulations_accepted"],
+      "additionalProperties": false
     }
+  }
 }

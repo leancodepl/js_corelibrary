@@ -21,10 +21,7 @@
         "tsConfig": "packages/mail-translation/tsconfig.lib.json",
         "packageJson": "packages/mail-translation/package.json",
         "main": "packages/mail-translation/src/index.ts",
-        "assets": [
-          "packages/mail-translation/*.md",
-          "packages/mail-translation/schema.json"
-        ]
+        "assets": ["packages/mail-translation/*.md", "packages/mail-translation/schema.json"]
       }
     },
     "publish": {

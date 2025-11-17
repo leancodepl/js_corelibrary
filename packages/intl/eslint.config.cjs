@@ -4,7 +4,7 @@ module.exports = [
   ...baseConfig,
   {
     rules: {
-      "no-console": "off"
-    }
-  }
+      "no-console": "off",
+    },
+  },
 ]

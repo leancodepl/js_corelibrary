@@ -7,9 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/vite-plugin-favicon",
         "main": "packages/vite-plugin-favicon/src/index.ts",
@@ -22,24 +20,17 @@
           }
         ],
         "project": "packages/vite-plugin-favicon/package.json",
-        "format": [
-          "cjs",
-          "esm"
-        ],
+        "format": ["cjs", "esm"],
         "generateExportsField": true
       }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/vite-plugin-favicon {args.registry} {args.ver} {args.tag}",
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     }
   }
 }

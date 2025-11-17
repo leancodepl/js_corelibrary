@@ -1,8 +1,8 @@
 /**
  * Error thrown when token refresh fails.
- * 
+ *
  * Indicates that the refresh token is invalid or expired, requiring user to sign in again.
- * 
+ *
  * @example
  * ```typescript
  * try {
@@ -15,8 +15,8 @@
  * ```
  */
 export class CannotRefreshToken extends Error {
-    constructor(m: string) {
-        super(m);
-        Object.setPrototypeOf(this, CannotRefreshToken.prototype);
-    }
+  constructor(m: string) {
+    super(m)
+    Object.setPrototypeOf(this, CannotRefreshToken.prototype)
+  }
 }

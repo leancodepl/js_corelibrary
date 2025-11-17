@@ -1,2 +1,2 @@
-export * from "./lib/mkCqrsClient";
-export * from "./lib/mkUncapitalizedCqrsClient";
+export * from "./lib/mkCqrsClient"
+export * from "./lib/mkUncapitalizedCqrsClient"

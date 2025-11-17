@@ -31,8 +31,8 @@ import { mkPipeClient } from "@leancodepl/hook-pipe-client"
 import { createPipe } from "@leancodepl/pipe"
 
 const pipe = createPipe({
-    url: "wss://api.example.com/pipe",
-    getAccessToken: () => localStorage.getItem("token"),
+  url: "wss://api.example.com/pipe",
+  getAccessToken: () => localStorage.getItem("token"),
 })
 
 const pipeClient = mkPipeClient({ pipe })

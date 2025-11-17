@@ -1,1 +1,1 @@
-export * from "./lib/parseApiTimeSpan";
+export * from "./lib/parseApiTimeSpan"

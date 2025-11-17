@@ -1,3 +1,3 @@
-import { mkCqrsClient } from "../../src/lib/mkCqrsClient";
+import { mkCqrsClient } from "../../src/lib/mkCqrsClient"
 
-export type CQRS = ReturnType<typeof mkCqrsClient>;
+export type CQRS = ReturnType<typeof mkCqrsClient>

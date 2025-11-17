@@ -1,2 +1,2 @@
-export * from "./transformDeep";
-export * from "./unpromisify";
+export * from "./transformDeep"
+export * from "./unpromisify"

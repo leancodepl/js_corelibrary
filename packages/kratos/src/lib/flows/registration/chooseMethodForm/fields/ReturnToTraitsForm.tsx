@@ -3,21 +3,21 @@ import * as Slot from "@radix-ui/react-slot"
 import { useRegistrationFlowContext } from "../../hooks"
 
 type ReturnToTraitsFormProps = {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function ReturnToTraitsForm({ children }: ReturnToTraitsFormProps) {
-    const { setTraitsFormCompleted } = useRegistrationFlowContext()
+  const { setTraitsFormCompleted } = useRegistrationFlowContext()
 
-    const goReturnToTraitsForm = useCallback(() => {
-        setTraitsFormCompleted(false)
-    }, [setTraitsFormCompleted])
+  const goReturnToTraitsForm = useCallback(() => {
+    setTraitsFormCompleted(false)
+  }, [setTraitsFormCompleted])
 
-    const Comp = Slot.Root as React.ComponentType<any>
+  const Comp = Slot.Root as React.ComponentType<any>
 
-    return (
-        <Comp type="button" onClick={goReturnToTraitsForm}>
-            {children}
-        </Comp>
-    )
+  return (
+    <Comp type="button" onClick={goReturnToTraitsForm}>
+      {children}
+    </Comp>
+  )
 }

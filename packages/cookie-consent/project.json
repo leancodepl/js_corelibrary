@@ -23,10 +23,7 @@
         "project": "packages/cookie-consent/package.json"
       },
       "compiler": "swc",
-      "format": [
-        "cjs",
-        "esm"
-      ]
+      "format": ["cjs", "esm"]
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/cookie-consent {args.registry} {args.ver} {args.tag}",

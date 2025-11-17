@@ -23,10 +23,7 @@
         "project": "packages/folder-structure-cruiser/package.json"
       },
       "compiler": "swc",
-      "format": [
-        "cjs",
-        "esm"
-      ]
+      "format": ["cjs", "esm"]
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/folder-structure-cruiser {args.registry} {args.ver} {args.tag}",

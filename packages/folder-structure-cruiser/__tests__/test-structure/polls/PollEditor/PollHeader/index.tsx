@@ -1,3 +1,3 @@
 export function PollHeader() {
-    return <div>PollHeader</div>
+  return <div>PollHeader</div>
 }

@@ -3,24 +3,24 @@ import { useRunInTask } from "@leancodepl/utils"
 import { useLogout } from "../services/kratos"
 
 export const useLogoutHandler = () => {
-    const { logout } = useLogout()
+  const { logout } = useLogout()
 
-    const [isRunning, runInTask] = useRunInTask()
+  const [isRunning, runInTask] = useRunInTask()
 
-    const handleLogout = useCallback(() => {
-        runInTask(async () => {
-            const response = await logout({ returnTo: "/login" })
+  const handleLogout = useCallback(() => {
+    runInTask(async () => {
+      const response = await logout({ returnTo: "/login" })
 
-            if (response.isSuccess) {
-                alert("Logout success")
-            } else {
-                alert(response.error)
-            }
-        })
-    }, [logout, runInTask])
+      if (response.isSuccess) {
+        alert("Logout success")
+      } else {
+        alert(response.error)
+      }
+    })
+  }, [logout, runInTask])
 
-    return {
-        handleLogout,
-        isLoggingOut: isRunning,
-    }
+  return {
+    handleLogout,
+    isLoggingOut: isRunning,
+  }
 }

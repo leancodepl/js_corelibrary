@@ -7,30 +7,30 @@ import { settingsFlowKey } from "./queryKeys"
 import { useSettingsFlowContext } from "./useSettingsFlowContext"
 
 export function useGetSettingsFlow() {
-    const { kratosClient } = useKratosClientContext()
-    const { settingsFlowId } = useSettingsFlowContext()
+  const { kratosClient } = useKratosClientContext()
+  const { settingsFlowId } = useSettingsFlowContext()
 
-    return useQuery({
-        queryKey: settingsFlowKey(settingsFlowId),
-        queryFn: async ({ signal }) => {
-            if (!settingsFlowId) {
-                throw new Error("No settings flow ID provided", {
-                    cause: GetFlowError.NoFlowId,
-                })
-            }
+  return useQuery({
+    queryKey: settingsFlowKey(settingsFlowId),
+    queryFn: async ({ signal }) => {
+      if (!settingsFlowId) {
+        throw new Error("No settings flow ID provided", {
+          cause: GetFlowError.NoFlowId,
+        })
+      }
 
-            try {
-                return await kratosClient.getSettingsFlow({ id: settingsFlowId }, async ({ init: { headers } }) => ({
-                    signal,
-                    headers: { ...headers, Accept: "application/json" },
-                }))
-            } catch (error) {
-                throw await handleFlowErrorResponse<SettingsFlow>({
-                    error,
-                })
-            }
-        },
-        enabled: !!settingsFlowId,
-        staleTime: Infinity,
-    })
+      try {
+        return await kratosClient.getSettingsFlow({ id: settingsFlowId }, async ({ init: { headers } }) => ({
+          signal,
+          headers: { ...headers, Accept: "application/json" },
+        }))
+      } catch (error) {
+        throw await handleFlowErrorResponse<SettingsFlow>({
+          error,
+        })
+      }
+    },
+    enabled: !!settingsFlowId,
+    staleTime: Infinity,
+  })
 }

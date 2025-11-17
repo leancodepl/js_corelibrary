@@ -7,9 +7,9 @@ import type { ApiTimeOnly } from "@leancodepl/api-date"
 export function toApiTime(time: Date): ApiTimeOnly
 export function toApiTime(time: Date | undefined): ApiTimeOnly | undefined
 export function toApiTime(time: Date | undefined): ApiTimeOnly | undefined {
-    if (!time) {
-        return undefined
-    }
+  if (!time) {
+    return undefined
+  }
 
-    return format(time, "HH:mm:ss.SSS") as any
+  return format(time, "HH:mm:ss.SSS") as any
 }

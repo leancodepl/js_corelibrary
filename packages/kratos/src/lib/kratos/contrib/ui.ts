@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import {
-    UiNode,
-    UiNodeAnchorAttributes,
-    UiNodeDivisionAttributes,
-    UiNodeImageAttributes,
-    UiNodeInputAttributes,
-    UiNodeScriptAttributes,
-    UiNodeTextAttributes,
-    UiText,
+  UiNode,
+  UiNodeAnchorAttributes,
+  UiNodeDivisionAttributes,
+  UiNodeImageAttributes,
+  UiNodeInputAttributes,
+  UiNodeScriptAttributes,
+  UiNodeTextAttributes,
+  UiText,
 } from "../api.generated"
 
 /**
@@ -19,26 +19,26 @@ import {
  * @returns label of the node
  */
 export const getNodeLabel = (node: UiNode): UiText | undefined => {
-    const attributes = node.attributes
-    if (isUiNodeAnchorAttributes(attributes)) {
-        return attributes.title
-    }
+  const attributes = node.attributes
+  if (isUiNodeAnchorAttributes(attributes)) {
+    return attributes.title
+  }
 
-    if (isUiNodeImageAttributes(attributes)) {
-        return node.meta.label
-    }
-
-    if (isUiNodeInputAttributes(attributes)) {
-        if (attributes.label) {
-            return attributes.label
-        }
-    }
-
+  if (isUiNodeImageAttributes(attributes)) {
     return node.meta.label
+  }
+
+  if (isUiNodeInputAttributes(attributes)) {
+    if (attributes.label) {
+      return attributes.label
+    }
+  }
+
+  return node.meta.label
 }
 
 type ObjWithNodeType = {
-    node_type: string
+  node_type: string
 }
 
 /**
@@ -47,7 +47,7 @@ type ObjWithNodeType = {
  * @param attrs - the attributes of the node
  */
 export function isUiNodeAnchorAttributes(attrs: ObjWithNodeType): attrs is UiNodeAnchorAttributes {
-    return attrs.node_type === "a"
+  return attrs.node_type === "a"
 }
 
 /**
@@ -56,7 +56,7 @@ export function isUiNodeAnchorAttributes(attrs: ObjWithNodeType): attrs is UiNod
  * @param attrs - the attributes of the node
  */
 export function isUiNodeImageAttributes(attrs: ObjWithNodeType): attrs is UiNodeImageAttributes {
-    return attrs.node_type === "img"
+  return attrs.node_type === "img"
 }
 
 /**
@@ -65,7 +65,7 @@ export function isUiNodeImageAttributes(attrs: ObjWithNodeType): attrs is UiNode
  * @param attrs - the attributes of the node
  */
 export function isUiNodeInputAttributes(attrs: ObjWithNodeType): attrs is UiNodeInputAttributes {
-    return attrs.node_type === "input"
+  return attrs.node_type === "input"
 }
 
 /**
@@ -74,7 +74,7 @@ export function isUiNodeInputAttributes(attrs: ObjWithNodeType): attrs is UiNode
  * @param attrs - the attributes of the node
  */
 export function isUiNodeDivAttributes(attrs: ObjWithNodeType): attrs is UiNodeDivisionAttributes {
-    return attrs.node_type === "div"
+  return attrs.node_type === "div"
 }
 
 /**
@@ -83,7 +83,7 @@ export function isUiNodeDivAttributes(attrs: ObjWithNodeType): attrs is UiNodeDi
  * @param attrs - the attributes of the node
  */
 export function isUiNodeTextAttributes(attrs: ObjWithNodeType): attrs is UiNodeTextAttributes {
-    return attrs.node_type === "text"
+  return attrs.node_type === "text"
 }
 
 /**
@@ -92,7 +92,7 @@ export function isUiNodeTextAttributes(attrs: ObjWithNodeType): attrs is UiNodeT
  * @param attrs - the attributes of the node
  */
 export function isUiNodeScriptAttributes(attrs: ObjWithNodeType): attrs is UiNodeScriptAttributes {
-    return attrs.node_type === "script"
+  return attrs.node_type === "script"
 }
 
 /**
@@ -101,11 +101,11 @@ export function isUiNodeScriptAttributes(attrs: ObjWithNodeType): attrs is UiNod
  * @param attributes - the attributes of the node
  */
 export function getNodeId({ attributes }: UiNode) {
-    if (isUiNodeInputAttributes(attributes)) {
-        return attributes.name
-    } else {
-        return attributes.id
-    }
+  if (isUiNodeInputAttributes(attributes)) {
+    return attributes.name
+  } else {
+    return attributes.id
+  }
 }
 
 /**
@@ -117,4 +117,4 @@ export function getNodeId({ attributes }: UiNode) {
  * @returns type of node
  */
 export const getNodeInputType = (attr: object): string =>
-    "type" in attr && typeof attr?.type == "string" ? attr.type : ""
+  "type" in attr && typeof attr?.type == "string" ? attr.type : ""

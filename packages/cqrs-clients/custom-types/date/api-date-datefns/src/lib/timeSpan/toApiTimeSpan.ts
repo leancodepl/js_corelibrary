@@ -5,31 +5,31 @@ import { parseDifferenceInMilliseconds } from "../utils/parseDifferenceInMillise
 export function toApiTimeSpan(differenceInMilliseconds: number): ApiTimeSpan
 export function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined
 export function toApiTimeSpan(differenceInMilliseconds: number | undefined): ApiTimeSpan | undefined {
-    let stringTimeSpan = ""
+  let stringTimeSpan = ""
 
-    if (!differenceInMilliseconds) {
-        return undefined
-    }
+  if (!differenceInMilliseconds) {
+    return undefined
+  }
 
-    const isNegative = differenceInMilliseconds < 0
+  const isNegative = differenceInMilliseconds < 0
 
-    const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds)
+  const absDifferenceInMilliseconds = Math.abs(differenceInMilliseconds)
 
-    const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds)
+  const { milliseconds, seconds, minutes, hours, days } = parseDifferenceInMilliseconds(absDifferenceInMilliseconds)
 
-    if (isNegative) {
-        stringTimeSpan += "-"
-    }
+  if (isNegative) {
+    stringTimeSpan += "-"
+  }
 
-    if (days > 0) {
-        stringTimeSpan += `${days}.`
-    }
+  if (days > 0) {
+    stringTimeSpan += `${days}.`
+  }
 
-    stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`
+  stringTimeSpan += `${padTo2(hours)}:${padTo2(minutes)}:${padTo2(seconds)}`
 
-    if (milliseconds > 0) {
-        stringTimeSpan += `.${milliseconds}`
-    }
+  if (milliseconds > 0) {
+    stringTimeSpan += `.${milliseconds}`
+  }
 
-    return stringTimeSpan as any
+  return stringTimeSpan as any
 }

@@ -11,19 +11,19 @@ dayjs.extend(duration)
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan): duration.Duration
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): duration.Duration | undefined
 export function fromApiTimeSpan(timeSpan: ApiTimeSpan | undefined): duration.Duration | undefined {
-    if (!timeSpan) {
-        return undefined
-    }
+  if (!timeSpan) {
+    return undefined
+  }
 
-    const parsedDuration = parseApiTimeSpan(timeSpan)
+  const parsedDuration = parseApiTimeSpan(timeSpan)
 
-    const isNegative = parsedDuration.sign === "-"
+  const isNegative = parsedDuration.sign === "-"
 
-    const dayjsDuration = dayjs.duration(parsedDuration.values)
+  const dayjsDuration = dayjs.duration(parsedDuration.values)
 
-    if (isNegative) {
-        return dayjs.duration(-dayjsDuration.asMilliseconds())
-    }
+  if (isNegative) {
+    return dayjs.duration(-dayjsDuration.asMilliseconds())
+  }
 
-    return dayjsDuration
+  return dayjsDuration
 }
