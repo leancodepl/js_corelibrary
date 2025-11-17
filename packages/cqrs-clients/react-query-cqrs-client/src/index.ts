@@ -1,1 +1,1 @@
-export { mkCqrsClient } from "./lib/mkCqrsClient";
+export { mkCqrsClient } from "./lib/mkCqrsClient"

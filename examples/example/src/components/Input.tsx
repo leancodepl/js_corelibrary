@@ -4,14 +4,14 @@ import { getErrorMessage } from "../services/kratos"
 type InputProps = CommonInputFieldProps & { placeholder?: string }
 
 export const Input = ({ errors, ...props }: InputProps) => (
-    <div>
-        <input {...props} />
-        {errors && errors.length > 0 && (
-            <div data-testid="input-errors">
-                {errors.map(error => (
-                    <div key={error.id}>{getErrorMessage(error)}</div>
-                ))}
-            </div>
-        )}
-    </div>
+  <div>
+    <input {...props} />
+    {errors && errors.length > 0 && (
+      <div data-testid="input-errors">
+        {errors.map(error => (
+          <div key={error.id}>{getErrorMessage(error)}</div>
+        ))}
+      </div>
+    )}
+  </div>
 )

@@ -54,11 +54,11 @@ console.log(result.values.milliseconds) // 123
 import { parseApiTimeSpan } from "@leancodepl/api-date-utils"
 
 const calculateTotalMilliseconds = (timespan: ApiTimeSpan) => {
-    const parsed = parseApiTimeSpan(timespan)
-    const { days, hours, minutes, seconds, milliseconds } = parsed.values
+  const parsed = parseApiTimeSpan(timespan)
+  const { days, hours, minutes, seconds, milliseconds } = parsed.values
 
-    const total = days * 86400000 + hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds
+  const total = days * 86400000 + hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds
 
-    return parsed.sign === "-" ? -total : total
+  return parsed.sign === "-" ? -total : total
 }
 ```

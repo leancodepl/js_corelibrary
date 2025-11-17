@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react"
 
 /**
  * React hook for boolean state management helpers.
- * 
+ *
  * @param set - The state setter function from useState
  * @returns A tuple containing [setTrue: function, setFalse: function]
  * @example
@@ -12,7 +12,7 @@ import { Dispatch, SetStateAction, useCallback } from "react";
  * function MyComponent() {
  *   const [isVisible, setIsVisible] = useState(false);
  *   const [show, hide] = useSetUnset(setIsVisible);
- *   
+ *
  *   return (
  *     <div>
  *       <button onClick={show}>Show</button>
@@ -24,5 +24,5 @@ import { Dispatch, SetStateAction, useCallback } from "react";
  * ```
  */
 export function useSetUnset(set: Dispatch<SetStateAction<boolean>>) {
-    return [useCallback(() => set(true), [set]), useCallback(() => set(false), [set])] as const;
+  return [useCallback(() => set(true), [set]), useCallback(() => set(false), [set])] as const
 }

@@ -3,54 +3,54 @@ import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class VerificationPage extends CommonPage {
-    static readonly route = "/verification"
-    readonly wrapper
+  static readonly route = "/verification"
+  readonly wrapper
+
+  // Email verification form
+  readonly emailVerificationFormWrapper
+  readonly verificationCodeInput
+  readonly verifyButton
+  readonly resendCodeButton
+  readonly errors
+
+  constructor(protected readonly page: Page) {
+    super(page)
+
+    this.wrapper = page.getByTestId(dataTestIds.verification.page)
 
     // Email verification form
-    readonly emailVerificationFormWrapper
-    readonly verificationCodeInput
-    readonly verifyButton
-    readonly resendCodeButton
-    readonly errors
+    this.emailVerificationFormWrapper = page.getByTestId(dataTestIds.verification.emailVerificationForm.wrapper)
+    this.verificationCodeInput = this.emailVerificationFormWrapper.getByTestId(
+      dataTestIds.verification.emailVerificationForm.codeInput,
+    )
+    this.verifyButton = this.emailVerificationFormWrapper.getByTestId(
+      dataTestIds.verification.emailVerificationForm.submitButton,
+    )
+    this.resendCodeButton = this.emailVerificationFormWrapper.getByTestId(
+      dataTestIds.verification.emailVerificationForm.resendButton,
+    )
+    this.errors = this.emailVerificationFormWrapper.getByTestId(dataTestIds.common.errors)
+  }
 
-    constructor(protected readonly page: Page) {
-        super(page)
+  async visit(initialFlowId: string | null = null) {
+    await this.page.goto(VerificationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
+  }
 
-        this.wrapper = page.getByTestId(dataTestIds.verification.page)
+  // Email verification form
 
-        // Email verification form
-        this.emailVerificationFormWrapper = page.getByTestId(dataTestIds.verification.emailVerificationForm.wrapper)
-        this.verificationCodeInput = this.emailVerificationFormWrapper.getByTestId(
-            dataTestIds.verification.emailVerificationForm.codeInput,
-        )
-        this.verifyButton = this.emailVerificationFormWrapper.getByTestId(
-            dataTestIds.verification.emailVerificationForm.submitButton,
-        )
-        this.resendCodeButton = this.emailVerificationFormWrapper.getByTestId(
-            dataTestIds.verification.emailVerificationForm.resendButton,
-        )
-        this.errors = this.emailVerificationFormWrapper.getByTestId(dataTestIds.common.errors)
-    }
+  async fillVerificationCode(code: string) {
+    await this.verificationCodeInput.fill(code)
+  }
 
-    async visit(initialFlowId: string | null = null) {
-        await this.page.goto(VerificationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
-    }
+  async clickVerifyButton() {
+    await this.verifyButton.click()
+  }
 
-    // Email verification form
+  async clickResendCodeButton() {
+    await this.resendCodeButton.click()
+  }
 
-    async fillVerificationCode(code: string) {
-        await this.verificationCodeInput.fill(code)
-    }
-
-    async clickVerifyButton() {
-        await this.verifyButton.click()
-    }
-
-    async clickResendCodeButton() {
-        await this.resendCodeButton.click()
-    }
-
-    async getErrors() {
-        return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
-    }
+  async getErrors() {
+    return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
+  }
 }

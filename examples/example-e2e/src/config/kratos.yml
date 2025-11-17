@@ -3,118 +3,118 @@ version: v1.3.1
 dsn: memory
 
 serve:
-    public:
-        base_url: http://localhost:34433
-        cors:
-            enabled: true
-            allowed_origins:
-                - http://localhost:4300
-                - http://localhost:4200
-
-cookies:
-    domain: http://localhost
-    same_site: Lax
-
-session:
-    lifespan: 8760h # 1y
-
-secrets:
-    cookie:
-        - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
-    cipher:
-        - 32-LONG-SECRET-NOT-SECURE-AT-ALL
-
-courier:
-    delivery_strategy: smtp
-    smtp:
-        connection_uri: smtp://172.17.0.1:1025/?disable_starttls=true
-        from_address: leancode.fe.kratos@tmpmail.leancode.dev
-        from_name: Leancode Kratos Test
-
-selfservice:
-    default_browser_return_url: http://localhost:4300
-    allowed_return_urls:
+  public:
+    base_url: http://localhost:34433
+    cors:
+      enabled: true
+      allowed_origins:
         - http://localhost:4300
         - http://localhost:4200
-    methods:
-        link:
-            config:
-                lifespan: 1h
-            enabled: true
-        password:
-            enabled: true
-        lookup_secret:
-            enabled: false
-        totp:
-            enabled: true
-            config:
-                issuer: "Kratos Totp"
-        passkey:
-            enabled: true
-            config:
-                rp:
-                    display_name: "Kratos Passkey"
-                    id: "localhost"
-                    origins:
-                        - http://localhost:4300
-                        - http://localhost:4200
 
-        profile:
-            enabled: true
-        code:
-            enabled: true
-        oidc:
-            enabled: true
-            config:
-                providers:
-                    - id: google
-                      provider: google
-                      label: Google
-                      issuer_url: https://accounts.google.com
-                      client_id: CLIENT_ID
-                      client_secret: CLIENT_SECRET
-                      scope:
-                          - openid
-                          - email
-                          - profile
-                      mapper_url: file:///home/ory/common/kratos/oidc.google.mapper.jsonnet
-    flows:
-        login:
-            ui_url: http://localhost:4300/login
-            lifespan: 1h
-        registration:
-            ui_url: http://localhost:4300/registration
-            lifespan: 1h
-            enabled: true
-        verification:
-            ui_url: http://localhost:4300/verification
-            enabled: true
-            use: code
-            after:
-                default_browser_return_url: http://localhost:4300
-        recovery:
-            ui_url: http://localhost:4300/recovery
-            enabled: true
-            use: code
-        settings:
-            ui_url: http://localhost:4300/settings
-            privileged_session_max_age: 15m
-        error:
-            ui_url: http://localhost:4300/error
+cookies:
+  domain: http://localhost
+  same_site: Lax
+
+session:
+  lifespan: 8760h # 1y
+
+secrets:
+  cookie:
+    - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+  cipher:
+    - 32-LONG-SECRET-NOT-SECURE-AT-ALL
+
+courier:
+  delivery_strategy: smtp
+  smtp:
+    connection_uri: smtp://172.17.0.1:1025/?disable_starttls=true
+    from_address: leancode.fe.kratos@tmpmail.leancode.dev
+    from_name: Leancode Kratos Test
+
+selfservice:
+  default_browser_return_url: http://localhost:4300
+  allowed_return_urls:
+    - http://localhost:4300
+    - http://localhost:4200
+  methods:
+    link:
+      config:
+        lifespan: 1h
+      enabled: true
+    password:
+      enabled: true
+    lookup_secret:
+      enabled: false
+    totp:
+      enabled: true
+      config:
+        issuer: "Kratos Totp"
+    passkey:
+      enabled: true
+      config:
+        rp:
+          display_name: "Kratos Passkey"
+          id: "localhost"
+          origins:
+            - http://localhost:4300
+            - http://localhost:4200
+
+    profile:
+      enabled: true
+    code:
+      enabled: true
+    oidc:
+      enabled: true
+      config:
+        providers:
+          - id: google
+            provider: google
+            label: Google
+            issuer_url: https://accounts.google.com
+            client_id: CLIENT_ID
+            client_secret: CLIENT_SECRET
+            scope:
+              - openid
+              - email
+              - profile
+            mapper_url: file:///home/ory/common/kratos/oidc.google.mapper.jsonnet
+  flows:
+    login:
+      ui_url: http://localhost:4300/login
+      lifespan: 1h
+    registration:
+      ui_url: http://localhost:4300/registration
+      lifespan: 1h
+      enabled: true
+    verification:
+      ui_url: http://localhost:4300/verification
+      enabled: true
+      use: code
+      after:
+        default_browser_return_url: http://localhost:4300
+    recovery:
+      ui_url: http://localhost:4300/recovery
+      enabled: true
+      use: code
+    settings:
+      ui_url: http://localhost:4300/settings
+      privileged_session_max_age: 15m
+    error:
+      ui_url: http://localhost:4300/error
 
 ciphers:
-    algorithm: xchacha20-poly1305
+  algorithm: xchacha20-poly1305
 
 hashers:
-    algorithm: bcrypt
-    bcrypt:
-        cost: 8
+  algorithm: bcrypt
+  bcrypt:
+    cost: 8
 
 identity:
-    default_schema_id: user
-    schemas:
-        - id: user
-          url: file:///home/ory/common/kratos/identity.user.schema.json
+  default_schema_id: user
+  schemas:
+    - id: user
+      url: file:///home/ory/common/kratos/identity.user.schema.json
 
 feature_flags:
-    use_continue_with_transitions: true
+  use_continue_with_transitions: true

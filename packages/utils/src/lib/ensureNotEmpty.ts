@@ -2,7 +2,7 @@ import { assertNotEmpty } from "./assertNotEmpty"
 
 /**
  * Ensures that a value is not null or undefined, returning it if valid or throwing an error if empty.
- * 
+ *
  * @template T - The type of the value being checked
  * @param value - The value to ensure is not null or undefined
  * @param message - Optional error message to use if the value is null or undefined
@@ -17,7 +17,7 @@ import { assertNotEmpty } from "./assertNotEmpty"
  * ```
  */
 export function ensureNotEmpty<T>(value: T | null | undefined, message?: string): T {
-    assertNotEmpty(value, message)
+  assertNotEmpty(value, message)
 
-    return value
+  return value
 }

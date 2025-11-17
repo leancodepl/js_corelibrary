@@ -3,61 +3,61 @@ import { getCsrfToken, getNodeById, inputNodeAttributes, passkeySettingsRegister
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../../hooks"
 
 export const usePasskeys = () => {
-    const { mutateAsync: updateSettingsFlow, isPending } = useUpdateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+  const { mutateAsync: updateSettingsFlow, isPending } = useUpdateSettingsFlow()
+  const { data: settingsFlow } = useGetSettingsFlow()
 
-    const removePasskey = useCallback(
-        async (passkeyId: string) => {
-            if (isPending) {
-                return
-            }
+  const removePasskey = useCallback(
+    async (passkeyId: string) => {
+      if (isPending) {
+        return
+      }
 
-            if (!settingsFlow) {
-                throw new Error("Settings flow is not available")
-            }
+      if (!settingsFlow) {
+        throw new Error("Settings flow is not available")
+      }
 
-            await updateSettingsFlow({
-                method: "passkey",
-                csrf_token: getCsrfToken(settingsFlow),
-                passkey_remove: passkeyId,
-            })
-        },
-        [isPending, settingsFlow, updateSettingsFlow],
-    )
+      await updateSettingsFlow({
+        method: "passkey",
+        csrf_token: getCsrfToken(settingsFlow),
+        passkey_remove: passkeyId,
+      })
+    },
+    [isPending, settingsFlow, updateSettingsFlow],
+  )
 
-    const addNewPasskeyUsingCredential = useCallback(
-        async (credential: string) => {
-            if (!settingsFlow) return
+  const addNewPasskeyUsingCredential = useCallback(
+    async (credential: string) => {
+      if (!settingsFlow) return
 
-            await updateSettingsFlow({
-                method: "passkey",
-                csrf_token: getCsrfToken(settingsFlow),
-                passkey_settings_register: credential,
-            })
-        },
-        [settingsFlow, updateSettingsFlow],
-    )
+      await updateSettingsFlow({
+        method: "passkey",
+        csrf_token: getCsrfToken(settingsFlow),
+        passkey_settings_register: credential,
+      })
+    },
+    [settingsFlow, updateSettingsFlow],
+  )
 
-    const challenge = useMemo(
-        () => inputNodeAttributes(getNodeById(settingsFlow?.ui.nodes, "passkey_create_data")),
-        [settingsFlow?.ui.nodes],
-    )
+  const challenge = useMemo(
+    () => inputNodeAttributes(getNodeById(settingsFlow?.ui.nodes, "passkey_create_data")),
+    [settingsFlow?.ui.nodes],
+  )
 
-    const addNewPasskey = useCallback(async () => {
-        if (isPending) return
+  const addNewPasskey = useCallback(async () => {
+    if (isPending) return
 
-        if (!challenge) return
+    if (!challenge) return
 
-        const credential = await passkeySettingsRegister(challenge.value, undefined)
+    const credential = await passkeySettingsRegister(challenge.value, undefined)
 
-        if (!credential) return
+    if (!credential) return
 
-        await addNewPasskeyUsingCredential(credential)
-    }, [isPending, challenge, addNewPasskeyUsingCredential])
+    await addNewPasskeyUsingCredential(credential)
+  }, [isPending, challenge, addNewPasskeyUsingCredential])
 
-    return {
-        isPending,
-        removePasskey,
-        addNewPasskey,
-    }
+  return {
+    isPending,
+    removePasskey,
+    addNewPasskey,
+  }
 }

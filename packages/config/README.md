@@ -1,6 +1,8 @@
 # @leancodepl/config - Utility for creating configuration getters that access Vite-injected values in development and environment variables in production.
 
-Provides a function to create getters for accessing configuration values prefixed with 'VITE_' from `import.meta.env` during development. In production, it retrieves values directly from environment variables, with support for tools like nginx-base from "leancodepl/tools" for parsing.
+Provides a function to create getters for accessing configuration values prefixed with 'VITE\_' from `import.meta.env`
+during development. In production, it retrieves values directly from environment variables, with support for tools like
+nginx-base from "leancodepl/tools" for parsing.
 
 ## Installation
 
@@ -18,9 +20,11 @@ yarn add @leancodepl/config
 
 ### `mkGetInjectedConfig()`
 
-Creates a getter function for accessing Vite-injected configuration values from environment variables on development, on production it will return the value from the environment variables. You can check "@leancodepl/tools" repository for more information. There's nginx-base defined which parses it out.
+Creates a getter function for accessing Vite-injected configuration values from environment variables on development, on
+production it will return the value from the environment variables. You can check "@leancodepl/tools" repository for
+more information. There's nginx-base defined which parses it out.
 
-The keys are automatically prefixed with 'VITE_' when accessing import.meta.env.
+The keys are automatically prefixed with 'VITE\_' when accessing import.meta.env.
 
 **Returns:** An object containing the `getInjectedConfig` method.
 

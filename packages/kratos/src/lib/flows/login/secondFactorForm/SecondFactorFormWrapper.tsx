@@ -20,49 +20,49 @@ import { useTotpForm } from "./useTotpForm"
  * @property {boolean} isValidating - Indicates if the form is currently being validated.
  */
 export type SecondFactorFormProps = {
-    Email?: ComponentType<{ children: ReactNode }>
-    Totp: ComponentType<{ children: ReactNode }>
-    Submit: ComponentType<{ children: ReactNode }>
-    errors: AuthError[]
-    isRefresh: boolean | undefined
-    isSubmitting: boolean
-    isValidating: boolean
+  Email?: ComponentType<{ children: ReactNode }>
+  Totp: ComponentType<{ children: ReactNode }>
+  Submit: ComponentType<{ children: ReactNode }>
+  errors: AuthError[]
+  isRefresh: boolean | undefined
+  isSubmitting: boolean
+  isValidating: boolean
 }
 
 type SecondFactorFormWrapperProps = {
-    secondFactorForm: ComponentType<SecondFactorFormProps>
-    isRefresh: boolean | undefined
-    onError?: OnLoginFlowError
-    onLoginSuccess?: () => void
+  secondFactorForm: ComponentType<SecondFactorFormProps>
+  isRefresh: boolean | undefined
+  onError?: OnLoginFlowError
+  onLoginSuccess?: () => void
 }
 
 export function SecondFactorFormWrapper({
-    secondFactorForm: SecondFactorForm,
-    isRefresh,
-    onError,
-    onLoginSuccess,
+  secondFactorForm: SecondFactorForm,
+  isRefresh,
+  onError,
+  onLoginSuccess,
 }: SecondFactorFormWrapperProps) {
-    const totpForm = useTotpForm({ onError, onLoginSuccess })
-    const formErrors = useFormErrors(totpForm)
-    const { data: loginFlow } = useGetLoginFlow()
+  const totpForm = useTotpForm({ onError, onLoginSuccess })
+  const formErrors = useFormErrors(totpForm)
+  const { data: loginFlow } = useGetLoginFlow()
 
-    return (
-        <SecondFactorFormProvider totpForm={totpForm}>
-            <form
-                onSubmit={e => {
-                    e.preventDefault()
-                    totpForm.handleSubmit()
-                }}>
-                <SecondFactorForm
-                    Email={getNodeById(loginFlow?.ui.nodes, "address") && Email}
-                    errors={formErrors}
-                    isRefresh={isRefresh}
-                    isSubmitting={totpForm.state.isSubmitting}
-                    isValidating={totpForm.state.isValidating}
-                    Submit={Submit}
-                    Totp={Totp}
-                />
-            </form>
-        </SecondFactorFormProvider>
-    )
+  return (
+    <SecondFactorFormProvider totpForm={totpForm}>
+      <form
+        onSubmit={e => {
+          e.preventDefault()
+          totpForm.handleSubmit()
+        }}>
+        <SecondFactorForm
+          Email={getNodeById(loginFlow?.ui.nodes, "address") && Email}
+          errors={formErrors}
+          isRefresh={isRefresh}
+          isSubmitting={totpForm.state.isSubmitting}
+          isValidating={totpForm.state.isValidating}
+          Submit={Submit}
+          Totp={Totp}
+        />
+      </form>
+    </SecondFactorFormProvider>
+  )
 }

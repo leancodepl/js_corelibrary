@@ -7,31 +7,31 @@ import { OnRecoveryFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseCodeFormProps = {
-    onError?: OnRecoveryFlowError
+  onError?: OnRecoveryFlowError
 }
 
 export function useCodeForm({ onError }: UseCodeFormProps) {
-    const { mutateAsync: updateRecoveryFlow } = useUpdateRecoveryFlow()
-    const { data: recoveryFlow } = useGetRecoveryFlow()
+  const { mutateAsync: updateRecoveryFlow } = useUpdateRecoveryFlow()
+  const { data: recoveryFlow } = useGetRecoveryFlow()
 
-    return useForm({
-        defaultValues: {
-            [InputFields.Code]: "",
-        },
-        onSubmit: async ({ value, formApi }) => {
-            if (!recoveryFlow) return
+  return useForm({
+    defaultValues: {
+      [InputFields.Code]: "",
+    },
+    onSubmit: async ({ value, formApi }) => {
+      if (!recoveryFlow) return
 
-            const response = await updateRecoveryFlow({
-                csrf_token: getCsrfToken(recoveryFlow),
-                method: "code",
-                code: value[InputFields.Code],
-            })
+      const response = await updateRecoveryFlow({
+        csrf_token: getCsrfToken(recoveryFlow),
+        method: "code",
+        code: value[InputFields.Code],
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

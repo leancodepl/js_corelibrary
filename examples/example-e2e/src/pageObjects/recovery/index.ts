@@ -3,103 +3,103 @@ import { Page } from "@playwright/test"
 import { CommonPage } from "../common"
 
 export class RecoveryPage extends CommonPage {
-    static readonly route = "/recovery"
-    readonly wrapper
+  static readonly route = "/recovery"
+  readonly wrapper
+
+  // Email form
+  readonly emailFormWrapper
+  readonly emailInput
+  readonly emailSubmitButton
+  readonly emailFormErrors
+
+  // Code form
+  readonly codeFormWrapper
+  readonly codeInput
+  readonly codeSubmitButton
+  readonly codeFormErrors
+
+  // New password form
+  readonly newPasswordFormWrapper
+  readonly newPasswordInput
+  readonly newPasswordConfirmationInput
+  readonly newPasswordSubmitButton
+  readonly newPasswordFormErrors
+
+  constructor(protected readonly page: Page) {
+    super(page)
+
+    this.wrapper = page.getByTestId(dataTestIds.recovery.page)
 
     // Email form
-    readonly emailFormWrapper
-    readonly emailInput
-    readonly emailSubmitButton
-    readonly emailFormErrors
+    this.emailFormWrapper = page.getByTestId(dataTestIds.recovery.emailForm.wrapper)
+    this.emailInput = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.emailInput)
+    this.emailSubmitButton = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.submitButton)
+    this.emailFormErrors = this.emailFormWrapper.getByTestId(dataTestIds.common.errors)
 
     // Code form
-    readonly codeFormWrapper
-    readonly codeInput
-    readonly codeSubmitButton
-    readonly codeFormErrors
+    this.codeFormWrapper = page.getByTestId(dataTestIds.recovery.codeForm.wrapper)
+    this.codeInput = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.codeInput)
+    this.codeSubmitButton = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.submitButton)
+    this.codeFormErrors = this.codeFormWrapper.getByTestId(dataTestIds.common.errors)
 
     // New password form
-    readonly newPasswordFormWrapper
-    readonly newPasswordInput
-    readonly newPasswordConfirmationInput
-    readonly newPasswordSubmitButton
-    readonly newPasswordFormErrors
+    this.newPasswordFormWrapper = page.getByTestId(dataTestIds.recovery.newPasswordForm.wrapper)
+    this.newPasswordInput = this.newPasswordFormWrapper.getByTestId(
+      dataTestIds.recovery.newPasswordForm.newPasswordInput,
+    )
+    this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId(
+      dataTestIds.recovery.newPasswordForm.newPasswordConfirmationInput,
+    )
+    this.newPasswordSubmitButton = this.newPasswordFormWrapper.getByTestId(
+      dataTestIds.recovery.newPasswordForm.submitButton,
+    )
+    this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId(dataTestIds.common.errors)
+  }
 
-    constructor(protected readonly page: Page) {
-        super(page)
+  async visit() {
+    await this.page.goto(RecoveryPage.route)
+  }
 
-        this.wrapper = page.getByTestId(dataTestIds.recovery.page)
+  // Email form
 
-        // Email form
-        this.emailFormWrapper = page.getByTestId(dataTestIds.recovery.emailForm.wrapper)
-        this.emailInput = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.emailInput)
-        this.emailSubmitButton = this.emailFormWrapper.getByTestId(dataTestIds.recovery.emailForm.submitButton)
-        this.emailFormErrors = this.emailFormWrapper.getByTestId(dataTestIds.common.errors)
+  async fillEmail(email: string) {
+    await this.emailInput.fill(email)
+  }
 
-        // Code form
-        this.codeFormWrapper = page.getByTestId(dataTestIds.recovery.codeForm.wrapper)
-        this.codeInput = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.codeInput)
-        this.codeSubmitButton = this.codeFormWrapper.getByTestId(dataTestIds.recovery.codeForm.submitButton)
-        this.codeFormErrors = this.codeFormWrapper.getByTestId(dataTestIds.common.errors)
+  async clickEmailSubmitButton() {
+    await this.emailSubmitButton.click()
+  }
 
-        // New password form
-        this.newPasswordFormWrapper = page.getByTestId(dataTestIds.recovery.newPasswordForm.wrapper)
-        this.newPasswordInput = this.newPasswordFormWrapper.getByTestId(
-            dataTestIds.recovery.newPasswordForm.newPasswordInput,
-        )
-        this.newPasswordConfirmationInput = this.newPasswordFormWrapper.getByTestId(
-            dataTestIds.recovery.newPasswordForm.newPasswordConfirmationInput,
-        )
-        this.newPasswordSubmitButton = this.newPasswordFormWrapper.getByTestId(
-            dataTestIds.recovery.newPasswordForm.submitButton,
-        )
-        this.newPasswordFormErrors = this.newPasswordFormWrapper.getByTestId(dataTestIds.common.errors)
-    }
+  async getEmailFormErrors() {
+    return (await this.emailFormErrors.allTextContents()).filter(text => text.trim() !== "")
+  }
 
-    async visit() {
-        await this.page.goto(RecoveryPage.route)
-    }
+  // Code form
 
-    // Email form
+  async fillCode(code: string) {
+    await this.codeInput.fill(code)
+  }
 
-    async fillEmail(email: string) {
-        await this.emailInput.fill(email)
-    }
+  async clickCodeSubmitButton() {
+    await this.codeSubmitButton.click()
+  }
 
-    async clickEmailSubmitButton() {
-        await this.emailSubmitButton.click()
-    }
+  async getCodeFormErrors() {
+    return (await this.codeFormErrors.allTextContents()).filter(text => text.trim() !== "")
+  }
 
-    async getEmailFormErrors() {
-        return (await this.emailFormErrors.allTextContents()).filter(text => text.trim() !== "")
-    }
+  // New password form
 
-    // Code form
+  async fillNewPassword(password: string, confirmation: string) {
+    await this.newPasswordInput.fill(password)
+    await this.newPasswordConfirmationInput.fill(confirmation)
+  }
 
-    async fillCode(code: string) {
-        await this.codeInput.fill(code)
-    }
+  async clickNewPasswordSubmitButton() {
+    await this.newPasswordSubmitButton.click()
+  }
 
-    async clickCodeSubmitButton() {
-        await this.codeSubmitButton.click()
-    }
-
-    async getCodeFormErrors() {
-        return (await this.codeFormErrors.allTextContents()).filter(text => text.trim() !== "")
-    }
-
-    // New password form
-
-    async fillNewPassword(password: string, confirmation: string) {
-        await this.newPasswordInput.fill(password)
-        await this.newPasswordConfirmationInput.fill(confirmation)
-    }
-
-    async clickNewPasswordSubmitButton() {
-        await this.newPasswordSubmitButton.click()
-    }
-
-    async getNewPasswordFormErrors() {
-        return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
-    }
+  async getNewPasswordFormErrors() {
+    return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
+  }
 }

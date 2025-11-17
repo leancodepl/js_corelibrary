@@ -6,48 +6,48 @@ import { OnRegistrationFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseChooseMethodFormProps<TTraitsConfig extends TraitsConfig> = {
-    onError?: OnRegistrationFlowError<TTraitsConfig>
-    onRegistrationSuccess?: () => void
+  onError?: OnRegistrationFlowError<TTraitsConfig>
+  onRegistrationSuccess?: () => void
 }
 
 export function useChooseMethodForm<TTraitsConfig extends TraitsConfig>({
-    onError,
-    onRegistrationSuccess,
+  onError,
+  onRegistrationSuccess,
 }: UseChooseMethodFormProps<TTraitsConfig>) {
-    const { setTraitsFormCompleted, traits } = useRegistrationFlowContext()
-    const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
-    const { data: registrationFlow } = useGetRegistrationFlow()
+  const { setTraitsFormCompleted, traits } = useRegistrationFlowContext()
+  const { mutateAsync: updateRegistrationFlow } = useUpdateRegistrationFlow()
+  const { data: registrationFlow } = useGetRegistrationFlow()
 
-    return useForm({
-        defaultValues: {
-            [InputFields.Password]: "",
-            [InputFields.PasswordConfirmation]: "",
-        },
-        onSubmit: async ({ value, formApi }) => {
-            if (!registrationFlow) return
+  return useForm({
+    defaultValues: {
+      [InputFields.Password]: "",
+      [InputFields.PasswordConfirmation]: "",
+    },
+    onSubmit: async ({ value, formApi }) => {
+      if (!registrationFlow) return
 
-            const response = await updateRegistrationFlow({
-                csrf_token: getCsrfToken(registrationFlow),
-                method: "password",
-                traits: traits ?? {},
-                password: value[InputFields.Password],
-            })
+      const response = await updateRegistrationFlow({
+        csrf_token: getCsrfToken(registrationFlow),
+        method: "password",
+        traits: traits ?? {},
+        password: value[InputFields.Password],
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            if (instanceOfSuccessfulNativeRegistration(response)) {
-                onRegistrationSuccess?.()
+      if (instanceOfSuccessfulNativeRegistration(response)) {
+        onRegistrationSuccess?.()
 
-                return
-            }
+        return
+      }
 
-            if (response.state === RegistrationFlowState.ChooseMethod) {
-                setTraitsFormCompleted(true)
-            }
+      if (response.state === RegistrationFlowState.ChooseMethod) {
+        setTraitsFormCompleted(true)
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

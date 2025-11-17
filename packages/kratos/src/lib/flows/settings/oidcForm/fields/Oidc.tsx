@@ -4,33 +4,33 @@ import { CommonButtonProps } from "../../../../utils"
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../../hooks"
 
 export type OidcButtonProps = CommonButtonProps & {
-    oidcType?: "link" | "unlink"
+  oidcType?: "link" | "unlink"
 }
 
 type OidcProps = {
-    children: ReactNode
-    provider: string
-    type: "link" | "unlink"
+  children: ReactNode
+  provider: string
+  type: "link" | "unlink"
 }
 
 export function Oidc({ children, provider, type }: OidcProps) {
-    const { mutate: updateSettingsFlow } = useUpdateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+  const { mutate: updateSettingsFlow } = useUpdateSettingsFlow()
+  const { data: settingsFlow } = useGetSettingsFlow()
 
-    const linkProvider = useCallback(() => {
-        if (!settingsFlow) return
+  const linkProvider = useCallback(() => {
+    if (!settingsFlow) return
 
-        updateSettingsFlow({
-            method: "oidc",
-            [type]: provider,
-        })
-    }, [settingsFlow, updateSettingsFlow, type, provider])
+    updateSettingsFlow({
+      method: "oidc",
+      [type]: provider,
+    })
+  }, [settingsFlow, updateSettingsFlow, type, provider])
 
-    const Comp: ComponentType<OidcButtonProps> = Slot.Root
+  const Comp: ComponentType<OidcButtonProps> = Slot.Root
 
-    return (
-        <Comp oidcType={type} type="button" onClick={linkProvider}>
-            {children}
-        </Comp>
-    )
+  return (
+    <Comp oidcType={type} type="button" onClick={linkProvider}>
+      {children}
+    </Comp>
+  )
 }

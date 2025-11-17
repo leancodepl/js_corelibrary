@@ -4,20 +4,20 @@ import { verificationFlowKey } from "./queryKeys"
 import { useVerificationFlowContext } from "./useVerificationFlowContext"
 
 export function useCreateVerificationFlow({ returnTo }: { returnTo?: string } = {}) {
-    const { kratosClient } = useKratosClientContext()
-    const { setVerificationFlowId } = useVerificationFlowContext()
+  const { kratosClient } = useKratosClientContext()
+  const { setVerificationFlowId } = useVerificationFlowContext()
 
-    const client = useQueryClient()
+  const client = useQueryClient()
 
-    return useMutation({
-        mutationFn: () =>
-            kratosClient.createBrowserVerificationFlow({ returnTo }, async ({ init: { headers } }) => ({
-                headers: { ...headers, Accept: "application/json" },
-            })),
-        onSuccess(data) {
-            client.setQueryDefaults(verificationFlowKey(data.id), { staleTime: Infinity })
-            client.setQueryData(verificationFlowKey(data.id), data)
-            setVerificationFlowId(data.id)
-        },
-    })
+  return useMutation({
+    mutationFn: () =>
+      kratosClient.createBrowserVerificationFlow({ returnTo }, async ({ init: { headers } }) => ({
+        headers: { ...headers, Accept: "application/json" },
+      })),
+    onSuccess(data) {
+      client.setQueryDefaults(verificationFlowKey(data.id), { staleTime: Infinity })
+      client.setQueryData(verificationFlowKey(data.id), data)
+      setVerificationFlowId(data.id)
+    },
+  })
 }

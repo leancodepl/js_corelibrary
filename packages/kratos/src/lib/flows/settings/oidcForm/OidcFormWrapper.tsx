@@ -6,40 +6,40 @@ import { Oidc } from "./fields"
 import { getOidcProviderType } from "./providers"
 
 type OidcProviderComponents<TProvider extends string> = {
-    [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>
+  [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>
 }
 
 export type OidcFormProps = OidcProviderComponents<OidcProvider> & {
-    isLoading: boolean
+  isLoading: boolean
 }
 
 type OidcFormWrapperProps = {
-    oidcForm: ComponentType<OidcFormProps>
+  oidcForm: ComponentType<OidcFormProps>
 }
 
 export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
-    const { data: settingsFlow } = useGetSettingsFlow()
+  const { data: settingsFlow } = useGetSettingsFlow()
 
-    const oidcComponents = useMemo(() => {
-        if (!settingsFlow) {
-            return {}
-        }
+  const oidcComponents = useMemo(() => {
+    if (!settingsFlow) {
+      return {}
+    }
 
-        return providers.reduce((acc, provider) => {
-            const providerName = toUpperFirst(provider)
-            const type = getOidcProviderType(provider, settingsFlow.ui.nodes)
+    return providers.reduce((acc, provider) => {
+      const providerName = toUpperFirst(provider)
+      const type = getOidcProviderType(provider, settingsFlow.ui.nodes)
 
-            if (type) {
-                acc[providerName] = ({ children }: { children: ReactNode }) => (
-                    <Oidc provider={provider} type={type}>
-                        {children}
-                    </Oidc>
-                )
-            }
+      if (type) {
+        acc[providerName] = ({ children }: { children: ReactNode }) => (
+          <Oidc provider={provider} type={type}>
+            {children}
+          </Oidc>
+        )
+      }
 
-            return acc
-        }, {} as OidcFormProps)
-    }, [settingsFlow])
+      return acc
+    }, {} as OidcFormProps)
+  }, [settingsFlow])
 
-    return <OidcForm {...oidcComponents} isLoading={!settingsFlow} />
+  return <OidcForm {...oidcComponents} isLoading={!settingsFlow} />
 }

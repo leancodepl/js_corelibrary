@@ -7,9 +7,9 @@ import type { ApiDateTimeOffset } from "@leancodepl/api-date"
 export function toApiDateTimeOffset(time: dayjs.Dayjs): ApiDateTimeOffset
 export function toApiDateTimeOffset(time: dayjs.Dayjs | undefined): ApiDateTimeOffset | undefined
 export function toApiDateTimeOffset(time: dayjs.Dayjs | undefined): ApiDateTimeOffset | undefined {
-    if (!time) {
-        return undefined
-    }
+  if (!time) {
+    return undefined
+  }
 
-    return time.format("YYYY-MM-DDTHH:mm:ss.SSSZ") as any
+  return time.format("YYYY-MM-DDTHH:mm:ss.SSSZ") as any
 }

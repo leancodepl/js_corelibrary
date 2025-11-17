@@ -4,26 +4,26 @@ import { CommonInputFieldProps, getAuthErrorsFromFormErrorMap } from "../../../.
 import { useEmailFormContext } from "../emailFormContext"
 
 type EmailProps = {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function Email({ children }: EmailProps) {
-    const { emailForm } = useEmailFormContext()
+  const { emailForm } = useEmailFormContext()
 
-    const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
+  const Comp: ComponentType<CommonInputFieldProps> = Slot.Root
 
-    return (
-        <emailForm.Field name="email">
-            {field => (
-                <Comp
-                    errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
-                    name={field.name}
-                    type="text"
-                    value={field.state.value}
-                    onChange={e => field.handleChange(e.target.value)}>
-                    {children}
-                </Comp>
-            )}
-        </emailForm.Field>
-    )
+  return (
+    <emailForm.Field name="email">
+      {field => (
+        <Comp
+          errors={getAuthErrorsFromFormErrorMap(field.state.meta.errorMap)}
+          name={field.name}
+          type="text"
+          value={field.state.value}
+          onChange={e => field.handleChange(e.target.value)}>
+          {children}
+        </Comp>
+      )}
+    </emailForm.Field>
+  )
 }

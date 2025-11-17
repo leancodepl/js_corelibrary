@@ -16,18 +16,18 @@ yarn add --dev @leancodepl/prettier-config
 
 ```javascript
 // prettier.config.js
-module.exports = require('@leancodepl/prettier-config');
+module.exports = require("@leancodepl/prettier-config")
 ```
 
 ### With Overrides
 
 ```javascript
 // prettier.config.js
-const baseConfig = require('@leancodepl/prettier-config');
+const baseConfig = require("@leancodepl/prettier-config")
 
 module.exports = {
   ...baseConfig,
   printWidth: 100,
   singleQuote: true,
-};
+}
 ```

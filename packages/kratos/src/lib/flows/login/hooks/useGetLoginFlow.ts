@@ -7,30 +7,30 @@ import { loginFlowKey } from "./queryKeys"
 import { useLoginFlowContext } from "./useLoginFlowContext"
 
 export function useGetLoginFlow() {
-    const { kratosClient } = useKratosClientContext()
-    const { loginFlowId } = useLoginFlowContext()
+  const { kratosClient } = useKratosClientContext()
+  const { loginFlowId } = useLoginFlowContext()
 
-    return useQuery({
-        queryKey: loginFlowKey(loginFlowId),
-        queryFn: async ({ signal }) => {
-            if (!loginFlowId) {
-                throw new Error("No login flow ID provided", {
-                    cause: GetFlowError.NoFlowId,
-                })
-            }
+  return useQuery({
+    queryKey: loginFlowKey(loginFlowId),
+    queryFn: async ({ signal }) => {
+      if (!loginFlowId) {
+        throw new Error("No login flow ID provided", {
+          cause: GetFlowError.NoFlowId,
+        })
+      }
 
-            try {
-                return await kratosClient.getLoginFlow({ id: loginFlowId }, async ({ init: { headers } }) => ({
-                    signal,
-                    headers: { ...headers, Accept: "application/json" },
-                }))
-            } catch (error) {
-                throw await handleFlowErrorResponse<LoginFlow>({
-                    error,
-                })
-            }
-        },
-        enabled: !!loginFlowId,
-        staleTime: Infinity,
-    })
+      try {
+        return await kratosClient.getLoginFlow({ id: loginFlowId }, async ({ init: { headers } }) => ({
+          signal,
+          headers: { ...headers, Accept: "application/json" },
+        }))
+      } catch (error) {
+        throw await handleFlowErrorResponse<LoginFlow>({
+          error,
+        })
+      }
+    },
+    enabled: !!loginFlowId,
+    staleTime: Infinity,
+  })
 }

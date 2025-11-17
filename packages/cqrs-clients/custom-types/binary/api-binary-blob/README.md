@@ -41,12 +41,12 @@ Converts ApiBinary to Blob with optional content type.
 import { fromBlob, toBlob } from "@leancodepl/api-binary-blob"
 
 const handleFileUpload = async (file: File) => {
-    const binary = await fromBlob(file)
+  const binary = await fromBlob(file)
 
-    await api.post("/upload", {
-        fileName: file.name,
-        content: binary,
-    })
+  await api.post("/upload", {
+    fileName: file.name,
+    content: binary,
+  })
 }
 ```
 
@@ -56,15 +56,15 @@ const handleFileUpload = async (file: File) => {
 import { toBlob } from "@leancodepl/api-binary-blob"
 
 const downloadFile = async (binary: ApiBinary, filename: string) => {
-    const blob = toBlob(binary, "application/octet-stream")
-    const url = URL.createObjectURL(blob)
+  const blob = toBlob(binary, "application/octet-stream")
+  const url = URL.createObjectURL(blob)
 
-    const link = document.createElement("a")
-    link.href = url
-    link.download = filename
-    link.click()
+  const link = document.createElement("a")
+  link.href = url
+  link.download = filename
+  link.click()
 
-    URL.revokeObjectURL(url)
+  URL.revokeObjectURL(url)
 }
 ```
 
@@ -74,13 +74,13 @@ const downloadFile = async (binary: ApiBinary, filename: string) => {
 import { fromBlob, toBlob } from "@leancodepl/api-binary-blob"
 
 const processImage = async (imageFile: File) => {
-    const binary = await fromBlob(imageFile)
+  const binary = await fromBlob(imageFile)
 
-    const processedBlob = toBlob(binary, "image/jpeg")
-    const preview = URL.createObjectURL(processedBlob)
+  const processedBlob = toBlob(binary, "image/jpeg")
+  const preview = URL.createObjectURL(processedBlob)
 
-    const img = document.createElement("img")
-    img.src = preview
-    document.body.appendChild(img)
+  const img = document.createElement("img")
+  img.src = preview
+  document.body.appendChild(img)
 }
 ```

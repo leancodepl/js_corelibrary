@@ -8,7 +8,7 @@ const { exclude: _, ...swcJestConfig } = JSON.parse(readFileSync(`${__dirname}/.
 // disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves.
 // If we do not disable this, SWC Core will read .swcrc and won't transform our test files due to "exclude"
 if (swcJestConfig.swcrc === undefined) {
-    swcJestConfig.swcrc = false
+  swcJestConfig.swcrc = false
 }
 
 // Uncomment if using global setup/teardown files being transformed via swc
@@ -17,12 +17,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 export default {
-    displayName: "@leancodepl/force-update",
-    preset: "../../jest.preset.js",
-    transform: {
-        "^.+\\.[tj]sx?$": ["@swc/jest", swcJestConfig],
-    },
-    moduleFileExtensions: ["ts", "tsx", "js", "html"],
-    testEnvironment: "jsdom",
-    coverageDirectory: "../../coverage/packages/force-update",
+  displayName: "@leancodepl/force-update",
+  preset: "../../jest.preset.js",
+  transform: {
+    "^.+\\.[tj]sx?$": ["@swc/jest", swcJestConfig],
+  },
+  moduleFileExtensions: ["ts", "tsx", "js", "html"],
+  testEnvironment: "jsdom",
+  coverageDirectory: "../../coverage/packages/force-update",
 }

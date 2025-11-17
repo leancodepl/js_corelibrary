@@ -14,5 +14,8 @@ export interface Message {
 }
 
 export function formatMessages(messages: Message[]) {
-  return messages.map(message => `  ${colorSeverity(message.severity)} ${message.rule}: ${bold(message.source)} → ${bold(message.target)}`)
+  return messages.map(
+    message =>
+      `  ${colorSeverity(message.severity)} ${message.rule}: ${bold(message.source)} → ${bold(message.target)}`,
+  )
 }

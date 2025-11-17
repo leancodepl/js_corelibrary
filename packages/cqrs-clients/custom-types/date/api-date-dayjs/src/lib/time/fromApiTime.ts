@@ -10,9 +10,9 @@ dayjs.extend(customParseFormat)
 export function fromApiTime(time: ApiTimeOnly): dayjs.Dayjs
 export function fromApiTime(time: ApiTimeOnly | undefined): dayjs.Dayjs | undefined
 export function fromApiTime(time: ApiTimeOnly | undefined): dayjs.Dayjs | undefined {
-    if (!time) {
-        return undefined
-    }
+  if (!time) {
+    return undefined
+  }
 
-    return dayjs(time as any, "HH:mm:ss.SSS")
+  return dayjs(time as any, "HH:mm:ss.SSS")
 }

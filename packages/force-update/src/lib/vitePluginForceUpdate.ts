@@ -1,7 +1,7 @@
 import type { Plugin } from "vite"
 
 export interface ForceUpdatePluginOptions {
-    envVarName?: string
+  envVarName?: string
 }
 
 /**
@@ -13,24 +13,24 @@ export interface ForceUpdatePluginOptions {
  * @returns A Vite plugin that creates a /version endpoint serving the current app version
  */
 export function vitePluginForceUpdate(options: ForceUpdatePluginOptions = {}): Plugin {
-    const { envVarName = "APP_VERSION" } = options
+  const { envVarName = "APP_VERSION" } = options
 
-    return {
-        name: "vite-plugin-force-update",
-        generateBundle() {
-            const version = process.env[envVarName]
+  return {
+    name: "vite-plugin-force-update",
+    generateBundle() {
+      const version = process.env[envVarName]
 
-            if (!version) {
-                console.warn(`Environment variable ${envVarName} is not set.`)
+      if (!version) {
+        console.warn(`Environment variable ${envVarName} is not set.`)
 
-                return
-            }
+        return
+      }
 
-            this.emitFile({
-                type: "asset",
-                fileName: "version",
-                source: version.trim(),
-            })
-        },
-    }
+      this.emitFile({
+        type: "asset",
+        fileName: "version",
+        source: version.trim(),
+      })
+    },
+  }
 }

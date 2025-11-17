@@ -1,8 +1,8 @@
-import { assertDefined } from "./assertDefined";
+import { assertDefined } from "./assertDefined"
 
 /**
  * Ensures that a value is defined, returning it if defined or throwing an error if undefined.
- * 
+ *
  * @template T - The type of the value being checked
  * @param value - The value to ensure is defined
  * @param message - Optional error message to use if the value is undefined
@@ -17,7 +17,7 @@ import { assertDefined } from "./assertDefined";
  * ```
  */
 export function ensureDefined<T>(value: T | undefined, message?: string): T {
-    assertDefined(value, message);
+  assertDefined(value, message)
 
-    return value;
+  return value
 }

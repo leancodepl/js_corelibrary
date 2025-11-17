@@ -3,7 +3,7 @@ import { assertNotNull } from "./assertNotNull"
 /**
  * Ensures that a value is not null, returning it if not null or throwing an error if null.
  * Unlike assertNotNull, this function returns the value for use in expressions.
- * 
+ *
  * @template T - The type of the value being checked
  * @param value - The value to ensure is not null
  * @param message - Optional error message to use if the value is null
@@ -18,7 +18,7 @@ import { assertNotNull } from "./assertNotNull"
  * ```
  */
 export function ensureNotNull<T>(value: T | null, message?: string): T {
-    assertNotNull(value, message)
+  assertNotNull(value, message)
 
-    return value
+  return value
 }

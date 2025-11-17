@@ -1,3 +1,3 @@
 export enum InputFields {
-    Email = "email",
+  Email = "email",
 }

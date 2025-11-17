@@ -1,6 +1,8 @@
 # @leancodepl/intl
 
-A command-line tool for managing FormatJS translations with POEditor integration. Extracts messages from TypeScript/React source files, uploads terms to POEditor, downloads translations, and compiles them for use in internationalized applications.
+A command-line tool for managing FormatJS translations with POEditor integration. Extracts messages from
+TypeScript/React source files, uploads terms to POEditor, downloads translations, and compiles them for use in
+internationalized applications.
 
 ## Installation
 
@@ -25,34 +27,37 @@ Configure POEditor credentials using environment variables:
 
 ### `local`
 
-Extracts FormatJS messages from source files. When POEditor credentials are provided, merges extracted messages with downloaded translations for default language.
-Downloaded translations are not overridden - only new terms added during development are added to translations file. 
-Use this command during development to fix build errors after adding new term in code.
+Extracts FormatJS messages from source files. When POEditor credentials are provided, merges extracted messages with
+downloaded translations for default language. Downloaded translations are not overridden - only new terms added during
+development are added to translations file. Use this command during development to fix build errors after adding new
+term in code.
 
 **Usage:**
+
 ```sh
 npx @leancodepl/intl local [options]
 ```
 
 **Options:**
+
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-d, --default-language <lang>` - Default language for translations (required when using POEditor integration)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var)
 
-
-
 ### `upload`
 
 Extracts FormatJS messages from source files and uploads both terms and default language translations to POEditor.
 
 **Usage:**
+
 ```sh
 npx @leancodepl/intl upload [options]
 ```
 
 **Options:**
+
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-d, --default-language <lang>` - Default language for translations (required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
@@ -63,11 +68,13 @@ npx @leancodepl/intl upload [options]
 Downloads translations from POEditor for specified languages and compiles them to JSON files.
 
 **Usage:**
+
 ```sh
 npx @leancodepl/intl download [options]
 ```
 
 **Options:**
+
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
@@ -75,14 +82,17 @@ npx @leancodepl/intl download [options]
 
 ### `sync`
 
-Combines upload and download operations. Uploads extracted terms and default language translations to POEditor, then downloads and compiles translations for specified languages.
+Combines upload and download operations. Uploads extracted terms and default language translations to POEditor, then
+downloads and compiles translations for specified languages.
 
 **Usage:**
+
 ```sh
 npx @leancodepl/intl sync [options]
 ```
 
 **Options:**
+
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-o, --output-dir <dir>` - Output directory for compiled translations (default: `"lang"`)
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
@@ -92,14 +102,17 @@ npx @leancodepl/intl sync [options]
 
 ### `diff`
 
-Compares locally extracted terms with POEditor terms to identify unused terms in the translation service. Helps maintain clean translation projects by finding orphaned entries.
+Compares locally extracted terms with POEditor terms to identify unused terms in the translation service. Helps maintain
+clean translation projects by finding orphaned entries.
 
 **Usage:**
+
 ```sh
 npx @leancodepl/intl diff [options]
 ```
 
 **Options:**
+
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
@@ -139,6 +152,7 @@ To simplify local development tests can be used with real POEditor integration.
 ### Running Tests
 
 #### Run tests with POEditor integration
+
 Set the following environment variables:
 
 - `POEDITOR_API_TOKEN`: Your POEditor API token
@@ -150,5 +164,6 @@ To run specific command run only test for that command. Example for `local` comm
 POEDITOR_API_TOKEN=your_token POEDITOR_PROJECT_ID=your_project_id npx nx test intl -- local.spec.ts
 ```
 
-Tests will use predefined test project for extracting example messages and will save outputs in `/__tests__/testProject/lang`.
-Be careful with running `sync` and `upload` commands. Terms extracted from example project will be added to your POEditor project!
+Tests will use predefined test project for extracting example messages and will save outputs in
+`/__tests__/testProject/lang`. Be careful with running `sync` and `upload` commands. Terms extracted from example
+project will be added to your POEditor project!

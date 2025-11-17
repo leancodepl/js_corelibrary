@@ -1,1 +1,1 @@
-export { mkgtag } from "./lib";
+export { mkgtag } from "./lib"

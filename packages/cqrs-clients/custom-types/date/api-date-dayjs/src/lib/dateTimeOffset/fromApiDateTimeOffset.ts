@@ -10,9 +10,9 @@ dayjs.extend(customParseFormat)
 export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset): dayjs.Dayjs
 export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset | undefined): dayjs.Dayjs | undefined
 export function fromApiDateTimeOffset(datetime: ApiDateTimeOffset | undefined): dayjs.Dayjs | undefined {
-    if (!datetime) {
-        return undefined
-    }
+  if (!datetime) {
+    return undefined
+  }
 
-    return dayjs(datetime as any, "YYYY-MM-DDTHH:mm:ss.SSSZ")
+  return dayjs(datetime as any, "YYYY-MM-DDTHH:mm:ss.SSSZ")
 }

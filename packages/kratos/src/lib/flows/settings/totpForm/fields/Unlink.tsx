@@ -4,28 +4,28 @@ import { CommonButtonProps, getCsrfToken } from "../../../../utils"
 import { useGetSettingsFlow, useUpdateSettingsFlow } from "../../hooks"
 
 type UnlinkProps = {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function Unlink({ children }: UnlinkProps) {
-    const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+  const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
+  const { data: settingsFlow } = useGetSettingsFlow()
 
-    const unlinkTotp = useCallback(async () => {
-        if (!settingsFlow) return
+  const unlinkTotp = useCallback(async () => {
+    if (!settingsFlow) return
 
-        await updateSettingsFlow({
-            method: "totp",
-            csrf_token: getCsrfToken(settingsFlow),
-            totp_unlink: true,
-        })
-    }, [settingsFlow, updateSettingsFlow])
+    await updateSettingsFlow({
+      method: "totp",
+      csrf_token: getCsrfToken(settingsFlow),
+      totp_unlink: true,
+    })
+  }, [settingsFlow, updateSettingsFlow])
 
-    const Comp: ComponentType<CommonButtonProps> = Slot.Root
+  const Comp: ComponentType<CommonButtonProps> = Slot.Root
 
-    return (
-        <Comp type="button" onClick={unlinkTotp}>
-            {children}
-        </Comp>
-    )
+  return (
+    <Comp type="button" onClick={unlinkTotp}>
+      {children}
+    </Comp>
+  )
 }

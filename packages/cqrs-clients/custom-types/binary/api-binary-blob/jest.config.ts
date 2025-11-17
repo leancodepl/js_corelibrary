@@ -1,14 +1,14 @@
 /* eslint-disable */
-import { readFileSync } from "fs";
+import { readFileSync } from "fs"
 
 // Reading the SWC compilation config and remove the "exclude"
 // for the test files to be compiled by SWC
-const { exclude: _, ...swcJestConfig } = JSON.parse(readFileSync(`${__dirname}/.swcrc`, "utf-8"));
+const { exclude: _, ...swcJestConfig } = JSON.parse(readFileSync(`${__dirname}/.swcrc`, "utf-8"))
 
 // disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves.
 // If we do not disable this, SWC Core will read .swcrc and won't transform our test files due to "exclude"
 if (swcJestConfig.swcrc === undefined) {
-    swcJestConfig.swcrc = false;
+  swcJestConfig.swcrc = false
 }
 
 // Uncomment if using global setup/teardown files being transformed via swc
@@ -17,12 +17,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 export default {
-    displayName: "@leancodepl/api-binary-blob",
-    preset: "../../../../../jest.preset.js",
-    transform: {
-        "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
-    },
-    moduleFileExtensions: ["ts", "js", "html"],
-    testEnvironment: "jsdom",
-    coverageDirectory: "../../../../../coverage/packages/cqrs-clients/custom-types/binary/api-binary-blob",
-};
+  displayName: "@leancodepl/api-binary-blob",
+  preset: "../../../../../jest.preset.js",
+  transform: {
+    "^.+\\.[tj]s$": ["@swc/jest", swcJestConfig],
+  },
+  moduleFileExtensions: ["ts", "js", "html"],
+  testEnvironment: "jsdom",
+  coverageDirectory: "../../../../../coverage/packages/cqrs-clients/custom-types/binary/api-binary-blob",
+}

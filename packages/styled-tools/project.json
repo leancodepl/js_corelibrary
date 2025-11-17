@@ -10,9 +10,7 @@
     },
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/styled-tools",
         "tsConfig": "packages/styled-tools/tsconfig.lib.json",
@@ -28,27 +26,20 @@
             "output": "."
           }
         ],
-        "format": [
-          "cjs",
-          "esm"
-        ],
+        "format": ["cjs", "esm"],
         "generateExportsField": true
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/styled-tools/jest.config.ts"
       }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/styled-tools {args.registry} {args.ver} {args.tag}",
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     }
   }
 }

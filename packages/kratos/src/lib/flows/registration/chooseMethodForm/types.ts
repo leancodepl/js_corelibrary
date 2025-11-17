@@ -1,4 +1,4 @@
 export enum InputFields {
-    Password = "password",
-    PasswordConfirmation = "password_confirmation",
+  Password = "password",
+  PasswordConfirmation = "password_confirmation",
 }

@@ -7,31 +7,31 @@ import { OnRecoveryFlowError } from "../types"
 import { InputFields } from "./types"
 
 type UseEmailFormProps = {
-    onError?: OnRecoveryFlowError
+  onError?: OnRecoveryFlowError
 }
 
 export function useEmailForm({ onError }: UseEmailFormProps) {
-    const { mutateAsync: updateRecoveryFlow } = useUpdateRecoveryFlow()
-    const { data: recoveryFlow } = useGetRecoveryFlow()
+  const { mutateAsync: updateRecoveryFlow } = useUpdateRecoveryFlow()
+  const { data: recoveryFlow } = useGetRecoveryFlow()
 
-    return useForm({
-        defaultValues: {
-            [InputFields.Email]: "",
-        },
-        onSubmit: async ({ value, formApi }) => {
-            if (!recoveryFlow) return
+  return useForm({
+    defaultValues: {
+      [InputFields.Email]: "",
+    },
+    onSubmit: async ({ value, formApi }) => {
+      if (!recoveryFlow) return
 
-            const response = await updateRecoveryFlow({
-                csrf_token: getCsrfToken(recoveryFlow),
-                method: "code",
-                email: value[InputFields.Email],
-            })
+      const response = await updateRecoveryFlow({
+        csrf_token: getCsrfToken(recoveryFlow),
+        method: "code",
+        email: value[InputFields.Email],
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

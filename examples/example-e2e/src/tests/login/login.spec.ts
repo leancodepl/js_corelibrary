@@ -5,178 +5,178 @@ import { IdentityPage } from "../../pageObjects/identity"
 import { LoginPage } from "../../pageObjects/login"
 import { SettingsPage } from "../../pageObjects/settings"
 import {
-    runKratosContainer,
-    runMailpitContainer,
-    stopKratosContainer,
-    stopMailpitContainer,
+  runKratosContainer,
+  runMailpitContainer,
+  stopKratosContainer,
+  stopMailpitContainer,
 } from "../../services/testcontainers"
 
 test.describe("login page", () => {
-    test.beforeAll(async () => {
-        await runMailpitContainer()
-        await runKratosContainer()
+  test.beforeAll(async () => {
+    await runMailpitContainer()
+    await runKratosContainer()
+  })
+
+  test.afterAll(async () => {
+    await stopMailpitContainer()
+    await stopKratosContainer()
+  })
+
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies()
+  })
+
+  test("user should be able to login with valid email and password", async ({ page }) => {
+    const userData = generateUserData()
+
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
     })
 
-    test.afterAll(async () => {
-        await stopMailpitContainer()
-        await stopKratosContainer()
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+
+    await expect(loginPage.wrapper).toBeVisible()
+    await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
+
+    await loginPage.fillPasswordForm(userData.email, userData.password)
+    await loginPage.clickLogin()
+    await expect(page).toHaveURL(/\/identity.*/)
+
+    const identityPage = new IdentityPage(page)
+    await expect(identityPage.wrapper).toBeVisible()
+
+    await identityPage.assertEmail(userData.email)
+  })
+
+  test("should show error after sending invalid password using valid email", async ({ page }) => {
+    const userData = generateUserData()
+
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
+      verified: true,
     })
 
-    test.beforeEach(async ({ context }) => {
-        await context.clearCookies()
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+
+    await expect(loginPage.wrapper).toBeVisible()
+    await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
+    await expect(loginPage.errors).toBeHidden()
+
+    await loginPage.fillPasswordForm(userData.email, "wrong-password")
+    await loginPage.clickLogin()
+
+    await expect(loginPage.errors).toBeVisible()
+  })
+
+  test("should show error after sending invalid email and password", async ({ page }) => {
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+
+    await expect(loginPage.wrapper).toBeVisible()
+    await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
+    await expect(loginPage.errors).toBeHidden()
+
+    await loginPage.fillPasswordForm("invalid-email", "any-password")
+    await loginPage.clickLogin()
+
+    await expect(loginPage.errors).toBeVisible()
+  })
+
+  test("should require email verification if active and user email not verified", async ({ page }) => {
+    const userData = generateUserData()
+
+    await runKratosContainer({
+      requireVerificationOnLogin: true,
     })
 
-    test("user should be able to login with valid email and password", async ({ page }) => {
-        const userData = generateUserData()
-
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-        })
-
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-
-        await expect(loginPage.wrapper).toBeVisible()
-        await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
-
-        await loginPage.fillPasswordForm(userData.email, userData.password)
-        await loginPage.clickLogin()
-        await expect(page).toHaveURL(/\/identity.*/)
-
-        const identityPage = new IdentityPage(page)
-        await expect(identityPage.wrapper).toBeVisible()
-
-        await identityPage.assertEmail(userData.email)
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
+      verified: false,
     })
 
-    test("should show error after sending invalid password using valid email", async ({ page }) => {
-        const userData = generateUserData()
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+    await loginPage.fillPasswordForm(userData.email, userData.password)
+    await loginPage.clickLogin()
 
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-            verified: true,
-        })
+    await expect(loginPage.emailVerificationFormWrapper).toBeVisible()
+  })
 
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
+  test("should not require email verification if unset and user email not verified", async ({ page }) => {
+    const userData = generateUserData()
 
-        await expect(loginPage.wrapper).toBeVisible()
-        await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
-        await expect(loginPage.errors).toBeHidden()
-
-        await loginPage.fillPasswordForm(userData.email, "wrong-password")
-        await loginPage.clickLogin()
-
-        await expect(loginPage.errors).toBeVisible()
+    await runKratosContainer({
+      requireVerificationOnLogin: false,
     })
 
-    test("should show error after sending invalid email and password", async ({ page }) => {
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-
-        await expect(loginPage.wrapper).toBeVisible()
-        await expect(loginPage.chooseMethodFormWrapper).toBeVisible()
-        await expect(loginPage.errors).toBeHidden()
-
-        await loginPage.fillPasswordForm("invalid-email", "any-password")
-        await loginPage.clickLogin()
-
-        await expect(loginPage.errors).toBeVisible()
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
+      verified: false,
     })
 
-    test("should require email verification if active and user email not verified", async ({ page }) => {
-        const userData = generateUserData()
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
 
-        await runKratosContainer({
-            requireVerificationOnLogin: true,
-        })
+    await loginPage.performCompleteLoginFlow(userData.email, userData.password)
 
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-            verified: false,
-        })
+    const identityPage = new IdentityPage(page)
+    await expect(identityPage.wrapper).toBeVisible()
+  })
 
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-        await loginPage.fillPasswordForm(userData.email, userData.password)
-        await loginPage.clickLogin()
+  test("should require 2FA if TOTP is linked", async ({ page }) => {
+    const userData = generateUserData()
 
-        await expect(loginPage.emailVerificationFormWrapper).toBeVisible()
+    await runKratosContainer({
+      verificationFlowEnabled: false,
     })
 
-    test("should not require email verification if unset and user email not verified", async ({ page }) => {
-        const userData = generateUserData()
-
-        await runKratosContainer({
-            requireVerificationOnLogin: false,
-        })
-
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-            verified: false,
-        })
-
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-
-        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
-
-        const identityPage = new IdentityPage(page)
-        await expect(identityPage.wrapper).toBeVisible()
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
     })
 
-    test("should require 2FA if TOTP is linked", async ({ page }) => {
-        const userData = generateUserData()
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+    await loginPage.performCompleteLoginFlow(userData.email, userData.password)
 
-        await runKratosContainer({
-            verificationFlowEnabled: false,
-        })
+    const settingsPage = new SettingsPage(page)
+    await settingsPage.visit()
 
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-        })
+    const totpSecretKey = await settingsPage.getTotpSecretKey()
+    const totpCode = authenticator.generate(totpSecretKey)
 
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+    await settingsPage.totpCodeInput.fill(totpCode)
+    await settingsPage.verifyTotpButton.click()
 
-        const settingsPage = new SettingsPage(page)
-        await settingsPage.visit()
+    const updateFlowResponse = await settingsPage.waitForSettingsFlowUpdateResponse()
+    expect(updateFlowResponse.status()).toBe(200)
 
-        const totpSecretKey = await settingsPage.getTotpSecretKey()
-        const totpCode = authenticator.generate(totpSecretKey)
+    await settingsPage.clickLogoutButton()
+    await expect(settingsPage.headerNotLoggedIn).toBeVisible()
 
-        await settingsPage.totpCodeInput.fill(totpCode)
-        await settingsPage.verifyTotpButton.click()
+    await loginPage.visit()
+    await loginPage.fillPasswordForm(userData.email, userData.password)
+    await loginPage.clickLogin()
 
-        const updateFlowResponse = await settingsPage.waitForSettingsFlowUpdateResponse()
-        expect(updateFlowResponse.status()).toBe(200)
+    await expect(loginPage.secondFactorFormWrapper).toBeVisible()
+    const totpLoginCode = authenticator.generate(totpSecretKey)
+    await loginPage.fillTotpInput(totpLoginCode)
+    await loginPage.clickLogin()
 
-        await settingsPage.clickLogoutButton()
-        await expect(settingsPage.headerNotLoggedIn).toBeVisible()
-
-        await loginPage.visit()
-        await loginPage.fillPasswordForm(userData.email, userData.password)
-        await loginPage.clickLogin()
-
-        await expect(loginPage.secondFactorFormWrapper).toBeVisible()
-        const totpLoginCode = authenticator.generate(totpSecretKey)
-        await loginPage.fillTotpInput(totpLoginCode)
-        await loginPage.clickLogin()
-
-        await expect(page).toHaveURL(/\/identity.*/)
-        const identityPage = new IdentityPage(page)
-        await expect(identityPage.wrapper).toBeVisible()
-        await identityPage.assertEmail(userData.email)
-    })
+    await expect(page).toHaveURL(/\/identity.*/)
+    const identityPage = new IdentityPage(page)
+    await expect(identityPage.wrapper).toBeVisible()
+    await identityPage.assertEmail(userData.email)
+  })
 })

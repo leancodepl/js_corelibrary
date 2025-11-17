@@ -1,3 +1,3 @@
 export function ActivityWizard() {
-    return <div>Activity Wizard</div>
+  return <div>Activity Wizard</div>
 }

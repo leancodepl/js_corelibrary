@@ -15,30 +15,30 @@ const baseURL = process.env["BASE_URL"] || "http://localhost:4300"
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    ...nxE2EPreset(__filename, { testDir: "./src" }),
-    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-    use: {
-        baseURL,
-        /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: "on-first-retry",
+  ...nxE2EPreset(__filename, { testDir: "./src" }),
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    baseURL,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: "on-first-retry",
+  },
+  /* Run your local dev server before starting the tests */
+  webServer: {
+    command: "npx nx run example:preview",
+    url: "http://localhost:4300",
+    reuseExistingServer: !process.env["CI"],
+    cwd: workspaceRoot,
+    env: {
+      VITE_AUTH_BASE: "http://localhost:34433",
+      VITE_MAILPIT_URL: "http://localhost:8025",
+      VITE_SHOW_DEV_TOOLS: "false",
     },
-    /* Run your local dev server before starting the tests */
-    webServer: {
-        command: "npx nx run example:preview",
-        url: "http://localhost:4300",
-        reuseExistingServer: !process.env["CI"],
-        cwd: workspaceRoot,
-        env: {
-            VITE_AUTH_BASE: "http://localhost:34433",
-            VITE_MAILPIT_URL: "http://localhost:8025",
-            VITE_SHOW_DEV_TOOLS: "false",
-        },
+  },
+  workers: 1,
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
-    workers: 1,
-    projects: [
-        {
-            name: "chromium",
-            use: { ...devices["Desktop Chrome"] },
-        },
-    ],
+  ],
 })

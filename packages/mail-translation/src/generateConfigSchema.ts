@@ -15,4 +15,4 @@ const output = {
 const packageRoot = join(__dirname, "..")
 const outputPath = join(packageRoot, "schema.json")
 
-writeFileSync(outputPath, JSON.stringify(output, null, 2) + '\n')
+writeFileSync(outputPath, JSON.stringify(output, null, 2) + "\n")

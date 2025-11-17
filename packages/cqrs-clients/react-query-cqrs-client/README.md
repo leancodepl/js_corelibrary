@@ -46,11 +46,11 @@ import { QueryClient } from "@tanstack/react-query"
 const queryClient = new QueryClient()
 
 const client = mkCqrsClient({
-    cqrsEndpoint: "https://api.example.com",
-    queryClient,
-    tokenProvider: {
-        getToken: () => Promise.resolve(localStorage.getItem("token")),
-    },
+  cqrsEndpoint: "https://api.example.com",
+  queryClient,
+  tokenProvider: {
+    getToken: () => Promise.resolve(localStorage.getItem("token")),
+  },
 })
 ```
 

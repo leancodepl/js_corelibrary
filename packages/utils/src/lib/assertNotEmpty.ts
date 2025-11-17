@@ -3,7 +3,7 @@ import invariant from "tiny-invariant"
 /**
  * Asserts that a value is not null or undefined. Throws an error if the value is null or undefined.
  * This is a type assertion function that narrows the type to exclude null and undefined.
- * 
+ *
  * @template T - The type of the value being checked
  * @param value - The value to check for null or undefined
  * @param message - Optional error message to use if assertion fails
@@ -17,5 +17,5 @@ import invariant from "tiny-invariant"
  * ```
  */
 export function assertNotEmpty<T>(value: T | null | undefined, message?: string): asserts value is T {
-    invariant(value !== null && value !== undefined, message)
+  invariant(value !== null && value !== undefined, message)
 }

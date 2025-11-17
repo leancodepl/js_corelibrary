@@ -3,56 +3,56 @@ import { generateUserData, registerUser } from "../../helpers/users"
 import { IdentityPage } from "../../pageObjects/identity"
 import { LoginPage } from "../../pageObjects/login"
 import {
-    runKratosContainer,
-    runMailpitContainer,
-    stopKratosContainer,
-    stopMailpitContainer,
+  runKratosContainer,
+  runMailpitContainer,
+  stopKratosContainer,
+  stopMailpitContainer,
 } from "../../services/testcontainers"
 
 test.describe("logging out", () => {
-    test.beforeAll(async () => {
-        await runMailpitContainer()
-        await runKratosContainer()
+  test.beforeAll(async () => {
+    await runMailpitContainer()
+    await runKratosContainer()
+  })
+
+  test.afterAll(async () => {
+    await stopMailpitContainer()
+    await stopKratosContainer()
+  })
+
+  test.beforeEach(async ({ context }) => {
+    await context.clearCookies()
+  })
+
+  test("should log out the user", async ({ page }) => {
+    const userData = generateUserData()
+
+    await runKratosContainer({
+      verificationFlowEnabled: false,
     })
 
-    test.afterAll(async () => {
-        await stopMailpitContainer()
-        await stopKratosContainer()
+    await registerUser({
+      email: userData.email,
+      password: userData.password,
+      firstName: userData.firstName,
     })
 
-    test.beforeEach(async ({ context }) => {
-        await context.clearCookies()
-    })
+    const loginPage = new LoginPage(page)
+    await loginPage.visit()
+    await loginPage.performCompleteLoginFlow(userData.email, userData.password)
 
-    test("should log out the user", async ({ page }) => {
-        const userData = generateUserData()
+    const identityPage = new IdentityPage(page)
+    await expect(identityPage.headerLoggedIn).toBeVisible()
+    await expect(identityPage.headerNotLoggedIn).toBeHidden()
 
-        await runKratosContainer({
-            verificationFlowEnabled: false,
-        })
+    await identityPage.clickLogoutButton()
 
-        await registerUser({
-            email: userData.email,
-            password: userData.password,
-            firstName: userData.firstName,
-        })
+    await expect(identityPage.headerNotLoggedIn).toBeVisible()
+    await expect(identityPage.headerLoggedIn).toBeHidden()
 
-        const loginPage = new LoginPage(page)
-        await loginPage.visit()
-        await loginPage.performCompleteLoginFlow(userData.email, userData.password)
+    await page.reload()
 
-        const identityPage = new IdentityPage(page)
-        await expect(identityPage.headerLoggedIn).toBeVisible()
-        await expect(identityPage.headerNotLoggedIn).toBeHidden()
-
-        await identityPage.clickLogoutButton()
-
-        await expect(identityPage.headerNotLoggedIn).toBeVisible()
-        await expect(identityPage.headerLoggedIn).toBeHidden()
-
-        await page.reload()
-
-        await expect(identityPage.headerNotLoggedIn).toBeVisible()
-        await expect(identityPage.headerLoggedIn).toBeHidden()
-    })
+    await expect(identityPage.headerNotLoggedIn).toBeVisible()
+    await expect(identityPage.headerLoggedIn).toBeHidden()
+  })
 })

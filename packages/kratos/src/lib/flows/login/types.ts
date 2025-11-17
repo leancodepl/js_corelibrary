@@ -5,6 +5,6 @@ import { InputFields as SecondFactorEmailFormInputFields } from "./secondFactorE
 import { InputFields as SecondFactorFormInputFields } from "./secondFactorForm/types"
 
 export type OnLoginFlowError = OnFlowError<
-    `${ChooseMethodFormInputFields}` | `${SecondFactorEmailFormInputFields}` | `${SecondFactorFormInputFields}`
+  `${ChooseMethodFormInputFields}` | `${SecondFactorEmailFormInputFields}` | `${SecondFactorFormInputFields}`
 > &
-    verificationFlow.OnVerificationFlowError
+  verificationFlow.OnVerificationFlowError

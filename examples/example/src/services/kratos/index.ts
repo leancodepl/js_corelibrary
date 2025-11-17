@@ -5,10 +5,10 @@ import { SessionManager } from "./session"
 import { traitsConfig } from "./traits"
 
 const { session, providers, flows } = mkKratos({
-    queryClient,
-    basePath: environment.authUrl,
-    traits: traitsConfig,
-    SessionManager,
+  queryClient,
+  basePath: environment.authUrl,
+  traits: traitsConfig,
+  SessionManager,
 })
 
 // session

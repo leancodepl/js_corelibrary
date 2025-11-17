@@ -23,10 +23,7 @@
     "outputMode": {
       "description": "Target templating system format: 'kratos' for Go template files compatible with Ory Kratos, 'razor' for C# Razor template files.",
       "type": "string",
-      "enum": [
-        "kratos",
-        "razor"
-      ]
+      "enum": ["kratos", "razor"]
     },
     "defaultLanguage": {
       "description": "Default language code for templates with translations. Required when translationsPath is provided.",
@@ -44,10 +41,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "mailsPath",
-    "outputPath",
-    "outputMode"
-  ],
+  "required": ["mailsPath", "outputPath", "outputMode"],
   "additionalProperties": false
 }

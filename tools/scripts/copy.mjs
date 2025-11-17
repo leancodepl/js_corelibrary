@@ -5,10 +5,10 @@
 import { cpSync } from "fs"
 
 function invariant(condition, message) {
-    if (!condition) {
-        console.error(message)
-        process.exit(1)
-    }
+  if (!condition) {
+    console.error(message)
+    process.exit(1)
+  }
 }
 
 const [, , srcDirectory, destDirectory] = process.argv
@@ -17,6 +17,6 @@ invariant(srcDirectory, "No source directory was provided")
 invariant(destDirectory, "No destination directory was provided")
 
 cpSync(srcDirectory, destDirectory, {
-    recursive: true,
-    filter: src => !src.includes("node_modules"),
+  recursive: true,
+  filter: src => !src.includes("node_modules"),
 })

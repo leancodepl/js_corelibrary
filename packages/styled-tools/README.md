@@ -24,20 +24,20 @@ Creates type-safe theme utilities for styled-components with full TypeScript sup
 
 ```typescript
 // theme.ts
-import { mkTheme } from '@leancodepl/styled-tools';
-import styled from 'styled-components';
+import { mkTheme } from "@leancodepl/styled-tools"
+import styled from "styled-components"
 
 interface AppTheme {
-  colors: { primary: string; secondary: string };
-  spacing: { small: string; large: string };
+  colors: { primary: string; secondary: string }
+  spacing: { small: string; large: string }
 }
 
-export const { theme, useTheme } = mkTheme<AppTheme>();
+export const { theme, useTheme } = mkTheme<AppTheme>()
 
 const Button = styled.button`
   color: ${theme.colors.primary};
   padding: ${theme.spacing.small};
-`;
+`
 ```
 
 ### React Hook Usage

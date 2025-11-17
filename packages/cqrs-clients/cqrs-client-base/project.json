@@ -7,9 +7,7 @@
   "targets": {
     "build": {
       "executor": "@nx/rollup:rollup",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/cqrs-clients/cqrs-client-base",
         "main": "packages/cqrs-clients/cqrs-client-base/src/index.ts",
@@ -23,24 +21,17 @@
         ],
         "project": "packages/cqrs-clients/cqrs-client-base/package.json",
         "compiler": "swc",
-        "format": [
-          "cjs",
-          "esm"
-        ],
+        "format": ["cjs", "esm"],
         "generateExportsField": true
       }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/cqrs-client-base {args.registry} {args.ver} {args.tag}",
-      "dependsOn": [
-        "build"
-      ]
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     }
   }
 }

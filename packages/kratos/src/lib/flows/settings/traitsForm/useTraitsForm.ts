@@ -5,46 +5,46 @@ import { useGetSettingsFlow, useUpdateSettingsFlow } from "../hooks"
 import { OnSettingsFlowError } from "../types"
 
 type UsePasswordFormProps<TTraitsConfig extends TraitsConfig> = {
-    traitsConfig: TTraitsConfig
-    onError?: OnSettingsFlowError<TTraitsConfig>
-    onChangeTraitsSuccess?: () => void
+  traitsConfig: TTraitsConfig
+  onError?: OnSettingsFlowError<TTraitsConfig>
+  onChangeTraitsSuccess?: () => void
 }
 
 export function useTraitsForm<TTraitsConfig extends TraitsConfig>({
-    traitsConfig,
-    onError,
-    onChangeTraitsSuccess,
+  traitsConfig,
+  onError,
+  onChangeTraitsSuccess,
 }: UsePasswordFormProps<TTraitsConfig>) {
-    const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
-    const { data: settingsFlow } = useGetSettingsFlow()
+  const { mutateAsync: updateSettingsFlow } = useUpdateSettingsFlow()
+  const { data: settingsFlow } = useGetSettingsFlow()
 
-    return useForm({
-        defaultValues: {
-            traits: (settingsFlow?.identity.traits ??
-                Object.fromEntries(
-                    Object.values(traitsConfig).map(({ trait, type }) => [trait, type === "boolean" ? false : ""]),
-                )) as Record<string, boolean | string>,
-        },
-        onSubmit: async ({ value, formApi }) => {
-            if (!settingsFlow) return
+  return useForm({
+    defaultValues: {
+      traits: (settingsFlow?.identity.traits ??
+        Object.fromEntries(
+          Object.values(traitsConfig).map(({ trait, type }) => [trait, type === "boolean" ? false : ""]),
+        )) as Record<string, boolean | string>,
+    },
+    onSubmit: async ({ value, formApi }) => {
+      if (!settingsFlow) return
 
-            const response = await updateSettingsFlow({
-                csrf_token: getCsrfToken(settingsFlow),
-                method: "profile",
-                traits: value.traits ?? {},
-            })
+      const response = await updateSettingsFlow({
+        csrf_token: getCsrfToken(settingsFlow),
+        method: "profile",
+        traits: value.traits ?? {},
+      })
 
-            if (!response) {
-                return
-            }
+      if (!response) {
+        return
+      }
 
-            if (response.state === SettingsFlowState.Success) {
-                onChangeTraitsSuccess?.()
+      if (response.state === SettingsFlowState.Success) {
+        onChangeTraitsSuccess?.()
 
-                return
-            }
+        return
+      }
 
-            handleOnSubmitErrors(response, formApi, onError)
-        },
-    })
+      handleOnSubmitErrors(response, formApi, onError)
+    },
+  })
 }

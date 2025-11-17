@@ -47,11 +47,11 @@ Creates CQRS client with automatic response key uncapitalization using "@leancod
 import { mkCqrsClient } from "@leancodepl/axios-cqrs-client"
 
 const client = mkCqrsClient({
-    cqrsEndpoint: "https://api.example.com",
-    tokenProvider: {
-        getToken: () => Promise.resolve(localStorage.getItem("token")),
-        invalidateToken: () => Promise.resolve(true),
-    },
+  cqrsEndpoint: "https://api.example.com",
+  tokenProvider: {
+    getToken: () => Promise.resolve(localStorage.getItem("token")),
+    invalidateToken: () => Promise.resolve(true),
+  },
 })
 ```
 
@@ -59,13 +59,13 @@ const client = mkCqrsClient({
 
 ```typescript
 interface GetUserQuery {
-    userId: string
+  userId: string
 }
 
 interface UserResult {
-    id: string
-    name: string
-    email: string
+  id: string
+  name: string
+  email: string
 }
 
 const getUser = client.createQuery<GetUserQuery, UserResult>("GetUser")
@@ -73,7 +73,7 @@ const getUser = client.createQuery<GetUserQuery, UserResult>("GetUser")
 const response = await getUser({ userId: "123" })
 
 if (response.isSuccess) {
-    console.log("User:", response.result)
+  console.log("User:", response.result)
 }
 ```
 
@@ -81,8 +81,8 @@ if (response.isSuccess) {
 
 ```typescript
 interface CreateUserCommand {
-    name: string
-    email: string
+  name: string
+  email: string
 }
 
 const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const
@@ -91,10 +91,10 @@ const createUser = client.createCommand<CreateUserCommand, typeof errorCodes>("C
 const response = await createUser({ name: "John", email: "john@example.com" })
 
 createUser
-    .handle({ name: "John", email: "john@example.com" })
-    .handle("success", () => console.log("User created"))
-    .handle("EmailExists", () => console.log("Email already exists"))
-    .check()
+  .handle({ name: "John", email: "john@example.com" })
+  .handle("success", () => console.log("User created"))
+  .handle("EmailExists", () => console.log("Email already exists"))
+  .check()
 ```
 
 ### Uncapitalized Client
@@ -103,7 +103,7 @@ createUser
 import { mkUncapitalizedCqrsClient } from "@leancodepl/axios-cqrs-client"
 
 const client = mkUncapitalizedCqrsClient({
-    cqrsEndpoint: "https://api.example.com",
+  cqrsEndpoint: "https://api.example.com",
 })
 
 // Automatically transforms { UserId: '123' } to { userId: '123' }

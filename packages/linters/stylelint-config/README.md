@@ -17,8 +17,8 @@ yarn add --dev @leancodepl/stylelint-config
 ```javascript
 // stylelint.config.js
 module.exports = {
-  extends: '@leancodepl/stylelint-config',
-};
+  extends: "@leancodepl/stylelint-config",
+}
 ```
 
 ### With Overrides
@@ -26,10 +26,10 @@ module.exports = {
 ```javascript
 // stylelint.config.js
 module.exports = {
-  extends: '@leancodepl/stylelint-config',
+  extends: "@leancodepl/stylelint-config",
   rules: {
-    'length-zero-no-unit': null,
-    'color-hex-case': 'upper',
+    "length-zero-no-unit": null,
+    "color-hex-case": "upper",
   },
-};
+}
 ```

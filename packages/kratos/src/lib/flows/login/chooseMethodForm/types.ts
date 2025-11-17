@@ -1,4 +1,4 @@
 export enum InputFields {
-    Identifier = "identifier",
-    Password = "password",
+  Identifier = "identifier",
+  Password = "password",
 }

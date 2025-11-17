@@ -3,111 +3,109 @@ import { useFlowManager } from "../../hooks"
 import { isSessionAlreadyAvailable } from "../../kratos"
 import { TraitsConfig } from "../../utils"
 import {
-    EmailVerificationFormProps,
-    useVerificationFlowContext,
-    VerificationFlowProvider,
-    VerificationFlowWrapper,
+  EmailVerificationFormProps,
+  useVerificationFlowContext,
+  VerificationFlowProvider,
+  VerificationFlowWrapper,
 } from "../verification"
 import { ChooseMethodFormProps, ChooseMethodFormWrapper } from "./chooseMethodForm"
 import {
-    RegistrationFlowProvider,
-    useCreateRegistrationFlow,
-    useGetRegistrationFlow,
-    useRegistrationFlowContext,
+  RegistrationFlowProvider,
+  useCreateRegistrationFlow,
+  useGetRegistrationFlow,
+  useRegistrationFlowContext,
 } from "./hooks"
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnRegistrationFlowError } from "./types"
 
 export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
-    traitsConfig: TTraitsConfig
-    traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
-    chooseMethodForm: ComponentType<ChooseMethodFormProps>
-    emailVerificationForm: ComponentType<EmailVerificationFormProps>
-    initialFlowId?: string
-    returnTo?: string
-    onError?: OnRegistrationFlowError<TTraitsConfig>
-    onRegistrationSuccess?: () => void
-    onVerificationSuccess?: () => void
-    onFlowRestart?: () => void
-    onSessionAlreadyAvailable?: () => void
+  traitsConfig: TTraitsConfig
+  traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
+  chooseMethodForm: ComponentType<ChooseMethodFormProps>
+  emailVerificationForm: ComponentType<EmailVerificationFormProps>
+  initialFlowId?: string
+  returnTo?: string
+  onError?: OnRegistrationFlowError<TTraitsConfig>
+  onRegistrationSuccess?: () => void
+  onVerificationSuccess?: () => void
+  onFlowRestart?: () => void
+  onSessionAlreadyAvailable?: () => void
 }
 
 function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
-    traitsConfig,
-    traitsForm: TraitsForm,
-    chooseMethodForm: ChooseMethodForm,
-    emailVerificationForm: EmailVerificationForm,
-    initialFlowId,
-    returnTo,
-    onError,
-    onRegistrationSuccess,
-    onVerificationSuccess,
-    onFlowRestart,
-    onSessionAlreadyAvailable,
+  traitsConfig,
+  traitsForm: TraitsForm,
+  chooseMethodForm: ChooseMethodForm,
+  emailVerificationForm: EmailVerificationForm,
+  initialFlowId,
+  returnTo,
+  onError,
+  onRegistrationSuccess,
+  onVerificationSuccess,
+  onFlowRestart,
+  onSessionAlreadyAvailable,
 }: RegistrationFlowProps<TTraitsConfig>) {
-    const { verificationFlowId } = useVerificationFlowContext()
-    const { registrationFlowId, setRegistrationFlowId, traitsFormCompleted } = useRegistrationFlowContext()
+  const { verificationFlowId } = useVerificationFlowContext()
+  const { registrationFlowId, setRegistrationFlowId, traitsFormCompleted } = useRegistrationFlowContext()
 
-    const { error: getRegistrationFlowError } = useGetRegistrationFlow()
-    const { mutate: createRegistrationFlow, error: createRegistrationFlowError } = useCreateRegistrationFlow({
-        returnTo,
-    })
+  const { error: getRegistrationFlowError } = useGetRegistrationFlow()
+  const { mutate: createRegistrationFlow, error: createRegistrationFlowError } = useCreateRegistrationFlow({
+    returnTo,
+  })
 
-    useFlowManager({
-        initialFlowId,
-        currentFlowId: registrationFlowId,
-        error: getRegistrationFlowError ?? undefined,
-        onFlowRestart,
-        createFlow: createRegistrationFlow,
-        setFlowId: setRegistrationFlowId,
-    })
+  useFlowManager({
+    initialFlowId,
+    currentFlowId: registrationFlowId,
+    error: getRegistrationFlowError ?? undefined,
+    onFlowRestart,
+    createFlow: createRegistrationFlow,
+    setFlowId: setRegistrationFlowId,
+  })
 
-    const isSessionAvailable = useMemo(
-        () =>
-            isSessionAlreadyAvailable(getRegistrationFlowError) ||
-            isSessionAlreadyAvailable(createRegistrationFlowError),
-        [getRegistrationFlowError, createRegistrationFlowError],
-    )
+  const isSessionAvailable = useMemo(
+    () => isSessionAlreadyAvailable(getRegistrationFlowError) || isSessionAlreadyAvailable(createRegistrationFlowError),
+    [getRegistrationFlowError, createRegistrationFlowError],
+  )
 
-    useEffect(() => {
-        if (isSessionAvailable) {
-            onSessionAlreadyAvailable?.()
-        }
-    }, [isSessionAvailable, onSessionAlreadyAvailable])
+  useEffect(() => {
+    if (isSessionAvailable) {
+      onSessionAlreadyAvailable?.()
+    }
+  }, [isSessionAvailable, onSessionAlreadyAvailable])
 
-    const step = useMemo(() => {
-        if (isSessionAvailable) return "invalid"
-        if (verificationFlowId) return "emailVerification"
-        if (traitsFormCompleted) return "credentials"
-        return "traits"
-    }, [traitsFormCompleted, verificationFlowId, isSessionAvailable])
+  const step = useMemo(() => {
+    if (isSessionAvailable) return "invalid"
+    if (verificationFlowId) return "emailVerification"
+    if (traitsFormCompleted) return "credentials"
+    return "traits"
+  }, [traitsFormCompleted, verificationFlowId, isSessionAvailable])
 
-    return (
-        <>
-            {step === "traits" && (
-                <TraitsFormWrapper
-                    traitsConfig={traitsConfig}
-                    traitsForm={TraitsForm}
-                    onError={onError}
-                    onRegistrationSuccess={onRegistrationSuccess}
-                />
-            )}
-            {step === "credentials" && (
-                <ChooseMethodFormWrapper
-                    chooseMethodForm={ChooseMethodForm}
-                    onError={onError}
-                    onRegistrationSuccess={onRegistrationSuccess}
-                />
-            )}
-            {step === "emailVerification" && (
-                <VerificationFlowWrapper
-                    emailVerificationForm={EmailVerificationForm}
-                    onError={onError}
-                    onVerificationSuccess={onVerificationSuccess}
-                />
-            )}
-        </>
-    )
+  return (
+    <>
+      {step === "traits" && (
+        <TraitsFormWrapper
+          traitsConfig={traitsConfig}
+          traitsForm={TraitsForm}
+          onError={onError}
+          onRegistrationSuccess={onRegistrationSuccess}
+        />
+      )}
+      {step === "credentials" && (
+        <ChooseMethodFormWrapper
+          chooseMethodForm={ChooseMethodForm}
+          onError={onError}
+          onRegistrationSuccess={onRegistrationSuccess}
+        />
+      )}
+      {step === "emailVerification" && (
+        <VerificationFlowWrapper
+          emailVerificationForm={EmailVerificationForm}
+          onError={onError}
+          onVerificationSuccess={onVerificationSuccess}
+        />
+      )}
+    </>
+  )
 }
 
 /**
@@ -152,11 +150,11 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
  * ```
  */
 export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
-    return (
-        <VerificationFlowProvider>
-            <RegistrationFlowProvider>
-                <RegistrationFlowWrapper {...props} />
-            </RegistrationFlowProvider>
-        </VerificationFlowProvider>
-    )
+  return (
+    <VerificationFlowProvider>
+      <RegistrationFlowProvider>
+        <RegistrationFlowWrapper {...props} />
+      </RegistrationFlowProvider>
+    </VerificationFlowProvider>
+  )
 }

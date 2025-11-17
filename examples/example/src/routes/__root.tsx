@@ -8,18 +8,18 @@ import { KratosProviders } from "../services/kratos"
 import { queryClient } from "../services/query"
 
 export const Route = createRootRoute({
-    component: () => (
-        <>
-            <QueryClientProvider client={queryClient}>
-                {environment.showDevTools && <ReactQueryDevtools initialIsOpen={false} />}
-                <KratosProviders>
-                    <>
-                        <UserInfoHeader />
-                        <Outlet />
-                    </>
-                </KratosProviders>
-            </QueryClientProvider>
-            {environment.showDevTools && <TanStackRouterDevtools />}
-        </>
-    ),
+  component: () => (
+    <>
+      <QueryClientProvider client={queryClient}>
+        {environment.showDevTools && <ReactQueryDevtools initialIsOpen={false} />}
+        <KratosProviders>
+          <>
+            <UserInfoHeader />
+            <Outlet />
+          </>
+        </KratosProviders>
+      </QueryClientProvider>
+      {environment.showDevTools && <TanStackRouterDevtools />}
+    </>
+  ),
 })

@@ -4,32 +4,32 @@ import { getCsrfToken, getNodeById, inputNodeAttributes } from "../../../../util
 import { useGetLoginFlow, useUpdateLoginFlow } from "../../hooks"
 
 type EmailProps = {
-    children: ReactNode
+  children: ReactNode
 }
 
 export function Email({ children }: EmailProps) {
-    const { mutate: updateLoginFlow } = useUpdateLoginFlow()
-    const { data: loginFlow } = useGetLoginFlow()
+  const { mutate: updateLoginFlow } = useUpdateLoginFlow()
+  const { data: loginFlow } = useGetLoginFlow()
 
-    const continueWithEmail = useCallback(() => {
-        if (!loginFlow) return
+  const continueWithEmail = useCallback(() => {
+    if (!loginFlow) return
 
-        const email = inputNodeAttributes(getNodeById(loginFlow.ui.nodes, "address"))?.value
+    const email = inputNodeAttributes(getNodeById(loginFlow.ui.nodes, "address"))?.value
 
-        if (!email) return
+    if (!email) return
 
-        updateLoginFlow({
-            method: "code",
-            csrf_token: getCsrfToken(loginFlow),
-            address: email,
-        })
-    }, [loginFlow, updateLoginFlow])
+    updateLoginFlow({
+      method: "code",
+      csrf_token: getCsrfToken(loginFlow),
+      address: email,
+    })
+  }, [loginFlow, updateLoginFlow])
 
-    const Comp = Slot.Root as React.ComponentType<any>
+  const Comp = Slot.Root as React.ComponentType<any>
 
-    return (
-        <Comp type="button" onClick={continueWithEmail}>
-            {children}
-        </Comp>
-    )
+  return (
+    <Comp type="button" onClick={continueWithEmail}>
+      {children}
+    </Comp>
+  )
 }

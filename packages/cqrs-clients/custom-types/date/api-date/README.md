@@ -37,19 +37,13 @@ Type representing date and time with offset values for API communication.
 ### Type Definitions
 
 ```typescript
-import { 
-  ApiDateOnly, 
-  ApiDateTime, 
-  ApiTimeSpan, 
-  ApiTimeOnly, 
-  ApiDateTimeOffset 
-} from '@leancodepl/api-date';
+import { ApiDateOnly, ApiDateTime, ApiTimeSpan, ApiTimeOnly, ApiDateTimeOffset } from "@leancodepl/api-date"
 
 interface UserProfile {
-  birthDate: ApiDateOnly;
-  createdAt: ApiDateTime;
-  sessionDuration: ApiTimeSpan;
-  preferredTime: ApiTimeOnly;
-  lastLogin: ApiDateTimeOffset;
+  birthDate: ApiDateOnly
+  createdAt: ApiDateTime
+  sessionDuration: ApiTimeSpan
+  preferredTime: ApiTimeOnly
+  lastLogin: ApiDateTimeOffset
 }
 ```
