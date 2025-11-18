@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
+
+### Bug Fixes
+
+- enable tsx in utils
+  ([988318b](https://github.com/leancodepl/js_corelibrary/commit/988318b3d5b94bfe44afd02a96e8a06b2adb926a))
+
+### Features
+
+- add value context util
+  ([17792b5](https://github.com/leancodepl/js_corelibrary/commit/17792b5cf97f3ddbf083729f444d70a053791f62))
+- pass variables to command handler in react-query client
+  ([55e540b](https://github.com/leancodepl/js_corelibrary/commit/55e540bd599fc7a2912188305e03ad3ce126ed1a))
+- remove AttemptedValue from validation
+  ([9dbb435](https://github.com/leancodepl/js_corelibrary/commit/9dbb43576766e5953141d98bef15b658f7e67096))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.5](https://github.com/leancodepl/js_corelibrary/compare/v9.6.4...v9.6.5) (2025-10-16)
 
 **Note:** Version bump only for package core-js-library
