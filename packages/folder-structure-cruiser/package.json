@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/folder-structure-cruiser",
-  "version": "9.6.5",
+  "version": "9.6.6",
   "license": "Apache-2.0",
   "type": "module",
   "bin": {
