@@ -36,7 +36,6 @@ export function handleResponse<TErrors extends Record<string, number>>(
     ? response.result.WasSuccessful
       ? [
           {
-            AttemptedValue: "",
             ErrorMessage: "",
             PropertyName: "",
             ErrorCode: -1,
@@ -45,7 +44,6 @@ export function handleResponse<TErrors extends Record<string, number>>(
       : response.result.ValidationErrors
     : ([
         {
-          AttemptedValue: "",
           ErrorMessage: "",
           PropertyName: "",
           ErrorCode: -2,

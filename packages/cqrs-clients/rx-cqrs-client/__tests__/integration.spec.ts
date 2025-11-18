@@ -12,7 +12,6 @@ function createCommandResponse<TErrorCodes extends Record<string, number>>(
   return {
     ValidationErrors: errorCodes.map(errorCode => ({
       ErrorCode: allErrorCodes[errorCode],
-      AttemptedValue: "AtttemptedValue",
       ErrorMessage: "ErrorMessage",
       PropertyName: "PropertyName",
     })),

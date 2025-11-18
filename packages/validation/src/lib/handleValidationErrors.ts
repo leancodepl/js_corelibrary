@@ -61,7 +61,7 @@ export interface ValidationErrorsHandler<TRemainingErrors extends Record<string,
  * @example
  * ```typescript
  * const errorCodes = { EmailExists: 1, InvalidEmail: 2 } as const;
- * const errors = [{ ErrorCode: 1, ErrorMessage: 'Email exists', PropertyName: 'Email', AttemptedValue: 'test@example.com' }];
+ * const errors = [{ ErrorCode: 1, ErrorMessage: 'Email exists', PropertyName: 'Email' }];
  *
  * handleValidationErrors(errors, errorCodes)
  *   .handle('EmailExists', () => console.warn('Email already registered'))

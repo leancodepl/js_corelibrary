@@ -17,7 +17,6 @@ function mkValidationErrorHandler<TErrorCode extends (typeof errorCodesMap)[keyo
       result: {
         ValidationErrors: errorCodes.map(errorCode => ({
           ErrorCode: errorCode,
-          AttemptedValue: "AtttemptedValue",
           ErrorMessage: "ErrorMessage",
           PropertyName: "PropertyName",
         })),

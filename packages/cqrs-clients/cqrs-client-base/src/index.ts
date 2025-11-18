@@ -6,7 +6,6 @@ export type TokenProvider = {
 export type ValidationError<TErrorCodes extends Record<string, number>> = {
   readonly PropertyName: string
   readonly ErrorMessage: string
-  readonly AttemptedValue: unknown
   readonly ErrorCode: TErrorCodes[keyof TErrorCodes]
 }
 

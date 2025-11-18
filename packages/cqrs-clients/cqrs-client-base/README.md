@@ -29,7 +29,6 @@ Represents validation errors from commands.
 
 - `PropertyName: string` - Property that failed validation
 - `ErrorMessage: string` - Human-readable error message
-- `AttemptedValue: unknown` - Value that was attempted
 - `ErrorCode: TErrorCodes[keyof TErrorCodes]` - Error code from provided map
 
 ### `CommandResult<TErrorCodes>`

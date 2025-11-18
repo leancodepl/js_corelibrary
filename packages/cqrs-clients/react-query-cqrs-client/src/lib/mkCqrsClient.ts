@@ -26,7 +26,7 @@ import {
   SuccessfulCommandResult,
   TokenProvider,
 } from "@leancodepl/cqrs-client-base"
-import { handleResponse, ValidationErrorsHandler } from "@leancodepl/validation"
+import { handleResponse, SuccessOrFailureMarker, ValidationErrorsHandler } from "@leancodepl/validation"
 import { authGuard } from "./authGuard"
 import { NullableUncapitalizeDeep } from "./types"
 import { uncapitalizedJSONParse } from "./uncapitalizedJSONParse"
@@ -307,6 +307,10 @@ export function mkCqrsClient({
     createCommand<TCommand, TErrorCodes extends { [name: string]: number }>(type: string, errorCodes: TErrorCodes) {
       const fetcher = mkFetcher<TCommand, SuccessfulCommandResult>(`command/${type}`)
       type TCommandKey = Readonly<[string]>
+      type Handler<TResult> = (
+        handler: ValidationErrorsHandler<SuccessOrFailureMarker & TErrorCodes, never>,
+        variables: TCommand,
+      ) => TResult
 
       function useApiCommand<TOnMutateResult extends Record<string, unknown> = {}>(
         options?: Omit<
@@ -334,7 +338,7 @@ export function mkCqrsClient({
           "mutationFn" | "mutationKey"
         > & {
           invalidateQueries?: QueryKey[]
-          handler: (handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>) => TResult
+          handler: Handler<TResult>
           optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
         },
       ): UseMutationResult<TResult, TResult, TCommand, TOnMutateResult>
@@ -356,7 +360,7 @@ export function mkCqrsClient({
         "mutationFn" | "mutationKey"
       > & {
         invalidateQueries?: QueryKey[]
-        handler?: (handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>) => TResult
+        handler?: Handler<TResult>
         optimisticUpdate?: (variables: TCommand) => Promise<() => void>[]
       } = {}) {
         return useMutation<
@@ -404,10 +408,7 @@ export function mkCqrsClient({
 
       useApiCommand.fetcher = fetcher
 
-      useApiCommand.call = <TResult>(
-        variables: TCommand,
-        handler?: (handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>) => TResult,
-      ) => {
+      useApiCommand.call = <TResult>(variables: TCommand, handler?: Handler<TResult>) => {
         const $response = useApiCommand.fetcher(variables)
 
         return $response.pipe(
@@ -420,7 +421,7 @@ export function mkCqrsClient({
           ),
           catchError(e => of(useApiCommand.mapError(e))),
           map(response => {
-            const result = handler ? useApiCommand.handleResponse(handler)(response) : response
+            const result = handler ? useApiCommand.handleResponse(handler, variables)(response) : response
 
             if (!response.isSuccess || !response.result.WasSuccessful) {
               throw result
@@ -446,11 +447,9 @@ export function mkCqrsClient({
       }
 
       useApiCommand.handleResponse =
-        <TResult>(
-          handler: (handler: ValidationErrorsHandler<TErrorCodes & { success: -1; failure: -2 }, never>) => TResult,
-        ) =>
+        <TResult>(handler: Handler<TResult>, variables: TCommand) =>
         (response: ApiResponse<CommandResult<TErrorCodes>>) =>
-          handler(handleResponse(response, errorCodes))
+          handler(handleResponse(response, errorCodes), variables)
 
       return useApiCommand
     },
