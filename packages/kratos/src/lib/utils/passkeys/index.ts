@@ -5,7 +5,7 @@ import {
   trySafeStringifyExistingCredential,
   trySafeStringifyNewCredential,
 } from "./credential"
-import { base64urlDecode, base64urlEncode } from "./helpers"
+import { base64urlDecode } from "./helpers"
 import { PasskeyChallengeOptions, PasskeyCreateData, PasskeySettingsCreateData } from "./types"
 
 function isPasskeySupported() {
@@ -31,21 +31,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
       },
     })
 
-    if (!credential) return undefined
-    if (!(credential instanceof PublicKeyCredential)) return undefined
-    if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
-
-    return JSON.stringify({
-      id: credential.id,
-      rawId: base64urlEncode(credential.rawId),
-      type: credential.type,
-      response: {
-        authenticatorData: base64urlEncode(credential.response.authenticatorData),
-        clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-        signature: base64urlEncode(credential.response.signature),
-        userHandle: credential.response.userHandle ? base64urlEncode(credential.response.userHandle) : undefined,
-      },
-    })
+    return trySafeStringifyExistingCredential(credential)
   } catch {
     return undefined
   }
