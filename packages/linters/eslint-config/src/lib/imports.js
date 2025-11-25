@@ -1,8 +1,12 @@
-import * as importsPlugin from "eslint-plugin-import"
-import unusedImports from "eslint-plugin-unused-imports"
-import type { TSESLint } from "@typescript-eslint/utils"
+const importsPlugin = require("eslint-plugin-import")
+const unusedImports = require("eslint-plugin-unused-imports")
 
-export const imports: TSESLint.FlatConfig.Config[] = [
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
+ */
+
+/** @type {Config[]} */
+const imports = [
   {
     plugins: {
       "unused-imports": unusedImports,
@@ -74,3 +78,5 @@ export const imports: TSESLint.FlatConfig.Config[] = [
     },
   },
 ]
+
+module.exports = { imports }

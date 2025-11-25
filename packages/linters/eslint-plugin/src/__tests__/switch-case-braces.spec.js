@@ -1,21 +1,31 @@
-import { RuleTester } from "@typescript-eslint/rule-tester"
-import { switchCaseBracesRules } from "../rules/switch-case-braces"
+const { RuleTester } = require("@typescript-eslint/rule-tester")
+const { switchCaseBracesRules } = require("../rules/switch-case-braces.js")
 
+/** @type {import('@typescript-eslint/rule-tester').RuleTester} */
 const ruleTester = new RuleTester({})
 
+/**
+ * @typedef {Object} TestCase
+ * @property {string} valid - Valid code example
+ * @property {string} invalid - Invalid code example
+ * @property {string} output - Expected output after fix
+ */
+
+/** @type {TestCase} */
 const unexpectedBracesWithNoLexical = {
   valid: `switch (test) { case "test": console.log("test"); break; }`,
   invalid: `switch (test) { case "test": { console.log("test"); break; } }`,
   output: `switch (test) { case "test":  console.log("test"); break;  }`,
 }
 
+/** @type {TestCase} */
 const unexpectedLexical = {
   valid: `switch (test) { case "test": { const test = "test"; console.log("test"); break; } }`,
   invalid: `switch (test) { case "test": const test = "test"; console.log("test"); break; }`,
   output: `switch (test) { case "test": { const test = "test"; console.log("test"); break; } }`,
 }
 
-ruleTester.run("switch-case-braces", switchCaseBracesRules as any, {
+ruleTester.run("switch-case-braces", switchCaseBracesRules, {
   valid: [
     {
       code: unexpectedBracesWithNoLexical.valid,

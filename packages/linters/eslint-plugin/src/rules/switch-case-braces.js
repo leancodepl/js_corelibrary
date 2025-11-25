@@ -1,10 +1,12 @@
 // built on top of: https://github.com/eslint/eslint/blob/main/lib/rules/no-case-declarations.js
-import type { TSESLint, TSESTree } from "@typescript-eslint/utils"
 
-type MessageIds = keyof typeof messages
-type RuleContext = TSESLint.RuleContext<MessageIds, unknown[]>
-type Meta = TSESLint.RuleMetaData<MessageIds>
-type Rule = TSESLint.RuleModule<MessageIds>
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.RuleModule<MessageIds, []>} Rule
+ * @typedef {import('@typescript-eslint/utils').TSESLint.RuleContext<MessageIds, []>} RuleContext
+ * @typedef {import('@typescript-eslint/utils').TSESTree.Node} Node
+ * @typedef {import('@typescript-eslint/utils').TSESTree.SwitchCase} SwitchCase
+ * @typedef {'unexpectedLexical' | 'addBraces' | 'unexpectedBracesWithNoLexical' | 'removeBraces'} MessageIds
+ */
 
 const messages = {
   unexpectedLexical: "Unexpected lexical declaration in case block.",
@@ -13,7 +15,8 @@ const messages = {
   removeBraces: "Remove {} braces around the case block.",
 }
 
-const meta: Meta = {
+/** @type {import('@typescript-eslint/utils').TSESLint.RuleMetaData<MessageIds>} */
+const meta = {
   type: "suggestion",
   docs: {
     description: "Disallow lexical declarations in case clauses",
@@ -23,8 +26,16 @@ const meta: Meta = {
   schema: [],
 }
 
-const create = (context: RuleContext) => {
-  function isLexicalDeclaration(node: TSESTree.Node): boolean {
+/**
+ * @param {RuleContext} context
+ * @returns {import('@typescript-eslint/utils').TSESLint.RuleListener}
+ */
+const create = context => {
+  /**
+   * @param {Node} node
+   * @returns {boolean}
+   */
+  function isLexicalDeclaration(node) {
     switch (node.type) {
       case "FunctionDeclaration":
       case "ClassDeclaration":
@@ -36,7 +47,11 @@ const create = (context: RuleContext) => {
     }
   }
 
-  function removeBracesFromStatement(statement: TSESTree.Node): string {
+  /**
+   * @param {Node} statement
+   * @returns {string}
+   */
+  function removeBracesFromStatement(statement) {
     const text = context.sourceCode.getText(statement)
     const openingBraceIndex = text.indexOf("{")
     const closingBraceIndex = text.lastIndexOf("}")
@@ -45,7 +60,10 @@ const create = (context: RuleContext) => {
   }
 
   return {
-    SwitchCase(node: TSESTree.SwitchCase) {
+    /**
+     * @param {SwitchCase} node
+     */
+    SwitchCase(node) {
       for (let i = 0; i < node.consequent.length; i++) {
         const statement = node.consequent[i]
 
@@ -103,8 +121,11 @@ const create = (context: RuleContext) => {
   }
 }
 
-export const switchCaseBracesRules: Rule = {
+/** @type {Rule} */
+const switchCaseBracesRules = {
   meta,
   create,
   defaultOptions: [],
 }
+
+module.exports = { switchCaseBracesRules }

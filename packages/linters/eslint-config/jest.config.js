@@ -1,8 +1,9 @@
 module.exports = {
   displayName: "@leancodepl/eslint-config",
-  preset: "../../../jest.preset.js",
-  moduleFileExtensions: ["ts", "js", "html"],
+  moduleFileExtensions: ["js"],
   testEnvironment: "node",
   coverageDirectory: "../../../coverage/packages/linters/eslint-config",
+  testMatch: ["<rootDir>/src/**/__tests__/**/*.spec.js"],
   transform: {},
 }
+

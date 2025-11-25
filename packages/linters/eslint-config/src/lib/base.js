@@ -1,9 +1,13 @@
-import eslintConfigPrettier from "eslint-config-prettier"
-import perfectionist from "eslint-plugin-perfectionist"
-import { leancodePlugin } from "@leancodepl/eslint-plugin"
-import type { TSESLint } from "@typescript-eslint/utils"
+const eslintConfigPrettier = require("eslint-config-prettier")
+const perfectionist = require("eslint-plugin-perfectionist")
+const { leancodePlugin } = require("@leancodepl/eslint-plugin")
 
-export const base: TSESLint.FlatConfig.Config[] = [
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
+ */
+
+/** @type {Config[]} */
+const base = [
   {
     plugins: {
       perfectionist,
@@ -57,10 +61,11 @@ export const base: TSESLint.FlatConfig.Config[] = [
         {
           type: "natural",
           order: "asc",
-          groups: ["unknown", "nullish"],
         },
       ],
     },
   },
   eslintConfigPrettier,
 ]
+
+module.exports = { base }

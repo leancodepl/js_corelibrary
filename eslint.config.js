@@ -1,5 +1,5 @@
 const nx = require("@nx/eslint-plugin")
-const { a11y, base, baseReact, imports } = require("./packages/linters/eslint-config/build/src")
+const { a11y, base, baseReact, imports } = require("./packages/linters/eslint-config/src")
 
 module.exports = [
   ...nx.configs["flat/base"],
