@@ -1,24 +1,14 @@
 {
-  "name": "@leancodepl/eslint-config",
-  "version": "9.6.6",
+  "name": "@leancodepl/eslint-plugin",
+  "version": "0.0.1",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "main": "src/index.js",
   "dependencies": {
-    "@leancodepl/eslint-plugin": "*",
-    "eslint-plugin-import": ">=2.31.0",
-    "eslint-plugin-jsx-a11y": ">=6.10.0",
-    "eslint-plugin-perfectionist": ">=4.0.0",
-    "eslint-plugin-react-hooks": ">=5.2.0",
-    "eslint-plugin-unused-imports": ">=4.1.0",
-    "globals": ">=15.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "eslint": ">=8.9.0",
-    "eslint-config-prettier": ">=9.1.0",
-    "@types/eslint-plugin-jsx-a11y": ">=6.10.0",
-    "eslint-plugin-react": ">=7.34.1",
-    "prettier": ">=3.0.0",
-    "typescript-eslint": ">=7.0.0"
+    "@typescript-eslint/utils": ">=8.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/rule-tester": ">=8.0.0",
@@ -34,16 +24,16 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
-    "directory": "packages/linters/eslint-config"
+    "directory": "packages/linters/eslint-plugin"
   },
   "homepage": "https://github.com/leancodepl/js_corelibrary",
   "bugs": {
     "url": "https://github.com/leancodepl/js_corelibrary/issues"
   },
-  "description": "ESLint configuration for LeanCode projects",
+  "description": "ESLint plugin for LeanCode projects",
   "keywords": [
     "eslint",
-    "config",
+    "plugin",
     "linting",
     "javascript",
     "typescript",

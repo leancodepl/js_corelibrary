@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.imports = void 0;
 const tslib_1 = require("tslib");
 const importsPlugin = tslib_1.__importStar(require("eslint-plugin-import"));
 const eslint_plugin_unused_imports_1 = tslib_1.__importDefault(require("eslint-plugin-unused-imports"));
-const importsConfig = [
+exports.imports = [
     {
         plugins: {
             "unused-imports": eslint_plugin_unused_imports_1.default,
@@ -75,5 +76,4 @@ const importsConfig = [
         },
     },
 ];
-exports.default = importsConfig;
 //# sourceMappingURL=imports.js.map

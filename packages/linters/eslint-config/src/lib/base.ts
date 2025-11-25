@@ -1,13 +1,13 @@
 import eslintConfigPrettier from "eslint-config-prettier"
 import perfectionist from "eslint-plugin-perfectionist"
-import { leancodePlugin } from "./leancode-plugin/leancode-plugin.js"
+import { leancodePlugin } from "@leancodepl/eslint-plugin"
 import type { TSESLint } from "@typescript-eslint/utils"
 
 export const base: TSESLint.FlatConfig.Config[] = [
   {
     plugins: {
       perfectionist,
-      leancode: leancodePlugin,
+      "@leancodepl/eslint-plugin": leancodePlugin,
     },
     rules: {
       curly: ["error", "multi-line", "consistent"],
@@ -18,7 +18,7 @@ export const base: TSESLint.FlatConfig.Config[] = [
       "arrow-body-style": ["error", "as-needed"],
       "no-case-declarations": "off",
 
-      "leancode/switch-case-braces": "error",
+      "@leancodepl/eslint-plugin/switch-case-braces": "error",
 
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",

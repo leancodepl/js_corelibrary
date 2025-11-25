@@ -24,11 +24,6 @@ const meta: Meta = {
 }
 
 const create = (context: RuleContext) => {
-  /**
-   * Checks whether or not a node is a lexical declaration.
-   * @param {ASTNode} node A direct child statement of a switch case.
-   * @returns {boolean} Whether or not the node is a lexical declaration.
-   */
   function isLexicalDeclaration(node: TSESTree.Node): boolean {
     switch (node.type) {
       case "FunctionDeclaration":
@@ -41,11 +36,6 @@ const create = (context: RuleContext) => {
     }
   }
 
-  /**
-   * Removes the braces from a statement.
-   * @param {ASTNode} statement A statement of a switch case.
-   * @returns {string} The statement without the braces.
-   */
   function removeBracesFromStatement(statement: TSESTree.Node): string {
     const text = context.sourceCode.getText(statement)
     const openingBraceIndex = text.indexOf("{")

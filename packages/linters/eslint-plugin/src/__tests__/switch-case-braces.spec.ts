@@ -57,6 +57,3 @@ ruleTester.run("switch-case-braces", switchCaseBracesRules as any, {
     },
   ],
 })
-
-// eslint-disable-next-line no-console
-console.log("All tests passed!")

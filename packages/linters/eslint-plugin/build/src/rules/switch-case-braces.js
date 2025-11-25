@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.switchCaseBracesRules = void 0;
 const messages = {
     unexpectedLexical: "Unexpected lexical declaration in case block.",
     addBraces: "Add {} braces around the case block.",
@@ -16,11 +17,6 @@ const meta = {
     schema: [],
 };
 const create = (context) => {
-    /**
-     * Checks whether or not a node is a lexical declaration.
-     * @param {ASTNode} node A direct child statement of a switch case.
-     * @returns {boolean} Whether or not the node is a lexical declaration.
-     */
     function isLexicalDeclaration(node) {
         switch (node.type) {
             case "FunctionDeclaration":
@@ -32,11 +28,6 @@ const create = (context) => {
                 return false;
         }
     }
-    /**
-     * Removes the braces from a statement.
-     * @param {ASTNode} statement A statement of a switch case.
-     * @returns {string} The statement without the braces.
-     */
     function removeBracesFromStatement(statement) {
         const text = context.sourceCode.getText(statement);
         const openingBraceIndex = text.indexOf("{");
@@ -93,10 +84,9 @@ const create = (context) => {
         },
     };
 };
-const rule = {
+exports.switchCaseBracesRules = {
     meta,
     create,
     defaultOptions: [],
 };
-exports.default = rule;
 //# sourceMappingURL=switch-case-braces.js.map

@@ -17,10 +17,10 @@
       }
     },
     "copy-from-dist": {
-      "command": "node tools/scripts/copy.mjs dist/packages/linters/eslint-config packages/linters/eslint-config/build"
+      "command": "node tools/scripts/copy.mjs dist/packages/linters/eslint-config/package.json packages/linters/eslint-config/build/package.json && node tools/scripts/copy.mjs dist/packages/linters/eslint-config/src packages/linters/eslint-config/build/src"
     },
     "build": {
-      "command": "nx run eslint-config:build-to-dist && nx run eslint-config:copy-from-dist"
+      "command": "nx run eslint-config:build-to-dist && nx run eslint-config:copy-from-dist && node packages/linters/eslint-config/replace-eslint-plugin-import.js"
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/eslint-config {args.registry} {args.ver} {args.tag}",

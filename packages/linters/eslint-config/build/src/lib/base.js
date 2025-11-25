@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.base = void 0;
 const tslib_1 = require("tslib");
 const eslint_config_prettier_1 = tslib_1.__importDefault(require("eslint-config-prettier"));
 const eslint_plugin_perfectionist_1 = tslib_1.__importDefault(require("eslint-plugin-perfectionist"));
-const leancode_plugin_js_1 = tslib_1.__importDefault(require("./leancode-plugin/leancode-plugin.js"));
-const baseConfig = [
+const eslint_plugin_1 = require("./../../../../eslint-plugin/build");
+exports.base = [
     {
         plugins: {
             perfectionist: eslint_plugin_perfectionist_1.default,
-            leancode: leancode_plugin_js_1.default,
+            "@leancodepl/eslint-plugin": eslint_plugin_1.leancodePlugin,
         },
         rules: {
             curly: ["error", "multi-line", "consistent"],
@@ -18,7 +19,7 @@ const baseConfig = [
             "no-useless-rename": "error",
             "arrow-body-style": ["error", "as-needed"],
             "no-case-declarations": "off",
-            "leancode/switch-case-braces": "error",
+            "@leancodepl/eslint-plugin/switch-case-braces": "error",
             "@typescript-eslint/no-empty-function": "off",
             "@typescript-eslint/no-empty-object-type": "off",
             "@typescript-eslint/no-explicit-any": "off",
@@ -63,5 +64,4 @@ const baseConfig = [
     },
     eslint_config_prettier_1.default,
 ];
-exports.default = baseConfig;
 //# sourceMappingURL=base.js.map

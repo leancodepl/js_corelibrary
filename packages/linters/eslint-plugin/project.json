@@ -1,0 +1,37 @@
+{
+  "name": "@leancodepl/eslint-plugin",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/linters/eslint-plugin/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build-to-dist": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/linters/eslint-plugin",
+        "tsConfig": "packages/linters/eslint-plugin/tsconfig.lib.json",
+        "packageJson": "packages/linters/eslint-plugin/package.json",
+        "main": "packages/linters/eslint-plugin/src/index.ts",
+        "assets": ["packages/linters/eslint-plugin/*.md"]
+      }
+    },
+    "copy-from-dist": {
+      "command": "node tools/scripts/copy.mjs dist/packages/linters/eslint-plugin/package.json packages/linters/eslint-plugin/build/package.json && node tools/scripts/copy.mjs dist/packages/linters/eslint-plugin/src packages/linters/eslint-plugin/build/src"
+    },
+    "build": {
+      "command": "nx run eslint-plugin:build-to-dist && nx run eslint-plugin:copy-from-dist"
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/eslint-plugin {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/linters/eslint-plugin/jest.config.ts"
+      }
+    }
+  }
+}

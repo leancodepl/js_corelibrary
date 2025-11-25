@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.baseReact = void 0;
 const tslib_1 = require("tslib");
 const eslint_plugin_react_1 = tslib_1.__importDefault(require("eslint-plugin-react"));
 const eslint_plugin_react_hooks_1 = tslib_1.__importDefault(require("eslint-plugin-react-hooks"));
 const globals_1 = tslib_1.__importDefault(require("globals"));
-const baseReactConfig = [
+exports.baseReact = [
     {
         plugins: {
             react: eslint_plugin_react_1.default,
@@ -42,5 +43,4 @@ const baseReactConfig = [
         },
     },
 ];
-exports.default = baseReactConfig;
 //# sourceMappingURL=base-react.js.map

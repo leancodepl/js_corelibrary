@@ -7,5 +7,5 @@ declare const messages: {
     unexpectedBracesWithNoLexical: string;
     removeBraces: string;
 };
-declare const rule: Rule;
-export default rule;
+export declare const switchCaseBracesRules: Rule;
+export {};

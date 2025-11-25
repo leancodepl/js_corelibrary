@@ -1,9 +1,10 @@
 {
   "name": "@leancodepl/eslint-config",
-  "version": "9.6.3",
+  "version": "9.6.6",
   "license": "Apache-2.0",
   "main": "src/index.js",
   "dependencies": {
+    "@leancodepl/eslint-plugin": "*",
     "eslint-plugin-import": ">=2.31.0",
     "eslint-plugin-jsx-a11y": ">=6.10.0",
     "eslint-plugin-perfectionist": ">=4.0.0",

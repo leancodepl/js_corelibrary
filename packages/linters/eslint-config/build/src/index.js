@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imports = exports.baseReact = exports.base = exports.a11y = void 0;
-const tslib_1 = require("tslib");
-const a11y_js_1 = tslib_1.__importDefault(require("./lib/a11y.js"));
-exports.a11y = a11y_js_1.default;
-const base_react_js_1 = tslib_1.__importDefault(require("./lib/base-react.js"));
-exports.baseReact = base_react_js_1.default;
-const base_js_1 = tslib_1.__importDefault(require("./lib/base.js"));
-exports.base = base_js_1.default;
-const imports_js_1 = tslib_1.__importDefault(require("./lib/imports.js"));
-exports.imports = imports_js_1.default;
+const a11y_1 = require("./lib/a11y");
+Object.defineProperty(exports, "a11y", { enumerable: true, get: function () { return a11y_1.a11y; } });
+const base_1 = require("./lib/base");
+Object.defineProperty(exports, "base", { enumerable: true, get: function () { return base_1.base; } });
+const base_react_1 = require("./lib/base-react");
+Object.defineProperty(exports, "baseReact", { enumerable: true, get: function () { return base_react_1.baseReact; } });
+const imports_1 = require("./lib/imports");
+Object.defineProperty(exports, "imports", { enumerable: true, get: function () { return imports_1.imports; } });
 //# sourceMappingURL=index.js.map

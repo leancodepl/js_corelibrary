@@ -1,0 +1,1 @@
+{"version":3,"file":"eslint-plugin.js","sourceRoot":"","sources":["../../../../../../packages/linters/eslint-plugin/src/lib/eslint-plugin.ts"],"names":[],"mappings":";;;AAAA,0EAAsE;AAGzD,QAAA,cAAc,GAA+B;IACxD,IAAI,EAAE,EAAE,IAAI,EAAE,UAAU,EAAE,OAAO,EAAE,OAAO,EAAE;IAC5C,KAAK,EAAE,EAAE,oBAAoB,EAAE,6CAAqB,EAAE;CACvD,CAAA"}
