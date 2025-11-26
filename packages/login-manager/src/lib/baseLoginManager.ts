@@ -44,7 +44,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
   public abstract isSigned(): TStorage extends AsyncTokenStorage ? Promise<boolean> : boolean
 
-  public abstract getToken(): Promise<string | null>
+  public abstract getToken(): Promise<null | string>
 
   public trySignIn(username: string, password: string): Promise<LoginResult> {
     return this.acquireToken(this.buildSignInRequest(username, password))

@@ -9,7 +9,7 @@ export function useUpdateVerificationFlow() {
   const { verificationFlowId, resetFlow } = useVerificationFlowContext()
   const client = useQueryClient()
 
-  return useMutation<VerificationFlow | undefined, Error, UpdateVerificationFlowBody, unknown>({
+  return useMutation<undefined | VerificationFlow, Error, UpdateVerificationFlowBody, unknown>({
     mutationFn: async updateVerificationFlowBody => {
       if (!verificationFlowId) throw new Error("Verification flow ID is not set")
       try {
@@ -32,7 +32,7 @@ export function useUpdateVerificationFlow() {
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,
-        })(error)) as VerificationFlow | undefined
+        })(error)) as undefined | VerificationFlow
       }
     },
     onSuccess(data) {

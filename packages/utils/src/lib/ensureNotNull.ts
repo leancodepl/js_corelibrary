@@ -17,7 +17,7 @@ import { assertNotNull } from "./assertNotNull"
  * }
  * ```
  */
-export function ensureNotNull<T>(value: T | null, message?: string): T {
+export function ensureNotNull<T>(value: null | T, message?: string): T {
   assertNotNull(value, message)
 
   return value

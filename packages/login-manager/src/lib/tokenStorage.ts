@@ -8,13 +8,13 @@ export interface Token {
 export type TokenStorage = AsyncTokenStorage | SyncTokenStorage
 
 export interface SyncTokenStorage {
-  getToken(): Token | null
+  getToken(): null | Token
   storeToken(token: Token): void
   resetToken(): void
 }
 
 export interface AsyncTokenStorage {
-  getToken(): Promise<Token | null>
+  getToken(): Promise<null | Token>
   storeToken(token: Token): Promise<void>
   resetToken(): Promise<void>
 }

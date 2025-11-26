@@ -3,7 +3,7 @@ import { useUploadImages } from "../_hooks/useUploadImages"
 
 type UploadImagesContextValue = ReturnType<typeof useUploadImages>
 
-const UploadImagesContext = createContext<UploadImagesContextValue | undefined>(undefined)
+const UploadImagesContext = createContext<undefined | UploadImagesContextValue>(undefined)
 
 export interface UploadImagesProviderProps {
   children: ReactNode

@@ -22,7 +22,7 @@ export class LocalTokenStorage implements SyncTokenStorage {
     private expiryKey = "expiration_date",
   ) {}
 
-  public getToken(): Token | null {
+  public getToken(): null | Token {
     if (this.hasValue(this.tokenKey)) {
       return {
         token: this.getValue(this.tokenKey),

@@ -13,7 +13,7 @@ export class VerificationPage extends CommonPage {
   readonly resendCodeButton
   readonly errors
 
-  constructor(protected readonly page: Page) {
+  constructor(protected override readonly page: Page) {
     super(page)
 
     this.wrapper = page.getByTestId(dataTestIds.verification.page)
@@ -32,7 +32,7 @@ export class VerificationPage extends CommonPage {
     this.errors = this.emailVerificationFormWrapper.getByTestId(dataTestIds.common.errors)
   }
 
-  async visit(initialFlowId: string | null = null) {
+  async visit(initialFlowId: null | string = null) {
     await this.page.goto(VerificationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
   }
 
