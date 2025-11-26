@@ -19,10 +19,10 @@ import { leancodePlugin } from "@leancodepl/eslint-plugin"
 export default [
   {
     plugins: {
-      "@leancodepl/eslint-plugin": leancodePlugin,
+      leancode: leancodePlugin,
     },
     rules: {
-      "@leancodepl/eslint-plugin/switch-case-braces": "error",
+      "leancode/switch-case-braces": "error",
     },
   },
 ]
