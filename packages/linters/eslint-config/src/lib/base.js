@@ -11,7 +11,7 @@ const base = [
   {
     plugins: {
       perfectionist,
-      "@leancodepl/eslint-plugin": leancodePlugin,
+      leancode: leancodePlugin,
     },
     rules: {
       curly: ["error", "multi-line", "consistent"],
@@ -22,7 +22,7 @@ const base = [
       "arrow-body-style": ["error", "as-needed"],
       "no-case-declarations": "off",
 
-      "@leancodepl/eslint-plugin/switch-case-braces": "error",
+      "leancode/switch-case-braces": "error",
 
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",

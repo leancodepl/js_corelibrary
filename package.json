@@ -43,8 +43,6 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/sinon": "10.0.16",
-    "@typescript-eslint/rule-tester": ">=8.0.0",
-    "@typescript-eslint/utils": ">=8.0.0",
     "@vitejs/plugin-react": "4.6.0",
     "@vitest/ui": "^3.0.0",
     "eslint": "^9.0.0",

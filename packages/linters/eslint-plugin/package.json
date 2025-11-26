@@ -5,9 +5,7 @@
   "type": "commonjs",
   "main": "src/index.js",
   "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "peerDependencies": {
+    "tslib": "^2.3.0",
     "@typescript-eslint/utils": ">=8.0.0"
   },
   "devDependencies": {
