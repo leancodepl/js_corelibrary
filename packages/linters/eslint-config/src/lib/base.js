@@ -1,5 +1,7 @@
+const parser = require("@typescript-eslint/parser")
 const eslintConfigPrettier = require("eslint-config-prettier")
 const perfectionist = require("eslint-plugin-perfectionist")
+const tseslint = require("typescript-eslint")
 const { leancodePlugin } = require("@leancodepl/eslint-plugin")
 
 /**
@@ -9,7 +11,11 @@ const { leancodePlugin } = require("@leancodepl/eslint-plugin")
 /** @type {Config[]} */
 const base = [
   {
+    languageOptions: {
+      parser: tseslint.parser,
+    },
     plugins: {
+      "@typescript-eslint": tseslint.plugin,
       perfectionist,
       leancode: leancodePlugin,
     },

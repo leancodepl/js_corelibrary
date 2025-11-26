@@ -63,8 +63,6 @@ const imports = [
           order: "asc",
         },
       ],
-      "react/jsx-uses-react": "off",
-      "react/jsx-uses-vars": "error",
       "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",

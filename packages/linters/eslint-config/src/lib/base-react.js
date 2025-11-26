@@ -43,6 +43,9 @@ const baseReact = [
 
       "react-hooks/exhaustive-deps": "error",
       "react-hooks/rules-of-hooks": "error",
+
+      "react/jsx-uses-react": "off",
+      "react/jsx-uses-vars": "error",
     },
   },
 ]
