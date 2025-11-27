@@ -1,18 +1,21 @@
+import { isAssertionResponse, isAttestationResponse, isPublicKeyCredential } from "./guards"
 import { base64urlDecode, base64urlEncode } from "./helpers"
 import { PasskeyChallengeOptions, PasskeyCredentialOptions } from "./types"
 
 export function trySafeStringifyNewCredential(credential: Credential | null) {
-  if (!credential) return undefined
-  if (!(credential instanceof PublicKeyCredential)) return undefined
-  if (!(credential.response instanceof AuthenticatorAttestationResponse)) return undefined
+  if (!credential || !isPublicKeyCredential(credential)) return undefined
+
+  const { response } = credential
+
+  if (!isAttestationResponse(response)) return undefined
 
   return JSON.stringify({
     id: credential.id,
     rawId: base64urlEncode(credential.rawId),
     type: credential.type,
     response: {
-      attestationObject: base64urlEncode(credential.response.attestationObject),
-      clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
+      attestationObject: base64urlEncode(response.attestationObject),
+      clientDataJSON: base64urlEncode(response.clientDataJSON),
     },
   })
 }
@@ -48,19 +51,23 @@ export async function createCredential({
 }
 
 export function trySafeStringifyExistingCredential(credential: Credential | null) {
-  if (!credential) return undefined
-  if (!(credential instanceof PublicKeyCredential)) return undefined
-  if (!(credential.response instanceof AuthenticatorAssertionResponse)) return undefined
+  if (!credential || !isPublicKeyCredential(credential)) return undefined
+
+  const { response } = credential
+
+  if (!isAssertionResponse(response)) return undefined
+
+  const { userHandle } = response
 
   return JSON.stringify({
     id: credential.id,
     rawId: base64urlEncode(credential.rawId),
     type: credential.type,
     response: {
-      authenticatorData: base64urlEncode(credential.response.authenticatorData),
-      clientDataJSON: base64urlEncode(credential.response.clientDataJSON),
-      signature: base64urlEncode(credential.response.signature),
-      userHandle: credential.response.userHandle ? base64urlEncode(credential.response.userHandle) : undefined,
+      authenticatorData: base64urlEncode(response.authenticatorData),
+      clientDataJSON: base64urlEncode(response.clientDataJSON),
+      signature: base64urlEncode(response.signature),
+      userHandle: userHandle ? base64urlEncode(userHandle) : undefined,
     },
   })
 }
