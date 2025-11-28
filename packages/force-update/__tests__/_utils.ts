@@ -9,7 +9,7 @@ function asMock<Func extends (...args: any[]) => any>(mockedFunc: Func) {
 // version endpoint is mocked to return next version from the array in each call
 // if all versions were used, the last version is returned indefinitely
 // if the version is null, it means that the network error occurred
-export function mockVersionEndpoint(versions: (null | string)[]) {
+export function mockVersionEndpoint(versions: (string | null)[]) {
   let currentVersionIndex = 0
 
   asMock(ajax).mockImplementation((config: AjaxConfig | string) => {

@@ -89,7 +89,7 @@ export class RegistrationPage extends CommonPage {
     )
   }
 
-  async visit(initialFlowId: null | string = null) {
+  async visit(initialFlowId: string | null = null) {
     await this.page.goto(RegistrationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
   }
 

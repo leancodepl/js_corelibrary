@@ -8,7 +8,7 @@ type VerificationFlowContext = {
   resetFlow: () => void
 }
 
-const verificationFlowContext = createContext<undefined | VerificationFlowContext>(undefined)
+const verificationFlowContext = createContext<VerificationFlowContext | undefined>(undefined)
 
 export function VerificationFlowProvider({ children }: { children: ReactNode }) {
   const [verificationFlowId, setVerificationFlowId] = useState<string>()

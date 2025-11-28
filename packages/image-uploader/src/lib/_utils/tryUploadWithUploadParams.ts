@@ -24,7 +24,7 @@ import { FileWithId, UploadedFileWithId, UploadParams } from "../types"
  */
 export async function tryUploadWithUploadParams(
   image: FileWithId | UploadedFileWithId,
-  getUploadParams: (image: FileWithId) => Promise<null | undefined | UploadParams>,
+  getUploadParams: (image: FileWithId) => Promise<UploadParams | null | undefined>,
 ): Promise<UploadedFileWithId> {
   if ("url" in image) {
     return image

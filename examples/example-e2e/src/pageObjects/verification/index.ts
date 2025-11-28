@@ -32,7 +32,7 @@ export class VerificationPage extends CommonPage {
     this.errors = this.emailVerificationFormWrapper.getByTestId(dataTestIds.common.errors)
   }
 
-  async visit(initialFlowId: null | string = null) {
+  async visit(initialFlowId: string | null = null) {
     await this.page.goto(VerificationPage.route + (initialFlowId ? `?flow=${initialFlowId}` : ""))
   }
 

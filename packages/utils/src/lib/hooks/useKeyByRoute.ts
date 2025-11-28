@@ -27,7 +27,7 @@
  * ```
  */
 export function useKeyByRoute<TKey extends string>(
-  routeMatches: Record<TKey, (null | object)[] | never | null | object>,
+  routeMatches: Record<TKey, (object | null)[] | never | object | null>,
 ) {
   const keys: TKey[] = []
   for (const key in routeMatches) {

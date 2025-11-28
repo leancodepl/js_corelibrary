@@ -1,7 +1,7 @@
 import { BrowserContext, Page } from "@playwright/test"
 
 export class WebAuthnHelper {
-  private authenticatorId: null | string = null
+  private authenticatorId: string | null = null
   private client: any
 
   constructor(

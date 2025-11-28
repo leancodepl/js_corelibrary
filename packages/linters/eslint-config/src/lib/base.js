@@ -61,6 +61,7 @@ const base = [
         {
           type: "natural",
           order: "asc",
+          groups: ["unknown", "nullish"],
         },
       ],
     },

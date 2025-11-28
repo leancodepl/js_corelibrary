@@ -13,9 +13,9 @@ import { SyncTokenStorage, Token } from "./tokenStorage"
  * ```
  */
 export class MemoryTokenStorage implements SyncTokenStorage {
-  private token: null | Token = null
+  private token: Token | null = null
 
-  public getToken(): null | Token {
+  public getToken(): Token | null {
     return this.token
   }
 

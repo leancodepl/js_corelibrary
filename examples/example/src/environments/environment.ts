@@ -1,11 +1,11 @@
 declare global {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   var app_config:
-    | undefined
     | {
         readonly NX_AUTH_BASE: string
         readonly NX_SHOW_DEV_TOOLS: string
       }
+    | undefined
 }
 
 export const environment = {

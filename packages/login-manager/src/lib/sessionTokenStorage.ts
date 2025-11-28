@@ -22,7 +22,7 @@ export class SessionTokenStorage implements SyncTokenStorage {
     private expiryKey = "expiration_date",
   ) {}
 
-  public getToken(): null | Token {
+  public getToken(): Token | null {
     if (this.hasValue(this.tokenKey)) {
       return {
         token: this.getValue(this.tokenKey),
