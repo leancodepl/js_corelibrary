@@ -1,9 +1,8 @@
-import pc from "picocolors"
+import React from "react"
+import { Box, render, Text } from "ink"
 import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports.js"
-import { formatMessages } from "../lib/formatMessages.js"
+import { formatMessages, Message } from "../lib/formatMessages.js"
 import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
-
-const { red } = pc
 
 /**
  * Validates cross-feature nested imports according to folder structure rules.
@@ -62,21 +61,39 @@ const { red } = pc
  * }
  * ```
  */
+interface ValidationResultProps {
+  errorMessages: Message[]
+  totalCruised: number
+}
+
+const ValidationResult: React.FC<ValidationResultProps> = ({ errorMessages, totalCruised }) => {
+  if (errorMessages.length === 0) {
+    return (
+      <Box flexDirection="column">
+        <Text color="green">✅ No issues found!</Text>
+      </Box>
+    )
+  }
+
+  const messages = formatMessages(errorMessages)
+
+  return (
+    <Box flexDirection="column">
+      {messages.map((message, index) => (
+        <Text key={index}>{message}</Text>
+      ))}
+      <Text color="red">{`\nx Found ${errorMessages.length} violations(s). ${totalCruised} modules cruised.`}</Text>
+    </Box>
+  )
+}
+
 export async function validateCrossFeatureImports(cruiseParams: CruiseParams) {
   try {
     const cruiseResult = await getCruiseResult(cruiseParams)
 
     const { messages: errorMessages, totalCruised } = checkCrossFeatureImports(cruiseResult)
 
-    if (errorMessages.length === 0) {
-      console.info("\n✅ No issues found!")
-    }
-
-    if (errorMessages.length > 0) {
-      const messages = formatMessages(errorMessages)
-      console.error(messages.join("\n"))
-      console.error(`\n${red(`x Found ${errorMessages.length} violations(s). ${totalCruised} modules cruised.`)}`)
-    }
+    render(<ValidationResult errorMessages={errorMessages} totalCruised={totalCruised} />)
   } catch (pError) {
     console.error(pError)
   }

@@ -1,5 +1,7 @@
+import React from "react"
+import { Box, render, Text } from "ink"
 import { checkSharedComponents } from "../lib/checkSharedComponents.js"
-import { formatMessages } from "../lib/formatMessages.js"
+import { formatMessages, Message } from "../lib/formatMessages.js"
 import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
 
 /**
@@ -59,21 +61,39 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  * }
  * ```
  */
+interface ValidationResultProps {
+  infoMessages: Message[]
+  totalCruised: number
+}
+
+const ValidationResult: React.FC<ValidationResultProps> = ({ infoMessages, totalCruised }) => {
+  if (infoMessages.length === 0) {
+    return (
+      <Box flexDirection="column">
+        <Text color="green">✅ No issues found!</Text>
+      </Box>
+    )
+  }
+
+  const messages = formatMessages(infoMessages)
+
+  return (
+    <Box flexDirection="column">
+      {messages.map((message, index) => (
+        <Text key={index}>{message}</Text>
+      ))}
+      <Text>{`\nx Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`}</Text>
+    </Box>
+  )
+}
+
 export async function validateSharedComponent(cruiseParams: CruiseParams) {
   try {
     const cruiseResult = await getCruiseResult(cruiseParams)
 
     const { messages: infoMessages, totalCruised } = checkSharedComponents(cruiseResult)
 
-    if (infoMessages.length === 0) {
-      console.info("\n✅ No issues found!")
-    }
-
-    if (infoMessages.length > 0) {
-      const messages = formatMessages(infoMessages)
-      console.info(messages.join("\n"))
-      console.info(`\nx Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`)
-    }
+    render(<ValidationResult infoMessages={infoMessages} totalCruised={totalCruised} />)
   } catch (pError) {
     console.error(pError)
   }
