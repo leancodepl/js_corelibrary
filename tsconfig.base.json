@@ -32,6 +32,7 @@
       "@leancodepl/config": ["packages/config/src/index.ts"],
       "@leancodepl/cookie-consent": ["packages/cookie-consent/src/index.ts"],
       "@leancodepl/cqrs-client-base": ["packages/cqrs-clients/cqrs-client-base/src/index.ts"],
+      "@leancodepl/eslint-plugin": ["packages/linters/eslint-plugin/src/index.ts"],
       "@leancodepl/feature-flags-react-client": ["packages/feature-flags/feature-flags-react-client/src/index.ts"],
       "@leancodepl/folder-structure-cruiser": ["packages/folder-structure-cruiser/src/index.ts"],
       "@leancodepl/force-update": ["packages/force-update/src/index.ts"],

@@ -112,7 +112,8 @@ export const handleFlowError =
 export async function toBody(response: Response): Promise<unknown> {
   try {
     return (await response.clone().json()) as unknown
-  } catch (e) {
+    // eslint-disable-next-line unused-imports/no-unused-vars
+  } catch (_) {
     throw new ResponseError(
       response,
       "The Ory API endpoint returned a response the SDK does not know how to handle:" + (await response.text()),

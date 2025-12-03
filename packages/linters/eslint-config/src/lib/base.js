@@ -1,9 +1,23 @@
+const parser = require("@typescript-eslint/parser")
+const eslintConfigPrettier = require("eslint-config-prettier")
 const perfectionist = require("eslint-plugin-perfectionist")
+const tseslint = require("typescript-eslint")
+const { leancodePlugin } = require("@leancodepl/eslint-plugin")
 
-module.exports = [
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
+ */
+
+/** @type {Config[]} */
+const base = [
   {
+    languageOptions: {
+      parser: tseslint.parser,
+    },
     plugins: {
+      "@typescript-eslint": tseslint.plugin,
       perfectionist,
+      leancode: leancodePlugin,
     },
     rules: {
       curly: ["error", "multi-line", "consistent"],
@@ -12,6 +26,9 @@ module.exports = [
       "no-eval": "error",
       "no-useless-rename": "error",
       "arrow-body-style": ["error", "as-needed"],
+      "no-case-declarations": "off",
+
+      "leancode/switch-case-braces": "error",
 
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",
@@ -55,4 +72,7 @@ module.exports = [
       ],
     },
   },
+  eslintConfigPrettier,
 ]
+
+module.exports = { base }

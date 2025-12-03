@@ -1,13 +1,16 @@
-const imports = require("eslint-plugin-import")
-const perfectionist = require("eslint-plugin-perfectionist")
+const importsPlugin = require("eslint-plugin-import")
 const unusedImports = require("eslint-plugin-unused-imports")
 
-module.exports = [
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
+ */
+
+/** @type {Config[]} */
+const imports = [
   {
     plugins: {
       "unused-imports": unusedImports,
-      import: imports,
-      perfectionist,
+      import: importsPlugin,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
@@ -60,8 +63,6 @@ module.exports = [
           order: "asc",
         },
       ],
-      "react/jsx-uses-react": "off",
-      "react/jsx-uses-vars": "error",
       "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": [
         "warn",
@@ -75,3 +76,5 @@ module.exports = [
     },
   },
 ]
+
+module.exports = { imports }

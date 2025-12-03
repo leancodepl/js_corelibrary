@@ -4,6 +4,7 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "dependencies": {
+    "@leancodepl/eslint-plugin": "*",
     "eslint-plugin-import": ">=2.31.0",
     "eslint-plugin-jsx-a11y": ">=6.10.0",
     "eslint-plugin-perfectionist": ">=4.0.0",
@@ -14,6 +15,7 @@
   "peerDependencies": {
     "eslint": ">=8.9.0",
     "eslint-config-prettier": ">=9.1.0",
+    "@types/eslint-plugin-jsx-a11y": ">=6.10.0",
     "eslint-plugin-react": ">=7.34.1",
     "prettier": ">=3.0.0",
     "typescript-eslint": ">=7.0.0"

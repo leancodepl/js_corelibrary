@@ -1,3 +1,10 @@
 const jsxA11y = require("eslint-plugin-jsx-a11y")
 
-module.exports = [jsxA11y.flatConfigs.recommended]
+/**
+ * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
+ */
+
+/** @type {Config[]} */
+const a11y = [jsxA11y.flatConfigs.recommended]
+
+module.exports = { a11y }
