@@ -19,7 +19,8 @@ const messages = {
 const meta = {
   type: "suggestion",
   docs: {
-    description: "Disallow lexical declarations in case clauses",
+    description:
+      "Enforce braces around case blocks with lexical declarations. Enforce braces removal when there are no lexical declarations.",
   },
   hasSuggestions: true,
   messages,
