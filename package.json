@@ -22,7 +22,7 @@
     "@nx/vite": "21.6.4",
     "@nx/web": "21.6.4",
     "@openapitools/openapi-generator-cli": "2.21.2",
-    "@playwright/test": "1.54.1",
+    "@playwright/test": "1.56.1",
     "@rollup/plugin-url": "8.0.2",
     "@svgr/rollup": "8.1.0",
     "@swc-node/register": "1.9.2",
