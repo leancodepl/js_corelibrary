@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
+
+### Bug Fixes
+
+- credentials check for kratos pass keys
+  ([3ad5b80](https://github.com/leancodepl/js_corelibrary/commit/3ad5b8034866bc2a5d92c4626755fdf80243af30))
+- kratos eslint config
+  ([712757a](https://github.com/leancodepl/js_corelibrary/commit/712757a9382c61741db7ec8efe1d031bdd6480bd))
+- make eslint configs independent
+  ([157c92b](https://github.com/leancodepl/js_corelibrary/commit/157c92b4cc68e870a210d754814c383aba859f0a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
 
 **Note:** Version bump only for package @leancodepl/kratos

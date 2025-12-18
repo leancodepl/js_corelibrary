@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
+
+### Bug Fixes
+
+- add eslint-config-prettier
+  ([c671ee8](https://github.com/leancodepl/js_corelibrary/commit/c671ee8b0202014fc3b0f3c31268af5f012328fb))
+- credentials check for kratos pass keys
+  ([3ad5b80](https://github.com/leancodepl/js_corelibrary/commit/3ad5b8034866bc2a5d92c4626755fdf80243af30))
+- kratos eslint config
+  ([712757a](https://github.com/leancodepl/js_corelibrary/commit/712757a9382c61741db7ec8efe1d031bdd6480bd))
+- linters readme typo
+  ([511ba55](https://github.com/leancodepl/js_corelibrary/commit/511ba553890c0528160661a888bd4de4901af13a))
+- make eslint configs independent
+  ([157c92b](https://github.com/leancodepl/js_corelibrary/commit/157c92b4cc68e870a210d754814c383aba859f0a))
+- make local eslint config run directly from built js
+  ([a82e48a](https://github.com/leancodepl/js_corelibrary/commit/a82e48a758d2d40352f832fba260759e3b77e70e))
+- switch case braces rule description
+  ([b74be3e](https://github.com/leancodepl/js_corelibrary/commit/b74be3ef9100922e07463efb392630d99eee966d))
+
+### Features
+
+- add switch-case-braces eslint rule
+  ([f3bb74e](https://github.com/leancodepl/js_corelibrary/commit/f3bb74e53c8e8f40defa8bef409a7f1cf2329d73))
+- rewrite esling-config with typescript
+  ([92d53fe](https://github.com/leancodepl/js_corelibrary/commit/92d53fedc6d3ced2feaa81b803bdb9c299de537c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
 
 ### Bug Fixes

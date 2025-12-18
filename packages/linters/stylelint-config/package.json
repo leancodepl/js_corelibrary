@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/stylelint-config",
-  "version": "9.6.6",
+  "version": "9.7.0",
   "license": "Apache-2.0",
   "main": "src/index.json",
   "files": [
