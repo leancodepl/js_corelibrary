@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
+
+### Bug Fixes
+
+- linters readme typo
+  ([511ba55](https://github.com/leancodepl/js_corelibrary/commit/511ba553890c0528160661a888bd4de4901af13a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
 
 **Note:** Version bump only for package @leancodepl/linting

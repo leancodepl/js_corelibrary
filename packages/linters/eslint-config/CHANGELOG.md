@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
+
+### Bug Fixes
+
+- add eslint-config-prettier
+  ([c671ee8](https://github.com/leancodepl/js_corelibrary/commit/c671ee8b0202014fc3b0f3c31268af5f012328fb))
+- make eslint configs independent
+  ([157c92b](https://github.com/leancodepl/js_corelibrary/commit/157c92b4cc68e870a210d754814c383aba859f0a))
+- make local eslint config run directly from built js
+  ([a82e48a](https://github.com/leancodepl/js_corelibrary/commit/a82e48a758d2d40352f832fba260759e3b77e70e))
+
+### Features
+
+- add switch-case-braces eslint rule
+  ([f3bb74e](https://github.com/leancodepl/js_corelibrary/commit/f3bb74e53c8e8f40defa8bef409a7f1cf2329d73))
+- rewrite esling-config with typescript
+  ([92d53fe](https://github.com/leancodepl/js_corelibrary/commit/92d53fedc6d3ced2feaa81b803bdb9c299de537c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
 
 **Note:** Version bump only for package @leancodepl/eslint-config

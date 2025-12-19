@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
+
+**Note:** Version bump only for package @leancodepl/vite-plugin-favicon
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [9.6.6](https://github.com/leancodepl/js_corelibrary/compare/v9.6.5...v9.6.6) (2025-11-18)
 
 **Note:** Version bump only for package @leancodepl/vite-plugin-favicon
