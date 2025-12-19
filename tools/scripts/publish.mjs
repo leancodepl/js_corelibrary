@@ -58,4 +58,4 @@ try {
 const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
 
 // Execute "npm publish" to publish
-execSync(`npm publish --access public --tag ${tag} ${registryParam}`)
+execSync(`npm publish --access public --provenance --tag ${tag} ${registryParam}`)
