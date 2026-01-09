@@ -1,7 +1,8 @@
 import axios from "axios"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 import { ExtractedMessages } from "../formatjs"
-import { Configuration, ProjectsApi, ProjectsExportTypeEnum, TermsApi, TranslationsApi } from "./api.generated"
+import { Configuration, LanguagesApi, ProjectsApi, ProjectsExportTypeEnum, TermsApi, TranslationsApi } from "./api.generated"
+import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface POEditorClientConfig {
   apiToken: string
@@ -108,6 +109,28 @@ export class POEditorClient implements TranslationsServiceClient {
       await this.termsApi.termsDelete(this.projectId, JSON.stringify(terms), this.apiToken)
     } catch (error) {
       throw new Error(`Failed to remove terms: ${error}`)
+    }
+  }
+
+  async getTranslationsInDefaultLanguage(terms: Term[]): Promise<{ term: string; translation: string }[]> {
+    try {
+      let referenceLanguage: string | undefined
+      const response = await this.projectsApi.projectsView(this.projectId, this.apiToken)
+      if (response.data.result?.project) {
+        referenceLanguage = response.data.result.project.reference_language
+      }
+
+      if (!referenceLanguage) {
+        throw new Error("No reference language found")
+      }
+
+      const translations = await this.downloadTranslations(referenceLanguage)
+      return terms.map(term => ({
+        term: term.term,
+        translation: translations[term.term] || "",
+      }))
+    } catch (error) {
+      throw new Error(`Failed to get translations in default language: ${error}`)
     }
   }
 }

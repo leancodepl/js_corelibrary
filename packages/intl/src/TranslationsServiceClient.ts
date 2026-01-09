@@ -15,4 +15,5 @@ export interface TranslationsServiceClient {
   uploadTranslations(messages: ExtractedMessages, language: string): Promise<void>
   downloadTerms(): Promise<Term[]>
   removeTerms(terms: TermToRemove[]): Promise<void>
+  getTranslationsInDefaultLanguage(terms: Term[]): Promise<{ term: string; translation: string }[]>
 }

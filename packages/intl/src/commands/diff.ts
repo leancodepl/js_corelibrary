@@ -25,11 +25,15 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
     const remoteTermSet = new Set(remoteTerms.map(term => term.term))
 
     const unusedInLocal = [...remoteTermSet].filter(term => !localTerms.has(term))
+    const translationsInDefaultLanguage = await translationsServiceClient.getTranslationsInDefaultLanguage(remoteTerms)
     if (unusedInLocal.length > 0) {
       console.log(`\nTerms in remote but not used locally (${unusedInLocal.length}):`)
       const termsToRemove = await checkbox({
         message: "Select terms to remove",
-        choices: unusedInLocal.map(term => ({ name: term, value: term })),
+        choices: unusedInLocal.map(term => {
+          const translation = translationsInDefaultLanguage.find(t => t.term === term)?.translation
+          return { name: `${term} ${translation ? `(${translation})` : ""}`, value: term }
+        }),
       })
 
       if (termsToRemove.length === 0) {
