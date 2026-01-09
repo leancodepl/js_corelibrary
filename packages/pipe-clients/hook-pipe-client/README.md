@@ -22,6 +22,15 @@ Creates React hooks for real-time data subscriptions using @leancodepl/pipe.
 
 **Returns:** Object containing `createTopic` method for creating typed hooks
 
+### `UseSubscriptionOptions<TNotifications>`
+
+Options for topic subscription hooks.
+
+**Properties:**
+
+- `[NotificationType]?: (data: NotificationData) => void` - Type-specific handlers for each notification type
+- `onData?: (data: NotificationsUnion<TNotifications>) => void` - Callback for all notifications
+
 ## Usage Examples
 
 ### Basic Setup
@@ -63,6 +72,10 @@ function ChatRoom({ roomId }: { roomId: string }) {
   const { data } = useChatTopic(
     { roomId },
     {
+      MessageReceived: (data) => {
+        setMessages(prev => [...prev, data.content]);
+      },
+      // or
       onData: (notification) => {
         if (notification.type === 'MessageReceived') {
           setMessages(prev => [...prev, notification.data.content]);
@@ -104,6 +117,13 @@ function Dashboard() {
   useMetricsTopic(
     { dashboardId: 'main' },
     {
+      CpuUpdate: (data) => {
+        setCpu(data.value);
+      },
+      MemoryUpdate: (data) => {
+        setMemory(data.value);
+      }
+      // or
       onData: (notification) => {
         if (notification.type === 'CpuUpdate') {
           setCpu(notification.data.value);
