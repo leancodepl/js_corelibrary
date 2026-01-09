@@ -32,21 +32,21 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
         choices: unusedInLocal.map(term => ({ name: term, value: term })),
       })
 
-      if(termsToRemove.length === 0) {
+      if (termsToRemove.length === 0) {
         return
       }
 
       const confirmation = await confirm({
-        message: "Are you sure you want to remove the selected terms?",
+        message: `Are you sure you want to remove these terms: ${termsToRemove.join(", ")}?`,
       })
 
-      if(!confirmation) {
+      if (!confirmation) {
         return
       }
 
       const termsToRemoveWithContext = remoteTerms.filter(term => termsToRemove.includes(term.term))
       console.log(`\nRemoving selected terms from remote...`)
-      
+
       await translationsServiceClient.removeTerms(termsToRemoveWithContext)
       console.log(`\nTerms removed successfully`)
     } else {
