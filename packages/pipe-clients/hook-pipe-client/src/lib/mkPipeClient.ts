@@ -19,11 +19,13 @@ import { NotificationsUnion, Pipe } from "@leancodepl/pipe"
 export function mkPipeClient({ pipe }: { pipe: Pipe }) {
   return {
     createTopic<TTopic, TNotifications extends Record<string, unknown>>(topicType: string) {
-      function useTopic(topic: TTopic, { onData }: UseSubscriptionOptions<TNotifications>) {
+      function useTopic(topic: TTopic, { onData, ...onDataByType }: UseSubscriptionOptions<TNotifications>) {
         const [data, setData] = useState<NotificationsUnion<TNotifications>>()
 
         const onDataRef = useRef(onData)
+        const onDataByTypeRef = useRef(onDataByType)
         onDataRef.current = onData
+        onDataByTypeRef.current = onDataByType
 
         const memoizedTopic = useRef<TTopic>(null)
         if (memoizedTopic.current === null || !deepEqual(memoizedTopic.current, topic)) {
@@ -36,6 +38,9 @@ export function mkPipeClient({ pipe }: { pipe: Pipe }) {
           const subscription = topic$.subscribe(data => {
             setData(data)
             onDataRef.current?.(data)
+
+            const [type, rawData] = data
+            onDataByTypeRef.current[type]?.(rawData)
           })
 
           return () => subscription.unsubscribe()
@@ -53,5 +58,9 @@ export function mkPipeClient({ pipe }: { pipe: Pipe }) {
 }
 
 export type UseSubscriptionOptions<TNotifications extends Record<string, unknown>> = {
+  [K in NotificationsUnion<TNotifications>[0]]?: (
+    data: Extract<NotificationsUnion<TNotifications>, [K, any]>[1],
+  ) => void
+} & {
   onData?: (data: NotificationsUnion<TNotifications>) => void
 }
