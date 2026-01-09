@@ -102,4 +102,12 @@ export class POEditorClient implements TranslationsServiceClient {
       throw new Error(`Failed to get terms: ${error}`)
     }
   }
+
+  async removeTerms(terms: Pick<Term, "context" | "term">[]): Promise<void> {
+    try {
+      await this.termsApi.termsDelete(this.projectId, JSON.stringify(terms), this.apiToken)
+    } catch (error) {
+      throw new Error(`Failed to remove terms: ${error}`)
+    }
+  }
 }
