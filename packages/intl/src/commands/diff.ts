@@ -32,7 +32,7 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
         message: "Select terms to remove",
         choices: unusedInLocal.map(term => {
           const translation = translationsInDefaultLanguage.find(t => t.term === term)?.translation
-          return { name: `${term} ${translation ? `(${translation})` : ""}`, value: term }
+          return { name: `${term} $`, value: term }
         }),
       })
 

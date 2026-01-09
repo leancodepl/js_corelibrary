@@ -1,7 +1,14 @@
 import axios from "axios"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 import { ExtractedMessages } from "../formatjs"
-import { Configuration, LanguagesApi, ProjectsApi, ProjectsExportTypeEnum, TermsApi, TranslationsApi } from "./api.generated"
+import {
+  Configuration,
+  LanguagesApi,
+  ProjectsApi,
+  ProjectsExportTypeEnum,
+  TermsApi,
+  TranslationsApi,
+} from "./api.generated"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface POEditorClientConfig {
