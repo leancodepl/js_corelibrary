@@ -5,6 +5,7 @@ const config = {
   transform: {
     "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],
   },
+  setupFilesAfterEnv: ["<rootDir>/__tests__/setup.ts"],
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "../../coverage/packages/intl",
 }
