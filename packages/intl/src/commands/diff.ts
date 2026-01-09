@@ -1,4 +1,4 @@
-import inquirer from "inquirer"
+import checkbox from "@inquirer/checkbox"
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { extractMessages } from "../formatjs"
@@ -26,20 +26,18 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
     const unusedInLocal = [...remoteTermSet].filter(term => !localTerms.has(term))
     if (unusedInLocal.length > 0) {
       console.log(`\nTerms in remote but not used locally (${unusedInLocal.length}):`)
-      const answers = await inquirer.prompt<{ unusedTerms: string[] }>([
-        {
-          type: "checkbox",
-          name: "unusedTerms",
-          message: "Select terms to remove",
-          choices: unusedInLocal.map(term => ({ name: term, value: term })),
-        },
-      ])
-      const termsToRemove = answers.unusedTerms
+      const termsToRemove = await checkbox({
+        message: "Select terms to remove",
+        choices: unusedInLocal.map(term => ({ name: term, value: term })),
+      })
+
       if(termsToRemove.length === 0) {
         return
       }
+
       const termsToRemoveWithContext = remoteTerms.filter(term => termsToRemove.includes(term.term))
       console.log(`\nRemoving selected terms from remote...`)
+      
       await translationsServiceClient.removeTerms(termsToRemoveWithContext)
       console.log(`\nTerms removed successfully`)
     } else {
