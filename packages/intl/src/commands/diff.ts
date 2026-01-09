@@ -1,4 +1,5 @@
 import checkbox from "@inquirer/checkbox"
+import confirm from "@inquirer/confirm"
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { extractMessages } from "../formatjs"
@@ -32,6 +33,14 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
       })
 
       if(termsToRemove.length === 0) {
+        return
+      }
+
+      const confirmation = await confirm({
+        message: "Are you sure you want to remove the selected terms?",
+      })
+
+      if(!confirmation) {
         return
       }
 
