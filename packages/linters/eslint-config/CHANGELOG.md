@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.1](https://github.com/leancodepl/js_corelibrary/compare/v9.7.0...v9.7.1) (2026-01-20)
+
+### Bug Fixes
+
+- limit eslint plugin perfectionist version
+  ([e658832](https://github.com/leancodepl/js_corelibrary/commit/e65883274e66bd82b44ae2a65e29c1f4aa6a275e))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
 
 ### Bug Fixes

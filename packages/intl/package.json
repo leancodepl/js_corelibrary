@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/intl",
-  "version": "9.7.0",
+  "version": "9.7.1",
   "license": "Apache-2.0",
   "bin": {
     "intl": "src/bin.js"

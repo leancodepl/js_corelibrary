@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.7.1](https://github.com/leancodepl/js_corelibrary/compare/v9.7.0...v9.7.1) (2026-01-20)
+
+**Note:** Version bump only for package @leancodepl/prettier-config
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [9.7.0](https://github.com/leancodepl/js_corelibrary/compare/v9.6.6...v9.7.0) (2025-12-18)
 
 **Note:** Version bump only for package @leancodepl/prettier-config
