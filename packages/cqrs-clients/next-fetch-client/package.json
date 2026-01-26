@@ -1,9 +1,7 @@
 {
   "name": "@leancodepl/next-fetch-client",
-  "version": "9.7.0",
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "version": "9.7.2",
+  "license": "Apache-2.0",
   "dependencies": {
     "@leancodepl/cqrs-client-base": "*",
     "@leancodepl/validation": "*",
@@ -12,5 +10,36 @@
   },
   "peerDependencies": {
     "next": ">=13.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/cqrs-clients/next-fetch-client"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Next.js fetch client for CQRS commands and queries",
+  "keywords": [
+    "cqrs",
+    "next.js",
+    "fetch",
+    "commands",
+    "queries",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
   }
 }
