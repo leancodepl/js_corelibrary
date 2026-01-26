@@ -36,23 +36,29 @@ const imports = [
             "client-server-only",
             "react",
             ["builtin", "external"],
-            ["internal-type", "internal"],
-            ["parent", "sibling", "index"],
-            ["type", "parent-type", "sibling-type", "index-type"],
+            ["type-internal", "value-internal"],
+            ["value-parent", "value-sibling", "value-index"],
+            ["type", "type-parent", "type-sibling", "type-index"],
             "side-effect",
             "style",
             "unknown",
           ],
-          customGroups: {
-            value: {
-              react: ["^react$", "^react-.+"],
-              "client-server-only": ["^client-only$", "^server-only$"],
+          customGroups: [
+            {
+              selector: "type",
+              groupName: "react",
+              elementNamePattern: "^react$",
             },
-            type: {
-              react: "^react$",
+            {
+              groupName: "react",
+              elementNamePattern: ["^react$", "^react-.+"],
             },
-          },
-          newlinesBetween: "never",
+            {
+              groupName: "client-server-only",
+              elementNamePattern: ["^client-only$", "^server-only$"],
+            },
+          ],
+          newlinesBetween: 0,
           internalPattern: ["^@leancodepl/.+"],
         },
       ],
