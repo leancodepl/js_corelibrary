@@ -193,12 +193,5 @@ export function mkCqrsClient({
   }
 }
 
-/**
- * Abort function interface for query cancellation.
- */
 export type QueryAbort = { abort: AbortController["abort"] }
-
-/**
- * Promise type for query operations that supports aborting.
- */
 export type QueryPromise<TResult> = Promise<ApiResponse<TResult>> & QueryAbort
