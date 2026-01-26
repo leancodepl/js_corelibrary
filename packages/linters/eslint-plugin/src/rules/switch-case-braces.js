@@ -129,4 +129,4 @@ const switchCaseBracesRules = {
   defaultOptions: [],
 }
 
-module.exports = { switchCaseBracesRules }
+export { switchCaseBracesRules }

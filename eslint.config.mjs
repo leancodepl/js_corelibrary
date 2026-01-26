@@ -1,7 +1,8 @@
-const nx = require("@nx/eslint-plugin")
-const { a11y, base, baseReact, imports } = require("./packages/linters/eslint-config/src")
+import nx from "@nx/eslint-plugin"
+// eslint-disable-next-line import/no-useless-path-segments
+import { a11y, base, baseReact, imports } from "./packages/linters/eslint-config/src/index.js"
 
-module.exports = [
+const config = [
   ...nx.configs["flat/base"],
   ...nx.configs["flat/typescript"],
   ...nx.configs["flat/javascript"],
@@ -32,3 +33,5 @@ module.exports = [
     },
   },
 ]
+
+export default config

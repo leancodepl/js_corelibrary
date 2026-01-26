@@ -1,15 +1,13 @@
-const parser = require("@typescript-eslint/parser")
-const eslintConfigPrettier = require("eslint-config-prettier")
-const perfectionist = require("eslint-plugin-perfectionist")
-const tseslint = require("typescript-eslint")
-const { leancodePlugin } = require("@leancodepl/eslint-plugin")
+import perfectionist from "eslint-plugin-perfectionist"
+import tseslint from "typescript-eslint"
+import { leancodePlugin } from "@leancodepl/eslint-plugin"
 
 /**
  * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
  */
 
 /** @type {Config[]} */
-const base = [
+export const base = [
   {
     languageOptions: {
       parser: tseslint.parser,
@@ -72,7 +70,5 @@ const base = [
       ],
     },
   },
-  eslintConfigPrettier,
+  // eslintConfigPrettier,
 ]
-
-module.exports = { base }

@@ -1,7 +1,7 @@
 import { mkdirSync, rmSync } from "fs"
 import { z } from "zod/v4"
-import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
+import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"
 
 export const downloadCommandOptionsSchema = z.object({
   outputDir: z.string(),

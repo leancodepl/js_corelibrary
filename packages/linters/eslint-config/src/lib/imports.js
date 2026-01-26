@@ -1,12 +1,12 @@
-const importsPlugin = require("eslint-plugin-import")
-const unusedImports = require("eslint-plugin-unused-imports")
+import importsPlugin from "eslint-plugin-import"
+import unusedImports from "eslint-plugin-unused-imports"
 
 /**
  * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
  */
 
 /** @type {Config[]} */
-const imports = [
+export const imports = [
   {
     plugins: {
       "unused-imports": unusedImports,
@@ -34,11 +34,12 @@ const imports = [
           order: "asc",
           groups: [
             "client-server-only",
+            "type-import",
             "react",
-            ["builtin", "external"],
-            ["type-internal", "internal"],
-            ["parent", "sibling", "index"],
-            ["type", "type-parent", "type-sibling", "type-index"],
+            ["value-builtin", "value-external"],
+            ["type-internal", "value-internal"],
+            ["type-parent", "type-sibling", "type-index"],
+            ["value-parent", "value-sibling", "value-index"],
             "side-effect",
             "style",
             "unknown",
@@ -82,5 +83,3 @@ const imports = [
     },
   },
 ]
-
-module.exports = { imports }

@@ -1,7 +1,7 @@
 import { Translation } from "vanilla-cookieconsent"
+import type { CookieConsentConfig } from "./runCookieConsent"
 import { config } from "./config"
 import { catAdvertisement, catAnalytics, catFunctionality, catSecurity } from "./getGoogleConsent"
-import type { CookieConsentConfig } from "./runCookieConsent"
 
 type Language = "en" | "pl"
 export interface DefaultConsentOptions {

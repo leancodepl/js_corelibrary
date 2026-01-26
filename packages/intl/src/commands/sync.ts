@@ -1,7 +1,7 @@
 import { z } from "zod/v4"
+import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { download } from "./download"
 import { upload } from "./upload"
-import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export const syncCommandOptionsSchema = z.object({
   srcPattern: z.string(),
