@@ -1,3 +1,4 @@
+import eslintConfigPrettier from "eslint-config-prettier"
 import perfectionist from "eslint-plugin-perfectionist"
 import tseslint from "typescript-eslint"
 import { leancodePlugin } from "@leancodepl/eslint-plugin"
@@ -70,5 +71,5 @@ export const base = [
       ],
     },
   },
-  // eslintConfigPrettier,
+  eslintConfigPrettier,
 ]
