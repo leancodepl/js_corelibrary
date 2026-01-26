@@ -70,7 +70,7 @@ export function mkCqrsClient({
     switch (response.status) {
       case 200:
         return { data: createSuccess(await response.json()), shouldRetry: false }
-      case 401: {
+      case 401:
         if (isRetry) {
           return {
             data: createError("The request has not been authorized and token refresh did not help"),
@@ -90,7 +90,6 @@ export function mkCqrsClient({
           }
         }
         return { data: createError("Token refreshed"), shouldRetry: true }
-      }
       case 400:
         return { data: createError("The request was malformed"), shouldRetry: false }
       case 403:
