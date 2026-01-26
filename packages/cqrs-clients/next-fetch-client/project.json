@@ -22,10 +22,9 @@
         "assets": ["packages/cqrs-clients/next-fetch-client/*.md"]
       }
     },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
-      }
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/next-fetch-client {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

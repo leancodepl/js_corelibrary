@@ -2,15 +2,6 @@ import { ApiError, ApiResponse, ApiSuccess, CommandResult, TokenProvider } from 
 import { UncapitalizeDeep, uncapitalizeDeep } from "@leancodepl/utils"
 import { handleResponse } from "@leancodepl/validation"
 
-// type NextFetchRequestConfig = {
-//   revalidate?: number | false
-//   tags?: string[]
-// }
-
-// type NextRequestInit = RequestInit & {
-//   next?: NextFetchRequestConfig | undefined
-// }
-
 function createSuccess<TResult>(result: TResult): ApiSuccess<UncapitalizeDeep<TResult>> {
   return {
     isSuccess: true,
@@ -31,13 +22,41 @@ function createError(
   }
 }
 
+/**
+ * Configuration options for the CQRS client.
+ */
 export type MkCqrsClientParameters = {
+  /** Base URL for CQRS API endpoints */
   cqrsEndpoint: string
+  /** Optional token provider for authentication */
   tokenProvider?: TokenProvider
+  /** Optional fetch configuration options */
   fetchOptions?: Omit<RequestInit, "body" | "headers" | "method">
+  /** Header name for authentication token (default: "Authorization") */
   tokenHeader?: string
 }
 
+/**
+ * Creates CQRS client using native fetch API for Next.js applications with automatic response uncapitalization.
+ *
+ * @param params - Configuration object for CQRS client
+ * @param params.cqrsEndpoint - Base URL for CQRS API endpoints
+ * @param params.tokenProvider - Optional token provider for authentication
+ * @param params.fetchOptions - Optional fetch configuration options
+ * @param params.tokenHeader - Header name for authentication token (default: "Authorization")
+ * @returns Object with `createQuery`, `createOperation`, and `createCommand` factories
+ * @example
+ * ```typescript
+ * import { mkCqrsClient } from "@leancodepl/next-fetch-client"
+ *
+ * const client = mkCqrsClient({
+ *   cqrsEndpoint: "https://api.example.com",
+ *   tokenProvider: {
+ *     getToken: () => Promise.resolve(localStorage.getItem("token")),
+ *   },
+ * })
+ * ```
+ */
 export function mkCqrsClient({
   cqrsEndpoint,
   tokenProvider,
@@ -138,14 +157,14 @@ export function mkCqrsClient({
   }
 
   return {
-    createQuery<TQuery, TResult>(type: string) {
+    createQuery<TQuery, TResultX>(type: string) {
       return async (dto: TQuery, options?: RequestInit) => {
         const abortController = new AbortController()
 
-        const promise = doFetch<UncapitalizeDeep<TResult>>(`${cqrsEndpoint}/query/${type}`, dto, {
+        const promise = doFetch<UncapitalizeDeep<TResultX>>(`${cqrsEndpoint}/query/${type}`, dto, {
           ...options,
           signal: abortController.signal,
-        }) as QueryPromise<UncapitalizeDeep<TResult>>
+        }) as QueryPromise<UncapitalizeDeep<TResultX>>
 
         promise.abort = abortController.abort.bind(abortController)
 
@@ -174,5 +193,12 @@ export function mkCqrsClient({
   }
 }
 
+/**
+ * Abort function interface for query cancellation.
+ */
 export type QueryAbort = { abort: AbortController["abort"] }
+
+/**
+ * Promise type for query operations that supports aborting.
+ */
 export type QueryPromise<TResult> = Promise<ApiResponse<TResult>> & QueryAbort

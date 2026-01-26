@@ -1,12 +1,13 @@
 {
   "name": "@leancodepl/next-fetch-client",
-  "version": "0.0.1",
+  "version": "9.7.0",
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
     "@leancodepl/cqrs-client-base": "*",
     "@leancodepl/validation": "*",
+    "@leancodepl/utils": "*",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
