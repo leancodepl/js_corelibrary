@@ -157,14 +157,14 @@ export function mkCqrsClient({
   }
 
   return {
-    createQuery<TQuery, TResultX>(type: string) {
+    createQuery<TQuery, TResult>(type: string) {
       return async (dto: TQuery, options?: RequestInit) => {
         const abortController = new AbortController()
 
-        const promise = doFetch<UncapitalizeDeep<TResultX>>(`${cqrsEndpoint}/query/${type}`, dto, {
+        const promise = doFetch<UncapitalizeDeep<TResult>>(`${cqrsEndpoint}/query/${type}`, dto, {
           ...options,
           signal: abortController.signal,
-        }) as QueryPromise<UncapitalizeDeep<TResultX>>
+        }) as QueryPromise<UncapitalizeDeep<TResult>>
 
         promise.abort = abortController.abort.bind(abortController)
 
