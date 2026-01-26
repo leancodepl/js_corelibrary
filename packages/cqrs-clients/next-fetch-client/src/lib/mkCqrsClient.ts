@@ -193,5 +193,5 @@ export function mkCqrsClient({
   }
 }
 
-export type QueryAbort = { abort: AbortController["abort"] }
+export type QueryAbort = Pick<AbortController, "abort">
 export type QueryPromise<TResult> = Promise<ApiResponse<TResult>> & QueryAbort
