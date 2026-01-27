@@ -18,12 +18,24 @@ function createMockResponse<T>(status: number, body?: T): Response {
 }
 
 describe("mkCqrsClient", () => {
+  type TestQuery = { id: string }
+  type TestQueryResult = { Name: string }
+  type TestQueryNestedResult = { Name: string; NestedObject: { Value: number } }
+
+  type TestOperation = { value: string }
+  type TestOperationResult = { Result: boolean }
+  type TestOperationNestedResult = { Result: boolean; Data: { ItemName: string } }
+
+  const testCommandErrorCodes = { InvalidValue: 1 }
+  type TestCommandErrorCodes = typeof testCommandErrorCodes
+  type TestCommand = { value: string }
+
   describe("createQuery", () => {
     it("should make a POST request to correct endpoint", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       await query({ id: "123" })
 
@@ -39,9 +51,11 @@ describe("mkCqrsClient", () => {
 
     it("should return uncapitalized success response on 200", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { Name: string; NestedObject: { Value: number } }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryNestedResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test", NestedObject: { Value: 42 } }))
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(200, { Name: "Test", NestedObject: { Value: 42 } } satisfies TestQueryNestedResult),
+      )
 
       const result = await query({ id: "123" })
 
@@ -61,9 +75,9 @@ describe("mkCqrsClient", () => {
         cqrsEndpoint: "https://api.test.com",
         tokenProvider,
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       await query({ id: "123" })
 
@@ -89,9 +103,9 @@ describe("mkCqrsClient", () => {
         tokenProvider,
         tokenHeader: "X-Custom-Auth",
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       await query({ id: "123" })
 
@@ -108,9 +122,9 @@ describe("mkCqrsClient", () => {
 
     it("should support abort functionality", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       const promise = query({ id: "123" })
 
@@ -122,7 +136,7 @@ describe("mkCqrsClient", () => {
 
     it("should return aborted response when request is aborted", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       const abortError = new Error("Aborted")
       abortError.name = "AbortError"
@@ -145,9 +159,9 @@ describe("mkCqrsClient", () => {
           cache: "no-cache",
         },
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       await query({ id: "123" })
 
@@ -165,9 +179,9 @@ describe("mkCqrsClient", () => {
         cqrsEndpoint: "https://api.test.com",
         fetchOptions: { cache: "default" },
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       await query({ id: "123" }, { cache: "no-store" })
 
@@ -183,9 +197,9 @@ describe("mkCqrsClient", () => {
   describe("createOperation", () => {
     it("should make a POST request to correct endpoint", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const operation = client.createOperation<{ value: string }, { result: boolean }>("TestOperation")
+      const operation = client.createOperation<TestOperation, TestOperationResult>("TestOperation")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Result: true }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Result: true } satisfies TestOperationResult))
 
       await operation({ value: "test" })
 
@@ -200,9 +214,9 @@ describe("mkCqrsClient", () => {
 
     it("should use no-store cache by default", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const operation = client.createOperation<{ value: string }, { result: boolean }>("TestOperation")
+      const operation = client.createOperation<TestOperation, TestOperationResult>("TestOperation")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Result: true }))
+      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Result: true } satisfies TestOperationResult))
 
       await operation({ value: "test" })
 
@@ -216,11 +230,11 @@ describe("mkCqrsClient", () => {
 
     it("should return uncapitalized success response", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const operation = client.createOperation<{ value: string }, { Result: boolean; Data: { ItemName: string } }>(
-        "TestOperation",
-      )
+      const operation = client.createOperation<TestOperation, TestOperationNestedResult>("TestOperation")
 
-      mockFetch.mockResolvedValueOnce(createMockResponse(200, { Result: true, Data: { ItemName: "Test" } }))
+      mockFetch.mockResolvedValueOnce(
+        createMockResponse(200, { Result: true, Data: { ItemName: "Test" } } satisfies TestOperationNestedResult),
+      )
 
       const result = await operation({ value: "test" })
 
@@ -234,7 +248,7 @@ describe("mkCqrsClient", () => {
   describe("createCommand", () => {
     it("should make a POST request to correct endpoint", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const command = client.createCommand<{ value: string }, { InvalidValue: 1 }>("TestCommand", { InvalidValue: 1 })
+      const command = client.createCommand<TestCommand, TestCommandErrorCodes>("TestCommand", testCommandErrorCodes)
 
       mockFetch.mockResolvedValueOnce(createMockResponse(200, { WasSuccessful: true }))
 
@@ -251,7 +265,7 @@ describe("mkCqrsClient", () => {
 
     it("should use no-store cache by default", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const command = client.createCommand<{ value: string }, { InvalidValue: 1 }>("TestCommand", { InvalidValue: 1 })
+      const command = client.createCommand<TestCommand, TestCommandErrorCodes>("TestCommand", testCommandErrorCodes)
 
       mockFetch.mockResolvedValueOnce(createMockResponse(200, { WasSuccessful: true }))
 
@@ -267,7 +281,7 @@ describe("mkCqrsClient", () => {
 
     it("should return success response for successful command", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const command = client.createCommand<{ value: string }, { InvalidValue: 1 }>("TestCommand", { InvalidValue: 1 })
+      const command = client.createCommand<TestCommand, TestCommandErrorCodes>("TestCommand", testCommandErrorCodes)
 
       mockFetch.mockResolvedValueOnce(createMockResponse(200, { WasSuccessful: true }))
 
@@ -281,7 +295,7 @@ describe("mkCqrsClient", () => {
 
     it("should return validation errors on 422", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const command = client.createCommand<{ value: string }, { InvalidValue: 1 }>("TestCommand", { InvalidValue: 1 })
+      const command = client.createCommand<TestCommand, TestCommandErrorCodes>("TestCommand", testCommandErrorCodes)
 
       mockFetch.mockResolvedValueOnce(
         createMockResponse(422, {
@@ -304,7 +318,7 @@ describe("mkCqrsClient", () => {
     describe("handle method", () => {
       it("should be available on command", () => {
         const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-        const command = client.createCommand<{ value: string }, { InvalidValue: 1 }>("TestCommand", { InvalidValue: 1 })
+        const command = client.createCommand<TestCommand, TestCommandErrorCodes>("TestCommand", testCommandErrorCodes)
 
         expect(command.handle).toBeDefined()
         expect(typeof command.handle).toBe("function")
@@ -315,7 +329,7 @@ describe("mkCqrsClient", () => {
   describe("error handling", () => {
     it("should return error for 400 response", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(400))
 
@@ -330,7 +344,7 @@ describe("mkCqrsClient", () => {
 
     it("should return error for 401 without token provider", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(401))
 
@@ -353,11 +367,11 @@ describe("mkCqrsClient", () => {
         cqrsEndpoint: "https://api.test.com",
         tokenProvider,
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch
         .mockResolvedValueOnce(createMockResponse(401))
-        .mockResolvedValueOnce(createMockResponse(200, { Name: "Test" }))
+        .mockResolvedValueOnce(createMockResponse(200, { Name: "Test" } satisfies TestQueryResult))
 
       const result = await query({ id: "123" })
 
@@ -379,7 +393,7 @@ describe("mkCqrsClient", () => {
         cqrsEndpoint: "https://api.test.com",
         tokenProvider,
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(401))
 
@@ -402,7 +416,7 @@ describe("mkCqrsClient", () => {
         cqrsEndpoint: "https://api.test.com",
         tokenProvider,
       })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValue(createMockResponse(401))
 
@@ -418,7 +432,7 @@ describe("mkCqrsClient", () => {
 
     it("should return error for 403 response", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(403))
 
@@ -433,7 +447,7 @@ describe("mkCqrsClient", () => {
 
     it("should return error for 404 response", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(404))
 
@@ -448,7 +462,7 @@ describe("mkCqrsClient", () => {
 
     it("should return error for 500 response", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       mockFetch.mockResolvedValueOnce(createMockResponse(500))
 
@@ -463,7 +477,7 @@ describe("mkCqrsClient", () => {
 
     it("should return error for network failure", async () => {
       const client = mkCqrsClient({ cqrsEndpoint: "https://api.test.com" })
-      const query = client.createQuery<{ id: string }, { name: string }>("TestQuery")
+      const query = client.createQuery<TestQuery, TestQueryResult>("TestQuery")
 
       const networkError = new Error("Network error")
       mockFetch.mockRejectedValueOnce(networkError)
