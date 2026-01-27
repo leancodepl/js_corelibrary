@@ -16,14 +16,14 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 const config = {
-  displayName: "@leancodepl/next-fetch-client",
+  displayName: "@leancodepl/fetch-client",
   preset: "../../../jest.preset.js",
   transform: {
     "^.+\\.[tj]sx?$": ["@swc/jest", swcJestConfig],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "html"],
   testEnvironment: "jsdom",
-  coverageDirectory: "../../../coverage/packages/cqrs-clients/next-fetch-client",
+  coverageDirectory: "../../../coverage/packages/cqrs-clients/fetch-client",
 }
 
 export default config

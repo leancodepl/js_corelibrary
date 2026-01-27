@@ -47,7 +47,7 @@ export type MkCqrsClientParameters = {
  * @returns Object with `createQuery`, `createOperation`, and `createCommand` factories
  * @example
  * ```typescript
- * import { mkCqrsClient } from "@leancodepl/next-fetch-client"
+ * import { mkCqrsClient } from "@leancodepl/fetch-client"
  *
  * const client = mkCqrsClient({
  *   cqrsEndpoint: "https://api.example.com",

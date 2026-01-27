@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/next-fetch-client",
+  "name": "@leancodepl/fetch-client",
   "version": "9.7.2",
   "license": "Apache-2.0",
   "dependencies": {
@@ -21,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
-    "directory": "packages/cqrs-clients/next-fetch-client"
+    "directory": "packages/cqrs-clients/fetch-client"
   },
   "homepage": "https://github.com/leancodepl/js_corelibrary",
   "bugs": {

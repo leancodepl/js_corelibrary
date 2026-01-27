@@ -1,4 +1,4 @@
-# @leancodepl/next-fetch-client
+# @leancodepl/fetch-client
 
 CQRS client using native fetch API for Next.js applications with automatic response uncapitalization.
 
@@ -14,9 +14,9 @@ CQRS client using native fetch API for Next.js applications with automatic respo
 ## Installation
 
 ```bash
-npm install @leancodepl/next-fetch-client
+npm install @leancodepl/fetch-client
 # or
-yarn add @leancodepl/next-fetch-client
+yarn add @leancodepl/fetch-client
 ```
 
 ## API
@@ -47,7 +47,7 @@ Configuration options for the CQRS client.
 ### Basic Setup
 
 ```typescript
-import { mkCqrsClient } from "@leancodepl/next-fetch-client"
+import { mkCqrsClient } from "@leancodepl/fetch-client"
 
 const client = mkCqrsClient({
   cqrsEndpoint: "https://api.example.com",
@@ -115,15 +115,13 @@ if (response.isSuccess) {
 }
 
 // Using the handle method for validation
-createUser
-  .handle({ name: "John", email: "john@example.com" })
-  .then(handler =>
-    handler
-      .handle("success", () => console.log("User created"))
-      .handle("EmailExists", () => console.log("Email already exists"))
-      .handle("failure", () => console.log("Creation failed"))
-      .check(),
-  )
+createUser.handle({ name: "John", email: "john@example.com" }).then(handler =>
+  handler
+    .handle("success", () => console.log("User created"))
+    .handle("EmailExists", () => console.log("Email already exists"))
+    .handle("failure", () => console.log("Creation failed"))
+    .check(),
+)
 ```
 
 ### Operation Requests
@@ -151,7 +149,7 @@ if (response.isSuccess) {
 ### Next.js Server Component
 
 ```typescript
-import { mkCqrsClient } from "@leancodepl/next-fetch-client"
+import { mkCqrsClient } from "@leancodepl/fetch-client"
 
 const client = mkCqrsClient({
   cqrsEndpoint: process.env.API_URL!,
