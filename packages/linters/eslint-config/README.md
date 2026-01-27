@@ -48,8 +48,8 @@ export default [
 
 ## Migration from CommonJS to ES Modules
 
-Starting from this version, the package is built as an ES Module. If your ESLint configuration currently uses CommonJS
-syntax, follow these steps to migrate:
+Starting from 9.8.0 ???? TODO version, the package is built as an ES Module. If your ESLint configuration currently uses
+CommonJS syntax, follow these steps to migrate:
 
 - Rename `eslint.config.js` to `eslint.config.mjs` (if your `package.json` does not have `"type": "module"`)
 - Convert `require` statements to `import` syntax
