@@ -1,3 +1,3 @@
-const { leancodePlugin } = require("./lib/eslint-plugin.js")
+import { leancodePlugin } from "./lib/eslint-plugin.js"
 
-module.exports = { leancodePlugin }
+export { leancodePlugin }

@@ -2,11 +2,11 @@ import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
+import type { AuthTraitsConfig } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 import { getErrorMessage, RegistrationFlow, sessionManager } from "../services/kratos"
-import type { AuthTraitsConfig } from "../services/kratos"
 
 const registrationSearchSchema = z.object({
   flow: z.string().optional(),

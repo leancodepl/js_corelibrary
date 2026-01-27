@@ -2,13 +2,13 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs"
 import _ from "lodash"
 import { join } from "path"
 import { z } from "zod/v4"
+import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import {
   compileTranslations,
   createTranslationsTempDir,
   extractMessages,
   writeTranslationsToTempDir,
 } from "../formatjs"
-import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export const localCommandOptionsSchema = z.object({
   srcPattern: z.string(),

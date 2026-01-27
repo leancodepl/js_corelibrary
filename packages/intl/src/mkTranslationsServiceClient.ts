@@ -1,5 +1,5 @@
-import { POEditorClient } from "./poeditor/POEditorClient"
 import type { TranslationsServiceClient } from "./TranslationsServiceClient"
+import { POEditorClient } from "./poeditor/POEditorClient"
 
 export function mkTranslationsServiceClient({
   poeditorApiToken,

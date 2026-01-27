@@ -1,4 +1,4 @@
-const { switchCaseBracesRules } = require("../rules/switch-case-braces.js")
+import { switchCaseBracesRules } from "../rules/switch-case-braces.js"
 
 /**
  * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Plugin} Plugin
@@ -10,4 +10,4 @@ const leancodePlugin = {
   rules: { "switch-case-braces": switchCaseBracesRules },
 }
 
-module.exports = { leancodePlugin }
+export { leancodePlugin }

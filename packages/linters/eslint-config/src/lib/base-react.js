@@ -1,13 +1,13 @@
-const react = require("eslint-plugin-react")
-const reactHooks = require("eslint-plugin-react-hooks")
-const globals = require("globals")
+import react from "eslint-plugin-react"
+import reactHooks from "eslint-plugin-react-hooks"
+import globals from "globals"
 
 /**
  * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
  */
 
 /** @type {Config[]} */
-const baseReact = [
+export const baseReact = [
   {
     plugins: {
       react,
@@ -49,5 +49,3 @@ const baseReact = [
     },
   },
 ]
-
-module.exports = { baseReact }

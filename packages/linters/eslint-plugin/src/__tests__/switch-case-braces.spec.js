@@ -1,5 +1,5 @@
-const { RuleTester } = require("@typescript-eslint/rule-tester")
-const { switchCaseBracesRules } = require("../rules/switch-case-braces.js")
+import { RuleTester } from "@typescript-eslint/rule-tester"
+import { switchCaseBracesRules } from "../rules/switch-case-braces.js"
 
 /** @type {import('@typescript-eslint/rule-tester').RuleTester} */
 const ruleTester = new RuleTester({})

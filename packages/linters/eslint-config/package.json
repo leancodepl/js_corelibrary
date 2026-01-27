@@ -2,12 +2,13 @@
   "name": "@leancodepl/eslint-config",
   "version": "9.7.2",
   "license": "Apache-2.0",
+  "type": "module",
   "main": "src/index.js",
   "dependencies": {
     "@leancodepl/eslint-plugin": "9.7.2",
     "eslint-plugin-import": ">=2.31.0",
     "eslint-plugin-jsx-a11y": ">=6.10.0",
-    "eslint-plugin-perfectionist": ">=4.0.0 <5.0.0",
+    "eslint-plugin-perfectionist": ">=5.0.0",
     "eslint-plugin-react-hooks": ">=5.2.0",
     "eslint-plugin-unused-imports": ">=4.1.0",
     "globals": ">=15.0.0"

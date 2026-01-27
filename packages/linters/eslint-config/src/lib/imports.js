@@ -1,12 +1,12 @@
-const importsPlugin = require("eslint-plugin-import")
-const unusedImports = require("eslint-plugin-unused-imports")
+import importsPlugin from "eslint-plugin-import"
+import unusedImports from "eslint-plugin-unused-imports"
 
 /**
  * @typedef {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} Config
  */
 
 /** @type {Config[]} */
-const imports = [
+export const imports = [
   {
     plugins: {
       "unused-imports": unusedImports,
@@ -34,25 +34,32 @@ const imports = [
           order: "asc",
           groups: [
             "client-server-only",
+            "type-import",
             "react",
-            ["builtin", "external"],
-            ["internal-type", "internal"],
-            ["parent", "sibling", "index"],
-            ["type", "parent-type", "sibling-type", "index-type"],
+            ["value-builtin", "value-external"],
+            ["type-internal", "value-internal"],
+            ["type-parent", "type-sibling", "type-index"],
+            ["value-parent", "value-sibling", "value-index"],
             "side-effect",
             "style",
             "unknown",
           ],
-          customGroups: {
-            value: {
-              react: ["^react$", "^react-.+"],
-              "client-server-only": ["^client-only$", "^server-only$"],
+          customGroups: [
+            {
+              selector: "type",
+              groupName: "react",
+              elementNamePattern: "^react$",
             },
-            type: {
-              react: "^react$",
+            {
+              groupName: "react",
+              elementNamePattern: ["^react$", "^react-.+"],
             },
-          },
-          newlinesBetween: "never",
+            {
+              groupName: "client-server-only",
+              elementNamePattern: ["^client-only$", "^server-only$"],
+            },
+          ],
+          newlinesBetween: 0,
           internalPattern: ["^@leancodepl/.+"],
         },
       ],
@@ -76,5 +83,3 @@ const imports = [
     },
   },
 ]
-
-module.exports = { imports }
