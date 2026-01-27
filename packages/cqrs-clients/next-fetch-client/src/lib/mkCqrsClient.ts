@@ -144,7 +144,7 @@ export function mkCqrsClient({
 
         return data
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (error instanceof Error && error.name === "AbortError") {
           return createError(error, { isAborted: true })
         }
 
@@ -157,7 +157,7 @@ export function mkCqrsClient({
 
   return {
     createQuery<TQuery, TResult>(type: string) {
-      return async (dto: TQuery, options?: RequestInit) => {
+      return (dto: TQuery, options?: RequestInit) => {
         const abortController = new AbortController()
 
         const promise = doFetch<UncapitalizeDeep<TResult>>(`${cqrsEndpoint}/query/${type}`, dto, {
