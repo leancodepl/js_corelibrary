@@ -37,7 +37,7 @@ export type MkCqrsClientParameters = {
 }
 
 /**
- * Creates CQRS client using native fetch API for Next.js applications with automatic response uncapitalization.
+ * Creates CQRS client using native fetch API with automatic response uncapitalization.
  *
  * @param params - Configuration object for CQRS client
  * @param params.cqrsEndpoint - Base URL for CQRS API endpoints

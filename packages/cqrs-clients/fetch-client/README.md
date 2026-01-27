@@ -1,15 +1,14 @@
 # @leancodepl/fetch-client
 
-CQRS client using native fetch API for Next.js applications with automatic response uncapitalization.
+CQRS client using native fetch API with automatic response uncapitalization.
 
 ## Features
 
-- **Native fetch API** - No external HTTP dependencies, optimized for Next.js server and client components
+- **Native fetch API** - No external HTTP dependencies, works in any JavaScript environment
 - **CQRS pattern** - Separate queries, commands, and operations with proper typing
 - **Automatic uncapitalization** - Response keys automatically transformed from PascalCase to camelCase
 - **Query abort support** - Built-in AbortController for query cancellation
 - **Authentication** - Token handling with automatic refresh and retry logic
-- **Next.js cache integration** - Respects Next.js fetch caching semantics
 
 ## Installation
 
@@ -23,7 +22,7 @@ yarn add @leancodepl/fetch-client
 
 ### `mkCqrsClient(params)`
 
-Creates CQRS client using native fetch API for Next.js applications with automatic response uncapitalization.
+Creates CQRS client using native fetch API with automatic response uncapitalization.
 
 **Parameters:**
 
@@ -146,37 +145,6 @@ if (response.isSuccess) {
 }
 ```
 
-### Next.js Server Component
-
-```typescript
-import { mkCqrsClient } from "@leancodepl/fetch-client"
-
-const client = mkCqrsClient({
-  cqrsEndpoint: process.env.API_URL!,
-  fetchOptions: {
-    next: { revalidate: 60 },
-  },
-})
-
-const getProducts = client.createQuery<{}, ProductsResult>("GetProducts")
-
-export default async function ProductsPage() {
-  const response = await getProducts({})
-
-  if (!response.isSuccess) {
-    return <div>Error loading products</div>
-  }
-
-  return (
-    <ul>
-      {response.result.products.map(product => (
-        <li key={product.id}>{product.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
 ### Custom Fetch Options
 
 ```typescript
@@ -184,7 +152,6 @@ const client = mkCqrsClient({
   cqrsEndpoint: "https://api.example.com",
   fetchOptions: {
     credentials: "include",
-    next: { revalidate: 3600 },
   },
   tokenHeader: "X-Auth-Token",
 })
