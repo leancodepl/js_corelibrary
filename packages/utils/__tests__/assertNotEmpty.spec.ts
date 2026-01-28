@@ -7,7 +7,6 @@ describe("assertNotEmpty", () => {
 
   it("throws error when value is either null or undefined", () => {
     expect(() => assertNotEmpty(null)).toThrow()
-    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(() => assertNotEmpty(undefined)).toThrow()
   })
 })

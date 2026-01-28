@@ -4,7 +4,6 @@ import { toApiDateTimeOffset } from "../../src"
 
 describe("toApiDateTimeOffset", () => {
   it("handles undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     const apiDateTimeOffset = toApiDateTimeOffset(undefined)
 
     expect(apiDateTimeOffset).toBeUndefined()

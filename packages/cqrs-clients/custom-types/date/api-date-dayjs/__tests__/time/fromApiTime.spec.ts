@@ -3,7 +3,6 @@ import { ApiTimeOnly, fromApiTime } from "../../src"
 
 describe("fromApiTime", () => {
   it("handles undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     const time = fromApiTime(undefined)
 
     expect(time).toBeUndefined()

@@ -7,7 +7,6 @@ dayjs.extend(duration)
 
 describe("toApiTimeSpan", () => {
   it("handles undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     const apiTimeSpan = toApiTimeSpan(undefined)
 
     expect(apiTimeSpan).toBeUndefined()

@@ -6,7 +6,6 @@ describe("ensureNotEmpty", () => {
   })
 
   it("throws error when value is null or undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(() => ensureNotEmpty(undefined)).toThrow()
   })
 })

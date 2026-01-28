@@ -69,7 +69,7 @@ export function mockQuery<TQuery, TResult extends object>(
 }
 
 function cqrsError(status: number, response: object) {
-  return of().pipe(
+  return of(undefined).pipe(
     delay(100),
     mergeMap(() =>
       throwError(

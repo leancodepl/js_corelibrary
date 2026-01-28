@@ -4,7 +4,6 @@ import { ApiDateOnly, fromApiDate } from "../../src"
 
 describe("fromApiDate", () => {
   it("handles undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
     const date = fromApiDate(undefined)
 
     expect(date).toBeUndefined()

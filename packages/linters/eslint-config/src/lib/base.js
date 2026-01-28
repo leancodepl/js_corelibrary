@@ -108,7 +108,7 @@ export const base = [
       "unicorn/no-useless-fallback-in-spread": "error",
       "unicorn/no-useless-promise-resolve-reject": "error",
       "unicorn/no-useless-switch-case": "error",
-      "unicorn/no-useless-undefined": "error",
+      "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
       "unicorn/no-zero-fractions": "error",
       "unicorn/numeric-separators-style": "error",
       "unicorn/prefer-array-flat-map": "error",
