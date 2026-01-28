@@ -64,6 +64,7 @@ syntax, follow these steps to migrate:
 
   // or
 
+  const __filename = import.meta.filename
   const __dirname = import.meta.dirname
   ```
 
