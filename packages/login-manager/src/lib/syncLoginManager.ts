@@ -1,5 +1,5 @@
 import { BaseLoginManager, LoginManager } from "./baseLoginManager"
-import { CannotRefreshToken } from "./cannotRefreshToken"
+import { CannotRefreshTokenError } from "./cannotRefreshToken"
 import { SyncTokenStorage } from "./tokenStorage"
 
 /**
@@ -44,7 +44,7 @@ export class SyncLoginManager extends BaseLoginManager<SyncTokenStorage> impleme
       if (await this.tryRefreshTokenInternal(token)) {
         return this.storage.getToken()?.token ?? null
       } else {
-        throw new CannotRefreshToken("Cannot refresh access token after it has expired")
+        throw new CannotRefreshTokenError("Cannot refresh access token after it has expired")
       }
     } else {
       return token.token
