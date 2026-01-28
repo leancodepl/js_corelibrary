@@ -92,17 +92,23 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true
-      this.acquireToken(this.buildRefreshRequest(token)).then(result => {
-        this.isRefreshingToken = false
-        this.releaseRefreshLock()
-        this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
-        this.refreshTokenCallbacks = []
-      }).catch(() => {
-        this.isRefreshingToken = false
-        this.releaseRefreshLock()
-        this.refreshTokenCallbacks.forEach(c => c(false))
-        this.refreshTokenCallbacks = []
-      })
+      
+      const executeRefresh = async () => {
+        try {
+          const result = await this.acquireToken(this.buildRefreshRequest(token))
+          this.isRefreshingToken = false
+          this.releaseRefreshLock()
+          this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
+          this.refreshTokenCallbacks = []
+        } catch {
+          this.isRefreshingToken = false
+          this.releaseRefreshLock()
+          this.refreshTokenCallbacks.forEach(c => c(false))
+          this.refreshTokenCallbacks = []
+        }
+      }
+      
+      executeRefresh()
     }
 
     return new Promise(resolve => {
