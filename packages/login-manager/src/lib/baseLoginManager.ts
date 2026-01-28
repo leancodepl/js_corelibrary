@@ -22,6 +22,8 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   private callbacks: ((isSignedIn: boolean) => void)[] = []
   private refreshTokenCallbacks: ((success: boolean) => void)[] = []
   private isRefreshingToken = false
+  private readonly REFRESH_LOCK_KEY = "token_refresh_lock"
+  private readonly REFRESH_LOCK_TIMEOUT = 10000 // 10 seconds
 
   /* eslint-disable-next-line max-params */
   constructor(
@@ -37,6 +39,11 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         ...additionalParams,
         client_id: clientId,
       }
+    }
+    
+    // Listen for storage events to detect token updates from other tabs
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+      window.addEventListener("storage", this.handleStorageEvent.bind(this))
     }
   }
 
@@ -79,12 +86,24 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
   }
 
-  protected tryRefreshTokenInternal(token: Token): Promise<boolean> {
+  protected async tryRefreshTokenInternal(token: Token): Promise<boolean> {
+    // Try to acquire the refresh lock
+    if (!this.acquireRefreshLock()) {
+      // Another tab/instance is refreshing, wait for it to complete
+      return await this.waitForRefreshCompletion()
+    }
+
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true
       this.acquireToken(this.buildRefreshRequest(token)).then(result => {
         this.isRefreshingToken = false
+        this.releaseRefreshLock()
         this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
+        this.refreshTokenCallbacks = []
+      }).catch(() => {
+        this.isRefreshingToken = false
+        this.releaseRefreshLock()
+        this.refreshTokenCallbacks.forEach(c => c(false))
         this.refreshTokenCallbacks = []
       })
     }
@@ -92,6 +111,73 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     return new Promise(resolve => {
       this.refreshTokenCallbacks.push(resolve)
     })
+  }
+
+  private acquireRefreshLock(): boolean {
+    if (typeof localStorage === "undefined") {
+      return true // No cross-tab coordination needed
+    }
+
+    const now = Date.now()
+    const lockData = localStorage.getItem(this.REFRESH_LOCK_KEY)
+    
+    if (lockData) {
+      const lockTime = parseInt(lockData, 10)
+      // Check if lock is still valid (not expired)
+      if (now - lockTime < this.REFRESH_LOCK_TIMEOUT) {
+        return false // Lock is held by another tab
+      }
+      // Lock expired, we can take it over
+    }
+
+    localStorage.setItem(this.REFRESH_LOCK_KEY, now.toString())
+    return true
+  }
+
+  private releaseRefreshLock(): void {
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem(this.REFRESH_LOCK_KEY)
+    }
+  }
+
+  private async waitForRefreshCompletion(): Promise<boolean> {
+    if (typeof localStorage === "undefined") {
+      return false
+    }
+
+    // Wait for the lock to be released or timeout
+    const startTime = Date.now()
+    const pollInterval = 100 // Check every 100ms
+
+    return new Promise(resolve => {
+      const checkLock = async () => {
+        const lockData = localStorage.getItem(this.REFRESH_LOCK_KEY)
+        const elapsed = Date.now() - startTime
+
+        if (!lockData || elapsed > this.REFRESH_LOCK_TIMEOUT) {
+          // Lock released or timeout - check if token was refreshed
+          const currentToken = await this.storage.getToken()
+          // Compare tokens to see if refresh happened
+          resolve(currentToken !== null)
+        } else {
+          // Lock still held, check again
+          setTimeout(checkLock, pollInterval)
+        }
+      }
+
+      checkLock()
+    })
+  }
+
+  private handleStorageEvent(event: StorageEvent): void {
+    // Detect when tokens are updated in another tab
+    if (event.key === "token" || event.key === "refresh_token") {
+      // Token was updated, notify callbacks if we're waiting for refresh
+      if (this.refreshTokenCallbacks.length > 0) {
+        this.refreshTokenCallbacks.forEach(c => c(true))
+        this.refreshTokenCallbacks = []
+      }
+    }
   }
 
   public onChange(callback: (isSignedIn: boolean) => void) {
