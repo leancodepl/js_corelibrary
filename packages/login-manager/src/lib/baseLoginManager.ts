@@ -18,12 +18,13 @@ export type LoginResult = LoginFailure | LoginNetworkError | LoginSuccess
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LoginManager extends BaseLoginManager<TokenStorage> {}
 
+const refreshLockKey = "token_refresh_lock"
+const refreshLockTimeout = 10000
+
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   private callbacks: ((isSignedIn: boolean) => void)[] = []
   private refreshTokenCallbacks: ((success: boolean) => void)[] = []
   private isRefreshingToken = false
-  private readonly REFRESH_LOCK_KEY = "token_refresh_lock"
-  private readonly REFRESH_LOCK_TIMEOUT = 10000 // 10 seconds
 
   /* eslint-disable-next-line max-params */
   constructor(
@@ -122,22 +123,22 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
 
     const now = Date.now()
-    const lockData = localStorage.getItem(this.REFRESH_LOCK_KEY)
+    const lockData = localStorage.getItem(refreshLockKey)
     
     if (lockData) {
       const lockTime = parseInt(lockData, 10)
-      if (now - lockTime < this.REFRESH_LOCK_TIMEOUT) {
+      if (now - lockTime < refreshLockTimeout) {
         return false
       }
     }
 
-    localStorage.setItem(this.REFRESH_LOCK_KEY, now.toString())
+    localStorage.setItem(refreshLockKey, now.toString())
     return true
   }
 
   private releaseRefreshLock(): void {
     if (typeof localStorage !== "undefined") {
-      localStorage.removeItem(this.REFRESH_LOCK_KEY)
+      localStorage.removeItem(refreshLockKey)
     }
   }
 
@@ -151,10 +152,10 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
     return new Promise(resolve => {
       const checkLock = async () => {
-        const lockData = localStorage.getItem(this.REFRESH_LOCK_KEY)
+        const lockData = localStorage.getItem(refreshLockKey)
         const elapsed = Date.now() - startTime
 
-        if (!lockData || elapsed > this.REFRESH_LOCK_TIMEOUT) {
+        if (!lockData || elapsed > refreshLockTimeout) {
           const currentToken = await this.storage.getToken()
           resolve(currentToken !== null)
         } else {
