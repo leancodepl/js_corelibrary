@@ -15,9 +15,9 @@ import { ApiBinary, fromRaw } from "@leancodepl/api-binary"
  * ```
  */
 export function fromBlob(blob: Blob): Promise<ApiBinary>
-export function fromBlob(blob?: Blob): Promise<ApiBinary> | Promise<undefined>
+export function fromBlob(blob?: Blob): Promise<ApiBinary | undefined>
 export function fromBlob(blob?: Blob) {
-  if (!blob) return Promise.resolve()
+  if (!blob) return Promise.resolve(undefined)
 
   return new Promise<ApiBinary>((resolve, reject) => {
     try {

@@ -29,7 +29,6 @@ describe("uncapitalizeDeep", () => {
 describe("capitalizeDeep", () => {
   it("handles primitive types", async () => {
     expect(capitalizeDeep(null)).toBeUndefined()
-
     expect(capitalizeDeep(undefined)).toBeUndefined()
 
     const stringValue = "string"
