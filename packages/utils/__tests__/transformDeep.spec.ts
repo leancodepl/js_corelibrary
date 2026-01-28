@@ -3,6 +3,7 @@ import { capitalizeDeep, uncapitalizeDeep } from "../src"
 describe("uncapitalizeDeep", () => {
   it("handles primitive types", async () => {
     expect(uncapitalizeDeep(null)).toBeUndefined()
+    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(uncapitalizeDeep(undefined)).toBeUndefined()
 
     const stringValue = "string"
@@ -29,6 +30,7 @@ describe("uncapitalizeDeep", () => {
 describe("capitalizeDeep", () => {
   it("handles primitive types", async () => {
     expect(capitalizeDeep(null)).toBeUndefined()
+    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(capitalizeDeep(undefined)).toBeUndefined()
 
     const stringValue = "string"

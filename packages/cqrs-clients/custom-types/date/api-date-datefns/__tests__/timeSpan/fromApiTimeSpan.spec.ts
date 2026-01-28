@@ -3,6 +3,7 @@ import { ApiTimeSpan, fromApiTimeSpan } from "../../src"
 
 describe("fromApiTimeSpan", () => {
   it("handles undefined", () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     const timeSpan = fromApiTimeSpan(undefined)
 
     expect(timeSpan).toBeUndefined()

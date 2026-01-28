@@ -6,6 +6,7 @@ describe("assertDefined", () => {
   })
 
   it("throws when value is undefined", () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(() => assertDefined(undefined)).toThrow()
   })
 })

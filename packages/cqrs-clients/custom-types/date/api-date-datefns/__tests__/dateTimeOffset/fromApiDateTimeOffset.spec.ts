@@ -6,6 +6,7 @@ const dateTimeOffsetFormat = "yyyy-MM-dd'T'HH:mm:ssXXX"
 
 describe("fromApiDateTimeOffset", () => {
   it("handles undefined", () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     const dateTimeOffset = fromApiDateTimeOffset(undefined)
 
     expect(dateTimeOffset).toBeUndefined()

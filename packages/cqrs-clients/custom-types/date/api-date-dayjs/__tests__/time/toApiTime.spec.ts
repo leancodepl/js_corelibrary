@@ -7,6 +7,7 @@ dayjs.extend(customParseFormat)
 
 describe("toApiTime", () => {
   it("handles undefined", () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     const apiTime = toApiTime(undefined)
 
     expect(apiTime).toBeUndefined()

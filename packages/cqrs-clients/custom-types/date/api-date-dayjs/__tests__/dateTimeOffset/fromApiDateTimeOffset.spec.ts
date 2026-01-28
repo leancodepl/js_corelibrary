@@ -3,6 +3,7 @@ import { ApiDateTimeOffset, fromApiDateTimeOffset } from "../../src"
 
 describe("fromApiDateTimeOffset", () => {
   it("handles undefined", () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
     const dateTimeOffset = fromApiDateTimeOffset(undefined)
 
     expect(dateTimeOffset).toBeUndefined()
