@@ -61,6 +61,10 @@ syntax, follow these steps to migrate:
 
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = dirname(__filename)
+
+  // or
+
+  const __dirname = import.meta.dirname
   ```
 
 - If importing a CommonJS package with named imports fails, import the default export and destructure separately:
