@@ -24,7 +24,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-      expect(timeSpan).toBe(98210599)
+      expect(timeSpan).toBe(98_210_599)
     })
 
     it("converts negative api timespan to difference in milliseconds", () => {
@@ -32,7 +32,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-      expect(timeSpan).toBe(-98210599)
+      expect(timeSpan).toBe(-98_210_599)
     })
   })
 
@@ -52,7 +52,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-      expect(timeSpan).toBe(98210599)
+      expect(timeSpan).toBe(98_210_599)
     })
 
     it("converts negative api timespan to difference in milliseconds", () => {
@@ -60,7 +60,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpan = fromApiTimeSpan(apiTimeSpan as unknown as ApiTimeSpan)
 
-      expect(timeSpan).toBe(-98210599)
+      expect(timeSpan).toBe(-98_210_599)
     })
   })
 })

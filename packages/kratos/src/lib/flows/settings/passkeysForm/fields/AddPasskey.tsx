@@ -38,7 +38,7 @@ export function AddPasskey({ children }: PasskeyProps) {
   const registerWithPasskey = useCallback(async () => {
     if (!challenge) return
 
-    const credential = await passkeySettingsRegister(challenge.value, undefined)
+    const credential = await passkeySettingsRegister(challenge.value)
 
     if (!credential) return
 

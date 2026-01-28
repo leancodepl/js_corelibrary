@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join } from "node:path"
 import { download } from "../src"
 import { getTranslationsServiceClient } from "./_utils"
 
@@ -15,5 +15,5 @@ describe("download command", () => {
       languages: ["en", "pl"],
       translationsServiceClient,
     })
-  }, 30000)
+  }, 30_000)
 })

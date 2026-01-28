@@ -15,9 +15,9 @@ import { ApiBinary, fromRaw } from "@leancodepl/api-binary"
  * ```
  */
 export function fromBlob(blob: Blob): Promise<ApiBinary>
-export function fromBlob(blob?: Blob): Promise<ApiBinary | undefined>
+export function fromBlob(blob?: Blob): Promise<ApiBinary> | Promise<undefined>
 export function fromBlob(blob?: Blob) {
-  if (!blob) return Promise.resolve(undefined)
+  if (!blob) return Promise.resolve()
 
   return new Promise<ApiBinary>((resolve, reject) => {
     try {
@@ -26,7 +26,7 @@ export function fromBlob(blob?: Blob) {
         const result = reader.result
         if (typeof result === "string") {
           // we need to strip the `data:*/*;base64,` from the beginning
-          resolve(fromRaw(result.substring(1 + result.indexOf(",", result.indexOf(";")))))
+          resolve(fromRaw(result.slice(Math.max(0, 1 + result.indexOf(",", result.indexOf(";"))))))
           return
         }
 
@@ -34,8 +34,8 @@ export function fromBlob(blob?: Blob) {
       }
       reader.onerror = reject
       reader.readAsDataURL(blob)
-    } catch (e) {
-      reject(e)
+    } catch (error) {
+      reject(error)
     }
   })
 }

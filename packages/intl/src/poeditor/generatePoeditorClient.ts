@@ -1,7 +1,7 @@
-import { execSync } from "child_process"
-import { writeFileSync } from "fs"
-import { mkdir } from "fs/promises"
-import { join } from "path"
+import { execSync } from "node:child_process"
+import { writeFileSync } from "node:fs"
+import { mkdir } from "node:fs/promises"
+import { join } from "node:path"
 
 const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./src/poeditor/openapi-schema"

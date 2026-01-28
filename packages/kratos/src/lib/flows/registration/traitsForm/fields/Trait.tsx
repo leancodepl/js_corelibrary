@@ -23,7 +23,7 @@ export function TraitInput<TTrait extends string>({ trait, children }: TraitProp
     <traitsForm.Field name={`${traitPrefix}${trait}`}>
       {field => {
         if (typeof field.state.value !== "string") {
-          throw new Error("TraitInput: value is not string")
+          throw new TypeError("TraitInput: value is not string")
         }
 
         return (
@@ -50,7 +50,7 @@ export function TraitCheckbox<TTrait extends string>({ trait, children }: TraitP
     <traitsForm.Field name={`${traitPrefix}${trait}`}>
       {field => {
         if (typeof field.state.value !== "boolean") {
-          throw new Error("TraitCheckbox: value is not boolean")
+          throw new TypeError("TraitCheckbox: value is not boolean")
         }
 
         return (

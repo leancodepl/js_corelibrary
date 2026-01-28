@@ -64,12 +64,20 @@ export class BaseSessionManager<TTraitsConfig extends TraitsConfig> {
     }
   }
 
-  getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> =>
-    (await this.getSession())?.identity
+  getIdentity = async (): Promise<IdentityWithTypedTraits<TTraitsConfig> | undefined> => {
+    const session = await this.getSession()
+    return session?.identity
+  }
 
-  getUserId = async (): Promise<string | undefined> => (await this.getIdentity())?.id
+  getUserId = async (): Promise<string | undefined> => {
+    const identity = await this.getIdentity()
+    return identity?.id
+  }
 
-  isLoggedIn = async (): Promise<boolean> => (await this.getSession())?.active ?? false
+  isLoggedIn = async (): Promise<boolean> => {
+    const session = await this.getSession()
+    return session?.active ?? false
+  }
 
   useSession = () => {
     const {

@@ -27,7 +27,7 @@ export function mockCommand<TCommand, TErrorCodes extends Record<string, number>
   resultOrResultMap: ((params: TCommand) => CommandResponse<TErrorCodes>) | CommandResponse<TErrorCodes>,
 ) {
   return (config: AjaxConfig) => {
-    if (!config.url.endsWith(`command/${command.type}`)) return undefined
+    if (!config.url.endsWith(`command/${command.type}`)) return
 
     const result = typeof resultOrResultMap === "function" ? resultOrResultMap(config.body) : resultOrResultMap
 
@@ -56,7 +56,7 @@ export function mockQuery<TQuery, TResult extends object>(
   resultOrResultMap: ((params: TQuery) => QueryResponse<TResult>) | QueryResponse<TResult>,
 ) {
   return (config: AjaxConfig) => {
-    if (!config.url.endsWith(`query/${query.type}`)) return undefined
+    if (!config.url.endsWith(`query/${query.type}`)) return
 
     const result = typeof resultOrResultMap === "function" ? resultOrResultMap(config.body) : resultOrResultMap
 
@@ -69,7 +69,7 @@ export function mockQuery<TQuery, TResult extends object>(
 }
 
 function cqrsError(status: number, response: object) {
-  return of(undefined).pipe(
+  return of().pipe(
     delay(100),
     mergeMap(() =>
       throwError(

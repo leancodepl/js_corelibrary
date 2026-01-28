@@ -56,7 +56,7 @@ export const useLogout: UseLogout = () => {
       sessionManager.checkIfLoggedIn()
 
       if (returnTo) {
-        window.location.href = returnTo
+        globalThis.location.href = returnTo
       }
 
       queryClient.removeQueries({ queryKey: [baseQueryKey] })

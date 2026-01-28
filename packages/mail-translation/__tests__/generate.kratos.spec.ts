@@ -1,4 +1,4 @@
-import * as path from "path"
+import * as path from "node:path"
 import { generate } from "../src"
 
 const kratosTestDir = path.join(__dirname, "kratos")
@@ -22,9 +22,9 @@ describe("generate function - Kratos mode", () => {
     const sortedResult = result
       .map(template => ({
         ...template,
-        outputTemplates: template.outputTemplates.sort((a, b) => a.filename.localeCompare(b.filename)),
+        outputTemplates: template.outputTemplates.toSorted((a, b) => a.filename.localeCompare(b.filename)),
       }))
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .toSorted((a, b) => a.name.localeCompare(b.name))
 
     expect(sortedResult).toMatchSnapshot()
   })

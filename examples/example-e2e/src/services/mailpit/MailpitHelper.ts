@@ -41,7 +41,7 @@ export class MailpitHelper {
     condition: (result: T) => boolean,
     options: { timeout?: number; interval?: number } = {},
   ): Promise<T> {
-    const timeout = options.timeout ?? 10000
+    const timeout = options.timeout ?? 10_000
     const interval = options.interval ?? 500
     const startTime = Date.now()
     while (true) {

@@ -78,7 +78,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
     validationErrorsToHandle: ReadonlyArray<THandledErrors> | THandledErrors,
     handler: ValidationErrorHandlerFunc<TAllErrors, THandledErrors, TResult>,
   ) => {
-    let result: TResult | undefined = undefined
+    let result: TResult | undefined
 
     for (const validationErrorToHandle of Array.isArray(validationErrorsToHandle)
       ? validationErrorsToHandle
@@ -113,7 +113,7 @@ export function handleValidationErrors<TAllErrors extends Record<string, number>
     _validationErrorsToHandle: ReadonlyArray<THandledErrors> | THandledErrors,
     handler: ValidationErrorHandlerAllFunc<TAllErrors, THandledErrors, TResult>,
   ) => {
-    let result: TResult | undefined = undefined
+    let result: TResult | undefined
 
     const validationErrorsToHandle = Array.isArray(_validationErrorsToHandle)
       ? _validationErrorsToHandle

@@ -9,9 +9,7 @@ type DataLayerArguments<T extends { event: string }> = T & {
 }
 
 declare global {
-  interface Window {
-    dataLayer?: DataLayerArguments<{ event: string }>[]
-  }
+  var dataLayer: DataLayerArguments<{ event: string }>[] | undefined
 }
 
 /**
@@ -30,6 +28,6 @@ declare global {
  */
 export function mkgtag<T extends { event: string }>() {
   return (dataLayerArguments: DataLayerArguments<T>) => {
-    window.dataLayer?.push(dataLayerArguments)
+    globalThis.dataLayer?.push(dataLayerArguments)
   }
 }

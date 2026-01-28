@@ -2,7 +2,7 @@ import { fromBlob } from "../src"
 
 describe("fromBlob", () => {
   it("handles undefined", async () => {
-    const blob = await fromBlob(undefined)
+    const blob = await fromBlob()
 
     expect(blob).toBeUndefined()
   })

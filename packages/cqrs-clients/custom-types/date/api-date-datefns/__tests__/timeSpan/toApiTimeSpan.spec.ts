@@ -20,7 +20,7 @@ describe("toApiTimeSpan", () => {
     })
 
     it("converts difference in milliseconds to api time span", () => {
-      const differenceInMilliseconds = 98210599
+      const differenceInMilliseconds = 98_210_599
 
       const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds)
 
@@ -28,7 +28,7 @@ describe("toApiTimeSpan", () => {
     })
 
     it("converts negative difference in milliseconds to api time span", () => {
-      const differenceInMilliseconds = -98210599
+      const differenceInMilliseconds = -98_210_599
 
       const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds)
 
@@ -48,7 +48,7 @@ describe("toApiTimeSpan", () => {
     })
 
     it("converts difference in milliseconds to api time span", () => {
-      const differenceInMilliseconds = 98210599
+      const differenceInMilliseconds = 98_210_599
 
       const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds)
 
@@ -56,7 +56,7 @@ describe("toApiTimeSpan", () => {
     })
 
     it("converts negative difference in milliseconds to api time span", () => {
-      const differenceInMilliseconds = -98210599
+      const differenceInMilliseconds = -98_210_599
 
       const apiTimeSpan = toApiTimeSpan(differenceInMilliseconds)
 

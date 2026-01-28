@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join } from "node:path"
 import { local } from "../src"
 import { getTranslationsServiceClient } from "./_utils"
 
@@ -16,5 +16,5 @@ describe("local command", () => {
       defaultLanguage: "pl",
       translationsServiceClient,
     })
-  }, 30000)
+  }, 30_000)
 })

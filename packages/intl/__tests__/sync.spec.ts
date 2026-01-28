@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join } from "node:path"
 import { sync } from "../src"
 import { getTranslationsServiceClient } from "./_utils"
 
@@ -17,5 +17,5 @@ describe("sync command", () => {
       translationsServiceClient,
       defaultLanguage: "pl",
     })
-  }, 30000)
+  }, 30_000)
 })

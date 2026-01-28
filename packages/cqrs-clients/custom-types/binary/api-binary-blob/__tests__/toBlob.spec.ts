@@ -3,7 +3,7 @@ import "blob-polyfill" // https://github.com/jsdom/jsdom/issues/2555
 
 describe("toBlob", () => {
   it("handles undefined", () => {
-    const blob = toBlob(undefined)
+    const blob = toBlob()
 
     expect(blob).toBeUndefined()
   })
