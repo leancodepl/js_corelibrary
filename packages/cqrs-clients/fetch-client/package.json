@@ -1,0 +1,41 @@
+{
+  "name": "@leancodepl/fetch-client",
+  "version": "9.7.2",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@leancodepl/cqrs-client-base": "*",
+    "@leancodepl/validation": "*",
+    "@leancodepl/utils": "*",
+    "tslib": "^2.3.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/cqrs-clients/fetch-client"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Fetch client for CQRS commands and queries",
+  "keywords": [
+    "cqrs",
+    "fetch",
+    "commands",
+    "queries",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  }
+}
