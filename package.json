@@ -90,5 +90,8 @@
   ],
   "nx": {
     "includedScripts": []
+  },
+  "scripts": {
+    "prepare": "husky"
   }
 }
