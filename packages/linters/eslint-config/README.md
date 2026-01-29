@@ -45,3 +45,32 @@ export default [
   },
 ]
 ```
+
+## Migration from CommonJS to ES Modules
+
+Starting from 10.0.0 version, the package is built as an ES Module. If your ESLint configuration currently uses CommonJS
+syntax, follow these steps to migrate:
+
+- Rename `eslint.config.js` to `eslint.config.mjs` (if your `package.json` does not have `"type": "module"`)
+- Convert `require` statements to `import` syntax
+- Replace CommonJS variables like `__dirname` with ES Module equivalents:
+
+  ```javascript
+  import { dirname } from "node:path"
+  import { fileURLToPath } from "node:url"
+
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = dirname(__filename)
+
+  // or
+
+  const __filename = import.meta.filename
+  const __dirname = import.meta.dirname
+  ```
+
+- If importing a CommonJS package with named imports fails, import the default export and destructure separately:
+
+  ```javascript
+  import commonjsPackage from "commonjs-package"
+  const { someExport } = commonjsPackage
+  ```
