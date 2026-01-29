@@ -1,15 +1,13 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
-import { OidcProvider, providers } from "../../../utils"
+import { useOidcProviders } from "../../../hooks"
+import { defaultProviders, getAllOidcProviderUiNodes } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
 import { getOidcProviderType } from "./providers"
 
-type OidcProviderComponents<TProvider extends string> = {
-  [key in Capitalize<TProvider>]?: ComponentType<{ children: ReactNode }>
-}
-
-export type OidcFormProps = OidcProviderComponents<OidcProvider> & {
+export type OidcFormProps = {
+  [key: string]: ComponentType<{ children: ReactNode }> | undefined
   isLoading: boolean
 }
 
@@ -19,27 +17,32 @@ type OidcFormWrapperProps = {
 
 export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
   const { data: settingsFlow } = useGetSettingsFlow()
+  const customOidcProviders = useOidcProviders()
 
   const oidcComponents = useMemo(() => {
     if (!settingsFlow) {
-      return {}
+      return { isLoading: true }
     }
 
-    return providers.reduce((acc, provider) => {
-      const providerName = toUpperFirst(provider)
-      const type = getOidcProviderType(provider, settingsFlow.ui.nodes)
+    const availableProviders = getAllOidcProviderUiNodes(settingsFlow.ui.nodes)
+    const components: OidcFormProps = { isLoading: false }
+
+    availableProviders.forEach(node => {
+      const providerId = node.attributes.value
+      const providerName = toUpperFirst(providerId)
+      const type = getOidcProviderType(providerId, settingsFlow.ui.nodes)
 
       if (type) {
-        acc[providerName] = ({ children }: { children: ReactNode }) => (
-          <Oidc provider={provider} type={type}>
+        components[providerName] = ({ children }: { children: ReactNode }) => (
+          <Oidc provider={providerId} type={type}>
             {children}
           </Oidc>
         )
       }
+    })
 
-      return acc
-    }, {} as OidcFormProps)
+    return components
   }, [settingsFlow])
 
-  return <OidcForm {...oidcComponents} isLoading={!settingsFlow} />
+  return <OidcForm {...oidcComponents} />
 }
