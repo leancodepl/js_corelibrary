@@ -1,0 +1,38 @@
+{
+  "name": "@leancodepl/nx-plugins",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/nx-plugins"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Collection of Nx plugins for LeanCode projects",
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "generators",
+    "executors",
+    "typescript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "dependencies": {
+    "@nx/devkit": "^21.0.0",
+    "tslib": "^2.3.0"
+  }
+}
