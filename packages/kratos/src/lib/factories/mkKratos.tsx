@@ -11,7 +11,7 @@ import { KratosClientProvider, KratosSessionProvider, OidcProvidersProvider } fr
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
-import { OidcProviderConfig, OidcProvidersConfig, TraitsConfig } from "../utils"
+import { OidcProvidersConfig, TraitsConfig } from "../utils"
 
 export type MkKratosConfig<
   TTraitsConfig extends TraitsConfig,
