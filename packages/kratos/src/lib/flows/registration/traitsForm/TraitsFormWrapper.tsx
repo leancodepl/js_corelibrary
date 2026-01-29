@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
 import { useFormErrors, useOidcProviders } from "../../../hooks"
-import { AuthError, getAllOidcProviderUiNodes, TraitsConfig } from "../../../utils"
+import { AuthError, getAllOidcProviderUiNodes, OidcProviderComponents, OidcProvidersConfig, TraitsConfig } from "../../../utils"
 import { Submit } from "../../fields"
 import { useGetRegistrationFlow } from "../hooks"
 import { OnRegistrationFlowError } from "../types"
@@ -17,33 +17,38 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
       : never
 }
 
-type OidcProviderComponents = {
-  [key: string]: ComponentType<{ children: ReactNode }> | undefined
-}
-
-export type TraitsFormProps<TTraitsConfig extends TraitsConfig> = {
+export type TraitsFormProps<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = []
+> = {
   traitFields: TraitsComponents<TTraitsConfig> & {
     Submit: ComponentType<{ children: ReactNode }>
   }
-  oidcProviders: OidcProviderComponents
+  oidcProviders: OidcProviderComponents<TOidcProvidersConfig>
   errors: Array<AuthError>
   isSubmitting: boolean
   isValidating: boolean
 }
 
-type TraitsFormWrapperProps<TTraitsConfig extends TraitsConfig> = {
+type TraitsFormWrapperProps<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = []
+> = {
   traitsConfig: TTraitsConfig
-  traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
+  traitsForm: ComponentType<TraitsFormProps<TTraitsConfig, TOidcProvidersConfig>>
   onError?: OnRegistrationFlowError<TTraitsConfig>
   onRegistrationSuccess?: () => void
 }
 
-export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
+export function TraitsFormWrapper<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = []
+>({
   traitsConfig,
   traitsForm: TraitsForm,
   onError,
   onRegistrationSuccess,
-}: TraitsFormWrapperProps<TTraitsConfig>) {
+}: TraitsFormWrapperProps<TTraitsConfig, TOidcProvidersConfig>) {
   const traitsForm = useTraitsForm({ traitsConfig, onError, onRegistrationSuccess })
   const formErrors = useFormErrors(traitsForm)
   const { data: registrationFlow } = useGetRegistrationFlow()
@@ -63,10 +68,10 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
   )
 
   const oidcProviderComponents = useMemo(() => {
-    if (!registrationFlow) return {}
+    if (!registrationFlow) return {} as OidcProviderComponents<TOidcProvidersConfig>
 
     const availableProviders = getAllOidcProviderUiNodes(registrationFlow.ui.nodes)
-    const components: OidcProviderComponents = {}
+    const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
@@ -77,7 +82,7 @@ export function TraitsFormWrapper<TTraitsConfig extends TraitsConfig>({
       )
     })
 
-    return components
+    return components as OidcProviderComponents<TOidcProvidersConfig>
   }, [registrationFlow])
 
   return (

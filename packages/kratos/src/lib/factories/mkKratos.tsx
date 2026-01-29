@@ -11,25 +11,21 @@ import { KratosClientProvider, KratosSessionProvider, OidcProvidersProvider } fr
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
-import { TraitsConfig } from "../utils"
-
-export type OidcProviderConfig = {
-  id: string
-  label?: string
-}
+import { OidcProvidersConfig, TraitsConfig } from "../utils"
 
 export type MkKratosConfig<
   TTraitsConfig extends TraitsConfig,
   TSessionManager extends BaseSessionManager<TTraitsConfig>,
+  TOidcProvidersConfig extends OidcProvidersConfig,
 > = {
   queryClient: QueryClient
   basePath: string
   traits?: TTraitsConfig
   SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
-  oidcProviders?: readonly OidcProviderConfig[]
+  oidcProviders?: TOidcProvidersConfig
 }
 
-export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
+export type FlowsConfig<TTraitsConfig extends TraitsConfig, TOidcProvidersConfig extends OidcProvidersConfig = []> = {
   /**
    * Provides logout functionality for Kratos authentication flows.
    *
@@ -87,7 +83,7 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
    * />
    * ```
    */
-  LoginFlow: ComponentType<LoginFlowProps>
+  LoginFlow: ComponentType<LoginFlowProps<TOidcProvidersConfig>>
 
   /**
    * Renders a multi-step password recovery flow with email verification and password reset.
@@ -148,7 +144,7 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
    * />
    * ```
    */
-  RegistrationFlow: ComponentType<Omit<RegistrationFlowProps<TTraitsConfig>, "traitsConfig">>
+  RegistrationFlow: ComponentType<Omit<RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">>
 
   /**
    * Renders a complete settings flow with user account management capabilities.
@@ -244,13 +240,14 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
 export function mkKratos<
   TTraitsConfig extends TraitsConfig,
   TSessionManager extends BaseSessionManager<TTraitsConfig>,
+  TOidcProvidersConfig extends OidcProvidersConfig = [],
 >({
   queryClient,
   basePath,
   traits = {} as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
-  oidcProviders = [],
-}: MkKratosConfig<TTraitsConfig, TSessionManager>) {
+  oidcProviders = [] as unknown as TOidcProvidersConfig,
+}: MkKratosConfig<TTraitsConfig, TSessionManager, TOidcProvidersConfig>) {
   const api = new FrontendApi(
     new Configuration({
       basePath,
@@ -260,13 +257,13 @@ export function mkKratos<
 
   const sessionManager = new SessionManager({ queryClient, api })
 
-  const flows: FlowsConfig<TTraitsConfig> = {
+  const flows: FlowsConfig<TTraitsConfig, TOidcProvidersConfig> = {
     useLogout: logoutFlow.useLogout,
     LoginFlow: loginFlow.LoginFlow,
     RecoveryFlow: recoveryFlow.RecoveryFlow,
-    RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig>, "traitsConfig">) => (
-      <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />
-    ),
+    RegistrationFlow: (
+      props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">,
+    ) => <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />,
     SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig>, "traitsConfig">) => (
       <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />
     ),
