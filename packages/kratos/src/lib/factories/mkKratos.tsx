@@ -25,7 +25,10 @@ export type MkKratosConfig<
   oidcProviders?: TOidcProvidersConfig
 }
 
-export type FlowsConfig<TTraitsConfig extends TraitsConfig, TOidcProvidersConfig extends OidcProvidersConfig = []> = {
+export type FlowsConfig<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly [],
+> = {
   /**
    * Provides logout functionality for Kratos authentication flows.
    *
@@ -205,10 +208,12 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig, TOidcProvidersConfig
  *
  * @template TTraitsConfig - Configuration type for user traits schema
  * @template TSessionManager - Session manager implementation extending {@link BaseSessionManager}
+ * @template TOidcProvidersConfig - Configuration type for OIDC providers array
  * @param queryClient - React Query client instance for managing server state
  * @param basePath - Base URL for the Kratos API server
  * @param traits - Optional traits configuration object for user schema validation
  * @param SessionManager - Optional session manager constructor, defaults to {@link BaseSessionManager}
+ * @param oidcProviders - Optional array of custom OIDC provider configurations. Each provider should have an `id` (matching Kratos provider ID) and optional `label`. Define as `as const` for type safety.
  * @returns Object containing authentication flows, React providers, and session manager
  * @example
  * ```tsx
@@ -216,10 +221,12 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig, TOidcProvidersConfig
  * import { mkKratos } from "@leancodepl/kratos";
  *
  * const queryClient = new QueryClient();
+ * const oidcProviders = [{ id: "google" }, { id: "github" }] as const;
  * const kratos = mkKratos({
  *   queryClient,
  *   basePath: "https://api.example.com/.ory",
- *   traits: { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const
+ *   traits: { Email: { trait: "email", type: "string", }, GivenName: { trait: "given_name", type: "string", } } as const,
+ *   oidcProviders,
  * });
  *
  * // Use flows
@@ -240,13 +247,13 @@ export type FlowsConfig<TTraitsConfig extends TraitsConfig, TOidcProvidersConfig
 export function mkKratos<
   TTraitsConfig extends TraitsConfig,
   TSessionManager extends BaseSessionManager<TTraitsConfig>,
-  TOidcProvidersConfig extends OidcProvidersConfig = [],
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly [],
 >({
   queryClient,
   basePath,
   traits = {} as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
-  oidcProviders = [] as unknown as TOidcProvidersConfig,
+  oidcProviders = [] as const as TOidcProvidersConfig,
 }: MkKratosConfig<TTraitsConfig, TSessionManager, TOidcProvidersConfig>) {
   const api = new FrontendApi(
     new Configuration({

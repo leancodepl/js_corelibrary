@@ -8,12 +8,6 @@ export type OidcProviderConfig = {
 export type OidcProvidersConfig = readonly OidcProviderConfig[]
 
 /**
- * Capitalizes the first letter of a string
- * @example Capitalize<"google"> -> "Google"
- */
-type Capitalize<T extends string> = T extends `${infer First}${infer Rest}` ? `${Uppercase<First>}${Rest}` : T
-
-/**
  * Transforms OIDC provider config array into a typed object with capitalized provider IDs as keys
  * @example
  * type Config = [{ id: "google" }, { id: "microsoft" }]

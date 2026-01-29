@@ -14,7 +14,7 @@ import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./seco
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
 
-export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = []> = {
+export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   loaderComponent?: ComponentType
   chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
   secondFactorForm: ComponentType<SecondFactorFormProps>
@@ -29,7 +29,7 @@ export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = []
   onSessionAlreadyAvailable?: () => void
 }
 
-function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = []>({
+function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   loaderComponent: LoaderComponent,
   chooseMethodForm: ChooseMethodForm,
   secondFactorForm: SecondFactorForm,
@@ -170,7 +170,7 @@ function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = []>
  * }
  * ```
  */
-export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = []>(props: LoginFlowProps<TOidcProvidersConfig>) {
+export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>(props: LoginFlowProps<TOidcProvidersConfig>) {
   return (
     <VerificationFlowProvider>
       <LoginFlowProvider>

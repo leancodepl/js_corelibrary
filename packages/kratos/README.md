@@ -264,6 +264,8 @@ export type OidcProvidersConfig = typeof oidcProvidersConfig
 import { loginFlow } from "@leancodepl/kratos"
 import type { OidcProvidersConfig } from "./kratosService"
 
+// Note: Provider IDs are capitalized (first letter only) in the component names.
+// For example, "github" becomes "Github", "microsoft" becomes "Microsoft".
 function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
   const { oidcProviders, isSubmitting, isValidating } = props
 
@@ -281,10 +283,10 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
         </oidcProviders.Github>
       )}
 
-      {oidcProviders.Google && (
-        <oidcProviders.Google>
-          <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
-        </oidcProviders.Google>
+      {oidcProviders.Reddit && (
+        <oidcProviders.Reddit>
+          <button disabled={isSubmitting || isValidating}>Sign in with Reddit</button>
+        </oidcProviders.Reddit>
       )}
     </div>
   )
