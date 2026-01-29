@@ -19,7 +19,7 @@ type TraitsComponents<TTraitsConfig extends TraitsConfig> = {
 
 export type TraitsFormProps<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 > = {
   traitFields: TraitsComponents<TTraitsConfig> & {
     Submit: ComponentType<{ children: ReactNode }>
@@ -32,7 +32,7 @@ export type TraitsFormProps<
 
 type TraitsFormWrapperProps<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 > = {
   traitsConfig: TTraitsConfig
   traitsForm: ComponentType<TraitsFormProps<TTraitsConfig, TOidcProvidersConfig>>
@@ -42,7 +42,7 @@ type TraitsFormWrapperProps<
 
 export function TraitsFormWrapper<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 >({
   traitsConfig,
   traitsForm: TraitsForm,

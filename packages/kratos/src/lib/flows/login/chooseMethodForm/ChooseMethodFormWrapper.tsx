@@ -9,7 +9,7 @@ import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Identifier, Oidc, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
 
-type ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig extends OidcProvidersConfig = []> = {
+type ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   errors: AuthError[]
   isSubmitting: boolean
   isValidating: boolean
@@ -17,7 +17,7 @@ type ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig extends OidcProvidersC
   oidcProviders: OidcProviderComponents<TOidcProvidersConfig>
 }
 
-type ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig extends OidcProvidersConfig = []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
+type ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
   isRefresh: true
   identifier?: string
   passwordFields?: {
@@ -26,7 +26,7 @@ type ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig extends OidcProvide
   }
 }
 
-type ChooseMethodFormPropsLoaded<TOidcProvidersConfig extends OidcProvidersConfig = []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
+type ChooseMethodFormPropsLoaded<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
   isRefresh?: false
   passwordFields: {
     Identifier: ComponentType<{ children: ReactNode }>
@@ -35,16 +35,16 @@ type ChooseMethodFormPropsLoaded<TOidcProvidersConfig extends OidcProvidersConfi
   }
 }
 
-export type ChooseMethodFormProps<TOidcProvidersConfig extends OidcProvidersConfig = []> = ChooseMethodFormPropsLoaded<TOidcProvidersConfig> | ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig>
+export type ChooseMethodFormProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoaded<TOidcProvidersConfig> | ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig>
 
-type ChooseMethodFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConfig = []> = {
+type ChooseMethodFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
   isRefresh: boolean | undefined
   onError?: OnLoginFlowError
   onLoginSuccess?: () => void
 }
 
-export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig = []>({
+export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   chooseMethodForm: ChooseMethodForm,
   isRefresh,
   onError,
