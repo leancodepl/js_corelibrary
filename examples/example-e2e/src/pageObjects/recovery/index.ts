@@ -71,7 +71,8 @@ export class RecoveryPage extends CommonPage {
   }
 
   async getEmailFormErrors() {
-    return (await this.emailFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.emailFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // Code form
@@ -85,7 +86,8 @@ export class RecoveryPage extends CommonPage {
   }
 
   async getCodeFormErrors() {
-    return (await this.codeFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.codeFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // New password form
@@ -100,6 +102,7 @@ export class RecoveryPage extends CommonPage {
   }
 
   async getNewPasswordFormErrors() {
-    return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.newPasswordFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 }

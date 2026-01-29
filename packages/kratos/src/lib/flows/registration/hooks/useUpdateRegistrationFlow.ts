@@ -44,7 +44,7 @@ export function useUpdateRegistrationFlow() {
           } else {
             handleContinueWith(data.continue_with, {
               onRedirect: (url, _external) => {
-                window.location.href = url
+                globalThis.location.href = url
               },
             })
           }
@@ -54,7 +54,7 @@ export function useUpdateRegistrationFlow() {
       } catch (error) {
         return (await handleFlowError<RegistrationFlow>({
           onRedirect: (url, _external) => {
-            window.location.href = url
+            globalThis.location.href = url
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,

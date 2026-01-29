@@ -49,7 +49,7 @@ export function useTraitsForm<TTraitsConfig extends TraitsConfig>({
       if (
         response.state === RegistrationFlowState.ChooseMethod &&
         // "Please choose a credential to authenticate yourself with."
-        response.ui.messages?.some(({ id }) => id === 1040009)
+        response.ui.messages?.some(({ id }) => id === 1_040_009)
       ) {
         setTraits(value.traits)
         setTraitsFormCompleted(true)

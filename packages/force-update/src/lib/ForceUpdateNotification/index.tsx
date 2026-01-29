@@ -11,8 +11,8 @@ export function ForceUpdateNotification({
   useEffect(() => {
     const cleanup = listenOnForceUpdate({
       onNewVersionAvailable: () => {
-        if (window.confirm(message)) {
-          window.location.reload()
+        if (globalThis.confirm(message)) {
+          globalThis.location.reload()
         }
       },
     })

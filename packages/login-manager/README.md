@@ -78,7 +78,7 @@ Integrates Facebook Login SDK for web applications.
 - `facebookAppId: string` - Facebook App ID
 - `facebookPermissions: string` - Comma-separated Facebook permissions
 
-### `CannotRefreshToken`
+### `CannotRefreshTokenError`
 
 Error thrown when token refresh fails.
 
@@ -149,7 +149,7 @@ facebookClient.login(async accessToken => {
 ### Token Management
 
 ```typescript
-import { CannotRefreshToken, SyncLoginManager, LocalTokenStorage } from "@leancodepl/login-manager"
+import { CannotRefreshTokenError, SyncLoginManager, LocalTokenStorage } from "@leancodepl/login-manager"
 
 const tokenStorage = new LocalTokenStorage()
 const loginManager = new SyncLoginManager(
@@ -164,7 +164,7 @@ try {
   const token = await loginManager.getToken()
   console.log("Access token:", token)
 } catch (error) {
-  if (error instanceof CannotRefreshToken) {
+  if (error instanceof CannotRefreshTokenError) {
     console.log("Token expired, user needs to sign in again")
     await loginManager.signOut()
   }

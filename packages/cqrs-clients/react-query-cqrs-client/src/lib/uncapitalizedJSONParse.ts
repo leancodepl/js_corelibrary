@@ -2,7 +2,7 @@ import { toLowerFirst } from "@leancodepl/utils"
 
 export function uncapitalizedJSONParse(json: string) {
   return JSON.parse(json, (key, value) => {
-    if (value === null && key !== "") return undefined
+    if (value === null && key !== "") return
 
     if (!value || Array.isArray(value) || typeof value !== "object") return value
 

@@ -60,7 +60,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
-      expect(timeSpanInMilliseconds).toBe(-98210599)
+      expect(timeSpanInMilliseconds).toBe(-98_210_599)
     })
   })
 
@@ -112,7 +112,7 @@ describe("fromApiTimeSpan", () => {
 
       const timeSpanInMilliseconds = timeSpan.asMilliseconds()
 
-      expect(timeSpanInMilliseconds).toBe(-98210599)
+      expect(timeSpanInMilliseconds).toBe(-98_210_599)
     })
   })
 })

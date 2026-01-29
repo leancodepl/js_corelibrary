@@ -1,12 +1,12 @@
 import { jest } from "@jest/globals"
-import { join } from "path"
+import { join } from "node:path"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {
   let consoleSpy: jest.SpiedFunction<typeof console.log>
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(global.console, "info").mockImplementation(() => {})
+    consoleSpy = jest.spyOn(globalThis.console, "info").mockImplementation(() => {})
   })
 
   afterEach(() => {

@@ -24,7 +24,7 @@ program
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-d, --default-language <lang>", "Default language for translations")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
-  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
+  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = localCommandOptionsSchema.extend(translationsServiceOptionsSchema.shape).parse(options)
 
@@ -51,7 +51,7 @@ program
   .description("Extract terms and upload to translation service")
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
-  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
+  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
   .action(async (options: unknown) => {
     const parsedOptions = uploadCommandOptionsSchema.extend(translationsServiceOptionsSchema.shape).parse(options)
@@ -81,7 +81,7 @@ program
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
-  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
+  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = downloadCommandOptionsSchema.extend(translationsServiceOptionsSchema.shape).parse(options)
 
@@ -106,7 +106,7 @@ program
   .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
-  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
+  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
   .action(async (options: unknown) => {
     const parsedOptions = syncCommandOptionsSchema.extend(translationsServiceOptionsSchema.shape).parse(options)
@@ -132,7 +132,7 @@ program
   .description("Compare local terms with translation service to find unused terms")
   .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
-  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => parseInt(value, 10))
+  .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .action(async (options: unknown) => {
     const parsedOptions = diffCommandOptionsSchema.extend(translationsServiceOptionsSchema.shape).parse(options)
 

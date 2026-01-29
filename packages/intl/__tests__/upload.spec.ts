@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join } from "node:path"
 import { upload } from "../src"
 import { getTranslationsServiceClient } from "./_utils"
 
@@ -15,5 +15,5 @@ describe("upload command", () => {
       translationsServiceClient,
       defaultLanguage: "en",
     })
-  }, 30000)
+  }, 30_000)
 })

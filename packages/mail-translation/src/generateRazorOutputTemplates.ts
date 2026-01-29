@@ -43,7 +43,7 @@ function escapeRazorConflicts(templateContent: string): string {
     "view-transition",
   ].join("|")
 
-  return templateContent.replace(new RegExp(`(?<!@)@(${cssAtRules})`, "g"), "@@$1")
+  return templateContent.replaceAll(new RegExp(`(?<!@)@(${cssAtRules})`, "g"), "@@$1")
 }
 
 function getFilename({

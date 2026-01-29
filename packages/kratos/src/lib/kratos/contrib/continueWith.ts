@@ -72,7 +72,7 @@ export function pickBestContinueWith(continueWith: ContinueWith[]) {
     return
   }
 
-  const sorted = continueWith.sort(
+  const sorted = continueWith.toSorted(
     (a, b) => continueWithPriority.indexOf(a.action) - continueWithPriority.indexOf(b.action),
   )
   return sorted[0]

@@ -24,7 +24,7 @@ export function useUpdateRecoveryFlow() {
       } catch (error) {
         return (await handleFlowError<RecoveryFlow>({
           onRedirect: (url, _external) => {
-            window.location.href = url
+            globalThis.location.href = url
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,

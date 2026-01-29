@@ -63,9 +63,9 @@ function Loader() {
 }
 
 function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
-  const { errors, isSubmitting, isValidating } = props
+  const { errors, isSubmitting, isValidating, isRefresh } = props
 
-  if (props.isRefresh) {
+  if (isRefresh) {
     const { passwordFields, Google, Passkey, Apple, Facebook, identifier } = props
 
     return (

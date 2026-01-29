@@ -58,24 +58,24 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
   const { data: settingsFlow } = useGetSettingsFlow()
 
   const totpQrImageSrc = useMemo(() => {
-    if (!settingsFlow) return undefined
+    if (!settingsFlow) return
 
     const node = getNodeById(settingsFlow.ui.nodes, "totp_qr")
 
     if (!node || node.attributes.node_type !== UiNodeImageAttributesNodeTypeEnum.Img) {
-      return undefined
+      return
     }
 
     return node.attributes.src
   }, [settingsFlow])
 
   const totpSecretKey = useMemo(() => {
-    if (!settingsFlow) return undefined
+    if (!settingsFlow) return
 
     const node = getNodeById(settingsFlow.ui.nodes, "totp_secret_key")
 
     if (!node || node.attributes.node_type !== UiNodeImageAttributesNodeTypeEnum.Text) {
-      return undefined
+      return
     }
 
     const { text } = node.attributes
@@ -88,7 +88,7 @@ export function TotpFormWrapper<TTraitsConfig extends TraitsConfig>({
   }, [settingsFlow])
 
   const isTotpLinked = useMemo(() => {
-    if (!settingsFlow) return undefined
+    if (!settingsFlow) return
 
     return !!getNodeById(settingsFlow.ui.nodes, "totp_unlink")
   }, [settingsFlow])

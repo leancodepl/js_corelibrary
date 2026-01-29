@@ -100,7 +100,8 @@ export class RegistrationPage extends CommonPage {
   }
 
   async getErrors(): Promise<string[]> {
-    return (await this.errors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.errors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // Traits form

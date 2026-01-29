@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync } from "fs"
+import { mkdirSync, rmSync } from "node:fs"
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"

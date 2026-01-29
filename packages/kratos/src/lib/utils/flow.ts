@@ -18,19 +18,19 @@ export function getNodesById(nodes: UiNode[] | undefined, name: string) {
 }
 
 export function inputNodeAttributes(node?: UiNode) {
-  if (!node) return undefined
+  if (!node) return
 
   if (isUiNodeInputAttributes(node.attributes)) return node.attributes
 
-  return undefined
+  return
 }
 
 export function inputNodeMessages(node?: UiNode) {
-  if (!node) return undefined
+  if (!node) return
 
   if (isUiNodeInputAttributes(node.attributes)) return node.messages
 
-  return undefined
+  return
 }
 
 export function getCsrfToken(flow: { ui: { nodes: UiNode[] } }) {
@@ -107,7 +107,7 @@ export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: Oid
 export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown }): Promise<TFlow | undefined> =>
   (await handleFlowError<TFlow>({
     onRedirect: (url, _external) => {
-      window.location.href = url
+      globalThis.location.href = url
     },
     onRestartFlow: () => {
       throw new Error("Needs to restart the flow", {

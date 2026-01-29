@@ -3,7 +3,7 @@ import { mkCqrsClient } from "../src"
 const mockFetch = jest.fn()
 
 beforeAll(() => {
-  global.fetch = mockFetch
+  globalThis.fetch = mockFetch
 })
 
 beforeEach(() => {

@@ -23,15 +23,6 @@ export type MkKratosConfig<
   SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
 }
 
-export type {
-  LoginFlowProps,
-  RecoveryFlowProps,
-  RegistrationFlowProps,
-  SettingsFlowProps,
-  UseLogout,
-  VerificationFlowProps,
-}
-
 export type FlowsConfig<TTraitsConfig extends TraitsConfig> = {
   /**
    * Provides logout functionality for Kratos authentication flows.
@@ -350,3 +341,10 @@ export function mkKratos<
     session,
   }
 }
+
+export { type LoginFlowProps } from "../flows/login"
+export { type RecoveryFlowProps } from "../flows/recovery"
+export { type RegistrationFlowProps } from "../flows/registration"
+export { type SettingsFlowProps } from "../flows/settings"
+export { type UseLogout } from "../flows/logout"
+export { type VerificationFlowProps } from "../flows/verification"

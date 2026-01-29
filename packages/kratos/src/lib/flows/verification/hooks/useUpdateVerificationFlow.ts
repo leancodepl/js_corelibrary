@@ -21,14 +21,14 @@ export function useUpdateVerificationFlow() {
         )
 
         if (data.state === VerificationFlowState.PassedChallenge && data.return_to) {
-          window.location.href = data.return_to
+          globalThis.location.href = data.return_to
         }
 
         return data
       } catch (error) {
         return (await handleFlowError<VerificationFlow>({
           onRedirect: (url, _external) => {
-            window.location.href = url
+            globalThis.location.href = url
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,

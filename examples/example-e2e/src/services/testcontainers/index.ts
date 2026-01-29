@@ -1,4 +1,4 @@
-import * as path from "path"
+import * as path from "node:path"
 import { GenericContainer, StartedTestContainer, Wait } from "testcontainers"
 import { Environment } from "testcontainers/build/types"
 
@@ -58,8 +58,8 @@ export const runKratosContainer = async (rules: KratosConfigRules = {}) => {
       },
     ])
     .withEnvironment(mapConfigRulesToEnvs(rules))
-    .withExposedPorts({ container: 4433, host: 34433 })
-    .withExposedPorts({ container: 4434, host: 34434 })
+    .withExposedPorts({ container: 4433, host: 34_433 })
+    .withExposedPorts({ container: 4434, host: 34_434 })
     .withWaitStrategy(Wait.forListeningPorts())
     .withCommand(["serve", "--watch-courier", "--config", "/home/ory/kratos.yml"])
     .start()

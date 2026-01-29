@@ -1,4 +1,4 @@
-import { Buffer } from "buffer"
+import { Buffer } from "node:buffer"
 import { AsyncTokenStorage, Token, TokenStorage } from "./tokenStorage"
 
 export interface LoginSuccess {
@@ -128,8 +128,8 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
       this.notify(true)
       return { type: "success" }
-    } catch (e) {
-      console.warn("Cannot call Auth server, error: ", e)
+    } catch (error) {
+      console.warn("Cannot call Auth server, error: ", error)
       return { type: "networkError" }
     }
   }

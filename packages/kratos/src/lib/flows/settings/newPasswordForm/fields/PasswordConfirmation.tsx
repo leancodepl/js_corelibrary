@@ -24,7 +24,7 @@ const validatorHandler: FieldValidateFn<Record<InputFields, string>, "password_c
     return getPasswordConfirmationErrors(value, fieldApi.form.getFieldValue(InputFields.Password))
   }
 
-  return undefined
+  return
 }
 
 export const getPasswordConfirmationErrors = (confirmationValue: string, passwordValue: string) => {
@@ -34,7 +34,7 @@ export const getPasswordConfirmationErrors = (confirmationValue: string, passwor
   if (confirmationValue !== passwordValue) {
     return [mapAdditionalValidationErrorToAuthError(AdditionalValidationError.FieldMismatch)]
   }
-  return undefined
+  return
 }
 
 export function PasswordConfirmation({ children }: PasswordConfirmationProps) {

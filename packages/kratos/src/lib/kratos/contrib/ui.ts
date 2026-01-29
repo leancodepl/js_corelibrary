@@ -28,10 +28,8 @@ export const getNodeLabel = (node: UiNode): UiText | undefined => {
     return node.meta.label
   }
 
-  if (isUiNodeInputAttributes(attributes)) {
-    if (attributes.label) {
-      return attributes.label
-    }
+  if (isUiNodeInputAttributes(attributes) && attributes.label) {
+    return attributes.label
   }
 
   return node.meta.label
