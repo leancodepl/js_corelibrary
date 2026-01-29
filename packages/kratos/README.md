@@ -12,7 +12,7 @@ yarn add @leancodepl/kratos
 
 ## API
 
-### `mkKratos(queryClient, basePath, traits, SessionManager)`
+### `mkKratos(queryClient, basePath, traits, SessionManager, oidcProviders)`
 
 Creates a Kratos client factory with authentication flows, session management, and React providers.
 
@@ -23,6 +23,8 @@ Creates a Kratos client factory with authentication flows, session management, a
 - `traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
 - `SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
   constructor, defaults to BaseSessionManager
+- `oidcProviders?: readonly OidcProviderConfig[]` - Optional array of custom OIDC provider configurations. Each provider
+  should have an `id` (matching Kratos provider ID) and optional `label`
 
 **Returns:** Object with the following structure:
 
@@ -200,6 +202,70 @@ const {
   SessionManager,
 })
 ```
+
+### Custom OIDC Providers
+
+You can configure custom OIDC providers (like Microsoft, GitHub, etc.) in addition to the default providers (Apple, Google, Facebook):
+
+```typescript
+// kratosService.ts
+
+import { mkKratos } from "@leancodepl/kratos"
+import { environment } from "./environments"
+import { queryClient } from "./queryService"
+import { traitsConfig } from "./traits"
+
+const {
+  session: { sessionManager },
+  providers: { KratosProviders },
+  flows: { LoginFlow, RegistrationFlow, SettingsFlow },
+} = mkKratos({
+  queryClient,
+  basePath: environment.authUrl,
+  traits: traitsConfig,
+  oidcProviders: [
+    { id: "microsoft", label: "Microsoft" },
+    { id: "github", label: "GitHub" },
+    { id: "reddit", label: "Reddit" },
+  ],
+})
+```
+
+The OIDC providers are automatically made available in the flow forms as capitalized component properties. For example, a provider with `id: "microsoft"` will be available as `oidcProviders.Microsoft`:
+
+```tsx
+// loginPage.tsx
+
+import { loginFlow } from "@leancodepl/kratos"
+
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+  const { oidcProviders, isSubmitting, isValidating } = props
+
+  return (
+    <div>
+      {oidcProviders.Microsoft && (
+        <oidcProviders.Microsoft>
+          <button disabled={isSubmitting || isValidating}>Sign in with Microsoft</button>
+        </oidcProviders.Microsoft>
+      )}
+
+      {oidcProviders.Github && (
+        <oidcProviders.Github>
+          <button disabled={isSubmitting || isValidating}>Sign in with GitHub</button>
+        </oidcProviders.Github>
+      )}
+
+      {oidcProviders.Google && (
+        <oidcProviders.Google>
+          <button disabled={isSubmitting || isValidating}>Sign in with Google</button>
+        </oidcProviders.Google>
+      )}
+    </div>
+  )
+}
+```
+
+The same pattern applies to registration and settings flows. Only providers configured in your Kratos instance will be available in the `oidcProviders` object.
 
 ### Session Management
 

@@ -61,9 +61,7 @@ function RouteComponent() {
 
 function TraitsForm({
   errors,
-  Google,
-  Apple,
-  Facebook,
+  oidcProviders,
   traitFields: { Email, GivenName, RegulationsAccepted, Submit },
   isSubmitting,
   isValidating,
@@ -101,25 +99,31 @@ function TraitsForm({
         </button>
       </Submit>
 
-      <Google>
-        <button data-testid={dataTestIds.registration.traitsForm.googleButton} disabled={isSubmitting || isValidating}>
-          Sign up with Google
-        </button>
-      </Google>
+      {oidcProviders.Google && (
+        <oidcProviders.Google>
+          <button data-testid={dataTestIds.registration.traitsForm.googleButton} disabled={isSubmitting || isValidating}>
+            Sign up with Google
+          </button>
+        </oidcProviders.Google>
+      )}
 
-      <Apple>
-        <button data-testid={dataTestIds.registration.traitsForm.appleButton} disabled={isSubmitting || isValidating}>
-          Sign up with Apple
-        </button>
-      </Apple>
+      {oidcProviders.Apple && (
+        <oidcProviders.Apple>
+          <button data-testid={dataTestIds.registration.traitsForm.appleButton} disabled={isSubmitting || isValidating}>
+            Sign up with Apple
+          </button>
+        </oidcProviders.Apple>
+      )}
 
-      <Facebook>
-        <button
-          data-testid={dataTestIds.registration.traitsForm.facebookButton}
-          disabled={isSubmitting || isValidating}>
-          Sign up with Facebook
-        </button>
-      </Facebook>
+      {oidcProviders.Facebook && (
+        <oidcProviders.Facebook>
+          <button
+            data-testid={dataTestIds.registration.traitsForm.facebookButton}
+            disabled={isSubmitting || isValidating}>
+            Sign up with Facebook
+          </button>
+        </oidcProviders.Facebook>
+      )}
 
       {errors && errors.length > 0 && (
         <div data-testid={dataTestIds.common.errors}>
