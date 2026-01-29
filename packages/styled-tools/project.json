@@ -9,25 +9,19 @@
       "executor": "@nx/eslint:lint"
     },
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/styled-tools",
-        "tsConfig": "packages/styled-tools/tsconfig.lib.json",
-        "project": "packages/styled-tools/package.json",
-        "entryFile": "packages/styled-tools/src/index.ts",
-        "external": [],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "swc",
-        "assets": [
-          {
-            "glob": "packages/styled-tools/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/styled-tools"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "test": {

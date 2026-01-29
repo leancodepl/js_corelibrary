@@ -6,23 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/cqrs-clients/custom-types/date/api-date-dayjs",
-        "main": "packages/cqrs-clients/custom-types/date/api-date-dayjs/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/custom-types/date/api-date-dayjs/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/custom-types/date/api-date-dayjs/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/custom-types/date/api-date-dayjs/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/cqrs-clients/custom-types/date/api-date-dayjs"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {

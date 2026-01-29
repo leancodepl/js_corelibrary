@@ -2,7 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "declaration": true
+    "declaration": true,
+    "types": ["vite/client"]
   },
   "exclude": [
     "jest.config.ts",

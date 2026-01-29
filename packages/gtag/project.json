@@ -6,23 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/gtag",
-        "main": "packages/gtag/src/index.ts",
-        "tsConfig": "packages/gtag/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/gtag/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/gtag/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/gtag"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {

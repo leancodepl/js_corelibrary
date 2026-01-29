@@ -6,23 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "tsConfig": "packages/linters/resolve-eslint-flat-config/tsconfig.json",
-        "project": "packages/linters/resolve-eslint-flat-config/package.json",
-        "main": "packages/linters/resolve-eslint-flat-config/src/index.ts",
-        "outputPath": "dist/packages/linters/resolve-eslint-flat-config",
-        "assets": [
-          {
-            "glob": "packages/linters/resolve-eslint-flat-config/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/linters/resolve-eslint-flat-config"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {

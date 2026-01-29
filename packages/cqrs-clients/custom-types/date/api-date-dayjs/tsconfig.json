@@ -2,7 +2,13 @@
   "extends": "../../../../../tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
   },
   "files": [],
   "include": [],

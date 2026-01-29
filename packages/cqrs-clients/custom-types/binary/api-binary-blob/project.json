@@ -6,23 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/cqrs-clients/custom-types/binary/api-binary-blob",
-        "main": "packages/cqrs-clients/custom-types/binary/api-binary-blob/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/custom-types/binary/api-binary-blob/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/custom-types/binary/api-binary-blob/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/custom-types/binary/api-binary-blob/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/cqrs-clients/custom-types/binary/api-binary-blob"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {

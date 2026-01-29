@@ -6,24 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/validation",
-        "main": "packages/validation/src/index.ts",
-        "tsConfig": "packages/validation/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/validation/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/validation/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "external": ["@leancodepl/cqrs-client-base"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/validation"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {
