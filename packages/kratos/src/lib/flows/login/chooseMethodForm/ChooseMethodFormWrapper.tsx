@@ -1,7 +1,7 @@
-import { ComponentType, ComponentProps, ReactNode, useCallback, useMemo } from "react"
+import { ComponentProps, ComponentType, ReactNode, useCallback, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
-import { useFormErrors, useOidcProviders } from "../../../hooks"
-import { AuthError, defaultProviders, getAllOidcProviderUiNodes, getNodeById, getOidcProviderUiNode, OidcProviderComponents, OidcProvidersConfig } from "../../../utils"
+import { useFormErrors } from "../../../hooks"
+import { AuthError, getAllOidcProviderUiNodes, getNodeById, getOidcProviderUiNode, OidcProviderComponents, OidcProvidersConfig } from "../../../utils"
 import { Submit } from "../../fields"
 import { useExistingIdentifierFromFlow, useGetLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
@@ -54,7 +54,6 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
   const passwordForm = usePasswordForm({ onError, onLoginSuccess })
   const formErrors = useFormErrors(passwordForm)
   const existingIdentifier = useExistingIdentifierFromFlow()
-  const customOidcProviders = useOidcProviders()
 
   const PasskeyWithFormErrorHandler = useCallback(
     (props: Omit<ComponentProps<typeof Passkey>, "onError">) => <Passkey {...props} onError={onError} />,
@@ -114,8 +113,8 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
             identifier={existingIdentifier}
             isSubmitting={passwordForm.state.isSubmitting}
             isValidating={passwordForm.state.isValidating}
-            Passkey={getNodeById(loginFlow.ui.nodes, "passkey_login") ? PasskeyWithFormErrorHandler : (() => null)}
             oidcProviders={oidcProviderComponentsForRefresh}
+            Passkey={getNodeById(loginFlow.ui.nodes, "passkey_login") ? PasskeyWithFormErrorHandler : (() => null)}
             passwordFields={
               getNodeById(loginFlow.ui.nodes, "password")
                 ? {
@@ -130,8 +129,8 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
             errors={formErrors}
             isSubmitting={passwordForm.state.isSubmitting}
             isValidating={passwordForm.state.isValidating}
-            Passkey={PasskeyWithFormErrorHandler}
             oidcProviders={oidcProviderComponents}
+            Passkey={PasskeyWithFormErrorHandler}
             passwordFields={{
               Identifier,
               Password,

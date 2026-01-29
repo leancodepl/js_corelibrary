@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
-import { useFormErrors, useOidcProviders } from "../../../hooks"
+import { useFormErrors } from "../../../hooks"
 import { AuthError, getAllOidcProviderUiNodes, OidcProviderComponents, OidcProvidersConfig, TraitsConfig } from "../../../utils"
 import { Submit } from "../../fields"
 import { useGetRegistrationFlow } from "../hooks"
@@ -52,7 +52,6 @@ export function TraitsFormWrapper<
   const traitsForm = useTraitsForm({ traitsConfig, onError, onRegistrationSuccess })
   const formErrors = useFormErrors(traitsForm)
   const { data: registrationFlow } = useGetRegistrationFlow()
-  const customOidcProviders = useOidcProviders()
 
   const traitComponents = useMemo(
     () =>
