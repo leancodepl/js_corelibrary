@@ -275,10 +275,10 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
         </oidcProviders.Microsoft>
       )}
 
-      {oidcProviders.GitHub && (
-        <oidcProviders.GitHub>
+      {oidcProviders.Github && (
+        <oidcProviders.Github>
           <button disabled={isSubmitting || isValidating}>Sign in with GitHub</button>
-        </oidcProviders.GitHub>
+        </oidcProviders.Github>
       )}
 
       {oidcProviders.Google && (
