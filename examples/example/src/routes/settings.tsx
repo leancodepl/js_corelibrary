@@ -292,10 +292,12 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
   )
 }
 
-function OidcForm({ Apple, Facebook, Google, isLoading }: settingsFlow.OidcFormProps) {
+function OidcForm({ isLoading, ...oidcProviders }: settingsFlow.OidcFormProps) {
   if (isLoading) {
     return <p>Loading OIDC providers...</p>
   }
+
+  const { Apple, Facebook, Google } = oidcProviders
 
   return (
     <div data-testid={dataTestIds.settings.oidcForm.wrapper}>

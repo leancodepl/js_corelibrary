@@ -7,11 +7,16 @@ import { RecoveryFlowProps } from "../flows/recovery"
 import { RegistrationFlowProps } from "../flows/registration"
 import { SettingsFlowProps } from "../flows/settings"
 import { VerificationFlowProps } from "../flows/verification"
-import { KratosClientProvider, KratosSessionProvider } from "../hooks"
+import { KratosClientProvider, KratosSessionProvider, OidcProvidersProvider } from "../hooks"
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
 import { TraitsConfig } from "../utils"
+
+export type OidcProviderConfig = {
+  id: string
+  label?: string
+}
 
 export type MkKratosConfig<
   TTraitsConfig extends TraitsConfig,
@@ -21,6 +26,7 @@ export type MkKratosConfig<
   basePath: string
   traits?: TTraitsConfig
   SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager
+  oidcProviders?: readonly OidcProviderConfig[]
 }
 
 export type {
@@ -252,6 +258,7 @@ export function mkKratos<
   basePath,
   traits = {} as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
+  oidcProviders = [],
 }: MkKratosConfig<TTraitsConfig, TSessionManager>) {
   const api = new FrontendApi(
     new Configuration({
@@ -303,7 +310,9 @@ export function mkKratos<
      */
     KratosProviders: ({ children }: { children: ReactNode }) => (
       <KratosClientProvider api={api}>
-        <KratosSessionProvider sessionManager={sessionManager}>{children}</KratosSessionProvider>
+        <KratosSessionProvider sessionManager={sessionManager}>
+          <OidcProvidersProvider oidcProviders={oidcProviders}>{children}</OidcProvidersProvider>
+        </KratosSessionProvider>
       </KratosClientProvider>
     ),
   }
