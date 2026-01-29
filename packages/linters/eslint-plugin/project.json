@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "command": "node tools/scripts/copy.mjs packages/linters/eslint-plugin {args.outputPath}",
+      "command": "node tools/scripts/copy.mjs packages/linters/eslint-plugin {args.outputPath} && rm -r {args.outputPath}/src/__tests__",
       "configurations": {
         "args": {
           "outputPath": "{options.outputPath}"
