@@ -3,13 +3,11 @@ import type { Term, TranslationsServiceClient } from "../TranslationsServiceClie
 import { ExtractedMessages } from "../formatjs"
 import {
   Configuration,
-  LanguagesApi,
   ProjectsApi,
   ProjectsExportTypeEnum,
   TermsApi,
   TranslationsApi,
 } from "./api.generated"
-import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export interface POEditorClientConfig {
   apiToken: string
