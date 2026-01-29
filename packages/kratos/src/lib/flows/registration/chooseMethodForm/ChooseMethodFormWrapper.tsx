@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import { useFormErrors } from "../../../hooks"
-import { AuthError, TraitsConfig } from "../../../utils"
+import { AuthError, OidcProviderComponents, OidcProvidersConfig, TraitsConfig } from "../../../utils"
 import { Submit } from "../../fields"
 import { OnRegistrationFlowError } from "../types"
 import { ChooseMethodFormProvider } from "./chooseMethodFormContext"

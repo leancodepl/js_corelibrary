@@ -231,14 +231,40 @@ const {
 })
 ```
 
-The OIDC providers are automatically made available in the flow forms as capitalized component properties. For example, a provider with `id: "microsoft"` will be available as `oidcProviders.Microsoft`:
+The OIDC providers are automatically made available in the flow forms as capitalized component properties. For example, a provider with `id: "microsoft"` will be available as `oidcProviders.Microsoft`.
+
+With TypeScript, the library generates type-safe provider types from your configuration, ensuring you can only access providers you've configured:
+
+```tsx
+// kratosService.ts
+
+const oidcProvidersConfig = [
+  { id: "microsoft", label: "Microsoft" },
+  { id: "github", label: "GitHub" },
+  { id: "reddit", label: "Reddit" },
+] as const
+
+const {
+  session: { sessionManager },
+  providers: { KratosProviders },
+  flows: { LoginFlow, RegistrationFlow, SettingsFlow },
+} = mkKratos({
+  queryClient,
+  basePath: environment.authUrl,
+  traits: traitsConfig,
+  oidcProviders: oidcProvidersConfig,
+})
+
+export type OidcProvidersConfig = typeof oidcProvidersConfig
+```
 
 ```tsx
 // loginPage.tsx
 
 import { loginFlow } from "@leancodepl/kratos"
+import type { OidcProvidersConfig } from "./kratosService"
 
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
   const { oidcProviders, isSubmitting, isValidating } = props
 
   return (
@@ -249,10 +275,10 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
         </oidcProviders.Microsoft>
       )}
 
-      {oidcProviders.Github && (
-        <oidcProviders.Github>
+      {oidcProviders.GitHub && (
+        <oidcProviders.GitHub>
           <button disabled={isSubmitting || isValidating}>Sign in with GitHub</button>
-        </oidcProviders.Github>
+        </oidcProviders.GitHub>
       )}
 
       {oidcProviders.Google && (
@@ -265,7 +291,7 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 }
 ```
 
-The same pattern applies to registration and settings flows. Only providers configured in your Kratos instance will be available in the `oidcProviders` object.
+The same pattern applies to registration and settings flows. Only providers configured in your Kratos instance will be available in the `oidcProviders` object, and TypeScript will provide autocomplete and type checking for the available providers.
 
 ### Session Management
 

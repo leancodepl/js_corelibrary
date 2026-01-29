@@ -1,6 +1,7 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { useFlowManager, useKratosSessionContext } from "../../hooks"
 import { isSessionAlreadyAvailable } from "../../kratos"
+import { OidcProvidersConfig } from "../../utils"
 import {
   EmailVerificationFormProps,
   useVerificationFlowContext,
@@ -13,9 +14,9 @@ import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./seco
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
 
-export type LoginFlowProps = {
+export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = []> = {
   loaderComponent?: ComponentType
-  chooseMethodForm: ComponentType<ChooseMethodFormProps>
+  chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
   secondFactorForm: ComponentType<SecondFactorFormProps>
   secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
   emailVerificationForm: ComponentType<EmailVerificationFormProps>
@@ -28,7 +29,7 @@ export type LoginFlowProps = {
   onSessionAlreadyAvailable?: () => void
 }
 
-function LoginFlowWrapper({
+function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = []>({
   loaderComponent: LoaderComponent,
   chooseMethodForm: ChooseMethodForm,
   secondFactorForm: SecondFactorForm,
@@ -41,7 +42,7 @@ function LoginFlowWrapper({
   onVerificationSuccess,
   onFlowRestart,
   onSessionAlreadyAvailable,
-}: LoginFlowProps) {
+}: LoginFlowProps<TOidcProvidersConfig>) {
   const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
   const { verificationFlowId } = useVerificationFlowContext()
   const { sessionManager } = useKratosSessionContext()
@@ -169,7 +170,7 @@ function LoginFlowWrapper({
  * }
  * ```
  */
-export function LoginFlow(props: LoginFlowProps) {
+export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = []>(props: LoginFlowProps<TOidcProvidersConfig>) {
   return (
     <VerificationFlowProvider>
       <LoginFlowProvider>
