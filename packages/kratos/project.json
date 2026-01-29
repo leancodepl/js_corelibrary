@@ -28,6 +28,10 @@
           "mode": "production"
         }
       }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"]
     }
   }
 }

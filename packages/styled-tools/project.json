@@ -25,11 +25,8 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/styled-tools/jest.config.ts"
-      }
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"]
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/styled-tools {args.registry} {args.ver} {args.tag}",

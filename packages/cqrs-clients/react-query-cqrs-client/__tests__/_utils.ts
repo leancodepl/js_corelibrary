@@ -1,12 +1,11 @@
 import { delay, mergeMap, Observable, of, throwError } from "rxjs"
-import { AjaxConfig, AjaxError, AjaxResponse } from "rxjs/ajax"
-import { ajax } from "rxjs/internal/ajax/ajax"
+import { ajax, AjaxConfig, AjaxError, AjaxResponse } from "rxjs/ajax"
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MockedFunction } from "vitest"
 import { ApiResponse, CommandResult, ValidationError } from "@leancodepl/cqrs-client-base"
 
-type MockableFunction = (...args: any[]) => any
-
-function asMock<Func extends MockableFunction>(mockedFunc: Func) {
-  return mockedFunc as jest.MockedFunction<typeof mockedFunc>
+function asMock<Func extends (...args: any[]) => any>(mockedFunc: Func) {
+  return mockedFunc as MockedFunction<typeof mockedFunc>
 }
 
 interface CommandLike<TCommand, TErrorCodes extends Record<string, number>> {

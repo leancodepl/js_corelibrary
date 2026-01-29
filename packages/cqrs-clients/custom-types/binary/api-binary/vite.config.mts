@@ -34,11 +34,22 @@ export default defineConfig(() => ({
       fileName: "index",
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.
-      formats: ["es" as const],
+      // formats: ["es" as const],
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
       external: [],
+    },
+  },
+  test: {
+    name: "@leancodepl/api-binary",
+    watch: false,
+    globals: true,
+    environment: "jsdom",
+    include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    reporters: ["default"],
+    coverage: {
+      provider: "v8" as const,
     },
   },
 }))
