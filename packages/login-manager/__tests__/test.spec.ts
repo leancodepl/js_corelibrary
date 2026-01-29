@@ -18,18 +18,15 @@ describe("LoginManager", () => {
     const mockToken: Token = {
       token: "access_token_123",
       refreshToken: "refresh_token_123",
-      expirationDate: new Date(Date.now() - 1000), // Expired token
+      expirationDate: new Date(Date.now() - 1000),
     }
 
     beforeEach(() => {
-      // Clear localStorage
       localStorage.clear()
       
-      // Setup storage
       storage = new LocalTokenStorage("test_token", "test_refresh", "test_expiry")
       storage.storeToken(mockToken)
 
-      // Mock fetch to simulate token refresh
       global.fetch = jest.fn(() =>
         Promise.resolve({
           ok: true,
@@ -42,55 +39,72 @@ describe("LoginManager", () => {
             }),
         } as Response)
       )
+
+      let lockHeld = false
+      Object.defineProperty(global.navigator, "locks", {
+        value: {
+          request: jest.fn(async (name: string, options: any, callback?: any) => {
+            const actualCallback = typeof options === "function" ? options : callback
+            const opts = typeof options === "object" ? options : {}
+
+            if (opts.ifAvailable) {
+              if (lockHeld) {
+                return await actualCallback(null)
+              }
+              lockHeld = true
+              try {
+                return await actualCallback({ name })
+              } finally {
+                lockHeld = false
+              }
+            } else {
+              while (lockHeld) {
+                await new Promise(resolve => setTimeout(resolve, 10))
+              }
+              lockHeld = true
+              try {
+                return await actualCallback({ name })
+              } finally {
+                lockHeld = false
+              }
+            }
+          }),
+        },
+        configurable: true,
+      })
     })
 
     afterEach(() => {
       jest.restoreAllMocks()
       localStorage.clear()
+      delete (global.navigator as any).locks
     })
 
     it("should prevent concurrent token refresh across multiple instances", async () => {
       const manager1 = new SyncLoginManager(storage, "https://api.example.com", undefined, "client1", "openid")
       const manager2 = new SyncLoginManager(storage, "https://api.example.com", undefined, "client1", "openid")
 
-      // Simulate both managers trying to refresh at the same time
       const [result1, result2] = await Promise.all([
         manager1.tryRefreshToken(),
         manager2.tryRefreshToken(),
       ])
 
-      // Both should succeed (one does the refresh, the other waits)
       expect(result1).toBe(true)
       expect(result2).toBe(true)
-
-      // Fetch should only be called once (by the lock holder)
       expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
-    it("should handle lock timeout gracefully", async () => {
+    it("should work without Web Locks API", async () => {
+      delete (global.navigator as any).locks
+
       const manager = new SyncLoginManager(storage, "https://api.example.com", undefined, "client1", "openid")
-
-      // Manually set an expired lock
-      const expiredLockTime = Date.now() - 11000 // 11 seconds ago (past timeout)
-      localStorage.setItem("token_refresh_lock", expiredLockTime.toString())
-
-      // Should be able to acquire lock and refresh
       const result = await manager.tryRefreshToken()
 
       expect(result).toBe(true)
       expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
-    it("should cleanup lock after successful refresh", async () => {
-      const manager = new SyncLoginManager(storage, "https://api.example.com", undefined, "client1", "openid")
-
-      await manager.tryRefreshToken()
-
-      // Lock should be released
-      expect(localStorage.getItem("token_refresh_lock")).toBeNull()
-    })
-
-    it("should cleanup lock after failed refresh", async () => {
+    it("should handle failed refresh", async () => {
       global.fetch = jest.fn(() =>
         Promise.resolve({
           ok: false,
@@ -99,11 +113,9 @@ describe("LoginManager", () => {
       )
 
       const manager = new SyncLoginManager(storage, "https://api.example.com", undefined, "client1", "openid")
+      const result = await manager.tryRefreshToken()
 
-      await manager.tryRefreshToken()
-
-      // Lock should be released even on failure
-      expect(localStorage.getItem("token_refresh_lock")).toBeNull()
+      expect(result).toBe(false)
     })
   })
 })

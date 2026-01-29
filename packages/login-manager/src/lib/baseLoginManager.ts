@@ -19,7 +19,6 @@ export type LoginResult = LoginFailure | LoginNetworkError | LoginSuccess
 export interface LoginManager extends BaseLoginManager<TokenStorage> {}
 
 const refreshLockKey = "token_refresh_lock"
-const refreshLockTimeout = 10000
 
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   private callbacks: ((isSignedIn: boolean) => void)[] = []
@@ -40,10 +39,6 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         ...additionalParams,
         client_id: clientId,
       }
-    }
-    
-    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-      window.addEventListener("storage", this.handleStorageEvent.bind(this))
     }
   }
 
@@ -87,8 +82,8 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   }
 
   protected async tryRefreshTokenInternal(token: Token): Promise<boolean> {
-    if (!this.acquireRefreshLock()) {
-      return await this.waitForRefreshCompletion()
+    if (typeof navigator !== "undefined" && "locks" in navigator) {
+      return await this.tryRefreshWithLock(token)
     }
 
     if (!this.isRefreshingToken) {
@@ -98,12 +93,10 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
         try {
           const result = await this.acquireToken(this.buildRefreshRequest(token))
           this.isRefreshingToken = false
-          this.releaseRefreshLock()
           this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
           this.refreshTokenCallbacks = []
         } catch {
           this.isRefreshingToken = false
-          this.releaseRefreshLock()
           this.refreshTokenCallbacks.forEach(c => c(false))
           this.refreshTokenCallbacks = []
         }
@@ -117,63 +110,26 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     })
   }
 
-  private acquireRefreshLock(): boolean {
-    if (typeof localStorage === "undefined") {
-      return true
-    }
+  private async tryRefreshWithLock(token: Token): Promise<boolean> {
+    return await navigator.locks.request(refreshLockKey, { ifAvailable: true }, async lock => {
+      if (!lock) {
+        return await this.waitForLockRelease()
+      }
 
-    const now = Date.now()
-    const lockData = localStorage.getItem(refreshLockKey)
-    
-    if (lockData) {
-      const lockTime = parseInt(lockData, 10)
-      if (now - lockTime < refreshLockTimeout) {
+      try {
+        const result = await this.acquireToken(this.buildRefreshRequest(token))
+        return result.type === "success"
+      } catch {
         return false
       }
-    }
-
-    localStorage.setItem(refreshLockKey, now.toString())
-    return true
-  }
-
-  private releaseRefreshLock(): void {
-    if (typeof localStorage !== "undefined") {
-      localStorage.removeItem(refreshLockKey)
-    }
-  }
-
-  private async waitForRefreshCompletion(): Promise<boolean> {
-    if (typeof localStorage === "undefined") {
-      return false
-    }
-
-    const startTime = Date.now()
-    const pollInterval = 100
-
-    return new Promise(resolve => {
-      const checkLock = async () => {
-        const lockData = localStorage.getItem(refreshLockKey)
-        const elapsed = Date.now() - startTime
-
-        if (!lockData || elapsed > refreshLockTimeout) {
-          const currentToken = await this.storage.getToken()
-          resolve(currentToken !== null)
-        } else {
-          setTimeout(checkLock, pollInterval)
-        }
-      }
-
-      checkLock()
     })
   }
 
-  private handleStorageEvent(event: StorageEvent): void {
-    if (event.key === "token" || event.key === "refresh_token") {
-      if (this.refreshTokenCallbacks.length > 0) {
-        this.refreshTokenCallbacks.forEach(c => c(true))
-        this.refreshTokenCallbacks = []
-      }
-    }
+  private async waitForLockRelease(): Promise<boolean> {
+    return await navigator.locks.request(refreshLockKey, async () => {
+      const currentToken = await this.storage.getToken()
+      return currentToken !== null
+    })
   }
 
   public onChange(callback: (isSignedIn: boolean) => void) {
