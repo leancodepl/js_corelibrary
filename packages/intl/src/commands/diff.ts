@@ -1,3 +1,5 @@
+import checkbox from "@inquirer/checkbox"
+import confirm from "@inquirer/confirm"
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { extractMessages } from "../formatjs"
@@ -23,11 +25,34 @@ export async function diff({ srcPattern, translationsServiceClient }: DiffComman
     const remoteTermSet = new Set(remoteTerms.map(term => term.term))
 
     const unusedInLocal = [...remoteTermSet].filter(term => !localTerms.has(term))
+    const translationsInDefaultLanguage = await translationsServiceClient.getTranslationsInDefaultLanguage(remoteTerms)
     if (unusedInLocal.length > 0) {
       console.log(`\nTerms in remote but not used locally (${unusedInLocal.length}):`)
-      unusedInLocal.forEach(term => {
-        console.log(`  - ${term}`)
+      const termsToRemove = await checkbox({
+        message: "Select terms to remove",
+        choices: unusedInLocal.map(term => {
+          const translation = translationsInDefaultLanguage.find(t => t.term === term)?.translation
+          return { name: `${term} $`, value: term }
+        }),
       })
+
+      if (termsToRemove.length === 0) {
+        return
+      }
+
+      const confirmation = await confirm({
+        message: `Are you sure you want to remove these terms: ${termsToRemove.join(", ")}?`,
+      })
+
+      if (!confirmation) {
+        return
+      }
+
+      const termsToRemoveWithContext = remoteTerms.filter(term => termsToRemove.includes(term.term))
+      console.log(`\nRemoving selected terms from remote...`)
+
+      await translationsServiceClient.removeTerms(termsToRemoveWithContext)
+      console.log(`\nTerms removed successfully`)
     } else {
       console.log("\nNo unused terms found in remote")
     }

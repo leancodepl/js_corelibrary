@@ -425,7 +425,7 @@ export interface ProjectLongProject {
    * @type {string}
    * @memberof ProjectLongProject
    */
-  reference?: string
+  reference_language?: string
   /**
    *
    * @type {string}
