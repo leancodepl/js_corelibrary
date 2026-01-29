@@ -1,7 +1,7 @@
 import { ComponentProps, ComponentType, ReactNode, useCallback, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
-import { useFormErrors, useOidcProviders } from "../../../hooks"
-import { AuthError, defaultProviders, getAllOidcProviderUiNodes, getNodeById, getOidcProviderUiNode } from "../../../utils"
+import { useFormErrors } from "../../../hooks"
+import { AuthError, getAllOidcProviderUiNodes, getNodeById, getOidcProviderUiNode, OidcProviderComponents, OidcProvidersConfig } from "../../../utils"
 import { Submit } from "../../fields"
 import { useExistingIdentifierFromFlow, useGetLoginFlow } from "../hooks"
 import { OnLoginFlowError } from "../types"
@@ -9,19 +9,15 @@ import { ChooseMethodFormProvider } from "./chooseMethodFormContext"
 import { Identifier, Oidc, Passkey, Password } from "./fields"
 import { usePasswordForm } from "./usePasswordForm"
 
-type OidcProviderComponents = {
-  [key: string]: ComponentType<{ children: ReactNode }> | undefined
-}
-
-type ChooseMethodFormPropsLoadedBase = {
+type ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   errors: AuthError[]
   isSubmitting: boolean
   isValidating: boolean
   Passkey: ComponentType<{ children: ReactNode }>
-  oidcProviders: OidcProviderComponents
+  oidcProviders: OidcProviderComponents<TOidcProvidersConfig>
 }
 
-type ChooseMethodFormPropsLoadedRefresh = ChooseMethodFormPropsLoadedBase & {
+type ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
   isRefresh: true
   identifier?: string
   passwordFields?: {
@@ -30,7 +26,7 @@ type ChooseMethodFormPropsLoadedRefresh = ChooseMethodFormPropsLoadedBase & {
   }
 }
 
-type ChooseMethodFormPropsLoaded = ChooseMethodFormPropsLoadedBase & {
+type ChooseMethodFormPropsLoaded<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoadedBase<TOidcProvidersConfig> & {
   isRefresh?: false
   passwordFields: {
     Identifier: ComponentType<{ children: ReactNode }>
@@ -39,26 +35,25 @@ type ChooseMethodFormPropsLoaded = ChooseMethodFormPropsLoadedBase & {
   }
 }
 
-export type ChooseMethodFormProps = ChooseMethodFormPropsLoaded | ChooseMethodFormPropsLoadedRefresh
+export type ChooseMethodFormProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = ChooseMethodFormPropsLoaded<TOidcProvidersConfig> | ChooseMethodFormPropsLoadedRefresh<TOidcProvidersConfig>
 
-type ChooseMethodFormWrapperProps = {
-  chooseMethodForm: ComponentType<ChooseMethodFormProps>
+type ChooseMethodFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
+  chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
   isRefresh: boolean | undefined
   onError?: OnLoginFlowError
   onLoginSuccess?: () => void
 }
 
-export function ChooseMethodFormWrapper({
+export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   chooseMethodForm: ChooseMethodForm,
   isRefresh,
   onError,
   onLoginSuccess,
-}: ChooseMethodFormWrapperProps) {
+}: ChooseMethodFormWrapperProps<TOidcProvidersConfig>) {
   const { data: loginFlow } = useGetLoginFlow()
   const passwordForm = usePasswordForm({ onError, onLoginSuccess })
   const formErrors = useFormErrors(passwordForm)
   const existingIdentifier = useExistingIdentifierFromFlow()
-  const customOidcProviders = useOidcProviders()
 
   const PasskeyWithFormErrorHandler = useCallback(
     (props: Omit<ComponentProps<typeof Passkey>, "onError">) => <Passkey {...props} onError={onError} />,
@@ -66,10 +61,10 @@ export function ChooseMethodFormWrapper({
   )
 
   const oidcProviderComponents = useMemo(() => {
-    if (!loginFlow) return {}
+    if (!loginFlow) return {} as OidcProviderComponents<TOidcProvidersConfig>
 
     const availableProviders = getAllOidcProviderUiNodes(loginFlow.ui.nodes)
-    const components: OidcProviderComponents = {}
+    const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
@@ -80,13 +75,13 @@ export function ChooseMethodFormWrapper({
       )
     })
 
-    return components
+    return components as OidcProviderComponents<TOidcProvidersConfig>
   }, [loginFlow])
 
   const oidcProviderComponentsForRefresh = useMemo(() => {
-    if (!loginFlow || !isRefresh) return {}
+    if (!loginFlow || !isRefresh) return {} as OidcProviderComponents<TOidcProvidersConfig>
 
-    const components: OidcProviderComponents = {}
+    const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     getAllOidcProviderUiNodes(loginFlow.ui.nodes).forEach(node => {
       const providerId = node.attributes.value
@@ -99,7 +94,7 @@ export function ChooseMethodFormWrapper({
       }
     })
 
-    return components
+    return components as OidcProviderComponents<TOidcProvidersConfig>
   }, [loginFlow, isRefresh])
 
   if (!loginFlow) return null
@@ -118,8 +113,8 @@ export function ChooseMethodFormWrapper({
             identifier={existingIdentifier}
             isSubmitting={passwordForm.state.isSubmitting}
             isValidating={passwordForm.state.isValidating}
-            Passkey={getNodeById(loginFlow.ui.nodes, "passkey_login") ? PasskeyWithFormErrorHandler : (() => null)}
             oidcProviders={oidcProviderComponentsForRefresh}
+            Passkey={getNodeById(loginFlow.ui.nodes, "passkey_login") ? PasskeyWithFormErrorHandler : (() => null)}
             passwordFields={
               getNodeById(loginFlow.ui.nodes, "password")
                 ? {
@@ -134,8 +129,8 @@ export function ChooseMethodFormWrapper({
             errors={formErrors}
             isSubmitting={passwordForm.state.isSubmitting}
             isValidating={passwordForm.state.isValidating}
-            Passkey={PasskeyWithFormErrorHandler}
             oidcProviders={oidcProviderComponents}
+            Passkey={PasskeyWithFormErrorHandler}
             passwordFields={{
               Identifier,
               Password,

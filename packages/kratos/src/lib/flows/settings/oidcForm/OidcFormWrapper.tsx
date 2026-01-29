@@ -1,7 +1,6 @@
 import { ComponentType, ReactNode, useMemo } from "react"
 import { toUpperFirst } from "@leancodepl/utils"
-import { useOidcProviders } from "../../../hooks"
-import { defaultProviders, getAllOidcProviderUiNodes } from "../../../utils"
+import { getAllOidcProviderUiNodes } from "../../../utils"
 import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
 import { getOidcProviderType } from "./providers"
@@ -17,7 +16,6 @@ type OidcFormWrapperProps = {
 
 export function OidcFormWrapper({ oidcForm: OidcForm }: OidcFormWrapperProps) {
   const { data: settingsFlow } = useGetSettingsFlow()
-  const customOidcProviders = useOidcProviders()
 
   const oidcComponents = useMemo(() => {
     if (!settingsFlow) {
