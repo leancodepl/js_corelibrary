@@ -18,10 +18,34 @@ npx @leancodepl/intl <command> [options]
 
 ## Configuration
 
+### Config File
+
+Create an `intl.config.js` (or `intl.config.cjs`) file in your project root:
+
+```js
+module.exports = {
+  srcPattern: "src/**/!(*.d).{ts,tsx}",
+  outputDir: "lang",
+  defaultLanguage: "pl",
+  languages: ["pl", "en"],
+  poeditorProjectId: 123456,
+}
+```
+
+### Environment Variables
+
 Configure POEditor credentials using environment variables:
 
 - `POEDITOR_API_TOKEN` - POEditor API token (required for upload, download, sync, and diff commands)
 - `POEDITOR_PROJECT_ID` - POEditor project ID (required for upload, download, sync, and diff commands)
+
+### Configuration Priority
+
+Options are resolved in the following order (highest priority first):
+
+1. CLI arguments
+2. Environment variables (for POEditor credentials)
+3. Config file
 
 ## Commands
 
@@ -45,6 +69,7 @@ npx @leancodepl/intl local [options]
 - `-d, --default-language <lang>` - Default language for translations (required when using POEditor integration)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var)
+- `-c, --config <path>` - Path to config file
 
 ### `upload`
 
@@ -62,6 +87,7 @@ npx @leancodepl/intl upload [options]
 - `-d, --default-language <lang>` - Default language for translations (required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
+- `-c, --config <path>` - Path to config file
 
 ### `download`
 
@@ -79,6 +105,7 @@ npx @leancodepl/intl download [options]
 - `-l, --languages <langs...>` - Languages to download (space-separated list, required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
+- `-c, --config <path>` - Path to config file
 
 ### `sync`
 
@@ -99,6 +126,7 @@ npx @leancodepl/intl sync [options]
 - `-d, --default-language <lang>` - Default language for translations (required)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
+- `-c, --config <path>` - Path to config file
 
 ### `diff`
 
@@ -116,10 +144,43 @@ npx @leancodepl/intl diff [options]
 - `-s, --src-pattern <pattern>` - Source file pattern for extraction (default: `"src/**/!(*.d).{ts,tsx}"`)
 - `-t, --poeditor-api-token <token>` - POEditor API token (overrides `POEDITOR_API_TOKEN` env var, required)
 - `-p, --poeditor-project-id <id>` - POEditor project ID (overrides `POEDITOR_PROJECT_ID` env var, required)
+- `-c, --config <path>` - Path to config file
 
-## Nx Configuration
+## Nx Integration
 
-Configure intl commands as Nx target in your `project.json`. Example configuration:
+### Using the Nx Plugin
+
+Add the `@leancodepl/nx-plugins/intl` plugin to your `nx.json`:
+
+```json
+{
+  "plugins": ["@leancodepl/nx-plugins/intl"]
+}
+```
+
+This will automatically infer targets for any project containing an `intl.config.js` file:
+
+- `intl` - runs the local command
+- `intl-upload` - runs the upload command
+- `intl-download` - runs the download command
+- `intl-sync` - runs the sync command
+- `intl-diff` - runs the diff command
+
+### Plugin Options
+
+```json
+{
+  "plugins": [
+    {
+      "plugin": "@leancodepl/nx-plugins/intl"
+    }
+  ]
+}
+```
+
+### Manual Nx Configuration
+
+Alternatively, configure intl commands manually as Nx target in your `project.json`:
 
 ```json
 "intl": {
@@ -127,19 +188,19 @@ Configure intl commands as Nx target in your `project.json`. Example configurati
   "defaultConfiguration": "local",
   "configurations": {
     "local": {
-      "command": "npx @leancodepl/intl local --src-pattern 'src/**/!(*.d).{ts,tsx}' --output-dir '{projectRoot}/lang' --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl local"
     },
     "download": {
-      "command": "npx @leancodepl/intl download --output-dir '{projectRoot}/lang' --languages pl en --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl download"
     },
     "diff": {
-      "command": "npx @leancodepl/intl diff --src-pattern 'src/**/!(*.d).{ts,tsx}' --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl diff"
     },
     "upload": {
-      "command": "npx @leancodepl/intl upload --src-pattern 'src/**/!(*.d).{ts,tsx}' --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl upload"
     },
     "sync": {
-      "command": "npx @leancodepl/intl sync --src-pattern 'src/**/!(*.d).{ts,tsx}' --output-dir '{projectRoot}/lang' --languages pl en --default-language pl --poeditor-project-id 123456"
+      "command": "npx @leancodepl/intl sync"
     }
   }
 }
