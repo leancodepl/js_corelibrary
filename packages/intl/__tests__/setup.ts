@@ -1,7 +1,10 @@
-jest.mock("@inquirer/checkbox", () => ({
-  default: jest.fn().mockResolvedValue(["testTerm1"]),
+/* eslint-disable import/no-extraneous-dependencies */
+import { vi } from "vitest"
+
+vi.mock("@inquirer/checkbox", () => ({
+  default: vi.fn().mockResolvedValue(["testTerm1"]),
 }))
 
-jest.mock("@inquirer/confirm", () => ({
-  default: jest.fn().mockResolvedValue(true),
+vi.mock("@inquirer/confirm", () => ({
+  default: vi.fn().mockResolvedValue(true),
 }))
