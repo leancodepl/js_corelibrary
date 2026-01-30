@@ -15,5 +15,5 @@ describe("download command", () => {
       languages: ["en", "pl"],
       translationsServiceClient,
     })
-  }, 30_000)
+  }, 30000)
 })

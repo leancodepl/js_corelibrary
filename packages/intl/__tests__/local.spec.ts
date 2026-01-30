@@ -16,5 +16,5 @@ describe("local command", () => {
       defaultLanguage: "pl",
       translationsServiceClient,
     })
-  }, 30_000)
+  }, 30000)
 })

@@ -110,7 +110,14 @@ export const base = [
       "unicorn/no-useless-switch-case": "error",
       "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
       "unicorn/no-zero-fractions": "error",
-      "unicorn/numeric-separators-style": "error",
+      "unicorn/numeric-separators-style": [
+        "error",
+        {
+          number: {
+            minimumDigits: 6,
+          },
+        },
+      ],
       "unicorn/prefer-array-flat-map": "error",
       "unicorn/prefer-array-index-of": "error",
       "unicorn/prefer-array-some": "error",

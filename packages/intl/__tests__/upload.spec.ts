@@ -15,5 +15,5 @@ describe("upload command", () => {
       translationsServiceClient,
       defaultLanguage: "en",
     })
-  }, 30_000)
+  }, 30000)
 })

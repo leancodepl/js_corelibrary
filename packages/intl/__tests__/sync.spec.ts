@@ -17,5 +17,5 @@ describe("sync command", () => {
       translationsServiceClient,
       defaultLanguage: "pl",
     })
-  }, 30_000)
+  }, 30000)
 })

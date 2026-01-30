@@ -14,5 +14,5 @@ describe("diff command", () => {
       srcPattern: join(__dirname, "testProject/src/**/*.{ts,tsx}"),
       translationsServiceClient,
     })
-  }, 30_000)
+  }, 30000)
 })

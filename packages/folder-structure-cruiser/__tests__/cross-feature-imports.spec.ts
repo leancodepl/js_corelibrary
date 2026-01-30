@@ -25,7 +25,7 @@ describe("cross-feature-imports validation", () => {
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
-  }, 30_000)
+  }, 30000)
 
   it("should detect violations in SnapshotPollEditor (nested sibling child)", async () => {
     const dirname = import.meta.dirname
@@ -39,7 +39,7 @@ describe("cross-feature-imports validation", () => {
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
-  }, 30_000)
+  }, 30000)
 
   it("should detect violations in ActivityEditor (nested sibling child import)", async () => {
     const dirname = import.meta.dirname
@@ -53,7 +53,7 @@ describe("cross-feature-imports validation", () => {
     })
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
-  }, 30_000)
+  }, 30000)
 
   it("should allow import from direct sibling index", async () => {
     const dirname = import.meta.dirname
