@@ -15,6 +15,7 @@ export default defineConfig(() => ({
     include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],
     setupFiles: ["./__tests__/setup.ts"],
+    passWithNoTests: true,
     coverage: {
       reportsDirectory: "../../coverage/packages/mail-translation",
       provider: "v8" as const,

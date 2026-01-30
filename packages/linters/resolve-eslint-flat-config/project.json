@@ -5,22 +5,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/packages/linters/resolve-eslint-flat-config"
-      },
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/resolve-eslint-flat-config {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]

@@ -12,26 +12,9 @@
         "cwd": "packages/intl"
       }
     },
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/intl",
-        "main": "packages/intl/src/index.ts",
-        "tsConfig": "packages/intl/tsconfig.lib.json",
-        "assets": ["packages/intl/*.md"]
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/intl {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"]
     }
   }
 }

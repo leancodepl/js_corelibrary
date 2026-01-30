@@ -25,13 +25,6 @@
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/mail-translation {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"]
     }
   }
 }

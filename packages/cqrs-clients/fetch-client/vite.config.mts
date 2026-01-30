@@ -23,7 +23,7 @@ export default defineConfig(() => ({
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode
   build: {
-    outDir: "../../dist/packages/cqrs-clients/fetch-client",
+    outDir: "../../../dist/packages/cqrs-clients/fetch-client",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -48,6 +48,7 @@ export default defineConfig(() => ({
     watch: false,
     globals: true,
     environment: "jsdom",
+    passWithNoTests: true,
     include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],
     coverage: {

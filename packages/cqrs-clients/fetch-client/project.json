@@ -12,32 +12,9 @@
   },
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/packages/cqrs-clients/fetch-client"
-      },
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/fetch-client {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"]
     }
   }
 }

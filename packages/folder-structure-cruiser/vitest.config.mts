@@ -14,6 +14,7 @@ export default defineConfig(() => ({
     environment: "node",
     include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],
+    passWithNoTests: true,
     coverage: {
       reportsDirectory: "../../coverage/packages/folder-structure-cruiser",
       provider: "v8" as const,
