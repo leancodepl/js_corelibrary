@@ -5,7 +5,7 @@ import {
   joinPathFragments,
   TargetConfiguration,
 } from "@nx/devkit"
-import { dirname } from "path"
+import { dirname } from "node:path"
 
 const contractsConfigGlob = "**/contractsgenerator-typescript.config.js"
 

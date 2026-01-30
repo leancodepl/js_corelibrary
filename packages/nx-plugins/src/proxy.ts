@@ -1,5 +1,5 @@
 import { createNodesFromFiles, CreateNodesV2, TargetConfiguration } from "@nx/devkit"
-import { dirname } from "path"
+import { dirname } from "node:path"
 
 const dockerComposeGlob = "**/dev/docker-compose.yml"
 

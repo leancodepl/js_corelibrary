@@ -5,7 +5,7 @@ import {
   joinPathFragments,
   TargetConfiguration,
 } from "@nx/devkit"
-import { dirname } from "path"
+import { dirname } from "node:path"
 
 const intlConfigGlob = "**/intl.config.{js,cjs}"
 
