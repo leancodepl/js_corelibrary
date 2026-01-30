@@ -171,3 +171,5 @@ nx lint [package-name]
    new version and run the workflow.
 6. After refreshing the page you should be able to see the workflow running. After it finishes successfully, go back to
    the previously created PR and merge it.
+
+TEST
