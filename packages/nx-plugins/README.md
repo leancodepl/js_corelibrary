@@ -10,7 +10,7 @@ npm install -D @leancodepl/nx-plugins
 
 ## Available Plugins
 
-### Contracts Generator Plugin
+### Contracts Plugin
 
 Automatically infers a `contracts` target for projects containing a `contractsgenerator-typescript.config.js` file.
 
@@ -18,7 +18,7 @@ Automatically infers a `contracts` target for projects containing a `contractsge
 {
   "plugins": [
     {
-      "plugin": "@leancodepl/nx-plugins/contracts-generator",
+      "plugin": "@leancodepl/nx-plugins/contracts",
       "options": {
         "targetName": "contracts"
       }

@@ -2,6 +2,26 @@
   "name": "@leancodepl/nx-plugins",
   "version": "0.0.1",
   "license": "Apache-2.0",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./intl": {
+      "types": "./src/intl.d.ts",
+      "default": "./src/intl.js"
+    },
+    "./proxy": {
+      "types": "./src/proxy.d.ts",
+      "default": "./src/proxy.js"
+    },
+    "./contracts": {
+      "types": "./src/contracts.d.ts",
+      "default": "./src/contracts.js"
+    }
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

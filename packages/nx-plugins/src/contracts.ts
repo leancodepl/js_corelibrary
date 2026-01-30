@@ -9,11 +9,11 @@ import { dirname } from "path"
 
 const contractsConfigGlob = "**/contractsgenerator-typescript.config.js"
 
-export interface ContractsGeneratorPluginOptions {
+export interface ContractsPluginOptions {
   targetName?: string
 }
 
-export const createNodesV2: CreateNodesV2<ContractsGeneratorPluginOptions> = [
+export const createNodesV2: CreateNodesV2<ContractsPluginOptions> = [
   contractsConfigGlob,
   async (configFiles, options, context) =>
     createNodesFromFiles(
@@ -24,11 +24,7 @@ export const createNodesV2: CreateNodesV2<ContractsGeneratorPluginOptions> = [
     ),
 ]
 
-function createNodesInternal(
-  configFilePath: string,
-  options: ContractsGeneratorPluginOptions,
-  _context: CreateNodesContext,
-) {
+function createNodesInternal(configFilePath: string, options: ContractsPluginOptions, _context: CreateNodesContext) {
   const projectRoot = dirname(configFilePath)
   const targetName = options.targetName ?? "contracts"
 
