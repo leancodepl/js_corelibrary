@@ -6,24 +6,20 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/cookie-consent",
-        "main": "packages/cookie-consent/src/index.ts",
-        "tsConfig": "packages/cookie-consent/tsconfig.json",
-        "assets": [
-          "packages/cookie-consent/*.md",
-          {
-            "glob": "**/*.json",
-            "input": "packages/cookie-consent/src",
-            "output": "."
-          }
-        ],
-        "project": "packages/cookie-consent/package.json"
+        "outputPath": "dist/packages/cookie-consent"
       },
-      "compiler": "swc",
-      "format": ["cjs", "esm"]
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
     },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/cookie-consent {args.registry} {args.ver} {args.tag}",

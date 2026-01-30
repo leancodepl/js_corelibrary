@@ -6,23 +6,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rollup:rollup",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/cqrs-clients/rx-cqrs-client",
-        "main": "packages/cqrs-clients/rx-cqrs-client/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/rx-cqrs-client/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/rx-cqrs-client/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/rx-cqrs-client/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "outputPath": "dist/packages/cqrs-clients/rx-cqrs-client"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {

@@ -13,13 +13,19 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/cqrs-clients/fetch-client",
-        "main": "packages/cqrs-clients/fetch-client/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/fetch-client/tsconfig.lib.json",
-        "assets": ["packages/cqrs-clients/fetch-client/*.md"]
+        "outputPath": "dist/packages/cqrs-clients/fetch-client"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
       }
     },
     "publish": {
