@@ -5,10 +5,10 @@ import { defineConfig } from "vitest/config"
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: "../../node_modules/.vite/packages/mail-translation",
+  cacheDir: "../../node_modules/.vite/packages/linters/eslint-plugin",
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(["*.md"])],
   test: {
-    name: "mail-translation",
+    name: "linters/eslint-plugin",
     watch: false,
     globals: true,
     environment: "node",
@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     reporters: ["default"],
     passWithNoTests: true,
     coverage: {
-      reportsDirectory: "../../coverage/packages/mail-translation",
+      reportsDirectory: "../../coverage/packages/linters/eslint-plugin",
       provider: "v8" as const,
     },
   },

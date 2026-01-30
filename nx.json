@@ -6,53 +6,51 @@
   },
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "plugins": [
+    {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json"
+        }
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/vite/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test",
+        "typecheckTargetName": "typecheck"
+      }
+    },
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test",
+        "ciTargetName": "test-ci",
+        "testMode": "watch"
+      }
+    }
+  ],
   "targetDefaults": {
     "build": {
       "cache": true,
       "dependsOn": ["^build"]
     },
-    "@nx/jest:jest": {
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
-      "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    },
-    "@nx/eslint:lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": true
-    },
     "@nx/rollup:rollup": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
-    },
-    "@nx/vite:test": {
-      "cache": true,
-      "inputs": ["default", "^default"]
-    },
-    "@nx/vite:build": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
-    "@nx/js:tsc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
-    "@nx/vitest:test": {
-      "cache": true,
-      "inputs": ["default", "^default"],
-      "options": {
-        "passWithNoTests": true
-      }
     }
   },
   "generators": {
@@ -73,5 +71,5 @@
       }
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": true
 }
