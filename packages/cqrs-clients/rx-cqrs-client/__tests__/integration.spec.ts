@@ -1,4 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { lastValueFrom } from "rxjs"
+import { vi } from "vitest"
 import mock from "xhr-mock"
 import { CommandResult } from "@leancodepl/cqrs-client-base"
 import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src"
@@ -26,7 +28,7 @@ describe("integration", () => {
 
   afterEach(() => {
     mock.teardown()
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it("correctly fetches command response", async () => {
