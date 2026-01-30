@@ -1,4 +1,3 @@
-import { Buffer } from "node:buffer"
 import { AsyncTokenStorage, Token, TokenStorage } from "./tokenStorage"
 
 export interface LoginSuccess {
@@ -214,7 +213,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   protected prepareHeaders() {
     const headers = new Headers()
     if (this.clientSecret) {
-      const sec = Buffer.from(`${this.clientId}:${this.clientSecret}`, "binary").toString("base64")
+      const sec = btoa(`${this.clientId}:${this.clientSecret}`)
       headers.append("Authorization", "Basic " + sec)
     }
 

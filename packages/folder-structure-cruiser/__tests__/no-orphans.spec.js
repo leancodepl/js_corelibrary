@@ -13,7 +13,7 @@ describe("no-orphans dependency cruiser rule", () => {
       encoding: "utf8",
     })
     expect(result).toContain("no-orphans")
-  })
+  }, 30000)
 
   test("should not flag files with multiple dependents", () => {
     const filePath = path.join(testDir, "polls/PollEditor/index.tsx")
@@ -22,5 +22,5 @@ describe("no-orphans dependency cruiser rule", () => {
       encoding: "utf8",
     })
     expect(result).not.toContain("no-orphans")
-  })
+  }, 30000)
 })

@@ -1,5 +1,5 @@
 import nx from "@nx/eslint-plugin"
-// eslint-disable-next-line import/no-useless-path-segments
+// eslint-disable-next-line import/no-useless-path-segments, @nx/enforce-module-boundaries
 import { a11y, base, baseReact, imports } from "./packages/linters/eslint-config/src/index.js"
 
 const config = [
@@ -14,13 +14,13 @@ const config = [
     ignores: ["**/dist", "**/vite.config.*.timestamp*", "**/vitest.config.*.timestamp*"],
   },
   {
-    files: ["*.ts", "*.tsx", "*.js", "*.jsx"],
+    files: ["*.ts", "*.tsx", "*.js", "*.jsx", "*.mjs", "*.cjs", "*.mts", "*.cts"],
     rules: {
       "@nx/enforce-module-boundaries": [
         "error",
         {
           enforceBuildableLibDependency: true,
-          allow: [],
+          allow: ["./eslint.config.mjs"],
           depConstraints: [
             {
               sourceTag: "*",

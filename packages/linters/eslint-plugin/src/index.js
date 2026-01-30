@@ -1,3 +1,1 @@
-import { leancodePlugin } from "./lib/eslint-plugin.js"
-
-export { leancodePlugin }
+export { leancodePlugin } from "./lib/eslint-plugin.js"

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generate function - Kratos mode should generate kratos templates matching snapshots 1`] = `
+exports[`generate function - Kratos mode > should generate kratos templates matching snapshots 1`] = `
 [
   {
     "mjmlParseErrors": [],

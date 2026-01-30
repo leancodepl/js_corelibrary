@@ -12,30 +12,9 @@
         "cwd": "packages/intl"
       }
     },
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/intl",
-        "tsConfig": "packages/intl/tsconfig.lib.json",
-        "packageJson": "packages/intl/package.json",
-        "main": "packages/intl/src/index.ts",
-        "assets": ["packages/intl/*.md"]
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/intl {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/intl/jest.config.ts"
-      }
     }
   }
 }

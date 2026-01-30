@@ -5,33 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/cqrs-clients/cqrs-client-base",
-        "main": "packages/cqrs-clients/cqrs-client-base/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/cqrs-client-base/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/cqrs-client-base/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/cqrs-client-base/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/cqrs-client-base {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }

@@ -8,76 +8,95 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as VerificationRouteImport } from "./routes/verification"
-import { Route as SettingsRouteImport } from "./routes/settings"
-import { Route as RegistrationRouteImport } from "./routes/registration"
-import { Route as RecoveryRouteImport } from "./routes/recovery"
-import { Route as LoginRouteImport } from "./routes/login"
-import { Route as IdentityRouteImport } from "./routes/identity"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerificationRouteImport } from './routes/verification'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RegistrationRouteImport } from './routes/registration'
+import { Route as RecoveryRouteImport } from './routes/recovery'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as IdentityRouteImport } from './routes/identity'
 
 const VerificationRoute = VerificationRouteImport.update({
-  id: "/verification",
-  path: "/verification",
+  id: '/verification',
+  path: '/verification',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
-  id: "/settings",
-  path: "/settings",
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistrationRoute = RegistrationRouteImport.update({
-  id: "/registration",
-  path: "/registration",
+  id: '/registration',
+  path: '/registration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecoveryRoute = RecoveryRouteImport.update({
-  id: "/recovery",
-  path: "/recovery",
+  id: '/recovery',
+  path: '/recovery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
-  id: "/login",
-  path: "/login",
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IdentityRoute = IdentityRouteImport.update({
-  id: "/identity",
-  path: "/identity",
+  id: '/identity',
+  path: '/identity',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  "/identity": typeof IdentityRoute
-  "/login": typeof LoginRoute
-  "/recovery": typeof RecoveryRoute
-  "/registration": typeof RegistrationRoute
-  "/settings": typeof SettingsRoute
-  "/verification": typeof VerificationRoute
+  '/identity': typeof IdentityRoute
+  '/login': typeof LoginRoute
+  '/recovery': typeof RecoveryRoute
+  '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 export interface FileRoutesByTo {
-  "/identity": typeof IdentityRoute
-  "/login": typeof LoginRoute
-  "/recovery": typeof RecoveryRoute
-  "/registration": typeof RegistrationRoute
-  "/settings": typeof SettingsRoute
-  "/verification": typeof VerificationRoute
+  '/identity': typeof IdentityRoute
+  '/login': typeof LoginRoute
+  '/recovery': typeof RecoveryRoute
+  '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/identity": typeof IdentityRoute
-  "/login": typeof LoginRoute
-  "/recovery": typeof RecoveryRoute
-  "/registration": typeof RegistrationRoute
-  "/settings": typeof SettingsRoute
-  "/verification": typeof VerificationRoute
+  '/identity': typeof IdentityRoute
+  '/login': typeof LoginRoute
+  '/recovery': typeof RecoveryRoute
+  '/registration': typeof RegistrationRoute
+  '/settings': typeof SettingsRoute
+  '/verification': typeof VerificationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/identity" | "/login" | "/recovery" | "/registration" | "/settings" | "/verification"
+  fullPaths:
+    | '/identity'
+    | '/login'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
   fileRoutesByTo: FileRoutesByTo
-  to: "/identity" | "/login" | "/recovery" | "/registration" | "/settings" | "/verification"
-  id: "__root__" | "/identity" | "/login" | "/recovery" | "/registration" | "/settings" | "/verification"
+  to:
+    | '/identity'
+    | '/login'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
+  id:
+    | '__root__'
+    | '/identity'
+    | '/login'
+    | '/recovery'
+    | '/registration'
+    | '/settings'
+    | '/verification'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -89,47 +108,47 @@ export interface RootRouteChildren {
   VerificationRoute: typeof VerificationRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/verification": {
-      id: "/verification"
-      path: "/verification"
-      fullPath: "/verification"
+    '/verification': {
+      id: '/verification'
+      path: '/verification'
+      fullPath: '/verification'
       preLoaderRoute: typeof VerificationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/settings": {
-      id: "/settings"
-      path: "/settings"
-      fullPath: "/settings"
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/registration": {
-      id: "/registration"
-      path: "/registration"
-      fullPath: "/registration"
+    '/registration': {
+      id: '/registration'
+      path: '/registration'
+      fullPath: '/registration'
       preLoaderRoute: typeof RegistrationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/recovery": {
-      id: "/recovery"
-      path: "/recovery"
-      fullPath: "/recovery"
+    '/recovery': {
+      id: '/recovery'
+      path: '/recovery'
+      fullPath: '/recovery'
       preLoaderRoute: typeof RecoveryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/login": {
-      id: "/login"
-      path: "/login"
-      fullPath: "/login"
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    "/identity": {
-      id: "/identity"
-      path: "/identity"
-      fullPath: "/identity"
+    '/identity': {
+      id: '/identity'
+      path: '/identity'
+      fullPath: '/identity'
       preLoaderRoute: typeof IdentityRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -144,4 +163,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   VerificationRoute: VerificationRoute,
 }
-export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()

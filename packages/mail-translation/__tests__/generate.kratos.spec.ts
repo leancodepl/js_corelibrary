@@ -1,7 +1,7 @@
 import * as path from "node:path"
 import { generate } from "../src"
 
-const kratosTestDir = path.join(__dirname, "kratos")
+const kratosTestDir = path.join(import.meta.dirname, "kratos")
 
 describe("generate function - Kratos mode", () => {
   const config = {
