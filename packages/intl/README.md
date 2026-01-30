@@ -20,7 +20,7 @@ npx @leancodepl/intl <command> [options]
 
 ### Config File
 
-Create an `intl.config.js` (or `.intlrc`, `.intlrc.json`, `.intlrc.js`) file in your project root:
+Create an `intl.config.js` (or `intl.config.cjs`) file in your project root:
 
 ```js
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
   defaultLanguage: "pl",
   languages: ["pl", "en"],
   poeditorProjectId: 123456,
-};
+}
 ```
 
 ### Environment Variables
@@ -172,14 +172,7 @@ This will automatically infer targets for any project containing an `intl.config
 {
   "plugins": [
     {
-      "plugin": "@leancodepl/nx-plugins/intl",
-      "options": {
-        "localTargetName": "intl",
-        "uploadTargetName": "intl-upload",
-        "downloadTargetName": "intl-download",
-        "syncTargetName": "intl-sync",
-        "diffTargetName": "intl-diff"
-      }
+      "plugin": "@leancodepl/nx-plugins/intl"
     }
   ]
 }
