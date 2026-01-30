@@ -19,8 +19,8 @@ function getConfig(cliOptions: z.infer<typeof cliOptionsSchema>) {
   const fileConfig = loadConfig(cliOptions.config)
 
   return {
-    srcPattern: cliOptions.srcPattern ?? fileConfig?.srcPattern,
-    outputDir: cliOptions.outputDir ?? fileConfig?.outputDir,
+    srcPattern: cliOptions.srcPattern ?? fileConfig?.srcPattern ?? "src/**/!(*.d).{ts,tsx}",
+    outputDir: cliOptions.outputDir ?? fileConfig?.outputDir ?? "lang",
     defaultLanguage: cliOptions.defaultLanguage ?? fileConfig?.defaultLanguage,
     languages: cliOptions.languages ?? fileConfig?.languages,
     poeditorApiToken: cliOptions.poeditorApiToken ?? fileConfig?.poeditorApiToken,
@@ -33,8 +33,8 @@ program.name("intl").description("CLI tool for managing formatjs translations wi
 program
   .command("local")
   .description("Extract, download from translation service, and compile formatjs translations locally")
-  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
-  .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
+  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction")
+  .option("-o, --output-dir <dir>", "Output directory for compiled translations")
   .option("-d, --default-language <lang>", "Default language for translations")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
@@ -64,7 +64,7 @@ program
 program
   .command("upload")
   .description("Extract terms and upload to translation service")
-  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
+  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .option("-d, --default-language <lang>", "Default language for translations")
@@ -95,7 +95,7 @@ program
 program
   .command("download")
   .description("Download translations from translation service and compile them")
-  .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
+  .option("-o, --output-dir <dir>", "Output directory for compiled translations")
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
@@ -121,8 +121,8 @@ program
 program
   .command("sync")
   .description("Upload local changes and download updated translations")
-  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
-  .option("-o, --output-dir <dir>", "Output directory for compiled translations", "lang")
+  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction")
+  .option("-o, --output-dir <dir>", "Output directory for compiled translations")
   .option("-l, --languages <langs...>", "Languages to download")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
@@ -151,7 +151,7 @@ program
 program
   .command("diff")
   .description("Compare local terms with translation service to find unused terms")
-  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction", "src/**/!(*.d).{ts,tsx}")
+  .option("-s, --src-pattern <pattern>", "Source file pattern for extraction")
   .option("-t, --poeditor-api-token <token>", "POEditor API token (can also use POEDITOR_API_TOKEN env var)")
   .option("-p, --poeditor-project-id <id>", "POEditor project ID", value => Number.parseInt(value, 10))
   .option("-c, --config <path>", "Path to config file")
