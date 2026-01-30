@@ -18,6 +18,8 @@ export type LoginResult = LoginFailure | LoginNetworkError | LoginSuccess
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LoginManager extends BaseLoginManager<TokenStorage> {}
 
+const refreshLockKey = "token_refresh_lock"
+
 export abstract class BaseLoginManager<TStorage extends TokenStorage> {
   private callbacks: ((isSignedIn: boolean) => void)[] = []
   private refreshTokenCallbacks: ((success: boolean) => void)[] = []
@@ -79,18 +81,53 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     }
   }
 
-  protected tryRefreshTokenInternal(token: Token): Promise<boolean> {
+  protected async tryRefreshTokenInternal(token: Token): Promise<boolean> {
+    if (typeof navigator !== "undefined" && "locks" in navigator) {
+      return await this.tryRefreshWithLock(token)
+    }
+
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true
-      this.acquireToken(this.buildRefreshRequest(token)).then(result => {
-        this.isRefreshingToken = false
-        this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
-        this.refreshTokenCallbacks = []
-      })
+      
+      const executeRefresh = async () => {
+        try {
+          const result = await this.acquireToken(this.buildRefreshRequest(token))
+          this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
+        } catch {
+          this.refreshTokenCallbacks.forEach(c => c(false))
+        } finally {
+          this.isRefreshingToken = false
+          this.refreshTokenCallbacks = []
+        }
+      }
+      
+      executeRefresh()
     }
 
     return new Promise(resolve => {
       this.refreshTokenCallbacks.push(resolve)
+    })
+  }
+
+  private async tryRefreshWithLock(token: Token): Promise<boolean> {
+    return await navigator.locks.request(refreshLockKey, { ifAvailable: true }, async lock => {
+      if (!lock) {
+        return await this.waitForLockRelease()
+      }
+
+      try {
+        const result = await this.acquireToken(this.buildRefreshRequest(token))
+        return result.type === "success"
+      } catch {
+        return false
+      }
+    })
+  }
+
+  private async waitForLockRelease(): Promise<boolean> {
+    return await navigator.locks.request(refreshLockKey, async () => {
+      const currentToken = await this.storage.getToken()
+      return currentToken !== null
     })
   }
 
