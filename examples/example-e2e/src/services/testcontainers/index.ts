@@ -1,4 +1,4 @@
-import * as path from "path"
+import * as path from "node:path"
 import { GenericContainer, StartedTestContainer, Wait } from "testcontainers"
 import { Environment } from "testcontainers/build/types"
 

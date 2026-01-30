@@ -1,5 +1,5 @@
-import { readdir, readFile } from "fs/promises"
-import { basename, extname, join } from "path"
+import { readdir, readFile } from "node:fs/promises"
+import { basename, extname, join } from "node:path"
 import { OutputMode } from "./config"
 import { Template } from "./processTemplate"
 

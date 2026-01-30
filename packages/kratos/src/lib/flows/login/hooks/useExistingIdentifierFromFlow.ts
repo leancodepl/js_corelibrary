@@ -6,12 +6,12 @@ export const useExistingIdentifierFromFlow = () => {
   const { data: loginFlow } = useGetLoginFlow()
 
   return useMemo(() => {
-    if (!loginFlow) return undefined
+    if (!loginFlow) return
 
     const node = getNodeById(loginFlow.ui.nodes, "identifier")
 
     if (!node || node.attributes.node_type !== "input" || typeof node.attributes.value !== "string") {
-      return undefined
+      return
     }
 
     return node.attributes.value

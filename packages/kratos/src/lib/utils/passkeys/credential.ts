@@ -3,15 +3,15 @@ import { base64urlDecode, base64urlEncode } from "./helpers"
 import { PasskeyChallengeOptions, PasskeyCredentialOptions } from "./types"
 
 export function trySafeStringifyNewCredential(credential: Credential | null) {
-  if (!credential || !isPublicKeyCredential(credential)) return undefined
+  if (!credential || !isPublicKeyCredential(credential)) return
 
-  const { response } = credential
+  const { response, id, rawId } = credential
 
-  if (!isAttestationResponse(response)) return undefined
+  if (!isAttestationResponse(response)) return
 
   return JSON.stringify({
-    id: credential.id,
-    rawId: base64urlEncode(credential.rawId),
+    id: id,
+    rawId: base64urlEncode(rawId),
     type: credential.type,
     response: {
       attestationObject: base64urlEncode(response.attestationObject),
@@ -51,22 +51,22 @@ export async function createCredential({
 }
 
 export function trySafeStringifyExistingCredential(credential: Credential | null) {
-  if (!credential || !isPublicKeyCredential(credential)) return undefined
+  if (!credential || !isPublicKeyCredential(credential)) return
 
-  const { response } = credential
+  const { response, id, rawId } = credential
 
-  if (!isAssertionResponse(response)) return undefined
+  if (!isAssertionResponse(response)) return
 
-  const { userHandle } = response
+  const { userHandle, authenticatorData, clientDataJSON, signature } = response
 
   return JSON.stringify({
-    id: credential.id,
-    rawId: base64urlEncode(credential.rawId),
+    id: id,
+    rawId: base64urlEncode(rawId),
     type: credential.type,
     response: {
-      authenticatorData: base64urlEncode(response.authenticatorData),
-      clientDataJSON: base64urlEncode(response.clientDataJSON),
-      signature: base64urlEncode(response.signature),
+      authenticatorData: base64urlEncode(authenticatorData),
+      clientDataJSON: base64urlEncode(clientDataJSON),
+      signature: base64urlEncode(signature),
       userHandle: userHandle ? base64urlEncode(userHandle) : undefined,
     },
   })

@@ -1,5 +1,5 @@
-import { writeFileSync } from "fs"
-import { join } from "path"
+import { writeFileSync } from "node:fs"
+import { join } from "node:path"
 import { z } from "zod/v4"
 import { mailTranslationConfigSchema } from "./config"
 

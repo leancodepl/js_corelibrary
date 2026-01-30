@@ -34,7 +34,7 @@ export function useUpdateLoginFlow() {
           } else {
             handleContinueWith(data.continue_with, {
               onRedirect: (url, _external) => {
-                window.location.href = url
+                globalThis.location.href = url
               },
             })
           }
@@ -44,7 +44,7 @@ export function useUpdateLoginFlow() {
       } catch (error) {
         return (await handleFlowError<LoginFlow>({
           onRedirect: (url, _external) => {
-            window.location.href = url
+            globalThis.location.href = url
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,

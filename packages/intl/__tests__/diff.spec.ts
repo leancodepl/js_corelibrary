@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join } from "node:path"
 import { diff } from "../src"
 import { getTranslationsServiceClient } from "./_utils"
 

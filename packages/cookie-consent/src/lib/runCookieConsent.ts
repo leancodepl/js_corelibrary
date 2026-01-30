@@ -53,13 +53,13 @@ function getCookieConsentConfig(config: CookieConsentConfig): CookieConsent.Cook
       [catNecessary]: {
         enabled: true,
         readOnly: true,
-        ...(categories[catNecessary] ?? {}),
+        ...categories[catNecessary],
       },
       [catAnalytics]: {
         autoClear: {
           cookies: [{ name: /^_ga/ }, { name: "_gid" }],
         },
-        ...(categories[catAnalytics] ?? {}),
+        ...categories[catAnalytics],
       },
       ...categories,
     },

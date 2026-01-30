@@ -1,8 +1,8 @@
 import type { PluginContext } from "rollup"
 import type { HtmlTagDescriptor, Plugin } from "vite"
 import favicons, { FaviconOptions, FaviconResponse } from "favicons"
+import path from "node:path"
 import { parseFragment } from "parse5"
-import path from "path"
 
 /**
  * Configuration options for the Vite favicon plugin.

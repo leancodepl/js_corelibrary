@@ -14,9 +14,10 @@
  * }
  * ```
  */
-export class CannotRefreshToken extends Error {
+export class CannotRefreshTokenError extends Error {
   constructor(m: string) {
     super(m)
-    Object.setPrototypeOf(this, CannotRefreshToken.prototype)
+    this.name = "CannotRefreshTokenError"
+    Object.setPrototypeOf(this, CannotRefreshTokenError.prototype)
   }
 }

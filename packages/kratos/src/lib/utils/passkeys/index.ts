@@ -9,15 +9,15 @@ import { base64urlDecode } from "./helpers"
 import { PasskeyChallengeOptions, PasskeyCreateData, PasskeySettingsCreateData } from "./types"
 
 function isPasskeySupported() {
-  return !!window.PublicKeyCredential
+  return !!globalThis.PublicKeyCredential
 }
 
 export async function passkeyLoginInit(passkeyChallengeString: string, signal?: AbortSignal) {
   const passkeyChallenge = JSON.parse(passkeyChallengeString) as PasskeyChallengeOptions
 
-  if (!isPasskeySupported()) return undefined
-  if (!window.PublicKeyCredential.isConditionalMediationAvailable) return undefined
-  if (!(await window.PublicKeyCredential.isConditionalMediationAvailable())) return undefined
+  if (!isPasskeySupported()) return
+  if (!globalThis.PublicKeyCredential.isConditionalMediationAvailable) return
+  if (!(await globalThis.PublicKeyCredential.isConditionalMediationAvailable())) return
 
   try {
     const credential = await navigator.credentials.get({
@@ -33,7 +33,7 @@ export async function passkeyLoginInit(passkeyChallengeString: string, signal?: 
 
     return trySafeStringifyExistingCredential(credential)
   } catch {
-    return undefined
+    return
   }
 }
 
@@ -48,7 +48,7 @@ export async function passkeyLogin(passkeyChallengeString: string, signal?: Abor
       }),
     )
   } catch {
-    return undefined
+    return
   }
 }
 
@@ -75,7 +75,7 @@ export async function passkeyRegister(
       }),
     )
   } catch {
-    return undefined
+    return
   }
 }
 
@@ -92,6 +92,6 @@ export async function passkeySettingsRegister(passkeyChallengeString: string, si
       }),
     )
   } catch {
-    return undefined
+    return
   }
 }

@@ -53,7 +53,7 @@ export const getAuthErrorsFromFormErrorMap = ({
     ...(Array.isArray(errorsOnBlur) ? errorsOnBlur : []),
   ].filter(isAuthError)
 
-  return Array.from(new Map(allErrors.map(error => [error.id, error])).values())
+  return [...new Map(allErrors.map(error => [error.id, error])).values()]
 }
 
 export enum AdditionalValidationError {
@@ -164,7 +164,7 @@ export const mapToAuthError = (error: UiTextError) => {
   } = getErrorMappers(error)
 
   switch (error.id) {
-    case 4000001:
+    case 4_000_001:
       // TODO add other specific variants
       if (hasProperetyOfType(error.context, "reason", "string")) {
         return createGenericErrorWithContext("InvalidFormat", {
@@ -172,14 +172,14 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("InvalidFormat")
-    case 4000002:
+    case 4_000_002:
       if (hasProperetyOfType(error.context, "property", "string")) {
         return createGenericErrorWithContext("MissingProperty", {
           property: error.context.property,
         })
       }
       return createGenericError("MissingProperty")
-    case 4000003:
+    case 4_000_003:
       if (
         hasProperetyOfType(error.context, "min_length", "number") &&
         hasProperetyOfType(error.context, "actual_length", "number")
@@ -190,43 +190,43 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("TooShort")
-    case 4000004:
+    case 4_000_004:
       if (hasProperetyOfType(error.context, "pattern", "string")) {
         return createGenericErrorWithContext("InvalidPattern", {
           pattern: error.context.pattern,
         })
       }
       return createGenericError("InvalidPattern")
-    case 4000005:
+    case 4_000_005:
       if (hasProperetyOfType(error.context, "reason", "string")) {
         return createGenericErrorWithContext("PasswordPolicyViolation", {
           reason: error.context.reason,
         })
       }
       return createGenericError("PasswordPolicyViolation")
-    case 4000006:
+    case 4_000_006:
       return createGenericError("InvalidCredentials")
-    case 4000007:
+    case 4_000_007:
       return createGenericError("DuplicateCredentials")
-    case 4000008:
+    case 4_000_008:
       return createGenericError("TOTPVerifierWrong")
-    case 4000009:
+    case 4_000_009:
       return createGenericError("IdentifierMissing")
-    case 4000010:
+    case 4_000_010:
       return createGenericError("AddressNotVerified")
-    case 4000011:
+    case 4_000_011:
       return createGenericError("NoTOTPDeviceSetUp")
-    case 4000012:
+    case 4_000_012:
       return createGenericError("RecoveryCodeAlreadyUsed")
-    case 4000013:
+    case 4_000_013:
       return createGenericError("NoWebAuthnDeviceSetUp")
-    case 4000014:
+    case 4_000_014:
       return createGenericError("NoRecoveryCodesSetUp")
-    case 4000015:
+    case 4_000_015:
       return createGenericError("AccountNotExistsOrHasSecurityKey")
-    case 4000016:
+    case 4_000_016:
       return createGenericError("InvalidRecoveryCode")
-    case 4000017:
+    case 4_000_017:
       if (
         hasProperetyOfType(error.context, "max_length", "number") &&
         hasProperetyOfType(error.context, "actual_length", "number")
@@ -237,7 +237,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("TooLong")
-    case 4000018:
+    case 4_000_018:
       if (
         hasProperetyOfType(error.context, "actual", "number") &&
         hasProperetyOfType(error.context, "minimum", "number")
@@ -248,7 +248,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("MustBeGreaterOrEqualThan")
-    case 4000019:
+    case 4_000_019:
       if (
         hasProperetyOfType(error.context, "actual", "number") &&
         hasProperetyOfType(error.context, "minimum", "number")
@@ -259,7 +259,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("MustBeGreaterThan")
-    case 4000020:
+    case 4_000_020:
       if (
         hasProperetyOfType(error.context, "actual", "number") &&
         hasProperetyOfType(error.context, "maximum", "number")
@@ -270,7 +270,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("MustBeLessOrEqualThan")
-    case 4000021:
+    case 4_000_021:
       if (
         hasProperetyOfType(error.context, "actual", "number") &&
         hasProperetyOfType(error.context, "maximum", "number")
@@ -281,7 +281,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("MustBeLessThan")
-    case 4000022:
+    case 4_000_022:
       if (
         hasProperetyOfType(error.context, "actual", "number") &&
         hasProperetyOfType(error.context, "base", "number")
@@ -292,7 +292,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("IsNotMultipleOf")
-    case 4000023:
+    case 4_000_023:
       if (
         hasProperetyOfType(error.context, "max_items", "number") &&
         hasProperetyOfType(error.context, "actual_items", "number")
@@ -303,7 +303,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("TooManyItems")
-    case 4000024:
+    case 4_000_024:
       if (
         hasProperetyOfType(error.context, "min_items", "number") &&
         hasProperetyOfType(error.context, "actual_items", "number")
@@ -314,7 +314,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("TooFewItems")
-    case 4000025:
+    case 4_000_025:
       if (
         hasProperetyOfType(error.context, "index_a", "number") &&
         hasProperetyOfType(error.context, "index_b", "number")
@@ -325,7 +325,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("DuplicateItems")
-    case 4000026:
+    case 4_000_026:
       if (
         hasProperetyOfType(error.context, "actual_type", "string") &&
         hasProperetyOfType(error.context, "allowed_types", "object") &&
@@ -338,9 +338,9 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("InvalidType")
-    case 4000027:
+    case 4_000_027:
       return createGenericError("AccountAlreadyExists")
-    case 4000028:
+    case 4_000_028:
       if (
         hasProperetyOfType(error.context, "credential_identifier_hint", "string") &&
         hasProperetyOfType(error.context, "available_credential_types", "object") &&
@@ -357,18 +357,18 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("CredentialIdentifierHintAlreadyUsedByOtherAccount")
-    case 4000029:
+    case 4_000_029:
       if (hasProperetyOfType(error.context, "expected", "string")) {
         return createGenericErrorWithContext("MustBeEqualTo", {
           expected: error.context.expected,
         })
       }
       return createGenericError("MustBeEqualTo")
-    case 4000030:
+    case 4_000_030:
       return createGenericError("ConstFailed")
-    case 4000031:
+    case 4_000_031:
       return createGenericError("PasswordAndIdentifierTooSimilar")
-    case 4000032:
+    case 4_000_032:
       if (
         hasProperetyOfType(error.context, "min_length", "number") &&
         hasProperetyOfType(error.context, "actual_length", "number")
@@ -379,7 +379,7 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("PasswordTooShort")
-    case 4000033:
+    case 4_000_033:
       if (
         hasProperetyOfType(error.context, "max_length", "number") &&
         hasProperetyOfType(error.context, "actual_length", "number")
@@ -390,24 +390,24 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createGenericError("PasswordTooLong")
-    case 4000034:
+    case 4_000_034:
       if (hasProperetyOfType(error.context, "breaches", "number")) {
         return createGenericErrorWithContext("PasswordLeaked", {
           breaches: error.context.breaches,
         })
       }
       return createGenericError("PasswordLeaked")
-    case 4000035:
+    case 4_000_035:
       return createGenericError("AccountNotExistsOrWithoutCodeSignIn")
-    case 4000036:
+    case 4_000_036:
       return createGenericError("TraitsDoNotMatch")
-    case 4000037:
+    case 4_000_037:
       return createGenericError("AccountNotExistsOrWithoutLoginMethod")
-    case 4000038:
+    case 4_000_038:
       return createGenericError("CaptchaFailed")
 
     // Login Flow Errors
-    case 4010001:
+    case 4_010_001:
       if (
         hasProperetyOfType(error.context, "expired_at", "string") &&
         hasProperetyOfType(error.context, "expired_at_unix", "number")
@@ -418,27 +418,27 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createLoginFlowError("LoginFlowExpired")
-    case 4010002:
+    case 4_010_002:
       return createLoginFlowError("NoLogInStrategyFound")
-    case 4010003:
+    case 4_010_003:
       return createLoginFlowError("NoSignUpStrategyFound")
-    case 4010004:
+    case 4_010_004:
       return createLoginFlowError("NoSettingsStrategyFound")
-    case 4010005:
+    case 4_010_005:
       return createLoginFlowError("NoRecoveryStrategyFound")
-    case 4010006:
+    case 4_010_006:
       return createLoginFlowError("NoVerificationStrategyFound")
-    case 4010007:
+    case 4_010_007:
       return createLoginFlowError("LoginRequestAlreadyCompletedSuccessfully")
-    case 4010008:
+    case 4_010_008:
       return createLoginFlowError("InvalidLoginCodeOrAlreadyUsed")
-    case 4010009:
+    case 4_010_009:
       return createLoginFlowError("MismatchedLinkedCretentials")
-    case 4010010:
+    case 4_010_010:
       return createLoginFlowError("MismatchedAddress")
 
     // Registration Flow Errors
-    case 4040001:
+    case 4_040_001:
       if (
         hasProperetyOfType(error.context, "expired_at", "string") &&
         hasProperetyOfType(error.context, "expired_at_unix", "number")
@@ -449,13 +449,13 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createRegisterFlowError("RegisterFlowExpired")
-    case 4040002:
+    case 4_040_002:
       return createRegisterFlowError("RegisterRequestAlreadyCompletedSuccessfully")
-    case 4040003:
+    case 4_040_003:
       return createRegisterFlowError("InvalidRegisterCodeOrAlreadyUsed")
 
     // Settings Flow Errors
-    case 4050001:
+    case 4_050_001:
       if (
         hasProperetyOfType(error.context, "expired_at", "string") &&
         hasProperetyOfType(error.context, "expired_at_unix", "number")
@@ -468,14 +468,14 @@ export const mapToAuthError = (error: UiTextError) => {
       return createSettingsFlowError("SettingsFlowExpired")
 
     // Recovery Flow Errors
-    case 4060001:
+    case 4_060_001:
       return createRecoveryFlowError("RecoveryRequestAlreadyCompletedSuccessfully")
-    case 4060002:
+    case 4_060_002:
       return createRecoveryFlowError("RecoveryFlowFailureState")
-    // case 4060003: NO INFO IN DOCS
-    case 4060004:
+    // case 4_060_003: NO INFO IN DOCS
+    case 4_060_004:
       return createRecoveryFlowError("InvalidTokenOrAlreadyUsed")
-    case 4060005:
+    case 4_060_005:
       if (
         hasProperetyOfType(error.context, "expired_at", "string") &&
         hasProperetyOfType(error.context, "expired_at_unix", "number")
@@ -486,18 +486,18 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createRecoveryFlowError("RecoveryFlowExpired")
-    case 4060006:
+    case 4_060_006:
       return createRecoveryFlowError("InvalidRecoveryCodeOrAlreadyUsed")
 
     // Verification Flow Errors
-    case 4070001:
+    case 4_070_001:
       return createVerificationFlowError("InvalidVerificationTokenOrAlreadyUsed")
-    case 4070002:
+    case 4_070_002:
       return createVerificationFlowError("VerificationRequestAlreadyCompletedSuccessfully")
-    case 4070003:
+    case 4_070_003:
       return createVerificationFlowError("VerificationFlowFailureState")
-    // case 4070004: NO INFO IN DOCS
-    case 4070005:
+    // case 4_070_004: NO INFO IN DOCS
+    case 4_070_005:
       if (
         hasProperetyOfType(error.context, "expired_at", "string") &&
         hasProperetyOfType(error.context, "expired_at_unix", "number")
@@ -508,11 +508,10 @@ export const mapToAuthError = (error: UiTextError) => {
         })
       }
       return createVerificationFlowError("VerificationFlowExpired")
-    case 4070006:
+    case 4_070_006:
       return createVerificationFlowError("InvalidVerificationCodeOrAlreadyUsed")
 
-    // Other Errors
-    case 5000001:
+    // Other Errors including 5_000_001
     default:
       if (hasProperetyOfType(error.context, "reason", "string")) {
         return createGenericErrorWithContext("Generic", {

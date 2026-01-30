@@ -1,6 +1,6 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "fs"
 import _ from "lodash"
-import { join } from "path"
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { join } from "node:path"
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import {

@@ -28,7 +28,7 @@ export function useUpdateSettingsFlow() {
           } else {
             handleContinueWith(data.continue_with, {
               onRedirect: (url, _external) => {
-                window.location.href = url
+                globalThis.location.href = url
               },
             })
           }
@@ -39,7 +39,7 @@ export function useUpdateSettingsFlow() {
         // 403 Forbidden if privileged_session_max_age exceeded
         return (await handleFlowError<SettingsFlow>({
           onRedirect: (url, _external) => {
-            window.location.href = url
+            globalThis.location.href = url
           },
           onRestartFlow: resetFlow,
           onValidationError: body => body,

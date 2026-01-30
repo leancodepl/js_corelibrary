@@ -6,11 +6,11 @@ export function getTranslationsServiceClient() {
 
   if (!poeditorApiToken || !poeditorProjectId) {
     console.log("Skipping test - no POEditor credentials provided")
-    return undefined
+    return
   }
 
   return mkTranslationsServiceClient({
     poeditorApiToken,
-    poeditorProjectId: parseInt(poeditorProjectId, 10),
+    poeditorProjectId: Number.parseInt(poeditorProjectId, 10),
   })
 }

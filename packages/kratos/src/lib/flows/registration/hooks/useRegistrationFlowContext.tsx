@@ -16,7 +16,7 @@ export function RegistrationFlowProvider({ children }: { children: ReactNode }) 
   const [registrationFlowId, setRegistrationFlowId] = useState<string>()
 
   const [traitsFormCompleted, setTraitsFormCompleted] = useState(false)
-  const [traits, setTraits] = useState<Record<string, boolean | string> | undefined>(undefined)
+  const [traits, setTraits] = useState<Record<string, boolean | string> | undefined>()
 
   const resetFlow = useCallback(() => {
     setRegistrationFlowId(undefined)

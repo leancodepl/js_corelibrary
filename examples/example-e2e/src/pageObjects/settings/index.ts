@@ -139,7 +139,8 @@ export class SettingsPage extends CommonPage {
   }
 
   async getTraitsFormErrors() {
-    return (await this.traitsFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.traitsFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // New password form
@@ -154,7 +155,8 @@ export class SettingsPage extends CommonPage {
   }
 
   async getNewPasswordFormErrors() {
-    return (await this.newPasswordFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.newPasswordFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // Passkeys form
@@ -186,7 +188,8 @@ export class SettingsPage extends CommonPage {
   }
 
   async getTotpFormErrors() {
-    return (await this.totpFormErrors.allTextContents()).filter(text => text.trim() !== "")
+    const errors = await this.totpFormErrors.allTextContents()
+    return errors.filter(text => text.trim() !== "")
   }
 
   // OIDC form
