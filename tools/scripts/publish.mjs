@@ -8,8 +8,8 @@
  */
 
 import devkit from "@nx/devkit"
-import { execSync } from "child_process"
-import { readFileSync, writeFileSync } from "fs"
+import { readFileSync, writeFileSync } from "node:fs"
+import { execSync } from "node:node:child_process"
 
 const { readCachedProjectGraph } = devkit
 
@@ -51,7 +51,7 @@ try {
   const json = JSON.parse(readFileSync(`package.json`).toString())
   json.version = version
   writeFileSync(`package.json`, JSON.stringify(json, null, 2))
-} catch (e) {
+} catch {
   console.error(`Error reading package.json file from library build output.`)
 }
 

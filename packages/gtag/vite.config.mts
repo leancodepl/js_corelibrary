@@ -16,7 +16,7 @@ export default defineConfig(() => ({
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode
   build: {
-    outDir: "./dist",
+    outDir: "../../dist/packages/gtag",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -45,7 +45,6 @@ export default defineConfig(() => ({
     include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],
     coverage: {
-      reportsDirectory: "./coverage/packages/gtag",
       provider: "v8" as const,
     },
   },
