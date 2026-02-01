@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "@leancodepl/eslint-plugin": "9.7.2",
+    "@leancodepl/eslint-plugin": "*",
     "eslint-plugin-import": ">=2.31.0",
     "eslint-plugin-jsx-a11y": ">=6.10.0",
     "eslint-plugin-perfectionist": ">=5.0.0",

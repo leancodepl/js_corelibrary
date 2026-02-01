@@ -20,8 +20,7 @@
     "rxjs": ">=7.0.0"
   },
   "devDependencies": {
-    "xhr-mock": "2.5.1",
-    "vitest": "*"
+    "xhr-mock": "2.5.1"
   },
   "publishConfig": {
     "access": "public",

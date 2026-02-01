@@ -1,9 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import * as path from "node:path"
-/// <reference types='vitest' />
 import { defineConfig } from "vite"
+/// <reference types='vitest' />
 import dts from "vite-plugin-dts"
 
 export default defineConfig(() => ({
@@ -21,7 +20,7 @@ export default defineConfig(() => ({
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode
   build: {
-    outDir: "../../dist/packages/config",
+    outDir: "./dist",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {

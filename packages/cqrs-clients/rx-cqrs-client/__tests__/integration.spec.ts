@@ -1,5 +1,4 @@
 import { lastValueFrom } from "rxjs"
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import mock from "xhr-mock"
 import { CommandResult } from "@leancodepl/cqrs-client-base"
 import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src"

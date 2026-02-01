@@ -21,7 +21,7 @@ export default defineConfig(() => ({
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode
   build: {
-    outDir: "../../../dist/packages/feature-flags/feature-flags-react-client",
+    outDir: "./dist",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {

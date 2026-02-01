@@ -9,7 +9,11 @@ import dts from "vite-plugin-dts"
 export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: "../../node_modules/.vite/packages/force-update",
-  plugins: [nxViteTsPaths(), react(), dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") })],
+  plugins: [
+    nxViteTsPaths(),
+    react(),
+    dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") }),
+  ],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
@@ -17,7 +21,7 @@ export default defineConfig(() => ({
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode
   build: {
-    outDir: "../../dist/packages/force-update",
+    outDir: "./dist",
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {

@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@leancodepl/api-binary": "9.7.2"
+    "@leancodepl/api-binary": "*"
   },
   "devDependencies": {
     "blob-polyfill": "^9.0.0"

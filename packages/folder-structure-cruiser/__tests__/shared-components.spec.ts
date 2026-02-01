@@ -1,5 +1,5 @@
 import { join } from "node:path"
-import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest"
+import { MockInstance } from "vitest"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {

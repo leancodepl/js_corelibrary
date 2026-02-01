@@ -20,9 +20,6 @@
     "@leancodepl/utils": "*",
     "tslib": "^2.3.0"
   },
-  "devDependencies": {
-    "vitest": "*"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

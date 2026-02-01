@@ -17,10 +17,12 @@
   "dependencies": {
     "rxjs": ">=7.0.0"
   },
+  "devDependencies": {
+    "vitest": "*"
+  },
   "peerDependencies": {
     "react": "*",
-    "vite": ">=4.0.0",
-    "vitest": "*"
+    "vite": ">=4.0.0"
   },
   "publishConfig": {
     "access": "public",

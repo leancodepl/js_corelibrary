@@ -15,8 +15,8 @@
     }
   },
   "dependencies": {
-    "@leancodepl/api-date": "9.7.2",
-    "@leancodepl/api-date-utils": "9.7.2",
+    "@leancodepl/api-date": "*",
+    "@leancodepl/api-date-utils": "*",
     "date-fns": ">=2.0.0"
   },
   "devDependencies": {

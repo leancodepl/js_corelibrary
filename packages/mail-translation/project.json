@@ -16,7 +16,7 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/mail-translation",
+        "outputPath": "packages/mail-translation/dist",
         "main": "packages/mail-translation/src/index.ts",
         "tsConfig": "packages/mail-translation/tsconfig.lib.json",
         "assets": ["packages/mail-translation/*.md", "packages/mail-translation/schema.json"]

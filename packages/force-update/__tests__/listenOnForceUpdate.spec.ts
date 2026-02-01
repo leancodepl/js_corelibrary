@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { listenOnForceUpdate } from "../src"
 import { mockVersionEndpoint } from "./_utils"
 

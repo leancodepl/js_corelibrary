@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@leancodepl/api-date": "9.7.2"
+    "@leancodepl/api-date": "*"
   },
   "publishConfig": {
     "access": "public",
