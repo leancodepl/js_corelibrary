@@ -19,7 +19,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "vite": ">=4.0.0"
+    "vite": ">=4.0.0",
+    "vitest": "*"
   },
   "publishConfig": {
     "access": "public",

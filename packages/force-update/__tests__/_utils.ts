@@ -1,6 +1,5 @@
 import { of, throwError } from "rxjs"
 import { ajax, AjaxConfig, AjaxResponse } from "rxjs/ajax"
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { MockedFunction } from "vitest"
 
 function asMock<Func extends (...args: any[]) => any>(mockedFunc: Func) {

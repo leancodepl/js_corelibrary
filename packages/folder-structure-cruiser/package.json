@@ -21,6 +21,9 @@
     "commander": "^14.0.0",
     "picocolors": "^1.1.1"
   },
+  "devDependencies": {
+    "vitest": "*"
+  },
   "peerDependencies": {
     "dependency-cruiser": "^17.0.0"
   },

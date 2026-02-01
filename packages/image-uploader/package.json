@@ -22,7 +22,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@leancodepl/utils": "9.7.2",
+    "@leancodepl/utils": "*",
     "react-dropzone": "14.3.8",
     "react-easy-crop": "5.5.0",
     "uuid": "11.1.0"

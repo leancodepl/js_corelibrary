@@ -15,15 +15,16 @@
     }
   },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "9.7.2",
-    "@leancodepl/utils": "9.7.2",
-    "@leancodepl/validation": "9.7.2",
+    "@leancodepl/cqrs-client-base": "*",
+    "@leancodepl/utils": "*",
+    "@leancodepl/validation": "*",
     "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "*",
-    "react": "*"
+    "react": "*",
+    "vitest": "*"
   },
   "publishConfig": {
     "access": "public",

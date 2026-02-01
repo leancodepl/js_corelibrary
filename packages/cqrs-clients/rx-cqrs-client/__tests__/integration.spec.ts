@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { lastValueFrom } from "rxjs"
-import { vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import mock from "xhr-mock"
 import { CommandResult } from "@leancodepl/cqrs-client-base"
 import { handleCommandResponse, mkCqrsClient, reduceObject } from "../src"

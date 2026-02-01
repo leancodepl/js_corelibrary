@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { join } from "node:path"
-import { type MockInstance, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {

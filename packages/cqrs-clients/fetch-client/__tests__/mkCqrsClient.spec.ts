@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { vi } from "vitest"
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 import { mkCqrsClient } from "../src"
 
 const mockFetch = vi.fn()

@@ -1,6 +1,5 @@
 import { delay, mergeMap, Observable, of, throwError } from "rxjs"
 import { ajax, AjaxConfig, AjaxError, AjaxResponse } from "rxjs/ajax"
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { MockedFunction } from "vitest"
 import { ApiResponse, CommandResult, ValidationError } from "@leancodepl/cqrs-client-base"
 

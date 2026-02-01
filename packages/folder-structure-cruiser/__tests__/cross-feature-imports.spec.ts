@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { join } from "node:path"
-import { type MockInstance, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, type MockInstance, vi } from "vitest"
 import { validateCrossFeatureImports } from "../src/commands/validateCrossFeatureImports"
 
 describe("cross-feature-imports validation", () => {
