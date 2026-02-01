@@ -1,6 +1,6 @@
 declare global {
-  interface ImportMeta {
-    env: Record<`VITE_${string}`, string | undefined>
+  interface ImportMetaEnv {
+    [key: `VITE_${string}`]: string | undefined
   }
 }
 

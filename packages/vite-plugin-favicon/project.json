@@ -20,8 +20,7 @@
           }
         ],
         "project": "packages/vite-plugin-favicon/package.json",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
+        "format": ["cjs", "esm"]
       }
     },
     "publish": {

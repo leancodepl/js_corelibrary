@@ -1,0 +1,17 @@
+{
+  "name": "@example/example",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@example/e2e-ids": "*",
+    "@leancodepl/kratos": "*",
+    "@leancodepl/utils": "*",
+    "@tanstack/react-query": "*",
+    "@tanstack/react-query-devtools": "*",
+    "@tanstack/react-router": "*",
+    "@tanstack/react-router-devtools": "*",
+    "react": "*",
+    "react-dom": "*",
+    "zod": "*"
+  }
+}

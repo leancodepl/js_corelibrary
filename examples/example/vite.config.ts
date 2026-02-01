@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"

@@ -17,13 +17,13 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../example-e2e-ids"
+      "path": "../example-e2e-ids/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/utils"
+      "path": "../../packages/utils/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/kratos"
+      "path": "../../packages/kratos/tsconfig.lib.json"
     }
   ]
 }

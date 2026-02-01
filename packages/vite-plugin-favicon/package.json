@@ -2,6 +2,15 @@
   "name": "@leancodepl/vite-plugin-favicon",
   "version": "9.7.2",
   "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

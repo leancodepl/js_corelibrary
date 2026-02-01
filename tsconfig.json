@@ -2,5 +2,102 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./packages/cqrs-clients/custom-types/binary/api-binary-blob"
+    },
+    {
+      "path": "./packages/cqrs-clients/custom-types/date/api-date-datefns"
+    },
+    {
+      "path": "./packages/cqrs-clients/custom-types/date/api-date-dayjs"
+    },
+    {
+      "path": "./packages/cqrs-clients/custom-types/date/api-date-utils"
+    },
+    {
+      "path": "./packages/cqrs-clients/custom-types/binary/api-binary"
+    },
+    {
+      "path": "./packages/feature-flags/feature-flags-react-client"
+    },
+    {
+      "path": "./packages/cqrs-clients/custom-types/date/api-date"
+    },
+    {
+      "path": "./packages/cqrs-clients/react-query-cqrs-client"
+    },
+    {
+      "path": "./packages/linters/resolve-eslint-flat-config"
+    },
+    {
+      "path": "./packages/cqrs-clients/axios-cqrs-client"
+    },
+    {
+      "path": "./packages/cqrs-clients/cqrs-client-base"
+    },
+    {
+      "path": "./packages/pipe-clients/hook-pipe-client"
+    },
+    {
+      "path": "./packages/cqrs-clients/rx-cqrs-client"
+    },
+    {
+      "path": "./packages/pipe-clients/rx-pipe-client"
+    },
+    {
+      "path": "./packages/cqrs-clients/fetch-client"
+    },
+    {
+      "path": "./packages/folder-structure-cruiser"
+    },
+    {
+      "path": "./packages/vite-plugin-favicon"
+    },
+    {
+      "path": "./packages/mail-translation"
+    },
+    {
+      "path": "./examples/example-e2e-ids"
+    },
+    {
+      "path": "./packages/cookie-consent"
+    },
+    {
+      "path": "./packages/image-uploader"
+    },
+    {
+      "path": "./packages/login-manager"
+    },
+    {
+      "path": "./packages/force-update"
+    },
+    {
+      "path": "./packages/styled-tools"
+    },
+    {
+      "path": "./examples/example-e2e"
+    },
+    {
+      "path": "./packages/validation"
+    },
+    {
+      "path": "./examples/example"
+    },
+    {
+      "path": "./packages/config"
+    },
+    {
+      "path": "./packages/kratos"
+    },
+    {
+      "path": "./packages/utils"
+    },
+    {
+      "path": "./packages/gtag"
+    },
+    {
+      "path": "./packages/intl"
+    }
+  ]
 }
