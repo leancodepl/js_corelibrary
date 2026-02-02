@@ -7,7 +7,7 @@ import dts from "vite-plugin-dts"
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: "../../node_modules/.vite/packages/resolve-eslint-flat-config",
+  cacheDir: "../../../node_modules/.vite/packages/linters/resolve-eslint-flat-config",
   plugins: [
     nxViteTsPaths(),
     dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") }),

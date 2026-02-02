@@ -1,7 +1,7 @@
 import type { Message, MessagesSummary } from "./types"
 
 export class MailpitHelper {
-  constructor(private readonly baseUrl: string = process.env.VITE_MAILPIT_URL ?? "http://localhost:8025") {}
+  constructor(private readonly baseUrl: string = process.env["VITE_MAILPIT_URL"] ?? "http://localhost:8025") {}
 
   private mailpitUrl(path: string, isApi = true): string {
     return `${this.baseUrl}/${isApi ? "api" : ""}${path}`

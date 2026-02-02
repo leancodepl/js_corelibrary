@@ -35,7 +35,7 @@ export class LoginPage extends CommonPage {
   readonly emailVerificationFormWrapper
   readonly emailVerificationCodeInput
 
-  constructor(protected readonly page: Page) {
+  constructor(protected override readonly page: Page) {
     super(page)
 
     this.wrapper = page.getByTestId(dataTestIds.login.page)

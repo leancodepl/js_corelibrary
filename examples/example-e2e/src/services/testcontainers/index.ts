@@ -18,28 +18,28 @@ const mapConfigRulesToEnvs = (rules: KratosConfigRules): Environment => {
   const envs: Environment = {}
 
   if (rules.totpMethodEnabled !== undefined) {
-    envs.SELFSERVICE_METHODS_TOTP_ENABLED = rules.totpMethodEnabled.toString()
+    envs["SELFSERVICE_METHODS_TOTP_ENABLED"] = rules.totpMethodEnabled.toString()
   }
 
   if (rules.oidcMethodsEnabled !== undefined) {
-    envs.SELFSERVICE_METHODS_OIDC_ENABLED = rules.oidcMethodsEnabled.toString()
+    envs["SELFSERVICE_METHODS_OIDC_ENABLED"] = rules.oidcMethodsEnabled.toString()
   }
 
   if (rules.passkeyMethodEnabled !== undefined) {
-    envs.SELFSERVICE_METHODS_PASSKEY_ENABLED = rules.passkeyMethodEnabled.toString()
+    envs["SELFSERVICE_METHODS_PASSKEY_ENABLED"] = rules.passkeyMethodEnabled.toString()
   }
 
   if (rules.verificationFlowEnabled !== undefined) {
-    envs.SELFSERVICE_FLOWS_VERIFICATION_ENABLED = rules.verificationFlowEnabled.toString()
+    envs["SELFSERVICE_FLOWS_VERIFICATION_ENABLED"] = rules.verificationFlowEnabled.toString()
   }
 
   if (rules.requireVerificationOnLogin) {
-    envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_HOOK = "verification"
-    envs.SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_1_HOOK = "show_verification_ui"
+    envs["SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_0_HOOK"] = "verification"
+    envs["SELFSERVICE_FLOWS_LOGIN_AFTER_PASSWORD_HOOKS_1_HOOK"] = "show_verification_ui"
   }
 
   if (rules.settingsPrivilegedSession !== undefined) {
-    envs.SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE =
+    envs["SELFSERVICE_FLOWS_SETTINGS_PRIVILEGED_SESSION_MAX_AGE"] =
       rules.settingsPrivilegedSession === "long" ? "15m" : "1s"
   }
 

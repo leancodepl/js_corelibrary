@@ -1,5 +1,5 @@
 {
-  "name": "@example/example",
+  "name": "@example/example-e2e",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -16,14 +16,15 @@
   },
   "dependencies": {
     "@example/e2e-ids": "*",
+    "@faker-js/faker": "*",
     "@leancodepl/kratos": "*",
-    "@leancodepl/utils": "*",
-    "@tanstack/react-query": "*",
-    "@tanstack/react-query-devtools": "*",
-    "@tanstack/react-router": "*",
-    "@tanstack/react-router-devtools": "*",
-    "react": "*",
-    "react-dom": "*",
-    "zod": "*"
+    "@playwright/test": "*",
+    "otplib": "*",
+    "testcontainers": "*"
+  },
+  "nx": {
+    "implicitDependencies": [
+      "@example/example"
+    ]
   }
 }

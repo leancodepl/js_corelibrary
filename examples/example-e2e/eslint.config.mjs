@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import playwright from "eslint-plugin-playwright"
 import baseConfig from "../../eslint.config.mjs"
 

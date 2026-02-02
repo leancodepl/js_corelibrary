@@ -33,4 +33,16 @@ export default defineConfig(() => ({
     reportCompressedSize: true,
     commonjsOptions: { transformMixedEsModules: true },
   },
+  test: {
+    name: "example",
+    watch: false,
+    globals: true,
+    environment: "jsdom",
+    passWithNoTests: true,
+    include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    reporters: ["default"],
+    coverage: {
+      provider: "v8" as const,
+    },
+  },
 }))

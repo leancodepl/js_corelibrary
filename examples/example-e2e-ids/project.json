@@ -1,0 +1,8 @@
+{
+  "name": "@example/e2e-ids",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "examples/example-e2e-ids/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}
