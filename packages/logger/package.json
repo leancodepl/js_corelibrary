@@ -1,0 +1,39 @@
+{
+  "name": "@leancodepl/logger",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "private": true,
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/logger"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Structured logger with middleware support",
+  "keywords": [
+    "logger",
+    "logging",
+    "middleware",
+    "typescript",
+    "javascript",
+    "leancode"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false
+}
