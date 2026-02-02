@@ -292,12 +292,15 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
   )
 }
 
-function OidcForm({ isLoading, ...oidcProviders }: settingsFlow.OidcFormProps) {
-  if (isLoading) {
+function OidcForm(props: settingsFlow.OidcFormProps) {
+  if (props.isLoading) {
     return <p>Loading OIDC providers...</p>
   }
 
-  const { Apple, Facebook, Google } = oidcProviders
+  type ProviderComponent = Exclude<(typeof props)[string], boolean>
+  const Apple = props['Apple'] as ProviderComponent
+  const Facebook = props['Facebook'] as ProviderComponent
+  const Google = props['Google'] as ProviderComponent
 
   return (
     <div data-testid={dataTestIds.settings.oidcForm.wrapper}>

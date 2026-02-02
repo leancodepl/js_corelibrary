@@ -5,9 +5,8 @@ import { useGetSettingsFlow } from "../hooks"
 import { Oidc } from "./fields"
 import { getOidcProviderType } from "./providers"
 
-export type OidcFormProps = {
+export type OidcFormProps = Record<string, boolean | ComponentType<{ children: ReactNode }> | undefined> & {
   isLoading: boolean
-  [key: string]: boolean | ComponentType<{ children: ReactNode }> | undefined
 }
 
 type OidcFormWrapperProps = {
