@@ -1,23 +1,16 @@
 {
   "extends": "../../../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts", "vite/client"],
+    "baseUrl": ".",
     "rootDir": "src",
-    "jsx": "react-jsx",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo"
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "emitDeclarationOnly": true,
+    "types": ["node", "vite/client"]
   },
+  "include": ["src/**/*.ts"],
+  "references": [],
   "exclude": [
-    "out-tsc",
-    "dist",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "**/*.spec.js",
-    "**/*.test.js",
-    "**/*.spec.jsx",
-    "**/*.test.jsx",
     "vite.config.ts",
     "vite.config.mts",
     "vitest.config.ts",
@@ -29,10 +22,6 @@
     "src/**/*.test.js",
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
-    "src/**/*.spec.jsx",
-    "eslint.config.js",
-    "eslint.config.cjs",
-    "eslint.config.mjs"
-  ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+    "src/**/*.spec.jsx"
+  ]
 }

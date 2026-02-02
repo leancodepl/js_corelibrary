@@ -1,6 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
-import react from "@vitejs/plugin-react"
 import * as path from "node:path"
 /// <reference types='vitest' />
 import { defineConfig } from "vite"
@@ -9,7 +7,7 @@ import dts from "vite-plugin-dts"
 export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: "../../node_modules/.vite/packages/login-manager",
-  plugins: [nxViteTsPaths(), react(), dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") })],
+  plugins: [dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") })],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
@@ -34,14 +32,14 @@ export default defineConfig(() => ({
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: [],
     },
   },
   test: {
     name: "@leancodepl/login-manager",
     watch: false,
     globals: true,
-    environment: "jsdom",
+    environment: "node",
     passWithNoTests: true,
     include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     reporters: ["default"],

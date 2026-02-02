@@ -2,8 +2,7 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/vitest",
-    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
-    "jsx": "react-jsx"
+    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"]
   },
   "include": [
     "vite.config.ts",
