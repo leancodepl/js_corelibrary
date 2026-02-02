@@ -12,16 +12,6 @@
         "cwd": "{workspaceRoot}"
       }
     },
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "packages/mail-translation/dist",
-        "main": "packages/mail-translation/src/index.ts",
-        "tsConfig": "packages/mail-translation/tsconfig.lib.json",
-        "assets": ["packages/mail-translation/*.md", "packages/mail-translation/schema.json"]
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/mail-translation {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]

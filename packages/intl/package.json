@@ -15,7 +15,7 @@
     }
   },
   "bin": {
-    "intl": "src/bin.js"
+    "intl": "./dist/bin.js"
   },
   "dependencies": {
     "@formatjs/cli": "^6.2.15",
@@ -65,5 +65,10 @@
   "author": {
     "name": "LeanCode",
     "url": "https://leancode.co"
-  }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

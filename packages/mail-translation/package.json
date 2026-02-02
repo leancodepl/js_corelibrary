@@ -15,7 +15,7 @@
     }
   },
   "bin": {
-    "mail-translation": "src/bin.js"
+    "mail-translation": "./dist/bin.js"
   },
   "dependencies": {
     "intl-messageformat": "^10.7.16",
@@ -65,5 +65,11 @@
   "author": {
     "name": "LeanCode",
     "url": "https://leancode.co"
-  }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "schema.json",
+    "!**/*.tsbuildinfo"
+  ]
 }

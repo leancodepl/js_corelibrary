@@ -47,5 +47,10 @@
   "dependencies": {
     "favicons": "^7.2.0",
     "parse5": "^8.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

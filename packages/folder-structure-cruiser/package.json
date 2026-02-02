@@ -15,7 +15,7 @@
     }
   },
   "bin": {
-    "folder-structure-cruiser": "src/bin.js"
+    "folder-structure-cruiser": "./dist/bin.js"
   },
   "dependencies": {
     "commander": "^14.0.0",
@@ -57,5 +57,10 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

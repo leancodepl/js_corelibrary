@@ -8,8 +8,8 @@
  */
 
 import devkit from "@nx/devkit"
+import { execSync } from "node:child_process"
 import { readFileSync, writeFileSync } from "node:fs"
-import { execSync } from "node:node:child_process"
 
 const { readCachedProjectGraph } = devkit
 
@@ -38,13 +38,19 @@ const project = graph.nodes[name]
 
 invariant(project, `Could not find project "${name}" in the workspace. Is the project.json configured correctly?`)
 
+// Try to get outputPath from explicit build target options first,
+// otherwise derive from project root (for inferred targets like @nx/vite/plugin)
 const outputPath = project.data?.targets?.build?.options?.outputPath
-invariant(
-  outputPath,
-  `Could not find "build.options.outputPath" of project "${name}". Is project.json configured  correctly?`,
-)
+const root = project.data?.root
 
-process.chdir(outputPath)
+if (!outputPath && !root) {
+  invariant(
+    false,
+    `Could not find "build.options.outputPath" or project root of project "${name}". Is project.json configured correctly?`,
+  )
+}
+
+process.chdir(outputPath ?? root)
 
 // Updating the version in "package.json" before publishing
 try {
@@ -56,6 +62,17 @@ try {
 }
 
 const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
+
+process.stdout.write(
+  JSON.stringify(
+    {
+      outputPath: project.data?.targets?.build?.options?.outputPath,
+      root: project.data?.root,
+    },
+    null,
+    2,
+  ),
+)
 
 // Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`)

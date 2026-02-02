@@ -44,5 +44,10 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

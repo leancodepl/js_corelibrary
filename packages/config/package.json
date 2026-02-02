@@ -48,5 +48,10 @@
   "author": {
     "name": "LeanCode",
     "url": "https://leancode.co"
-  }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }
