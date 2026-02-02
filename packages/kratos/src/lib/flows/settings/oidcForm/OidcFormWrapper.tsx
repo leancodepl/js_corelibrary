@@ -6,8 +6,8 @@ import { Oidc } from "./fields"
 import { getOidcProviderType } from "./providers"
 
 export type OidcFormProps = {
-  [key: string]: ComponentType<{ children: ReactNode }> | undefined
   isLoading: boolean
+  [key: string]: boolean | ComponentType<{ children: ReactNode }> | undefined
 }
 
 type OidcFormWrapperProps = {

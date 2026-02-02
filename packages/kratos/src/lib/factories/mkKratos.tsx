@@ -253,7 +253,7 @@ export function mkKratos<
   basePath,
   traits = {} as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
-  oidcProviders = [] as const as TOidcProvidersConfig,
+  oidcProviders = ([] as const) as unknown as TOidcProvidersConfig,
 }: MkKratosConfig<TTraitsConfig, TSessionManager, TOidcProvidersConfig>) {
   const api = new FrontendApi(
     new Configuration({

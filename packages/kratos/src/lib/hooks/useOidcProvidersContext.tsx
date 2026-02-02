@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext } from "react"
-import { OidcProviderConfig } from "../factories"
+import { OidcProviderConfig } from "../utils"
 
 type OidcProvidersContextValue = {
   oidcProviders: readonly OidcProviderConfig[]
