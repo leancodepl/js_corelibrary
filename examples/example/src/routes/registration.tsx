@@ -2,7 +2,7 @@ import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
-import type { AuthTraitsConfig } from "../services/kratos"
+import type { AuthTraitsConfig, OidcProvidersConfig } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
@@ -65,7 +65,7 @@ function TraitsForm({
   traitFields: { Email, GivenName, RegulationsAccepted, Submit },
   isSubmitting,
   isValidating,
-}: registrationFlow.TraitsFormProps<AuthTraitsConfig>) {
+}: registrationFlow.TraitsFormProps<AuthTraitsConfig, OidcProvidersConfig>) {
   return (
     <div data-testid={dataTestIds.registration.traitsForm.wrapper}>
       <Email>

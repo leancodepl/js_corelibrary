@@ -5,7 +5,7 @@ import { z } from "zod"
 import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
-import { getErrorMessage, LoginFlow, sessionManager } from "../services/kratos"
+import { getErrorMessage, LoginFlow, type OidcProvidersConfig, sessionManager } from "../services/kratos"
 
 const loginSearchSchema = z.object({
   flow: z.string().optional(),
@@ -62,7 +62,7 @@ function Loader() {
   return <p>Loading login methods...</p>
 }
 
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
   const { errors, isSubmitting, isValidating, oidcProviders, isRefresh } = props
 
   if (isRefresh) {
