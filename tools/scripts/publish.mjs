@@ -30,17 +30,6 @@ function updatePackageJson(version) {
   } catch {
     console.error(`Error reading package.json file from library build output.`)
   }
-
-  process.stdout.write(
-    JSON.stringify(
-      {
-        outputPath: project.data?.targets?.build?.options?.outputPath,
-        root: project.data?.root,
-      },
-      null,
-      2,
-    ),
-  )
 }
 
 // Executing publish script: node path/to/publish.mjs {name} --version {version} --tag {tag}
