@@ -186,7 +186,7 @@ export type FlowsConfig<
    * />
    * ```
    */
-  SettingsFlow: ComponentType<Omit<SettingsFlowProps<TTraitsConfig>, "traitsConfig">>
+  SettingsFlow: ComponentType<Omit<SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">>
 
   /**
    * Renders email verification flow with provider context and flow management.
@@ -280,7 +280,7 @@ export function mkKratos<
     RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">) => (
       <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />
     ),
-    SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig>, "traitsConfig">) => (
+    SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">) => (
       <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />
     ),
     VerificationFlow: verificationFlow.VerificationFlow,

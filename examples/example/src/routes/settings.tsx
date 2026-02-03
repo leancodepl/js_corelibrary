@@ -4,7 +4,7 @@ import { z } from "zod"
 import { settingsFlow } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
-import { AuthTraitsConfig, getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
+import { AuthTraitsConfig, getErrorMessage, type OidcProvidersConfig, sessionManager, SettingsFlow } from "../services/kratos"
 
 const settingsSearchSchema = z.object({
   flow: z.string().optional(),
@@ -292,15 +292,12 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
   )
 }
 
-function OidcForm(props: settingsFlow.OidcFormProps) {
+function OidcForm(props: settingsFlow.OidcFormProps<OidcProvidersConfig>) {
   if (props.isLoading) {
     return <p>Loading OIDC providers...</p>
   }
 
-  type ProviderComponent = Exclude<(typeof props)[string], boolean>
-  const Apple = props['Apple'] as ProviderComponent
-  const Facebook = props['Facebook'] as ProviderComponent
-  const Google = props['Google'] as ProviderComponent
+  const { Apple, Facebook, Google } = props
 
   return (
     <div data-testid={dataTestIds.settings.oidcForm.wrapper}>
