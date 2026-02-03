@@ -2,7 +2,7 @@
  * This is a small script for copying directory from one place to another
  */
 
-import { cpSync } from "fs"
+import { cpSync } from "node:fs"
 
 function invariant(condition, message) {
   if (!condition) {
