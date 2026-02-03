@@ -15,5 +15,5 @@ export type OidcProvidersConfig = readonly OidcProviderConfig[]
  * // Result: { Google?: ComponentType<...>, Microsoft?: ComponentType<...> }
  */
 export type OidcProviderComponents<TOidcProvidersConfig extends OidcProvidersConfig> = {
-  [K in TOidcProvidersConfig[number]["id"] as Capitalize<K>]?: ComponentType<{ children: ReactNode }>
+  [K in Capitalize<TOidcProvidersConfig[number]["id"]>]?: ComponentType<{ children: ReactNode }>
 }

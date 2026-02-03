@@ -268,12 +268,8 @@ export function mkKratos<
     useLogout: logoutFlow.useLogout,
     LoginFlow: loginFlow.LoginFlow,
     RecoveryFlow: recoveryFlow.RecoveryFlow,
-    RegistrationFlow: (props: Omit<registrationFlow.RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">) => (
-      <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />
-    ),
-    SettingsFlow: (props: Omit<settingsFlow.SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">) => (
-      <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />
-    ),
+    RegistrationFlow: props => <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />,
+    SettingsFlow: props => <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />,
     VerificationFlow: verificationFlow.VerificationFlow,
   }
 
