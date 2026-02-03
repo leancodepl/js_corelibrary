@@ -1,6 +1,6 @@
 import { ComponentType, ReactNode } from "react"
 import { useFlowManager } from "../../hooks/useFlowManager"
-import { TraitsConfig } from "../../utils"
+import { OidcProvidersConfig, TraitsConfig } from "../../utils"
 import { SettingsFlowProvider, useCreateSettingsFlow, useGetSettingsFlow, useSettingsFlowContext } from "./hooks"
 import { NewPasswordFormProps, NewPasswordFormWrapper } from "./newPasswordForm"
 import { OidcFormProps, OidcFormWrapper } from "./oidcForm"
@@ -19,13 +19,16 @@ export type SettingsFormProps = {
   oidcForm?: ReactNode
 }
 
-export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
+export type SettingsFlowProps<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+> = {
   traitsConfig?: TTraitsConfig
   traitsForm?: ComponentType<TraitsFormProps<TTraitsConfig>>
   newPasswordForm?: ComponentType<NewPasswordFormProps>
   passkeysForm?: ComponentType<PasskeysFormProps>
   totpForm?: ComponentType<TotpFormProps>
-  oidcForm?: ComponentType<OidcFormProps>
+  oidcForm?: ComponentType<OidcFormProps<TOidcProvidersConfig>>
   initialFlowId?: string
   initialVerifiableAddress?: string
   onError?: OnSettingsFlowError<TTraitsConfig>
@@ -39,6 +42,7 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
  * Renders a complete settings flow with user account management capabilities.
  *
  * @template TTraitsConfig - Configuration type for user traits that extends TraitsConfig
+ * @template TOidcProvidersConfig - Configuration type for OIDC providers array
  * @param props - Settings flow configuration and form components
  * @param props.traitsConfig - Configuration for user traits fields
  * @param props.traitsForm - Component for editing user traits/profile information
@@ -74,7 +78,10 @@ export type SettingsFlowProps<TTraitsConfig extends TraitsConfig> = {
  * }
  * ```
  */
-export function SettingsFlow<TTraitsConfig extends TraitsConfig>(props: SettingsFlowProps<TTraitsConfig>) {
+export function SettingsFlow<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+>(props: SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>) {
   return (
     <SettingsFlowProvider>
       <SettingsFlowWrapper {...props} />
@@ -82,7 +89,10 @@ export function SettingsFlow<TTraitsConfig extends TraitsConfig>(props: Settings
   )
 }
 
-export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
+export function SettingsFlowWrapper<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+>({
   newPasswordForm: NewPasswordForm,
   traitsForm: TraitsForm,
   passkeysForm: PasskeysForm,
@@ -95,7 +105,7 @@ export function SettingsFlowWrapper<TTraitsConfig extends TraitsConfig>({
   onChangePasswordSuccess,
   onChangeTraitsSuccess,
   onFlowRestart,
-}: SettingsFlowProps<TTraitsConfig>) {
+}: SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>) {
   const { settingsFlowId, setSettingsFlowId, emailVerificationRequired } = useSettingsFlowContext()
 
   const { mutate: createSettingsFlow } = useCreateSettingsFlow()
