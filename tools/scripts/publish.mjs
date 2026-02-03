@@ -62,28 +62,30 @@ if (!outputPath && !root) {
   )
 }
 
+let publishFolderToCleanup = null
+
 if (outputPath) {
   process.chdir(outputPath)
   updatePackageJson(version)
 } else {
   process.chdir(root)
 
-  const distPublishFolder = ".dist_publish"
+  const publishFolder = ".publish"
 
   // Clean up previous publish folder if it exists
-  if (existsSync(distPublishFolder)) {
-    rmSync(distPublishFolder, { recursive: true })
+  if (existsSync(publishFolder)) {
+    rmSync(publishFolder, { recursive: true })
   }
-  mkdirSync(distPublishFolder, { recursive: true })
+  mkdirSync(publishFolder, { recursive: true })
 
   // Get list of files that would be included in the npm package
   const packOutput = execSync("npm pack --dry-run --json", { encoding: "utf-8" })
   const packInfo = JSON.parse(packOutput)
   const files = packInfo[0].files.map(f => f.path)
 
-  // Copy files to the .dist_publish folder
+  // Copy files to the .publish folder
   for (const file of files) {
-    const destPath = join(distPublishFolder, file)
+    const destPath = join(publishFolder, file)
     const destDir = dirname(destPath)
 
     if (!existsSync(destDir)) {
@@ -92,8 +94,11 @@ if (outputPath) {
     cpSync(file, destPath)
   }
 
+  // Store absolute path for cleanup after publish
+  publishFolderToCleanup = join(process.cwd(), publishFolder)
+
   // Change to publish folder and update package.json
-  process.chdir(distPublishFolder)
+  process.chdir(publishFolder)
   updatePackageJson(version)
 }
 
@@ -101,3 +106,8 @@ const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
 
 // Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`)
+
+// Clean up the temporary publish folder
+if (publishFolderToCleanup) {
+  rmSync(publishFolderToCleanup, { recursive: true })
+}
