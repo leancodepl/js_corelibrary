@@ -18,15 +18,13 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
 }: OidcFormWrapperProps<TOidcProvidersConfig>) {
   const { data: settingsFlow } = useGetSettingsFlow()
 
-  const oidcComponents = useMemo(() => {
+  const oidcComponents = useMemo((): OidcFormProps<TOidcProvidersConfig> => {
     if (!settingsFlow) {
       return { isLoading: true } as OidcFormProps<TOidcProvidersConfig>
     }
 
     const availableProviders = getAllOidcProviderUiNodes(settingsFlow.ui.nodes)
-    const components: Record<string, boolean | ComponentType<{ children: ReactNode }>> = {
-      isLoading: false,
-    }
+    const providerComponents: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
@@ -34,7 +32,7 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
       const type = getOidcProviderType(providerId, settingsFlow.ui.nodes)
 
       if (type) {
-        components[providerName] = ({ children }: { children: ReactNode }) => (
+        providerComponents[providerName] = ({ children }: { children: ReactNode }) => (
           <Oidc provider={providerId} type={type}>
             {children}
           </Oidc>
@@ -42,7 +40,10 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
       }
     })
 
-    return components as OidcFormProps<TOidcProvidersConfig>
+    return {
+      isLoading: false,
+      ...providerComponents,
+    } as OidcFormProps<TOidcProvidersConfig>
   }, [settingsFlow])
 
   return <OidcForm {...oidcComponents} />
