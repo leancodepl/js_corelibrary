@@ -60,8 +60,8 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
     [onError],
   )
 
-  const oidcProviderComponents = useMemo(() => {
-    if (!loginFlow) return {} as OidcProviderComponents<TOidcProvidersConfig>
+  const oidcProviderComponents = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
+    if (!loginFlow) return {}
 
     const availableProviders = getAllOidcProviderUiNodes(loginFlow.ui.nodes)
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
@@ -78,8 +78,8 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
     return components as OidcProviderComponents<TOidcProvidersConfig>
   }, [loginFlow])
 
-  const oidcProviderComponentsForRefresh = useMemo(() => {
-    if (!loginFlow || !isRefresh) return {} as OidcProviderComponents<TOidcProvidersConfig>
+  const oidcProviderComponentsForRefresh = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
+    if (!loginFlow || !isRefresh) return {}
 
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 

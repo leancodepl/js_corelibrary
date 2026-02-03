@@ -66,8 +66,8 @@ export function TraitsFormWrapper<
     [traitsConfig],
   )
 
-  const oidcProviderComponents = useMemo(() => {
-    if (!registrationFlow) return {} as OidcProviderComponents<TOidcProvidersConfig>
+  const oidcProviderComponents = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
+    if (!registrationFlow) return {}
 
     const availableProviders = getAllOidcProviderUiNodes(registrationFlow.ui.nodes)
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
