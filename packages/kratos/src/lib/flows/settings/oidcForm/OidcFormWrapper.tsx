@@ -18,9 +18,9 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
 }: OidcFormWrapperProps<TOidcProvidersConfig>) {
   const { data: settingsFlow } = useGetSettingsFlow()
 
-  const oidcComponents = useMemo((): OidcFormProps<TOidcProvidersConfig> => {
+  const oidcComponents = useMemo<OidcFormProps<TOidcProvidersConfig>>(() => {
     if (!settingsFlow) {
-      return { isLoading: true } as OidcFormProps<TOidcProvidersConfig>
+      return { isLoading: true }
     }
 
     const availableProviders = getAllOidcProviderUiNodes(settingsFlow.ui.nodes)
