@@ -91,11 +91,11 @@ export type DefaultOidcProvider = (typeof defaultProviders)[number]
 
 export type OidcProvider = DefaultOidcProvider | string
 
-export type OidcProviderUiNode = UiNode & {
+export type OidcProviderUiNode<TProviderId extends string = string> = UiNode & {
   group: "oidc"
-  attributes: {
+  attributes: UiNode["attributes"] & {
     node_type: "input"
-    value: string
+    value: TProviderId
   }
 }
 
