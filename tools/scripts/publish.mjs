@@ -90,7 +90,7 @@ if (outputPath) {
   // Get list of files that would be included in the npm package
   const packOutput = execSync("npm pack --dry-run --json", { encoding: "utf-8" })
   const packInfo = JSON.parse(packOutput)
-  const files = packInfo[0].files.map((f) => f.path)
+  const files = packInfo[0].files.map(f => f.path)
 
   // Copy files to the .dist_publish folder
   for (const file of files) {

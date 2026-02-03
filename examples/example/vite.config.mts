@@ -1,6 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import { tanstackRouter } from "@tanstack/router-plugin/vite"
 import react from "@vitejs/plugin-react"
 import { join } from "node:path"
@@ -20,12 +18,10 @@ export default defineConfig(() => ({
       generatedRouteTree: join(__dirname, "src/routeTree.gen.ts"),
     }),
     react(),
-    nxCopyAssetsPlugin(["*.md"]),
-    nxViteTsPaths(),
   ],
   // Uncomment this if you are using workers.
   // worker: {
-  //  plugins: [ nxViteTsPaths() ],
+  //  plugins: [],
   // },
   build: {
     outDir: "./dist",

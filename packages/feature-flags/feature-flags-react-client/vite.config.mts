@@ -1,6 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import * as path from "node:path"
 /// <reference types='vitest' />
 import { defineConfig } from "vite"
@@ -10,13 +8,11 @@ export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: "../../../node_modules/.vite/packages/feature-flags/feature-flags-react-client",
   plugins: [
-    nxViteTsPaths(),
-    nxCopyAssetsPlugin(["*.md"]),
     dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json"), pathsToAliases: false }),
   ],
   // Uncomment this if you are using workers.
   // worker: {
-  //   plugins: () => [ nxViteTsPaths() ],
+  //  plugins: [],
   // },
   // Configuration for building your library.
   // See: https://vite.dev/guide/build.html#library-mode

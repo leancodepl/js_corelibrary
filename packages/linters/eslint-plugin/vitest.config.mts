@@ -1,12 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { nxCopyAssetsPlugin } from "@nx/vite/plugins/nx-copy-assets.plugin"
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin"
 import { defineConfig } from "vitest/config"
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: "../../node_modules/.vite/packages/linters/eslint-plugin",
-  plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(["*.md"])],
+  plugins: [],
   test: {
     name: "linters/eslint-plugin",
     watch: false,
