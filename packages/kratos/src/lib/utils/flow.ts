@@ -4,6 +4,7 @@ import {
   isUiNodeInputAttributes,
   UiNode,
   UiNodeGroupEnum,
+  UiNodeInputAttributes,
   UiNodeScriptAttributesNodeTypeEnum,
   UiNodeTypeEnum,
 } from "../kratos"
@@ -91,9 +92,9 @@ export type DefaultOidcProvider = (typeof defaultProviders)[number]
 
 export type OidcProvider = DefaultOidcProvider | string
 
-export type OidcProviderUiNode<TProviderId extends string = string> = UiNode & {
+export type OidcProviderUiNode<TProviderId extends string = string> = Omit<UiNode, "attributes" | "group"> & {
   group: "oidc"
-  attributes: UiNode["attributes"] & {
+  attributes: Omit<UiNodeInputAttributes, "node_type" | "value"> & {
     node_type: "input"
     value: TProviderId
   }
