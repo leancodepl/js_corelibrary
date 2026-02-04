@@ -15,9 +15,9 @@
     }
   },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "*",
-    "@leancodepl/utils": "*",
-    "@leancodepl/validation": "*",
+    "@leancodepl/cqrs-client-base": "9.7.2",
+    "@leancodepl/utils": "9.7.2",
+    "@leancodepl/validation": "9.7.2",
     "@tanstack/react-query": ">=5.0.0",
     "rxjs": ">=7.0.0"
   },

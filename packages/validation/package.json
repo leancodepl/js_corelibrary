@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "*"
+    "@leancodepl/cqrs-client-base": "9.7.2"
   },
   "devDependencies": {
     "sinon": "15.2.0"

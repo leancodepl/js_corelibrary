@@ -3,10 +3,10 @@
   "version": "9.7.2",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/eslint-config": "*",
-    "@leancodepl/prettier-config": "*",
-    "@leancodepl/resolve-eslint-flat-config": "*",
-    "@leancodepl/stylelint-config": "*"
+    "@leancodepl/eslint-config": "9.7.2",
+    "@leancodepl/prettier-config": "9.7.2",
+    "@leancodepl/resolve-eslint-flat-config": "9.7.2",
+    "@leancodepl/stylelint-config": "9.7.2"
   },
   "publishConfig": {
     "access": "public",

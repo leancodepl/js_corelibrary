@@ -22,9 +22,9 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "*",
-    "@leancodepl/utils": "*",
-    "@leancodepl/validation": "*",
+    "@leancodepl/cqrs-client-base": "9.7.2",
+    "@leancodepl/utils": "9.7.2",
+    "@leancodepl/validation": "9.7.2",
     "axios": ">=1.6.0"
   },
   "repository": {
