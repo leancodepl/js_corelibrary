@@ -22,7 +22,6 @@ function invariant(condition, message) {
 }
 
 function updatePackageJson(version) {
-  // Updating the version in "package.json" before publishing
   try {
     const json = JSON.parse(readFileSync(`package.json`).toString())
     json.version = version
@@ -72,7 +71,6 @@ if (outputPath) {
 
   const publishFolder = ".publish"
 
-  // Clean up previous publish folder if it exists
   if (existsSync(publishFolder)) {
     rmSync(publishFolder, { recursive: true })
   }
@@ -83,7 +81,6 @@ if (outputPath) {
   const packInfo = JSON.parse(packOutput)
   const files = packInfo[0].files.map(f => f.path)
 
-  // Copy files to the .publish folder
   for (const file of files) {
     const destPath = join(publishFolder, file)
     const destDir = dirname(destPath)
@@ -94,20 +91,16 @@ if (outputPath) {
     cpSync(file, destPath)
   }
 
-  // Store absolute path for cleanup after publish
   publishFolderToCleanup = join(process.cwd(), publishFolder)
 
-  // Change to publish folder and update package.json
   process.chdir(publishFolder)
   updatePackageJson(version)
 }
 
 const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
 
-// Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`)
 
-// Clean up the temporary publish folder
 if (publishFolderToCleanup) {
   rmSync(publishFolderToCleanup, { recursive: true })
 }
