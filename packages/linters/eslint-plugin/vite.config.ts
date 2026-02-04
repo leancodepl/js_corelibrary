@@ -6,10 +6,6 @@ export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: "../../node_modules/.vite/packages/linters/eslint-plugin",
   plugins: [],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [],
-  // },
   test: {
     name: "linters/eslint-plugin",
     watch: false,
