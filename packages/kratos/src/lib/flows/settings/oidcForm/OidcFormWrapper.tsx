@@ -40,6 +40,9 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
       }
     })
 
+    // TODO: Pass oidcProvidersConfig to FormWrappers to filter and validate providers
+    // This would eliminate the need for type assertion by enabling runtime validation
+    // that matches the generic type constraint
     return {
       isLoading: false,
       ...providerComponents,
