@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { createCliLogger, LogLevel } from "./cliLogger"
+import { allLogLevels, createCliLogger, LogLevel } from "./cliLogger"
 
 describe("cliLogger", () => {
   beforeEach(() => {
@@ -12,10 +12,11 @@ describe("cliLogger", () => {
     const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {})
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {})
 
-    const logger = createCliLogger({ logLevel: LogLevel.Error })
+    const logger = createCliLogger({ enabledLogLevels: [LogLevel.Error] })
 
     logger.error("error")
     logger.warn("warn")
+    logger.success("success")
     logger.info("info")
     logger.verbose("verbose")
     logger.debug("debug")
@@ -32,10 +33,11 @@ describe("cliLogger", () => {
     const infoSpy = vi.spyOn(console, "info").mockImplementation(() => {})
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {})
 
-    const logger = createCliLogger({ logLevel: LogLevel.Debug })
+    const logger = createCliLogger({ enabledLogLevels: allLogLevels })
 
     logger.error("error")
     logger.warn("warn")
+    logger.success("success")
     logger.info("info")
     logger.verbose("verbose")
     logger.debug("debug")
@@ -43,6 +45,6 @@ describe("cliLogger", () => {
     expect(errorSpy).toHaveBeenCalledTimes(1)
     expect(warnSpy).toHaveBeenCalledTimes(1)
     expect(infoSpy).toHaveBeenCalledTimes(1)
-    expect(logSpy).toHaveBeenCalledTimes(2) // verbose + debug
+    expect(logSpy).toHaveBeenCalledTimes(3) // success + verbose + debug
   })
 })
