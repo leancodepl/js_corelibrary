@@ -1,5 +1,5 @@
 import {
-  CreateNodesContext,
+  CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesV2,
   joinPathFragments,
@@ -24,7 +24,7 @@ export const createNodesV2: CreateNodesV2<ContractsPluginOptions> = [
     ),
 ]
 
-function createNodesInternal(configFilePath: string, options: ContractsPluginOptions, _context: CreateNodesContext) {
+function createNodesInternal(configFilePath: string, options: ContractsPluginOptions, _context: CreateNodesContextV2) {
   const projectRoot = dirname(configFilePath)
   const targetName = options.targetName ?? "contracts"
 

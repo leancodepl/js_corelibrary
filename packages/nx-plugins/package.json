@@ -2,24 +2,31 @@
   "name": "@leancodepl/nx-plugins",
   "version": "0.0.1",
   "license": "Apache-2.0",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./src/index.d.ts",
-      "default": "./src/index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./intl": {
-      "types": "./src/intl.d.ts",
-      "default": "./src/intl.js"
+      "types": "./dist/intl.d.ts",
+      "import": "./dist/intl.js",
+      "default": "./dist/intl.js"
     },
     "./proxy": {
-      "types": "./src/proxy.d.ts",
-      "default": "./src/proxy.js"
+      "types": "./dist/proxy.d.ts",
+      "import": "./dist/proxy.js",
+      "default": "./dist/proxy.js"
     },
     "./contracts": {
-      "types": "./src/contracts.d.ts",
-      "default": "./src/contracts.js"
+      "types": "./dist/contracts.d.ts",
+      "import": "./dist/contracts.js",
+      "default": "./dist/contracts.js"
     }
   },
   "publishConfig": {
@@ -27,7 +34,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -53,6 +60,11 @@
   },
   "dependencies": {
     "@nx/devkit": "^21.0.0",
-    "tslib": "^2.3.0"
-  }
+    "tslib": "^2.8.1"
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

@@ -1,5 +1,5 @@
 import {
-  CreateNodesContext,
+  CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesV2,
   joinPathFragments,
@@ -28,7 +28,7 @@ export const createNodesV2: CreateNodesV2<IntlPluginOptions> = [
     ),
 ]
 
-function createNodesInternal(configFilePath: string, options: IntlPluginOptions, _context: CreateNodesContext) {
+function createNodesInternal(configFilePath: string, options: IntlPluginOptions, _context: CreateNodesContextV2) {
   const projectRoot = dirname(configFilePath)
 
   const localTargetName = options.localTargetName ?? "intl"
