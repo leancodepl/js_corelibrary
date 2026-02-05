@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/logger",
+  "name": "@leancodepl/logger-base",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "private": true,
@@ -19,7 +19,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
-    "directory": "packages/logger"
+    "directory": "packages/logger-base"
   },
   "homepage": "https://github.com/leancodepl/js_corelibrary",
   "bugs": {
