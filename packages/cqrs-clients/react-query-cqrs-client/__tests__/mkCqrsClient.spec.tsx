@@ -1,13 +1,10 @@
-/**
- * @jest-environment jsdom
- */
-import React, { FunctionComponent, ReactNode } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { act, renderHook, waitFor } from "@testing-library/react"
 import { mkCqrsClient } from "../src"
 import { mockApi, mockCommand, mockQuery } from "./_utils"
 
-jest.mock("rxjs/internal/ajax/ajax")
+vi.mock("rxjs/ajax")
 
 describe("mkCqrsClient", () => {
   it("optimistically updates queries value", async () => {

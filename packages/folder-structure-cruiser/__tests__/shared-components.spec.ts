@@ -1,12 +1,12 @@
-import { jest } from "@jest/globals"
 import { join } from "node:path"
+import { MockInstance } from "vitest"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {
-  let consoleSpy: jest.SpiedFunction<typeof console.log>
+  let consoleSpy: MockInstance<typeof console.info>
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(globalThis.console, "info").mockImplementation(() => {})
+    consoleSpy = vi.spyOn(globalThis.console, "info").mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -16,7 +16,7 @@ describe("shared-components validation", () => {
   it("should not flag a components as shared to be moved", async () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
-    const filePath = join(testDir, "polls/SurveyEditor/index.tsx")
+    const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
     await validateSharedComponent({

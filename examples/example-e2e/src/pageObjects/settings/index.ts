@@ -48,7 +48,7 @@ export class SettingsPage extends CommonPage {
   readonly facebookButton
   readonly googleButton
 
-  constructor(protected readonly page: Page) {
+  constructor(protected override readonly page: Page) {
     super(page)
 
     this.wrapper = page.getByTestId(dataTestIds.settings.page)

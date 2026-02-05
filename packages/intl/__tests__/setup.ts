@@ -1,7 +1,7 @@
-jest.mock("@inquirer/checkbox", () => ({
-  default: jest.fn().mockResolvedValue(["testTerm1"]),
+vi.mock("@inquirer/checkbox", () => ({
+  default: vi.fn().mockResolvedValue(["testTerm1"]),
 }))
 
-jest.mock("@inquirer/confirm", () => ({
-  default: jest.fn().mockResolvedValue(true),
+vi.mock("@inquirer/confirm", () => ({
+  default: vi.fn().mockResolvedValue(true),
 }))

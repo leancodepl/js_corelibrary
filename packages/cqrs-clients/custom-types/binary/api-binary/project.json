@@ -5,40 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/cqrs-clients/custom-types/binary/api-binary",
-        "main": "packages/cqrs-clients/custom-types/binary/api-binary/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/custom-types/binary/api-binary/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/custom-types/binary/api-binary/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/custom-types/binary/api-binary/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/api-binary {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/cqrs-clients/custom-types/binary/api-binary/jest.config.ts"
-      }
     }
   }
 }

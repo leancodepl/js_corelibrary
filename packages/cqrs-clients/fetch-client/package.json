@@ -2,10 +2,22 @@
   "name": "@leancodepl/fetch-client",
   "version": "9.7.2",
   "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "dependencies": {
-    "@leancodepl/cqrs-client-base": "*",
-    "@leancodepl/validation": "*",
-    "@leancodepl/utils": "*",
+    "@leancodepl/cqrs-client-base": "9.7.2",
+    "@leancodepl/validation": "9.7.2",
+    "@leancodepl/utils": "9.7.2",
     "tslib": "^2.3.0"
   },
   "publishConfig": {
@@ -13,7 +25,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -37,5 +49,10 @@
   "author": {
     "name": "LeanCode",
     "url": "https://leancode.co"
-  }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

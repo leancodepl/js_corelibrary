@@ -8,8 +8,9 @@
  */
 
 import devkit from "@nx/devkit"
-import { execSync } from "child_process"
-import { readFileSync, writeFileSync } from "fs"
+import { execSync } from "node:child_process"
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { dirname, join } from "node:path"
 
 const { readCachedProjectGraph } = devkit
 
@@ -17,6 +18,16 @@ function invariant(condition, message) {
   if (!condition) {
     console.error(message)
     process.exit(1)
+  }
+}
+
+function updatePackageJson(version) {
+  try {
+    const json = JSON.parse(readFileSync(`package.json`).toString())
+    json.version = version
+    writeFileSync(`package.json`, JSON.stringify(json, null, 2))
+  } catch {
+    console.error(`Error reading package.json file from library build output.`)
   }
 }
 
@@ -38,24 +49,58 @@ const project = graph.nodes[name]
 
 invariant(project, `Could not find project "${name}" in the workspace. Is the project.json configured correctly?`)
 
+// Try to get outputPath from explicit build target options first,
+// otherwise derive from project root (for inferred targets like @nx/vite/plugin)
 const outputPath = project.data?.targets?.build?.options?.outputPath
-invariant(
-  outputPath,
-  `Could not find "build.options.outputPath" of project "${name}". Is project.json configured  correctly?`,
-)
+const root = project.data?.root
 
-process.chdir(outputPath)
+if (!outputPath && !root) {
+  invariant(
+    false,
+    `Could not find "build.options.outputPath" or project root of project "${name}". Is project.json configured correctly?`,
+  )
+}
 
-// Updating the version in "package.json" before publishing
-try {
-  const json = JSON.parse(readFileSync(`package.json`).toString())
-  json.version = version
-  writeFileSync(`package.json`, JSON.stringify(json, null, 2))
-} catch (e) {
-  console.error(`Error reading package.json file from library build output.`)
+let publishFolderToCleanup = null
+
+if (outputPath) {
+  process.chdir(outputPath)
+  updatePackageJson(version)
+} else {
+  process.chdir(root)
+
+  const publishFolder = ".publish"
+
+  if (existsSync(publishFolder)) {
+    rmSync(publishFolder, { recursive: true })
+  }
+  mkdirSync(publishFolder, { recursive: true })
+
+  // Get list of files that would be included in the npm package
+  const packOutput = execSync("npm pack --dry-run --json", { encoding: "utf-8" })
+  const packInfo = JSON.parse(packOutput)
+  const files = packInfo[0].files.map(f => f.path)
+
+  for (const file of files) {
+    const destPath = join(publishFolder, file)
+    const destDir = dirname(destPath)
+
+    if (!existsSync(destDir)) {
+      mkdirSync(destDir, { recursive: true })
+    }
+    cpSync(file, destPath)
+  }
+
+  publishFolderToCleanup = join(process.cwd(), publishFolder)
+
+  process.chdir(publishFolder)
+  updatePackageJson(version)
 }
 
 const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
 
-// Execute "npm publish" to publish
 execSync(`npm publish --access public --tag ${tag} ${registryParam}`)
+
+if (publishFolderToCleanup) {
+  rmSync(publishFolderToCleanup, { recursive: true })
+}

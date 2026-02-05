@@ -1,9 +1,4 @@
 {
-  "compilerOptions": {
-    "allowJs": false,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true
-  },
   "files": [],
   "include": [],
   "references": [

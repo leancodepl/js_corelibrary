@@ -1,7 +1,7 @@
 import * as path from "node:path"
 import { generate } from "../src"
 
-const razorTestDir = path.join(__dirname, "razor")
+const razorTestDir = path.join(import.meta.dirname, "razor")
 
 describe("generate function - Razor mode", () => {
   const config = {

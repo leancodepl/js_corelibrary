@@ -26,7 +26,7 @@ describe("integration", () => {
 
   afterEach(() => {
     mock.teardown()
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it("correctly fetches command response", async () => {

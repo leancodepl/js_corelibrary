@@ -1,13 +1,13 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "outDir": "../../dist/packages/cookie-consent",
-    "declaration": true,
-    "types": ["node"]
-  },
-  "include": ["src/**/*"]
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ],
+  "extends": "../../tsconfig.base.json"
 }

@@ -5,35 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/kratos {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/kratos",
-        "tsConfig": "packages/kratos/tsconfig.lib.json",
-        "project": "packages/kratos/package.json",
-        "entryFile": "packages/kratos/src/index.ts",
-        "external": ["react", "react-dom", "react/jsx-runtime"],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "assets": [
-          {
-            "glob": "packages/kratos/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "generateExportsField": true
-      }
     }
   }
 }

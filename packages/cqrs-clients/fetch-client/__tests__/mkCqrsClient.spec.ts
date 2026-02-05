@@ -1,6 +1,6 @@
 import { mkCqrsClient } from "../src"
 
-const mockFetch = jest.fn()
+const mockFetch = vi.fn()
 
 beforeAll(() => {
   globalThis.fetch = mockFetch
@@ -13,7 +13,7 @@ beforeEach(() => {
 function createMockResponse<T>(status: number, body?: T): Response {
   return {
     status,
-    json: jest.fn().mockResolvedValue(body),
+    json: vi.fn().mockResolvedValue(body),
   } as unknown as Response
 }
 
@@ -67,8 +67,8 @@ describe("mkCqrsClient", () => {
 
     it("should include authorization header when token provider is present", async () => {
       const tokenProvider = {
-        getToken: jest.fn().mockResolvedValue("test-token"),
-        invalidateToken: jest.fn(),
+        getToken: vi.fn().mockResolvedValue("test-token"),
+        invalidateToken: vi.fn(),
       }
 
       const client = mkCqrsClient({
@@ -94,8 +94,8 @@ describe("mkCqrsClient", () => {
 
     it("should use custom token header when specified", async () => {
       const tokenProvider = {
-        getToken: jest.fn().mockResolvedValue("test-token"),
-        invalidateToken: jest.fn(),
+        getToken: vi.fn().mockResolvedValue("test-token"),
+        invalidateToken: vi.fn(),
       }
 
       const client = mkCqrsClient({
@@ -359,8 +359,8 @@ describe("mkCqrsClient", () => {
 
     it("should retry on 401 when token can be refreshed", async () => {
       const tokenProvider = {
-        getToken: jest.fn().mockResolvedValueOnce("old-token").mockResolvedValueOnce("new-token"),
-        invalidateToken: jest.fn().mockResolvedValue(true),
+        getToken: vi.fn().mockResolvedValueOnce("old-token").mockResolvedValueOnce("new-token"),
+        invalidateToken: vi.fn().mockResolvedValue(true),
       }
 
       const client = mkCqrsClient({
@@ -385,8 +385,8 @@ describe("mkCqrsClient", () => {
 
     it("should return error when token refresh fails", async () => {
       const tokenProvider = {
-        getToken: jest.fn().mockResolvedValue("token"),
-        invalidateToken: jest.fn().mockResolvedValue(false),
+        getToken: vi.fn().mockResolvedValue("token"),
+        invalidateToken: vi.fn().mockResolvedValue(false),
       }
 
       const client = mkCqrsClient({
@@ -408,8 +408,8 @@ describe("mkCqrsClient", () => {
 
     it("should return error after retry still fails with 401", async () => {
       const tokenProvider = {
-        getToken: jest.fn().mockResolvedValue("token"),
-        invalidateToken: jest.fn().mockResolvedValue(true),
+        getToken: vi.fn().mockResolvedValue("token"),
+        invalidateToken: vi.fn().mockResolvedValue(true),
       }
 
       const client = mkCqrsClient({

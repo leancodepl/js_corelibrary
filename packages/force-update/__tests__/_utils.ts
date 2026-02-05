@@ -1,9 +1,9 @@
-import { delay, of, throwError } from "rxjs"
-import { AjaxConfig, AjaxResponse } from "rxjs/ajax"
-import { ajax } from "rxjs/internal/ajax/ajax"
+import { of, throwError } from "rxjs"
+import { ajax, AjaxConfig, AjaxResponse } from "rxjs/ajax"
+import { MockedFunction } from "vitest"
 
 function asMock<Func extends (...args: any[]) => any>(mockedFunc: Func) {
-  return mockedFunc as jest.MockedFunction<typeof mockedFunc>
+  return mockedFunc as MockedFunction<typeof mockedFunc>
 }
 
 // version endpoint is mocked to return next version from the array in each call
@@ -24,6 +24,6 @@ export function mockVersionEndpoint(versions: (string | null)[]) {
       return throwError(() => new Error("Network error"))
     }
 
-    return of({ status: 200, response: version } as AjaxResponse<string>).pipe(delay(100))
+    return of({ status: 200, response: version } as AjaxResponse<string>)
   })
 }

@@ -5,40 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/config",
-        "main": "packages/config/src/index.ts",
-        "tsConfig": "packages/config/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/config/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/config/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/config {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/config/jest.config.ts"
-      }
     }
   }
 }

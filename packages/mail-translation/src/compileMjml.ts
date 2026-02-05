@@ -1,5 +1,7 @@
-import { html as beautifyHtml } from "js-beautify"
+import jsBeautify from "js-beautify"
 import mjml2html from "mjml"
+
+const { html: beautifyHtml } = jsBeautify
 
 export interface MjmlParseError {
   line: number

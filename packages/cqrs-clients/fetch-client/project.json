@@ -12,29 +12,9 @@
   },
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/cqrs-clients/fetch-client",
-        "main": "packages/cqrs-clients/fetch-client/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/fetch-client/tsconfig.lib.json",
-        "assets": ["packages/cqrs-clients/fetch-client/*.md"]
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/fetch-client {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/cqrs-clients/fetch-client/jest.config.ts"
-      }
     }
   }
 }

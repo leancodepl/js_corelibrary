@@ -2,12 +2,24 @@
   "name": "@leancodepl/kratos",
   "version": "9.7.2",
   "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@leancodepl/utils": "9.7.2",
@@ -44,5 +56,10 @@
     "name": "LeanCode",
     "url": "https://leancode.co"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
 }

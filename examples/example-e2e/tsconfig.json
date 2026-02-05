@@ -2,10 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
-    "strict": true,
-    "outDir": "../../dist/out-tsc",
-    "sourceMap": false,
-    "module": "commonjs"
+    "outDir": "out-tsc/playwright",
+    "sourceMap": false
   },
   "include": [
     "**/*.ts",
@@ -16,5 +14,14 @@
     "src/**/*.test.ts",
     "src/**/*.test.js",
     "src/**/*.d.ts"
+  ],
+  "exclude": ["out-tsc", "test-output", "eslint.config.js", "eslint.config.mjs", "eslint.config.cjs"],
+  "references": [
+    {
+      "path": "../../packages/kratos"
+    },
+    {
+      "path": "../example-e2e-ids"
+    }
   ]
 }

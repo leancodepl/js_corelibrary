@@ -1,6 +1,6 @@
 import { useCallback } from "react"
+import { dataTestIds } from "@example/e2e-ids"
 import { useRunInTask } from "@leancodepl/utils"
-import { dataTestIds } from "../../../example-e2e-ids/src"
 import { sessionManager, useLogout } from "../services/kratos"
 
 export const UserInfoHeader = () => {

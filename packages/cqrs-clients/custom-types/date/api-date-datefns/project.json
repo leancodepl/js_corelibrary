@@ -5,40 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/cqrs-clients/custom-types/date/api-date-datefns",
-        "main": "packages/cqrs-clients/custom-types/date/api-date-datefns/src/index.ts",
-        "tsConfig": "packages/cqrs-clients/custom-types/date/api-date-datefns/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/cqrs-clients/custom-types/date/api-date-datefns/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/cqrs-clients/custom-types/date/api-date-datefns/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/api-date-datefns {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/cqrs-clients/custom-types/date/api-date-datefns/jest.config.ts"
-      }
     }
   }
 }

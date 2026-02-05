@@ -25,7 +25,7 @@ export class RecoveryPage extends CommonPage {
   readonly newPasswordSubmitButton
   readonly newPasswordFormErrors
 
-  constructor(protected readonly page: Page) {
+  constructor(protected override readonly page: Page) {
     super(page)
 
     this.wrapper = page.getByTestId(dataTestIds.recovery.page)

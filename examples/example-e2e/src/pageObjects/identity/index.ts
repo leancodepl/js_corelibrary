@@ -8,7 +8,7 @@ export class IdentityPage extends CommonPage {
   readonly email
   readonly firstName
 
-  constructor(protected readonly page: Page) {
+  constructor(protected override readonly page: Page) {
     super(page)
 
     this.wrapper = page.getByTestId(dataTestIds.identity.page)

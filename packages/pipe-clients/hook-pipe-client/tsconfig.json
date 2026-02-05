@@ -1,9 +1,4 @@
 {
-  "extends": "../../../tsconfig.base.json",
-  "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true
-  },
   "files": [],
   "include": [],
   "references": [
@@ -13,5 +8,6 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "extends": "../../../tsconfig.base.json"
 }

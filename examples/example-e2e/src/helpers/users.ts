@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker"
-import { Configuration, IdentityApi } from "packages/kratos/src/lib/kratos"
+import { Configuration, IdentityApi } from "../../../../packages/kratos/src/lib/kratos"
 
 export const generateEmail = () =>
   faker.internet.email({
