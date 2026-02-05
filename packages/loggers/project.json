@@ -5,40 +5,9 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/rollup:rollup",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/loggers",
-        "main": "packages/loggers/src/index.ts",
-        "tsConfig": "packages/loggers/tsconfig.lib.json",
-        "assets": [
-          {
-            "glob": "packages/loggers/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ],
-        "project": "packages/loggers/package.json",
-        "compiler": "swc",
-        "format": ["cjs", "esm"],
-        "generateExportsField": true
-      }
-    },
     "publish": {
       "command": "node tools/scripts/publish.mjs @leancodepl/loggers {args.registry} {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/vite:test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "reportsDirectory": "../../coverage/packages/loggers"
-      }
     }
   }
 }
