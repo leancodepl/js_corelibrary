@@ -1,1 +1,1 @@
-export { createCliLogger, LogLevel } from "./lib/cliLogger"
+export { createCliLogger, LogLevel, allLogLevels, chalk } from "./lib/cliLogger"
