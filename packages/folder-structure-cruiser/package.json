@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "commander": "^14.0.0",
-    "@leancodepl/logger": "0.0.1",
+    "@leancodepl/logger": "9.7.2",
     "chalk": ">=5.0.0"
   },
   "devDependencies": {
