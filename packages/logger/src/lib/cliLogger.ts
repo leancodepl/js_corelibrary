@@ -7,7 +7,7 @@ import {
   LoggerMessage,
   MethodHandler,
   SupportedOutput,
-} from "@leancodepl/logger-base"
+} from "./logger"
 
 enum LogLevel {
   Error = 0,
