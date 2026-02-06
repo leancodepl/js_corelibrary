@@ -1,0 +1,13 @@
+{
+  "name": "@leancodepl/nx-plugins",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-plugins/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/nx-plugins {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  }
+}
