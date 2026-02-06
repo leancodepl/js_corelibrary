@@ -11,10 +11,12 @@ export type OidcFormProps<TOidcProvidersConfig extends OidcProvidersConfig = rea
 
 type OidcFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   oidcForm: ComponentType<OidcFormProps<TOidcProvidersConfig>>
+  oidcProvidersConfig?: TOidcProvidersConfig
 }
 
 export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   oidcForm: OidcForm,
+  oidcProvidersConfig,
 }: OidcFormWrapperProps<TOidcProvidersConfig>) {
   const { data: settingsFlow } = useGetSettingsFlow()
 
@@ -24,14 +26,17 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
     }
 
     const availableProviders = getAllOidcProviderUiNodes(settingsFlow.ui.nodes)
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
     const providerComponents: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
-      const providerName = toUpperFirst(providerId)
       const type = getOidcProviderType(providerId, settingsFlow.ui.nodes)
 
-      if (type) {
+      // Only include providers that are both available in the flow and configured (or all if no config)
+      if (type && (configuredProviderIds.size === 0 || configuredProviderIds.has(providerId))) {
+        const providerName = toUpperFirst(providerId)
+        
         providerComponents[providerName] = ({ children }: { children: ReactNode }) => (
           <Oidc provider={providerId} type={type}>
             {children}
@@ -40,14 +45,11 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
       }
     })
 
-    // TODO: Pass oidcProvidersConfig to FormWrappers to filter and validate providers
-    // This would eliminate the need for type assertion by enabling runtime validation
-    // that matches the generic type constraint
     return {
       isLoading: false,
       ...providerComponents,
     } as OidcFormProps<TOidcProvidersConfig>
-  }, [settingsFlow])
+  }, [settingsFlow, oidcProvidersConfig])
 
   return <OidcForm {...oidcComponents} />
 }

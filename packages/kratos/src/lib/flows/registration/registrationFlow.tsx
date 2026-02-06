@@ -23,6 +23,7 @@ export type RegistrationFlowProps<
   TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 > = {
   traitsConfig: TTraitsConfig
+  oidcProvidersConfig?: TOidcProvidersConfig
   traitsForm: ComponentType<TraitsFormProps<TTraitsConfig, TOidcProvidersConfig>>
   chooseMethodForm: ComponentType<ChooseMethodFormProps>
   emailVerificationForm: ComponentType<EmailVerificationFormProps>
@@ -40,6 +41,7 @@ function RegistrationFlowWrapper<
   TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 >({
   traitsConfig,
+  oidcProvidersConfig,
   traitsForm: TraitsForm,
   chooseMethodForm: ChooseMethodForm,
   emailVerificationForm: EmailVerificationForm,
@@ -91,6 +93,7 @@ function RegistrationFlowWrapper<
       {step === "traits" && (
         <TraitsFormWrapper
           traitsConfig={traitsConfig}
+          oidcProvidersConfig={oidcProvidersConfig}
           traitsForm={TraitsForm}
           onError={onError}
           onRegistrationSuccess={onRegistrationSuccess}

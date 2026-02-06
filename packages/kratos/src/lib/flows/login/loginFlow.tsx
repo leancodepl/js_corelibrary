@@ -20,6 +20,7 @@ export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = re
   secondFactorForm: ComponentType<SecondFactorFormProps>
   secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
   emailVerificationForm: ComponentType<EmailVerificationFormProps>
+  oidcProvidersConfig?: TOidcProvidersConfig
   initialFlowId?: string
   returnTo?: string
   onError?: OnLoginFlowError
@@ -35,6 +36,7 @@ function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = rea
   secondFactorForm: SecondFactorForm,
   secondFactorEmailForm: SecondFactorEmailForm,
   emailVerificationForm: EmailVerificationForm,
+  oidcProvidersConfig,
   initialFlowId,
   returnTo,
   onError,
@@ -100,6 +102,7 @@ function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = rea
       {step === "chooseMethod" && (
         <ChooseMethodFormWrapper
           chooseMethodForm={ChooseMethodForm}
+          oidcProvidersConfig={oidcProvidersConfig}
           isRefresh={isRefresh}
           onError={onError}
           onLoginSuccess={onLoginSuccess}

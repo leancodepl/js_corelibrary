@@ -39,6 +39,7 @@ export type ChooseMethodFormProps<TOidcProvidersConfig extends OidcProvidersConf
 
 type ChooseMethodFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
+  oidcProvidersConfig?: TOidcProvidersConfig
   isRefresh: boolean | undefined
   onError?: OnLoginFlowError
   onLoginSuccess?: () => void
@@ -46,6 +47,7 @@ type ChooseMethodFormWrapperProps<TOidcProvidersConfig extends OidcProvidersConf
 
 export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   chooseMethodForm: ChooseMethodForm,
+  oidcProvidersConfig,
   isRefresh,
   onError,
   onLoginSuccess,
@@ -64,44 +66,47 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
     if (!loginFlow) return {}
 
     const availableProviders = getAllOidcProviderUiNodes(loginFlow.ui.nodes)
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
-      const providerName = toUpperFirst(providerId)
       
-      components[providerName] = ({ children }: { children: ReactNode }) => (
-        <Oidc provider={providerId}>{children}</Oidc>
-      )
-    })
-
-    // TODO: Pass oidcProvidersConfig to FormWrappers to filter and validate providers
-    // This would eliminate the need for type assertion by enabling runtime validation
-    // that matches the generic type constraint
-    return components as OidcProviderComponents<TOidcProvidersConfig>
-  }, [loginFlow])
-
-  const oidcProviderComponentsForRefresh = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
-    if (!loginFlow || !isRefresh) return {}
-
-    const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
-
-    getAllOidcProviderUiNodes(loginFlow.ui.nodes).forEach(node => {
-      const providerId = node.attributes.value
-      const providerName = toUpperFirst(providerId)
-      
-      if (getOidcProviderUiNode(loginFlow.ui.nodes, providerId)) {
+      // Only include providers that are both available in the flow and configured (or all if no config)
+      if (configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) {
+        const providerName = toUpperFirst(providerId)
+        
         components[providerName] = ({ children }: { children: ReactNode }) => (
           <Oidc provider={providerId}>{children}</Oidc>
         )
       }
     })
 
-    // TODO: Pass oidcProvidersConfig to FormWrappers to filter and validate providers
-    // This would eliminate the need for type assertion by enabling runtime validation
-    // that matches the generic type constraint
     return components as OidcProviderComponents<TOidcProvidersConfig>
-  }, [loginFlow, isRefresh])
+  }, [loginFlow, oidcProvidersConfig])
+
+  const oidcProviderComponentsForRefresh = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
+    if (!loginFlow || !isRefresh) return {}
+
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
+    const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
+
+    getAllOidcProviderUiNodes(loginFlow.ui.nodes).forEach(node => {
+      const providerId = node.attributes.value
+      
+      // Only include providers that are both available in the flow and configured (or all if no config)
+      if ((configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) && 
+          getOidcProviderUiNode(loginFlow.ui.nodes, providerId)) {
+        const providerName = toUpperFirst(providerId)
+        
+        components[providerName] = ({ children }: { children: ReactNode }) => (
+          <Oidc provider={providerId}>{children}</Oidc>
+        )
+      }
+    })
+
+    return components as OidcProviderComponents<TOidcProvidersConfig>
+  }, [loginFlow, isRefresh, oidcProvidersConfig])
 
   if (!loginFlow) return null
 

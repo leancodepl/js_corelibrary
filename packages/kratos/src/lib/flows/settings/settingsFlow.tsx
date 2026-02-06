@@ -24,6 +24,7 @@ export type SettingsFlowProps<
   TOidcProvidersConfig extends OidcProvidersConfig = readonly []
 > = {
   traitsConfig?: TTraitsConfig
+  oidcProvidersConfig?: TOidcProvidersConfig
   traitsForm?: ComponentType<TraitsFormProps<TTraitsConfig>>
   newPasswordForm?: ComponentType<NewPasswordFormProps>
   passkeysForm?: ComponentType<PasskeysFormProps>
@@ -99,6 +100,7 @@ export function SettingsFlowWrapper<
   totpForm: TotpForm,
   oidcForm: OidcForm,
   traitsConfig,
+  oidcProvidersConfig,
   settingsForm: SettingsForm,
   initialFlowId,
   onError,
@@ -134,7 +136,7 @@ export function SettingsFlowWrapper<
           />
         )
       }
-      oidcForm={OidcForm && <OidcFormWrapper oidcForm={OidcForm} />}
+      oidcForm={OidcForm && <OidcFormWrapper oidcForm={OidcForm} oidcProvidersConfig={oidcProvidersConfig} />}
       passkeysForm={PasskeysForm && <PasskeysFormWrapper passkeysForm={PasskeysForm} />}
       totpForm={
         TotpForm && (

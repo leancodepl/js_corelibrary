@@ -7,7 +7,7 @@ import { RecoveryFlowProps } from "../flows/recovery"
 import { RegistrationFlowProps } from "../flows/registration"
 import { SettingsFlowProps } from "../flows/settings"
 import { VerificationFlowProps } from "../flows/verification"
-import { KratosClientProvider, KratosSessionProvider, OidcProvidersProvider } from "../hooks"
+import { KratosClientProvider, KratosSessionProvider } from "../hooks"
 import { Configuration, FrontendApi } from "../kratos"
 import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
@@ -266,10 +266,10 @@ export function mkKratos<
 
   const flows: FlowsConfig<TTraitsConfig, TOidcProvidersConfig> = {
     useLogout: logoutFlow.useLogout,
-    LoginFlow: loginFlow.LoginFlow,
+    LoginFlow: props => <loginFlow.LoginFlow oidcProvidersConfig={oidcProviders} {...props} />,
     RecoveryFlow: recoveryFlow.RecoveryFlow,
-    RegistrationFlow: props => <registrationFlow.RegistrationFlow traitsConfig={traits} {...props} />,
-    SettingsFlow: props => <settingsFlow.SettingsFlow traitsConfig={traits} {...props} />,
+    RegistrationFlow: props => <registrationFlow.RegistrationFlow traitsConfig={traits} oidcProvidersConfig={oidcProviders} {...props} />,
+    SettingsFlow: props => <settingsFlow.SettingsFlow traitsConfig={traits} oidcProvidersConfig={oidcProviders} {...props} />,
     VerificationFlow: verificationFlow.VerificationFlow,
   }
 
@@ -301,9 +301,7 @@ export function mkKratos<
      */
     KratosProviders: ({ children }: { children: ReactNode }) => (
       <KratosClientProvider api={api}>
-        <KratosSessionProvider sessionManager={sessionManager}>
-          <OidcProvidersProvider oidcProviders={oidcProviders}>{children}</OidcProvidersProvider>
-        </KratosSessionProvider>
+        <KratosSessionProvider sessionManager={sessionManager}>{children}</KratosSessionProvider>
       </KratosClientProvider>
     ),
   }
