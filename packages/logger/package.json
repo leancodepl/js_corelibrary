@@ -14,11 +14,9 @@
       "default": "./dist/index.js"
     }
   },
-  "dependencies": {
-    "chalk": ">=5.0.0",
-    "tslib": "^2.8.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "tslib": "^2.8.1",
     "vitest": "^3.0.0"
   },
   "publishConfig": {
