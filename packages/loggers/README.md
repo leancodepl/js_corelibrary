@@ -14,6 +14,7 @@ import { createCliLogger } from "@leancodepl/loggers"
 const logger = createCliLogger()
 
 logger.info("Application started")
+logger.success("Operation completed")
 logger.warn("This is a warning")
 logger.error("Something went wrong")
 logger.debug("Debug information")
@@ -22,25 +23,26 @@ logger.verbose("Verbose output")
 
 ### Log Levels
 
-Control which messages are shown by setting the log level:
+Control which messages are shown by setting `enabledLogLevels` (array of levels to include):
 
 ```typescript
-import { createCliLogger, LogLevel } from "@leancodepl/loggers"
+import { createCliLogger, allLogLevels, LogLevel } from "@leancodepl/loggers"
 
 // Only show errors and warnings
-const quietLogger = createCliLogger({ logLevel: LogLevel.Warn })
+const quietLogger = createCliLogger({ enabledLogLevels: [LogLevel.Error, LogLevel.Warn] })
 
-// Show everything including debug
-const verboseLogger = createCliLogger({ logLevel: LogLevel.Debug })
+// Show everything including debug and verbose
+const verboseLogger = createCliLogger({ enabledLogLevels: allLogLevels })
 ```
 
 Available log levels (from least to most verbose):
 
 - `LogLevel.Error` (0) - Only errors
 - `LogLevel.Warn` (1) - Errors and warnings
-- `LogLevel.Info` (2) - Errors, warnings, and info (default)
-- `LogLevel.Verbose` (3) - All above plus verbose
-- `LogLevel.Debug` (4) - Everything
+- `LogLevel.Success` (2) - Errors, warnings, and success
+- `LogLevel.Info` (3) - Errors, warnings, success, and info (default)
+- `LogLevel.Verbose` (4) - All above plus verbose
+- `LogLevel.Debug` (5) - Everything
 
 ### Adding Context
 
