@@ -1,7 +1,7 @@
 import { z } from "zod/v4"
+import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { extractMessages } from "../formatjs"
 import { logger } from "../logger"
-import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 
 export const uploadCommandOptionsSchema = z.object({
   srcPattern: z.string(),
