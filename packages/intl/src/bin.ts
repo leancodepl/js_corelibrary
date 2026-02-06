@@ -7,6 +7,7 @@ import { download, downloadCommandOptionsSchema } from "./commands/download"
 import { local, localCommandOptionsSchema } from "./commands/local"
 import { sync, syncCommandOptionsSchema } from "./commands/sync"
 import { upload, uploadCommandOptionsSchema } from "./commands/upload"
+import { logger } from "./logger"
 import { mergeWithEnv } from "./mergeWithEnv"
 import { mkTranslationsServiceClient } from "./mkTranslationsServiceClient"
 
@@ -59,7 +60,7 @@ program
     const config = mergeWithEnv(parsedOptions)
 
     if (!config.poeditorApiToken || !config.poeditorProjectId) {
-      console.error("Translation service API token and project ID are required for upload command")
+      logger.error("Translation service API token and project ID are required for upload command")
       process.exit(1)
     }
 

@@ -3,14 +3,17 @@ import { MockInstance } from "vitest"
 import { validateCrossFeatureImports } from "../src/commands/validateCrossFeatureImports"
 
 describe("cross-feature-imports validation", () => {
-  let consoleSpy: MockInstance<typeof console.error>
+  let consoleErrorSpy: MockInstance<typeof console.error>
+  let consoleInfoSpy: MockInstance<typeof console.info>
 
   beforeEach(() => {
-    consoleSpy = vi.spyOn(globalThis.console, "error").mockImplementation(() => {})
+    consoleErrorSpy = vi.spyOn(globalThis.console, "error").mockImplementation(() => {})
+    consoleInfoSpy = vi.spyOn(globalThis.console, "info").mockImplementation(() => {})
   })
 
   afterEach(() => {
-    consoleSpy.mockRestore()
+    consoleErrorSpy.mockRestore()
+    consoleInfoSpy.mockRestore()
   })
 
   it("should detect violations in SurveyEditor (nested sibling child import)", async () => {
@@ -24,7 +27,10 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("cross-feature-nested-imports"),
+    )
   }, 30000)
 
   it("should detect violations in SnapshotPollEditor (nested sibling child)", async () => {
@@ -38,7 +44,10 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("cross-feature-nested-imports"),
+    )
   }, 30000)
 
   it("should detect violations in ActivityEditor (nested sibling child import)", async () => {
@@ -52,7 +61,10 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("cross-feature-nested-imports"))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("cross-feature-nested-imports"),
+    )
   }, 30000)
 
   it("should allow import from direct sibling index", async () => {
@@ -66,7 +78,10 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("no-cross-feature-nested-imports"),
+    )
   })
 
   it("should allow import from immediate sibling child file", async () => {
@@ -80,7 +95,10 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("no-cross-feature-nested-imports"),
+    )
   })
 
   it("should allow import from own child", async () => {
@@ -94,6 +112,9 @@ describe("cross-feature-imports validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("no-cross-feature-nested-imports"))
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("no-cross-feature-nested-imports"),
+    )
   })
 })

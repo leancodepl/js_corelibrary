@@ -1,5 +1,6 @@
 import { readdir, readFile } from "node:fs/promises"
 import { basename, extname, join } from "node:path"
+import { logger } from "./logger"
 
 export interface Translations {
   [key: string]: string
@@ -21,7 +22,7 @@ export async function loadTranslations(translationsPath?: string) {
     const jsonFiles = files.filter(file => extname(file) === ".json")
 
     if (jsonFiles.length === 0) {
-      console.warn(`No translation files found in: ${translationsPath}. Continuing without translations.`)
+      logger.warn(`No translation files found in: ${translationsPath}. Continuing without translations.`)
       return translationData
     }
 
@@ -34,13 +35,13 @@ export async function loadTranslations(translationsPath?: string) {
         const translations = JSON.parse(content)
         translationData[language] = translations
       } catch (error) {
-        console.warn(`Failed to load translation file ${file}:`, error)
+        logger.warn(`Failed to load translation file ${file}:`, error as Error)
       }
     }
 
     return translationData
   } catch (error) {
-    console.warn(`Failed to load translations: ${error}. Continuing without translations.`)
+    logger.warn(`Failed to load translations: ${error}. Continuing without translations.`)
     return translationData
   }
 }

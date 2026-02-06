@@ -3,14 +3,17 @@ import { MockInstance } from "vitest"
 import { validateSharedComponent } from "../src/commands/validateSharedComponent"
 
 describe("shared-components validation", () => {
-  let consoleSpy: MockInstance<typeof console.info>
+  let consoleErrorSpy: MockInstance<typeof console.error>
+  let consoleInfoSpy: MockInstance<typeof console.info>
 
   beforeEach(() => {
-    consoleSpy = vi.spyOn(globalThis.console, "info").mockImplementation(() => {})
+    consoleErrorSpy = vi.spyOn(globalThis.console, "error").mockImplementation(() => {})
+    consoleInfoSpy = vi.spyOn(globalThis.console, "info").mockImplementation(() => {})
   })
 
   afterEach(() => {
-    consoleSpy.mockRestore()
+    consoleInfoSpy.mockRestore()
+    consoleErrorSpy.mockRestore()
   })
 
   it("should not flag a components as shared to be moved", async () => {
@@ -24,7 +27,7 @@ describe("shared-components validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).not.toHaveBeenCalledWith(expect.stringContaining("not-shared-level"))
+    expect(consoleInfoSpy).not.toHaveBeenCalledWith(expect.anything(), expect.stringContaining("not-shared-level"))
   })
 
   it("should flag shared components to be moved", async () => {
@@ -37,6 +40,6 @@ describe("shared-components validation", () => {
       configPath: configPath,
     })
 
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("not-shared-level"))
+    expect(consoleInfoSpy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining("not-shared-level"))
   })
 })

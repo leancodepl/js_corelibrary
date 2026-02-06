@@ -1,4 +1,5 @@
 import { z } from "zod/v4"
+import { logger } from "../logger"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { download } from "./download"
 import { upload } from "./upload"
@@ -22,7 +23,7 @@ export async function sync({
   defaultLanguage,
 }: SyncCommandOptions) {
   try {
-    console.log("Starting sync operation...")
+    logger.info("Starting sync operation...")
 
     await upload({
       srcPattern,
@@ -36,9 +37,9 @@ export async function sync({
       translationsServiceClient,
     })
 
-    console.log("Sync completed successfully!")
+    logger.success("Sync completed successfully!")
   } catch (error) {
-    console.error("Error in sync command:", error)
+    logger.error("Error in sync command:", error as Error)
     process.exit(1)
   }
 }

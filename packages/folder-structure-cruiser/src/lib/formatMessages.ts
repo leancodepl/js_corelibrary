@@ -1,10 +1,8 @@
-import pc from "picocolors"
+import chalk from "chalk"
 
-const { blue, bold, red } = pc
+const { bold } = chalk
 
 type Severity = "error" | "info"
-
-const colorSeverity = (type: Severity) => (type === "info" ? blue(type) : red(type))
 
 export interface Message {
   source: string
@@ -14,8 +12,5 @@ export interface Message {
 }
 
 export function formatMessages(messages: Message[]) {
-  return messages.map(
-    message =>
-      `  ${colorSeverity(message.severity)} ${message.rule}: ${bold(message.source)} → ${bold(message.target)}`,
-  )
+  return messages.map(message => `${message.rule}: ${bold(message.source)} → ${bold(message.target)}`)
 }

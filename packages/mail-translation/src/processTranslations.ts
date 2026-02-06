@@ -1,5 +1,6 @@
 import IntlMessageFormat from "intl-messageformat"
 import { Translations } from "./loadTranslations"
+import { logger } from "./logger"
 
 export function processTranslations({
   template,
@@ -16,7 +17,7 @@ export function processTranslations({
     const translation = translations[key]
 
     if (!translation || !language) {
-      console.warn(`Translation is missing for key "${key}"` + (language ? ` for "${language}" language` : ""))
+      logger.warn(`Translation is missing for key "${key}"` + (language ? ` for "${language}" language` : ""))
       return key
     }
 
@@ -26,7 +27,7 @@ export function processTranslations({
         const formatter = new IntlMessageFormat(translation, language)
         return formatter.format(params)
       } catch (error) {
-        console.warn(`Error parsing JSON parameters or formatting message for key "${key}":`, error)
+        logger.warn(`Error parsing JSON parameters or formatting message for key "${key}":`, error as Error)
         return key
       }
     } else {

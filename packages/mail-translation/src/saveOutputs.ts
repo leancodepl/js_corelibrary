@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import { logger } from "./logger"
 import { ProcessedTemplate } from "./processTemplate"
 
 export async function saveOutputs({
@@ -19,7 +20,7 @@ export async function saveOutputs({
 
   for (const processedTemplate of processedTemplates) {
     if (processedTemplate.mjmlParseErrors.length > 0) {
-      console.warn(`Errors in ${processedTemplate.name}:`, processedTemplate.mjmlParseErrors)
+      logger.warn(`Errors in ${processedTemplate.name}:`, processedTemplate.mjmlParseErrors)
     }
   }
 }

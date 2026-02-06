@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@formatjs/cli": "^6.2.15",
+    "@leancodepl/logger": "0.0.1",
     "@inquirer/checkbox": "^5.0.3",
     "@inquirer/confirm": "^6.0.3",
     "axios": "^1.7.9",

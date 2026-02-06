@@ -9,6 +9,7 @@ import {
   extractMessages,
   writeTranslationsToTempDir,
 } from "../formatjs"
+import { logger } from "../logger"
 
 export const localCommandOptionsSchema = z.object({
   srcPattern: z.string(),
@@ -37,7 +38,7 @@ export async function local({
 
     save({ translations, outputDir, defaultLanguage })
   } catch (error) {
-    console.error("Error in local command:", error)
+    logger.error("Error in local command:", error as Error)
     process.exit(1)
   }
 }
@@ -49,15 +50,15 @@ function extractAndCompile({
   srcPattern: string
   defaultLanguage: string
 }): Record<string, string> {
-  console.log("Extracting messages from source files...")
+  logger.info("Extracting messages from source files...")
 
   const messages = extractMessages(srcPattern)
   const messageCount = Object.keys(messages).length
 
-  console.log(`Extracted ${messageCount} messages`)
+  logger.info(`Extracted ${messageCount} messages`)
 
   if (messageCount === 0) {
-    console.log("No messages found. Make sure your source files contain formatjs messages.")
+    logger.error("No messages found. Make sure your source files contain formatjs messages.")
     throw new Error("No messages found")
   }
 
@@ -71,7 +72,7 @@ function extractAndCompile({
 
     writeTranslationsToTempDir({ translations: extractedTranslations, language: defaultLanguage, tempDir })
 
-    console.log("Compiling extracted translations...")
+    logger.info("Compiling extracted translations...")
     const tempOutputDir = createTranslationsTempDir("compiled-")
 
     try {
@@ -96,11 +97,11 @@ async function downloadAndCompile({
   client: TranslationsServiceClient
 }): Promise<Record<string, string> | undefined> {
   try {
-    console.log(`Downloading ${defaultLanguage} translations...`)
+    logger.info(`Downloading ${defaultLanguage} translations...`)
 
     const downloadedTranslations = await client.downloadTranslations(defaultLanguage)
     const downloadedCount = Object.keys(downloadedTranslations).length
-    console.log(`Downloaded ${downloadedCount} translations`)
+    logger.info(`Downloaded ${downloadedCount} translations`)
 
     if (downloadedCount === 0) {
       return undefined
@@ -115,7 +116,7 @@ async function downloadAndCompile({
         tempDir: downloadTempDir,
       })
 
-      console.log("Compiling downloaded translations...")
+      logger.info("Compiling downloaded translations...")
       const downloadTempOutputDir = createTranslationsTempDir("download-compiled-")
 
       try {
@@ -131,8 +132,8 @@ async function downloadAndCompile({
       rmSync(downloadTempDir, { recursive: true, force: true })
     }
   } catch (error) {
-    console.warn(`Failed to download translations from translation service: ${error}`)
-    console.log("Using extracted translations only")
+    logger.warn(`Failed to download translations from translation service: ${error}`)
+    logger.info("Using extracted translations only")
     return undefined
   }
 }
@@ -152,7 +153,7 @@ function mergeTranslations({
 
   const newTranslationsCount = Object.keys(extractedTranslations).filter(key => !(key in downloadedTranslations)).length
   const downloadedTranslationsCount = Object.keys(downloadedTranslations).length
-  console.log(
+  logger.info(
     `Merged ${newTranslationsCount} extracted terms with ${downloadedTranslationsCount} downloaded translations`,
   )
 
@@ -175,5 +176,5 @@ function save({
   const finalFilePath = join(outputDir, `${defaultLanguage}.json`)
   writeFileSync(finalFilePath, JSON.stringify(sortedTranslations, null, 2))
 
-  console.log(`Merged translations saved to ${outputDir}`)
+  logger.success(`Merged translations saved to ${outputDir}`)
 }
