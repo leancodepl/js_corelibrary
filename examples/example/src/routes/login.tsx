@@ -5,7 +5,7 @@ import { z } from "zod"
 import { loginFlow, verificationFlow } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
-import { getErrorMessage, LoginFlow, sessionManager } from "../services/kratos"
+import { getErrorMessage, LoginFlow, type OidcProvidersConfig, sessionManager } from "../services/kratos"
 
 const loginSearchSchema = z.object({
   flow: z.string().optional(),
@@ -62,11 +62,11 @@ function Loader() {
   return <p>Loading login methods...</p>
 }
 
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
-  const { errors, isSubmitting, isValidating, isRefresh } = props
+function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
+  const { errors, isSubmitting, isValidating, oidcProviders, isRefresh } = props
 
   if (isRefresh) {
-    const { passwordFields, Google, Passkey, Apple, Facebook, identifier } = props
+    const { passwordFields, Passkey, identifier } = props
 
     return (
       <div data-testid={dataTestIds.login.chooseMethodForm.wrapper}>
@@ -94,45 +94,43 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
           </>
         )}
 
-        {Google && (
-          <Google>
+        {oidcProviders.Google && (
+          <oidcProviders.Google>
             <button
               data-testid={dataTestIds.login.chooseMethodForm.googleButton}
               disabled={isSubmitting || isValidating}>
               Sign in with Google
             </button>
-          </Google>
+          </oidcProviders.Google>
         )}
 
-        {Apple && (
-          <Apple>
+        {oidcProviders.Apple && (
+          <oidcProviders.Apple>
             <button
               data-testid={dataTestIds.login.chooseMethodForm.appleButton}
               disabled={isSubmitting || isValidating}>
               Sign in with Apple
             </button>
-          </Apple>
+          </oidcProviders.Apple>
         )}
 
-        {Facebook && (
-          <Facebook>
+        {oidcProviders.Facebook && (
+          <oidcProviders.Facebook>
             <button
               data-testid={dataTestIds.login.chooseMethodForm.facebookButton}
               disabled={isSubmitting || isValidating}>
               Sign in with Facebook
             </button>
-          </Facebook>
+          </oidcProviders.Facebook>
         )}
 
-        {Passkey && (
-          <Passkey>
-            <button
-              data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
-              disabled={isSubmitting || isValidating}>
-              Sign in with Passkey
-            </button>
-          </Passkey>
-        )}
+        <Passkey>
+          <button
+            data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
+            disabled={isSubmitting || isValidating}>
+            Sign in with Passkey
+          </button>
+        </Passkey>
 
         {errors && errors.length > 0 && (
           <div data-testid={dataTestIds.common.errors}>
@@ -147,10 +145,7 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
 
   const {
     passwordFields: { Identifier, Password, Submit },
-    Google,
     Passkey,
-    Apple,
-    Facebook,
   } = props
 
   return (
@@ -184,23 +179,31 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps) {
         </a>
       </p>
 
-      <Google>
-        <button data-testid={dataTestIds.login.chooseMethodForm.googleButton} disabled={isSubmitting || isValidating}>
-          Sign in with Google
-        </button>
-      </Google>
+      {oidcProviders.Google && (
+        <oidcProviders.Google>
+          <button data-testid={dataTestIds.login.chooseMethodForm.googleButton} disabled={isSubmitting || isValidating}>
+            Sign in with Google
+          </button>
+        </oidcProviders.Google>
+      )}
 
-      <Apple>
-        <button data-testid={dataTestIds.login.chooseMethodForm.appleButton} disabled={isSubmitting || isValidating}>
-          Sign in with Apple
-        </button>
-      </Apple>
+      {oidcProviders.Apple && (
+        <oidcProviders.Apple>
+          <button data-testid={dataTestIds.login.chooseMethodForm.appleButton} disabled={isSubmitting || isValidating}>
+            Sign in with Apple
+          </button>
+        </oidcProviders.Apple>
+      )}
 
-      <Facebook>
-        <button data-testid={dataTestIds.login.chooseMethodForm.facebookButton} disabled={isSubmitting || isValidating}>
-          Sign in with Facebook
-        </button>
-      </Facebook>
+      {oidcProviders.Facebook && (
+        <oidcProviders.Facebook>
+          <button
+            data-testid={dataTestIds.login.chooseMethodForm.facebookButton}
+            disabled={isSubmitting || isValidating}>
+            Sign in with Facebook
+          </button>
+        </oidcProviders.Facebook>
+      )}
 
       <Passkey>
         <button data-testid={dataTestIds.login.chooseMethodForm.passkeyButton} disabled={isSubmitting || isValidating}>

@@ -1,7 +1,7 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { useFlowManager } from "../../hooks"
 import { isSessionAlreadyAvailable } from "../../kratos"
-import { TraitsConfig } from "../../utils"
+import { OidcProvidersConfig, TraitsConfig } from "../../utils"
 import {
   EmailVerificationFormProps,
   useVerificationFlowContext,
@@ -18,9 +18,13 @@ import {
 import { TraitsFormProps, TraitsFormWrapper } from "./traitsForm"
 import { OnRegistrationFlowError } from "./types"
 
-export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
+export type RegistrationFlowProps<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+> = {
   traitsConfig: TTraitsConfig
-  traitsForm: ComponentType<TraitsFormProps<TTraitsConfig>>
+  oidcProvidersConfig?: TOidcProvidersConfig
+  traitsForm: ComponentType<TraitsFormProps<TTraitsConfig, TOidcProvidersConfig>>
   chooseMethodForm: ComponentType<ChooseMethodFormProps>
   emailVerificationForm: ComponentType<EmailVerificationFormProps>
   initialFlowId?: string
@@ -32,8 +36,12 @@ export type RegistrationFlowProps<TTraitsConfig extends TraitsConfig> = {
   onSessionAlreadyAvailable?: () => void
 }
 
-function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
+function RegistrationFlowWrapper<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+>({
   traitsConfig,
+  oidcProvidersConfig,
   traitsForm: TraitsForm,
   chooseMethodForm: ChooseMethodForm,
   emailVerificationForm: EmailVerificationForm,
@@ -44,7 +52,7 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
   onVerificationSuccess,
   onFlowRestart,
   onSessionAlreadyAvailable,
-}: RegistrationFlowProps<TTraitsConfig>) {
+}: RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>) {
   const { verificationFlowId } = useVerificationFlowContext()
   const { registrationFlowId, setRegistrationFlowId, traitsFormCompleted } = useRegistrationFlowContext()
 
@@ -84,6 +92,7 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
     <>
       {step === "traits" && (
         <TraitsFormWrapper
+          oidcProvidersConfig={oidcProvidersConfig}
           traitsConfig={traitsConfig}
           traitsForm={TraitsForm}
           onError={onError}
@@ -149,7 +158,10 @@ function RegistrationFlowWrapper<TTraitsConfig extends TraitsConfig>({
  * }
  * ```
  */
-export function RegistrationFlow<TTraitsConfig extends TraitsConfig>(props: RegistrationFlowProps<TTraitsConfig>) {
+export function RegistrationFlow<
+  TTraitsConfig extends TraitsConfig,
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+>(props: RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>) {
   return (
     <VerificationFlowProvider>
       <RegistrationFlowProvider>

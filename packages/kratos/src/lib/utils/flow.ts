@@ -4,6 +4,7 @@ import {
   isUiNodeInputAttributes,
   UiNode,
   UiNodeGroupEnum,
+  UiNodeInputAttributes,
   UiNodeScriptAttributesNodeTypeEnum,
   UiNodeTypeEnum,
 } from "../kratos"
@@ -85,24 +86,29 @@ export const isPasskeyRemoveUiNode = (
   )
 }
 
-export const providers = ["apple", "facebook", "google"] as const
+export const defaultProviders = ["apple", "facebook", "google"] as const
 
-export type OidcProvider = (typeof providers)[number]
+export type DefaultOidcProvider = (typeof defaultProviders)[number]
 
-export type OidcProviderUiNode = UiNode & {
+export type OidcProvider = DefaultOidcProvider | string
+
+export type OidcProviderUiNode<TProviderId extends string = string> = Omit<UiNode, "attributes" | "group"> & {
   group: "oidc"
-  attributes: {
+  attributes: Omit<UiNodeInputAttributes, "node_type" | "value"> & {
     node_type: "input"
-    value: OidcProvider
+    value: TProviderId
   }
 }
 
 export const isOidcProviderUiNode = (node: UiNode): node is OidcProviderUiNode =>
-  node.group === "oidc" && node.attributes.node_type === "input" && providers.includes(node.attributes.value)
+  node.group === "oidc" && node.attributes.node_type === "input" && typeof node.attributes.value === "string"
 
-export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: OidcProvider) =>
+export const getOidcProviderUiNode = (nodes: UiNode[] | undefined, provider: string) =>
   nodes?.find((node): node is OidcProviderUiNode => isOidcProviderUiNode(node) && node.attributes.value === provider) ??
   undefined
+
+export const getAllOidcProviderUiNodes = (nodes: UiNode[] | undefined): OidcProviderUiNode[] =>
+  nodes?.filter((node): node is OidcProviderUiNode => isOidcProviderUiNode(node)) ?? []
 
 export const handleFlowErrorResponse = async <TFlow>({ error }: { error: unknown }): Promise<TFlow | undefined> =>
   (await handleFlowError<TFlow>({

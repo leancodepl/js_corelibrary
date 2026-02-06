@@ -1,7 +1,7 @@
 import { UiNode } from "../../../kratos"
-import { getOidcProviderUiNode, OidcProvider } from "../../../utils"
+import { getOidcProviderUiNode } from "../../../utils"
 
-export const getOidcProviderType = (provider: OidcProvider, nodes: UiNode[]): "link" | "unlink" | undefined => {
+export const getOidcProviderType = (provider: string, nodes: UiNode[]): "link" | "unlink" | undefined => {
   const node = getOidcProviderUiNode(nodes, provider)
 
   if (!node) {

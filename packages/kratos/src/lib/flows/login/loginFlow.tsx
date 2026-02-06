@@ -1,6 +1,7 @@
 import { ComponentType, useEffect, useMemo } from "react"
 import { useFlowManager, useKratosSessionContext } from "../../hooks"
 import { isSessionAlreadyAvailable } from "../../kratos"
+import { OidcProvidersConfig } from "../../utils"
 import {
   EmailVerificationFormProps,
   useVerificationFlowContext,
@@ -13,12 +14,13 @@ import { SecondFactorEmailFormProps, SecondFactorEmailFormWrapper } from "./seco
 import { SecondFactorFormProps, SecondFactorFormWrapper } from "./secondFactorForm"
 import { OnLoginFlowError } from "./types"
 
-export type LoginFlowProps = {
+export type LoginFlowProps<TOidcProvidersConfig extends OidcProvidersConfig = readonly []> = {
   loaderComponent?: ComponentType
-  chooseMethodForm: ComponentType<ChooseMethodFormProps>
+  chooseMethodForm: ComponentType<ChooseMethodFormProps<TOidcProvidersConfig>>
   secondFactorForm: ComponentType<SecondFactorFormProps>
   secondFactorEmailForm: ComponentType<SecondFactorEmailFormProps>
   emailVerificationForm: ComponentType<EmailVerificationFormProps>
+  oidcProvidersConfig?: TOidcProvidersConfig
   initialFlowId?: string
   returnTo?: string
   onError?: OnLoginFlowError
@@ -28,12 +30,13 @@ export type LoginFlowProps = {
   onSessionAlreadyAvailable?: () => void
 }
 
-function LoginFlowWrapper({
+function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>({
   loaderComponent: LoaderComponent,
   chooseMethodForm: ChooseMethodForm,
   secondFactorForm: SecondFactorForm,
   secondFactorEmailForm: SecondFactorEmailForm,
   emailVerificationForm: EmailVerificationForm,
+  oidcProvidersConfig,
   initialFlowId,
   returnTo,
   onError,
@@ -41,7 +44,7 @@ function LoginFlowWrapper({
   onVerificationSuccess,
   onFlowRestart,
   onSessionAlreadyAvailable,
-}: LoginFlowProps) {
+}: LoginFlowProps<TOidcProvidersConfig>) {
   const { loginFlowId, setLoginFlowId } = useLoginFlowContext()
   const { verificationFlowId } = useVerificationFlowContext()
   const { sessionManager } = useKratosSessionContext()
@@ -100,6 +103,7 @@ function LoginFlowWrapper({
         <ChooseMethodFormWrapper
           chooseMethodForm={ChooseMethodForm}
           isRefresh={isRefresh}
+          oidcProvidersConfig={oidcProvidersConfig}
           onError={onError}
           onLoginSuccess={onLoginSuccess}
         />
@@ -169,7 +173,7 @@ function LoginFlowWrapper({
  * }
  * ```
  */
-export function LoginFlow(props: LoginFlowProps) {
+export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>(props: LoginFlowProps<TOidcProvidersConfig>) {
   return (
     <VerificationFlowProvider>
       <LoginFlowProvider>
