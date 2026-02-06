@@ -2,6 +2,7 @@ import { execSync } from "node:child_process"
 import { writeFileSync } from "node:fs"
 import { mkdir } from "node:fs/promises"
 import { join } from "node:path"
+import { logger } from "../logger"
 
 const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./src/poeditor/openapi-schema"
@@ -9,7 +10,7 @@ const schemaDir = "./src/poeditor/openapi-schema"
 try {
   generatePOEditorClient()
 } catch (error) {
-  console.error("Error:", error)
+  logger.error("Error:", error as Error)
   process.exit(1)
 }
 
@@ -19,7 +20,7 @@ export async function generatePOEditorClient() {
 }
 
 async function downloadSwaggerFile() {
-  console.log("Downloading POEditor swagger file...")
+  logger.info("Downloading POEditor swagger file...")
 
   const response = await fetch(swaggerUrl)
   if (!response.ok) {
@@ -32,11 +33,11 @@ async function downloadSwaggerFile() {
 
   const filePath = join(schemaDir, "swagger.yaml")
   writeFileSync(filePath, content)
-  console.log(`Swagger file saved to ${filePath}`)
+  logger.success(`Swagger file saved to ${filePath}`)
 }
 
 function generateApiClient() {
-  console.log("Generating API client...")
+  logger.info("Generating API client...")
 
   try {
     const command = [
@@ -52,7 +53,7 @@ function generateApiClient() {
     ].join(" ")
 
     execSync(command)
-    console.log("API client generated successfully!")
+    logger.success("API client generated successfully!")
   } catch (error) {
     throw new Error(`API client generation failed. Error: ${error}`)
   }

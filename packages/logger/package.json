@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/logger",
-  "version": "0.0.1",
+  "version": "9.7.2",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -12,12 +12,18 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js",
+      "default": "./dist/cli.js"
     }
   },
   "dependencies": {
-    "tslib": "^2.8.1"
+    "chalk": ">=5.0.0"
   },
   "devDependencies": {
+    "tslib": "^2.8.1",
     "vitest": "^3.0.0"
   },
   "publishConfig": {

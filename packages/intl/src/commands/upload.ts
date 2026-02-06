@@ -1,6 +1,7 @@
 import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { extractMessages } from "../formatjs"
+import { logger } from "../logger"
 
 export const uploadCommandOptionsSchema = z.object({
   srcPattern: z.string(),
@@ -13,29 +14,29 @@ export type UploadCommandOptions = z.infer<typeof uploadCommandOptionsSchema> & 
 
 export async function upload({ srcPattern, translationsServiceClient, defaultLanguage }: UploadCommandOptions) {
   try {
-    console.log("Extracting messages from source files...")
+    logger.info("Extracting messages from source files...")
 
     const messages = extractMessages(srcPattern)
     const messageCount = Object.keys(messages).length
 
-    console.log(`Extracted ${messageCount} messages`)
+    logger.info(`Extracted ${messageCount} messages`)
 
     if (messageCount === 0) {
-      console.log("No messages found. Make sure your source files contain formatjs messages.")
+      logger.warn("No messages found. Make sure your source files contain formatjs messages.")
       return
     }
 
-    console.log("Uploading terms to translation service...")
+    logger.info("Uploading terms to translation service...")
 
     await translationsServiceClient.uploadTerms(messages)
 
-    console.log(`Uploading default translations (${defaultLanguage}) to translation service...`)
+    logger.info(`Uploading default translations (${defaultLanguage}) to translation service...`)
 
     await translationsServiceClient.uploadTranslations(messages, defaultLanguage)
 
-    console.log("Upload completed successfully!")
+    logger.success("Upload completed successfully!")
   } catch (error) {
-    console.error("Error in upload command:", error)
+    logger.error("Error in upload command:", error as Error)
     process.exit(1)
   }
 }

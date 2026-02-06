@@ -16,7 +16,10 @@ export default defineConfig(() => ({
       transformMixedEsModules: true,
     },
     lib: {
-      entry: "src/index.ts",
+      entry: {
+        index: "src/index.ts",
+        cli: "src/cli.ts",
+      },
       name: "@leancodepl/logger",
       fileName: (format, entryName) => (format === "es" ? `${entryName}.js` : `${entryName}.cjs`),
     },

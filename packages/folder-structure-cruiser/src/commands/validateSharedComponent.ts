@@ -1,6 +1,7 @@
 import { checkSharedComponents } from "../lib/checkSharedComponents.js"
 import { formatMessages } from "../lib/formatMessages.js"
 import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
+import { logger } from "../lib/logger.js"
 
 /**
  * Validates if shared components are located at the first shared level.
@@ -52,9 +53,9 @@ import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
  *     configPath: ".dependency-cruiser.js",
  *     tsConfigPath: "./tsconfig.base.json"
  *   });
- *   console.log("✅ Shared component validation passed");
+ *   logger.info("Shared component validation passed");
  * } catch (error) {
- *   console.error("❌ Shared component validation failed:", error);
+ *   logger.error("Shared component validation failed:", error);
  *   process.exit(1);
  * }
  * ```
@@ -66,15 +67,15 @@ export async function validateSharedComponent(cruiseParams: CruiseParams) {
     const { messages: infoMessages, totalCruised } = checkSharedComponents(cruiseResult)
 
     if (infoMessages.length === 0) {
-      console.info("\n✅ No issues found!")
+      logger.success("✅ No issues found!")
     }
 
     if (infoMessages.length > 0) {
       const messages = formatMessages(infoMessages)
-      console.info(messages.join("\n"))
-      console.info(`\nx Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`)
+      logger.info(messages.join("\n"))
+      logger.info(`Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`)
     }
   } catch (pError) {
-    console.error(pError)
+    logger.error(pError as Error)
   }
 }

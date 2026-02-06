@@ -1,4 +1,4 @@
-type SupportedOutput = boolean | number | object | string
+type SupportedOutput = boolean | number | object | string | unknown
 
 type DefaultContext = Record<string, unknown>
 
