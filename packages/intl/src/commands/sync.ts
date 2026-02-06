@@ -1,6 +1,6 @@
 import { z } from "zod/v4"
-import { logger } from "../logger"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
+import { logger } from "../logger"
 import { download } from "./download"
 import { upload } from "./upload"
 
