@@ -171,3 +171,19 @@ nx lint [package-name]
    new version and run the workflow.
 6. After refreshing the page you should be able to see the workflow running. After it finishes successfully, go back to
    the previously created PR and merge it.
+
+### Local publishing
+
+To test publishing against a local Verdaccio registry:
+
+1. Start the local registry (in one terminal). Prefer the Nx target:
+
+   ```bash
+   npx nx local-registry
+   ```
+
+2. Publish all packages to it (in another terminal):
+
+   ```bash
+   npx nx local-publish --ver=1.0.0
+   ```
