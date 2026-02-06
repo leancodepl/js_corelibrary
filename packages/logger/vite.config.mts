@@ -6,7 +6,7 @@ import dts from "vite-plugin-dts"
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: "../../node_modules/.vite/packages/logger-base",
+  cacheDir: "../../node_modules/.vite/packages/logger",
   plugins: [dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") })],
   build: {
     outDir: "./dist",
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
     },
     lib: {
       entry: "src/index.ts",
-      name: "@leancodepl/logger-base",
+      name: "@leancodepl/logger",
       fileName: (format, entryName) => (format === "es" ? `${entryName}.js` : `${entryName}.cjs`),
     },
     rollupOptions: {
@@ -25,7 +25,7 @@ export default defineConfig(() => ({
     },
   },
   test: {
-    name: "@leancodepl/logger-base",
+    name: "@leancodepl/logger",
     watch: false,
     globals: true,
     environment: "node",

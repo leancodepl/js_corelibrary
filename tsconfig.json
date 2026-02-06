@@ -98,6 +98,9 @@
     },
     {
       "path": "./packages/intl"
+    },
+    {
+      "path": "./packages/logger"
     }
   ]
 }

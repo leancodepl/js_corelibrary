@@ -1,11 +1,11 @@
-# logger-base
+# logger
 
 A lightweight, type-safe logger with middleware support and contextual messages.
 
 ## Creating a Logger
 
 ```typescript
-import { createLogger, isContextualMessage } from "@leancodepl/logger-base"
+import { createLogger, isContextualMessage } from "@leancodepl/logger"
 
 const logger = createLogger({
   info: (context, ...messages) => {
@@ -98,7 +98,7 @@ logger2.info("test") // "[1] [2] test"
 When passing a logger to functions, use `LoggerWithContext` for proper typing.
 
 ```typescript
-import { LoggerWithContext, DefaultContext } from "@leancodepl/logger-base"
+import { LoggerWithContext, DefaultContext } from "@leancodepl/logger"
 
 type AppLogger<TContext extends DefaultContext> = LoggerWithContext<TContext, typeof logger>
 
@@ -113,7 +113,7 @@ handleRequest(requestLogger)
 Provided types can also be used to type `createLogger` and `withMiddleware` functions arguments.
 
 ```typescript
-import { createLogger, DefaultContext, LoggerMessage, MethodHandler, SupportedOutput } from "@leancodepl/logger-base"
+import { createLogger, DefaultContext, LoggerMessage, MethodHandler, SupportedOutput } from "@leancodepl/logger"
 
 function log(context: DefaultContext, ...messages: LoggerMessage<DefaultContext, SupportedOutput>[]) {
   console.log(

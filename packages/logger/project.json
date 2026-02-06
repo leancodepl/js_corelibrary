@@ -1,0 +1,13 @@
+{
+  "name": "@leancodepl/logger",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/logger/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "publish": {
+      "command": "node tools/scripts/publish.mjs @leancodepl/logger {args.registry} {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    }
+  }
+}
