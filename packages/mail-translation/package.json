@@ -18,6 +18,7 @@
     "mail-translation": "./dist/bin.js"
   },
   "dependencies": {
+    "@leancodepl/logger": "0.0.1",
     "intl-messageformat": "^10.7.16",
     "js-beautify": "^1.15.4",
     "lilconfig": "^3.1.3",

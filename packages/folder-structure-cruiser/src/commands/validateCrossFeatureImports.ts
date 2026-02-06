@@ -1,9 +1,7 @@
-import pc from "picocolors"
 import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports.js"
 import { formatMessages } from "../lib/formatMessages.js"
 import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
-
-const { red } = pc
+import { logger } from "../lib/logger.js"
 
 /**
  * Validates cross-feature nested imports according to folder structure rules.
@@ -55,9 +53,9 @@ const { red } = pc
  *     configPath: ".dependency-cruiser.js",
  *     tsConfigPath: "./tsconfig.base.json"
  *   });
- *   console.log("✅ Cross-feature import validation passed");
+ *   logger.info("Cross-feature import validation passed");
  * } catch (error) {
- *   console.error("❌ Cross-feature import validation failed:", error);
+ *   logger.error("Cross-feature import validation failed:", error);
  *   process.exit(1);
  * }
  * ```
@@ -69,15 +67,15 @@ export async function validateCrossFeatureImports(cruiseParams: CruiseParams) {
     const { messages: errorMessages, totalCruised } = checkCrossFeatureImports(cruiseResult)
 
     if (errorMessages.length === 0) {
-      console.info("\n✅ No issues found!")
+      logger.success("✅ No issues found!")
     }
 
     if (errorMessages.length > 0) {
       const messages = formatMessages(errorMessages)
-      console.error(messages.join("\n"))
-      console.error(`\n${red(`x Found ${errorMessages.length} violations(s). ${totalCruised} modules cruised.`)}`)
+      logger.error(messages.join("\n"))
+      logger.error(`Found ${errorMessages.length} violations(s). ${totalCruised} modules cruised.`)
     }
   } catch (pError) {
-    console.error(pError)
+    logger.error(pError as Error)
   }
 }
