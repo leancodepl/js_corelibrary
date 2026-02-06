@@ -102,8 +102,8 @@ function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = rea
       {step === "chooseMethod" && (
         <ChooseMethodFormWrapper
           chooseMethodForm={ChooseMethodForm}
-          oidcProvidersConfig={oidcProvidersConfig}
           isRefresh={isRefresh}
+          oidcProvidersConfig={oidcProvidersConfig}
           onError={onError}
           onLoginSuccess={onLoginSuccess}
         />

@@ -66,14 +66,14 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
     if (!loginFlow) return {}
 
     const availableProviders = getAllOidcProviderUiNodes(loginFlow.ui.nodes)
-    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id))
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
       
       // Only include providers that are both available in the flow and configured (or all if no config)
-      if (configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) {
+      if (!configuredProviderIds || configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) {
         const providerName = toUpperFirst(providerId)
         
         components[providerName] = ({ children }: { children: ReactNode }) => (
@@ -88,14 +88,14 @@ export function ChooseMethodFormWrapper<TOidcProvidersConfig extends OidcProvide
   const oidcProviderComponentsForRefresh = useMemo<OidcProviderComponents<TOidcProvidersConfig>>(() => {
     if (!loginFlow || !isRefresh) return {}
 
-    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id))
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     getAllOidcProviderUiNodes(loginFlow.ui.nodes).forEach(node => {
       const providerId = node.attributes.value
       
       // Only include providers that are both available in the flow and configured (or all if no config)
-      if ((configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) && 
+      if ((!configuredProviderIds || configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) && 
           getOidcProviderUiNode(loginFlow.ui.nodes, providerId)) {
         const providerName = toUpperFirst(providerId)
         

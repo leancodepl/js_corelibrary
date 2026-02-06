@@ -26,7 +26,7 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
     }
 
     const availableProviders = getAllOidcProviderUiNodes(settingsFlow.ui.nodes)
-    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id))
     const providerComponents: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
@@ -34,7 +34,7 @@ export function OidcFormWrapper<TOidcProvidersConfig extends OidcProvidersConfig
       const type = getOidcProviderType(providerId, settingsFlow.ui.nodes)
 
       // Only include providers that are both available in the flow and configured (or all if no config)
-      if (type && (configuredProviderIds.size === 0 || configuredProviderIds.has(providerId))) {
+      if (type && (!configuredProviderIds || configuredProviderIds.size === 0 || configuredProviderIds.has(providerId))) {
         const providerName = toUpperFirst(providerId)
         
         providerComponents[providerName] = ({ children }: { children: ReactNode }) => (

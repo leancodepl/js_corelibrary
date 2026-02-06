@@ -72,14 +72,14 @@ export function TraitsFormWrapper<
     if (!registrationFlow) return {}
 
     const availableProviders = getAllOidcProviderUiNodes(registrationFlow.ui.nodes)
-    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id) ?? [])
+    const configuredProviderIds = new Set(oidcProvidersConfig?.map(p => p.id))
     const components: Record<string, ComponentType<{ children: ReactNode }>> = {}
 
     availableProviders.forEach(node => {
       const providerId = node.attributes.value
       
       // Only include providers that are both available in the flow and configured (or all if no config)
-      if (configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) {
+      if (!configuredProviderIds || configuredProviderIds.size === 0 || configuredProviderIds.has(providerId)) {
         const providerName = toUpperFirst(providerId)
         
         components[providerName] = ({ children }: { children: ReactNode }) => (

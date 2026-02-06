@@ -92,8 +92,8 @@ function RegistrationFlowWrapper<
     <>
       {step === "traits" && (
         <TraitsFormWrapper
-          traitsConfig={traitsConfig}
           oidcProvidersConfig={oidcProvidersConfig}
+          traitsConfig={traitsConfig}
           traitsForm={TraitsForm}
           onError={onError}
           onRegistrationSuccess={onRegistrationSuccess}
