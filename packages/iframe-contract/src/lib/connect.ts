@@ -36,8 +36,13 @@ export function connectToRemote<TRemote extends Methods, THost extends Methods =
   const { methods, allowedOrigins } = options
   const iframeOrigin = new URL(iframe.src).origin
 
+  const iframeWindow = iframe.contentWindow
+  if (!iframeWindow) {
+    throw new Error("Iframe content window is not available")
+  }
+
   const messenger = new WindowMessenger({
-    remoteWindow: iframe.contentWindow as Window,
+    remoteWindow: iframeWindow,
     allowedOrigins: allowedOrigins ?? [iframeOrigin],
   })
 

@@ -23,12 +23,5 @@ export function buildRemoteUrl(baseUrl: string, params?: Record<string, string |
 export function parseUrlParams<TParams extends Record<string, string>>(
   search: string = typeof globalThis.window !== "undefined" ? globalThis.location.search : "",
 ): TParams {
-  const params = new URLSearchParams(search)
-  const result = {} as Record<string, string>
-
-  params.forEach((value, key) => {
-    result[key] = value
-  })
-
-  return result as TParams
+  return Object.fromEntries(new URLSearchParams(search).entries()) as TParams
 }
