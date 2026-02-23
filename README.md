@@ -189,6 +189,10 @@ Validation utilities for handling API responses and error management with custom
 
 Vite plugin for generating favicons from source logos with automatic HTML injection and multiple format support.
 
+#### `@leancodepl/iframe-contract`
+
+Type-safe contracts between host app and remote iframe app (e.g., Replit embed) with `postMessage` communication.
+
 ## Development
 
 ### Testing
