@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/api-date-dayjs",
-  "version": "10.1.0",
+  "version": "10.1.1",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -15,8 +15,8 @@
     }
   },
   "dependencies": {
-    "@leancodepl/api-date": "10.1.0",
-    "@leancodepl/api-date-utils": "10.1.0",
+    "@leancodepl/api-date": "10.1.1",
+    "@leancodepl/api-date-utils": "10.1.1",
     "dayjs": ">=1.9.0"
   },
   "devDependencies": {
