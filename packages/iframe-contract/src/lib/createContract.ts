@@ -1,6 +1,6 @@
 import type { Methods } from "penpal"
 import { createConnectToHostProvider } from "./ConnectToHostProvider"
-import { useConnectParams } from "./useConnectParams"
+import { parseUrlParams } from "./urlParams"
 import { useConnectToHost } from "./useConnectToHost"
 import { useConnectToRemote } from "./useConnectToRemote"
 
@@ -22,7 +22,7 @@ import { useConnectToRemote } from "./useConnectToRemote"
  *
  * // Host: contract.useConnectToRemote({ remoteUrl, params: { userId: '123' }, methods })
  * // Remote: contract.useConnectToHost({ methods })
- * // Remote: contract.useConnectParams() // { userId?: string; tenantId?: string }
+ * // Remote: contract.parseUrlParams() // { userId?: string; tenantId?: string }
  */
 export function createContract<
   THost extends Methods,
@@ -40,6 +40,6 @@ export function createContract<
 
     useConnectToHostContext,
 
-    useConnectParams: useConnectParams as typeof useConnectParams<TParams>,
+    parseUrlParams: parseUrlParams as typeof parseUrlParams<TParams>,
   }
 }

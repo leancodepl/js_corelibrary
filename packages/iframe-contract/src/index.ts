@@ -6,6 +6,5 @@ export {
 } from "./lib/useConnectToRemote"
 export { useConnectToHost, type UseConnectToHostOptions, type UseConnectToHostResult } from "./lib/useConnectToHost"
 export { createConnectToHostProvider } from "./lib/ConnectToHostProvider"
-export { useConnectParams } from "./lib/useConnectParams"
 export { buildRemoteUrl, parseUrlParams } from "./lib/urlParams"
 export { createContract } from "./lib/createContract"
