@@ -82,7 +82,7 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
   protected async tryRefreshTokenInternal(token: Token): Promise<boolean> {
     if (typeof navigator !== "undefined" && "locks" in navigator) {
-      return await this.tryRefreshWithLock(token)
+      return await this.tryRefreshWithLock()
     }
 
     if (!this.isRefreshingToken) {
@@ -90,8 +90,8 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
 
       const executeRefresh = async () => {
         try {
-          const result = await this.acquireToken(this.buildRefreshRequest(token))
-          this.refreshTokenCallbacks.forEach(c => c(result.type === "success"))
+          const success = await this.refreshToken(token)
+          this.refreshTokenCallbacks.forEach(c => c(success))
         } catch {
           this.refreshTokenCallbacks.forEach(c => c(false))
         } finally {
@@ -108,34 +108,42 @@ export abstract class BaseLoginManager<TStorage extends TokenStorage> {
     })
   }
 
-  private async tryRefreshWithLock(token: Token): Promise<boolean> {
-    return await navigator.locks.request(refreshLockKey, { ifAvailable: true }, async lock => {
+  private async tryRefreshWithLock(): Promise<boolean> {
+    const refreshed = await navigator.locks.request(refreshLockKey, { ifAvailable: true }, async lock => {
       if (!lock) {
-        return await this.waitForLockRelease()
+        return null
       }
+
+      const token = await this.storage.getToken()
 
       if (token === null) {
         return false
       }
 
-      if (token.expirationDate >= new Date()) {
-        return true
-      }
-
       try {
-        const result = await this.acquireToken(this.buildRefreshRequest(token))
-        return result.type === "success"
+        return await this.refreshToken(token)
       } catch {
         return false
       }
     })
+
+    if (refreshed !== null) {
+      return refreshed
+    }
+
+    return await this.waitForRefreshLockRelease()
   }
 
-  private async waitForLockRelease(): Promise<boolean> {
+  private async waitForRefreshLockRelease(): Promise<boolean> {
     return await navigator.locks.request(refreshLockKey, { mode: "shared" }, async () => {
       const currentToken = await this.storage.getToken()
       return currentToken !== null
     })
+  }
+
+  private async refreshToken(token: Token): Promise<boolean> {
+    const result = await this.acquireToken(this.buildRefreshRequest(token))
+    return result.type === "success"
   }
 
   public onChange(callback: (isSignedIn: boolean) => void) {
