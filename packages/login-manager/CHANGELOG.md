@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.1](https://github.com/leancodepl/js_corelibrary/compare/v10.1.0...v10.1.1) (2026-02-23)
+
+### Bug Fixes
+
+- always refresh token on non-concurrent tryRefreshToken calls
+  ([b7140a2](https://github.com/leancodepl/js_corelibrary/commit/b7140a2e06ddead6372aa7815d6dd0da94919f2a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [10.1.0](https://github.com/leancodepl/js_corelibrary/compare/v10.0.2...v10.1.0) (2026-02-16)
 
 **Note:** Version bump only for package @leancodepl/login-manager

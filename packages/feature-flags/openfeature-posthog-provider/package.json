@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/openfeature-posthog-provider",
-  "version": "0.0.1",
+  "version": "10.1.1",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -15,8 +15,8 @@
     }
   },
   "dependencies": {
-    "posthog-js": "^1.347.0",
-    "@openfeature/web-sdk": "^1.7.0"
+    "@openfeature/web-sdk": "^1.7.0",
+    "posthog-js": "^1.347.0"
   },
   "devDependencies": {
     "@nx/vite": "*",

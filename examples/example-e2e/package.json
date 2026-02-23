@@ -1,6 +1,6 @@
 {
   "name": "@example/example-e2e",
-  "version": "10.1.0",
+  "version": "10.1.1",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -15,9 +15,9 @@
     }
   },
   "dependencies": {
-    "@example/e2e-ids": "10.1.0",
+    "@example/e2e-ids": "10.1.1",
     "@faker-js/faker": "*",
-    "@leancodepl/kratos": "10.1.0",
+    "@leancodepl/kratos": "10.1.1",
     "@playwright/test": "*",
     "otplib": "*",
     "testcontainers": "*"
