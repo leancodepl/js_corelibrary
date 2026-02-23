@@ -21,7 +21,7 @@ Creates a type-safe contract shared between host and remote. Use the same contra
 signatures match.
 
 **Returns:** Object with `useConnectToRemote`, `useConnectToHost`, `ConnectToHostProvider`, `useConnectToHostContext`,
-and `useConnectParams`
+and `parseUrlParams`
 
 ### `connectToRemote(iframe, options)`
 
@@ -73,12 +73,6 @@ Creates a typed `ConnectToHostProvider` and `useConnectToHostContext` pair. Each
 and hook that share the same context.
 
 **Returns:** Object with `ConnectToHostProvider` component and `useConnectToHostContext` hook
-
-### `useConnectParams()`
-
-Parses URL search params in the remote iframe. Use to read params passed by the host when loading the remote URL.
-
-**Returns:** `TParams` - Typed object of URL params
 
 ### `buildRemoteUrl(baseUrl, params)`
 
@@ -174,7 +168,7 @@ function RemoteAppRoot() {
 }
 
 function RemoteApp() {
-  const params = contract.useConnectParams()
+  const params = contract.parseUrlParams()
   const { host, isConnected } = contract.useConnectToHostContext()
 
   const handleSave = async () => {
@@ -196,7 +190,7 @@ function RemoteApp() {
 import { contract } from "./contract"
 
 function RemoteApp() {
-  const params = contract.useConnectParams()
+  const params = contract.parseUrlParams()
   const { host, isConnected } = contract.useConnectToHost({
     methods: {
       getCurrentPath: () => Promise.resolve(location.pathname),
@@ -264,6 +258,6 @@ connectToHost({
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
 - **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage
-- **URL params** - `buildRemoteUrl` and `useConnectParams` pass data from host to remote via query string
+- **URL params** - `buildRemoteUrl` and `parseUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries
