@@ -110,6 +110,9 @@
     },
     {
       "path": "./packages/antd-table-hooks"
+    },
+    {
+      "path": "./packages/iframe-contract"
     }
   ]
 }
