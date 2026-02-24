@@ -17,7 +17,7 @@ export type UseConnectToRemoteOptions<
   /** Contract version passed to remote for compatibility check */
   contractVersion: string
   /** Props for the iframe element */
-  iframeProps: HTMLAttributes<HTMLIFrameElement> & { title: string }
+  iframeProps: Omit<HTMLAttributes<HTMLIFrameElement>, "src" | "title"> & { title: string }
 }
 
 export type UseConnectToRemoteResult<TRemote extends RemoteMethodsBase> = {
