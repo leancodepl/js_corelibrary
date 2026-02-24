@@ -48,7 +48,7 @@ export function createContract<
   >(contractVersion, isVersionCompatible)
 
   const useWrappedConnectToRemote = (options: Omit<UseConnectToRemoteOptions<THost, TParams>, "contractVersion">) =>
-    useConnectToRemote({
+    useConnectToRemote<TRemote, THost, TParams>({
       ...options,
       contractVersion,
     })
@@ -56,7 +56,7 @@ export function createContract<
   const useWrappedConnectToHost = (
     options: Omit<UseConnectToHostOptions<TRemote>, "contractVersion" | "isVersionCompatible">,
   ) =>
-    useConnectToHost({
+    useConnectToHost<THost, TRemote, TParamsWithContractVersion>({
       ...options,
       contractVersion,
       isVersionCompatible,
