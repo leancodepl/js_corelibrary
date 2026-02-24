@@ -1,23 +1,26 @@
-import type { Methods, RemoteProxy } from "penpal"
-import type { ReactNode } from "react"
+import type { RemoteProxy } from "penpal"
+import type { HTMLAttributes, ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
 import type { ConnectToRemoteOptions } from "./connect"
 import { connectToRemote } from "./connect"
+import { HostMethodsBase, RemoteMethodsBase, RemoteParamsBase, RemoteParamsWithContractVersion } from "./types"
 import { buildRemoteUrl } from "./urlParams"
 
 export type UseConnectToRemoteOptions<
-  THost extends Methods,
-  TParams extends Record<string, string> = Record<string, string>,
+  THost extends HostMethodsBase,
+  TParams extends RemoteParamsBase,
 > = ConnectToRemoteOptions<THost> & {
   /** URL for the remote iframe src (base URL without params) */
   remoteUrl: string
   /** Params to pass to the implant via URL query string */
   params?: TParams
-  /** Optional className for the iframe */
-  className?: string
+  /** Contract version passed to remote for compatibility check */
+  contractVersion: string
+  /** Props for the iframe element */
+  iframeProps: HTMLAttributes<HTMLIFrameElement> & { title: string }
 }
 
-export type UseConnectToRemoteResult<TRemote extends Methods> = {
+export type UseConnectToRemoteResult<TRemote extends RemoteMethodsBase> = {
   /** The iframe element to render */
   iframe: ReactNode
   /** Resolved remote methods when connected, null otherwise */
@@ -45,16 +48,21 @@ export type UseConnectToRemoteResult<TRemote extends Methods> = {
  * ```
  */
 export function useConnectToRemote<
-  TRemote extends Methods,
-  THost extends Methods,
-  TParams extends Record<string, string> = Record<string, string>,
+  TRemote extends RemoteMethodsBase,
+  THost extends HostMethodsBase,
+  TParams extends RemoteParamsBase,
 >(options: UseConnectToRemoteOptions<THost, TParams>): UseConnectToRemoteResult<TRemote> {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [remote, setRemote] = useState<RemoteProxy<TRemote> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const { remoteUrl, className, methods, allowedOrigins, params } = options
-  const iframeSrc = buildRemoteUrl(remoteUrl, params)
+  const { remoteUrl, iframeProps, methods, allowedOrigins, params, contractVersion } = options
+  const { title, ...restIframeProps } = iframeProps
+  const paramsWithContractVersion = {
+    ...params,
+    contractVersion,
+  } as RemoteParamsWithContractVersion<TParams>
+  const iframeSrc = buildRemoteUrl(remoteUrl, paramsWithContractVersion)
 
   useEffect(() => {
     const iframe = iframeRef.current
@@ -81,7 +89,7 @@ export function useConnectToRemote<
     }
   }, [iframeSrc, methods, allowedOrigins])
 
-  const iframe = <iframe ref={iframeRef} className={className} src={iframeSrc} title="Remote" />
+  const iframe = <iframe ref={iframeRef} src={iframeSrc} title={title} {...restIframeProps} />
 
   return {
     iframe,

@@ -15,10 +15,17 @@ yarn add @leancodepl/iframe-contract
 
 ## API
 
-### `createContract()`
+### `createContract(options)`
 
 Creates a type-safe contract shared between host and remote. Use the same contract type on both sides to ensure method
 signatures match.
+
+**Options:**
+
+- `contractVersion` - **Required.** Version string for compatibility checking (e.g. `"1.0.0"`). Host passes it via URL
+  params; remote verifies before connecting. When using the contract, this value is auto-injected into
+  `useConnectToRemote`, `useConnectToHost`, and `ConnectToHostProvider`—you don't pass it explicitly.
+- `isVersionCompatible` - Custom comparator `(hostVersion, remoteVersion) => boolean`. Defaults to semver major match.
 
 **Returns:** Object with `useConnectToRemote`, `useConnectToHost`, `ConnectToHostProvider`, `useConnectToHostContext`,
 and `parseUrlParams`
@@ -50,8 +57,9 @@ Connects host (parent) to remote (child iframe) and renders the iframe. Call fro
 
 **Parameters:**
 
-- `options` - `UseConnectToRemoteOptions<THost, TParams>` - Connection options including `remoteUrl`, `methods`,
-  optional `params`, `className`, `allowedOrigins`
+- `options` - `UseConnectToRemoteOptions<THost, TParams>` - Connection options including `remoteUrl`, `iframeProps`
+  (with required `title`), `methods`, optional `params`, `allowedOrigins`. `contractVersion` is auto-injected from
+  the contract.
 
 **Returns:** `UseConnectToRemoteResult<TRemote>` - Object with `iframe` element, `remote` proxy, `isConnected` flag, and
 `error`
@@ -63,16 +71,18 @@ iframe.
 
 **Parameters:**
 
-- `options` - `UseConnectToHostOptions<TRemote>` - Connection options
+- `options` - `UseConnectToHostOptions<TRemote>` - Connection options including `methods`, `incompatibleVersionHandler`,
+  optional `allowedOrigins`. `contractVersion` and `isVersionCompatible` are auto-injected from the contract.
 
 **Returns:** `UseConnectToHostResult<THost>` - Object with `host` proxy, `isConnected` flag, and `error`
 
-### `createConnectToHostProvider()`
+### `createConnectToHostProvider()` / `ConnectToHostProvider`
 
-Creates a typed `ConnectToHostProvider` and `useConnectToHostContext` pair. Each contract calls this to get a provider
-and hook that share the same context.
+`createConnectToHostProvider` creates a typed `ConnectToHostProvider` and `useConnectToHostContext` pair. Each contract
+calls this internally; use `contract.ConnectToHostProvider` and `contract.useConnectToHostContext`.
 
-**Returns:** Object with `ConnectToHostProvider` component and `useConnectToHostContext` hook
+**ConnectToHostProvider props:** `methods`, `incompatibleVersionHandler` (required), optional `allowedOrigins`, `children`.
+`contractVersion` and `isVersionCompatible` are auto-injected from the contract.
 
 ### `buildRemoteUrl(baseUrl, params)`
 
@@ -93,7 +103,7 @@ Parses URL search params into a typed object. Call from the remote (iframe) to r
 
 - `search` - `string` (optional) - Search string (defaults to `location.search` in browser)
 
-**Returns:** `TParams` - Typed object of params
+**Returns:** `TParams` - Typed object of params (includes `contractVersion` when using a contract)
 
 ## Usage Examples
 
@@ -116,7 +126,9 @@ type RemoteMethods = {
 
 type RemoteParams = { userId?: string; tenantId?: string }
 
-export const contract = createContract<HostMethods, RemoteMethods, RemoteParams>()
+export const contract = createContract<HostMethods, RemoteMethods, RemoteParams>({
+  contractVersion: "1.0.0",
+})
 ```
 
 ### Host app: embed remote iframe with React hook
@@ -127,6 +139,7 @@ import { contract } from "./contract"
 function HostApp() {
   const { iframe, remote, isConnected } = contract.useConnectToRemote({
     remoteUrl: "https://replit.example.com/app",
+    iframeProps: { title: "Remote app" },
     methods: {
       navigateTo: path => router.navigate(path),
       showNotification: (msg, type) => messageApi[type](msg),
@@ -147,6 +160,13 @@ function HostApp() {
 }
 ```
 
+### Contract version checking
+
+`contractVersion` is required in `createContract`. The host passes it via URL params to the iframe. The remote
+verifies compatibility before connecting. If versions are incompatible (default: semver major must match), the
+`incompatibleVersionHandler` is called and no connection is established. When using the contract, version values
+are auto-injected—no need to pass `contractVersion` to hooks or the provider.
+
 ### Remote app: using ConnectToHostProvider (Recommended)
 
 Wrap the remote app with `ConnectToHostProvider` and use `useConnectToHostContext` in child components to access the
@@ -161,6 +181,9 @@ function RemoteAppRoot() {
       methods={{
         getCurrentPath: () => Promise.resolve(location.pathname),
         refresh: () => refetch(),
+      }}
+      incompatibleVersionHandler={(hostVersion, remoteVersion) => {
+        console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
       }}>
       <RemoteApp />
     </contract.ConnectToHostProvider>
@@ -195,6 +218,9 @@ function RemoteApp() {
     methods: {
       getCurrentPath: () => Promise.resolve(location.pathname),
       refresh: () => refetch(),
+    },
+    incompatibleVersionHandler: (hostVersion, remoteVersion) => {
+      console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
     },
   })
 
@@ -257,6 +283,8 @@ connectToHost({
 ## Features
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
+- **Contract version checking** - Required `contractVersion` in `createContract`; host and remote verify compatibility
+  (semver major match by default) before connecting
 - **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage
 - **URL params** - `buildRemoteUrl` and `parseUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
