@@ -1,8 +1,16 @@
-import type { Methods } from "penpal"
 import { createConnectToHostProvider } from "./ConnectToHostProvider"
+import { HostMethodsBase, RemoteMethodsBase, RemoteParamsBase, RemoteParamsWithContractVersion } from "./types"
 import { parseUrlParams } from "./urlParams"
-import { useConnectToHost } from "./useConnectToHost"
-import { useConnectToRemote } from "./useConnectToRemote"
+import { useConnectToHost, UseConnectToHostOptions } from "./useConnectToHost"
+import { useConnectToRemote, UseConnectToRemoteOptions } from "./useConnectToRemote"
+import { defaultIsVersionCompatible } from "./version"
+
+export type CreateContractOptions = {
+  /** Contract version for compatibility checking between host and remote */
+  contractVersion: string
+  /** Custom version compatibility check. Defaults to semver major match. */
+  isVersionCompatible?: (hostVersion: string, remoteVersion: string) => boolean
+}
 
 /**
  * Create a type-safe contract shared between host and remote.
@@ -18,28 +26,47 @@ import { useConnectToRemote } from "./useConnectToRemote"
  *   HostMethods,
  *   RemoteMethods,
  *   RemoteParams
- * >()
+ * >({ contractVersion: '1.0.0' })
  *
  * // Host: contract.useConnectToRemote({ remoteUrl, params: { userId: '123' }, methods })
- * // Remote: contract.useConnectToHost({ methods })
+ * // Remote: contract.useConnectToHost({ methods, incompatibleVersionHandler })
  * // Remote: contract.parseUrlParams() // { userId?: string; tenantId?: string }
  */
 export function createContract<
-  THost extends Methods,
-  TRemote extends Methods,
-  TParams extends Record<string, string> = Record<string, string>,
->() {
-  const { ConnectToHostProvider, useConnectToHostContext } = createConnectToHostProvider<THost, TRemote>()
+  THost extends HostMethodsBase,
+  TRemote extends RemoteMethodsBase,
+  TParams extends RemoteParamsBase,
+>(options: CreateContractOptions) {
+  type TParamsWithContractVersion = RemoteParamsWithContractVersion<TParams>
+
+  const { contractVersion, isVersionCompatible = defaultIsVersionCompatible } = options
+
+  const { ConnectToHostProvider, useConnectToHostContext } = createConnectToHostProvider<
+    THost,
+    TRemote,
+    TParamsWithContractVersion
+  >(contractVersion, isVersionCompatible)
+
+  const useWrappedConnectToRemote = (options: Omit<UseConnectToRemoteOptions<THost, TParams>, "contractVersion">) =>
+    useConnectToRemote({
+      ...options,
+      contractVersion,
+    })
+
+  const useWrappedConnectToHost = (
+    options: Omit<UseConnectToHostOptions<TRemote>, "contractVersion" | "isVersionCompatible">,
+  ) =>
+    useConnectToHost({
+      ...options,
+      contractVersion,
+      isVersionCompatible,
+    })
 
   return {
-    useConnectToRemote: useConnectToRemote as typeof useConnectToRemote<TRemote, THost, TParams>,
-
-    useConnectToHost: useConnectToHost as typeof useConnectToHost<THost, TRemote>,
-
+    useConnectToRemote: useWrappedConnectToRemote,
+    useConnectToHost: useWrappedConnectToHost,
     ConnectToHostProvider,
-
     useConnectToHostContext,
-
-    parseUrlParams: parseUrlParams as typeof parseUrlParams<TParams>,
+    parseUrlParams: parseUrlParams as typeof parseUrlParams<TParamsWithContractVersion>,
   }
 }

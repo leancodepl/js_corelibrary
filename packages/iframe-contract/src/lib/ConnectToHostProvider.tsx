@@ -1,20 +1,32 @@
-import type { Methods } from "penpal"
 import { createContext, type ReactNode, useContext } from "react"
+import { HostMethodsBase, RemoteMethodsBase, RemoteParamsWithContractVersion } from "./types"
 import { useConnectToHost, type UseConnectToHostOptions, type UseConnectToHostResult } from "./useConnectToHost"
 
 /**
  * Create a typed ConnectToHostProvider and useConnectToHostContext pair.
  * Each contract should call this to get a provider and hook that share the same context.
  */
-export function createConnectToHostProvider<THost extends Methods, TRemote extends Methods>() {
+export function createConnectToHostProvider<
+  THost extends HostMethodsBase,
+  TRemote extends RemoteMethodsBase,
+  TParamsWithContractVersion extends RemoteParamsWithContractVersion,
+>(contractVersion: string, isVersionCompatible: (hostVersion: string, remoteVersion: string) => boolean) {
   const ConnectToHostContext = createContext<UseConnectToHostResult<THost> | null>(null)
 
   type ConnectToHostProviderProps = UseConnectToHostOptions<TRemote> & {
     children: ReactNode
   }
 
-  function ConnectToHostProvider({ children, methods, allowedOrigins }: ConnectToHostProviderProps) {
-    const value = useConnectToHost<THost, TRemote>({ methods, allowedOrigins })
+  function ConnectToHostProvider<
+    T extends Omit<ConnectToHostProviderProps, "contractVersion" | "isVersionCompatible">,
+  >({ children, methods, allowedOrigins, incompatibleVersionHandler }: T) {
+    const value = useConnectToHost<THost, TRemote, TParamsWithContractVersion>({
+      methods,
+      allowedOrigins,
+      contractVersion,
+      isVersionCompatible,
+      incompatibleVersionHandler,
+    })
 
     return <ConnectToHostContext.Provider value={value}>{children}</ConnectToHostContext.Provider>
   }

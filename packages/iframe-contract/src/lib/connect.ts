@@ -1,13 +1,14 @@
-import { connect, type Methods, WindowMessenger } from "penpal"
+import { connect, WindowMessenger } from "penpal"
+import { HostMethodsBase, RemoteMethodsBase } from "./types"
 
-export type ConnectToRemoteOptions<THost extends Methods = Methods> = {
+export type ConnectToRemoteOptions<THost extends HostMethodsBase> = {
   /** Methods the host exposes to the remote */
   methods: THost
   /** Allowed origins for the remote iframe (defaults to iframe src origin) */
   allowedOrigins?: string[]
 }
 
-export type ConnectToHostOptions<TRemote extends Methods = Methods> = {
+export type ConnectToHostOptions<TRemote extends RemoteMethodsBase> = {
   /** Methods the remote exposes to the host */
   methods: TRemote
   /** Allowed origins for the parent window (defaults to document.referrer origin) */
@@ -29,7 +30,7 @@ export type ConnectToHostOptions<TRemote extends Methods = Methods> = {
  * const remote = await connection.promise
  * await remote.navigateTo("/settings")
  */
-export function connectToRemote<TRemote extends Methods, THost extends Methods = Methods>(
+export function connectToRemote<TRemote extends RemoteMethodsBase, THost extends HostMethodsBase>(
   iframe: HTMLIFrameElement,
   options: ConnectToRemoteOptions<THost>,
 ) {
@@ -67,7 +68,7 @@ export function connectToRemote<TRemote extends Methods, THost extends Methods =
  * const host = await connection.promise
  * await host.showNotification("Settings saved", "success")
  */
-export function connectToHost<THost extends Methods, TRemote extends Methods = Methods>(
+export function connectToHost<THost extends HostMethodsBase, TRemote extends RemoteMethodsBase>(
   options: ConnectToHostOptions<TRemote>,
 ) {
   const { methods, allowedOrigins } = options

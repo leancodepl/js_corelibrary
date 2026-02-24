@@ -1,8 +1,10 @@
+import { RemoteParamsWithContractVersion } from "./types"
+
 /**
  * Build remote URL with query parameters.
  * Merges params into the URL, preserving existing search params.
  */
-export function buildRemoteUrl(baseUrl: string, params?: Record<string, string | undefined>): string {
+export function buildRemoteUrl(baseUrl: string, params?: RemoteParamsWithContractVersion): string {
   if (!params || Object.keys(params).length === 0) {
     return baseUrl
   }
@@ -20,8 +22,8 @@ export function buildRemoteUrl(baseUrl: string, params?: Record<string, string |
  * Parse URL search params into a typed object.
  * Call from the remote (iframe) to read params passed by the host.
  */
-export function parseUrlParams<TParams extends Record<string, string>>(
+export function parseUrlParams<TParamsWithContractVersion extends RemoteParamsWithContractVersion>(
   search: string = typeof globalThis.window !== "undefined" ? globalThis.location.search : "",
-): TParams {
-  return Object.fromEntries(new URLSearchParams(search).entries()) as TParams
+): TParamsWithContractVersion {
+  return Object.fromEntries(new URLSearchParams(search).entries()) as TParamsWithContractVersion
 }
