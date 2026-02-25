@@ -1,9 +1,9 @@
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
-import { GetSettingsFormProps } from "packages/kratos/src/lib/formTypes"
 import { z } from "zod"
 import {
   GetFlowErrorHandler,
+  GetSettingsFormProps,
   GetSettingsNewPasswordFormProps,
   GetSettingsOidcFormProps,
   GetSettingsPasskeysFormProps,
