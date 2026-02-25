@@ -1,6 +1,6 @@
-import { ComponentType } from "react"
+import type { ComponentType } from "react"
 import type { GetFormPropsFromFlow } from "../formTypes"
-import { LoginFlowProps } from "./loginFlow"
+import type { LoginFlowProps } from "./loginFlow"
 
 type LoginFlowType = ComponentType<LoginFlowProps<any>>
 

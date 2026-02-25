@@ -1,6 +1,6 @@
-import { ComponentType } from "react"
+import type { ComponentType } from "react"
 import type { GetFormPropsFromFlow } from "../formTypes"
-import { SettingsFlowProps } from "./settingsFlow"
+import type { SettingsFlowProps } from "./settingsFlow"
 
 type SettingsFlowType = ComponentType<Omit<SettingsFlowProps<any, any>, "traitsConfig">>
 

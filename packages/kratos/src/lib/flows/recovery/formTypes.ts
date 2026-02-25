@@ -1,6 +1,6 @@
-import { ComponentType } from "react"
+import type { ComponentType } from "react"
 import type { GetFormPropsFromFlow } from "../formTypes"
-import { RecoveryFlowProps } from "./recoveryFlow"
+import type { RecoveryFlowProps } from "./recoveryFlow"
 
 type RecoveryFlowType = ComponentType<RecoveryFlowProps>
 
