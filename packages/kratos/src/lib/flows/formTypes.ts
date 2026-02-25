@@ -1,4 +1,4 @@
-import { ComponentProps, ComponentType } from "react"
+import type { ComponentProps, ComponentType } from "react"
 
 export type GetFlowErrorHandler<TFlow extends ComponentType<any>> = NonNullable<ComponentProps<TFlow>["onError"]>
 
