@@ -3,17 +3,15 @@
  * Implant calls these to request actions from admin.
  */
 export type AdminMethods = {
-  /** Notify host when implant's route changes */
+  // Routing
   onRouteChange: (path: string) => Promise<void>
-  /** Request admin to navigate to a specific path */
   navigateTo: (path: string) => Promise<void>
 
-  /** Invalidate the token */
+  // Authentication
   invalidateToken: () => Promise<boolean>
 
-  /** Request admin to show a notification message */
+  // Other
   showNotification: (message: string, type?: "error" | "info" | "success" | "warning") => Promise<void>
-  /** Get the current user ID from admin context */
   getCurrentUserId: () => Promise<string | null>
 }
 
@@ -24,16 +22,13 @@ export type AdminMethods = {
 export type ThemeValue = "dark" | "light"
 
 export type ImplantMethods = {
-  /** Notify implant when host's route changes */
+  // Routing
   onRouteChange: (path: string) => Promise<void>
-  /** Request implant to navigate to a specific route */
   navigateTo: (path: string) => Promise<void>
 
-  /** Get the current route/path from implant */
+  // Other
   getCurrentPath: () => Promise<string>
-  /** Request implant to refresh its data */
   refresh: () => Promise<void>
-  /** Notify implant of host theme change for synchronization */
   onThemeChange: (theme: ThemeValue) => Promise<void>
 }
 
