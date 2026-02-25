@@ -4,7 +4,14 @@ export {
   type UseConnectToRemoteOptions,
   type UseConnectToRemoteResult,
 } from "./lib/useConnectToRemote"
-export { useConnectToHost, type UseConnectToHostOptions, type UseConnectToHostResult } from "./lib/useConnectToHost"
+export {
+  type ConnectToHostState,
+  useConnectToHost,
+  type UseConnectToHostOptions,
+  type UseConnectToHostResult,
+} from "./lib/useConnectToHost"
 export { createConnectToHostProvider } from "./lib/ConnectToHostProvider"
 export { buildRemoteUrl, parseUrlParams } from "./lib/urlParams"
 export { createContract, type CreateContractOptions } from "./lib/createContract"
+export { ConnectStatus } from "./lib/enums"
+export type { HostProxy, RemoteProxy } from "./lib/types"
