@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react"
+import { ConnectStatus } from "../src/lib/enums"
 import { useConnectToRemote } from "../src/lib/useConnectToRemote"
 
 vi.mock("../src/lib/connect", () => ({
@@ -9,7 +10,7 @@ vi.mock("../src/lib/connect", () => ({
 }))
 
 function TestComponent() {
-  const { iframe, remote, isConnected, error } = useConnectToRemote({
+  const connection = useConnectToRemote({
     remoteUrl: "https://remote.example.com",
     contractVersion: "1.0.0",
     methods: { navigateTo: () => {} },
@@ -18,10 +19,10 @@ function TestComponent() {
 
   return (
     <div>
-      <div data-testid="remote">{remote ? "connected" : "disconnected"}</div>
-      <div data-testid="isConnected">{String(isConnected)}</div>
-      <div data-testid="error">{error?.message ?? "none"}</div>
-      {iframe}
+      <div data-testid="status">{connection.status}</div>
+      {connection.status === ConnectStatus.CONNECTED && <div data-testid="remote">connected</div>}
+      {connection.status === ConnectStatus.ERROR && <div data-testid="error">{connection.error.message}</div>}
+      {connection.iframe}
     </div>
   )
 }

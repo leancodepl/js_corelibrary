@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import { createConnectToHostProvider } from "../src/lib/ConnectToHostProvider"
+import { ConnectStatus } from "../src/lib/enums"
 
 vi.mock("../src/lib/connect", () => ({
   connectToHost: vi.fn(() => ({
@@ -61,8 +62,9 @@ describe("createConnectToHostProvider", () => {
     render(<TestConsumer />)
     const el = screen.getByTestId("context")
     const parsed = JSON.parse(el.textContent ?? "{}")
-    expect(parsed).toHaveProperty("host")
-    expect(parsed).toHaveProperty("isConnected")
-    expect(parsed).toHaveProperty("error")
+    expect(parsed).toHaveProperty("status")
+    expect([ConnectStatus.IDLE, ConnectStatus.CONNECTED, ConnectStatus.ERROR]).toContain(parsed.status)
+    if (parsed.status === ConnectStatus.CONNECTED) expect(parsed).toHaveProperty("host")
+    if (parsed.status === ConnectStatus.ERROR) expect(parsed).toHaveProperty("error")
   })
 })
