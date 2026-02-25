@@ -12,7 +12,7 @@ export type UseConnectToRemoteOptions<
 > = ConnectToRemoteOptions<THost> & {
   /** URL for the remote iframe src (base URL without params) */
   remoteUrl: string
-  /** Params to pass to the implant via URL query string */
+  /** Params to pass to the remote via URL query string */
   params?: TParams
   /** Host's semver contract version */
   contractVersion: string
@@ -40,7 +40,7 @@ export type UseConnectToRemoteResult<TRemote extends RemoteMethodsBase> = {
  * @example
  * ```tsx
  * const { iframe, remote, isConnected } = useConnectToRemote({
- *   remoteUrl: "https://implant.example.com",
+ *   remoteUrl: "https://remote.example.com",
  *   methods: { navigateTo: (path) => router.navigate(path), ... },
  *   params: { userId: "123", theme: "dark" },
  * })

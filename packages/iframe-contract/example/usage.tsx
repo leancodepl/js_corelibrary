@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react"
 import { ConnectToHostProvider, parseUrlParams, useConnectToHostContext, useConnectToRemote } from "./contract"
-import { ImplantMethods, ThemeValue } from "./types"
+import { RemoteMethods, ThemeValue } from "./types"
 
 export const HostComponent = () => {
   const [currentPath, setCurrentPath] = useState("/dashboard")
@@ -39,7 +39,7 @@ export const HostComponent = () => {
     if (remote) await remote.onThemeChange("dark")
   }, [remote])
 
-  const handleRefreshImplant = useCallback(async () => {
+  const handleRefreshRemote = useCallback(async () => {
     if (remote) await remote.refresh()
   }, [remote])
 
@@ -51,7 +51,7 @@ export const HostComponent = () => {
         {isConnected && (
           <>
             <button onClick={handleSyncTheme}>Sync theme to dark</button>
-            <button onClick={handleRefreshImplant}>Refresh implant</button>
+            <button onClick={handleRefreshRemote}>Refresh remote</button>
           </>
         )}
       </header>
@@ -67,12 +67,12 @@ export const HostComponent = () => {
   )
 }
 
-export const ImplantComponent = () => {
+export const RemoteComponent = () => {
   const [path, setPath] = useState("/settings")
   const [theme, setTheme] = useState<ThemeValue>("light")
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
-  const methods = useMemo<ImplantMethods>(
+  const methods = useMemo<RemoteMethods>(
     () => ({
       getCurrentPath: () => Promise.resolve(path),
       onRouteChange: (newPath: string): Promise<void> => (setPath(newPath), Promise.resolve()),
@@ -89,12 +89,12 @@ export const ImplantComponent = () => {
 
   return (
     <ConnectToHostProvider incompatibleVersionHandler={handleIncompatibleVersion} methods={methods}>
-      <ImplantChildComponent refreshTrigger={refreshTrigger} theme={theme} />
+      <RemoteChildComponent refreshTrigger={refreshTrigger} theme={theme} />
     </ConnectToHostProvider>
   )
 }
 
-const ImplantChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: number; theme: ThemeValue }) => {
+const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: number; theme: ThemeValue }) => {
   const params = useMemo(() => parseUrlParams(), [])
   const { host, isConnected } = useConnectToHostContext()
 

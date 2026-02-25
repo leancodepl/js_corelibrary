@@ -1,8 +1,8 @@
 /**
- * Methods exposed by the admin (parent) window to the implant (child iframe).
- * Implant calls these to request actions from admin.
+ * Methods exposed by the host (parent) window to the remote (child iframe).
+ * Remote calls these to request actions from host.
  */
-export type AdminMethods = {
+export type HostMethods = {
   // Routing
   onRouteChange: (path: string) => Promise<void>
   navigateTo: (path: string) => Promise<void>
@@ -16,12 +16,12 @@ export type AdminMethods = {
 }
 
 /**
- * Methods exposed by the implant (child iframe) to the admin (parent) window.
- * Admin calls these to control or query the implant.
+ * Methods exposed by the remote (child iframe) to the host (parent) window.
+ * Host calls these to control or query the remote.
  */
 export type ThemeValue = "dark" | "light"
 
-export type ImplantMethods = {
+export type RemoteMethods = {
   // Routing
   onRouteChange: (path: string) => Promise<void>
   navigateTo: (path: string) => Promise<void>
@@ -32,7 +32,7 @@ export type ImplantMethods = {
   onThemeChange: (theme: ThemeValue) => Promise<void>
 }
 
-export type ImplantParams = {
+export type RemoteParams = {
   userId: string
   theme: string
 }
