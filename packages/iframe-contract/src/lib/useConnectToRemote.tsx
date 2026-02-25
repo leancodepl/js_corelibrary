@@ -1,10 +1,21 @@
-import type { RemoteProxy } from "penpal"
 import type { HTMLAttributes, ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
 import type { ConnectToRemoteOptions } from "./connect"
 import { connectToRemote } from "./connect"
-import { HostMethodsBase, RemoteMethodsBase, RemoteParamsBase, RemoteParamsWithContractVersion } from "./types"
+import { ConnectStatus } from "./enums"
+import {
+  HostMethodsBase,
+  RemoteMethodsBase,
+  RemoteParamsBase,
+  RemoteParamsWithContractVersion,
+  RemoteProxy,
+} from "./types"
 import { buildRemoteUrl } from "./urlParams"
+
+export type ConnectToRemoteState<TRemote extends RemoteMethodsBase> =
+  | { status: ConnectStatus.CONNECTED; remote: RemoteProxy<TRemote> }
+  | { status: ConnectStatus.ERROR; error: Error }
+  | { status: ConnectStatus.IDLE }
 
 export type UseConnectToRemoteOptions<
   THost extends HostMethodsBase,
@@ -20,15 +31,9 @@ export type UseConnectToRemoteOptions<
   iframeProps: Omit<HTMLAttributes<HTMLIFrameElement>, "src" | "title"> & { title: string }
 }
 
-export type UseConnectToRemoteResult<TRemote extends RemoteMethodsBase> = {
+export type UseConnectToRemoteResult<TRemote extends RemoteMethodsBase> = ConnectToRemoteState<TRemote> & {
   /** The iframe element to render */
   iframe: ReactNode
-  /** Resolved remote methods when connected, null otherwise */
-  remote: RemoteProxy<TRemote> | null
-  /** Whether the connection is established */
-  isConnected: boolean
-  /** Connection error if any */
-  error: Error | null
 }
 
 /**
@@ -52,12 +57,13 @@ export function useConnectToRemote<
   THost extends HostMethodsBase,
   TParams extends RemoteParamsBase,
 >(options: UseConnectToRemoteOptions<THost, TParams>): UseConnectToRemoteResult<TRemote> {
-  const iframeRef = useRef<HTMLIFrameElement>(null)
-  const [remote, setRemote] = useState<RemoteProxy<TRemote> | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-
   const { remoteUrl, iframeProps, methods, allowedOrigins, params, contractVersion } = options
   const { title, ...restIframeProps } = iframeProps
+
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  const [state, setState] = useState<ConnectToRemoteState<TRemote>>({ status: ConnectStatus.IDLE })
+
   const paramsWithContractVersion = {
     ...params,
     contractVersion,
@@ -74,17 +80,16 @@ export function useConnectToRemote<
     })
 
     connection.promise
-      .then(proxy => {
-        setRemote(proxy)
-        setError(null)
-      })
-      .catch(error => {
-        setRemote(null)
-        setError(error instanceof Error ? error : new Error(String(error)))
-      })
+      .then(proxy => setState({ status: ConnectStatus.CONNECTED, remote: proxy }))
+      .catch(error =>
+        setState({
+          status: ConnectStatus.ERROR,
+          error: error instanceof Error ? error : new Error(String(error)),
+        }),
+      )
 
     return () => {
-      setRemote(null)
+      setState({ status: ConnectStatus.IDLE })
       connection.destroy()
     }
   }, [iframeSrc, methods, allowedOrigins])
@@ -93,8 +98,6 @@ export function useConnectToRemote<
 
   return {
     iframe,
-    remote,
-    isConnected: remote !== null,
-    error,
+    ...state,
   }
 }

@@ -31,6 +31,12 @@ signatures match.
 **Returns:** Object with `useConnectToRemote`, `useConnectToHost`, `ConnectToHostProvider`, `useConnectToHostContext`,
 and `parseUrlParams`
 
+### `ConnectStatus`
+
+Enum for connection state: `ConnectStatus.IDLE`, `ConnectStatus.CONNECTED`, `ConnectStatus.ERROR`. Used by
+`useConnectToRemote` and `useConnectToHost` (and context) return values. Check `status === ConnectStatus.CONNECTED`
+before using `remote` or `host`; when `status === ConnectStatus.ERROR`, `error` is set.
+
 ### `connectToRemote(iframe, options)`
 
 Connects host (parent) to remote (child iframe). Call from the host app with the iframe element.
@@ -62,8 +68,8 @@ Connects host (parent) to remote (child iframe) and renders the iframe. Call fro
   (with required `title`), `methods`, optional `params`, `allowedOrigins`. `contractVersion` is auto-injected from
   the contract.
 
-**Returns:** `UseConnectToRemoteResult<TRemote>` - Object with `iframe` element, `remote` proxy, `isConnected` flag, and
-`error`
+**Returns:** `UseConnectToRemoteResult<TRemote>` - Object with `iframe` element and connection state: `status`
+(`ConnectStatus`), and when connected `remote` proxy, when error `error`
 
 ### `useConnectToHost(options)`
 
@@ -75,7 +81,8 @@ iframe.
 - `options` - `UseConnectToHostOptions<TRemote>` - Connection options including `methods`, `incompatibleVersionHandler`,
   optional `allowedOrigins`. `contractVersion` and `contractVersionRange` are auto-injected from the contract.
 
-**Returns:** `UseConnectToHostResult<THost>` - Object with `host` proxy, `isConnected` flag, and `error`
+**Returns:** `UseConnectToHostResult<THost>` - Connection state: `status` (`ConnectStatus`), and when connected `host`
+proxy, when error `error`
 
 ### `createConnectToHostProvider()` / `ConnectToHostProvider`
 
@@ -136,10 +143,11 @@ export const contract = createContract<HostMethods, RemoteMethods, RemoteParams>
 ### Host app: embed remote iframe with React hook
 
 ```tsx
+import { ConnectStatus } from "@leancodepl/iframe-contract"
 import { contract } from "./contract"
 
 function HostApp() {
-  const { iframe, remote, isConnected } = contract.useConnectToRemote({
+  const connection = contract.useConnectToRemote({
     remoteUrl: "https://replit.example.com/app",
     iframeProps: { title: "Remote app" },
     methods: {
@@ -150,13 +158,13 @@ function HostApp() {
   })
 
   const handleSync = async () => {
-    if (remote) await remote.refresh()
+    if (connection.status === ConnectStatus.CONNECTED) await connection.remote.refresh()
   }
 
   return (
     <div>
-      {iframe}
-      {isConnected && <button onClick={handleSync}>Sync</button>}
+      {connection.iframe}
+      {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSync}>Sync</button>}
     </div>
   )
 }
@@ -175,6 +183,7 @@ Wrap the remote app with `ConnectToHostProvider` and use `useConnectToHostContex
 host connection without prop drilling:
 
 ```tsx
+import { ConnectStatus } from "@leancodepl/iframe-contract"
 import { contract } from "./contract"
 
 function RemoteAppRoot() {
@@ -194,16 +203,16 @@ function RemoteAppRoot() {
 
 function RemoteApp() {
   const params = contract.parseUrlParams()
-  const { host, isConnected } = contract.useConnectToHostContext()
+  const connection = contract.useConnectToHostContext()
 
   const handleSave = async () => {
-    if (host) await host.showNotification("Settings saved", "success")
+    if (connection.status === ConnectStatus.CONNECTED) await connection.host.showNotification("Settings saved", "success")
   }
 
   return (
     <div>
       <p>User: {params.userId}</p>
-      {isConnected && <button onClick={handleSave}>Save</button>}
+      {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
   )
 }
@@ -212,11 +221,12 @@ function RemoteApp() {
 ### Remote app: connect to host and read params
 
 ```tsx
+import { ConnectStatus } from "@leancodepl/iframe-contract"
 import { contract } from "./contract"
 
 function RemoteApp() {
   const params = contract.parseUrlParams()
-  const { host, isConnected } = contract.useConnectToHost({
+  const connection = contract.useConnectToHost({
     methods: {
       getCurrentPath: () => Promise.resolve(location.pathname),
       refresh: () => refetch(),
@@ -227,13 +237,13 @@ function RemoteApp() {
   })
 
   const handleSave = async () => {
-    if (host) await host.showNotification("Settings saved", "success")
+    if (connection.status === ConnectStatus.CONNECTED) await connection.host.showNotification("Settings saved", "success")
   }
 
   return (
     <div>
       <p>User: {params.userId}</p>
-      {isConnected && <button onClick={handleSave}>Save</button>}
+      {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
   )
 }
@@ -287,7 +297,7 @@ connectToHost({
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
 - **Contract version checking** - Required `contractVersion` and `contractVersionRange` in `createContract`; remote
   verifies host version satisfies the range via `semver.satisfies` before connecting
-- **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage
+- **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage; connection state via `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`)
 - **URL params** - `buildRemoteUrl` and `parseUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries

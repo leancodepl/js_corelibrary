@@ -1,9 +1,9 @@
-import type { RemoteProxy } from "penpal"
 import { useEffect, useRef, useState } from "react"
 import semver from "semver"
 import type { ConnectToHostOptions } from "./connect"
 import { connectToHost } from "./connect"
-import { HostMethodsBase, RemoteMethodsBase, RemoteParamsWithContractVersion } from "./types"
+import { ConnectStatus } from "./enums"
+import { HostMethodsBase, HostProxy, RemoteMethodsBase, RemoteParamsWithContractVersion } from "./types"
 import { parseUrlParams } from "./urlParams"
 
 export type UseConnectToHostOptions<TRemote extends RemoteMethodsBase> = ConnectToHostOptions<TRemote> & {
@@ -15,14 +15,12 @@ export type UseConnectToHostOptions<TRemote extends RemoteMethodsBase> = Connect
   incompatibleVersionHandler: (hostVersion: string, remoteVersion: string) => Promise<void> | void
 }
 
-export type UseConnectToHostResult<THost extends HostMethodsBase> = {
-  /** Resolved host methods when connected, null otherwise */
-  host: RemoteProxy<THost> | null
-  /** Whether the connection is established */
-  isConnected: boolean
-  /** Connection error if any */
-  error: Error | null
-}
+export type ConnectToHostState<THost extends HostMethodsBase> =
+  | { status: ConnectStatus.CONNECTED; host: HostProxy<THost> }
+  | { status: ConnectStatus.ERROR; error: Error }
+  | { status: ConnectStatus.IDLE }
+
+export type UseConnectToHostResult<THost extends HostMethodsBase> = ConnectToHostState<THost>
 
 /**
  * Connect remote (child iframe) to host (parent window).
@@ -33,11 +31,11 @@ export function useConnectToHost<
   TRemote extends RemoteMethodsBase,
   TParamsWithContractVersion extends RemoteParamsWithContractVersion,
 >(options: UseConnectToHostOptions<TRemote>): UseConnectToHostResult<THost> {
-  const [host, setHost] = useState<RemoteProxy<THost> | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-
   const { methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler } = options
+
   const params = useRef(parseUrlParams<TParamsWithContractVersion>())
+
+  const [state, setState] = useState<ConnectToHostState<THost>>({ status: ConnectStatus.IDLE })
 
   useEffect(() => {
     if (typeof globalThis.window.parent === "undefined" || globalThis.window.parent === globalThis.window) {
@@ -58,24 +56,19 @@ export function useConnectToHost<
     })
 
     connection.promise
-      .then(proxy => {
-        setHost(proxy)
-        setError(null)
-      })
-      .catch(error => {
-        setHost(null)
-        setError(error instanceof Error ? error : new Error(String(error)))
-      })
+      .then(proxy => setState({ status: ConnectStatus.CONNECTED, host: proxy }))
+      .catch(error =>
+        setState({
+          status: ConnectStatus.ERROR,
+          error: error instanceof Error ? error : new Error(String(error)),
+        }),
+      )
 
     return () => {
-      setHost(null)
+      setState({ status: ConnectStatus.IDLE })
       connection.destroy()
     }
   }, [methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler])
 
-  return {
-    host,
-    isConnected: host !== null,
-    error,
-  }
+  return state
 }

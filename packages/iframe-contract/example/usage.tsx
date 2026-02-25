@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react"
+import { ConnectStatus, HostProxy, RemoteProxy } from "../src"
 import { ConnectToHostProvider, parseUrlParams, useConnectToHostContext, useConnectToRemote } from "./contract"
-import { RemoteMethods, ThemeValue } from "./types"
+import { HostMethods, RemoteMethods, ThemeValue } from "./types"
 
 export const HostComponent = () => {
   const [currentPath, setCurrentPath] = useState("/dashboard")
@@ -23,7 +24,7 @@ export const HostComponent = () => {
     [userId, nextNotificationId],
   )
 
-  const { iframe, remote, isConnected } = useConnectToRemote({
+  const connection = useConnectToRemote({
     remoteUrl: "https://example.com",
     iframeProps: {
       title: "Embedded Settings",
@@ -35,25 +36,14 @@ export const HostComponent = () => {
     methods,
   })
 
-  const handleSyncTheme = useCallback(async () => {
-    if (remote) await remote.onThemeChange("dark")
-  }, [remote])
-
-  const handleRefreshRemote = useCallback(async () => {
-    if (remote) await remote.refresh()
-  }, [remote])
-
   return (
     <div>
       <header>
         <span>Host path: {currentPath}</span>
         <span>User: {userId ?? "—"}</span>
-        {isConnected && (
-          <>
-            <button onClick={handleSyncTheme}>Sync theme to dark</button>
-            <button onClick={handleRefreshRemote}>Refresh remote</button>
-          </>
-        )}
+        {connection.status === ConnectStatus.CONNECTED && <ConnectedRemoteComponent remote={connection.remote} />}
+        {connection.status === ConnectStatus.ERROR && <div>Error: {connection.error.message}</div>}
+        {connection.status === ConnectStatus.IDLE && <div>Connecting...</div>}
       </header>
       <ul>
         {notifications.map(n => (
@@ -62,8 +52,25 @@ export const HostComponent = () => {
           </li>
         ))}
       </ul>
-      {iframe}
+      {connection.iframe}
     </div>
+  )
+}
+
+export const ConnectedRemoteComponent = ({ remote }: { remote: RemoteProxy<RemoteMethods> }) => {
+  const handleSyncTheme = useCallback(async () => {
+    await remote.onThemeChange("dark")
+  }, [remote])
+
+  const handleRefreshRemote = useCallback(async () => {
+    await remote.refresh()
+  }, [remote])
+
+  return (
+    <>
+      <button onClick={handleSyncTheme}>Sync theme to dark</button>
+      <button onClick={handleRefreshRemote}>Refresh remote</button>
+    </>
   )
 }
 
@@ -96,22 +103,7 @@ export const RemoteComponent = () => {
 
 const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: number; theme: ThemeValue }) => {
   const params = useMemo(() => parseUrlParams(), [])
-  const { host, isConnected } = useConnectToHostContext()
-
-  const handleSave = useCallback(async () => {
-    if (host) await host.showNotification("Settings saved", "success")
-  }, [host])
-
-  const handleLogout = useCallback(async () => {
-    if (host) {
-      const ok = await host.invalidateToken()
-      if (ok) console.warn("Token invalidated")
-    }
-  }, [host])
-
-  const handleNavigateToProfile = useCallback(async () => {
-    if (host) await host.navigateTo("/profile")
-  }, [host])
+  const connection = useConnectToHostContext()
 
   return (
     <div data-theme={theme}>
@@ -120,13 +112,26 @@ const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: numbe
       <p>Theme from params: {params.theme}</p>
       <p>Current theme: {theme}</p>
       <p>Refresh count: {refreshTrigger}</p>
-      {isConnected && (
-        <div>
-          <button onClick={handleSave}>Save (notify host)</button>
-          <button onClick={handleLogout}>Logout (invalidate token)</button>
-          <button onClick={handleNavigateToProfile}>Navigate to profile</button>
-        </div>
-      )}
+      {connection.status === ConnectStatus.CONNECTED && <ConnectedHostComponent host={connection.host} />}
+    </div>
+  )
+}
+
+const ConnectedHostComponent = ({ host }: { host: HostProxy<HostMethods> }) => {
+  const handleSave = useCallback(async () => host.showNotification("Settings saved", "success"), [host])
+
+  const handleLogout = useCallback(async () => {
+    const ok = await host.invalidateToken()
+    if (ok) console.warn("Token invalidated")
+  }, [host])
+
+  const handleNavigateToProfile = useCallback(async () => host.navigateTo("/profile"), [host])
+
+  return (
+    <div>
+      <button onClick={handleSave}>Save (notify host)</button>
+      <button onClick={handleLogout}>Logout (invalidate token)</button>
+      <button onClick={handleNavigateToProfile}>Navigate to profile</button>
     </div>
   )
 }
