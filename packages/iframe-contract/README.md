@@ -22,10 +22,11 @@ signatures match.
 
 **Options:**
 
-- `contractVersion` - **Required.** Version string for compatibility checking (e.g. `"1.0.0"`). Host passes it via URL
-  params; remote verifies before connecting. When using the contract, this value is auto-injected into
+- `contractVersion` - **Required.** Semver version of the contract (e.g. `"1.0.0"`). Host passes it via URL params;
+  remote verifies before connecting. When using the contract, this value is auto-injected into
   `useConnectToRemote`, `useConnectToHost`, and `ConnectToHostProvider`—you don't pass it explicitly.
-- `isVersionCompatible` - Custom comparator `(hostVersion, remoteVersion) => boolean`. Defaults to semver major match.
+- `contractVersionRange` - **Required.** Semver range the host contract version must satisfy (e.g. `">=1.0.0 <2.0.0"`,
+  `"^2.0.0"`, `"~2.1.0"`). Remote checks `semver.satisfies(hostVersion, contractVersionRange)` before connecting.
 
 **Returns:** Object with `useConnectToRemote`, `useConnectToHost`, `ConnectToHostProvider`, `useConnectToHostContext`,
 and `parseUrlParams`
@@ -72,7 +73,7 @@ iframe.
 **Parameters:**
 
 - `options` - `UseConnectToHostOptions<TRemote>` - Connection options including `methods`, `incompatibleVersionHandler`,
-  optional `allowedOrigins`. `contractVersion` and `isVersionCompatible` are auto-injected from the contract.
+  optional `allowedOrigins`. `contractVersion` and `contractVersionRange` are auto-injected from the contract.
 
 **Returns:** `UseConnectToHostResult<THost>` - Object with `host` proxy, `isConnected` flag, and `error`
 
@@ -82,7 +83,7 @@ iframe.
 calls this internally; use `contract.ConnectToHostProvider` and `contract.useConnectToHostContext`.
 
 **ConnectToHostProvider props:** `methods`, `incompatibleVersionHandler` (required), optional `allowedOrigins`, `children`.
-`contractVersion` and `isVersionCompatible` are auto-injected from the contract.
+`contractVersion` and `contractVersionRange` are auto-injected from the contract.
 
 ### `buildRemoteUrl(baseUrl, params)`
 
@@ -128,6 +129,7 @@ type RemoteParams = { userId?: string; tenantId?: string }
 
 export const contract = createContract<HostMethods, RemoteMethods, RemoteParams>({
   contractVersion: "1.0.0",
+  contractVersionRange: ">=1.0.0 <2.0.0",
 })
 ```
 
@@ -162,10 +164,10 @@ function HostApp() {
 
 ### Contract version checking
 
-`contractVersion` is required in `createContract`. The host passes it via URL params to the iframe. The remote
-verifies compatibility before connecting. If versions are incompatible (default: semver major must match), the
-`incompatibleVersionHandler` is called and no connection is established. When using the contract, version values
-are auto-injected—no need to pass `contractVersion` to hooks or the provider.
+`contractVersion` and `contractVersionRange` are required in `createContract`. The host passes its version via URL
+params to the iframe. The remote verifies compatibility with `semver.satisfies(hostVersion, contractVersionRange)`
+before connecting. If versions are incompatible, `incompatibleVersionHandler` is called and no connection is
+established. When using the contract, version values are auto-injected—no need to pass them to hooks or the provider.
 
 ### Remote app: using ConnectToHostProvider (Recommended)
 
@@ -283,8 +285,8 @@ connectToHost({
 ## Features
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
-- **Contract version checking** - Required `contractVersion` in `createContract`; host and remote verify compatibility
-  (semver major match by default) before connecting
+- **Contract version checking** - Required `contractVersion` and `contractVersionRange` in `createContract`; remote
+  verifies host version satisfies the range via `semver.satisfies` before connecting
 - **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage
 - **URL params** - `buildRemoteUrl` and `parseUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
