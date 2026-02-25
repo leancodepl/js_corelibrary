@@ -6,7 +6,7 @@ import { useConnectToRemote, UseConnectToRemoteOptions } from "./useConnectToRem
 
 export type CreateContractOptions = {
   /** Semver version of the contract */
-  contractVersion: string
+  contractVersion: `${number}.${number}.${number}`
   /** Semver range the host contract version must satisfy (e.g. ">=1.0.0", "^2.0.0", "~2.1.0") */
   contractVersionRange: string
 }
