@@ -22,7 +22,8 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "penpal": "^7.0.0"
+    "penpal": "^7.0.0",
+    "semver": "^7.0.0"
   },
   "peerDependencies": {
     "react": "*",
