@@ -12,6 +12,10 @@ Base types and interfaces for CQRS client implementations.
 
 CQRS client with Axios for HTTP communication and type-safe command/query handling.
 
+#### `@leancodepl/fetch-client`
+
+Fetch client for CQRS commands and queries.
+
 #### `@leancodepl/react-query-cqrs-client`
 
 TanStack Query CQRS client with hooks for queries, operations, and commands with built-in caching.
@@ -94,6 +98,14 @@ Dependency cruiser configuration for enforcing folder structure rules and cross-
 
 ESLint flat config resolver for merging configuration plugins.
 
+#### `@leancodepl/eslint-plugin`
+
+ESLint plugin for LeanCode projects.
+
+#### `@leancodepl/nx-plugins`
+
+Collection of Nx plugins for LeanCode projects.
+
 ### UI & Styling
 
 #### `@leancodepl/styled-tools`
@@ -141,11 +153,29 @@ a preset:
 - **`@leancodepl/logger/nest`** – NestJS `LoggerService` adapter: `createNestJsonLogger()` for drop-in use in Nest apps
   with JSON output.
 
+### Translation & Internationalization
+
+#### `@leancodepl/intl`
+
+Command-line tool for managing FormatJS translations with POEditor integration.
+
+#### `@leancodepl/mail-translation`
+
+Command-line tool for processing MJML and plaintext email templates with optional internationalization support.
+
 ### Utilities
 
 #### `@leancodepl/utils`
 
 Utility library for common development tasks including assertions, transformations, and React hooks.
+
+#### `@leancodepl/config`
+
+Utility for creating configuration getters that access Vite-injected values in development and environment variables in production.
+
+#### `@leancodepl/force-update`
+
+Library for implementing force update functionality in web applications.
 
 #### `@leancodepl/validation`
 
