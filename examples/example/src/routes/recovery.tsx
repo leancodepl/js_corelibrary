@@ -2,9 +2,9 @@ import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import {
+  GetFlowErrorHandler,
   GetRecoveryCodeFormProps,
   GetRecoveryEmailFormProps,
-  GetRecoveryFlowErrorHandler,
   GetRecoveryNewPasswordFormProps,
 } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
@@ -15,7 +15,7 @@ const recoverySearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: GetRecoveryFlowErrorHandler<typeof RecoveryFlow> = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof RecoveryFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {

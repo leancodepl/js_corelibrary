@@ -2,8 +2,8 @@ import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
 import type {
+  GetFlowErrorHandler,
   GetRegistrationChooseMethodFormProps,
-  GetRegistrationFlowErrorHandler,
   GetRegistrationTraitsFormProps,
   GetVerificationEmailVerificationFormProps,
 } from "@leancodepl/kratos"
@@ -17,7 +17,7 @@ const registrationSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: GetRegistrationFlowErrorHandler<typeof RegistrationFlow> = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof RegistrationFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {

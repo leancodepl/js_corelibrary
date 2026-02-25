@@ -3,8 +3,8 @@ import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
 import type {
+  GetFlowErrorHandler,
   GetLoginChooseMethodFormProps,
-  GetLoginFlowErrorHandler,
   GetLoginSecondFactorEmailFormProps,
   GetLoginSecondFactorFormProps,
   GetVerificationEmailVerificationFormProps,
@@ -17,7 +17,7 @@ const loginSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: GetLoginFlowErrorHandler<typeof LoginFlow> = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof LoginFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {

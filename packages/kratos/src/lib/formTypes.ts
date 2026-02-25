@@ -1,5 +1,7 @@
 import { ComponentProps, ComponentType } from "react"
 
+export type GetFlowErrorHandler<TFlow extends ComponentType<any>> = NonNullable<ComponentProps<TFlow>["onError"]>
+
 type GetFormPropsFromFlow<
   TFlow extends ComponentType<any>,
   TFormKey extends keyof ComponentProps<TFlow>,
@@ -41,11 +43,3 @@ export type GetSettingsTotpFormProps<T extends ComponentType<any>> = GetFormProp
 export type GetRecoveryEmailFormProps<T extends ComponentType<any>> = GetFormPropsFromFlow<T, "emailForm">
 export type GetRecoveryCodeFormProps<T extends ComponentType<any>> = GetFormPropsFromFlow<T, "codeForm">
 export type GetRecoveryNewPasswordFormProps<T extends ComponentType<any>> = GetFormPropsFromFlow<T, "newPasswordForm">
-
-type GetFlowErrorHandlerFromFlow<TFlow extends ComponentType<any>> = NonNullable<ComponentProps<TFlow>["onError"]>
-
-export type GetSettingsFlowErrorHandler<T extends ComponentType<any>> = GetFlowErrorHandlerFromFlow<T>
-export type GetRegistrationFlowErrorHandler<T extends ComponentType<any>> = GetFlowErrorHandlerFromFlow<T>
-export type GetLoginFlowErrorHandler<T extends ComponentType<any>> = GetFlowErrorHandlerFromFlow<T>
-export type GetRecoveryFlowErrorHandler<T extends ComponentType<any>> = GetFlowErrorHandlerFromFlow<T>
-export type GetVerificationFlowErrorHandler<T extends ComponentType<any>> = GetFlowErrorHandlerFromFlow<T>

@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { GetSettingsFormProps } from "packages/kratos/src/lib/formTypes"
 import { z } from "zod"
 import {
-  GetSettingsFlowErrorHandler,
+  GetFlowErrorHandler,
   GetSettingsNewPasswordFormProps,
   GetSettingsOidcFormProps,
   GetSettingsPasskeysFormProps,
@@ -19,7 +19,7 @@ const settingsSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: GetSettingsFlowErrorHandler<typeof SettingsFlow> = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof SettingsFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
