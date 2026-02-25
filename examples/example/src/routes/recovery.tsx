@@ -1,7 +1,12 @@
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { recoveryFlow, settingsFlow } from "@leancodepl/kratos"
+import {
+  GetRecoveryCodeFormProps,
+  GetRecoveryEmailFormProps,
+  GetRecoveryFlowErrorHandler,
+  GetRecoveryNewPasswordFormProps,
+} from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 import { getErrorMessage, RecoveryFlow } from "../services/kratos"
@@ -10,7 +15,7 @@ const recoverySearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: recoveryFlow.OnRecoveryFlowError = ({ target, errors }) => {
+const handleError: GetRecoveryFlowErrorHandler<typeof RecoveryFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
@@ -45,7 +50,13 @@ function RouteComponent() {
   )
 }
 
-function EmailForm({ errors, Email, Submit, isSubmitting, isValidating }: recoveryFlow.EmailFormProps) {
+function EmailForm({
+  errors,
+  Email,
+  Submit,
+  isSubmitting,
+  isValidating,
+}: GetRecoveryEmailFormProps<typeof RecoveryFlow>) {
   return (
     <div data-testid={dataTestIds.recovery.emailForm.wrapper}>
       <Email>
@@ -73,7 +84,7 @@ function EmailForm({ errors, Email, Submit, isSubmitting, isValidating }: recove
   )
 }
 
-function CodeForm({ errors, Code, Submit, isSubmitting, isValidating }: recoveryFlow.CodeFormProps) {
+function CodeForm({ errors, Code, Submit, isSubmitting, isValidating }: GetRecoveryCodeFormProps<typeof RecoveryFlow>) {
   return (
     <div data-testid={dataTestIds.recovery.codeForm.wrapper}>
       <p>Please enter the code you received in the email.</p>
@@ -110,7 +121,7 @@ function NewPasswordForm({
   Submit,
   isSubmitting,
   isValidating,
-}: settingsFlow.NewPasswordFormProps) {
+}: GetRecoveryNewPasswordFormProps<typeof RecoveryFlow>) {
   return (
     <div data-testid={dataTestIds.recovery.newPasswordForm.wrapper}>
       <Password>

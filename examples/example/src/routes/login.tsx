@@ -2,16 +2,22 @@ import { useCallback } from "react"
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
-import { loginFlow, verificationFlow } from "@leancodepl/kratos"
+import type {
+  GetLoginChooseMethodFormProps,
+  GetLoginFlowErrorHandler,
+  GetLoginSecondFactorEmailFormProps,
+  GetLoginSecondFactorFormProps,
+  GetVerificationEmailVerificationFormProps,
+} from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
-import { getErrorMessage, LoginFlow, type OidcProvidersConfig, sessionManager } from "../services/kratos"
+import { getErrorMessage, LoginFlow, sessionManager, VerificationFlow } from "../services/kratos"
 
 const loginSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: loginFlow.OnLoginFlowError = ({ target, errors }) => {
+const handleError: GetLoginFlowErrorHandler<typeof LoginFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
@@ -62,8 +68,14 @@ function Loader() {
   return <p>Loading login methods...</p>
 }
 
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
-  const { errors, isSubmitting, isValidating, oidcProviders: { Google, Apple, Facebook }, isRefresh } = props
+function ChooseMethodForm(props: GetLoginChooseMethodFormProps<typeof LoginFlow>) {
+  const {
+    errors,
+    isSubmitting,
+    isValidating,
+    oidcProviders: { Google, Apple, Facebook },
+    isRefresh,
+  } = props
 
   if (isRefresh) {
     const { passwordFields, Passkey, identifier } = props
@@ -124,13 +136,15 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
           </Facebook>
         )}
 
-        <Passkey>
-          <button
-            data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
-            disabled={isSubmitting || isValidating}>
-            Sign in with Passkey
-          </button>
-        </Passkey>
+        {Passkey && (
+          <Passkey>
+            <button
+              data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
+              disabled={isSubmitting || isValidating}>
+              Sign in with Passkey
+            </button>
+          </Passkey>
+        )}
 
         {errors && errors.length > 0 && (
           <div data-testid={dataTestIds.common.errors}>
@@ -205,11 +219,15 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
         </Facebook>
       )}
 
-      <Passkey>
-        <button data-testid={dataTestIds.login.chooseMethodForm.passkeyButton} disabled={isSubmitting || isValidating}>
-          Sign in with Passkey
-        </button>
-      </Passkey>
+      {Passkey && (
+        <Passkey>
+          <button
+            data-testid={dataTestIds.login.chooseMethodForm.passkeyButton}
+            disabled={isSubmitting || isValidating}>
+            Sign in with Passkey
+          </button>
+        </Passkey>
+      )}
 
       {errors && errors.length > 0 && (
         <div data-testid={dataTestIds.common.errors}>
@@ -229,7 +247,7 @@ function SecondFactorForm({
   errors,
   isSubmitting,
   isValidating,
-}: loginFlow.SecondFactorFormProps) {
+}: GetLoginSecondFactorFormProps<typeof LoginFlow>) {
   return (
     <div data-testid={dataTestIds.login.secondFactorForm.wrapper}>
       <Totp>
@@ -274,7 +292,7 @@ function SecondFactorEmailForm({
   errors,
   isSubmitting,
   isValidating,
-}: loginFlow.SecondFactorEmailFormProps) {
+}: GetLoginSecondFactorEmailFormProps<typeof LoginFlow>) {
   return (
     <div data-testid={dataTestIds.login.secondFactorEmailForm.wrapper}>
       <Code>
@@ -317,7 +335,7 @@ function EmailVerificationForm({
   errors,
   isSubmitting,
   isValidating,
-}: verificationFlow.EmailVerificationFormProps) {
+}: GetVerificationEmailVerificationFormProps<typeof VerificationFlow>) {
   return (
     <div data-testid={dataTestIds.login.emailVerificationForm.wrapper}>
       <div>

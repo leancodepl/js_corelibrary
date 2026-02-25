@@ -1,8 +1,13 @@
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { registrationFlow, verificationFlow } from "@leancodepl/kratos"
-import type { AuthTraitsConfig, OidcProvidersConfig } from "../services/kratos"
+import type {
+  GetRegistrationChooseMethodFormProps,
+  GetRegistrationFlowErrorHandler,
+  GetRegistrationTraitsFormProps,
+  GetVerificationEmailVerificationFormProps,
+} from "@leancodepl/kratos"
+import type { VerificationFlow } from "../services/kratos"
 import { Checkbox } from "../components/Checkbox"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
@@ -12,7 +17,7 @@ const registrationSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: registrationFlow.OnRegistrationFlowError<AuthTraitsConfig> = ({ target, errors }) => {
+const handleError: GetRegistrationFlowErrorHandler<typeof RegistrationFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
@@ -65,7 +70,7 @@ function TraitsForm({
   traitFields: { Email, GivenName, RegulationsAccepted, Submit },
   isSubmitting,
   isValidating,
-}: registrationFlow.TraitsFormProps<AuthTraitsConfig, OidcProvidersConfig>) {
+}: GetRegistrationTraitsFormProps<typeof RegistrationFlow>) {
   return (
     <div data-testid={dataTestIds.registration.traitsForm.wrapper}>
       <Email>
@@ -101,7 +106,9 @@ function TraitsForm({
 
       {Google && (
         <Google>
-          <button data-testid={dataTestIds.registration.traitsForm.googleButton} disabled={isSubmitting || isValidating}>
+          <button
+            data-testid={dataTestIds.registration.traitsForm.googleButton}
+            disabled={isSubmitting || isValidating}>
             Sign up with Google
           </button>
         </Google>
@@ -143,7 +150,7 @@ function ChooseMethodForm({
   passwordFields: { Password, PasswordConfirmation, Submit },
   isSubmitting,
   isValidating,
-}: registrationFlow.ChooseMethodFormProps) {
+}: GetRegistrationChooseMethodFormProps<typeof RegistrationFlow>) {
   return (
     <div data-testid={dataTestIds.registration.chooseMethodForm.wrapper}>
       <ReturnToTraitsForm>
@@ -202,7 +209,7 @@ function EmailVerificationForm({
   errors,
   isSubmitting,
   isValidating,
-}: verificationFlow.EmailVerificationFormProps) {
+}: GetVerificationEmailVerificationFormProps<typeof VerificationFlow>) {
   return (
     <div data-testid={dataTestIds.registration.emailVerificationForm.wrapper}>
       <Code>

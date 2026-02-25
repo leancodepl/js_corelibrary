@@ -1,16 +1,25 @@
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
+import { GetSettingsFormProps } from "packages/kratos/src/lib/formTypes"
 import { z } from "zod"
-import { settingsFlow } from "@leancodepl/kratos"
+import {
+  GetSettingsFlowErrorHandler,
+  GetSettingsNewPasswordFormProps,
+  GetSettingsOidcFormProps,
+  GetSettingsPasskeysFormProps,
+  GetSettingsTotpFormProps,
+  GetSettingsTraitsFormProps,
+  settingsFlow,
+} from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
-import { AuthTraitsConfig, getErrorMessage, type OidcProvidersConfig, sessionManager, SettingsFlow } from "../services/kratos"
+import { getErrorMessage, sessionManager, SettingsFlow } from "../services/kratos"
 
 const settingsSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: settingsFlow.OnSettingsFlowError<AuthTraitsConfig> = ({ target, errors }) => {
+const handleError: GetSettingsFlowErrorHandler<typeof SettingsFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
@@ -67,7 +76,7 @@ function SettingsForm({
   passkeysForm,
   totpForm,
   oidcForm,
-}: settingsFlow.SettingsFormProps) {
+}: GetSettingsFormProps<typeof SettingsFlow>) {
   if (isLoading) {
     return <div>Loading settings form...</div>
   }
@@ -92,7 +101,7 @@ function TraitsForm({
   isSubmitting,
   isValidating,
   emailVerificationRequired,
-}: settingsFlow.TraitsFormProps<AuthTraitsConfig>) {
+}: GetSettingsTraitsFormProps<typeof SettingsFlow>) {
   if (isLoading) {
     return <p data-testid={dataTestIds.settings.traitsForm.loading}>Loading traits form...</p>
   }
@@ -149,7 +158,7 @@ function NewPasswordForm({
   isLoading,
   isSubmitting,
   isValidating,
-}: settingsFlow.NewPasswordFormProps) {
+}: GetSettingsNewPasswordFormProps<typeof SettingsFlow>) {
   if (isLoading) {
     return <p data-testid={dataTestIds.settings.newPasswordForm.loading}>Loading new password form...</p>
   }
@@ -191,7 +200,12 @@ function NewPasswordForm({
   )
 }
 
-function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }: settingsFlow.PasskeysFormProps) {
+function PasskeysForm({
+  addNewPasskey,
+  existingPasskeys,
+  isPending,
+  isLoading,
+}: GetSettingsPasskeysFormProps<typeof SettingsFlow>) {
   if (isLoading) {
     return <p data-testid={dataTestIds.settings.passkeysForm.loading}>Loading passkeys...</p>
   }
@@ -229,7 +243,7 @@ function PasskeysForm({ addNewPasskey, existingPasskeys, isPending, isLoading }:
   )
 }
 
-function TotpForm(props: settingsFlow.TotpFormProps) {
+function TotpForm(props: GetSettingsTotpFormProps<typeof SettingsFlow>) {
   if (props.isLoading) {
     return <p data-testid={dataTestIds.settings.totpForm.loading}>Loading TOTP form...</p>
   }
@@ -292,7 +306,7 @@ function TotpForm(props: settingsFlow.TotpFormProps) {
   )
 }
 
-function OidcForm(props: settingsFlow.OidcFormProps<OidcProvidersConfig>) {
+function OidcForm(props: GetSettingsOidcFormProps<typeof SettingsFlow>) {
   if (props.isLoading) {
     return <p>Loading OIDC providers...</p>
   }
