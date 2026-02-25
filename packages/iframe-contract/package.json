@@ -26,8 +26,10 @@
     "semver": "^7.0.0"
   },
   "peerDependencies": {
+    "@testing-library/react": "*",
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "vitest": "*"
   },
   "repository": {
     "type": "git",
