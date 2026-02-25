@@ -10,7 +10,7 @@ export function createConnectToHostProvider<
   THost extends HostMethodsBase,
   TRemote extends RemoteMethodsBase,
   TParamsWithContractVersion extends RemoteParamsWithContractVersion,
->(contractVersion: string, isVersionCompatible: (hostVersion: string, remoteVersion: string) => boolean) {
+>(contractVersion: string, contractVersionRange: string) {
   const ConnectToHostContext = createContext<UseConnectToHostResult<THost> | null>(null)
 
   type ConnectToHostProviderProps = UseConnectToHostOptions<TRemote> & {
@@ -18,13 +18,13 @@ export function createConnectToHostProvider<
   }
 
   function ConnectToHostProvider<
-    T extends Omit<ConnectToHostProviderProps, "contractVersion" | "isVersionCompatible">,
+    T extends Omit<ConnectToHostProviderProps, "contractVersion" | "contractVersionRange">,
   >({ children, methods, allowedOrigins, incompatibleVersionHandler }: T) {
     const value = useConnectToHost<THost, TRemote, TParamsWithContractVersion>({
       methods,
       allowedOrigins,
       contractVersion,
-      isVersionCompatible,
+      contractVersionRange,
       incompatibleVersionHandler,
     })
 

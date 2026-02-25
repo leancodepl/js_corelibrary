@@ -3,13 +3,12 @@ import { HostMethodsBase, RemoteMethodsBase, RemoteParamsBase, RemoteParamsWithC
 import { parseUrlParams } from "./urlParams"
 import { useConnectToHost, UseConnectToHostOptions } from "./useConnectToHost"
 import { useConnectToRemote, UseConnectToRemoteOptions } from "./useConnectToRemote"
-import { defaultIsVersionCompatible } from "./version"
 
 export type CreateContractOptions = {
-  /** Contract version for compatibility checking between host and remote */
+  /** Semver version of the contract */
   contractVersion: string
-  /** Custom version compatibility check. Defaults to semver major match. */
-  isVersionCompatible?: (hostVersion: string, remoteVersion: string) => boolean
+  /** Semver range the host contract version must satisfy (e.g. ">=1.0.0", "^2.0.0", "~2.1.0") */
+  contractVersionRange: string
 }
 
 /**
@@ -26,7 +25,7 @@ export type CreateContractOptions = {
  *   HostMethods,
  *   RemoteMethods,
  *   RemoteParams
- * >({ contractVersion: '1.0.0' })
+ * >({ contractVersion: '1.0.0', contractVersionRange: '>=1.0.0 <2.0.0' })
  *
  * // Host: contract.useConnectToRemote({ remoteUrl, params: { userId: '123' }, methods })
  * // Remote: contract.useConnectToHost({ methods, incompatibleVersionHandler })
@@ -39,13 +38,13 @@ export function createContract<
 >(options: CreateContractOptions) {
   type TParamsWithContractVersion = RemoteParamsWithContractVersion<TParams>
 
-  const { contractVersion, isVersionCompatible = defaultIsVersionCompatible } = options
+  const { contractVersion, contractVersionRange } = options
 
   const { ConnectToHostProvider, useConnectToHostContext } = createConnectToHostProvider<
     THost,
     TRemote,
     TParamsWithContractVersion
-  >(contractVersion, isVersionCompatible)
+  >(contractVersion, contractVersionRange)
 
   const useWrappedConnectToRemote = (options: Omit<UseConnectToRemoteOptions<THost, TParams>, "contractVersion">) =>
     useConnectToRemote<TRemote, THost, TParams>({
@@ -54,12 +53,12 @@ export function createContract<
     })
 
   const useWrappedConnectToHost = (
-    options: Omit<UseConnectToHostOptions<TRemote>, "contractVersion" | "isVersionCompatible">,
+    options: Omit<UseConnectToHostOptions<TRemote>, "contractVersion" | "contractVersionRange">,
   ) =>
     useConnectToHost<THost, TRemote, TParamsWithContractVersion>({
       ...options,
       contractVersion,
-      isVersionCompatible,
+      contractVersionRange,
     })
 
   return {

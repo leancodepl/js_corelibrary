@@ -1,18 +1,18 @@
 import type { RemoteProxy } from "penpal"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import semver from "semver"
 import type { ConnectToHostOptions } from "./connect"
 import { connectToHost } from "./connect"
 import { HostMethodsBase, RemoteMethodsBase, RemoteParamsWithContractVersion } from "./types"
 import { parseUrlParams } from "./urlParams"
-import { defaultIsVersionCompatible } from "./version"
 
 export type UseConnectToHostOptions<TRemote extends RemoteMethodsBase> = ConnectToHostOptions<TRemote> & {
-  /** Remote's contract version for compatibility check */
+  /** Remote's semver contract version */
   contractVersion: string
+  /** Semver range the host contract version must satisfy (e.g. ">=1.0.0", "^2.0.0", "~2.1.0") */
+  contractVersionRange: string
   /** Called when host and remote versions are incompatible. Skips connection when provided. */
   incompatibleVersionHandler: (hostVersion: string, remoteVersion: string) => Promise<void> | void
-  /** Custom version compatibility check. Defaults to semver major match. */
-  isVersionCompatible: (hostVersion: string, remoteVersion: string) => boolean
 }
 
 export type UseConnectToHostResult<THost extends HostMethodsBase> = {
@@ -36,24 +36,22 @@ export function useConnectToHost<
   const [host, setHost] = useState<RemoteProxy<THost> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const { methods, allowedOrigins, contractVersion, incompatibleVersionHandler, isVersionCompatible } = options
+  const { methods, allowedOrigins, contractVersion, incompatibleVersionHandler, contractVersionRange } = options
+  const params = useRef(parseUrlParams<TParamsWithContractVersion>())
 
   useEffect(() => {
     if (typeof globalThis.window.parent === "undefined" || globalThis.window.parent === globalThis.window) {
       return
     }
 
-    const params = parseUrlParams<TParamsWithContractVersion>()
-    const hostVersion = params.contractVersion
+    const hostVersion = params.current.contractVersion
 
-    if (contractVersion !== undefined && hostVersion !== undefined) {
-      const isCompatible = (isVersionCompatible ?? defaultIsVersionCompatible)(hostVersion, contractVersion)
-      if (!isCompatible) {
-        if (incompatibleVersionHandler) {
-          incompatibleVersionHandler(hostVersion, contractVersion)
-        }
-        return
+    const isCompatible = semver.satisfies(hostVersion, contractVersionRange)
+    if (!isCompatible) {
+      if (incompatibleVersionHandler) {
+        incompatibleVersionHandler(hostVersion, contractVersion)
       }
+      return
     }
 
     const connection = connectToHost<THost, TRemote>({
@@ -75,7 +73,7 @@ export function useConnectToHost<
       setHost(null)
       connection.destroy()
     }
-  }, [methods, allowedOrigins, contractVersion, incompatibleVersionHandler, isVersionCompatible])
+  }, [methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler])
 
   return {
     host,

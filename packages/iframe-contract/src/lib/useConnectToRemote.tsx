@@ -14,7 +14,7 @@ export type UseConnectToRemoteOptions<
   remoteUrl: string
   /** Params to pass to the implant via URL query string */
   params?: TParams
-  /** Contract version passed to remote for compatibility check */
+  /** Host's semver contract version */
   contractVersion: string
   /** Props for the iframe element */
   iframeProps: Omit<HTMLAttributes<HTMLIFrameElement>, "src" | "title"> & { title: string }

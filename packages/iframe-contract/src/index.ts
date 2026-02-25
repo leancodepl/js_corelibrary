@@ -8,4 +8,3 @@ export { useConnectToHost, type UseConnectToHostOptions, type UseConnectToHostRe
 export { createConnectToHostProvider } from "./lib/ConnectToHostProvider"
 export { buildRemoteUrl, parseUrlParams } from "./lib/urlParams"
 export { createContract, type CreateContractOptions } from "./lib/createContract"
-export { defaultIsVersionCompatible } from "./lib/version"
