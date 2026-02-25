@@ -36,7 +36,7 @@ export function useConnectToHost<
   const [host, setHost] = useState<RemoteProxy<THost> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  const { methods, allowedOrigins, contractVersion, incompatibleVersionHandler, contractVersionRange } = options
+  const { methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler } = options
   const params = useRef(parseUrlParams<TParamsWithContractVersion>())
 
   useEffect(() => {
@@ -48,9 +48,7 @@ export function useConnectToHost<
 
     const isCompatible = semver.satisfies(hostVersion, contractVersionRange)
     if (!isCompatible) {
-      if (incompatibleVersionHandler) {
-        incompatibleVersionHandler(hostVersion, contractVersion)
-      }
+      incompatibleVersionHandler(hostVersion, contractVersion)
       return
     }
 
