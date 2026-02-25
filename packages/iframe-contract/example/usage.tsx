@@ -1,71 +1,132 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { ConnectToHostProvider, parseUrlParams, useConnectToHostContext, useConnectToRemote } from "./contract"
 import { ImplantMethods, ThemeValue } from "./types"
 
-const HostComponent = () => {
-  const { iframe } = useConnectToRemote({
-    remoteUrl: "https://example.com",
-    iframeProps: {
-      title: "Host Component",
-    },
-    methods: {
-      onRouteChange: function (path: string): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      navigateTo: function (path: string): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      invalidateToken: function (): Promise<boolean> {
-        throw new Error("Function not implemented.")
-      },
-      showNotification: function (message: string, type?: "error" | "info" | "success" | "warning"): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      getCurrentUserId: function (): Promise<string | null> {
-        throw new Error("Function not implemented.")
-      },
-    },
-  })
+export const HostComponent = () => {
+  const [currentPath, setCurrentPath] = useState("/dashboard")
+  const [userId, setUserId] = useState<string | null>("user-42")
+  const [notifications, setNotifications] = useState<Array<{ id: number; message: string; type: string }>>([])
+  const [nextNotificationId, setNextNotificationId] = useState(0)
 
-  return iframe
-}
-
-const ImplantComponent = () => {
-  const methods = useMemo<ImplantMethods>(
+  const methods = useMemo(
     () => ({
-      getCurrentPath: () => Promise.resolve("path"),
-      onRouteChange: function (path: string): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      navigateTo: function (path: string): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      refresh: function (): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
-      onThemeChange: function (theme: ThemeValue): Promise<void> {
-        throw new Error("Function not implemented.")
-      },
+      onRouteChange: (path: string): Promise<void> => (setCurrentPath(path), Promise.resolve()),
+      navigateTo: (path: string): Promise<void> => (setCurrentPath(path), Promise.resolve()),
+      invalidateToken: (): Promise<boolean> => (setUserId(null), Promise.resolve(true)),
+      showNotification: (message: string, type?: "error" | "info" | "success" | "warning"): Promise<void> => (
+        setNotifications(prev => [...prev, { id: nextNotificationId, message, type: type ?? "info" }]),
+        setNextNotificationId(id => id + 1),
+        Promise.resolve()
+      ),
+      getCurrentUserId: (): Promise<string | null> => Promise.resolve(userId),
     }),
-    [],
+    [userId, nextNotificationId],
   )
 
-  const handleIncompatibleVersion = useCallback((hostVersion: string, remoteVersion: string): Promise<void> | void => {
+  const { iframe, remote, isConnected } = useConnectToRemote({
+    remoteUrl: "https://example.com",
+    iframeProps: {
+      title: "Embedded Settings",
+    },
+    params: {
+      userId: userId ?? "anonymous",
+      theme: "dark",
+    },
+    methods,
+  })
+
+  const handleSyncTheme = useCallback(async () => {
+    if (remote) await remote.onThemeChange("dark")
+  }, [remote])
+
+  const handleRefreshImplant = useCallback(async () => {
+    if (remote) await remote.refresh()
+  }, [remote])
+
+  return (
+    <div>
+      <header>
+        <span>Host path: {currentPath}</span>
+        <span>User: {userId ?? "—"}</span>
+        {isConnected && (
+          <>
+            <button onClick={handleSyncTheme}>Sync theme to dark</button>
+            <button onClick={handleRefreshImplant}>Refresh implant</button>
+          </>
+        )}
+      </header>
+      <ul>
+        {notifications.map(n => (
+          <li key={n.id}>
+            [{n.type}] {n.message}
+          </li>
+        ))}
+      </ul>
+      {iframe}
+    </div>
+  )
+}
+
+export const ImplantComponent = () => {
+  const [path, setPath] = useState("/settings")
+  const [theme, setTheme] = useState<ThemeValue>("light")
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
+
+  const methods = useMemo<ImplantMethods>(
+    () => ({
+      getCurrentPath: () => Promise.resolve(path),
+      onRouteChange: (newPath: string): Promise<void> => (setPath(newPath), Promise.resolve()),
+      navigateTo: (newPath: string): Promise<void> => (setPath(newPath), Promise.resolve()),
+      refresh: (): Promise<void> => (setRefreshTrigger(t => t + 1), Promise.resolve()),
+      onThemeChange: (newTheme: ThemeValue): Promise<void> => (setTheme(newTheme), Promise.resolve()),
+    }),
+    [path],
+  )
+
+  const handleIncompatibleVersion = useCallback((hostVersion: string, remoteVersion: string): void => {
     console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
   }, [])
 
   return (
-    <ConnectToHostProvider
-      children={undefined}
-      incompatibleVersionHandler={handleIncompatibleVersion}
-      methods={methods}
-    />
+    <ConnectToHostProvider incompatibleVersionHandler={handleIncompatibleVersion} methods={methods}>
+      <ImplantChildComponent refreshTrigger={refreshTrigger} theme={theme} />
+    </ConnectToHostProvider>
   )
 }
 
-const ImplantChildComponent = () => {
+const ImplantChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: number; theme: ThemeValue }) => {
   const params = useMemo(() => parseUrlParams(), [])
-  const { host } = useConnectToHostContext()
+  const { host, isConnected } = useConnectToHostContext()
 
-  return <div>{params.contractVersion}</div>
+  const handleSave = useCallback(async () => {
+    if (host) await host.showNotification("Settings saved", "success")
+  }, [host])
+
+  const handleLogout = useCallback(async () => {
+    if (host) {
+      const ok = await host.invalidateToken()
+      if (ok) console.warn("Token invalidated")
+    }
+  }, [host])
+
+  const handleNavigateToProfile = useCallback(async () => {
+    if (host) await host.navigateTo("/profile")
+  }, [host])
+
+  return (
+    <div data-theme={theme}>
+      <p>Contract version: {params.contractVersion}</p>
+      <p>User ID from params: {params.userId}</p>
+      <p>Theme from params: {params.theme}</p>
+      <p>Current theme: {theme}</p>
+      <p>Refresh count: {refreshTrigger}</p>
+      {isConnected && (
+        <div>
+          <button onClick={handleSave}>Save (notify host)</button>
+          <button onClick={handleLogout}>Logout (invalidate token)</button>
+          <button onClick={handleNavigateToProfile}>Navigate to profile</button>
+        </div>
+      )}
+    </div>
+  )
 }
