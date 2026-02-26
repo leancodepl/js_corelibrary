@@ -83,14 +83,13 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
       const tags: HtmlTagDescriptor[] = []
       const assetFileName = Object.values(ctx.bundle ?? {}).reduce(
         (acc, v) => {
-          if (v.type === "asset") {
-            for (const name of v.names) {
-              acc[name] = v.fileName
-            }
+          if (v.type !== "asset") return acc
+          for (const name of v.names) {
+            acc[name] = v.fileName
           }
           return acc
         },
-        {} as Record<string, string>,
+        {} as Record<string, string | undefined>,
       )
 
       for (const tag of faviconResponse.html) {
