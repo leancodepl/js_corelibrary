@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/folder-structure-cruiser",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -18,7 +18,7 @@
     "folder-structure-cruiser": "./dist/bin.js"
   },
   "dependencies": {
-    "@leancodepl/logger": "10.1.1",
+    "@leancodepl/logger": "10.1.2",
     "chalk": ">=5.0.0",
     "commander": "^14.0.0"
   },

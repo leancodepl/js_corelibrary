@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/image-uploader",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@leancodepl/utils": "10.1.1",
+    "@leancodepl/utils": "10.1.2",
     "react-dropzone": "14.3.8",
     "react-easy-crop": "5.5.0",
     "uuid": "11.1.0"

@@ -1,11 +1,11 @@
 {
   "name": "@leancodepl/eslint-config",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "license": "Apache-2.0",
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "@leancodepl/eslint-plugin": "10.1.1",
+    "@leancodepl/eslint-plugin": "10.1.2",
     "eslint-plugin-import": ">=2.31.0",
     "eslint-plugin-jsx-a11y": ">=6.10.0",
     "eslint-plugin-perfectionist": ">=5.0.0",
