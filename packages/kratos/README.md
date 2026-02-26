@@ -12,19 +12,19 @@ yarn add @leancodepl/kratos
 
 ## API
 
-### `mkKratos(queryClient, basePath, traits, SessionManager, oidcProviders)`
+### `mkKratos(config)`
 
 Creates a Kratos client factory with authentication flows, session management, and React providers.
 
 **Parameters:**
 
-- `queryClient: QueryClient` - React Query client instance for managing server state
-- `basePath: string` - Base URL for the Kratos API server
-- `traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
-- `SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
+- `config.queryClient: QueryClient` - React Query client instance for managing server state
+- `config.basePath: string` - Base URL for the Kratos API server
+- `config.traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
+- `config.SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
   constructor, defaults to BaseSessionManager
-- `oidcProviders?: readonly OidcProviderConfig[]` - Optional array of custom OIDC provider configurations. Each provider
-  should have an `id` (matching Kratos provider ID)
+- `config.oidcProviders?: readonly OidcProviderConfig[]` - Optional array of custom OIDC provider configurations. Each
+  provider should have an `id` (matching Kratos provider ID). Define as `as const` for type-safe flow form props.
 
 **Returns:** Object with the following structure:
 

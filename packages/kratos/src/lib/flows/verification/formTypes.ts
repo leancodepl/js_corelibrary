@@ -2,9 +2,9 @@ import type { ComponentType } from "react"
 import type { GetFormPropsFromFlow } from "../formTypes"
 import type { VerificationFlowProps } from "./verificationFlow"
 
-type VerificationFlowType = ComponentType<VerificationFlowProps>
+type WrappedVerificationFlowType = ComponentType<VerificationFlowProps>
 
-export type GetVerificationEmailVerificationFormProps<T extends VerificationFlowType> = GetFormPropsFromFlow<
+export type GetVerificationEmailVerificationFormProps<T extends WrappedVerificationFlowType> = GetFormPropsFromFlow<
   T,
   "emailVerificationForm"
 >
