@@ -81,7 +81,16 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
       if (!options.inject || !faviconResponse) return
 
       const tags: HtmlTagDescriptor[] = []
-      const assets = Object.values(ctx.bundle ?? {})
+      const assetFileName = Object.values(ctx.bundle ?? {}).reduce(
+        (acc, v) => {
+          if (v.type !== "asset") return acc
+          for (const name of v.names) {
+            acc[name] = v.fileName
+          }
+          return acc
+        },
+        {} as Record<string, string | undefined>,
+      )
 
       for (const tag of faviconResponse.html) {
         const node = parseFragment(tag).childNodes[0]
@@ -91,7 +100,7 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
             tag: node.tagName,
             attrs: node.attrs.reduce(
               (acc, v) => {
-                const name = assets.find(({ name }) => name === v.value.slice(1))?.fileName
+                const name = assetFileName[v.value.slice(1)]
 
                 acc[v.name] = name ? `/${name}` : v.value
 
