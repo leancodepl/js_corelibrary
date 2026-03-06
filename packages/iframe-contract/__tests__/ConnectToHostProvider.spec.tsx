@@ -22,7 +22,7 @@ function Inner() {
 
 function TestConsumer() {
   return (
-    <ConnectToHostProvider incompatibleVersionHandler={() => {}} methods={{}}>
+    <ConnectToHostProvider methods={{}}>
       <Inner />
     </ConnectToHostProvider>
   )
@@ -63,8 +63,14 @@ describe("createConnectToHostProvider", () => {
     const el = screen.getByTestId("context")
     const parsed = JSON.parse(el.textContent ?? "{}")
     expect(parsed).toHaveProperty("status")
-    expect([ConnectStatus.IDLE, ConnectStatus.CONNECTED, ConnectStatus.ERROR]).toContain(parsed.status)
+    expect([ConnectStatus.IDLE, ConnectStatus.CONNECTED, ConnectStatus.ERROR, ConnectStatus.INCOMPATIBLE]).toContain(
+      parsed.status,
+    )
     if (parsed.status === ConnectStatus.CONNECTED) expect(parsed).toHaveProperty("host")
     if (parsed.status === ConnectStatus.ERROR) expect(parsed).toHaveProperty("error")
+    if (parsed.status === ConnectStatus.INCOMPATIBLE) {
+      expect(parsed).toHaveProperty("hostVersion")
+      expect(parsed).toHaveProperty("remoteVersion")
+    }
   })
 })

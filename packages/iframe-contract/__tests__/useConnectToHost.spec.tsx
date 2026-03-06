@@ -1,4 +1,5 @@
-import { renderHook } from "@testing-library/react"
+import { act, renderHook } from "@testing-library/react"
+import { ConnectStatus } from "../src/lib/enums"
 import { getUrlParams } from "../src/lib/urlParams"
 import { useConnectToHost } from "../src/lib/useConnectToHost"
 
@@ -15,6 +16,7 @@ vi.mock("../src/lib/urlParams", () => ({
 
 describe("useConnectToHost", () => {
   const originalParent = globalThis.window.parent
+  const methods = {}
 
   beforeEach(() => {
     Object.defineProperty(globalThis.window, "parent", {
@@ -22,7 +24,6 @@ describe("useConnectToHost", () => {
       writable: true,
       configurable: true,
     })
-    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "1.0.0" } as never)
   })
 
   afterEach(() => {
@@ -33,35 +34,44 @@ describe("useConnectToHost", () => {
     })
   })
 
-  it("calls incompatibleVersionHandler when host version is incompatible", () => {
-    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "0.9.0" } as never)
+  it("sets INCOMPATIBLE and does not call connectToHost when host version is incompatible", async () => {
+    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "0.9.0" } as ReturnType<typeof getUrlParams>)
 
-    const incompatibleVersionHandler = vi.fn()
-
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useConnectToHost({
-        methods: {},
+        methods,
         contractVersion: "1.0.0",
         contractVersionRange: ">=1.0.0",
-        incompatibleVersionHandler,
       }),
     )
 
-    expect(incompatibleVersionHandler).toHaveBeenCalledWith("0.9.0", "1.0.0")
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0))
+    })
+
+    expect(result.current).toMatchObject({
+      status: ConnectStatus.INCOMPATIBLE,
+      hostVersion: "0.9.0",
+      remoteVersion: "1.0.0",
+    })
   })
 
-  it("does not call incompatibleVersionHandler when versions are compatible", () => {
-    const incompatibleVersionHandler = vi.fn()
+  it("connects when versions are compatible", async () => {
+    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "1.0.0" } as ReturnType<typeof getUrlParams>)
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useConnectToHost({
-        methods: {},
+        methods,
         contractVersion: "1.0.0",
         contractVersionRange: ">=1.0.0",
-        incompatibleVersionHandler,
       }),
     )
 
-    expect(incompatibleVersionHandler).not.toHaveBeenCalled()
+    await act(async () => {
+      await new Promise(r => setTimeout(r, 0))
+    })
+
+    expect(result.current.status).not.toBe(ConnectStatus.IDLE)
+    expect(result.current.status).not.toBe(ConnectStatus.INCOMPATIBLE)
   })
 })
