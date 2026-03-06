@@ -1,7 +1,7 @@
 import { dataTestIds } from "@example/e2e-ids"
 import { createFileRoute } from "@tanstack/react-router"
 import { z } from "zod"
-import { verificationFlow } from "@leancodepl/kratos"
+import { GetFlowErrorHandler, GetVerificationEmailVerificationFormProps } from "@leancodepl/kratos"
 import { Input } from "../components/Input"
 import { useRemoveFlowFromUrl } from "../hooks/useRemoveFlowFromUrl"
 import { getErrorMessage, VerificationFlow } from "../services/kratos"
@@ -10,7 +10,7 @@ const verificationSearchSchema = z.object({
   flow: z.string().optional(),
 })
 
-const handleError: verificationFlow.OnVerificationFlowError = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof VerificationFlow> = ({ target, errors }) => {
   if (target === "root") {
     alert(`Błędy formularza: ${errors.map(e => e.id).join(", ")}`)
   } else {
@@ -50,7 +50,7 @@ function EmailVerificationForm({
   errors,
   isSubmitting,
   isValidating,
-}: verificationFlow.EmailVerificationFormProps) {
+}: GetVerificationEmailVerificationFormProps<typeof VerificationFlow>) {
   return (
     <div data-testid={dataTestIds.verification.emailVerificationForm.wrapper}>
       <Code>
