@@ -121,12 +121,8 @@ export const RemoteComponent = () => {
     [getCurrentPath, handleRouteChange, handleRefresh],
   )
 
-  const handleIncompatibleVersion = useCallback((hostVersion: string, remoteVersion: string): void => {
-    console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
-  }, [])
-
   return (
-    <ConnectToHostProvider incompatibleVersionHandler={handleIncompatibleVersion} methods={methods}>
+    <ConnectToHostProvider methods={methods}>
       <RemoteChildComponent refreshTrigger={refreshTrigger} theme={theme} />
     </ConnectToHostProvider>
   )
@@ -143,6 +139,9 @@ const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: numbe
       <p>Theme from params: {params.theme}</p>
       <p>Current theme: {theme}</p>
       <p>Refresh count: {refreshTrigger}</p>
+      {connection.status === ConnectStatus.INCOMPATIBLE && (
+        <div>Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}</div>
+      )}
       {connection.status === ConnectStatus.CONNECTED && <ConnectedHostComponent host={connection.host} />}
     </div>
   )

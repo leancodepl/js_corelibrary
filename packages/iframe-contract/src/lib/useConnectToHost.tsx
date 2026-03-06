@@ -11,14 +11,13 @@ export type UseConnectToHostOptions<TRemote extends RemoteMethodsBase> = Connect
   contractVersion: string
   /** Semver range the host contract version must satisfy (e.g. ">=1.0.0", "^2.0.0", "~2.1.0") */
   contractVersionRange: string
-  /** Called when host and remote versions are incompatible. Skips connection when provided. */
-  incompatibleVersionHandler: (hostVersion: string, remoteVersion: string) => Promise<void> | void
 }
 
 export type ConnectToHostState<THost extends HostMethodsBase> =
   | { status: ConnectStatus.CONNECTED; host: HostProxy<THost> }
   | { status: ConnectStatus.ERROR; error: Error }
   | { status: ConnectStatus.IDLE }
+  | { status: ConnectStatus.INCOMPATIBLE; hostVersion: string; remoteVersion: string }
 
 export type UseConnectToHostResult<THost extends HostMethodsBase> = ConnectToHostState<THost>
 
@@ -31,7 +30,7 @@ export function useConnectToHost<
   TRemote extends RemoteMethodsBase,
   TParamsWithContractVersion extends RemoteParamsWithContractVersion,
 >(options: UseConnectToHostOptions<TRemote>): UseConnectToHostResult<THost> {
-  const { methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler } = options
+  const { methods, allowedOrigins, contractVersion, contractVersionRange } = options
 
   const params = useRef(getUrlParams<TParamsWithContractVersion>())
 
@@ -46,7 +45,7 @@ export function useConnectToHost<
 
     const isCompatible = semver.satisfies(hostVersion, contractVersionRange)
     if (!isCompatible) {
-      incompatibleVersionHandler(hostVersion, contractVersion)
+      setState({ status: ConnectStatus.INCOMPATIBLE, hostVersion, remoteVersion: contractVersion })
       return
     }
 
@@ -68,7 +67,7 @@ export function useConnectToHost<
       setState({ status: ConnectStatus.IDLE })
       connection.destroy()
     }
-  }, [methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler])
+  }, [methods, allowedOrigins, contractVersion, contractVersionRange])
 
   return state
 }

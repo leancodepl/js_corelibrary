@@ -19,13 +19,12 @@ export function createConnectToHostProvider<
 
   function ConnectToHostProvider<
     T extends Omit<ConnectToHostProviderProps, "contractVersion" | "contractVersionRange">,
-  >({ children, methods, allowedOrigins, incompatibleVersionHandler }: T) {
+  >({ children, methods, allowedOrigins }: T) {
     const value = useConnectToHost<THost, TRemote, TParamsWithContractVersion>({
       methods,
       allowedOrigins,
       contractVersion,
       contractVersionRange,
-      incompatibleVersionHandler,
     })
 
     return <ConnectToHostContext.Provider value={value}>{children}</ConnectToHostContext.Provider>

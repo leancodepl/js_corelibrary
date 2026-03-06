@@ -34,9 +34,10 @@ and `getUrlParams`
 
 ### `ConnectStatus`
 
-Enum for connection state: `ConnectStatus.IDLE`, `ConnectStatus.CONNECTED`, `ConnectStatus.ERROR`. Used by
-`useConnectToRemote` and `useConnectToHost` (and context) return values. Check `status === ConnectStatus.CONNECTED`
-before using `remote` or `host`; when `status === ConnectStatus.ERROR`, `error` is set.
+Enum for connection state: `ConnectStatus.IDLE`, `ConnectStatus.CONNECTED`, `ConnectStatus.ERROR`,
+`ConnectStatus.INCOMPATIBLE`. Used by `useConnectToRemote` and `useConnectToHost` (and context) return values. Check
+`status === ConnectStatus.CONNECTED` before using `remote` or `host`; when `status === ConnectStatus.ERROR`, `error`
+is set; when `status === ConnectStatus.INCOMPATIBLE` (host connect only), `hostVersion` and `remoteVersion` are set.
 
 ### `connectToRemote(iframe, options)`
 
@@ -79,19 +80,19 @@ iframe.
 
 **Parameters:**
 
-- `options` - `UseConnectToHostOptions<TRemote>` - Connection options including `methods`, `incompatibleVersionHandler`,
-  optional `allowedOrigins`. `contractVersion` and `contractVersionRange` are auto-injected from the contract.
+- `options` - `UseConnectToHostOptions<TRemote>` - Connection options including `methods`, optional `allowedOrigins`.
+  `contractVersion` and `contractVersionRange` are auto-injected from the contract.
 
 **Returns:** `UseConnectToHostResult<THost>` - Connection state: `status` (`ConnectStatus`), and when connected `host`
-proxy, when error `error`
+proxy, when error `error`, when incompatible `hostVersion` and `remoteVersion`
 
 ### `createConnectToHostProvider()` / `ConnectToHostProvider`
 
 `createConnectToHostProvider` creates a typed `ConnectToHostProvider` and `useConnectToHostContext` pair. Each contract
 calls this internally; use `contract.ConnectToHostProvider` and `contract.useConnectToHostContext`.
 
-**ConnectToHostProvider props:** `methods`, `incompatibleVersionHandler` (required), optional `allowedOrigins`,
-`children`. `contractVersion` and `contractVersionRange` are auto-injected from the contract.
+**ConnectToHostProvider props:** `methods`, optional `allowedOrigins`, `children`. `contractVersion` and
+`contractVersionRange` are auto-injected from the contract.
 
 ### `buildRemoteUrl(baseUrl, params)`
 
@@ -229,8 +230,9 @@ function HostApp() {
 
 `contractVersion` and `contractVersionRange` are required in `createContract`. The host passes its version via URL
 params to the iframe. The remote verifies compatibility with `semver.satisfies(hostVersion, contractVersionRange)`
-before connecting. If versions are incompatible, `incompatibleVersionHandler` is called and no connection is
-established. When using the contract, version values are auto-injected—no need to pass them to hooks or the provider.
+before connecting. If versions are incompatible, connection state is `ConnectStatus.INCOMPATIBLE` with `hostVersion`
+and `remoteVersion`. When using the contract, version values are auto-injected—no need to pass them to hooks or the
+provider.
 
 ### Remote app: using ConnectToHostProvider (Recommended)
 
@@ -247,9 +249,6 @@ function RemoteAppRoot() {
       methods={{
         getCurrentPath: () => Promise.resolve(location.pathname),
         refresh: () => refetch(),
-      }}
-      incompatibleVersionHandler={(hostVersion, remoteVersion) => {
-        console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
       }}>
       <RemoteApp />
     </contract.ConnectToHostProvider>
@@ -268,6 +267,9 @@ function RemoteApp() {
   return (
     <div>
       <p>User: {params.userId}</p>
+      {connection.status === ConnectStatus.INCOMPATIBLE && (
+        <p>Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}</p>
+      )}
       {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
   )
@@ -287,9 +289,6 @@ function RemoteApp() {
       getCurrentPath: () => Promise.resolve(location.pathname),
       refresh: () => refetch(),
     },
-    incompatibleVersionHandler: (hostVersion, remoteVersion) => {
-      console.error(`Version mismatch: host ${hostVersion}, remote ${remoteVersion}`)
-    },
   })
 
   const handleSave = async () => {
@@ -300,6 +299,9 @@ function RemoteApp() {
   return (
     <div>
       <p>User: {params.userId}</p>
+      {connection.status === ConnectStatus.INCOMPATIBLE && (
+        <p>Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}</p>
+      )}
       {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
   )
@@ -357,7 +359,8 @@ connectToHost({
 - **Contract version checking** - Required `contractVersion` and `contractVersionRange` in `createContract`; remote
   verifies host version satisfies the range via `semver.satisfies` before connecting
 - **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage; connection state via
-  `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`)
+  `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`, `hostVersion`/`remoteVersion` when
+  incompatible)
 - **URL params** - `buildRemoteUrl` and `getUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries

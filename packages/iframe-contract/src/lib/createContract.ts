@@ -28,7 +28,7 @@ export type CreateContractOptions = {
  * >({ contractVersion: '1.0.0', contractVersionRange: '>=1.0.0 <2.0.0' })
  *
  * // Host: contract.useConnectToRemote({ remoteUrl, params: { userId: '123' }, methods })
- * // Remote: contract.useConnectToHost({ methods, incompatibleVersionHandler })
+ * // Remote: contract.useConnectToHost({ methods })
  * // Remote: contract.getUrlParams() // { userId?: string; tenantId?: string }
  */
 export function createContract<
