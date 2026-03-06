@@ -1,7 +1,8 @@
 # @leancodepl/iframe-contract
 
 Creates type-safe contracts between a host app and a remote iframe app (e.g., Replit embed). Uses `postMessage` via
-Penpal for secure cross-origin communication.
+Penpal for secure cross-origin communication. Supports **Zod** for defining method params/returns and URL params with
+runtime validation and inferred TypeScript types.
 
 ## Installation
 
@@ -113,9 +114,19 @@ Parses URL search params into a typed object. Call from the remote (iframe) to r
 
 **Returns:** `TParams` - Typed object of params (includes `contractVersion` when using a contract)
 
+### Zod helpers (optional)
+
+When using Zod, you get inferred types and optional runtime validation:
+
+- **`methodDef(def?)`** - Defines a method schema. `def` can have `params` (Zod object) and/or `returns` (Zod type). Use for host and remote method signatures.
+- **`InferMethodsFromSchema<T>`** - Infers `HostMethods` or `RemoteMethods` from a record of method-def schemas.
+- **`InferParamsFromSchema<T>`** - Infers `RemoteParams` from a record of param schemas (e.g. `{ userId: z.string() }`).
+- **`MethodType<S>`, `MethodParamsType<S>`, `MethodReturnType<S>`** - Per-method inferred types from a method-def schema.
+- **`mkZodContractSchema({ hostMethods, remoteMethods, remoteParams })`** - Builds a Zod schema for the full contract (e.g. for validation or tooling). Types are still passed to `createContract` via the inferred types.
+
 ## Usage Examples
 
-### Shared contract definition
+### Shared contract definition (TypeScript only)
 
 Define the contract in a shared package or file used by both host and remote:
 
@@ -135,6 +146,51 @@ type RemoteMethods = {
 type RemoteParams = { userId?: string; tenantId?: string }
 
 export const contract = createContract<HostMethods, RemoteMethods, RemoteParams>({
+  contractVersion: "1.0.0",
+  contractVersionRange: ">=1.0.0 <2.0.0",
+})
+```
+
+### Shared contract definition (with Zod)
+
+Define method params/returns and URL params with Zod; types are inferred and you can reuse schemas for validation:
+
+```typescript
+import { z } from "zod"
+import {
+  createContract,
+  methodDef,
+  InferMethodsFromSchema,
+  InferParamsFromSchema,
+  type HostMethodsSchemaBase,
+  type RemoteMethodsSchemaBase,
+  type RemoteParamsSchemaBase,
+} from "@leancodepl/iframe-contract"
+
+const NotificationTypeSchema = z.enum(["success", "error", "info"])
+
+const HostMethods = {
+  navigateTo: methodDef({ params: z.object({ path: z.string() }) }),
+  showNotification: methodDef({
+    params: z.object({ message: z.string(), type: NotificationTypeSchema }),
+  }),
+} satisfies HostMethodsSchemaBase
+
+const RemoteMethods = {
+  getCurrentPath: methodDef({ returns: z.string() }),
+  refresh: methodDef(),
+} satisfies RemoteMethodsSchemaBase
+
+const RemoteParams = {
+  userId: z.string(),
+  tenantId: z.string().optional(),
+} satisfies RemoteParamsSchemaBase
+
+export type HostMethodsType = InferMethodsFromSchema<typeof HostMethods>
+export type RemoteMethodsType = InferMethodsFromSchema<typeof RemoteMethods>
+export type RemoteParamsType = InferParamsFromSchema<typeof RemoteParams>
+
+export const contract = createContract<HostMethodsType, RemoteMethodsType, RemoteParamsType>({
   contractVersion: "1.0.0",
   contractVersionRange: ">=1.0.0 <2.0.0",
 })
@@ -295,6 +351,7 @@ connectToHost({
 ## Features
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
+- **Zod support** - Optional Zod schemas via `methodDef`, `InferMethodsFromSchema`, and `InferParamsFromSchema` for inferred types and reusable validation
 - **Contract version checking** - Required `contractVersion` and `contractVersionRange` in `createContract`; remote
   verifies host version satisfies the range via `semver.satisfies` before connecting
 - **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage; connection state via `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`)
