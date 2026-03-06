@@ -11,7 +11,7 @@ export {
   type UseConnectToHostResult,
 } from "./lib/useConnectToHost"
 export { createConnectToHostProvider } from "./lib/ConnectToHostProvider"
-export { buildRemoteUrl, parseUrlParams } from "./lib/urlParams"
+export { buildRemoteUrl, getUrlParams } from "./lib/urlParams"
 export { createContract, type CreateContractOptions } from "./lib/createContract"
 export { ConnectStatus } from "./lib/enums"
 export type { HostProxy, RemoteProxy } from "./lib/types"

@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react"
-import { parseUrlParams } from "../src/lib/urlParams"
+import { getUrlParams } from "../src/lib/urlParams"
 import { useConnectToHost } from "../src/lib/useConnectToHost"
 
 vi.mock("../src/lib/connect", () => ({
@@ -10,7 +10,7 @@ vi.mock("../src/lib/connect", () => ({
 }))
 
 vi.mock("../src/lib/urlParams", () => ({
-  parseUrlParams: vi.fn(),
+  getUrlParams: vi.fn(),
 }))
 
 describe("useConnectToHost", () => {
@@ -22,7 +22,7 @@ describe("useConnectToHost", () => {
       writable: true,
       configurable: true,
     })
-    vi.mocked(parseUrlParams).mockReturnValue({ contractVersion: "1.0.0" } as never)
+    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "1.0.0" } as never)
   })
 
   afterEach(() => {
@@ -34,7 +34,7 @@ describe("useConnectToHost", () => {
   })
 
   it("calls incompatibleVersionHandler when host version is incompatible", () => {
-    vi.mocked(parseUrlParams).mockReturnValue({ contractVersion: "0.9.0" } as never)
+    vi.mocked(getUrlParams).mockReturnValue({ contractVersion: "0.9.0" } as never)
 
     const incompatibleVersionHandler = vi.fn()
 

@@ -1,6 +1,24 @@
-import { buildRemoteUrl, parseUrlParams } from "../src/lib/urlParams"
+import { buildRemoteUrl, getUrlParams } from "../src/lib/urlParams"
 
 const contractVersion = "1.0.0"
+
+export function installLocationMock(): void {
+  const originalLocation = globalThis.location
+  const originalWindow = globalThis.window
+  beforeEach(() => {
+    setLocationSearch("")
+    ;(globalThis as { window?: unknown }).window = {}
+  })
+  afterEach(() => {
+    ;(globalThis as { location?: Location; window?: typeof globalThis & Window }).location =
+      originalLocation
+    ;(globalThis as { window?: typeof globalThis & Window }).window = originalWindow
+  })
+}
+
+export function setLocationSearch(search: string): void {
+  ;(globalThis as { location: { search: string } }).location = { search }
+}
 
 describe("buildRemoteUrl", () => {
   it("returns base URL when params are undefined", () => {
@@ -58,26 +76,29 @@ describe("buildRemoteUrl", () => {
   })
 })
 
-describe("parseUrlParams", () => {
+describe("getUrlParams", () => {
+  installLocationMock()
+
   it("parses search string into object", () => {
-    const result = parseUrlParams<{ userId: string; theme: string; contractVersion: string }>(
-      "?userId=123&theme=dark&contractVersion=1.0.0",
-    )
-    expect(result).toEqual({ userId: "123", theme: "dark", contractVersion })
+    setLocationSearch("?userId=123&theme=dark&contractVersion=1.0.0")
+    const result = getUrlParams<{ userId: string; theme: string; contractVersion: string }>()
+    expect(result).toEqual({ userId: "123", theme: "dark", contractVersion: "1.0.0" })
   })
 
   it("parses params with contractVersion", () => {
-    const result = parseUrlParams<{ contractVersion: string }>("?contractVersion=1.0.0")
+    setLocationSearch("?contractVersion=1.0.0")
+    const result = getUrlParams<{ contractVersion: string }>()
     expect(result).toEqual({ contractVersion: "1.0.0" })
   })
 
   it("returns empty object for empty search string", () => {
-    const result = parseUrlParams("")
+    const result = getUrlParams()
     expect(result).toEqual({})
   })
 
   it("handles search string without leading question mark", () => {
-    const result = parseUrlParams("userId=123&theme=dark")
+    setLocationSearch("userId=123&theme=dark")
+    const result = getUrlParams<{ userId: string; theme: string; contractVersion: string }>()
     expect(result).toEqual({ userId: "123", theme: "dark" })
   })
 })

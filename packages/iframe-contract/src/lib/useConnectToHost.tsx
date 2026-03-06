@@ -4,7 +4,7 @@ import type { ConnectToHostOptions } from "./connect"
 import { connectToHost } from "./connect"
 import { ConnectStatus } from "./enums"
 import { HostMethodsBase, HostProxy, RemoteMethodsBase, RemoteParamsWithContractVersion } from "./types"
-import { parseUrlParams } from "./urlParams"
+import { getUrlParams } from "./urlParams"
 
 export type UseConnectToHostOptions<TRemote extends RemoteMethodsBase> = ConnectToHostOptions<TRemote> & {
   /** Remote's semver contract version */
@@ -33,7 +33,7 @@ export function useConnectToHost<
 >(options: UseConnectToHostOptions<TRemote>): UseConnectToHostResult<THost> {
   const { methods, allowedOrigins, contractVersion, contractVersionRange, incompatibleVersionHandler } = options
 
-  const params = useRef(parseUrlParams<TParamsWithContractVersion>())
+  const params = useRef(getUrlParams<TParamsWithContractVersion>())
 
   const [state, setState] = useState<ConnectToHostState<THost>>({ status: ConnectStatus.IDLE })
 

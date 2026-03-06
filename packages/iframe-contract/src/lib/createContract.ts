@@ -1,6 +1,6 @@
 import { createConnectToHostProvider } from "./ConnectToHostProvider"
 import { HostMethodsBase, RemoteMethodsBase, RemoteParamsBase, RemoteParamsWithContractVersion } from "./types"
-import { parseUrlParams } from "./urlParams"
+import { getUrlParams } from "./urlParams"
 import { useConnectToHost, UseConnectToHostOptions } from "./useConnectToHost"
 import { useConnectToRemote, UseConnectToRemoteOptions } from "./useConnectToRemote"
 
@@ -29,7 +29,7 @@ export type CreateContractOptions = {
  *
  * // Host: contract.useConnectToRemote({ remoteUrl, params: { userId: '123' }, methods })
  * // Remote: contract.useConnectToHost({ methods, incompatibleVersionHandler })
- * // Remote: contract.parseUrlParams() // { userId?: string; tenantId?: string }
+ * // Remote: contract.getUrlParams() // { userId?: string; tenantId?: string }
  */
 export function createContract<
   THost extends HostMethodsBase,
@@ -66,6 +66,6 @@ export function createContract<
     useConnectToHost: useWrappedConnectToHost,
     ConnectToHostProvider,
     useConnectToHostContext,
-    parseUrlParams: parseUrlParams as typeof parseUrlParams<TParamsWithContractVersion>,
+    getUrlParams: getUrlParams as typeof getUrlParams<TParamsWithContractVersion>,
   }
 }

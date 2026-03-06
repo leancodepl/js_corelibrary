@@ -24,13 +24,13 @@ signatures match.
 **Options:**
 
 - `contractVersion` - **Required.** Semver version of the contract (e.g. `"1.0.0"`). Host passes it via URL params;
-  remote verifies before connecting. When using the contract, this value is auto-injected into
-  `useConnectToRemote`, `useConnectToHost`, and `ConnectToHostProvider`—you don't pass it explicitly.
+  remote verifies before connecting. When using the contract, this value is auto-injected into `useConnectToRemote`,
+  `useConnectToHost`, and `ConnectToHostProvider`—you don't pass it explicitly.
 - `contractVersionRange` - **Required.** Semver range the host contract version must satisfy (e.g. `">=1.0.0 <2.0.0"`,
   `"^2.0.0"`, `"~2.1.0"`). Remote checks `semver.satisfies(hostVersion, contractVersionRange)` before connecting.
 
 **Returns:** Object with `useConnectToRemote`, `useConnectToHost`, `ConnectToHostProvider`, `useConnectToHostContext`,
-and `parseUrlParams`
+and `getUrlParams`
 
 ### `ConnectStatus`
 
@@ -66,8 +66,8 @@ Connects host (parent) to remote (child iframe) and renders the iframe. Call fro
 **Parameters:**
 
 - `options` - `UseConnectToRemoteOptions<THost, TParams>` - Connection options including `remoteUrl`, `iframeProps`
-  (with required `title`), `methods`, optional `params`, `allowedOrigins`. `contractVersion` is auto-injected from
-  the contract.
+  (with required `title`), `methods`, optional `params`, `allowedOrigins`. `contractVersion` is auto-injected from the
+  contract.
 
 **Returns:** `UseConnectToRemoteResult<TRemote>` - Object with `iframe` element and connection state: `status`
 (`ConnectStatus`), and when connected `remote` proxy, when error `error`
@@ -90,8 +90,8 @@ proxy, when error `error`
 `createConnectToHostProvider` creates a typed `ConnectToHostProvider` and `useConnectToHostContext` pair. Each contract
 calls this internally; use `contract.ConnectToHostProvider` and `contract.useConnectToHostContext`.
 
-**ConnectToHostProvider props:** `methods`, `incompatibleVersionHandler` (required), optional `allowedOrigins`, `children`.
-`contractVersion` and `contractVersionRange` are auto-injected from the contract.
+**ConnectToHostProvider props:** `methods`, `incompatibleVersionHandler` (required), optional `allowedOrigins`,
+`children`. `contractVersion` and `contractVersionRange` are auto-injected from the contract.
 
 ### `buildRemoteUrl(baseUrl, params)`
 
@@ -104,13 +104,9 @@ Builds remote URL with query parameters. Merges params into the URL, preserving 
 
 **Returns:** `string` - Full URL with query string
 
-### `parseUrlParams(search)`
+### `getUrlParams()`
 
-Parses URL search params into a typed object. Call from the remote (iframe) to read params passed by the host.
-
-**Parameters:**
-
-- `search` - `string` (optional) - Search string (defaults to `location.search` in browser)
+Reads URL search params from the current location as a typed object. No validation is performed. Call from the remote (iframe) to read params passed by the host. Always uses `location.search` in the browser.
 
 **Returns:** `TParams` - Typed object of params (includes `contractVersion` when using a contract)
 
@@ -118,11 +114,14 @@ Parses URL search params into a typed object. Call from the remote (iframe) to r
 
 When using Zod, you get inferred types and optional runtime validation:
 
-- **`methodDef(def?)`** - Defines a method schema. `def` can have `params` (Zod object) and/or `returns` (Zod type). Use for host and remote method signatures.
+- **`methodDef(def?)`** - Defines a method schema. `def` can have `params` (Zod object) and/or `returns` (Zod type). Use
+  for host and remote method signatures.
 - **`InferMethodsFromSchema<T>`** - Infers `HostMethods` or `RemoteMethods` from a record of method-def schemas.
 - **`InferParamsFromSchema<T>`** - Infers `RemoteParams` from a record of param schemas (e.g. `{ userId: z.string() }`).
-- **`MethodType<S>`, `MethodParamsType<S>`, `MethodReturnType<S>`** - Per-method inferred types from a method-def schema.
-- **`mkZodContractSchema({ hostMethods, remoteMethods, remoteParams })`** - Builds a Zod schema for the full contract (e.g. for validation or tooling). Types are still passed to `createContract` via the inferred types.
+- **`MethodType<S>`, `MethodParamsType<S>`, `MethodReturnType<S>`** - Per-method inferred types from a method-def
+  schema.
+- **`mkZodContractSchema({ hostMethods, remoteMethods, remoteParams })`** - Builds a Zod schema for the full contract
+  (e.g. for validation or tooling). Types are still passed to `createContract` via the inferred types.
 
 ## Usage Examples
 
@@ -258,11 +257,12 @@ function RemoteAppRoot() {
 }
 
 function RemoteApp() {
-  const params = contract.parseUrlParams()
+  const params = contract.getUrlParams()
   const connection = contract.useConnectToHostContext()
 
   const handleSave = async () => {
-    if (connection.status === ConnectStatus.CONNECTED) await connection.host.showNotification("Settings saved", "success")
+    if (connection.status === ConnectStatus.CONNECTED)
+      await connection.host.showNotification("Settings saved", "success")
   }
 
   return (
@@ -281,7 +281,7 @@ import { ConnectStatus } from "@leancodepl/iframe-contract"
 import { contract } from "./contract"
 
 function RemoteApp() {
-  const params = contract.parseUrlParams()
+  const params = contract.getUrlParams()
   const connection = contract.useConnectToHost({
     methods: {
       getCurrentPath: () => Promise.resolve(location.pathname),
@@ -293,7 +293,8 @@ function RemoteApp() {
   })
 
   const handleSave = async () => {
-    if (connection.status === ConnectStatus.CONNECTED) await connection.host.showNotification("Settings saved", "success")
+    if (connection.status === ConnectStatus.CONNECTED)
+      await connection.host.showNotification("Settings saved", "success")
   }
 
   return (
@@ -327,9 +328,9 @@ await remote.refresh()
 Remote side:
 
 ```typescript
-import { connectToHost, parseUrlParams } from "@leancodepl/iframe-contract"
+import { connectToHost, getUrlParams } from "@leancodepl/iframe-contract"
 
-const params = parseUrlParams<{ userId?: string }>()
+const params = getUrlParams<{ userId?: string }>()
 const connection = connectToHost({
   methods: {
     getCurrentPath: () => Promise.resolve(location.pathname),
@@ -351,10 +352,12 @@ connectToHost({
 ## Features
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
-- **Zod support** - Optional Zod schemas via `methodDef`, `InferMethodsFromSchema`, and `InferParamsFromSchema` for inferred types and reusable validation
+- **Zod support** - Optional Zod schemas via `methodDef`, `InferMethodsFromSchema`, and `InferParamsFromSchema` for
+  inferred types and reusable validation
 - **Contract version checking** - Required `contractVersion` and `contractVersionRange` in `createContract`; remote
   verifies host version satisfies the range via `semver.satisfies` before connecting
-- **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage; connection state via `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`)
-- **URL params** - `buildRemoteUrl` and `parseUrlParams` pass data from host to remote via query string
+- **React hooks** - `useConnectToRemote` and `useConnectToHost` for declarative usage; connection state via
+  `ConnectStatus` and discriminated state (`status`, `remote`/`host`, `error`)
+- **URL params** - `buildRemoteUrl` and `getUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries

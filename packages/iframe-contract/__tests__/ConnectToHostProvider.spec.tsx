@@ -10,7 +10,7 @@ vi.mock("../src/lib/connect", () => ({
 }))
 
 vi.mock("../src/lib/urlParams", () => ({
-  parseUrlParams: vi.fn(() => ({ contractVersion: "1.0.0" })),
+  getUrlParams: vi.fn(() => ({ contractVersion: "1.0.0" })),
 }))
 
 const { ConnectToHostProvider, useConnectToHostContext } = createConnectToHostProvider("1.0.0", ">=1.0.0")

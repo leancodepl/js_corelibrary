@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { ConnectStatus, HostProxy, parseUrlParams, RemoteProxy } from "../src"
+import { ConnectStatus, getUrlParams, HostProxy, RemoteProxy } from "../src"
 import { ConnectToHostProvider, useConnectToHostContext, useConnectToRemote } from "./contract"
 import {
   HostMethods,
@@ -133,7 +133,7 @@ export const RemoteComponent = () => {
 }
 
 const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: number; theme: ThemeValue }) => {
-  const params = useMemo(() => parseUrlParams(), [])
+  const params = useMemo(() => getUrlParams(), [])
   const connection = useConnectToHostContext()
 
   return (
