@@ -1,7 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { ConnectStatus, HostProxy, RemoteProxy } from "../src"
-import { ConnectToHostProvider, parseUrlParams, useConnectToHostContext, useConnectToRemote } from "./contract"
-import { HostMethods, RemoteMethods, ThemeValue } from "./types"
+import { ConnectStatus, HostProxy, parseUrlParams, RemoteProxy } from "../src"
+import { ConnectToHostProvider, useConnectToHostContext, useConnectToRemote } from "./contract"
+import {
+  HostMethods,
+  RemoteGetCurrentPath,
+  RemoteMethods,
+  RemoteOnRouteChangeParams,
+  RemoteOnRouteChangeResult,
+  RemoteRefresh,
+  ThemeValue,
+} from "./types"
 
 export const HostComponent = () => {
   const [currentPath, setCurrentPath] = useState("/dashboard")
@@ -9,17 +17,19 @@ export const HostComponent = () => {
   const [notifications, setNotifications] = useState<Array<{ id: number; message: string; type: string }>>([])
   const [nextNotificationId, setNextNotificationId] = useState(0)
 
-  const methods = useMemo(
+  const methods = useMemo<HostMethods>(
     () => ({
-      onRouteChange: (path: string): Promise<void> => (setCurrentPath(path), Promise.resolve()),
-      navigateTo: (path: string): Promise<void> => (setCurrentPath(path), Promise.resolve()),
-      invalidateToken: (): Promise<boolean> => (setUserId(null), Promise.resolve(true)),
-      showNotification: (message: string, type?: "error" | "info" | "success" | "warning"): Promise<void> => (
-        setNotifications(prev => [...prev, { id: nextNotificationId, message, type: type ?? "info" }]),
-        setNextNotificationId(id => id + 1),
-        Promise.resolve()
-      ),
-      getCurrentUserId: (): Promise<string | null> => Promise.resolve(userId),
+      onRouteChange: async ({ path }) => setCurrentPath(path),
+      navigateTo: async ({ path }) => setCurrentPath(path),
+      invalidateToken: async () => {
+        setUserId(null)
+        return true
+      },
+      showNotification: async ({ message, type }) => {
+        setNotifications(prev => [...prev, { id: nextNotificationId, message, type: type ?? "info" }])
+        setNextNotificationId(id => id + 1)
+      },
+      getCurrentUserId: async () => userId,
     }),
     [userId, nextNotificationId],
   )
@@ -59,7 +69,7 @@ export const HostComponent = () => {
 
 export const ConnectedRemoteComponent = ({ remote }: { remote: RemoteProxy<RemoteMethods> }) => {
   const handleSyncTheme = useCallback(async () => {
-    await remote.onThemeChange("dark")
+    await remote.onThemeChange({ theme: "dark" })
   }, [remote])
 
   const handleRefreshRemote = useCallback(async () => {
@@ -74,20 +84,41 @@ export const ConnectedRemoteComponent = ({ remote }: { remote: RemoteProxy<Remot
   )
 }
 
-export const RemoteComponent = () => {
+const useRoutingContract = () => {
   const [path, setPath] = useState("/settings")
-  const [theme, setTheme] = useState<ThemeValue>("light")
   const [refreshTrigger, setRefreshTrigger] = useState(0)
+
+  const getCurrentPath = useCallback<RemoteGetCurrentPath>(async () => path, [path])
+
+  const handleRouteChange = useCallback(async ({ path }: RemoteOnRouteChangeParams): RemoteOnRouteChangeResult => {
+    setPath(path)
+  }, [])
+
+  const handleRefresh = useCallback<RemoteRefresh>(async () => {
+    setRefreshTrigger(t => t + 1)
+  }, [])
+
+  return {
+    getCurrentPath,
+    handleRouteChange,
+    handleRefresh,
+    refreshTrigger,
+  }
+}
+
+export const RemoteComponent = () => {
+  const { getCurrentPath, handleRouteChange, handleRefresh, refreshTrigger } = useRoutingContract()
+  const [theme, setTheme] = useState<ThemeValue>("light")
 
   const methods = useMemo<RemoteMethods>(
     () => ({
-      getCurrentPath: () => Promise.resolve(path),
-      onRouteChange: (newPath: string): Promise<void> => (setPath(newPath), Promise.resolve()),
-      navigateTo: (newPath: string): Promise<void> => (setPath(newPath), Promise.resolve()),
-      refresh: (): Promise<void> => (setRefreshTrigger(t => t + 1), Promise.resolve()),
-      onThemeChange: (newTheme: ThemeValue): Promise<void> => (setTheme(newTheme), Promise.resolve()),
+      getCurrentPath,
+      onRouteChange: handleRouteChange,
+      navigateTo: handleRouteChange,
+      refresh: handleRefresh,
+      onThemeChange: async ({ theme }) => setTheme(theme),
     }),
-    [path],
+    [getCurrentPath, handleRouteChange, handleRefresh],
   )
 
   const handleIncompatibleVersion = useCallback((hostVersion: string, remoteVersion: string): void => {
@@ -118,14 +149,17 @@ const RemoteChildComponent = ({ refreshTrigger, theme }: { refreshTrigger: numbe
 }
 
 const ConnectedHostComponent = ({ host }: { host: HostProxy<HostMethods> }) => {
-  const handleSave = useCallback(async () => host.showNotification("Settings saved", "success"), [host])
+  const handleSave = useCallback(
+    async () => host.showNotification({ message: "Settings saved", type: "success" }),
+    [host],
+  )
 
   const handleLogout = useCallback(async () => {
     const ok = await host.invalidateToken()
     if (ok) console.warn("Token invalidated")
   }, [host])
 
-  const handleNavigateToProfile = useCallback(async () => host.navigateTo("/profile"), [host])
+  const handleNavigateToProfile = useCallback(async () => host.navigateTo({ path: "/profile" }), [host])
 
   return (
     <div>

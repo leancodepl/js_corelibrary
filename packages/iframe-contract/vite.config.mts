@@ -22,7 +22,7 @@ export default defineConfig(() => ({
       fileName: "index",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "penpal", "semver"],
+      external: ["react", "react-dom", "react/jsx-runtime", "penpal", "semver", "zod"],
     },
   },
   test: {
