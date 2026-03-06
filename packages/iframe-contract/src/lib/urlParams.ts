@@ -19,11 +19,12 @@ export function buildRemoteUrl(baseUrl: string, params?: RemoteParamsWithContrac
 }
 
 /**
- * Parse URL search params into a typed object.
+ * Read URL search params as a typed object. No validation is performed.
  * Call from the remote (iframe) to read params passed by the host.
  */
-export function parseUrlParams<TParamsWithContractVersion extends RemoteParamsWithContractVersion>(
-  search: string = typeof globalThis.window !== "undefined" ? globalThis.location.search : "",
-): TParamsWithContractVersion {
+export function getUrlParams<
+  TParamsWithContractVersion extends RemoteParamsWithContractVersion,
+>(): TParamsWithContractVersion {
+  const search = typeof globalThis.window !== "undefined" ? globalThis.location.search : ""
   return Object.fromEntries(new URLSearchParams(search).entries()) as TParamsWithContractVersion
 }
