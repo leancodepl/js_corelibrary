@@ -29,19 +29,13 @@ export type MethodDefInferred = { params?: unknown; returns?: unknown }
 
 export type MethodDefOutput<S extends z.ZodTypeAny> = z.infer<S>
 
-export type MethodParamsType<S extends z.ZodTypeAny> = MethodDefOutput<S> extends { params: infer P } ? P : void
+export type MethodParamsType<S extends z.ZodTypeAny> = MethodDefOutput<S> extends { params: infer P } ? P : never
 
 export type MethodReturnType<S extends z.ZodTypeAny> =
-  MethodDefOutput<S> extends { returns: infer R } ? (R extends undefined ? Promise<void> : Promise<R>) : Promise<void>
+  MethodDefOutput<S> extends { returns: infer R } ? Promise<R> : Promise<void>
 
 export type MethodType<S extends z.ZodTypeAny> =
-  MethodDefOutput<S> extends { params: infer P }
-    ? MethodDefOutput<S> extends { returns: infer R }
-      ? (params: P) => Promise<R>
-      : (params: P) => Promise<void>
-    : MethodDefOutput<S> extends { returns: infer R }
-      ? () => Promise<R>
-      : () => Promise<void>
+  MethodParamsType<S> extends never ? () => MethodReturnType<S> : (params: MethodParamsType<S>) => MethodReturnType<S>
 
 export type InferMethodsFromSchema<T extends Record<string, z.ZodTypeAny>> = {
   [K in keyof T]: MethodType<T[K]>
