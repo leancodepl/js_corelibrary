@@ -21,14 +21,25 @@ function invariant(condition, message) {
   }
 }
 
-function updatePackageJson(version) {
+function updatePackageJson(version, registry) {
   try {
     const json = JSON.parse(readFileSync(`package.json`).toString())
     json.version = version
+    if (registry && registry !== "npm") {
+      json.publishConfig = { ...json.publishConfig, registry }
+    }
     writeFileSync(`package.json`, JSON.stringify(json, null, 2))
   } catch {
     console.error(`Error reading package.json file from library build output.`)
   }
+}
+
+function writeScopedRegistryOverride(registry) {
+  const json = JSON.parse(readFileSync(`package.json`).toString())
+  const packageName = json.name
+  const scope = packageName.startsWith("@") ? packageName.slice(0, packageName.indexOf("/")) : null
+  const line = scope ? `${scope}:registry=${registry}\n` : `registry=${registry}\n`
+  writeFileSync(".npmrc", line)
 }
 
 // Executing publish script: node path/to/publish.mjs {name} --version {version} --tag {tag}
@@ -65,7 +76,7 @@ let publishFolderToCleanup = null
 
 if (outputPath) {
   process.chdir(outputPath)
-  updatePackageJson(version)
+  updatePackageJson(version, registry)
 } else {
   process.chdir(root)
 
@@ -94,7 +105,11 @@ if (outputPath) {
   publishFolderToCleanup = join(process.cwd(), publishFolder)
 
   process.chdir(publishFolder)
-  updatePackageJson(version)
+  updatePackageJson(version, registry)
+}
+
+if (registry !== "npm") {
+  writeScopedRegistryOverride(registry)
 }
 
 const registryParam = registry !== "npm" ? `--registry ${registry}` : ""
