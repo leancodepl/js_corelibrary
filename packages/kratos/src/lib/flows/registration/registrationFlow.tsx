@@ -20,7 +20,7 @@ import { OnRegistrationFlowError } from "./types"
 
 export type RegistrationFlowProps<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly [],
 > = {
   traitsConfig: TTraitsConfig
   oidcProvidersConfig?: TOidcProvidersConfig
@@ -38,7 +38,7 @@ export type RegistrationFlowProps<
 
 function RegistrationFlowWrapper<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly [],
 >({
   traitsConfig,
   oidcProvidersConfig,
@@ -160,7 +160,7 @@ function RegistrationFlowWrapper<
  */
 export function RegistrationFlow<
   TTraitsConfig extends TraitsConfig,
-  TOidcProvidersConfig extends OidcProvidersConfig = readonly []
+  TOidcProvidersConfig extends OidcProvidersConfig = readonly [],
 >(props: RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>) {
   return (
     <VerificationFlowProvider>
