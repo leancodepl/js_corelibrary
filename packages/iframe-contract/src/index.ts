@@ -15,3 +15,17 @@ export { buildRemoteUrl, parseUrlParams } from "./lib/urlParams"
 export { createContract, type CreateContractOptions } from "./lib/createContract"
 export { ConnectStatus } from "./lib/enums"
 export type { HostProxy, RemoteProxy } from "./lib/types"
+export {
+  type HostMethodsSchemaBase,
+  type InferMethodsFromSchema,
+  type InferParamsFromSchema,
+  methodDef,
+  type MethodDefInferred,
+  type MethodDefOutput,
+  type MethodParamsType,
+  type MethodReturnType,
+  type MethodType,
+  mkZodContractSchema,
+  type RemoteMethodsSchemaBase,
+  type RemoteParamsSchemaBase,
+} from "./lib/zod"
