@@ -1,0 +1,65 @@
+{
+  "name": "@leancodepl/iframe-contract",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "penpal": "^7.0.0",
+    "semver": "^7.0.0",
+    "zod": "^4.0.5"
+  },
+  "peerDependencies": {
+    "@testing-library/react": "*",
+    "react": "*",
+    "react-dom": "*",
+    "vitest": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leancodepl/js_corelibrary.git",
+    "directory": "packages/iframe-contract"
+  },
+  "homepage": "https://github.com/leancodepl/js_corelibrary",
+  "bugs": {
+    "url": "https://github.com/leancodepl/js_corelibrary/issues"
+  },
+  "description": "Creates type-safe contracts between a host app and a remote iframe app (e.g., Replit embed). Uses `postMessage` via Penpal for secure cross-origin communication.",
+  "keywords": [
+    "iframe",
+    "contract",
+    "embed",
+    "penpal",
+    "typescript",
+    "javascript",
+    "leancode",
+    "react"
+  ],
+  "author": {
+    "name": "LeanCode",
+    "url": "https://leancode.co"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "!**/*.tsbuildinfo"
+  ]
+}
