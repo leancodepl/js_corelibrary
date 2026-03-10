@@ -25,7 +25,8 @@ export function methodDef<P extends z.ZodRawShape, R extends z.ZodTypeAny>(def?:
   return z.object({})
 }
 
-export type MethodDefInferred = { params?: unknown; returns?: unknown }
+export const MethodDefInferredSchema = z.object({ params: z.unknown(), returns: z.unknown() }).partial()
+export type MethodDefInferred = z.infer<typeof MethodDefInferredSchema>
 
 export type MethodDefOutput<S extends z.ZodTypeAny> = z.infer<S>
 
@@ -49,6 +50,13 @@ export type HostMethodsSchemaBase = Record<string, z.ZodType<MethodDefInferred>>
 export type RemoteMethodsSchemaBase = Record<string, z.ZodType<MethodDefInferred>>
 export type RemoteParamsSchemaBase = Record<string, z.ZodType<string>>
 
+export const ContractSchema = z.object({
+  hostMethods: z.record(z.string(), MethodDefInferredSchema),
+  remoteMethods: z.record(z.string(), MethodDefInferredSchema),
+  remoteParams: z.record(z.string(), z.string()),
+})
+export type ContractSchemaType = z.infer<typeof ContractSchema>
+
 export function mkZodContractSchema({
   hostMethods,
   remoteMethods,
@@ -62,5 +70,5 @@ export function mkZodContractSchema({
     hostMethods: z.object(hostMethods),
     remoteMethods: z.object(remoteMethods),
     remoteParams: z.object(remoteParams),
-  })
+  }) satisfies z.ZodType<ContractSchemaType>
 }

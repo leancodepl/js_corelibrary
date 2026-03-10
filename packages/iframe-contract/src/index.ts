@@ -16,11 +16,14 @@ export { createContract, type CreateContractOptions } from "./lib/createContract
 export { ConnectStatus } from "./lib/enums"
 export type { HostProxy, RemoteProxy } from "./lib/types"
 export {
+  ContractSchema,
+  type ContractSchemaType,
   type HostMethodsSchemaBase,
   type InferMethodsFromSchema,
   type InferParamsFromSchema,
   methodDef,
   type MethodDefInferred,
+  MethodDefInferredSchema,
   type MethodDefOutput,
   type MethodParamsType,
   type MethodReturnType,
