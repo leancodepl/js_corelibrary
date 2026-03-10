@@ -101,7 +101,7 @@ Builds remote URL with query parameters. Merges params into the URL, preserving 
 **Parameters:**
 
 - `baseUrl` - `string` - Base URL without params
-- `params` - `Record<string, string | undefined>` (optional) - Params to merge
+- `params` - `RemoteParamsWithContractVersion` (optional) - Params to merge (must include `contractVersion`)
 
 **Returns:** `string` - Full URL with query string
 
@@ -321,7 +321,7 @@ Host side:
 import { connectToRemote, buildRemoteUrl } from "@leancodepl/cyberware-contract"
 
 const iframe = document.getElementById("remote") as HTMLIFrameElement
-iframe.src = buildRemoteUrl("https://replit.example.com/app", { userId: "123" })
+iframe.src = buildRemoteUrl("https://replit.example.com/app", { contractVersion: "1.0.0", userId: "123" })
 
 const connection = connectToRemote(iframe, {
   methods: {
