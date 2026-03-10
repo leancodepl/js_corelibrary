@@ -1,0 +1,128 @@
+# @leancodepl/iframe-contract-dart-generator
+
+Generates Dart extension type files from an `"@leancodepl/cyberware-contract"` Zod schema, producing type-safe JS
+interop code for Flutter web applications.
+
+## Installation
+
+```bash
+npm install @leancodepl/iframe-contract-dart-generator
+```
+
+## API
+
+### `generate(config, outputDir)`
+
+Generates Dart extension type files from an iframe contract schema. Produces three files in the output directory:
+`contract.dart`, `types.dart`, and `connect_to_host.dart`.
+
+**Parameters:**
+
+- `config` (`Pick<IframeContractDartGeneratorConfig, "schema">`) - Configuration containing the Zod contract schema
+- `outputDir` (`string`) - Absolute or relative path to the directory where Dart files will be written
+
+### `iframeContractDartGeneratorConfigSchema`
+
+Validates the configuration for the Dart code generator.
+
+**Type:** Zod schema that validates to `IframeContractDartGeneratorConfig`
+
+**Shape:**
+
+- `schema` (`z.ZodType<ContractSchemaType>`) - A Zod contract schema created with `mkZodContractSchema` from
+  `"@leancodepl/cyberware-contract"`
+- `outputDir` (`string`) - Directory where Dart files will be written
+
+### `IframeContractDartGeneratorConfig`
+
+TypeScript type inferred from `iframeContractDartGeneratorConfigSchema`.
+
+## Usage Examples
+
+### CLI
+
+Run the generator from the command line:
+
+```bash
+npx iframe-contract-dart-generator
+```
+
+Pass a custom config path:
+
+```bash
+npx iframe-contract-dart-generator --config ./my-config.mjs
+```
+
+### Configuration file
+
+Create an `iframe-contract-dart-generator.config.mjs` in your project root:
+
+```javascript
+import { z } from "zod"
+import { methodDef, mkZodContractSchema } from "@leancodepl/cyberware-contract"
+
+const schema = mkZodContractSchema({
+  hostMethods: {
+    navigateTo: methodDef({ params: z.object({ path: z.string() }) }),
+  },
+  remoteMethods: {
+    getCurrentPath: methodDef({ returns: z.string() }),
+  },
+  remoteParams: { userId: z.string().optional() },
+})
+
+export default {
+  schema,
+  outputDir: "./lib/generated",
+}
+```
+
+### Programmatic usage
+
+```typescript
+import { generate } from "@leancodepl/iframe-contract-dart-generator"
+import { mkZodContractSchema, methodDef } from "@leancodepl/cyberware-contract"
+import { z } from "zod"
+
+const schema = mkZodContractSchema({
+  hostMethods: {
+    navigateTo: methodDef({ params: z.object({ path: z.string() }) }),
+  },
+  remoteMethods: {
+    getCurrentPath: methodDef({ returns: z.string() }),
+  },
+  remoteParams: { userId: z.string() },
+})
+
+await generate({ schema }, "./lib/generated")
+```
+
+### Validating configuration
+
+```typescript
+import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/iframe-contract-dart-generator"
+
+const config = iframeContractDartGeneratorConfigSchema.parse({
+  schema: myContractSchema,
+  outputDir: "./lib/generated",
+})
+```
+
+## Generated output
+
+The generator produces three Dart files:
+
+- **`contract.dart`** - Extension types wrapping `JSObject` for method parameters and result typedefs
+- **`types.dart`** - Host/remote method abstractions, JS interop bridge types, URL parameter accessors, and
+  `ConnectToHostState` typedef
+- **`connect_to_host.dart`** - Typed `connectToHost` function wiring remote methods and returning host methods
+
+## Configuration
+
+The CLI searches for config files in the following order:
+
+- `iframe-contract-dart-generator.config.js`
+- `iframe-contract-dart-generator.config.cjs`
+- `iframe-contract-dart-generator.config.mjs`
+
+Alternatively, pass an explicit path with `--config` / `-c`.

@@ -1,0 +1,44 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import * as path from "node:path"
+/// <reference types='vitest' />
+import { defineConfig } from "vite"
+import dts from "vite-plugin-dts"
+
+export default defineConfig(() => ({
+  root: import.meta.dirname,
+  cacheDir: "../../node_modules/.vite/packages/iframe-contract-dart-generator",
+  plugins: [
+    dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json"), pathsToAliases: false }),
+  ],
+  build: {
+    outDir: "./dist",
+    emptyOutDir: true,
+    reportCompressedSize: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+    lib: {
+      entry: {
+        index: "src/index.ts",
+        bin: "src/bin.ts",
+      },
+      name: "@leancodepl/iframe-contract-dart-generator",
+      fileName: (format, entryName) => (format === "es" ? `${entryName}.js` : `${entryName}.cjs`),
+    },
+    rollupOptions: {
+      external: [/^[^./]/],
+    },
+  },
+  test: {
+    name: "@leancodepl/iframe-contract-dart-generator",
+    watch: false,
+    globals: true,
+    environment: "node",
+    passWithNoTests: true,
+    include: ["{src,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    reporters: ["default"],
+    coverage: {
+      provider: "v8" as const,
+    },
+  },
+}))
