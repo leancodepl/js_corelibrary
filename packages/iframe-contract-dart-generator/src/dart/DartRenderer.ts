@@ -285,7 +285,7 @@ function emitTypesDart(shape: ContractShape): string[] {
   ]
 
   for (const key of shape.remoteParamKeys) {
-    lines.push(`  String get ${key} => params['${key}']!;`)
+    lines.push(`  String get ${key} => base.UrlParamsBase.params['${key}']!;`)
   }
 
   lines.push("}", "", `abstract class ${RemoteMethodsBaseName} {`)
