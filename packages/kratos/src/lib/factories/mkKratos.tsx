@@ -13,6 +13,9 @@ import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
 import { OidcProvidersConfig, TraitsConfig } from "../utils"
 
+const defaultTraits = {} as const as TraitsConfig
+const defaultOidcProviders = [] as const as OidcProvidersConfig
+
 export type MkKratosConfig<
   TTraitsConfig extends TraitsConfig,
   TSessionManager extends BaseSessionManager<TTraitsConfig>,
@@ -255,9 +258,9 @@ export function mkKratos<
 >({
   queryClient,
   basePath,
-  traits = {} as TTraitsConfig,
+  traits = defaultTraits as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
-  oidcProviders = [] as const as unknown as TOidcProvidersConfig,
+  oidcProviders = defaultOidcProviders as TOidcProvidersConfig,
 }: MkKratosConfig<TTraitsConfig, TSessionManager, TOidcProvidersConfig>) {
   const api = new FrontendApi(
     new Configuration({
