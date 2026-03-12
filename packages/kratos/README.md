@@ -12,19 +12,19 @@ yarn add @leancodepl/kratos
 
 ## API
 
-### `mkKratos(queryClient, basePath, traits, SessionManager, oidcProviders)`
+### `mkKratos(config)`
 
 Creates a Kratos client factory with authentication flows, session management, and React providers.
 
 **Parameters:**
 
-- `queryClient: QueryClient` - React Query client instance for managing server state
-- `basePath: string` - Base URL for the Kratos API server
-- `traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
-- `SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
+- `config.queryClient: QueryClient` - React Query client instance for managing server state
+- `config.basePath: string` - Base URL for the Kratos API server
+- `config.traits?: TTraitsConfig` - Optional traits configuration object for user schema validation
+- `config.SessionManager?: new (props: BaseSessionManagerContructorProps) => TSessionManager` - Optional session manager
   constructor, defaults to BaseSessionManager
-- `oidcProviders?: readonly OidcProviderConfig[]` - Optional array of custom OIDC provider configurations. Each provider
-  should have an `id` (matching Kratos provider ID)
+- `config.oidcProviders?: readonly OidcProviderConfig[]` - Optional array of custom OIDC provider configurations. Each
+  provider should have an `id` (matching Kratos provider ID). Define as `as const` for type-safe flow form props.
 
 **Returns:** Object with the following structure:
 
@@ -65,6 +65,36 @@ Manages Ory Kratos session and identity state with React Query integration.
 
 - `queryClient: QueryClient` - React Query `QueryClient` instance for caching and fetching session data
 - `api: FrontendApi` - Ory Kratos `FrontendApi` instance for session and identity requests
+
+### Form and error handler type utilities
+
+Type utilities for extracting form component props and error handler types from flow components. Pass the flow component
+type (e.g. `typeof LoginFlow`) as the generic parameter.
+
+**Form props types:**
+
+- `GetLoginChooseMethodFormProps<T>` - Props for `chooseMethodForm` in LoginFlow
+- `GetLoginSecondFactorFormProps<T>` - Props for `secondFactorForm` in LoginFlow
+- `GetLoginSecondFactorEmailFormProps<T>` - Props for `secondFactorEmailForm` in LoginFlow
+- `GetLoginEmailVerificationFormProps<T>` - Props for `emailVerificationForm` in LoginFlow
+- `GetRegistrationTraitsFormProps<T>` - Props for `traitsForm` in RegistrationFlow
+- `GetRegistrationChooseMethodFormProps<T>` - Props for `chooseMethodForm` in RegistrationFlow
+- `GetRegistrationEmailVerificationFormProps<T>` - Props for `emailVerificationForm` in RegistrationFlow
+- `GetVerificationEmailVerificationFormProps<T>` - Props for `emailVerificationForm` in VerificationFlow
+- `GetSettingsFormProps<T>` - Props for `settingsForm` in SettingsFlow
+- `GetSettingsTraitsFormProps<T>` - Props for `traitsForm` in SettingsFlow
+- `GetSettingsOidcFormProps<T>` - Props for `oidcForm` in SettingsFlow
+- `GetSettingsNewPasswordFormProps<T>` - Props for `newPasswordForm` in SettingsFlow
+- `GetSettingsPasskeysFormProps<T>` - Props for `passkeysForm` in SettingsFlow
+- `GetSettingsTotpFormProps<T>` - Props for `totpForm` in SettingsFlow
+- `GetRecoveryEmailFormProps<T>` - Props for `emailForm` in RecoveryFlow
+- `GetRecoveryCodeFormProps<T>` - Props for `codeForm` in RecoveryFlow
+- `GetRecoveryNewPasswordFormProps<T>` - Props for `newPasswordForm` in RecoveryFlow
+
+**Error handler type:**
+
+- `GetFlowErrorHandler<T>` - Type for `onError` in any flow (LoginFlow, RegistrationFlow, VerificationFlow,
+  RecoveryFlow, SettingsFlow)
 
 ## Usage Examples
 
@@ -205,7 +235,8 @@ const {
 
 ### Custom OIDC Providers
 
-You can configure custom OIDC providers (like Microsoft, GitHub, etc.) in addition to the default providers (Apple, Google, Facebook):
+You can configure custom OIDC providers (like Microsoft, GitHub, etc.) in addition to the default providers (Apple,
+Google, Facebook):
 
 ```typescript
 // kratosService.ts
@@ -223,26 +254,20 @@ const {
   queryClient,
   basePath: environment.authUrl,
   traits: traitsConfig,
-  oidcProviders: [
-    { id: "microsoft" },
-    { id: "github" },
-    { id: "reddit" },
-  ],
+  oidcProviders: [{ id: "microsoft" }, { id: "github" }, { id: "reddit" }],
 })
 ```
 
-The OIDC providers are automatically made available in the flow forms as capitalized component properties. For example, a provider with `id: "microsoft"` will be available as `oidcProviders.Microsoft`.
+The OIDC providers are automatically made available in the flow forms as capitalized component properties. For example,
+a provider with `id: "microsoft"` will be available as `oidcProviders.Microsoft`.
 
-With TypeScript, the library generates type-safe provider types from your configuration, ensuring you can only access providers you've configured:
+With TypeScript, the library generates type-safe provider types from your configuration, ensuring you can only access
+providers you've configured:
 
 ```tsx
 // kratosService.ts
 
-const oidcProvidersConfig = [
-  { id: "microsoft" },
-  { id: "github" },
-  { id: "reddit" },
-] as const
+const oidcProvidersConfig = [{ id: "microsoft" }, { id: "github" }, { id: "reddit" }] as const
 
 const {
   session: { sessionManager },
@@ -261,13 +286,17 @@ export type OidcProvidersConfig = typeof oidcProvidersConfig
 ```tsx
 // loginPage.tsx
 
-import { loginFlow } from "@leancodepl/kratos"
-import type { OidcProvidersConfig } from "./kratosService"
+import type { GetLoginChooseMethodFormProps } from "@leancodepl/kratos"
+import { LoginFlow } from "./kratosService"
 
 // Note: Provider IDs are capitalized (first letter only) in the component names.
 // For example, "github" becomes "Github", "microsoft" becomes "Microsoft".
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
-  const { oidcProviders: { Microsoft, Github, Reddit }, isSubmitting, isValidating } = props
+function ChooseMethodForm(props: GetLoginChooseMethodFormProps<typeof LoginFlow>) {
+  const {
+    oidcProviders: { Microsoft, Github, Reddit },
+    isSubmitting,
+    isValidating,
+  } = props
 
   return (
     <div>
@@ -293,7 +322,9 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
 }
 ```
 
-The same pattern applies to registration and settings flows. Only providers configured in your Kratos instance will be available in the `oidcProviders` object, and TypeScript will provide autocomplete and type checking for the available providers.
+The same pattern applies to registration and settings flows. Only providers configured in your Kratos instance will be
+available in the `oidcProviders` object, and TypeScript will provide autocomplete and type checking for the available
+providers.
 
 ### Session Management
 
@@ -377,7 +408,8 @@ function RegisterPage() {
 ### Settings Flow
 
 ```tsx
-import { SettingsFlow, settingsFlow } from "./kratosService"
+import { SettingsFlow } from "./kratosService"
+import type { GetSettingsFormProps } from "@leancodepl/kratos"
 
 function SettingsPage() {
   const { isLoggedIn, isLoading } = sessionManager.useIsLoggedIn()
@@ -403,7 +435,12 @@ function SettingsPage() {
   )
 }
 
-function SettingsForm({ isLoading, traitsForm, newPasswordForm, passkeysForm }: settingsFlow.SettingsFormProps) {
+function SettingsForm({
+  isLoading,
+  traitsForm,
+  newPasswordForm,
+  passkeysForm,
+}: GetSettingsFormProps<typeof SettingsFlow>) {
   if (isLoading) {
     return <div>...loading</div>
   }
@@ -495,9 +532,10 @@ and buttons. When wrapping your custom components with these slots, relevant pro
 are automatically applied. If you use a custom component as a child, you receive props from one of the following types:
 `CommonInputFieldProps`, `CommonCheckboxFieldProps`, or `CommonButtonProps`.
 
-Forms like `TraitsForm` have dynamic parameters determined by the `traitsConfig` you provide to the `mkKratos` factory.
-To type these correctly, use a generic such as `registrationFlow.TraitsFormProps<AuthTraitsConfig>` and pass your traits
-config.
+To type form components and error handlers, use the `Get*FormProps` and `GetFlowErrorHandler` type utilities with your
+flow component. For example, `GetLoginChooseMethodFormProps<typeof LoginFlow>` or
+`GetFlowErrorHandler<typeof RegistrationFlow>`. Types are inferred from the flow, so no need to pass traits or OIDC
+config separately.
 
 Some forms are typed as discriminated unions with multiple variants.
 
@@ -526,10 +564,8 @@ export const Input = ({ errors, ...props }: InputProps) => (
 #### ChooseMethodForm in login flow
 
 ```tsx
-import { loginFlow } from "@leancodepl/kratos"
+import type { GetLoginChooseMethodFormProps } from "@leancodepl/kratos"
 import { LoginFlow, getErrorMessage } from "./kratosService"
-import type { AuthTraitsConfig } from "./traits"
-import type { OidcProvidersConfig } from "./kratosService"
 
 function LoginPage() {
   return (
@@ -540,8 +576,13 @@ function LoginPage() {
   )
 }
 
-function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersConfig>) {
-  const { errors, isSubmitting, isValidating, oidcProviders: { Google, Apple, Facebook } } = props
+function ChooseMethodForm(props: GetLoginChooseMethodFormProps<typeof LoginFlow>) {
+  const {
+    errors,
+    isSubmitting,
+    isValidating,
+    oidcProviders: { Google, Apple, Facebook },
+  } = props
 
   if (props.isRefresh) {
     const { passwordFields, Passkey, identifier } = props
@@ -657,9 +698,8 @@ function ChooseMethodForm(props: loginFlow.ChooseMethodFormProps<OidcProvidersCo
 #### TraitsForm in registration flow
 
 ```tsx
-import { registrationFlow } from "@leancodepl/kratos"
+import type { GetFlowErrorHandler, GetRegistrationTraitsFormProps } from "@leancodepl/kratos"
 import { RegistrationFlow, getErrorMessage } from "./kratosService"
-import type { AuthTraitsConfig, OidcProvidersConfig } from "./kratosService"
 
 function RegisterPage() {
   return (
@@ -677,7 +717,7 @@ function TraitsForm({
   traitFields: { Email, GivenName, RegulationsAccepted, Submit },
   isSubmitting,
   isValidating,
-}: registrationFlow.TraitsFormProps<AuthTraitsConfig, OidcProvidersConfig>) {
+}: GetRegistrationTraitsFormProps<typeof RegistrationFlow>) {
   return (
     <div>
       <Email>
@@ -727,7 +767,7 @@ function TraitsForm({
   )
 }
 
-const handleError: registrationFlow.OnRegistrationFlowError<AuthTraitsConfig> = ({ target, errors }) => {
+const handleError: GetFlowErrorHandler<typeof RegistrationFlow> = ({ target, errors }) => {
   if (target === "root") {
     console.error("Form errors:", errors.map(getErrorMessage))
   } else {

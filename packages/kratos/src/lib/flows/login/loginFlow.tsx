@@ -173,7 +173,9 @@ function LoginFlowWrapper<TOidcProvidersConfig extends OidcProvidersConfig = rea
  * }
  * ```
  */
-export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>(props: LoginFlowProps<TOidcProvidersConfig>) {
+export function LoginFlow<TOidcProvidersConfig extends OidcProvidersConfig = readonly []>(
+  props: LoginFlowProps<TOidcProvidersConfig>,
+) {
   return (
     <VerificationFlowProvider>
       <LoginFlowProvider>

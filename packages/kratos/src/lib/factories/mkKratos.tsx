@@ -13,6 +13,9 @@ import { BaseSessionManager } from "../sessionManager"
 import { BaseSessionManagerContructorProps } from "../sessionManager/baseSessionManager"
 import { OidcProvidersConfig, TraitsConfig } from "../utils"
 
+const defaultTraits = {} as const as TraitsConfig
+const defaultOidcProviders = [] as const as OidcProvidersConfig
+
 export type MkKratosConfig<
   TTraitsConfig extends TraitsConfig,
   TSessionManager extends BaseSessionManager<TTraitsConfig>,
@@ -86,7 +89,7 @@ export type FlowsConfig<
    * />
    * ```
    */
-  LoginFlow: ComponentType<LoginFlowProps<TOidcProvidersConfig>>
+  LoginFlow: ComponentType<Omit<LoginFlowProps<TOidcProvidersConfig>, "oidcProvidersConfig">>
 
   /**
    * Renders a multi-step password recovery flow with email verification and password reset.
@@ -147,7 +150,9 @@ export type FlowsConfig<
    * />
    * ```
    */
-  RegistrationFlow: ComponentType<Omit<RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">>
+  RegistrationFlow: ComponentType<
+    Omit<RegistrationFlowProps<TTraitsConfig, TOidcProvidersConfig>, "oidcProvidersConfig" | "traitsConfig">
+  >
 
   /**
    * Renders a complete settings flow with user account management capabilities.
@@ -177,7 +182,9 @@ export type FlowsConfig<
    * />
    * ```
    */
-  SettingsFlow: ComponentType<Omit<SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>, "traitsConfig">>
+  SettingsFlow: ComponentType<
+    Omit<SettingsFlowProps<TTraitsConfig, TOidcProvidersConfig>, "oidcProvidersConfig" | "traitsConfig">
+  >
 
   /**
    * Renders email verification flow with provider context and flow management.
@@ -251,9 +258,9 @@ export function mkKratos<
 >({
   queryClient,
   basePath,
-  traits = {} as TTraitsConfig,
+  traits = defaultTraits as TTraitsConfig,
   SessionManager = BaseSessionManager as new (props: BaseSessionManagerContructorProps) => TSessionManager,
-  oidcProviders = ([] as const) as unknown as TOidcProvidersConfig,
+  oidcProviders = defaultOidcProviders as TOidcProvidersConfig,
 }: MkKratosConfig<TTraitsConfig, TSessionManager, TOidcProvidersConfig>) {
   const api = new FrontendApi(
     new Configuration({
@@ -268,8 +275,12 @@ export function mkKratos<
     useLogout: logoutFlow.useLogout,
     LoginFlow: props => <loginFlow.LoginFlow {...props} oidcProvidersConfig={oidcProviders} />,
     RecoveryFlow: recoveryFlow.RecoveryFlow,
-    RegistrationFlow: props => <registrationFlow.RegistrationFlow {...props} oidcProvidersConfig={oidcProviders} traitsConfig={traits} />,
-    SettingsFlow: props => <settingsFlow.SettingsFlow {...props} oidcProvidersConfig={oidcProviders} traitsConfig={traits} />,
+    RegistrationFlow: props => (
+      <registrationFlow.RegistrationFlow {...props} oidcProvidersConfig={oidcProviders} traitsConfig={traits} />
+    ),
+    SettingsFlow: props => (
+      <settingsFlow.SettingsFlow {...props} oidcProvidersConfig={oidcProviders} traitsConfig={traits} />
+    ),
     VerificationFlow: verificationFlow.VerificationFlow,
   }
 
