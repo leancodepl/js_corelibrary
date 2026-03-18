@@ -10,7 +10,7 @@ const argv = yargs(hideBin(process.argv))
     alias: "c",
     type: "string",
     description:
-      "Path to config file (iframe-contract-dart-generator.config.js or .iframe-contract-dart-generatorrc.json)",
+      "Path to config file (cyberware-contract-dart-generator.config.js or .cyberware-contract-dart-generatorrc.json)",
   })
   .parseSync()
 

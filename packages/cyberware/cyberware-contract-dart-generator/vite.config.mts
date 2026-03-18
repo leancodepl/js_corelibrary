@@ -6,7 +6,7 @@ import dts from "vite-plugin-dts"
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: "../../node_modules/.vite/packages/iframe-contract-dart-generator",
+  cacheDir: "../../../node_modules/.vite/packages/cyberware/cyberware-contract-dart-generator",
   plugins: [
     dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json"), pathsToAliases: false }),
   ],
@@ -22,7 +22,7 @@ export default defineConfig(() => ({
         index: "src/index.ts",
         bin: "src/bin.ts",
       },
-      name: "@leancodepl/iframe-contract-dart-generator",
+      name: "@leancodepl/cyberware-contract-dart-generator",
       fileName: (format, entryName) => (format === "es" ? `${entryName}.js` : `${entryName}.cjs`),
     },
     rollupOptions: {
@@ -30,7 +30,7 @@ export default defineConfig(() => ({
     },
   },
   test: {
-    name: "@leancodepl/iframe-contract-dart-generator",
+    name: "@leancodepl/cyberware-contract-dart-generator",
     watch: false,
     globals: true,
     environment: "node",

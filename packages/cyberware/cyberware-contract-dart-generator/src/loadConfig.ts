@@ -2,7 +2,7 @@ import { lilconfig } from "lilconfig"
 import path from "node:path"
 import { IframeContractDartGeneratorConfig, iframeContractDartGeneratorConfigSchema } from "./config"
 
-const packageName = "iframe-contract-dart-generator"
+const packageName = "cyberware-contract-dart-generator"
 
 const searchOptions = {
   searchPlaces: [`${packageName}.config.js`, `${packageName}.config.cjs`, `${packageName}.config.mjs`],

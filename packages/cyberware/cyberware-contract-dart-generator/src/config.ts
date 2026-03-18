@@ -6,7 +6,7 @@ import type { ContractSchemaType } from "@leancodepl/cyberware-contract"
  *
  * @example
  * ```typescript
- * import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/iframe-contract-dart-generator";
+ * import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/cyberware-contract-dart-generator";
  *
  * const config = iframeContractDartGeneratorConfigSchema.parse({
  *   schema: myContractSchema,

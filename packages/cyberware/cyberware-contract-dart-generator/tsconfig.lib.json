@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
@@ -11,7 +11,7 @@
   "include": ["src/**/*.ts"],
   "references": [
     {
-      "path": "../cyberware/cyberware-contract/tsconfig.lib.json"
+      "path": "../cyberware-contract/tsconfig.lib.json"
     }
   ],
   "exclude": [

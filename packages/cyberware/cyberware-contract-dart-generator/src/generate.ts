@@ -37,7 +37,7 @@ async function runQuicktype(schemaJson: string, outputDir: string): Promise<void
  *
  * @example
  * ```typescript
- * import { generate } from "@leancodepl/iframe-contract-dart-generator";
+ * import { generate } from "@leancodepl/cyberware-contract-dart-generator";
  * import { mkZodContractSchema, methodDef } from "@leancodepl/cyberware-contract";
  * import { z } from "zod";
  *
