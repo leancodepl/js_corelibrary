@@ -116,6 +116,7 @@ Manages filter state and produces an `applyFilters` function that applies all ac
 
 **Returns:** `{ filters, applyFilters, filterComponents, resetFilters, anyFilterSet }`
 
+- `filters` — convenience wrapper object containing `applyFilters`, `filterComponents`, `resetFilters`, and `anyFilterSet`
 - `applyFilters(query)` — applies all active filter transforms to the query object
 - `filterComponents` — array of React nodes to render filter UI
 - `resetFilters()` — clears all filters
