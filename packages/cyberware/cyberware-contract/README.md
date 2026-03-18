@@ -356,6 +356,408 @@ connectToHost({
 })
 ```
 
+## React Host ↔ Flutter Remote
+
+The contract can connect a **React host** to a **Flutter web remote** running inside an iframe. The Zod contract schema
+is the single source of truth: TypeScript types are inferred for the React side, and
+[`@leancodepl/cyberware-contract-generator-dart`](../cyberware-contract-generator-dart) generates Dart extension types
+for the Flutter side. The Flutter app uses
+[`leancode_flutter_cyberware_contract_base`](https://github.com/nicepage/flutter_corelibrary/tree/main/packages/leancode_flutter_cyberware_contract_base)
+for Cubit-based connection state management.
+
+### Architecture overview
+
+```
+┌─────────────────────────────────────┐
+│  Contract package (npm + Dart)      │
+│                                     │
+│  contract-schema.ts  (Zod schema)   │
+│         │                           │
+│         ├── TS types  (inferred)    │
+│         │    └─ used by React host  │
+│         │                           │
+│         └── Dart code (generated)   │
+│              └─ used by Flutter app │
+│                                     │
+│  pubspec.yaml  (Dart package)       │
+│  package.json  (npm package)        │
+└─────────────────────────────────────┘
+         ▲                   ▲
+         │                   │
+    React Host          Flutter Remote
+   (parent window)      (iframe, web)
+         │                   │
+         └── postMessage ────┘
+              (Penpal)
+```
+
+### Step-by-step setup
+
+#### 1. Create the contract package
+
+The contract package is both an **npm package** (for the React host) and a **Dart package** (for the Flutter remote).
+It has both a `package.json` and a `pubspec.yaml`.
+
+**Directory structure:**
+
+```
+packages/my-contract/
+├── package.json
+├── pubspec.yaml
+├── cyberware-contract-generator-dart.config.js
+├── src/
+│   └── lib/
+│       ├── contract-schema.ts      # Zod schema (source of truth)
+│       ├── contract.ts             # createContract call
+│       └── types.ts                # Re-exports inferred TS types
+├── lib/
+│   ├── my_contract.dart            # Dart library barrel file
+│   ├── generated/                  # Generated Dart files (do not edit)
+│   │   ├── contract.dart
+│   │   ├── types.dart
+│   │   └── connect_to_host.dart
+│   └── contract/                   # Hand-written Dart glue code
+│       ├── app_implant_methods.dart
+│       └── contract.dart           # ConnectToHostCubit wrapper
+└── dist/                           # Built JS output
+```
+
+`pubspec.yaml` — declare the package as a Dart package that depends on `leancode_flutter_cyberware_contract_base`:
+
+```yaml
+name: my_contract
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
+  leancode_flutter_cyberware_contract_base:
+    path: <path-to-leancode_flutter_cyberware_contract_base>
+  pub_semver: ^2.1.4
+  web: ^1.1.0
+```
+
+`package.json` — include dev dependencies on `@leancodepl/cyberware-contract`, `@leancodepl/cyberware-contract-generator-dart`, and `zod`:
+
+```json
+{
+  "devDependencies": {
+    "@leancodepl/cyberware-contract": "*",
+    "@leancodepl/cyberware-contract-generator-dart": "*",
+    "zod": "^4.1.0"
+  }
+}
+```
+
+#### 2. Define the contract schema
+
+Create the Zod schema in `contract-schema.ts`. This is the single source of truth for both TypeScript and Dart types:
+
+```typescript
+import { z } from "zod"
+import {
+  methodDef,
+  mkZodContractSchema,
+  type InferMethodsFromSchema,
+  type InferParamsFromSchema,
+} from "@leancodepl/cyberware-contract"
+
+const RemoteParamsSchema = {
+  userId: z.string(),
+  theme: z.enum(["light", "dark"]),
+}
+
+const HostMethodsSchema = {
+  navigateTo: methodDef({ params: z.object({ path: z.string() }) }),
+  showNotification: methodDef({
+    params: z.object({ message: z.string(), type: z.string().optional() }),
+  }),
+  getCurrentUserId: methodDef({ returns: z.string().nullable() }),
+}
+
+const RemoteMethodsSchema = {
+  onRouteChange: methodDef({ params: z.object({ path: z.string() }) }),
+  getCurrentPath: methodDef({ returns: z.string() }),
+  refresh: methodDef(),
+}
+
+export type HostMethods = InferMethodsFromSchema<typeof HostMethodsSchema>
+export type RemoteMethods = InferMethodsFromSchema<typeof RemoteMethodsSchema>
+export type RemoteParams = InferParamsFromSchema<typeof RemoteParamsSchema>
+
+export const ContractSchema = mkZodContractSchema({
+  hostMethods: HostMethodsSchema,
+  remoteMethods: RemoteMethodsSchema,
+  remoteParams: RemoteParamsSchema,
+})
+```
+
+Create the contract instance in `contract.ts`:
+
+```typescript
+import type { HostMethods, RemoteMethods, RemoteParams } from "./contract-schema"
+import { createContract } from "@leancodepl/cyberware-contract"
+
+export const { useConnectToRemote } = createContract<HostMethods, RemoteMethods, RemoteParams>({
+  contractVersion: "1.0.0",
+  contractVersionRange: ">=1.0.0",
+})
+```
+
+#### 3. Generate Dart types
+
+Create `cyberware-contract-generator-dart.config.js` in the contract package root:
+
+```javascript
+import { ContractSchema } from "./src/lib/contract-schema.ts"
+
+/** @type {import("@leancodepl/cyberware-contract-generator-dart").CyberwareContractGeneratorDartConfig} */
+const config = {
+  schema: ContractSchema,
+  outputDir: "./lib/generated",
+}
+
+export default config
+```
+
+Run the generator:
+
+```bash
+npx cyberware-contract-generator-dart
+```
+
+This produces three files in `lib/generated/`:
+
+- **`contract.dart`** — Dart extension types wrapping `JSObject` for method parameters and return types
+- **`types.dart`** — `RemoteUrlParams`, `RemoteMethodsBase` (abstract class), `HostMethods`, JS interop bridges, and
+  `ConnectToHostState` typedef
+- **`connect_to_host.dart`** — typed `connectToHost(RemoteMethodsBase methods)` function
+
+#### 4. Write Dart glue code
+
+Create `AppImplantMethods` — a concrete class implementing the generated `RemoteMethodsBase`. This is where you define
+how the Flutter app responds to calls from the host:
+
+```dart
+// lib/contract/app_implant_methods.dart
+
+import '../generated/contract.dart';
+import '../generated/types.dart';
+
+class AppImplantMethods implements RemoteMethodsBase {
+  const AppImplantMethods({
+    required this.onRouteChange,
+    required this.getCurrentPath,
+    required this.refresh,
+  });
+
+  @override
+  final Future<RemoteOnRouteChangeResult> Function(
+      RemoteOnRouteChangeParams params) onRouteChange;
+
+  @override
+  final Future<RemoteGetCurrentPathResult> Function() getCurrentPath;
+
+  @override
+  final Future<RemoteRefreshResult> Function() refresh;
+}
+```
+
+Create a `ConnectToHostCubit` wrapper that passes the contract version and wires the generated `connectToHost`:
+
+```dart
+// lib/contract/contract.dart
+
+import 'package:leancode_flutter_cyberware_contract_base/leancode_flutter_cyberware_contract_base.dart'
+    as base;
+import '../generated/connect_to_host.dart';
+import '../generated/types.dart';
+
+class ConnectToHostCubitOptions {
+  const ConnectToHostCubitOptions({required this.methods});
+  final RemoteMethodsBase methods;
+}
+
+class ConnectToHostCubit
+    extends base.ConnectToHostCubit<RemoteMethodsBase, HostMethods> {
+  ConnectToHostCubit(ConnectToHostCubitOptions options)
+      : super(base.ConnectToHostCubitOptions(
+          connect: () => connectToHost(options.methods),
+          contractVersion: '1.0.0',
+          contractVersionRange: '>=1.0.0',
+        ));
+}
+```
+
+Create the Dart barrel file `lib/my_contract.dart`:
+
+```dart
+export 'generated/connect_to_host.dart';
+export 'generated/contract.dart';
+export 'generated/types.dart';
+
+export 'contract/app_implant_methods.dart';
+export 'contract/contract.dart';
+```
+
+#### 5. Set up the Flutter remote
+
+Add the contract package and base package as dependencies in the Flutter app's `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
+  my_contract:
+    path: <path-to-contract-package>
+  leancode_flutter_cyberware_contract_base:
+    path: <path-to-leancode_flutter_cyberware_contract_base>
+```
+
+Add the Penpal bridge script to `web/index.html` **before** the Flutter bootstrap script:
+
+```html
+<head>
+  <!-- ... -->
+  <script src="assets/packages/leancode_flutter_cyberware_contract_base/assets/connect_to_host.js"></script>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+```
+
+Use `ConnectToHostCubit` with `BlocProvider` and implement the remote methods:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_contract/my_contract.dart';
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final params = RemoteUrlParams();
+
+    return BlocProvider<ConnectToHostCubit>(
+      create: (_) => ConnectToHostCubit(
+        ConnectToHostCubitOptions(
+          methods: AppImplantMethods(
+            onRouteChange: (params) => Future.value(),
+            getCurrentPath: () => Future.value('/current-path'),
+            refresh: () => Future.value(),
+          ),
+        ),
+      ),
+      child: MaterialApp(
+        home: HomePage(params: params),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key, required this.params});
+
+  final RemoteUrlParams params;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<ConnectToHostCubit, ConnectToHostState>(
+        builder: (context, state) {
+          return switch (state) {
+            ConnectToHostIdle() => const Center(child: Text('Connecting...')),
+            ConnectToHostConnected(:final host) => Column(
+                children: [
+                  Text('Connected! User: ${params.userId}'),
+                  ElevatedButton(
+                    onPressed: () => host.showNotification(
+                      HostShowNotificationParams(message: 'Hello from Flutter!'),
+                    ),
+                    child: const Text('Show notification'),
+                  ),
+                ],
+              ),
+            ConnectToHostError(:final error) =>
+              Center(child: Text('Error: $error')),
+            ConnectToHostIncompatible(:final hostVersion, :final remoteVersion) =>
+              Center(child: Text('Incompatible: host $hostVersion, remote $remoteVersion')),
+          };
+        },
+      ),
+    );
+  }
+}
+```
+
+#### 6. Embed the Flutter remote in the React host
+
+In the React host app, use the contract's `useConnectToRemote` hook to embed the Flutter app in an iframe and implement
+the host methods:
+
+```tsx
+import { ConnectStatus } from "@leancodepl/cyberware-contract"
+import { MyContract, MyContractTypes } from "@my-org/my-contract"
+
+function FlutterAppPage() {
+  const methods: MyContractTypes.HostMethods = useMemo(
+    () => ({
+      navigateTo: ({ path }) => {
+        router.navigate(path)
+        return Promise.resolve()
+      },
+      showNotification: ({ message, type }) => {
+        notification.open({ content: message })
+        return Promise.resolve()
+      },
+      getCurrentUserId: async () => currentUser?.id ?? null,
+    }),
+    [],
+  )
+
+  const connection = MyContract.useConnectToRemote({
+    remoteUrl: "http://localhost:4220",
+    methods,
+    params: { userId: "demo-user", theme: "light" },
+    iframeProps: { title: "Flutter App" },
+  })
+
+  return (
+    <div>
+      {connection.iframe}
+      {connection.status === ConnectStatus.CONNECTED && (
+        <button onClick={() => connection.remote.refresh()}>Refresh</button>
+      )}
+    </div>
+  )
+}
+```
+
+### Connection lifecycle
+
+1. The React host renders an iframe pointing to the Flutter web app URL with contract version and params as query
+   parameters
+2. The Flutter app loads `connect_to_host.js` (Penpal bridge) before the Flutter bootstrap script
+3. `ConnectToHostCubit` starts in `ConnectToHostIdle` state, reads `contractVersion` from URL params, verifies it
+   against `contractVersionRange` using semver, then calls the generated `connectToHost` function
+4. Penpal establishes a `postMessage` connection between parent and iframe windows
+5. Once connected, the cubit emits `ConnectToHostConnected` with a typed `host` proxy — the Flutter app can call host
+   methods (e.g. `host.showNotification(...)`)
+6. On the React side, `useConnectToRemote` resolves to `ConnectStatus.CONNECTED` with a typed `remote` proxy — the host
+   can call remote methods (e.g. `connection.remote.getCurrentPath()`)
+7. If versions are incompatible, both sides receive `ConnectToHostIncompatible` / `ConnectStatus.INCOMPATIBLE` with
+   version details
+
 ## Features
 
 - **Type-safe contracts** - Shared TypeScript types ensure host and remote method signatures stay in sync
@@ -369,3 +771,6 @@ connectToHost({
 - **URL params** - `buildRemoteUrl` and `getUrlParams` pass data from host to remote via query string
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries
+- **Flutter remote support** - Generate Dart extension types from the Zod schema with
+  `@leancodepl/cyberware-contract-generator-dart`; use `leancode_flutter_cyberware_contract_base` for Cubit-based
+  connection state management in Flutter web apps
