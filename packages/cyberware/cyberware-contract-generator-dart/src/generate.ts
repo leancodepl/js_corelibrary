@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { InputData, JSONSchemaInput, quicktypeMultiFile } from "quicktype-core"
 import { z } from "zod"
-import { IframeContractDartGeneratorConfig } from "./config"
+import { CyberwareContractGeneratorDartConfig } from "./config"
 import { DartExtensionTypesTargetLanguage } from "./dart/language"
 
 function buildJsonSchema(schema: z.ZodType): string {
@@ -54,7 +54,7 @@ async function runQuicktype(schemaJson: string, outputDir: string): Promise<void
  * await generate({ schema }, "./lib/generated");
  * ```
  */
-export async function generate(config: Pick<IframeContractDartGeneratorConfig, "schema">, outputDir: string) {
+export async function generate(config: Pick<CyberwareContractGeneratorDartConfig, "schema">, outputDir: string) {
   const schemaJson = buildJsonSchema(config.schema)
 
   if (!fs.existsSync(outputDir)) {

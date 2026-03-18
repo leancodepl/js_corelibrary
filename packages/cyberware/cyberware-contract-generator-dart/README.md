@@ -18,14 +18,14 @@ Generates Dart extension type files from an iframe contract schema. Produces thr
 
 **Parameters:**
 
-- `config` (`Pick<IframeContractDartGeneratorConfig, "schema">`) - Configuration containing the Zod contract schema
+- `config` (`Pick<CyberwareContractGeneratorDartConfig, "schema">`) - Configuration containing the Zod contract schema
 - `outputDir` (`string`) - Absolute or relative path to the directory where Dart files will be written
 
-### `iframeContractDartGeneratorConfigSchema`
+### `cyberwareContractGeneratorDartConfigSchema`
 
 Validates the configuration for the Dart code generator.
 
-**Type:** Zod schema that validates to `IframeContractDartGeneratorConfig`
+**Type:** Zod schema that validates to `CyberwareContractGeneratorDartConfig`
 
 **Shape:**
 
@@ -33,9 +33,9 @@ Validates the configuration for the Dart code generator.
   `"@leancodepl/cyberware-contract"`
 - `outputDir` (`string`) - Directory where Dart files will be written
 
-### `IframeContractDartGeneratorConfig`
+### `CyberwareContractGeneratorDartConfig`
 
-TypeScript type inferred from `iframeContractDartGeneratorConfigSchema`.
+TypeScript type inferred from `cyberwareContractGeneratorDartConfigSchema`.
 
 ## Usage Examples
 
@@ -100,9 +100,9 @@ await generate({ schema }, "./lib/generated")
 ### Validating configuration
 
 ```typescript
-import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/cyberware-contract-generator-dart"
+import { cyberwareContractGeneratorDartConfigSchema } from "@leancodepl/cyberware-contract-generator-dart"
 
-const config = iframeContractDartGeneratorConfigSchema.parse({
+const config = cyberwareContractGeneratorDartConfigSchema.parse({
   schema: myContractSchema,
   outputDir: "./lib/generated",
 })

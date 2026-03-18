@@ -1,6 +1,6 @@
 import { lilconfig } from "lilconfig"
 import path from "node:path"
-import { IframeContractDartGeneratorConfig, iframeContractDartGeneratorConfigSchema } from "./config"
+import { CyberwareContractGeneratorDartConfig, cyberwareContractGeneratorDartConfigSchema } from "./config"
 
 const packageName = "cyberware-contract-generator-dart"
 
@@ -8,7 +8,7 @@ const searchOptions = {
   searchPlaces: [`${packageName}.config.js`, `${packageName}.config.cjs`, `${packageName}.config.mjs`],
 }
 
-export function resolveOutputDir(config: IframeContractDartGeneratorConfig, configDir: string): string {
+export function resolveOutputDir(config: CyberwareContractGeneratorDartConfig, configDir: string): string {
   return path.isAbsolute(config.outputDir) ? config.outputDir : path.resolve(configDir, config.outputDir)
 }
 
@@ -22,7 +22,7 @@ export async function loadConfig(configPath?: string) {
     )
   }
 
-  const config = iframeContractDartGeneratorConfigSchema.parse(result.config)
+  const config = cyberwareContractGeneratorDartConfigSchema.parse(result.config)
   const configDir = path.dirname(result.filepath ?? process.cwd())
   const outputDir = resolveOutputDir(config, configDir)
 

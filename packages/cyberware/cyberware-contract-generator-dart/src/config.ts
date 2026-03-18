@@ -6,20 +6,20 @@ import type { ContractSchemaType } from "@leancodepl/cyberware-contract"
  *
  * @example
  * ```typescript
- * import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/cyberware-contract-generator-dart";
+ * import { cyberwareContractGeneratorDartConfigSchema } from "@leancodepl/cyberware-contract-generator-dart";
  *
- * const config = iframeContractDartGeneratorConfigSchema.parse({
+ * const config = cyberwareContractGeneratorDartConfigSchema.parse({
  *   schema: myContractSchema,
  *   outputDir: "./lib/generated",
  * });
  * ```
  */
-export const iframeContractDartGeneratorConfigSchema = z.object({
+export const cyberwareContractGeneratorDartConfigSchema = z.object({
   schema: z.custom<z.ZodType<ContractSchemaType>>(),
   outputDir: z
     .string()
     .describe("Directory where Dart files will be written (contract.dart, types.dart, connect_to_host.dart)"),
 })
 
-/** Configuration for the Dart code generator, inferred from {@link iframeContractDartGeneratorConfigSchema}. */
-export type IframeContractDartGeneratorConfig = z.infer<typeof iframeContractDartGeneratorConfigSchema>
+/** Configuration for the Dart code generator, inferred from {@link cyberwareContractGeneratorDartConfigSchema}. */
+export type CyberwareContractGeneratorDartConfig = z.infer<typeof cyberwareContractGeneratorDartConfigSchema>
