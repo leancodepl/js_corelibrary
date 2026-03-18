@@ -1,4 +1,4 @@
-# @leancodepl/cyberware-contract-dart-generator
+# @leancodepl/cyberware-contract-generator-dart
 
 Generates Dart extension type files from an `"@leancodepl/cyberware-contract"` Zod schema, producing type-safe JS
 interop code for Flutter web applications.
@@ -6,7 +6,7 @@ interop code for Flutter web applications.
 ## Installation
 
 ```bash
-npm install @leancodepl/cyberware-contract-dart-generator
+npm install @leancodepl/cyberware-contract-generator-dart
 ```
 
 ## API
@@ -44,18 +44,18 @@ TypeScript type inferred from `iframeContractDartGeneratorConfigSchema`.
 Run the generator from the command line:
 
 ```bash
-npx cyberware-contract-dart-generator
+npx cyberware-contract-generator-dart
 ```
 
 Pass a custom config path:
 
 ```bash
-npx cyberware-contract-dart-generator --config ./my-config.mjs
+npx cyberware-contract-generator-dart --config ./my-config.mjs
 ```
 
 ### Configuration file
 
-Create an `cyberware-contract-dart-generator.config.mjs` in your project root:
+Create an `cyberware-contract-generator-dart.config.mjs` in your project root:
 
 ```javascript
 import { z } from "zod"
@@ -80,7 +80,7 @@ export default {
 ### Programmatic usage
 
 ```typescript
-import { generate } from "@leancodepl/cyberware-contract-dart-generator"
+import { generate } from "@leancodepl/cyberware-contract-generator-dart"
 import { mkZodContractSchema, methodDef } from "@leancodepl/cyberware-contract"
 import { z } from "zod"
 
@@ -100,7 +100,7 @@ await generate({ schema }, "./lib/generated")
 ### Validating configuration
 
 ```typescript
-import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/cyberware-contract-dart-generator"
+import { iframeContractDartGeneratorConfigSchema } from "@leancodepl/cyberware-contract-generator-dart"
 
 const config = iframeContractDartGeneratorConfigSchema.parse({
   schema: myContractSchema,
@@ -121,8 +121,8 @@ The generator produces three Dart files:
 
 The CLI searches for config files in the following order:
 
-- `cyberware-contract-dart-generator.config.js`
-- `cyberware-contract-dart-generator.config.cjs`
-- `cyberware-contract-dart-generator.config.mjs`
+- `cyberware-contract-generator-dart.config.js`
+- `cyberware-contract-generator-dart.config.cjs`
+- `cyberware-contract-generator-dart.config.mjs`
 
 Alternatively, pass an explicit path with `--config` / `-c`.

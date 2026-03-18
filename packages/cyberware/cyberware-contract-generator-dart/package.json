@@ -1,5 +1,5 @@
 {
-  "name": "@leancodepl/cyberware-contract-dart-generator",
+  "name": "@leancodepl/cyberware-contract-generator-dart",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "type": "module",
@@ -7,7 +7,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "cyberware-contract-dart-generator": "./dist/bin.js"
+    "cyberware-contract-generator-dart": "./dist/bin.js"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -38,7 +38,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
-    "directory": "packages/cyberware/cyberware-contract-dart-generator"
+    "directory": "packages/cyberware/cyberware-contract-generator-dart"
   },
   "homepage": "https://github.com/leancodepl/js_corelibrary",
   "bugs": {

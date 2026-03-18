@@ -115,7 +115,7 @@
       "path": "./packages/cyberware/cyberware-contract"
     },
     {
-      "path": "./packages/cyberware/cyberware-contract-dart-generator"
+      "path": "./packages/cyberware/cyberware-contract-generator-dart"
     }
   ]
 }
