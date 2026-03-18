@@ -1,5 +1,6 @@
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { ReactNode, useCallback, useMemo, useRef, useState } from "react"
 import { Subject } from "rxjs"
+import { useSyncState } from "@leancodepl/utils"
 import { FilterDefinition } from "./types"
 
 export type UseFiltersProps<TQuery, TValues extends Record<string, unknown> = Record<string, unknown>> = {
@@ -41,10 +42,10 @@ export function useFilters<TQuery, TValues extends Record<string, unknown> = Rec
   const [resetSubject] = useState(() => new Subject<unknown>())
   const serializedInitialValues = JSON.stringify(initialValues)
 
-  useEffect(() => {
+  useSyncState(serializedInitialValues, () => {
     setAllFilters(buildInitialFilters(filters, initialValues))
     allValues.current = initialValues ?? {}
-  }, [serializedInitialValues]) // eslint-disable-line react-hooks/exhaustive-deps
+  })
 
   const applyFilters = useCallback(
     (query: TQuery) =>

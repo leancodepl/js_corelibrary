@@ -1,5 +1,6 @@
-import { Key, useEffect, useMemo, useState } from "react"
+import { Key, useMemo, useState } from "react"
 import { SortOrder } from "antd/es/table/interface"
+import { useSyncState } from "@leancodepl/utils"
 import { SortData } from "../types"
 
 type QueryStateSorting<TKey extends Key> = {
@@ -71,13 +72,13 @@ export function useSorting<TKey extends Key, TData>(
   const [sortKey, setSortKey] = useState(defaultSortKey)
   const [sortDirection, setSortDirection] = useState(defaultSortDirection)
 
-  useEffect(() => {
+  useSyncState(defaultSortKey, () => {
     setSortKey(defaultSortKey)
-  }, [defaultSortKey])
+  })
 
-  useEffect(() => {
+  useSyncState(defaultSortDirection, () => {
     setSortDirection(defaultSortDirection)
-  }, [defaultSortDirection])
+  })
 
   const sortData = useMemo<SortData<TData>>(
     () => ({

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { TablePaginationConfig } from "antd/lib"
+import { useSyncState } from "@leancodepl/utils"
 
 type UsePaginationProps = {
   initialDisplayPage?: number
@@ -53,13 +54,13 @@ export function usePagination(props: QueryStatePagination | UsePaginationProps =
   const [displayPage, setDisplayPage] = useState(initialDisplayPage)
   const [pageSize, setPageSize] = useState(initialPageSize)
 
-  useEffect(() => {
+  useSyncState(initialDisplayPage, () => {
     setDisplayPage(initialDisplayPage)
-  }, [initialDisplayPage])
+  })
 
-  useEffect(() => {
+  useSyncState(initialPageSize, () => {
     setPageSize(initialPageSize)
-  }, [initialPageSize])
+  })
 
   const getTablePagination = useCallback(
     (total?: number): TablePaginationConfig => ({
