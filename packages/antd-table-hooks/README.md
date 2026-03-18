@@ -308,8 +308,8 @@ This library does not ship filter UI components — you implement them in your a
 | `component` | `ComponentType<FilterProps>` | React component receiving `{ applyFilter, reset$, initialValue }` |
 | `searchSchema` | `[key, ZodType][]` (optional) | URL param key/schema pairs for serialization |
 | `buildApplyFilter` | `(value) => ((query) => query) \| undefined` (optional) | Reconstructs the filter function from a stored value (needed for initial/restored values) |
-| `toSearchParams` | `(value) => Record<string, unknown>` | Serializes the filter value to URL params |
-| `fromSearchParams` | `(params) => value \| undefined` | Deserializes URL params back to a filter value |
+| `toSearchParams` | `(value) => Record<string, unknown>` (required when `searchSchema` is set) | Serializes the filter value to URL params |
+| `fromSearchParams` | `(params) => value \| undefined` (required when `searchSchema` is set) | Deserializes URL params back to a filter value |
 
 Each filter component receives three props from `useFilters`:
 

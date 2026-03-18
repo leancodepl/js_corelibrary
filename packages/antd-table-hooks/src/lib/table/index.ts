@@ -70,6 +70,8 @@ export function useTable<
     const result: Record<string, unknown> = {}
 
     for (const filter of definedFilters) {
+      if (!filter.fromSearchParams) continue
+
       const value = filter.fromSearchParams(queryParams)
 
       if (value !== undefined) {
@@ -114,6 +116,8 @@ export function useTable<
       const searchParams: Record<string, unknown> = {}
 
       for (const filter of definedFilters) {
+        if (!filter.toSearchParams) continue
+
         const entries = filter.toSearchParams((values as Record<string, unknown>)?.[filter.id])
         Object.assign(searchParams, entries)
       }

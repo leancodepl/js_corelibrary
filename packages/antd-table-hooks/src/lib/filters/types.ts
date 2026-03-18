@@ -22,11 +22,19 @@ export type FilterDefinition<
 > = {
   id: TId
   component: ComponentType<FilterProps<TQuery, TValue>>
-  searchSchema?: TSearchSchema
   buildApplyFilter?: (value: TValue) => ((query: TQuery) => TQuery) | undefined
-  toSearchParams: (value: TValue) => InferSearchSchema<TSearchSchema>
-  fromSearchParams: (params: InferSearchSchema<TSearchSchema>) => TValue | undefined
-}
+} & (
+  | {
+      searchSchema: TSearchSchema
+      toSearchParams: (value: TValue) => InferSearchSchema<TSearchSchema>
+      fromSearchParams: (params: InferSearchSchema<TSearchSchema>) => TValue | undefined
+    }
+  | {
+      searchSchema?: undefined
+      toSearchParams?: undefined
+      fromSearchParams?: undefined
+    }
+)
 
 type ExtractSearchEntries<F> = F extends { searchSchema: infer SD extends SearchSchemaEntries } ? SD[number] : never
 
