@@ -5,6 +5,7 @@ dist
 tmp
 /out-tsc
 .publish
+*.tsbuildinfo
 
 # dependencies
 node_modules
