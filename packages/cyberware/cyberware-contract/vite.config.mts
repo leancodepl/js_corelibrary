@@ -7,7 +7,7 @@ import dts from "vite-plugin-dts"
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: "../../node_modules/.vite/packages/iframe-contract",
+  cacheDir: "../../../node_modules/.vite/packages/cyberware/cyberware-contract",
   plugins: [react(), dts({ entryRoot: "src", tsconfigPath: path.join(import.meta.dirname, "tsconfig.lib.json") })],
   build: {
     outDir: "./dist",
@@ -18,7 +18,7 @@ export default defineConfig(() => ({
     },
     lib: {
       entry: "src/index.ts",
-      name: "@leancodepl/iframe-contract",
+      name: "@leancodepl/cyberware-contract",
       fileName: "index",
     },
     rollupOptions: {
@@ -26,7 +26,7 @@ export default defineConfig(() => ({
     },
   },
   test: {
-    name: "@leancodepl/iframe-contract",
+    name: "@leancodepl/cyberware-contract",
     watch: false,
     globals: true,
     environment: "jsdom",

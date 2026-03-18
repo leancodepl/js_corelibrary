@@ -112,7 +112,7 @@
       "path": "./packages/antd-table-hooks"
     },
     {
-      "path": "./packages/iframe-contract"
+      "path": "./packages/cyberware/cyberware-contract"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# @leancodepl/iframe-contract
+# @leancodepl/cyberware-contract
 
 Creates type-safe contracts between a host app and a remote iframe app (e.g., Replit embed). Uses `postMessage` via
 Penpal for secure cross-origin communication. Supports **Zod** for defining method params/returns and URL params with
@@ -7,11 +7,11 @@ runtime validation and inferred TypeScript types.
 ## Installation
 
 ```bash
-npm install @leancodepl/iframe-contract
+npm install @leancodepl/cyberware-contract
 ```
 
 ```bash
-yarn add @leancodepl/iframe-contract
+yarn add @leancodepl/cyberware-contract
 ```
 
 ## API
@@ -36,8 +36,8 @@ and `getUrlParams`
 
 Enum for connection state: `ConnectStatus.IDLE`, `ConnectStatus.CONNECTED`, `ConnectStatus.ERROR`,
 `ConnectStatus.INCOMPATIBLE`. Used by `useConnectToRemote` and `useConnectToHost` (and context) return values. Check
-`status === ConnectStatus.CONNECTED` before using `remote` or `host`; when `status === ConnectStatus.ERROR`, `error`
-is set; when `status === ConnectStatus.INCOMPATIBLE` (host connect only), `hostVersion` and `remoteVersion` are set.
+`status === ConnectStatus.CONNECTED` before using `remote` or `host`; when `status === ConnectStatus.ERROR`, `error` is
+set; when `status === ConnectStatus.INCOMPATIBLE` (host connect only), `hostVersion` and `remoteVersion` are set.
 
 ### `connectToRemote(iframe, options)`
 
@@ -107,7 +107,8 @@ Builds remote URL with query parameters. Merges params into the URL, preserving 
 
 ### `getUrlParams()`
 
-Reads URL search params from the current location as a typed object. No validation is performed. Call from the remote (iframe) to read params passed by the host. Always uses `location.search` in the browser.
+Reads URL search params from the current location as a typed object. No validation is performed. Call from the remote
+(iframe) to read params passed by the host. Always uses `location.search` in the browser.
 
 **Returns:** `TParams` - Typed object of params (includes `contractVersion` when using a contract)
 
@@ -131,7 +132,7 @@ When using Zod, you get inferred types and optional runtime validation:
 Define the contract in a shared package or file used by both host and remote:
 
 ```typescript
-import { createContract } from "@leancodepl/iframe-contract"
+import { createContract } from "@leancodepl/cyberware-contract"
 
 type HostMethods = {
   navigateTo: (path: string) => Promise<void>
@@ -165,7 +166,7 @@ import {
   type HostMethodsSchemaBase,
   type RemoteMethodsSchemaBase,
   type RemoteParamsSchemaBase,
-} from "@leancodepl/iframe-contract"
+} from "@leancodepl/cyberware-contract"
 
 const NotificationTypeSchema = z.enum(["success", "error", "info"])
 
@@ -199,7 +200,7 @@ export const contract = createContract<HostMethodsType, RemoteMethodsType, Remot
 ### Host app: embed remote iframe with React hook
 
 ```tsx
-import { ConnectStatus } from "@leancodepl/iframe-contract"
+import { ConnectStatus } from "@leancodepl/cyberware-contract"
 import { contract } from "./contract"
 
 function HostApp() {
@@ -230,8 +231,8 @@ function HostApp() {
 
 `contractVersion` and `contractVersionRange` are required in `createContract`. The host passes its version via URL
 params to the iframe. The remote verifies compatibility with `semver.satisfies(hostVersion, contractVersionRange)`
-before connecting. If versions are incompatible, connection state is `ConnectStatus.INCOMPATIBLE` with `hostVersion`
-and `remoteVersion`. When using the contract, version values are auto-injected—no need to pass them to hooks or the
+before connecting. If versions are incompatible, connection state is `ConnectStatus.INCOMPATIBLE` with `hostVersion` and
+`remoteVersion`. When using the contract, version values are auto-injected—no need to pass them to hooks or the
 provider.
 
 ### Remote app: using ConnectToHostProvider (Recommended)
@@ -240,7 +241,7 @@ Wrap the remote app with `ConnectToHostProvider` and use `useConnectToHostContex
 host connection without prop drilling:
 
 ```tsx
-import { ConnectStatus } from "@leancodepl/iframe-contract"
+import { ConnectStatus } from "@leancodepl/cyberware-contract"
 import { contract } from "./contract"
 
 function RemoteAppRoot() {
@@ -268,7 +269,9 @@ function RemoteApp() {
     <div>
       <p>User: {params.userId}</p>
       {connection.status === ConnectStatus.INCOMPATIBLE && (
-        <p>Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}</p>
+        <p>
+          Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}
+        </p>
       )}
       {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
@@ -279,7 +282,7 @@ function RemoteApp() {
 ### Remote app: connect to host and read params
 
 ```tsx
-import { ConnectStatus } from "@leancodepl/iframe-contract"
+import { ConnectStatus } from "@leancodepl/cyberware-contract"
 import { contract } from "./contract"
 
 function RemoteApp() {
@@ -300,7 +303,9 @@ function RemoteApp() {
     <div>
       <p>User: {params.userId}</p>
       {connection.status === ConnectStatus.INCOMPATIBLE && (
-        <p>Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}</p>
+        <p>
+          Version mismatch: host {connection.hostVersion}, remote {connection.remoteVersion}
+        </p>
       )}
       {connection.status === ConnectStatus.CONNECTED && <button onClick={handleSave}>Save</button>}
     </div>
@@ -313,7 +318,7 @@ function RemoteApp() {
 Host side:
 
 ```typescript
-import { connectToRemote, buildRemoteUrl } from "@leancodepl/iframe-contract"
+import { connectToRemote, buildRemoteUrl } from "@leancodepl/cyberware-contract"
 
 const iframe = document.getElementById("remote") as HTMLIFrameElement
 iframe.src = buildRemoteUrl("https://replit.example.com/app", { userId: "123" })
@@ -330,7 +335,7 @@ await remote.refresh()
 Remote side:
 
 ```typescript
-import { connectToHost, getUrlParams } from "@leancodepl/iframe-contract"
+import { connectToHost, getUrlParams } from "@leancodepl/cyberware-contract"
 
 const params = getUrlParams<{ userId?: string }>()
 const connection = connectToHost({
