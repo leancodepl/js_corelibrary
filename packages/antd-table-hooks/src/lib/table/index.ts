@@ -105,7 +105,7 @@ export function useTable<
   }, [sortKeyKey, sortDescendingKey, defaultSortKey, defaultSortDirection, queryParams])
 
   const onFiltersChange = useCallback(
-    (values: Partial<InferFiltersSchema<TFilters>> | undefined) => {
+    (values?: Partial<InferFiltersSchema<TFilters>>) => {
       const filterOwnedKeys = new Set(
         definedFilters.flatMap(({ searchSchema }) => searchSchema?.map(([key]) => key) ?? []),
       )
@@ -123,9 +123,10 @@ export function useTable<
       }
 
       const cleanedSearchParams = Object.fromEntries(
-        Object.entries(searchParams)
-          .filter(([_, value]) => value !== undefined && value !== null && value !== "")
-          .filter(([_, value]) => (Array.isArray(value) ? value.length > 0 : true)),
+        Object.entries(searchParams).filter(
+          ([_, value]) =>
+            value !== undefined && value !== null && value !== "" && (Array.isArray(value) ? value.length > 0 : true),
+        ),
       )
 
       setQueryParams({
