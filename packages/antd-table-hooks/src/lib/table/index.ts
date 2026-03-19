@@ -125,7 +125,11 @@ export function useTable<
       const cleanedSearchParams = Object.fromEntries(
         Object.entries(searchParams).filter(
           ([_, value]) =>
-            value !== undefined && value !== null && value !== "" && (Array.isArray(value) ? value.length > 0 : true),
+            value !== undefined &&
+            value !== null &&
+            value !== "" &&
+            (Array.isArray(value) ? value.length > 0 : true) &&
+            (typeof value === "object" ? Object.keys(value).length > 0 : true),
         ),
       )
 
