@@ -636,8 +636,8 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<ConnectToHostCubit, ConnectToHostState>(
         builder: (context, state) {
           return switch (state) {
-            ConnectToHostIdle() => const Center(child: Text('Connecting...')),
-            ConnectToHostConnected(:final host) => Column(
+            ConnectToHostStateIdle() => const Center(child: Text('Connecting...')),
+            ConnectToHostStateConnected(:final host) => Column(
                 children: [
                   Text('Connected! User: ${params.userId}'),
                   ElevatedButton(
@@ -648,9 +648,9 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ConnectToHostError(:final error) =>
+            ConnectToHostStateError(:final error) =>
               Center(child: Text('Error: $error')),
-            ConnectToHostIncompatible(:final hostVersion, :final remoteVersion) =>
+            ConnectToHostStateIncompatible(:final hostVersion, :final remoteVersion) =>
               Center(child: Text('Incompatible: host $hostVersion, remote $remoteVersion')),
           };
         },
