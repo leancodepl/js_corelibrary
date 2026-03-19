@@ -395,8 +395,8 @@ for Cubit-based connection state management.
 
 #### 1. Create the contract package
 
-The contract package is both an **npm package** (for the React host) and a **Dart package** (for the Flutter remote).
-It has both a `package.json` and a `pubspec.yaml`.
+The contract package is both an **npm package** (for the React host) and a **Dart package** (for the Flutter remote). It
+has both a `package.json` and a `pubspec.yaml`.
 
 **Directory structure:**
 
@@ -410,16 +410,14 @@ packages/my-contract/
 │       ├── contract-schema.ts      # Zod schema (source of truth)
 │       ├── contract.ts             # createContract call
 │       └── types.ts                # Re-exports inferred TS types
-├── lib/
-│   ├── my_contract.dart            # Dart library barrel file
-│   ├── generated/                  # Generated Dart files (do not edit)
-│   │   ├── contract.dart
-│   │   ├── types.dart
-│   │   └── connect_to_host.dart
-│   └── contract/                   # Hand-written Dart glue code
-│       ├── app_implant_methods.dart
-│       └── contract.dart           # ConnectToHostCubit wrapper
-└── dist/                           # Built JS output
+└── lib/
+    ├── my_contract.dart            # Dart library barrel file
+    ├── generated/                  # Generated Dart files (do not edit)
+    │   ├── contract.dart
+    │   ├── types.dart
+    │   └── connect_to_host.dart
+    └── contract/                   # Hand-written Dart glue code
+        └── contract.dart           # ConnectToHostCubit wrapper
 ```
 
 `pubspec.yaml` — declare the package as a Dart package that depends on `leancode_flutter_cyberware_contract_base`:
@@ -443,7 +441,8 @@ dependencies:
   web: ^1.1.0
 ```
 
-`package.json` — include dev dependencies on `@leancodepl/cyberware-contract`, `@leancodepl/cyberware-contract-generator-dart`, and `zod`:
+`package.json` — include dev dependencies on `@leancodepl/cyberware-contract`,
+`@leancodepl/cyberware-contract-generator-dart`, and `zod`:
 
 ```json
 {
@@ -541,34 +540,6 @@ This produces three files in `lib/generated/`:
 
 #### 4. Write Dart glue code
 
-Create `AppImplantMethods` — a concrete class implementing the generated `RemoteMethodsBase`. This is where you define
-how the Flutter app responds to calls from the host:
-
-```dart
-// lib/contract/app_implant_methods.dart
-
-import '../generated/contract.dart';
-import '../generated/types.dart';
-
-class AppImplantMethods implements RemoteMethodsBase {
-  const AppImplantMethods({
-    required this.onRouteChange,
-    required this.getCurrentPath,
-    required this.refresh,
-  });
-
-  @override
-  final Future<RemoteOnRouteChangeResult> Function(
-      RemoteOnRouteChangeParams params) onRouteChange;
-
-  @override
-  final Future<RemoteGetCurrentPathResult> Function() getCurrentPath;
-
-  @override
-  final Future<RemoteRefreshResult> Function() refresh;
-}
-```
-
 Create a `ConnectToHostCubit` wrapper that passes the contract version and wires the generated `connectToHost`:
 
 ```dart
@@ -602,7 +573,6 @@ export 'generated/connect_to_host.dart';
 export 'generated/contract.dart';
 export 'generated/types.dart';
 
-export 'contract/app_implant_methods.dart';
 export 'contract/contract.dart';
 ```
 
@@ -634,7 +604,33 @@ Add the Penpal bridge script to `web/index.html` **before** the Flutter bootstra
 </body>
 ```
 
-Use `ConnectToHostCubit` with `BlocProvider` and implement the remote methods:
+Create `AppImplantMethods` — a concrete class implementing the generated `RemoteMethodsBase`. This is where you define
+how the Flutter app responds to calls from the host:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:my_contract/my_contract.dart';
+
+class AppImplantMethods implements RemoteMethodsBase {
+  @override
+  Future<void> onRouteChange(RemoteOnRouteChangeParams params) {
+    debugPrint('Route changed: ${params.path}');
+    return Future.value();
+  }
+
+  @override
+  Future<RemoteGetCurrentPathResult> getCurrentPath() {
+    return Future.value('/current-path');
+  }
+
+  @override
+  Future<RemoteRefreshResult> refresh() {
+    return Future.value();
+  }
+}
+```
+
+Use `ConnectToHostCubit` with `BlocProvider` and pass the implementation:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -651,13 +647,9 @@ class App extends StatelessWidget {
     return BlocProvider<ConnectToHostCubit>(
       create: (_) => ConnectToHostCubit(
         ConnectToHostCubitOptions(
-          methods: AppImplantMethods(
-            onRouteChange: (params) => Future.value(),
-            getCurrentPath: () => Future.value('/current-path'),
-            refresh: () => Future.value(),
-          ),
+          methods: AppImplantMethods(),
         ),
-      ),
+      )..connect(),
       child: MaterialApp(
         home: HomePage(params: params),
       ),
