@@ -272,10 +272,10 @@ function emitTypesDart(shape: ContractShape): string[] {
     "// Generated from JSON Schema. Do not edit by hand.",
     "",
     "import 'dart:js_interop';",
-    "import 'package:leancode_flutter_web_contract/leancode_flutter_web_contract.dart' as base;",
+    "import 'package:leancode_flutter_cyberware_contract_base/leancode_flutter_cyberware_contract_base.dart' as base;",
     "import 'contract.dart';",
     "",
-    "export 'package:leancode_flutter_web_contract/src/connect_to_host_state.dart' hide ConnectToHostState;",
+    "export 'package:leancode_flutter_cyberware_contract_base/src/connect_to_host_cubit.dart' hide ConnectToHostState, ConnectToHostCubitOptions, ConnectToHostCubit;",
     "",
     `typedef ConnectToHostState = base.ConnectToHostState<${HostMethodsName}>;`,
     "",
@@ -291,8 +291,8 @@ function emitTypesDart(shape: ContractShape): string[] {
   lines.push("}", "", `abstract class ${RemoteMethodsBaseName} {`)
 
   for (const method of shape.remoteMethods) {
-    const paramsPart = method.hasParams ? `(${method.paramsTypeName} params)` : "()"
-    lines.push(`  Future<${method.resultTypeName}> Function${paramsPart} get ${method.methodName};`)
+    const paramsPart = method.hasParams ? `${method.paramsTypeName} params` : ""
+    lines.push(`  Future<${method.resultTypeName}> ${method.methodName}(${paramsPart});`)
   }
 
   lines.push(
@@ -387,7 +387,7 @@ function emitConnectToHostDart(): string[] {
   return [
     "// Generated from JSON Schema. Do not edit by hand.",
     "",
-    "import 'package:leancode_flutter_web_contract/leancode_flutter_web_contract.dart';",
+    "import 'package:leancode_flutter_cyberware_contract_base/leancode_flutter_cyberware_contract_base.dart';",
     "import 'types.dart';",
     "",
     `Future<ConnectToHostResult<${HostMethodsName}>> connectToHost(${RemoteMethodsBaseName} methods) async {`,
