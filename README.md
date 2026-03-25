@@ -116,6 +116,10 @@ TypeScript utilities for styled-components with type-safe theme access.
 
 React component for image uploads.
 
+#### `@leancodepl/antd-table-hooks`
+
+React hooks for managing Ant Design table state — sorting, pagination, and filters — with optional URL query parameter persistence via Zod schemas.
+
 ### Feature Management
 
 #### `@leancodepl/feature-flags-react-client`
