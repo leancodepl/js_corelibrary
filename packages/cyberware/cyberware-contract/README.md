@@ -362,7 +362,7 @@ The contract can connect a **React host** to a **Flutter web remote** running in
 is the single source of truth: TypeScript types are inferred for the React Host side, and
 [`@leancodepl/cyberware-contract-generator-dart`](../cyberware-contract-generator-dart) generates Dart extension types
 for the Flutter Remote side. The Flutter app uses
-[`leancode_flutter_cyberware_contract_base`](https://github.com/nicepage/flutter_corelibrary/tree/main/packages/leancode_flutter_cyberware_contract_base)
+[`leancode_cyberware_contract_base`](https://github.com/nicepage/flutter_corelibrary/tree/main/packages/leancode_cyberware_contract_base)
 for Cubit-based connection state management.
 
 ### Example step-by-step setup
@@ -394,7 +394,7 @@ packages/my-contract/
         └── contract.dart           # ConnectToHostCubit wrapper
 ```
 
-`pubspec.yaml` — declare the package as a Dart package that depends on `leancode_flutter_cyberware_contract_base`:
+`pubspec.yaml` — declare the package as a Dart package that depends on `leancode_cyberware_contract_base`:
 
 ```yaml
 name: my_contract
@@ -409,8 +409,8 @@ dependencies:
     sdk: flutter
   bloc: ^9.0.0
   flutter_bloc: ^9.0.0
-  leancode_flutter_cyberware_contract_base:
-    path: <path-to-leancode_flutter_cyberware_contract_base>
+  leancode_cyberware_contract_base:
+    path: <path-to-leancode_cyberware_contract_base>
   pub_semver: ^2.1.4
   web: ^1.1.0
 ```
@@ -514,7 +514,7 @@ Create a `ConnectToHostCubit` wrapper that passes the contract version and wires
 ```dart
 // lib/contract/contract.dart
 
-import 'package:leancode_flutter_cyberware_contract_base/leancode_flutter_cyberware_contract_base.dart'
+import 'package:leancode_cyberware_contract_base/leancode_cyberware_contract_base.dart'
     as base;
 import '../generated/connect_to_host.dart';
 import '../generated/types.dart';
@@ -557,7 +557,7 @@ dependencies:
   flutter_bloc: ^9.0.0
   my_contract:
     path: <path-to-contract-package>
-  leancode_flutter_cyberware_contract_base: 1.0.0
+  leancode_cyberware_contract_base: 1.0.0
 ```
 
 Add the Penpal bridge script to `web/index.html` **before** the Flutter bootstrap script:
@@ -565,7 +565,7 @@ Add the Penpal bridge script to `web/index.html` **before** the Flutter bootstra
 ```html
 <head>
   <!-- ... -->
-  <script src="assets/packages/leancode_flutter_cyberware_contract_base/assets/connect_to_host.js"></script>
+  <script src="assets/packages/leancode_cyberware_contract_base/assets/connect_to_host.js"></script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
@@ -717,5 +717,5 @@ function FlutterAppPage() {
 - **Origin validation** - Optional `allowedOrigins` restricts which domains can connect
 - **Penpal-based** - Uses Penpal for reliable `postMessage` communication across iframe boundaries
 - **Flutter remote support** - Generate Dart extension types from the Zod schema with
-  `@leancodepl/cyberware-contract-generator-dart`; use `leancode_flutter_cyberware_contract_base` for Cubit-based
-  connection state management in Flutter web apps
+  `@leancodepl/cyberware-contract-generator-dart`; use `leancode_cyberware_contract_base` for Cubit-based connection
+  state management in Flutter web apps
