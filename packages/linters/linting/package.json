@@ -1,12 +1,12 @@
 {
   "name": "@leancodepl/linting",
-  "version": "10.1.2",
+  "version": "10.1.3",
   "license": "Apache-2.0",
   "dependencies": {
-    "@leancodepl/eslint-config": "10.1.2",
-    "@leancodepl/prettier-config": "10.1.2",
-    "@leancodepl/resolve-eslint-flat-config": "10.1.2",
-    "@leancodepl/stylelint-config": "10.1.2"
+    "@leancodepl/eslint-config": "10.1.3",
+    "@leancodepl/prettier-config": "10.1.3",
+    "@leancodepl/resolve-eslint-flat-config": "10.1.3",
+    "@leancodepl/stylelint-config": "10.1.3"
   },
   "publishConfig": {
     "access": "public",

@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.3](https://github.com/leancodepl/js_corelibrary/compare/v10.1.2...v10.1.3) (2026-04-01)
+
+### Bug Fixes
+
+- correct favicons paths for Vite deduplicated assets
+  ([64cd032](https://github.com/leancodepl/js_corelibrary/commit/64cd0321c7e61402ec33e97b96e5560b6bc462c4))
+- remove disabling unused rule
+  ([0eda1e3](https://github.com/leancodepl/js_corelibrary/commit/0eda1e3bbf8ddfc7006a532925e9f253450a0693))
+
+### Features
+
+- add more specific types for helpers
+  ([83e8bd4](https://github.com/leancodepl/js_corelibrary/commit/83e8bd4978e7f0d90fd04f7d470a48302c1330ba))
+- add new table hooks package
+  ([61f7c8a](https://github.com/leancodepl/js_corelibrary/commit/61f7c8a507b8e7d38c47daab5fb049087ca4801c))
+- export form type helpers
+  ([443de15](https://github.com/leancodepl/js_corelibrary/commit/443de1554d2e66e49bfa6379c8b045cdd8d9d124))
+- extract default traits and oidc providers objects
+  ([1a1ecb1](https://github.com/leancodepl/js_corelibrary/commit/1a1ecb1e6c09cdf65b2566718527d5a7a5b38c2b))
+- filter empty objects
+  ([3b371cc](https://github.com/leancodepl/js_corelibrary/commit/3b371cc7251fff3e99f97269132e9916baf1bdca))
+- make schema definiton and conversion optional
+  ([8357a8a](https://github.com/leancodepl/js_corelibrary/commit/8357a8ae1bbc81b7b5c5fdc61b20104e0a01cf04))
+- migrate from useEffect to useSyncState
+  ([80e09f7](https://github.com/leancodepl/js_corelibrary/commit/80e09f7d8b002a30a2680fadf89101a3d13f56b2))
+- move filtering to single filter and make function prop optional
+  ([48c3865](https://github.com/leancodepl/js_corelibrary/commit/48c3865e48ce1b9f84a299b523ce7ba7aa5df357))
+- unify error handler types
+  ([d5bd8d6](https://github.com/leancodepl/js_corelibrary/commit/d5bd8d664eaa0046a61ddbbd4e8e85b4a1e7c3bb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.1.2](https://github.com/leancodepl/js_corelibrary/compare/v10.1.1...v10.1.2) (2026-02-26)
 
 ### Bug Fixes
