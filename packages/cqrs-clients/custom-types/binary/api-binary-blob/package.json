@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/api-binary-blob",
-  "version": "10.1.2",
+  "version": "10.1.3",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@leancodepl/api-binary": "10.1.2"
+    "@leancodepl/api-binary": "10.1.3"
   },
   "devDependencies": {
     "blob-polyfill": "^9.0.0"

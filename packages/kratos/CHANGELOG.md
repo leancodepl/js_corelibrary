@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.3](https://github.com/leancodepl/js_corelibrary/compare/v10.1.2...v10.1.3) (2026-04-01)
+
+### Features
+
+- add more specific types for helpers
+  ([83e8bd4](https://github.com/leancodepl/js_corelibrary/commit/83e8bd4978e7f0d90fd04f7d470a48302c1330ba))
+- export form type helpers
+  ([443de15](https://github.com/leancodepl/js_corelibrary/commit/443de1554d2e66e49bfa6379c8b045cdd8d9d124))
+- extract default traits and oidc providers objects
+  ([1a1ecb1](https://github.com/leancodepl/js_corelibrary/commit/1a1ecb1e6c09cdf65b2566718527d5a7a5b38c2b))
+- unify error handler types
+  ([d5bd8d6](https://github.com/leancodepl/js_corelibrary/commit/d5bd8d664eaa0046a61ddbbd4e8e85b4a1e7c3bb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.1.2](https://github.com/leancodepl/js_corelibrary/compare/v10.1.1...v10.1.2) (2026-02-26)
 
 **Note:** Version bump only for package @leancodepl/kratos

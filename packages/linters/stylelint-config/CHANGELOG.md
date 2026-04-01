@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.3](https://github.com/leancodepl/js_corelibrary/compare/v10.1.2...v10.1.3) (2026-04-01)
+
+### Bug Fixes
+
+- remove disabling unused rule
+  ([0eda1e3](https://github.com/leancodepl/js_corelibrary/commit/0eda1e3bbf8ddfc7006a532925e9f253450a0693))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.1.2](https://github.com/leancodepl/js_corelibrary/compare/v10.1.1...v10.1.2) (2026-02-26)
 
 **Note:** Version bump only for package @leancodepl/stylelint-config

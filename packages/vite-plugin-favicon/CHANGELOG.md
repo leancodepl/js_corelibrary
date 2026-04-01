@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.3](https://github.com/leancodepl/js_corelibrary/compare/v10.1.2...v10.1.3) (2026-04-01)
+
+### Bug Fixes
+
+- correct favicons paths for Vite deduplicated assets
+  ([64cd032](https://github.com/leancodepl/js_corelibrary/commit/64cd0321c7e61402ec33e97b96e5560b6bc462c4))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.1.2](https://github.com/leancodepl/js_corelibrary/compare/v10.1.1...v10.1.2) (2026-02-26)
 
 **Note:** Version bump only for package @leancodepl/vite-plugin-favicon
