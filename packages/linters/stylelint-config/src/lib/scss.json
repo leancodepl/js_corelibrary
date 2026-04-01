@@ -14,8 +14,6 @@
 
     "prettier/prettier": [true, { "severity": "warning" }],
 
-    "scss/at-import-no-partial-leading-underscore": null,
-
     "order/order": [
       "custom-properties",
       "dollar-variables",
