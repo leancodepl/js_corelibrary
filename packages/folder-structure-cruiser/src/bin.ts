@@ -6,6 +6,17 @@ import { validateSharedComponent } from "./commands/validateSharedComponent.js"
 
 program.name("folder-structure-cruiser").description("CLI tool for validating folder structure rules")
 
+function handleCommandResult(violationsCount: number) {
+  if (violationsCount > 0) {
+    process.exitCode = 1
+  }
+}
+
+function handleCommandError(error: unknown) {
+  console.error(error)
+  process.exitCode = 1
+}
+
 program
   .command("validate-shared-components")
   .description("Validate if shared components are located at the first shared level")
@@ -20,7 +31,9 @@ program
     const tsConfigPath = options.tsConfig
     const webpackConfigPath = options.webpackConfig
 
-    await validateSharedComponent({ directories, configPath, tsConfigPath, webpackConfigPath })
+    const violationsCount = await validateSharedComponent({ directories, configPath, tsConfigPath, webpackConfigPath })
+
+    handleCommandResult(violationsCount)
   })
 
 program
@@ -36,7 +49,9 @@ program
     const tsConfigPath = options.tsConfig
     const webpackConfigPath = options.webpackConfig
 
-    await validateCrossFeatureImports({ directories, configPath, tsConfigPath, webpackConfigPath })
+    const violationsCount = await validateCrossFeatureImports({ directories, configPath, tsConfigPath, webpackConfigPath })
+
+    handleCommandResult(violationsCount)
   })
 
-program.parse()
+program.parseAsync().catch(handleCommandError)
