@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.2.0](https://github.com/leancodepl/js_corelibrary/compare/v10.1.3...v10.2.0) (2026-04-10)
+
+### Features
+
+- add dart generator for iframe contracts
+  ([91c08eb](https://github.com/leancodepl/js_corelibrary/commit/91c08eb49e362781e409b72ca6f7507e0c4cb873))
+- add more narrow type for contract version
+  ([6595cbe](https://github.com/leancodepl/js_corelibrary/commit/6595cbe7938c0bb1f64b821c7e4978e2d80340b5))
+- add version checking
+  ([b47361f](https://github.com/leancodepl/js_corelibrary/commit/b47361f050b4ca2f6cb72839152daa21e599dca4))
+- add zod schema for contract
+  ([c263862](https://github.com/leancodepl/js_corelibrary/commit/c2638623844cecc60b0a0e668f673b58a6b4c12a))
+- add zod schemas
+  ([0331de8](https://github.com/leancodepl/js_corelibrary/commit/0331de80a25c19bb09a705964caad6b561cd8929))
+- check contract compatibility with semver and compatible version range customs
+  ([27911b6](https://github.com/leancodepl/js_corelibrary/commit/27911b62181f1b98b3d24d5c9e848b7f5ee7b29e))
+- fix types in contract
+  ([37c09bc](https://github.com/leancodepl/js_corelibrary/commit/37c09bceb1deb6953101376c30082f72fe31b478))
+- handle incompatibility by connection status
+  ([0fa8ba7](https://github.com/leancodepl/js_corelibrary/commit/0fa8ba74a93d9ac733507726db2d2d8dc70646b2))
+- implement iframe contract package
+  ([d652fbb](https://github.com/leancodepl/js_corelibrary/commit/d652fbb8bdc0ce15a67440e6fa305599beea5e33))
+- implement iframe contract package
+  ([f6789fa](https://github.com/leancodepl/js_corelibrary/commit/f6789faa7b17aeabed59d13fb567658db33118cd))
+- make state of remote and host with union
+  ([16d660b](https://github.com/leancodepl/js_corelibrary/commit/16d660baa9e206e830cfb40db3d633a7e2a71f8e))
+- omit src and title from iframe props
+  ([d6739aa](https://github.com/leancodepl/js_corelibrary/commit/d6739aa3cca9c1b0289b836b0166b62ea2b146f0))
+- prevent publish to other registries on local publish
+  ([4794ffe](https://github.com/leancodepl/js_corelibrary/commit/4794ffe40604e18dfcab7a820161c446942793cb))
+- refactor getUrlParams function
+  ([93cacb6](https://github.com/leancodepl/js_corelibrary/commit/93cacb6c46c5e06cda703ed6b742e2c6c9f40cdf))
+- remove unnecessary useConnectParams hook
+  ([9eadbb9](https://github.com/leancodepl/js_corelibrary/commit/9eadbb92405b62eb07d9385903914c61f84375dc))
+- remove unwanted assertions
+  ([9bd4475](https://github.com/leancodepl/js_corelibrary/commit/9bd4475ec874cd74d95fc1dff4220f112639c715))
+- reuse existing types
+  ([1a1d678](https://github.com/leancodepl/js_corelibrary/commit/1a1d67879daf74acaf1c65de10b5d0d6adeee7aa))
+- update dart renderer
+  ([d972b1e](https://github.com/leancodepl/js_corelibrary/commit/d972b1e2b959416c425f427337e03eae40adc89d))
+- update exports
+  ([bc4b4e8](https://github.com/leancodepl/js_corelibrary/commit/bc4b4e8ab6439dc46eefb8c3b51ae6ec9f1db0b9))
+- update flutter package name
+  ([6abc872](https://github.com/leancodepl/js_corelibrary/commit/6abc8729062be41fe8838c6025e1357f9feb824d))
+- update renderer
+  ([a6c637b](https://github.com/leancodepl/js_corelibrary/commit/a6c637bb5d346bc7875af3b348dee11a161c03b6))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.1.3](https://github.com/leancodepl/js_corelibrary/compare/v10.1.2...v10.1.3) (2026-04-01)
 
 ### Bug Fixes
