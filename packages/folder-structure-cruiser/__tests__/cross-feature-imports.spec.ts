@@ -22,10 +22,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -39,10 +41,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -56,10 +60,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "activities/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -73,10 +79,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toEqual(expect.any(Number))
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),
@@ -90,10 +98,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toEqual(expect.any(Number))
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),
@@ -107,10 +117,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
     const configPath = join(dirname, "../src/.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toEqual(expect.any(Number))
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),

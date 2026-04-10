@@ -22,7 +22,7 @@ Validates cross-feature nested imports according to folder structure rules.
   - `tsConfigPath: string` - Optional path to TypeScript configuration file for enhanced type resolution
   - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
-**Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
+**Returns:** `Promise<number>` - Number of detected violations
 
 **Throws:** `Error` - Throws an error if the dependency analysis fails or configuration is invalid
 
@@ -38,7 +38,7 @@ Validates if shared components are located at the first shared level.
   - `tsConfigPath: string` - Optional path to TypeScript configuration file for enhanced type resolution
   - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
 
-**Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
+**Returns:** `Promise<number>` - Number of detected violations
 
 **Throws:** `Error` - Throws an error if the dependency analysis fails or configuration is invalid
 

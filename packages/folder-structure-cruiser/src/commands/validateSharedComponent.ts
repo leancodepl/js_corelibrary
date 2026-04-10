@@ -20,7 +20,7 @@ import { logger } from "../lib/logger.js"
  * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
  * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
  *
- * @returns Promise<void> - The function doesn't return a value but outputs results to console
+ * @returns Promise<number> - Number of detected violations
  *
  * @throws {Error} - Throws an error if the dependency analysis fails or configuration is invalid
  *
@@ -60,22 +60,20 @@ import { logger } from "../lib/logger.js"
  * }
  * ```
  */
-export async function validateSharedComponent(cruiseParams: CruiseParams) {
-  try {
-    const cruiseResult = await getCruiseResult(cruiseParams)
+export async function validateSharedComponent(cruiseParams: CruiseParams): Promise<number> {
+  const cruiseResult = await getCruiseResult(cruiseParams)
 
-    const { messages: infoMessages, totalCruised } = checkSharedComponents(cruiseResult)
+  const { messages: infoMessages, totalCruised } = checkSharedComponents(cruiseResult)
 
-    if (infoMessages.length === 0) {
-      logger.success("✅ No issues found!")
-    }
-
-    if (infoMessages.length > 0) {
-      const messages = formatMessages(infoMessages)
-      logger.info(messages.join("\n"))
-      logger.info(`Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`)
-    }
-  } catch (pError) {
-    logger.error(pError as Error)
+  if (infoMessages.length === 0) {
+    logger.success("✅ No issues found!")
   }
+
+  if (infoMessages.length > 0) {
+    const messages = formatMessages(infoMessages)
+    logger.info(messages.join("\n"))
+    logger.info(`Found ${infoMessages.length} violations(s). ${totalCruised} modules cruised.`)
+  }
+
+  return infoMessages.length
 }
