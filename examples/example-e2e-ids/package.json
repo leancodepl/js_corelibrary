@@ -1,6 +1,6 @@
 {
   "name": "@example/e2e-ids",
-  "version": "10.1.3",
+  "version": "10.2.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",

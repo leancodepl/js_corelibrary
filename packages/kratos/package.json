@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/kratos",
-  "version": "10.1.3",
+  "version": "10.2.0",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@leancodepl/utils": "10.1.3",
+    "@leancodepl/utils": "10.2.0",
     "@radix-ui/react-slot": ">=1.0.0",
     "@tanstack/react-form": ">=1.23.0",
     "@tanstack/react-query": ">=5.0.0"
