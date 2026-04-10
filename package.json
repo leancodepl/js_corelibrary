@@ -92,6 +92,7 @@
     "packages/cqrs-clients/*",
     "packages/cqrs-clients/custom-types/binary/*",
     "packages/cqrs-clients/custom-types/date/*",
+    "packages/cyberware/*",
     "packages/feature-flags/*",
     "packages/linters/*",
     "packages/pipe-clients/*",
