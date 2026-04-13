@@ -1,6 +1,6 @@
 {
   "name": "@example/example",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -15,9 +15,9 @@
     }
   },
   "dependencies": {
-    "@example/e2e-ids": "10.2.0",
-    "@leancodepl/kratos": "10.2.0",
-    "@leancodepl/utils": "10.2.0",
+    "@example/e2e-ids": "10.2.1",
+    "@leancodepl/kratos": "10.2.1",
+    "@leancodepl/utils": "10.2.1",
     "@tanstack/react-query": "*",
     "@tanstack/react-query-devtools": "*",
     "@tanstack/react-router": "*",
