@@ -20,7 +20,7 @@ describe("shared-components validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateSharedComponent({
       directories: [filePath],
@@ -33,7 +33,7 @@ describe("shared-components validation", () => {
   it("should flag shared components to be moved", async () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateSharedComponent({
       directories: [testDir],
