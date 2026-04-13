@@ -20,7 +20,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
@@ -37,7 +37,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
@@ -54,7 +54,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "activities/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
@@ -71,7 +71,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
@@ -88,7 +88,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
@@ -105,7 +105,7 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],

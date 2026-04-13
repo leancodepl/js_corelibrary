@@ -12,7 +12,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
-    }
+    },
+    "./.dependency-cruiser.json": "./.dependency-cruiser.json"
   },
   "bin": {
     "folder-structure-cruiser": "./dist/bin.js"
@@ -61,6 +62,7 @@
   "sideEffects": false,
   "files": [
     "dist",
+    ".dependency-cruiser.json",
     "CHANGELOG.md",
     "!**/*.tsbuildinfo"
   ]
