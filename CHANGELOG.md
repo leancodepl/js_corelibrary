@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.3.0](https://github.com/leancodepl/js_corelibrary/compare/v10.2.1...v10.3.0) (2026-04-16)
+
+### Features
+
+- upgrade lean pipe package version
+  ([70c1537](https://github.com/leancodepl/js_corelibrary/commit/70c1537da3ed57bd17634188d17f555ba175d6f7))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.2.1](https://github.com/leancodepl/js_corelibrary/compare/v10.2.0...v10.2.1) (2026-04-13)
 
 ### Bug Fixes
