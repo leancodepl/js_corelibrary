@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "@leancodepl/pipe": "^1.0.0",
+    "@leancodepl/pipe": "^2.0.0",
     "deep-equal": "^2.0.0"
   },
   "peerDependencies": {
