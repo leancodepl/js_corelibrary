@@ -16,6 +16,17 @@ describe("cross-feature-imports validation", () => {
     consoleInfoSpy.mockRestore()
   })
 
+  async function expectNoCrossFeatureViolations(filePath: string) {
+    const dirname = import.meta.dirname
+    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const violationsCount = await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath,
+    })
+
+    expect(violationsCount).toBe(0)
+  }
+
   it("should detect violations in SurveyEditor (nested sibling child import)", async () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
@@ -75,16 +86,9 @@ describe("cross-feature-imports validation", () => {
 
   it("should allow import from direct sibling index", async () => {
     const dirname = import.meta.dirname
-    const testDir = join(dirname, "test-structure")
-    const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const filePath = join(dirname, "test-structure/wizards/index.tsx")
 
-    const violationsCount = await validateCrossFeatureImports({
-      directories: [filePath],
-      configPath: configPath,
-    })
-
-    expect(violationsCount).toEqual(expect.any(Number))
+    await expectNoCrossFeatureViolations(filePath)
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),
@@ -94,16 +98,9 @@ describe("cross-feature-imports validation", () => {
 
   it("should allow import from immediate sibling child file", async () => {
     const dirname = import.meta.dirname
-    const testDir = join(dirname, "test-structure")
-    const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const filePath = join(dirname, "test-structure/polls/PollEditor/validators/index.ts")
 
-    const violationsCount = await validateCrossFeatureImports({
-      directories: [filePath],
-      configPath: configPath,
-    })
-
-    expect(violationsCount).toEqual(expect.any(Number))
+    await expectNoCrossFeatureViolations(filePath)
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),
@@ -113,16 +110,9 @@ describe("cross-feature-imports validation", () => {
 
   it("should allow import from own child", async () => {
     const dirname = import.meta.dirname
-    const testDir = join(dirname, "test-structure")
-    const filePath = join(testDir, "polls/PollEditor/index.tsx")
-    const configPath = join(dirname, "../src/.dependency-cruiser.json")
+    const filePath = join(dirname, "test-structure/polls/PollEditor/validators/validateName.ts")
 
-    const violationsCount = await validateCrossFeatureImports({
-      directories: [filePath],
-      configPath: configPath,
-    })
-
-    expect(violationsCount).toEqual(expect.any(Number))
+    await expectNoCrossFeatureViolations(filePath)
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
       expect.anything(),
