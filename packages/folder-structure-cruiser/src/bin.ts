@@ -3,6 +3,7 @@
 import { program } from "commander"
 import { validateCrossFeatureImports } from "./commands/validateCrossFeatureImports.js"
 import { validateSharedComponent } from "./commands/validateSharedComponent.js"
+import { logger } from "./lib/logger.js"
 
 program.name("folder-structure-cruiser").description("CLI tool for validating folder structure rules")
 
@@ -13,7 +14,7 @@ function handleCommandResult(violationsCount: number) {
 }
 
 function handleCommandError(error: unknown) {
-  console.error(error)
+  logger.error(error instanceof Error ? error : new Error(String(error)))
   process.exitCode = 1
 }
 
