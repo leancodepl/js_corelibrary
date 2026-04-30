@@ -71,9 +71,8 @@ export async function validateSharedComponent(cruiseParams: CruiseParams): Promi
 
   if (infoMessages.length > 0) {
     const messages = formatMessages(infoMessages)
-    const violationLabel = infoMessages.length === 1 ? "violation" : "violations"
     logger.info(messages.join("\n"))
-    logger.info(`Found ${infoMessages.length} ${violationLabel}. ${totalCruised} modules cruised.`)
+    logger.info(`Found ${infoMessages.length} violation(s). ${totalCruised} modules cruised.`)
   }
 
   return infoMessages.length

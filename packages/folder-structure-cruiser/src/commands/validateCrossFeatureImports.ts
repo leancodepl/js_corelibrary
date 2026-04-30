@@ -72,9 +72,7 @@ export async function validateCrossFeatureImports(cruiseParams: CruiseParams): P
   if (errorMessages.length > 0) {
     const messages = formatMessages(errorMessages)
     logger.error(messages.join("\n"))
-    logger.error(
-      `Found ${errorMessages.length} violation${errorMessages.length === 1 ? "" : "s"}. ${totalCruised} modules cruised.`,
-    )
+    logger.error(`Found ${errorMessages.length} violation(s). ${totalCruised} modules cruised.`)
   }
 
   return errorMessages.length
