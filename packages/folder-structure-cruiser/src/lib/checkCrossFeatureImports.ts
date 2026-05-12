@@ -7,7 +7,7 @@ type CheckCrossFeatureImportsOptions = {
   allowImportsFromDirectChildrenOf?: string[]
 }
 
-const INDEX_FILE_PATTERN = /^index(?:\..+)?$/
+const indexFilePattern = /^index(?:\..+)?$/
 
 function normalizePath(path: string): string[] {
   return path.split("/").filter(segment => segment.length > 0 && segment !== ".")
@@ -42,7 +42,7 @@ function isDirectChildImportOfDirectory(dependencyPath: string[], directoryPath:
     return true
   }
 
-  return relativePathFromDirectory.length === 2 && INDEX_FILE_PATTERN.test(relativePathFromDirectory[1])
+  return relativePathFromDirectory.length === 2 && indexFilePattern.test(relativePathFromDirectory[1])
 }
 
 export function checkCrossFeatureImports(

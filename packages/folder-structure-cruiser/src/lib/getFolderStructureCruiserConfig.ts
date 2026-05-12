@@ -1,8 +1,8 @@
+import json5 from "json5"
 import { readFile } from "node:fs/promises"
 import { createRequire } from "node:module"
 import { dirname, extname, isAbsolute, resolve } from "node:path"
 import { pathToFileURL } from "node:url"
-import json5 from "json5"
 
 type FolderStructureCruiserConfigShape = {
   extends?: string | string[]
@@ -26,7 +26,7 @@ function parseStringArray(value: unknown): string[] {
 async function readConfig(configPath: string): Promise<FolderStructureCruiserConfigShape> {
   const configFileExtension = extname(configPath)
 
-  if ([".js", ".cjs", ".mjs", ""].includes(configFileExtension)) {
+  if (["", ".cjs", ".js", ".mjs"].includes(configFileExtension)) {
     const importedConfig = (await import(pathToFileURL(configPath).href)) as { default?: unknown }
     return (importedConfig.default ?? importedConfig) as FolderStructureCruiserConfigShape
   }
@@ -57,13 +57,12 @@ async function collectAllowImportsFromDirectChildrenOf(
   const config = await readConfig(resolvedConfigPath)
   const configDirectory = dirname(resolvedConfigPath)
   const inheritedConfigPaths = Array.isArray(config.extends) ? config.extends : config.extends ? [config.extends] : []
-  const inheritedAllowedImports = (
-    await Promise.all(
-      inheritedConfigPaths.map(inheritedConfigPath =>
-        collectAllowImportsFromDirectChildrenOf(resolveConfigPath(inheritedConfigPath, configDirectory), visitedConfigs),
-      ),
-    )
-  ).flat()
+  const inheritedAllowedImportsNested = await Promise.all(
+    inheritedConfigPaths.map(inheritedConfigPath =>
+      collectAllowImportsFromDirectChildrenOf(resolveConfigPath(inheritedConfigPath, configDirectory), visitedConfigs),
+    ),
+  )
+  const inheritedAllowedImports = inheritedAllowedImportsNested.flat()
   const localAllowedImports = parseStringArray(
     config.folderStructureCruiser?.crossFeatureImports?.allowImportsFromDirectChildrenOf,
   )
