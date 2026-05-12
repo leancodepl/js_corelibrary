@@ -1,8 +1,10 @@
 {
   "extends": ["../../.dependency-cruiser.json"],
-  "folderStructureCruiser": {
-    "crossFeatureImports": {
-      "allowImportsFromDirectChildrenOf": ["surveys"]
+  "options": {
+    "folderStructureCruiser": {
+      "crossFeatureImports": {
+        "allowImportsFromDirectChildrenOf": ["surveys"]
+      }
     }
   }
 }

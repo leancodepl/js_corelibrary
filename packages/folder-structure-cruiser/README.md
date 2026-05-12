@@ -82,9 +82,11 @@ npx depcruise --ts-config ./tsconfig.base.json --webpack-config ./webpack.config
 ```json
 {
   "extends": ["@leancodepl/folder-structure-cruiser/.dependency-cruiser.json"],
-  "folderStructureCruiser": {
-    "crossFeatureImports": {
-      "allowImportsFromDirectChildrenOf": ["src/features"]
+  "options": {
+    "folderStructureCruiser": {
+      "crossFeatureImports": {
+        "allowImportsFromDirectChildrenOf": ["src/features"]
+      }
     }
   }
 }
