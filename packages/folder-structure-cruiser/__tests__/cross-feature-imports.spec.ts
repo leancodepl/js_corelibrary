@@ -22,10 +22,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
     const configPath = join(dirname, "../.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -39,10 +41,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
     const configPath = join(dirname, "../.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -56,10 +60,12 @@ describe("cross-feature-imports validation", () => {
     const filePath = join(testDir, "activities/index.tsx")
     const configPath = join(dirname, "../.dependency-cruiser.json")
 
-    await validateCrossFeatureImports({
+    const violationsCount = await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
     })
+
+    expect(violationsCount).toBeGreaterThan(0)
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.anything(),
@@ -75,7 +81,7 @@ describe("cross-feature-imports validation", () => {
 
     await validateCrossFeatureImports({
       directories: [filePath],
-      configPath: configPath,
+      configPath,
     })
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
@@ -92,7 +98,7 @@ describe("cross-feature-imports validation", () => {
 
     await validateCrossFeatureImports({
       directories: [filePath],
-      configPath: configPath,
+      configPath,
     })
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
@@ -109,7 +115,7 @@ describe("cross-feature-imports validation", () => {
 
     await validateCrossFeatureImports({
       directories: [filePath],
-      configPath: configPath,
+      configPath,
     })
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(
