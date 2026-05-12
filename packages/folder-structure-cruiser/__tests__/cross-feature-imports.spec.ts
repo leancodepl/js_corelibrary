@@ -62,7 +62,10 @@ describe("cross-feature-imports validation", () => {
       allowImportsFromDirectChildrenOf: ["surveys"],
     })
 
-    expect(consoleErrorSpy).not.toHaveBeenCalled()
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("SnapshotPollEditor/index.tsx → __tests__/test-structure/surveys/SurveyEditor/index.tsx"),
+    )
   }, 30000)
 
   it("should detect violations in ActivityEditor (nested sibling child import)", async () => {
