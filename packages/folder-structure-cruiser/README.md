@@ -21,6 +21,7 @@ Validates cross-feature nested imports according to folder structure rules.
   - `configPath: string` - Path to the dependency-cruiser configuration file (e.g., `.dependency-cruiser.js`)
   - `tsConfigPath: string` - Optional path to TypeScript configuration file for enhanced type resolution
   - `webpackConfigPath?: string` - Optional path to webpack configuration file for webpack alias resolution
+  - `allowImportsFromDirectChildrenOf?: string[]` - Optional list of directories whose direct children can be imported
 
 **Returns:** `Promise<void>` - The function doesn't return a value but outputs results to console
 
@@ -52,6 +53,9 @@ npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --direct
 
 # With both TypeScript and webpack config
 npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --directory "packages/admin" --config "./.dependency-cruiser.json" --tsConfig "./tsconfig.base.json" --webpackConfig "./webpack.config.js"
+
+# Allow imports from direct children of selected folders
+npx @leancodepl/folder-structure-cruiser validate-cross-feature-imports --directory "packages/admin" --config "./.dependency-cruiser.json" --allow-imports-from-direct-children-of "src/features"
 ```
 
 ### Shared Component Validation

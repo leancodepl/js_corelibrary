@@ -50,6 +50,21 @@ describe("cross-feature-imports validation", () => {
     )
   }, 30000)
 
+  it("should allow imports from direct children of configured folder", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
+
+    await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath: configPath,
+      allowImportsFromDirectChildrenOf: ["surveys"],
+    })
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
+  }, 30000)
+
   it("should detect violations in ActivityEditor (nested sibling child import)", async () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")

@@ -30,13 +30,24 @@ program
   .option("-c, --config <path_to_config>", "Path to config file")
   .option("-t, --tsConfig <path_to_ts_config>", "Path to ts config file")
   .option("-w, --webpackConfig <path_to_webpack_config>", "Path to webpack config file")
+  .option(
+    "-a, --allow-imports-from-direct-children-of <path_to_directory...>",
+    "Allow imports from direct children of listed directories",
+  )
   .action(async options => {
     const directories = options.directory ? [options.directory] : [".*"]
     const configPath = options.config ?? ""
     const tsConfigPath = options.tsConfig
     const webpackConfigPath = options.webpackConfig
+    const allowImportsFromDirectChildrenOf = options.allowImportsFromDirectChildrenOf
 
-    await validateCrossFeatureImports({ directories, configPath, tsConfigPath, webpackConfigPath })
+    await validateCrossFeatureImports({
+      directories,
+      configPath,
+      tsConfigPath,
+      webpackConfigPath,
+      allowImportsFromDirectChildrenOf,
+    })
   })
 
 program.parse()
