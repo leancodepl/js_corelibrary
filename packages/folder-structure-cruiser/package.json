@@ -21,7 +21,8 @@
   "dependencies": {
     "@leancodepl/logger": "10.3.0",
     "chalk": ">=5.0.0",
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "json5": "^2.2.3"
   },
   "devDependencies": {
     "vitest": "*"

@@ -54,12 +54,11 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
     const filePath = join(testDir, "polls/SnapshotPollEditor/index.tsx")
-    const configPath = join(dirname, "../.dependency-cruiser.json")
+    const configPath = join(dirname, "test-configs/allow-direct-children.config.json")
 
     await validateCrossFeatureImports({
       directories: [filePath],
       configPath: configPath,
-      allowImportsFromDirectChildrenOf: ["surveys"],
     })
 
     expect(consoleErrorSpy).not.toHaveBeenCalledWith(

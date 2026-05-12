@@ -1,11 +1,8 @@
 import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports.js"
 import { formatMessages } from "../lib/formatMessages.js"
 import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
+import { getFolderStructureCruiserConfig } from "../lib/getFolderStructureCruiserConfig.js"
 import { logger } from "../lib/logger.js"
-
-export type ValidateCrossFeatureImportsParams = CruiseParams & {
-  allowImportsFromDirectChildrenOf?: string[]
-}
 
 /**
  * Validates cross-feature nested imports according to folder structure rules.
@@ -23,7 +20,6 @@ export type ValidateCrossFeatureImportsParams = CruiseParams & {
  * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., .dependency-cruiser.js)
  * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
  * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
- * @param cruiseParams.allowImportsFromDirectChildrenOf - Optional directory paths whose direct children can be imported
  *
  * @returns Promise<void> - The function doesn't return a value but outputs results to console
  *
@@ -65,12 +61,13 @@ export type ValidateCrossFeatureImportsParams = CruiseParams & {
  * }
  * ```
  */
-export async function validateCrossFeatureImports(cruiseParams: ValidateCrossFeatureImportsParams) {
+export async function validateCrossFeatureImports(cruiseParams: CruiseParams) {
   try {
+    const folderStructureCruiserConfig = await getFolderStructureCruiserConfig(cruiseParams.configPath)
     const cruiseResult = await getCruiseResult(cruiseParams)
 
     const { messages: errorMessages, totalCruised } = checkCrossFeatureImports(cruiseResult, {
-      allowImportsFromDirectChildrenOf: cruiseParams.allowImportsFromDirectChildrenOf,
+      allowImportsFromDirectChildrenOf: folderStructureCruiserConfig.allowImportsFromDirectChildrenOf,
     })
 
     if (errorMessages.length === 0) {
