@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.1](https://github.com/leancodepl/js_corelibrary/compare/v10.3.0...v10.3.1) (2026-05-20)
+
+### Bug Fixes
+
+- cross feature imports test
+  ([ef8c45a](https://github.com/leancodepl/js_corelibrary/commit/ef8c45adec390da0032987d7bd29338e433e45e1))
+- **folder-structure-cruiser:** address review feedback
+  ([4714a5b](https://github.com/leancodepl/js_corelibrary/commit/4714a5b8106a670adbfa921742c5ce91fdb334cd))
+- **folder-structure-cruiser:** return non-zero exit code on violations
+  ([1ad84d5](https://github.com/leancodepl/js_corelibrary/commit/1ad84d5720396e12a1ccc64eacb85fe1e9e034cb))
+
+### Features
+
+- expose CropperConfig type
+  ([1e5c939](https://github.com/leancodepl/js_corelibrary/commit/1e5c939fed906c1688f3b04e9970031120afe15f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [10.3.0](https://github.com/leancodepl/js_corelibrary/compare/v10.2.1...v10.3.0) (2026-04-16)
 
 ### Features
