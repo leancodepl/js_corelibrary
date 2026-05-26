@@ -1,4 +1,5 @@
 import axios from "axios"
+import { errAsync, okAsync, ResultAsync } from "neverthrow"
 import type { Term, TranslationsServiceClient } from "../TranslationsServiceClient"
 import { ExtractedMessages } from "../formatjs"
 import {
@@ -8,6 +9,14 @@ import {
   TermsApi,
   TranslationsApi,
 } from "./api.generated"
+import {
+  DownloadTermsError,
+  DownloadTranslationsError,
+  GetTranslationsInDefaultLanguageError,
+  RemoveTermsError,
+  UploadTermsError,
+  UploadTranslationsError,
+} from "./POEditorError"
 
 export interface POEditorClientConfig {
   apiToken: string
@@ -39,103 +48,98 @@ export class POEditorClient implements TranslationsServiceClient {
     this.translationsApi = new TranslationsApi(apiConfig, undefined, this.axiosInstance)
   }
 
-  async downloadTranslations(language: string): Promise<Record<string, string>> {
-    try {
-      const response = await this.projectsApi.projectsExport(
+  downloadTranslations(language: string): ResultAsync<Record<string, string>, DownloadTranslationsError> {
+    return ResultAsync.fromPromise(
+      this.projectsApi.projectsExport(
         this.projectId,
         language,
         ProjectsExportTypeEnum.KeyValueJson,
         this.apiToken,
-      )
-
-      if (response.data.result?.url) {
-        const translationsResponse = await this.axiosInstance.get(response.data.result.url)
-        return translationsResponse.data || {}
+      ),
+      (cause): DownloadTranslationsError => ({ kind: "downloadTranslationsFailed", language, cause }),
+    ).andThen(response => {
+      const url = response.data.result?.url
+      if (!url) {
+        return errAsync<Record<string, string>, DownloadTranslationsError>({ kind: "noDownloadUrl", language })
       }
-
-      throw new Error("No download URL received from POEditor")
-    } catch (error) {
-      throw new Error(`Failed to download translations for ${language}: ${error}`)
-    }
+      return ResultAsync.fromPromise(
+        this.axiosInstance.get<Record<string, string>>(url),
+        (cause): DownloadTranslationsError => ({ kind: "downloadTranslationsContentFailed", language, url, cause }),
+      ).map(translationsResponse => translationsResponse.data || {})
+    })
   }
 
-  async uploadTerms(messages: ExtractedMessages): Promise<void> {
-    try {
-      const terms: Term[] = Object.entries(messages).map(([key, details]) => ({
-        term: key,
-        context: details.description,
-        reference: details.file,
-        comment: `Default: ${details.defaultMessage}`,
-      }))
+  uploadTerms(messages: ExtractedMessages): ResultAsync<void, UploadTermsError> {
+    const terms: Term[] = Object.entries(messages).map(([key, details]) => ({
+      term: key,
+      context: details.description,
+      reference: details.file,
+      comment: `Default: ${details.defaultMessage}`,
+    }))
 
-      await this.termsApi.termsAdd(this.projectId, JSON.stringify(terms), this.apiToken)
-    } catch (error) {
-      throw new Error(`Failed to upload terms: ${error}`)
-    }
+    return ResultAsync.fromPromise(
+      this.termsApi.termsAdd(this.projectId, JSON.stringify(terms), this.apiToken),
+      (cause): UploadTermsError => ({ kind: "uploadTermsFailed", cause }),
+    ).map(() => {})
   }
 
-  async uploadTranslations(messages: ExtractedMessages, language: string): Promise<void> {
-    try {
-      const translations = Object.entries(messages).map(([term, details]) => ({
-        term,
-        translation: {
-          content: details.defaultMessage,
-          fuzzy: 0,
-        },
-      }))
+  uploadTranslations(messages: ExtractedMessages, language: string): ResultAsync<void, UploadTranslationsError> {
+    const translations = Object.entries(messages).map(([term, details]) => ({
+      term,
+      translation: {
+        content: details.defaultMessage,
+        fuzzy: 0,
+      },
+    }))
 
-      await this.translationsApi.translationsAdd(this.projectId, language, JSON.stringify(translations), this.apiToken)
-    } catch (error) {
-      throw new Error(`Failed to upload translations for ${language}: ${error}`)
-    }
+    return ResultAsync.fromPromise(
+      this.translationsApi.translationsAdd(this.projectId, language, JSON.stringify(translations), this.apiToken),
+      (cause): UploadTranslationsError => ({ kind: "uploadTranslationsFailed", language, cause }),
+    ).map(() => {})
   }
 
-  async downloadTerms(): Promise<Term[]> {
-    try {
-      const response = await this.termsApi.termsList(this.projectId, this.apiToken)
-
-      if (response.data.result?.terms) {
-        return response.data.result.terms.map(term => ({
-          term: term.term || "",
-          context: term.context || "",
-          reference: term.reference || "",
-          comment: term.comment || "",
-        }))
-      }
-
-      return []
-    } catch (error) {
-      throw new Error(`Failed to get terms: ${error}`)
-    }
+  downloadTerms(): ResultAsync<Term[], DownloadTermsError> {
+    return ResultAsync.fromPromise(
+      this.termsApi.termsList(this.projectId, this.apiToken),
+      (cause): DownloadTermsError => ({ kind: "downloadTermsFailed", cause }),
+    ).map(response =>
+      (response.data.result?.terms ?? []).map(term => ({
+        term: term.term || "",
+        context: term.context || "",
+        reference: term.reference || "",
+        comment: term.comment || "",
+      })),
+    )
   }
 
-  async removeTerms(terms: Pick<Term, "context" | "term">[]): Promise<void> {
-    try {
-      await this.termsApi.termsDelete(this.projectId, JSON.stringify(terms), this.apiToken)
-    } catch (error) {
-      throw new Error(`Failed to remove terms: ${error}`)
-    }
+  removeTerms(terms: Pick<Term, "context" | "term">[]): ResultAsync<void, RemoveTermsError> {
+    return ResultAsync.fromPromise(
+      this.termsApi.termsDelete(this.projectId, JSON.stringify(terms), this.apiToken),
+      (cause): RemoveTermsError => ({ kind: "removeTermsFailed", cause }),
+    ).map(() => {})
   }
 
-  async getTranslationsInDefaultLanguage(terms: Term[]): Promise<{ term: string; translation: string }[]> {
-    try {
-      let referenceLanguage: string | undefined
-      const response = await this.projectsApi.projectsView(this.projectId, this.apiToken)
-      if (response.data.result?.project) {
-        referenceLanguage = response.data.result.project.reference_language
-      }
-
+  getTranslationsInDefaultLanguage(
+    terms: Term[],
+  ): ResultAsync<{ term: string; translation: string }[], GetTranslationsInDefaultLanguageError> {
+    return ResultAsync.fromPromise(
+      this.projectsApi.projectsView(this.projectId, this.apiToken),
+      (cause): GetTranslationsInDefaultLanguageError => ({ kind: "viewProjectFailed", cause }),
+    ).andThen(response => {
+      const referenceLanguage = response.data.result?.project?.reference_language
       if (!referenceLanguage) {
-        throw new Error("No reference language found")
+        return errAsync<{ term: string; translation: string }[], GetTranslationsInDefaultLanguageError>({
+          kind: "noReferenceLanguage",
+        })
       }
-
-      const translations = await this.downloadTranslations(referenceLanguage)
-      return terms.map(term => ({
-        term: term.term,
-        translation: translations[term.term] || "",
-      }))
-    } catch (error) {
-      throw new Error(`Failed to get translations in default language: ${error}`)
-    }
+      return this.downloadTranslations(referenceLanguage).andThen(translations =>
+        okAsync(
+          terms.map(term => ({
+            term: term.term,
+            translation: translations[term.term] || "",
+          })),
+        ),
+      )
+    })
   }
 }

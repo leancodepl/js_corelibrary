@@ -1,5 +1,7 @@
 import { OptionsSync as LilconfigOptionsSync, lilconfigSync } from "lilconfig"
+import { err, ok, Result } from "neverthrow"
 import * as yaml from "yaml"
+import type { LoadConfigError } from "./MailTranslationError"
 import { MailTranslationConfig, mailTranslationConfigSchema } from "./config"
 
 function loadYaml(filepath: string, content: string) {
@@ -25,17 +27,17 @@ const options: LilconfigOptionsSync = {
   },
 }
 
-export function loadConfig(configPath?: string): MailTranslationConfig {
+export function loadConfig(configPath?: string): Result<MailTranslationConfig, LoadConfigError> {
   const searcher = lilconfigSync("mail-translation", options)
 
   const result = configPath ? searcher.load(configPath) : searcher.search()
   if (!result) {
-    throw new Error("No configuration file found")
+    return err({ kind: "configFileNotFound" })
   }
 
-  try {
-    return mailTranslationConfigSchema.parse(result.config)
-  } catch (error) {
-    throw new Error(`Failed to load configuration: ${error}`)
+  const parsed = mailTranslationConfigSchema.safeParse(result.config)
+  if (!parsed.success) {
+    return err({ kind: "configValidationFailed", cause: parsed.error })
   }
+  return ok(parsed.data)
 }

@@ -3,6 +3,7 @@ import { z } from "zod/v4"
 import type { TranslationsServiceClient } from "../TranslationsServiceClient"
 import { compileTranslations, createTranslationsTempDir, writeTranslationsToTempDir } from "../formatjs"
 import { logger } from "../logger"
+import { type DownloadTranslationsError, stringifyCause } from "../poeditor/POEditorError"
 
 export const downloadCommandOptionsSchema = z.object({
   outputDir: z.string(),
@@ -14,36 +15,57 @@ export type DownloadCommandOptions = z.infer<typeof downloadCommandOptionsSchema
 }
 
 export async function download({ outputDir, languages, translationsServiceClient }: DownloadCommandOptions) {
+  logger.info("Starting download from translation service...")
+
+  logger.info(`Downloading translations for languages: ${languages.join(", ")}`)
+
+  const tempDir = createTranslationsTempDir("download-")
+
   try {
-    logger.info("Starting download from translation service...")
+    for (const language of languages) {
+      logger.info(`Downloading ${language} translations...`)
 
-    logger.info(`Downloading translations for languages: ${languages.join(", ")}`)
-
-    const tempDir = createTranslationsTempDir("download-")
-
-    try {
-      for (const language of languages) {
-        logger.info(`Downloading ${language} translations...`)
-
-        const translations = await translationsServiceClient.downloadTranslations(language)
-        writeTranslationsToTempDir({ translations, language, tempDir })
-
-        const translationCount = Object.keys(translations).length
-        logger.info(`Downloaded ${translationCount} translations for ${language}`)
+      const downloadResult = await translationsServiceClient.downloadTranslations(language)
+      if (downloadResult.isErr()) {
+        exitOnDownloadFailure(downloadResult.error)
       }
+      const translations = downloadResult.value
 
-      logger.info("Compiling translations...")
+      writeTranslationsToTempDir({ translations, language, tempDir })
 
-      mkdirSync(outputDir, { recursive: true })
-
-      compileTranslations({ inputDir: tempDir, outputDir })
-
-      logger.success(`Compiled translations saved to ${outputDir}`)
-    } finally {
-      rmSync(tempDir, { recursive: true, force: true })
+      const translationCount = Object.keys(translations).length
+      logger.info(`Downloaded ${translationCount} translations for ${language}`)
     }
-  } catch (error) {
-    logger.error("Error in download command:", error as Error)
-    process.exit(1)
+
+    logger.info("Compiling translations...")
+
+    mkdirSync(outputDir, { recursive: true })
+
+    const compileResult = compileTranslations({ inputDir: tempDir, outputDir })
+    if (compileResult.isErr()) {
+      logger.error(`Failed to compile translations: ${compileResult.error.message}`)
+      process.exit(1)
+    }
+
+    logger.success(`Compiled translations saved to ${outputDir}`)
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true })
   }
+}
+
+function exitOnDownloadFailure(error: DownloadTranslationsError): never {
+  switch (error.kind) {
+    case "downloadTranslationsFailed":
+      logger.error(`POEditor API call failed for ${error.language}: ${stringifyCause(error.cause)}`)
+      break
+    case "noDownloadUrl":
+      logger.error(`POEditor returned no download URL for ${error.language}`)
+      break
+    case "downloadTranslationsContentFailed":
+      logger.error(
+        `Failed to fetch translation content for ${error.language} from ${error.url}: ${stringifyCause(error.cause)}`,
+      )
+      break
+  }
+  process.exit(1)
 }

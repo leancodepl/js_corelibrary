@@ -1,4 +1,6 @@
+import { errAsync, okAsync, ResultAsync } from "neverthrow"
 import { FileWithId, UploadedFileWithId, UploadParams } from "../types"
+import { UploadError } from "./UploadError"
 
 /**
  * Uploads an image file using provided upload parameters.
@@ -8,49 +10,60 @@ import { FileWithId, UploadedFileWithId, UploadParams } from "../types"
  *
  * @param image - Image file with ID or already uploaded image with URL
  * @param getUploadParams - Function that returns upload parameters (URI, method, headers) for the image
- * @returns Promise resolving to uploaded image with URL
- * @throws {Error} When upload params are not defined, image is not defined, or upload fails
+ * @returns ResultAsync resolving to the uploaded image with URL, or a typed `UploadError` on failure
  *
  * @example
  * ```typescript
  * import { tryUploadWithUploadParams } from "@leancodepl/image-uploader";
  *
- * const uploadedImage = await tryUploadWithUploadParams(image, async (img) => ({
+ * const result = await tryUploadWithUploadParams(image, async (img) => ({
  *   uri: "https://api.example.com/upload",
  *   method: "POST",
  *   requiredHeaders: { "Content-Type": "image/jpeg" }
  * }));
+ *
+ * if (result.isErr()) {
+ *   // result.error is a typed UploadError; switch on result.error.kind
+ * } else {
+ *   const uploadedImage = result.value;
+ * }
  * ```
  */
-export async function tryUploadWithUploadParams(
+export function tryUploadWithUploadParams(
   image: FileWithId | UploadedFileWithId,
   getUploadParams: (image: FileWithId) => Promise<UploadParams | null | undefined>,
-): Promise<UploadedFileWithId> {
+): ResultAsync<UploadedFileWithId, UploadError> {
   if ("url" in image) {
-    return image
+    return okAsync(image)
   }
 
   if (!image.originalFile) {
-    throw new Error("Image is not defined")
+    return errAsync({ kind: "imageNotDefined" })
   }
 
-  try {
-    const uploadParams = await getUploadParams(image)
+  const fileImage = image
 
+  return ResultAsync.fromPromise(
+    getUploadParams(fileImage),
+    (cause): UploadError => ({ kind: "getUploadParamsFailed", cause }),
+  ).andThen(uploadParams => {
     if (!uploadParams) {
-      throw new Error("Upload params are not defined")
+      return errAsync<UploadedFileWithId, UploadError>({ kind: "noUploadParams" })
     }
-
     const { uri, method, requiredHeaders } = uploadParams
 
-    const response = await fetch(uri, { method, headers: requiredHeaders, body: image.originalFile })
-
-    if (!response.ok) {
-      throw new Error("Failed to upload image")
-    }
-
-    return { ...image, url: uri }
-  } catch {
-    throw new Error("Failed to upload image")
-  }
+    return ResultAsync.fromPromise(
+      fetch(uri, { method, headers: requiredHeaders, body: fileImage.originalFile }),
+      (cause): UploadError => ({ kind: "uploadRequestFailed", cause }),
+    ).andThen(response => {
+      if (!response.ok) {
+        return errAsync<UploadedFileWithId, UploadError>({
+          kind: "uploadResponseNotOk",
+          status: response.status,
+          statusText: response.statusText,
+        })
+      }
+      return okAsync({ ...fileImage, url: uri })
+    })
+  })
 }
