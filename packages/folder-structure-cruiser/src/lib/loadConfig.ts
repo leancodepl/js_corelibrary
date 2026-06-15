@@ -53,7 +53,10 @@ const configSchema = z.strictObject({
    * recursively, arrays and scalars replace). Not validated by
    * folder-structure-cruiser; prefer `ignore`/`scope` when they suffice.
    */
-  dependencyCruiserOptions: z.custom<ICruiseOptions>().optional(),
+  dependencyCruiserOptions: z
+    .record(z.string(), z.unknown())
+    .transform(value => value as ICruiseOptions)
+    .optional(),
 })
 
 export type FolderStructureCruiserConfig = z.infer<typeof configSchema>
