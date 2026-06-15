@@ -1,8 +1,8 @@
 import { cruise, ICruiseOptions, IFlattenedRuleSet, IReporterOutput, IResolveOptions } from "dependency-cruiser"
 import extractTSConfig from "dependency-cruiser/config-utl/extract-ts-config"
 import extractWebpackResolveConfig from "dependency-cruiser/config-utl/extract-webpack-resolve-config"
+import { mergeWith } from "es-toolkit"
 import type { CommandKey, FolderStructureCruiserConfig } from "./loadConfig"
-import { deepMerge } from "./deepMerge"
 
 export type GetCruiseResultParams = {
   directories: string[]
@@ -61,7 +61,9 @@ function buildCruiseOptions({
   }
 
   const mergedOptions = config.dependencyCruiserOptions
-    ? deepMerge(baseOptions, config.dependencyCruiserOptions)
+    ? mergeWith(baseOptions, config.dependencyCruiserOptions, (_, sourceValue) =>
+        Array.isArray(sourceValue) ? sourceValue : undefined,
+      )
     : baseOptions
 
   // The validation rule set / `validate` flag are owned
