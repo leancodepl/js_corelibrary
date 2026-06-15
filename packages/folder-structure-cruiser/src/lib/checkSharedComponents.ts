@@ -1,8 +1,7 @@
 import { IReporterOutput } from "dependency-cruiser"
-import { findCommonPathsPrefix, findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
-import { Message } from "./formatMessages.js"
-
-type CheckResult = { messages: Message[]; totalCruised: number }
+import { CheckResult } from "./checkResult"
+import { findCommonPathsPrefix, findCommonPathsPrefixLength } from "./findCommonPathsPrefix"
+import { Message } from "./formatMessages"
 
 function isIndexFileProperlyPositioned(
   pathParts: string[],

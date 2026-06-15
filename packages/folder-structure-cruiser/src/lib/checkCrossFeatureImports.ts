@@ -1,8 +1,7 @@
 import { IReporterOutput } from "dependency-cruiser"
-import { findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
-import { Message } from "./formatMessages.js"
-
-type CheckResult = { messages: Message[]; totalCruised: number }
+import { CheckResult } from "./checkResult"
+import { findCommonPathsPrefixLength } from "./findCommonPathsPrefix"
+import { Message } from "./formatMessages"
 
 export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
   const output = typeof result.output === "object" ? result.output : undefined
@@ -20,6 +19,10 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
     const modulePath = module.source.split("/")
 
     dependencies.forEach(dependency => {
+      if (isExternalDependency(dependency.dependencyTypes)) {
+        return
+      }
+
       const dependencyPath = dependency.resolved.split("/")
       const commonPrefixPathLength = findCommonPathsPrefixLength([modulePath, dependencyPath])
 
@@ -41,4 +44,8 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
     messages: errorMessages,
     totalCruised: output?.summary.totalCruised ?? 0,
   }
+}
+
+function isExternalDependency(dependencyTypes: string[] | undefined): boolean {
+  return dependencyTypes?.some(type => type === "core" || type === "unknown" || type.startsWith("npm")) ?? false
 }

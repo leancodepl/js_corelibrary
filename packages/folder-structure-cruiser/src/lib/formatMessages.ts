@@ -2,13 +2,13 @@ import chalk from "chalk"
 
 const { bold } = chalk
 
-type Severity = "error" | "info"
+export type MessageSeverity = "error" | "info"
 
 export interface Message {
   source: string
   target: string
   rule: string
-  severity: Severity
+  severity: MessageSeverity
 }
 
 export function formatMessages(messages: Message[]) {

@@ -1,0 +1,5 @@
+{
+  "crossFeatureImport": {
+    "ignore": ["/wizards/"]
+  }
+}

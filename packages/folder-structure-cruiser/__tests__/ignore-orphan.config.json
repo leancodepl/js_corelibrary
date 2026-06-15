@@ -1,0 +1,5 @@
+{
+  "noOrphans": {
+    "ignore": ["/surveys/orphan[.]ts$"]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "dependencyCruiserOptions": {
+    "ruleSet": {
+      "forbidden": [{ "name": "unrelated-rule", "from": {}, "to": { "path": "this-pattern-never-matches" } }]
+    }
+  }
+}

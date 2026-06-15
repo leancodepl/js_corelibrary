@@ -1,15 +1,15 @@
-import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports"
+import { IForbiddenRuleType } from "dependency-cruiser"
+import { checkOrphans } from "../lib/checkOrphans"
 import { getCruiseResult } from "../lib/getCruiseResult"
 import { loadConfig } from "../lib/loadConfig"
 import { reportViolations } from "../lib/reportViolations"
 import { ValidateParams } from "../lib/validateParams"
 
 /**
- * Validates cross-feature nested imports according to folder structure rules.
+ * Validates that no orphaned modules exist — files that nothing imports and
+ * that import nothing themselves.
  *
- * Analyzes the module graph of the given directories and reports imports that
- * reach into another feature deeper than its immediate children. Modules
- * matching the config's `ignore` or `crossFeatureImports.ignore` patterns are
+ * Modules matching the config's `ignore` or `noOrphans.ignore` patterns are
  * left out of the analysis.
  *
  * Violations are logged to the console.
@@ -22,22 +22,29 @@ import { ValidateParams } from "../lib/validateParams"
  *
  * @example
  * ```typescript
- * import { validateCrossFeatureImports } from "@leancodepl/folder-structure-cruiser";
+ * import { validateNoOrphans } from "@leancodepl/folder-structure-cruiser";
  *
- * const violations = await validateCrossFeatureImports({
+ * const violations = await validateNoOrphans({
  *   directories: ["src"],
  *   configPath: "./folder-structure-cruiser.config.json",
  * });
  * ```
  */
-export async function validateCrossFeatureImports({ directories, configPath }: ValidateParams): Promise<number> {
+export async function validateNoOrphans({ directories, configPath }: ValidateParams): Promise<number> {
   const config = await loadConfig(configPath)
 
   const cruiseResult = await getCruiseResult({
     directories,
     config,
-    command: "crossFeatureImports",
+    command: "noOrphans",
+    ruleSet: { forbidden: [noOrphansRule] },
   })
 
-  return reportViolations(checkCrossFeatureImports(cruiseResult))
+  return reportViolations(checkOrphans(cruiseResult))
+}
+
+const noOrphansRule: IForbiddenRuleType = {
+  name: "no-orphans",
+  from: { orphan: true },
+  to: {},
 }
