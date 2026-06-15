@@ -115,8 +115,6 @@ describe("cross-feature-imports validation", () => {
   it("should not report modules matched by a global ignore pattern", async () => {
     const dirname = import.meta.dirname
     const testDir = join(dirname, "test-structure")
-    // SurveyEditor's only violation is the import of wizards/ActivityWizard;
-    // the config ignores /wizards/ for every command, so nothing is reported.
     const filePath = join(testDir, "surveys/SurveyEditor/index.tsx")
     const configPath = join(dirname, "global-ignore.config.json")
 
@@ -198,8 +196,6 @@ describe("cross-feature-imports validation", () => {
     const dirname = import.meta.dirname
     const filePath = join(dirname, "test-structure/surveys/SurveyEditor/index.tsx")
 
-    // `--config` is optional; with no default config file in the working
-    // directory the command runs with built-in defaults.
     await expect(validateCrossFeatureImports({ directories: [filePath] })).resolves.toBeTypeOf("number")
   }, 30000)
 })
