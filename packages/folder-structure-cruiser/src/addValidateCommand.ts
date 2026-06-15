@@ -22,7 +22,7 @@ export function addValidateCommand(program: Command, { name, description, valida
     )
     .action(async options => {
       const violationsCount = await validate({
-        directories: options.directory ? [options.directory] : [".*"],
+        directories: [options.directory],
         configPath: options.config,
       })
 

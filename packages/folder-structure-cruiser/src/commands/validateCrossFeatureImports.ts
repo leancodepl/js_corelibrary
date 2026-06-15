@@ -8,10 +8,9 @@ import { ValidateParams } from "../lib/validateParams"
  * Validates cross-feature nested imports according to folder structure rules.
  *
  * Analyzes the module graph of the given directories and reports imports that
- * reach into another feature deeper than its immediate children, unless the
- * imported path is a direct child of one of the configured
- * `crossFeatureImports.allowedRoutes`. Modules matching the config's `ignore`
- * or `crossFeatureImports.ignore` patterns are left out of the analysis.
+ * reach into another feature deeper than its immediate children. Modules
+ * matching the config's `ignore` or `crossFeatureImports.ignore` patterns are
+ * left out of the analysis.
  *
  * Violations are logged to the console.
  *

@@ -1,5 +1,5 @@
 {
   "crossFeatureImport": {
-    "allowedRoutes": ["/wizards/"]
+    "ignore": ["/wizards/"]
   }
 }

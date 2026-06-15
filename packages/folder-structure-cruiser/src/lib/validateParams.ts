@@ -2,7 +2,7 @@
  * Parameters shared by every validate command.
  */
 export type ValidateParams = {
-  /** Directory or file paths to analyze. Defaults to [".*"] when run from the CLI without `--directory`. */
+  /** Directory or file paths to analyze. Defaults to ["."] when run from the CLI without `--directory`. */
   directories: string[]
   /**
    * Path to a folder-structure-cruiser config file. When omitted,

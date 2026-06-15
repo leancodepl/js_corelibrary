@@ -82,10 +82,10 @@ export async function loadConfig(configPath?: string): Promise<FolderStructureCr
     throw new Error(`Config file not found at ${resolvePath(process.cwd(), configPath)}`)
   }
 
-  // Only the working directory is searched — never ancestors. `ignore`/`scope`/
-  // `allowedRoutes` patterns match module paths relative to the working
-  // directory, so a config picked up from a parent dir would carry patterns
-  // that silently fail to match.
+  // Only the working directory is searched — never ancestors. `ignore`/`scope`
+  // patterns match module paths relative to the working directory, so a config
+  // picked up from a parent dir would carry patterns that silently fail to
+  // match.
   const searcher = lilconfig(packageName, { ...searchOptions, stopDir: process.cwd() })
   const result = configPath ? await searcher.load(configPath) : await searcher.search()
 
