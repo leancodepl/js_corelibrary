@@ -1,28 +1,81 @@
-import { cruise, ICruiseOptions, IResolveOptions } from "dependency-cruiser"
-import extractDepcruiseOptions from "dependency-cruiser/config-utl/extract-depcruise-options"
+import { cruise, ICruiseOptions, IFlattenedRuleSet, IReporterOutput, IResolveOptions } from "dependency-cruiser"
 import extractTSConfig from "dependency-cruiser/config-utl/extract-ts-config"
 import extractWebpackResolveConfig from "dependency-cruiser/config-utl/extract-webpack-resolve-config"
+import type { CommandKey, FolderStructureCruiserConfig } from "./loadConfig"
+import { deepMerge } from "./deepMerge"
 
-export type CruiseParams = {
+export type GetCruiseResultParams = {
   directories: string[]
-  configPath: string
-  tsConfigPath?: string
-  webpackConfigPath?: string
+  config: FolderStructureCruiserConfig
+  /**
+   * Config section key of the running command. The matching section's `ignore`
+   * patterns are merged on top of the global ones for this cruise.
+   */
+  command: CommandKey
+  /**
+   * dependency-cruiser rule set to validate. When absent, validation is off
+   * and the cruise only produces the module graph.
+   */
+  ruleSet?: IFlattenedRuleSet
 }
 
+/**
+ * Runs dependency-cruiser over `directories` with the built-in analysis
+ * options, extended by the ignore patterns from the folder-structure-cruiser
+ * config. dependency-cruiser is an implementation detail here — nothing of its
+ * own configuration format leaks out.
+ */
 export async function getCruiseResult({
-  directories = [".*"],
-  configPath,
-  tsConfigPath,
-  webpackConfigPath,
-}: CruiseParams) {
-  const depcruiseOptions: ICruiseOptions = await extractDepcruiseOptions(configPath)
-  const webpackConfig = webpackConfigPath ? await extractWebpackResolveConfig(webpackConfigPath) : undefined
-  const tsConfig = tsConfigPath ? extractTSConfig(tsConfigPath) : undefined
+  directories,
+  config,
+  command,
+  ruleSet,
+}: GetCruiseResultParams): Promise<IReporterOutput> {
+  const cruiseOptions = buildCruiseOptions({ config, command, ruleSet })
 
-  const cruiseResult = await cruise(directories, { ...depcruiseOptions }, webpackConfig as IResolveOptions, {
-    tsConfig,
-  })
+  const webpackConfig = config.webpackConfig ? await extractWebpackResolveConfig(config.webpackConfig) : undefined
+  const tsConfig = config.tsConfig ? extractTSConfig(config.tsConfig) : undefined
 
-  return cruiseResult
+  return await cruise(directories, cruiseOptions, webpackConfig as IResolveOptions, { tsConfig })
 }
+
+function buildCruiseOptions({
+  config,
+  command,
+  ruleSet,
+}: Pick<GetCruiseResultParams, "command" | "config" | "ruleSet">): ICruiseOptions {
+  const ignorePatterns = [...builtinIgnorePatterns, ...(config.ignore ?? []), ...(config[command]?.ignore ?? [])]
+
+  const baseOptions: ICruiseOptions = {
+    doNotFollow: {
+      path: ignorePatterns,
+      dependencyTypes: ["npm-no-pkg", "npm-unknown"],
+    },
+    exclude: { path: ignorePatterns },
+    ...(config.scope?.length ? { includeOnly: { path: config.scope } } : {}),
+    tsPreCompilationDeps: true,
+    enhancedResolveOptions: {
+      exportsFields: ["exports"],
+      conditionNames: ["import", "require", "node", "default"],
+    },
+  }
+
+  const mergedOptions = config.dependencyCruiserOptions
+    ? deepMerge(baseOptions, config.dependencyCruiserOptions)
+    : baseOptions
+
+  // The validation rule set / `validate` flag are owned
+  // by the command and re-applied *after* the escape hatch, so a stray
+  // `dependencyCruiserOptions` can never silently drop the built-in rules
+  return {
+    ...mergedOptions,
+    ...(ruleSet ? { ruleSet, validate: true } : { validate: false }),
+  }
+}
+
+const builtinIgnorePatterns = [
+  "node_modules",
+  "(^|/)[.][^/]+[.](?:js|cjs|mjs|ts|cts|mts|json)$",
+  "[.]d[.]ts$",
+  "(^|/)tsconfig[.]json$",
+]

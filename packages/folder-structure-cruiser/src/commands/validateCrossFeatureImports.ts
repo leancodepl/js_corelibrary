@@ -1,79 +1,44 @@
-import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports.js"
-import { formatMessages } from "../lib/formatMessages.js"
-import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
-import { logger } from "../lib/logger.js"
+import { checkCrossFeatureImports } from "../lib/checkCrossFeatureImports"
+import { getCruiseResult } from "../lib/getCruiseResult"
+import { loadConfig } from "../lib/loadConfig"
+import { reportViolations } from "../lib/reportViolations"
+import { ValidateParams } from "../lib/validateParams"
 
 /**
  * Validates cross-feature nested imports according to folder structure rules.
  *
- * This function analyzes the codebase using dependency-cruiser to identify violations
- * of cross-feature import restrictions. It checks if modules with multiple dependents
- * are properly structured to avoid cross-feature nested imports that violate the
- * established folder structure rules.
+ * Analyzes the module graph of the given directories and reports imports that
+ * reach into another feature deeper than its immediate children, unless the
+ * imported path is a direct child of one of the configured
+ * `crossFeatureImports.allowedRoutes`. Modules matching the config's `ignore`
+ * or `crossFeatureImports.ignore` patterns are left out of the analysis.
  *
- * The function will output violations to the console, showing which modules have
- * cross-feature import issues that need to be resolved.
+ * Violations are logged to the console.
  *
- * @param cruiseParams - Configuration parameters for the dependency analysis
- * @param cruiseParams.directories - Array of directory paths to analyze. Defaults to [".*"] if not provided
- * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., .dependency-cruiser.js)
- * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
- * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
+ * @param params - See {@link ValidateParams}
  *
  * @returns Promise<number> - Number of detected violations
  *
- * @throws {Error} - Throws an error if the dependency analysis fails or configuration is invalid
+ * @throws {Error} - Throws an error if the analysis fails or the config is invalid
  *
  * @example
  * ```typescript
- * // Basic usage with default settings
- * await validateCrossFeatureImports({
- *   directories: ["src"],
- *   configPath: ".dependency-cruiser.js",
- *   tsConfigPath: "./tsconfig.base.json"
- * });
- *
- * // Advanced usage with webpack support
- * await validateCrossFeatureImports({
- *   directories: ["src", "packages"],
- *   configPath: ".dependency-cruiser.js",
- *   tsConfigPath: "./tsconfig.base.json",
- *   webpackConfigPath: "./webpack.config.js"
- * });
- * ```
- *
- * @example
- * ```typescript
- * // Using in a build script
  * import { validateCrossFeatureImports } from "@leancodepl/folder-structure-cruiser";
  *
- * try {
- *   await validateCrossFeatureImports({
- *     directories: ["src"],
- *     configPath: ".dependency-cruiser.js",
- *     tsConfigPath: "./tsconfig.base.json"
- *   });
- *   logger.info("Cross-feature import validation passed");
- * } catch (error) {
- *   logger.error("Cross-feature import validation failed:", error);
- *   process.exit(1);
- * }
+ * const violations = await validateCrossFeatureImports({
+ *   directories: ["src"],
+ *   configPath: "./folder-structure-cruiser.config.json",
+ * });
  * ```
  */
-export async function validateCrossFeatureImports(cruiseParams: CruiseParams): Promise<number> {
-  const cruiseResult = await getCruiseResult(cruiseParams)
+export async function validateCrossFeatureImports({ directories, configPath }: ValidateParams): Promise<number> {
+  const config = await loadConfig(configPath)
 
-  const { messages: errorMessages, totalCruised } = checkCrossFeatureImports(cruiseResult)
+  const cruiseResult = await getCruiseResult({
+    directories,
+    config,
+    command: "crossFeatureImports",
+  })
 
-  if (errorMessages.length === 0) {
-    logger.success("✅ No issues found!")
-  }
-
-  if (errorMessages.length > 0) {
-    const messages = formatMessages(errorMessages)
-    logger.error(messages.join("\n"))
-    logger.error(`Found ${errorMessages.length} violation(s). ${totalCruised} modules cruised.`)
-  }
-
-  return errorMessages.length
+  return reportViolations(checkCrossFeatureImports(cruiseResult))
 }

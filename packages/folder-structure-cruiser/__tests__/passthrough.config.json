@@ -1,0 +1,5 @@
+{
+  "dependencyCruiserOptions": {
+    "includeOnly": { "path": ["^__tests__/test-structure/surveys/"] }
+  }
+}

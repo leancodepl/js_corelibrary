@@ -1,79 +1,43 @@
-import { checkSharedComponents } from "../lib/checkSharedComponents.js"
-import { formatMessages } from "../lib/formatMessages.js"
-import { CruiseParams, getCruiseResult } from "../lib/getCruiseResult.js"
-import { logger } from "../lib/logger.js"
+import { checkSharedComponents } from "../lib/checkSharedComponents"
+import { getCruiseResult } from "../lib/getCruiseResult"
+import { loadConfig } from "../lib/loadConfig"
+import { reportViolations } from "../lib/reportViolations"
+import { ValidateParams } from "../lib/validateParams"
 
 /**
  * Validates if shared components are located at the first shared level.
  *
- * This function analyzes the codebase using dependency-cruiser to identify components
- * that should be moved to shared levels. It checks if components that are used across
- * multiple features are properly placed at the appropriate shared level in the folder
- * structure, following the established architectural patterns.
+ * Analyzes the module graph of the given directories and reports components
+ * that are used across multiple features but are not placed at the first level
+ * shared by their dependents. Modules matching the config's `ignore` or
+ * `sharedComponents.ignore` patterns are left out of the analysis.
  *
- * The function will output recommendations to the console, showing which components
- * should be moved to shared levels for better code organization and reusability.
+ * Recommendations are logged to the console.
  *
- * @param cruiseParams - Configuration parameters for the dependency analysis
- * @param cruiseParams.directories - Array of directory paths to analyze. Defaults to [".*"] if not provided
- * @param cruiseParams.configPath - Path to the dependency-cruiser configuration file (e.g., .dependency-cruiser.js)
- * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
- * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
+ * @param params - See {@link ValidateParams}
  *
  * @returns Promise<number> - Number of detected violations
  *
- * @throws {Error} - Throws an error if the dependency analysis fails or configuration is invalid
+ * @throws {Error} - Throws an error if the analysis fails or the config is invalid
  *
  * @example
  * ```typescript
- * // Basic usage with default settings
- * await validateSharedComponent({
- *   directories: ["src"],
- *   configPath: ".dependency-cruiser.js",
- *   tsConfigPath: "./tsconfig.base.json"
- * });
- *
- * // Advanced usage with webpack support
- * await validateSharedComponent({
- *   directories: ["src", "packages"],
- *   configPath: ".dependency-cruiser.js",
- *   tsConfigPath: "./tsconfig.base.json",
- *   webpackConfigPath: "./webpack.config.js"
- * });
- * ```
- *
- * @example
- * ```typescript
- * // Using in a build script
  * import { validateSharedComponent } from "@leancodepl/folder-structure-cruiser";
  *
- * try {
- *   await validateSharedComponent({
- *     directories: ["src"],
- *     configPath: ".dependency-cruiser.js",
- *     tsConfigPath: "./tsconfig.base.json"
- *   });
- *   logger.info("Shared component validation passed");
- * } catch (error) {
- *   logger.error("Shared component validation failed:", error);
- *   process.exit(1);
- * }
+ * const violations = await validateSharedComponent({
+ *   directories: ["src"],
+ *   configPath: "./folder-structure-cruiser.config.json",
+ * });
  * ```
  */
-export async function validateSharedComponent(cruiseParams: CruiseParams): Promise<number> {
-  const cruiseResult = await getCruiseResult(cruiseParams)
+export async function validateSharedComponent({ directories, configPath }: ValidateParams): Promise<number> {
+  const config = await loadConfig(configPath)
 
-  const { messages: infoMessages, totalCruised } = checkSharedComponents(cruiseResult)
+  const cruiseResult = await getCruiseResult({
+    directories,
+    config,
+    command: "sharedComponents",
+  })
 
-  if (infoMessages.length === 0) {
-    logger.success("✅ No issues found!")
-  }
-
-  if (infoMessages.length > 0) {
-    const messages = formatMessages(infoMessages)
-    logger.info(messages.join("\n"))
-    logger.info(`Found ${infoMessages.length} violation(s). ${totalCruised} modules cruised.`)
-  }
-
-  return infoMessages.length
+  return reportViolations(checkSharedComponents(cruiseResult))
 }

@@ -1,0 +1,5 @@
+{
+  "crossFeatureImport": {
+    "allowedRoutes": ["/wizards/"]
+  }
+}
