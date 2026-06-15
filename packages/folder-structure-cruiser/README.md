@@ -8,8 +8,6 @@ Validates folder structure rules and enforces cross-feature import restrictions 
 npm install -D @leancodepl/folder-structure-cruiser
 ```
 
-No other setup is required — the dependency analysis engine and its configuration are an internal implementation detail.
-
 ## Commands
 
 Every command accepts the same options:
@@ -87,9 +85,6 @@ module with a default export works too) in the working directory:
 | `noOrphans.ignore`           | `string[]` | Extra ignore patterns for `validate-no-orphans` only                                                    |
 | `dependencyCruiserOptions`   | `object`   | [Escape hatch](#escape-hatch-raw-dependency-cruiser-options) with raw dependency-cruiser cruise options |
 
-Imports of Node built-ins (`node:fs`) and npm packages are never reported as folder-structure violations — no
-configuration is needed for them.
-
 ### Ignore patterns
 
 Each `ignore` entry is a **regular expression** matched against module paths relative to the working directory. Matched
@@ -103,26 +98,11 @@ the cross-feature check while still being validated by the other commands.
 
 ### Escape hatch: raw dependency-cruiser options
 
-The analysis is powered by [dependency-cruiser](https://github.com/sverweij/dependency-cruiser). When `ignore`/`scope`
-are not enough, `dependencyCruiserOptions` accepts raw
-[cruise options](https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md) that are deep-merged
-over the built-in ones — objects merge recursively, arrays and scalars replace the built-in value:
-
-```json
-{
-  "dependencyCruiserOptions": {
-    "builtInModules": { "add": ["bun"] },
-    "doNotFollow": { "dependencyTypes": ["npm-no-pkg", "npm-unknown", "npm-dev"] }
-  }
-}
-```
-
-The contents are not validated by folder-structure-cruiser and depend on dependency-cruiser internals, so prefer
-`ignore`/`scope` whenever they suffice.
-
-The built-in ignore patterns (and your `ignore`/per-command `ignore` entries) are always kept: a `doNotFollow.path` /
-`exclude.path` you set here is **merged with** them rather than replacing them, so `node_modules`, `.d.ts` files and the
-like stay ignored. Use `ignore` to add ignore patterns; reach for this only for options `ignore`/`scope` can't express.
+The analysis runs on [dependency-cruiser](https://github.com/sverweij/dependency-cruiser). When `ignore`/`scope` can't
+express what you need, `dependencyCruiserOptions` accepts raw
+[cruise options](https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md), deep-merged over the
+built-in ones. The contents are not validated and depend on dependency-cruiser internals, and the built-in ignores are
+always kept — so prefer `ignore`/`scope` whenever they suffice.
 
 ## API
 
@@ -180,19 +160,5 @@ Configure folder-structure-cruiser commands as an Nx target in your `project.jso
 
 ## Migrating from dependency-cruiser configs (≤ 10.3)
 
-Earlier versions were configured through dependency-cruiser config files. Those files, the
-`--tsConfig`/`--webpackConfig` flags and the `@leancodepl/folder-structure-cruiser/.dependency-cruiser.json` base config
-are replaced by the [config file](#configuration) above:
-
-- delete your `.dependency-cruiser*.json` files (and the separate `dependency-cruiser` dev dependency, unless you use it
-  directly)
-- `"extends": ["@leancodepl/folder-structure-cruiser/.dependency-cruiser.json"]` - no replacement needed; the base
-  options are built in
-- extra `options.doNotFollow`/`options.exclude` paths → `ignore` (global) or the per-command `ignore` lists — built-in
-  ignores no longer need to be repeated
-- `options.includeOnly` → `scope`
-- `options.builtInModules`, `options.doNotFollow.dependencyTypes` and similar tweaks for Node built-ins / npm imports →
-  usually droppable (such imports are never reported); otherwise `dependencyCruiserOptions`
-- `--tsConfig ./tsconfig.json` flag → `"tsConfig": "./tsconfig.json"` in the config
-- `--webpackConfig ./webpack.config.js` flag → `"webpackConfig": "./webpack.config.js"` in the config
-- `npx depcruise` invocations for the no-orphans rule → `npx @leancodepl/folder-structure-cruiser validate-no-orphans`
+Earlier versions were configured through dependency-cruiser config files. See [MIGRATION.md](./MIGRATION.md) for a
+step-by-step guide to moving onto the built-in [config file](#configuration).
