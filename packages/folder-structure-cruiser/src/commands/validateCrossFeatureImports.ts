@@ -6,10 +6,11 @@ import { logger } from "../lib/logger.js"
 /**
  * Validates cross-feature nested imports according to folder structure rules.
  *
- * This function analyzes the codebase using dependency-cruiser to identify violations
- * of cross-feature import restrictions. It checks if modules with multiple dependents
- * are properly structured to avoid cross-feature nested imports that violate the
- * established folder structure rules.
+ * Analyzes the module graph of the given directories and reports imports that
+ * reach into another feature deeper than its immediate children. Directories
+ * whose name ends with an underscore (e.g. `features_`) are opaque and don't
+ * count toward the nesting depth. Imports of Node built-ins and npm packages
+ * are left out of the analysis.
  *
  * The function will output violations to the console, showing which modules have
  * cross-feature import issues that need to be resolved.

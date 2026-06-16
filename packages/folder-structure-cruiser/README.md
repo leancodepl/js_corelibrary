@@ -97,6 +97,10 @@ Imports are allowed only if they meet one of these conditions:
 2. **Sibling's immediate child**: Import is from an immediate sibling's or ancestors siblings' child
    - ✅ `src/feature1/subfeature1/ComponentA` → `src/feature1/subfeature2/ComponentB`
 
+3. **Through an opaque directory**: any directory whose name ends with an underscore is [opaque](#opaque-directories)
+   and doesn't count toward the nesting depth
+   - ✅ `src/feature1/ComponentA` → `src/features_/feature2/ComponentB`
+
 ### Shared Component Detection
 
 Identifies components that should be moved to shared levels when:
@@ -115,6 +119,23 @@ Create a `.dependency-cruiser.json` file in your project root:
 ```
 
 This configuration serves as a base config that can be extended with your own rules.
+
+### Opaque directories
+
+Some directories only group features together (e.g. a `features/` folder that holds every feature) rather than being a
+feature themselves. Counting them toward the nesting depth would make every cross-feature import look one level too
+deep. Mark such a directory as **opaque** by ending its name with an underscore — `features_`, `modules_`, etc. Opaque
+segments are skipped when measuring how deep an import reaches, so the directory behaves as if it weren't there.
+
+This needs no configuration; it's driven purely by the directory name. With a `src/features_/` container:
+
+- ✅ `src/features_/featureA/X` → `src/features_/featureB/Y` (`features_` is skipped, so these read as sibling features)
+- ✅ `src/featureA/X` → `src/features_/featureB/Y` (`featureB` is a top-level feature once `features_` is skipped)
+- ❌ `src/featureA/X` → `src/features_/featureB/internal/Y` (`internal/Y` is still a grandchild of `featureB`, one level
+  too deep)
+
+The trailing-underscore convention is matched verbatim, so a sibling directory like `features` (no underscore) keeps
+counting normally.
 
 ## Nx Configuration
 

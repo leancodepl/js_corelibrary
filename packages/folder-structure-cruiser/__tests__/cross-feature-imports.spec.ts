@@ -123,4 +123,40 @@ describe("cross-feature-imports validation", () => {
       expect.stringContaining("no-cross-feature-nested-imports"),
     )
   })
+
+  it("should allow a cross-feature import through an opaque directory", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "consumers/OpaqueConsumer/index.tsx")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
+
+    const violationsCount = await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath,
+    })
+
+    expect(violationsCount).toBe(0)
+    expect(consoleErrorSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("cross-feature-nested-imports"),
+    )
+  }, 30000)
+
+  it("should still report imports that reach too deep past an opaque directory", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const filePath = join(testDir, "consumers/OpaqueDeepConsumer/index.tsx")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
+
+    const violationsCount = await validateCrossFeatureImports({
+      directories: [filePath],
+      configPath,
+    })
+
+    expect(violationsCount).toBeGreaterThan(0)
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("cross-feature-nested-imports"),
+    )
+  }, 30000)
 })
