@@ -17,15 +17,20 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
 
     const dependencies = module.dependencies || []
 
-    const modulePath = module.source.split("/")
+    const modulePath = stripOpaqueSegments(module.source.split("/"))
 
     dependencies.forEach(dependency => {
-      const dependencyPath = dependency.resolved.split("/")
+      if (isExternalDependency(dependency.dependencyTypes)) {
+        return
+      }
+
+      const dependencyPath = stripOpaqueSegments(dependency.resolved.split("/"))
       const commonPrefixPathLength = findCommonPathsPrefixLength([modulePath, dependencyPath])
 
       if (
         !commonPrefixPathLength ||
-        (commonPrefixPathLength < modulePath.length && dependencyPath.length > commonPrefixPathLength + 2)
+        (commonPrefixPathLength < modulePath.length &&
+          dependencyPath.length > commonPrefixPathLength + maxNestedImportDepth)
       ) {
         errorMessages.push({
           source: module.source,
@@ -41,4 +46,27 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
     messages: errorMessages,
     totalCruised: output?.summary.totalCruised ?? 0,
   }
+}
+
+const maxNestedImportDepth = 2
+
+function isExternalDependency(dependencyTypes: string[] | undefined): boolean {
+  return dependencyTypes?.some(type => type === "core" || type === "unknown" || type.startsWith("npm")) ?? false
+}
+
+/**
+ * A directory whose name ends with a single underscore (e.g. `features_`) is
+ * opaque: a transparent container that doesn't count toward the cross-feature
+ * nesting depth.
+ *
+ * The single-trailing-underscore rule deliberately spares names like
+ * `__tests__`, where the trailing underscore is part of the convention rather
+ * than an opacity marker.
+ */
+function isOpaqueSegment(segment: string): boolean {
+  return /[^_]_$/.test(segment)
+}
+
+function stripOpaqueSegments(segments: string[]): string[] {
+  return segments.filter(segment => !isOpaqueSegment(segment))
 }
