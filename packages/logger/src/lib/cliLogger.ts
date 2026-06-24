@@ -73,6 +73,22 @@ function mkFormatLoggerMiddlewareMethod(logLevel: LogLevel) {
 
 type CreateCliLoggerOptions = { enabledLogLevels?: LogLevel[] }
 
+/**
+ * Creates a logger preset for command-line output. Each log level maps to the
+ * matching `console` method and is prefixed with a colorized `[LEVEL]` label
+ * via middleware. Messages below the enabled threshold are skipped.
+ *
+ * @param options - Configuration for the CLI logger
+ * @param options.enabledLogLevels - Levels that should be emitted; defaults to
+ *   {@link defaultEnabledLogLevels} (error, warn, success, info)
+ * @returns A logger with one method per {@link LogLevel} label
+ * @example
+ * ```typescript
+ * const logger = createCliLogger()
+ * logger.info("server started")
+ * logger.error("something failed", new Error("boom"))
+ * ```
+ */
 function createCliLogger({ enabledLogLevels = defaultEnabledLogLevels }: CreateCliLoggerOptions = {}) {
   const logger = createLogger({
     ...allLogLevels.reduce(
@@ -97,6 +113,9 @@ function createCliLogger({ enabledLogLevels = defaultEnabledLogLevels }: CreateC
   })
 }
 
+/**
+ * The logger type produced by {@link createCliLogger}.
+ */
 type CliLogger = ReturnType<typeof createCliLogger>
 
 export { type CliLogger, createCliLogger }

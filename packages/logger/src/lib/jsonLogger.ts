@@ -56,6 +56,24 @@ function createJsonLoggerMethod(logLevel: LogLevel, enabledLogLevels: LogLevel[]
 
 type CreateJsonLoggerOptions = { enabledLogLevels?: LogLevel[] }
 
+/**
+ * Creates a logger preset that writes one JSON object per line to
+ * `process.stdout`. Each entry includes the level label, an ISO timestamp, the
+ * joined message, and the context (when non-empty). `Error` values are
+ * serialized to `{ message, stack }`. Messages below the enabled threshold are
+ * skipped.
+ *
+ * @param options - Configuration for the JSON logger
+ * @param options.enabledLogLevels - Levels that should be emitted; defaults to
+ *   {@link defaultEnabledLogLevels} (error, warn, success, info)
+ * @returns A logger with one method per {@link LogLevel} label
+ * @example
+ * ```typescript
+ * const logger = createJsonLogger()
+ * logger.withContext({ requestId: "req-1" }).info("request handled")
+ * // {"level":"info","timestamp":"...","message":"request handled","context":{"requestId":"req-1"}}
+ * ```
+ */
 function createJsonLogger({ enabledLogLevels = defaultEnabledLogLevels }: CreateJsonLoggerOptions = {}) {
   return createLogger({
     ...allLogLevels.reduce(
@@ -69,6 +87,9 @@ function createJsonLogger({ enabledLogLevels = defaultEnabledLogLevels }: Create
   })
 }
 
+/**
+ * The logger type produced by {@link createJsonLogger}.
+ */
 type JsonLogger = ReturnType<typeof createJsonLogger>
 
 export { createJsonLogger, type JsonLogger }

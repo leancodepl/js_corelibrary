@@ -1,5 +1,16 @@
 import { createLogger, DefaultContext, SupportedOutput } from "./logger"
 
+/**
+ * Adapts an arbitrary value coming from NestJS (whose logger API is untyped) to
+ * the {@link SupportedOutput} surface accepted by the underlying logger. The
+ * value is forwarded unchanged; downstream serialization (see
+ * {@link formatNestMessage}) handles every runtime type, so this only reconciles
+ * the static types at the Nest boundary without altering behavior.
+ */
+function asSupportedOutput(value: unknown): SupportedOutput {
+  return value as SupportedOutput
+}
+
 function formatNestMessage(message: unknown, optionalParams: unknown[]): string {
   const parts = [message, ...optionalParams].map(p => {
     if (p instanceof Error) return p.message
@@ -30,6 +41,11 @@ function nestJsonHandler(level: string) {
   }
 }
 
+/**
+ * Subset of the NestJS `LoggerService` interface implemented by
+ * {@link createNestJsonLogger}. Mirrors Nest's expected logger contract so the
+ * JSON logger can be passed directly to a Nest application.
+ */
 export interface LoggerService {
   log(message: any, ...optionalParams: any[]): any
   error(message: any, ...optionalParams: any[]): any
@@ -40,6 +56,19 @@ export interface LoggerService {
   setLogLevels?(levels: any[]): any
 }
 
+/**
+ * Creates a NestJS-compatible {@link LoggerService} that emits one JSON object
+ * per line to `process.stdout`. When the final optional parameter is a string,
+ * it is treated as Nest's `context` argument and recorded separately; remaining
+ * params are joined into the message, with `Error` values reduced to their
+ * message.
+ *
+ * @returns A logger implementing Nest's `log`/`error`/`warn`/`debug`/`verbose`/`fatal` methods
+ * @example
+ * ```typescript
+ * const app = await NestFactory.create(AppModule, { logger: createNestJsonLogger() })
+ * ```
+ */
 function createNestJsonLogger(): LoggerService {
   const nestLogger = createLogger({
     log: nestJsonHandler("info"),
@@ -52,26 +81,29 @@ function createNestJsonLogger(): LoggerService {
 
   return {
     log(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.log(message, ...optionalParams)
+      nestLogger.log(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
     error(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.error(message, ...optionalParams)
+      nestLogger.error(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
     warn(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.warn(message, ...optionalParams)
+      nestLogger.warn(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
     debug(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.debug(message, ...optionalParams)
+      nestLogger.debug(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
     verbose(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.verbose(message, ...optionalParams)
+      nestLogger.verbose(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
     fatal(message: unknown, ...optionalParams: unknown[]) {
-      nestLogger.fatal(message, ...optionalParams)
+      nestLogger.fatal(asSupportedOutput(message), ...optionalParams.map(asSupportedOutput))
     },
   }
 }
 
+/**
+ * The logger type produced by {@link createNestJsonLogger}.
+ */
 type NestJsonLogger = ReturnType<typeof createNestJsonLogger>
 
 export { createNestJsonLogger, type NestJsonLogger }
