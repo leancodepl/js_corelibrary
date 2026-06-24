@@ -7,9 +7,151 @@ A lightweight, type-safe logger with middleware support and contextual messages.
 - **`@leancodepl/logger`** – Core API below (custom handlers, context, middleware).
 - **`@leancodepl/logger/cli`** – Colored console preset with log levels: `createCliLogger`, `LogLevel`, `allLogLevels`.
 - **`@leancodepl/logger/json`** – JSON lines to stdout: `createJsonLogger` with the same level options as CLI.
-- **`@leancodepl/logger/nest`** – NestJS adapter: `createNestJsonLogger()` implementing `LoggerService` with JSON output.
+- **`@leancodepl/logger/nest`** – NestJS adapter: `createNestJsonLogger()` implementing `LoggerService` with JSON
+  output.
 
-## Creating a Logger
+## Installation
+
+```bash
+npm install @leancodepl/logger
+# or
+yarn add @leancodepl/logger
+```
+
+## API
+
+### `createLogger(methods)`
+
+Creates a logger from a map of method definitions. Each definition becomes a callable method on the returned logger, and
+the logger starts with an empty context that can be extended via `withContext`.
+
+**Parameters:**
+
+- `methods: TDefs` - Map of method name to its `MethodHandler`
+
+**Returns:** A logger exposing the defined methods plus `withContext` and `withMiddleware`.
+
+```typescript
+import { createLogger } from "@leancodepl/logger"
+
+const logger = createLogger({
+  info: (context, ...messages) => console.info(...messages),
+})
+
+logger.withContext({ requestId: "req-1" }).info("started")
+```
+
+### `isContextualMessage(message)`
+
+Type guard that narrows a `LoggerMessage` to a `ContextualLoggerMessage`. Used by logger implementations to decide
+whether a message must be invoked with the context or logged as-is.
+
+**Parameters:**
+
+- `message: LoggerMessage<TContext, TOutput>` - The message to inspect
+
+**Returns:** `true` when the message is a context-consuming function.
+
+```typescript
+import { isContextualMessage } from "@leancodepl/logger"
+
+const resolved = isContextualMessage(message) ? message(context) : message
+```
+
+### `createCliLogger(options)`
+
+Creates a logger preset for command-line output. Each log level maps to the matching `console` method and is prefixed
+with a colorized `[LEVEL]` label via middleware. Messages below the enabled threshold are skipped.
+
+**Parameters:**
+
+- `options?: { enabledLogLevels?: LogLevel[] }` - Levels that should be emitted; defaults to `defaultEnabledLogLevels`
+  (error, warn, success, info)
+
+**Returns:** A logger with one method per `LogLevel` label.
+
+```typescript
+import { createCliLogger } from "@leancodepl/logger/cli"
+
+const logger = createCliLogger()
+logger.info("server started")
+logger.error("something failed", new Error("boom"))
+```
+
+### `createJsonLogger(options)`
+
+Creates a logger preset that writes one JSON object per line to `process.stdout`. Each entry includes the level label,
+an ISO timestamp, the joined message, and the context (when non-empty). `Error` values are serialized to
+`{ message, stack }`. Messages below the enabled threshold are skipped.
+
+**Parameters:**
+
+- `options?: { enabledLogLevels?: LogLevel[] }` - Levels that should be emitted; defaults to `defaultEnabledLogLevels`
+  (error, warn, success, info)
+
+**Returns:** A logger with one method per `LogLevel` label.
+
+```typescript
+import { createJsonLogger } from "@leancodepl/logger/json"
+
+const logger = createJsonLogger()
+logger.withContext({ requestId: "req-1" }).info("request handled")
+// {"level":"info","timestamp":"...","message":"request handled","context":{"requestId":"req-1"}}
+```
+
+### `createNestJsonLogger()`
+
+Creates a NestJS-compatible `LoggerService` that emits one JSON object per line to `process.stdout`. When the final
+optional parameter is a string, it is treated as Nest's `context` argument and recorded separately; remaining params are
+joined into the message, with `Error` values reduced to their message.
+
+**Returns:** A logger implementing Nest's `log`/`error`/`warn`/`debug`/`verbose`/`fatal` methods.
+
+```typescript
+import { createNestJsonLogger } from "@leancodepl/logger/nest"
+
+const app = await NestFactory.create(AppModule, { logger: createNestJsonLogger() })
+```
+
+### `isLogLevelEnabled(logLevel, enabledLogLevels)`
+
+Returns whether a given level is present in the list of enabled levels.
+
+**Parameters:**
+
+- `logLevel: LogLevel` - The level to test
+- `enabledLogLevels: LogLevel[]` - The currently enabled levels
+
+**Returns:** `true` when `logLevel` is enabled.
+
+```typescript
+import { isLogLevelEnabled, LogLevel, defaultEnabledLogLevels } from "@leancodepl/logger"
+
+isLogLevelEnabled(LogLevel.Debug, defaultEnabledLogLevels) // false
+```
+
+### Exported values and types
+
+- `LogLevel` - Severity levels enum, ordered from most to least severe (lower numeric value is more severe): `Error`
+  (0), `Warn` (1), `Success` (2), `Info` (3), `Verbose` (4), `Debug` (5).
+- `allLogLevels: LogLevel[]` - Every `LogLevel` in severity order.
+- `defaultEnabledLogLevels: LogLevel[]` - Levels emitted by default by the presets: error, warn, success, and info.
+- `logLevelToLabel` - Maps each `LogLevel` to its lowercase string label.
+- `SupportedOutput` - The value types a logger method can accept and emit: `boolean | number | object | string`.
+- `DefaultContext` - Default shape of a logger's context: `Record<string, unknown>`.
+- `LoggerMessage<TContext, TOutput>` - A log argument: either a plain value or a function deriving the value from
+  context.
+- `MethodHandler<TOutput>` - Low-level handler backing a single log method; receives the resolved context as its first
+  argument.
+- `Logger<TContext, TDefs>` - A fully built logger: its methods plus `withMiddleware` and `withContext`.
+- `LoggerWithContext<TContext, TLogger>` - Re-derives a built logger's public shape for a given context; use it to type
+  values that hold a logger.
+- `CliLogger`, `JsonLogger`, `NestJsonLogger` - The logger types produced by the respective preset factories.
+- `LoggerService` - Subset of the NestJS `LoggerService` interface implemented by `createNestJsonLogger`.
+
+## Usage Examples
+
+### Creating a Logger
 
 ```typescript
 import { createLogger, isContextualMessage } from "@leancodepl/logger"
@@ -23,7 +165,7 @@ const logger = createLogger({
 logger.info("Hello", "world") // "Hello world"
 ```
 
-## Adding Context
+### Adding Context
 
 Use `withContext` to add context values. Context accumulates across calls.
 
@@ -32,7 +174,7 @@ const appLogger = logger.withContext({ appName: "MyApp" })
 const requestLogger = appLogger.withContext({ requestId: "req-123" })
 ```
 
-## Using Context in Messages
+### Using Context in Messages
 
 Messages can be functions that receive the current context.
 
@@ -43,7 +185,7 @@ userLogger.info(({ userId }) => `User ${userId} logged in`)
 // "User user-456 logged in"
 ```
 
-## Adding Middleware
+### Adding Middleware
 
 Use `withMiddleware` to wrap log methods. Middleware receives `next` (it is used to call a middleware from `logger` in
 this case) and returns a new handler.
@@ -60,7 +202,7 @@ const loggerWithPrefix = logger.withMiddleware({
 loggerWithPrefix.info("test") // "[INFO] test"
 ```
 
-## Modifying Context in Middleware
+### Modifying Context in Middleware
 
 Middleware can modify context before passing to the next handler.
 
@@ -75,7 +217,7 @@ const loggerWithTimestamp = logger.withMiddleware({
 })
 ```
 
-## Chaining Middleware
+### Chaining Middleware
 
 Middleware is applied in order, with later middleware being executed first, and passing its changes to the middleware
 that was created before it.
@@ -100,7 +242,7 @@ const logger2 = logger
 logger2.info("test") // "[1] [2] test"
 ```
 
-## Typing Functions
+### Typing Functions
 
 When passing a logger to functions, use `LoggerWithContext` for proper typing.
 
@@ -230,7 +372,8 @@ const timedLogger = logger.withMiddleware({
 
 ## JSON preset (`@leancodepl/logger/json`)
 
-Logger that writes one JSON object per line to stdout (level, timestamp, msg, optional context). Same log levels and `enabledLogLevels` option as the CLI preset.
+Logger that writes one JSON object per line to stdout (level, timestamp, msg, optional context). Same log levels and
+`enabledLogLevels` option as the CLI preset.
 
 ```typescript
 import { createJsonLogger, allLogLevels, LogLevel } from "@leancodepl/logger/json"
@@ -248,7 +391,8 @@ Supports `withContext` and `withMiddleware` like the base logger.
 
 ## Nest preset (`@leancodepl/logger/nest`)
 
-NestJS `LoggerService` implementation that outputs JSON (same shape as the JSON preset). Use as a drop-in logger in Nest apps.
+NestJS `LoggerService` implementation that outputs JSON (same shape as the JSON preset). Use as a drop-in logger in Nest
+apps.
 
 ```typescript
 import { createNestJsonLogger, type LoggerService } from "@leancodepl/logger/nest"
@@ -258,4 +402,5 @@ logger.log("Application started")
 logger.error("Something went wrong", "MyService")
 ```
 
-If the last argument is a string, it is used as the `context` field in the JSON output (same behavior as Nest’s built-in logger).
+If the last argument is a string, it is used as the `context` field in the JSON output (same behavior as Nest’s built-in
+logger).
