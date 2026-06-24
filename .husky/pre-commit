@@ -1,0 +1,8 @@
+# Format the files touched by this commit and re-stage them so the
+# formatting fixes are included in the commit (nx format:write does not
+# git-add the files it changes).
+npx nx format:write --uncommitted
+git add -u
+
+# Lint the projects affected by the uncommitted changes.
+npx nx affected -t lint --uncommitted
