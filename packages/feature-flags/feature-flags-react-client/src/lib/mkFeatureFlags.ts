@@ -29,7 +29,7 @@ export function mkFeatureFlags<TFlags extends Flags>(flags: TFlags, provider: Pr
 
   return {
     useFeatureFlag: <TKey extends keyof TFlags>(key: TKey, defaultValue?: TFlags[TKey]["defaultValue"]) =>
-      useFlag<TFlags[TKey]["defaultValue"]>(key.toString(), defaultValue ?? flags[key].defaultValue),
+      useFlag<TFlags[TKey]["defaultValue"]>(key.toString(), defaultValue ?? flags[key]?.defaultValue),
     FeatureFlagsProvider: OpenFeatureProvider,
     setFeatureFlagsContext: OpenFeature.setContext.bind(OpenFeature),
   }

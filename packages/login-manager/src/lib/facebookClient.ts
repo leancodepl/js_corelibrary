@@ -47,7 +47,7 @@ export class FacebookClient {
     js.id = id
     js.async = true
     js.src = "//connect.facebook.net/pl_PL/sdk.js"
-    if (ref.parentNode != null) {
+    if (ref?.parentNode != null) {
       ref.parentNode.insertBefore(js, ref)
     }
     js.onload = () => {

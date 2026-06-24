@@ -1,12 +1,14 @@
 export function findCommonPathsPrefix(paths: string[][]): string[] {
-  if (paths.length === 0) return []
-  if (paths.length === 1) return paths[0]
+  const [firstPath, ...restPaths] = paths
+  if (!firstPath) return []
+  if (restPaths.length === 0) return firstPath
 
   const commonPrefix: string[] = []
   const minLength = Math.min(...paths.map(path => path.length))
 
   for (let i = 0; i < minLength; i++) {
-    const segment = paths[0][i]
+    const segment = firstPath[i]
+    if (segment === undefined) break
     if (paths.every(path => path[i] === segment)) {
       commonPrefix.push(segment)
     } else {

@@ -15,11 +15,11 @@ export const get6DigitCodeFromEmail = async (
     options,
   )
 
-  if (messages.messages_count === 0) {
+  const [message] = messages.messages
+  if (messages.messages_count === 0 || !message) {
     throw new Error(`No emails found for ${email}`)
   }
 
-  const [message] = messages.messages
   const mailMessage = await mailpit.getMail(message.ID)
   const textBody = await mailpit.getMailTextBody(mailMessage)
 

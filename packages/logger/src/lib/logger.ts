@@ -82,7 +82,7 @@ function buildLogger<TContext extends DefaultContext, TDefs extends MethodDefini
   for (const key of Object.keys(handlers)) {
     Object.defineProperty(logger, key, {
       value: (...messages: LoggerMessage<TContext, SupportedOutput>[]) => {
-        handlers[key](context, ...messages)
+        handlers[key]?.(context, ...messages)
       },
       enumerable: true,
       configurable: true,

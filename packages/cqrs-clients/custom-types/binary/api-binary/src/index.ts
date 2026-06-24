@@ -1,7 +1,7 @@
 export type ApiBinaryRaw = string
 
 class _ApiBinary {
-  private _!: never
+  declare private _: never
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

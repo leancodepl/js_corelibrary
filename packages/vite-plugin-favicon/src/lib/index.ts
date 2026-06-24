@@ -95,7 +95,7 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
       for (const tag of faviconResponse.html) {
         const node = parseFragment(tag).childNodes[0]
 
-        if ("attrs" in node) {
+        if (node && "attrs" in node) {
           tags.push({
             tag: node.tagName,
             attrs: node.attrs.reduce(

@@ -43,7 +43,7 @@ function generateKratosOutputTemplate({
   kratosLanguageVariable?: string
 }): string {
   if (templates.length === 1 || !defaultLanguage) {
-    return templates[0].content
+    return templates[0]?.content ?? ""
   }
 
   let outputTemplate = ""
