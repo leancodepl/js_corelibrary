@@ -65,7 +65,7 @@ describe("logger", () => {
   it("should handle contextual messages", () => {
     const logger = createTestLogger().withContext({ userId: "user-1", requestId: "req-1" })
 
-    logger.info(({ userId, requestId }) => `User ${userId} in ${requestId}`)
+    logger.info(({ userId, requestId }: { userId: string; requestId: string }) => `User ${userId} in ${requestId}`)
 
     expect(output).toEqual(["User user-1 in req-1"])
   })
@@ -74,7 +74,7 @@ describe("logger", () => {
     const logger = createTestLogger().withContext({ userId: "user-1", requestId: "" })
     const logger2 = logger.withContext({ userId: "user-2", requestId: "req-1" })
 
-    logger2.info(({ userId, requestId }) => `User ${userId} in ${requestId}`)
+    logger2.info(({ userId, requestId }: { userId: string; requestId: string }) => `User ${userId} in ${requestId}`)
 
     expect(output).toEqual(["User user-2 in req-1"])
   })
@@ -90,7 +90,7 @@ describe("logger", () => {
         },
     })
 
-    logger2.info(({ userId, requestId }) => `User ${userId} in ${requestId}`)
+    logger2.info(({ userId, requestId }: { userId: string; requestId: string }) => `User ${userId} in ${requestId}`)
 
     expect(output).toEqual(["User user-3 in req-1 [contextFromPrev: false]"])
   })
@@ -114,7 +114,7 @@ describe("logger", () => {
         },
     })
 
-    logger3.info(({ userId, requestId }) => `User ${userId} in ${requestId}`)
+    logger3.info(({ userId, requestId }: { userId: string; requestId: string }) => `User ${userId} in ${requestId}`)
 
     expect(output).toEqual(["User user-3 in req-1 [contextFromPrev: true]"])
   })
@@ -123,8 +123,8 @@ describe("logger", () => {
     const logger = createTestLogger().withContext({ userId: "user-1", requestId: "" })
     const logger2 = logger.withContext({ userId: "user-2", requestId: "req-1" })
 
-    logger.info(({ userId }) => `Original: ${userId}`)
-    logger2.info(({ userId }) => `Derived: ${userId}`)
+    logger.info(({ userId }: { userId: string }) => `Original: ${userId}`)
+    logger2.info(({ userId }: { userId: string }) => `Derived: ${userId}`)
 
     expect(output).toEqual(["Original: user-1", "Derived: user-2"])
   })
