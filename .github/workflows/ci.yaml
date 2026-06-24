@@ -26,6 +26,10 @@ jobs:
         run:
           npx nx affected:lint --parallel=3 --base=${{ github.event.pull_request.base.sha }} --head=${{
           github.event.pull_request.head.sha }}
+      - name: Typecheck
+        run:
+          npx nx affected -t typecheck --parallel=3 --base=${{ github.event.pull_request.base.sha }} --head=${{
+          github.event.pull_request.head.sha }}
       - name: Test
         run:
           npx nx affected:test --parallel=3 --base=${{ github.event.pull_request.base.sha }} --head=${{
