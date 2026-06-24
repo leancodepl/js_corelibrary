@@ -3,7 +3,7 @@ function transformFirst(value: string, transformFn: (value: string) => string) {
     return ""
   }
 
-  return transformFn(value[0]) + value.slice(1)
+  return transformFn(value.charAt(0)) + value.slice(1)
 }
 
 /**

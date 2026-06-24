@@ -1,6 +1,9 @@
 import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
 import timezoneMock from "timezone-mock"
 import { dropLocalOffset } from "../../src"
+
+dayjs.extend(utc)
 
 describe("dropLocalOffset", () => {
   describe("run in GMT+5 timezone", () => {

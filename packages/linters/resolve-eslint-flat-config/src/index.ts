@@ -1,1 +1,1 @@
-export { resolveFlatConfig } from "./lib/resolveFlatConfig"
+export { resolveFlatConfig } from "./lib/resolveFlatConfig.js"

@@ -1,19 +1,19 @@
 class AD {
-  private _: never = undefined as never
+  declare private _: never
 }
 class ADT {
-  private _: never = undefined as never
+  declare private _: never
 }
 class ATS {
-  private _: never = undefined as never
+  declare private _: never
 }
 
 class AT {
-  private _: never = undefined as never
+  declare private _: never
 }
 
 class ADO {
-  private _: never = undefined as never
+  declare private _: never
 }
 
 export type ApiDateOnly = AD

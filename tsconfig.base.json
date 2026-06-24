@@ -25,7 +25,8 @@
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "noEmitOnError": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "noUncheckedIndexedAccess": true
   },
   "exclude": ["node_modules", "tmp"]
 }
