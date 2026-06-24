@@ -22,24 +22,19 @@ export async function sync({
   translationsServiceClient,
   defaultLanguage,
 }: SyncCommandOptions) {
-  try {
-    logger.info("Starting sync operation...")
+  logger.info("Starting sync operation...")
 
-    await upload({
-      srcPattern,
-      translationsServiceClient,
-      defaultLanguage,
-    })
+  await upload({
+    srcPattern,
+    translationsServiceClient,
+    defaultLanguage,
+  })
 
-    await download({
-      outputDir,
-      languages,
-      translationsServiceClient,
-    })
+  await download({
+    outputDir,
+    languages,
+    translationsServiceClient,
+  })
 
-    logger.success("Sync completed successfully!")
-  } catch (error) {
-    logger.error("Error in sync command:", error as Error)
-    process.exit(1)
-  }
+  logger.success("Sync completed successfully!")
 }

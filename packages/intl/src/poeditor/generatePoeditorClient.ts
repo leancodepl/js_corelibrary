@@ -8,7 +8,7 @@ const swaggerUrl = "https://poeditor.com/public/api/swagger.yaml"
 const schemaDir = "./src/poeditor/openapi-schema"
 
 try {
-  generatePOEditorClient()
+  await generatePOEditorClient()
 } catch (error) {
   logger.error("Error:", error as Error)
   process.exit(1)

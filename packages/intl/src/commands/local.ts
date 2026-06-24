@@ -10,6 +10,7 @@ import {
   writeTranslationsToTempDir,
 } from "../formatjs"
 import { logger } from "../logger"
+import { type DownloadTranslationsError, stringifyCause } from "../poeditor/POEditorError"
 
 export const localCommandOptionsSchema = z.object({
   srcPattern: z.string(),
@@ -27,20 +28,15 @@ export async function local({
   srcPattern,
   translationsServiceClient,
 }: LocalCommandOptions) {
-  try {
-    const extractedTranslations = extractAndCompile({ srcPattern, defaultLanguage })
+  const extractedTranslations = extractAndCompile({ srcPattern, defaultLanguage })
 
-    const downloadedTranslations = translationsServiceClient
-      ? await downloadAndCompile({ defaultLanguage, client: translationsServiceClient })
-      : undefined
+  const downloadedTranslations = translationsServiceClient
+    ? await downloadAndCompile({ defaultLanguage, client: translationsServiceClient })
+    : undefined
 
-    const translations = mergeTranslations({ extractedTranslations, downloadedTranslations })
+  const translations = mergeTranslations({ extractedTranslations, downloadedTranslations })
 
-    save({ translations, outputDir, defaultLanguage })
-  } catch (error) {
-    logger.error("Error in local command:", error as Error)
-    process.exit(1)
-  }
+  save({ translations, outputDir, defaultLanguage })
 }
 
 function extractAndCompile({
@@ -52,14 +48,19 @@ function extractAndCompile({
 }): Record<string, string> {
   logger.info("Extracting messages from source files...")
 
-  const messages = extractMessages(srcPattern)
+  const messagesResult = extractMessages(srcPattern)
+  if (messagesResult.isErr()) {
+    logger.error(`Failed to extract messages: ${messagesResult.error.message}`)
+    process.exit(1)
+  }
+  const messages = messagesResult.value
   const messageCount = Object.keys(messages).length
 
   logger.info(`Extracted ${messageCount} messages`)
 
   if (messageCount === 0) {
     logger.error("No messages found. Make sure your source files contain formatjs messages.")
-    throw new Error("No messages found")
+    process.exit(1)
   }
 
   const tempDir = createTranslationsTempDir("local-")
@@ -76,7 +77,11 @@ function extractAndCompile({
     const tempOutputDir = createTranslationsTempDir("compiled-")
 
     try {
-      compileTranslations({ inputDir: tempDir, outputDir: tempOutputDir })
+      const compileResult = compileTranslations({ inputDir: tempDir, outputDir: tempOutputDir })
+      if (compileResult.isErr()) {
+        logger.error(`Failed to compile extracted translations: ${compileResult.error.message}`)
+        process.exit(1)
+      }
 
       const compiledFilePath = join(tempOutputDir, `${defaultLanguage}.json`)
       const compiledContent = readFileSync(compiledFilePath, "utf-8")
@@ -96,46 +101,65 @@ async function downloadAndCompile({
   defaultLanguage: string
   client: TranslationsServiceClient
 }): Promise<Record<string, string> | undefined> {
-  try {
-    logger.info(`Downloading ${defaultLanguage} translations...`)
+  logger.info(`Downloading ${defaultLanguage} translations...`)
 
-    const downloadedTranslations = await client.downloadTranslations(defaultLanguage)
-    const downloadedCount = Object.keys(downloadedTranslations).length
-    logger.info(`Downloaded ${downloadedCount} translations`)
-
-    if (downloadedCount === 0) {
-      return undefined
-    }
-
-    const downloadTempDir = createTranslationsTempDir("download-")
-
-    try {
-      writeTranslationsToTempDir({
-        translations: downloadedTranslations,
-        language: defaultLanguage,
-        tempDir: downloadTempDir,
-      })
-
-      logger.info("Compiling downloaded translations...")
-      const downloadTempOutputDir = createTranslationsTempDir("download-compiled-")
-
-      try {
-        compileTranslations({ inputDir: downloadTempDir, outputDir: downloadTempOutputDir })
-
-        const downloadedCompiledFilePath = join(downloadTempOutputDir, `${defaultLanguage}.json`)
-        const downloadedCompiledContent = readFileSync(downloadedCompiledFilePath, "utf-8")
-        return JSON.parse(downloadedCompiledContent)
-      } finally {
-        rmSync(downloadTempOutputDir, { recursive: true, force: true })
-      }
-    } finally {
-      rmSync(downloadTempDir, { recursive: true, force: true })
-    }
-  } catch (error) {
-    logger.warn(`Failed to download translations from translation service: ${error}`)
-    logger.info("Using extracted translations only")
+  const downloadResult = await client.downloadTranslations(defaultLanguage)
+  if (downloadResult.isErr()) {
+    warnDownloadFailure(downloadResult.error)
     return undefined
   }
+  const downloadedTranslations = downloadResult.value
+  const downloadedCount = Object.keys(downloadedTranslations).length
+  logger.info(`Downloaded ${downloadedCount} translations`)
+
+  if (downloadedCount === 0) {
+    return undefined
+  }
+
+  const downloadTempDir = createTranslationsTempDir("download-")
+  try {
+    writeTranslationsToTempDir({
+      translations: downloadedTranslations,
+      language: defaultLanguage,
+      tempDir: downloadTempDir,
+    })
+
+    logger.info("Compiling downloaded translations...")
+    const downloadTempOutputDir = createTranslationsTempDir("download-compiled-")
+    try {
+      const compileResult = compileTranslations({ inputDir: downloadTempDir, outputDir: downloadTempOutputDir })
+      if (compileResult.isErr()) {
+        logger.warn(`Failed to compile downloaded translations: ${compileResult.error.message}`)
+        logger.info("Using extracted translations only")
+        return undefined
+      }
+
+      const downloadedCompiledFilePath = join(downloadTempOutputDir, `${defaultLanguage}.json`)
+      const downloadedCompiledContent = readFileSync(downloadedCompiledFilePath, "utf-8")
+      return JSON.parse(downloadedCompiledContent)
+    } finally {
+      rmSync(downloadTempOutputDir, { recursive: true, force: true })
+    }
+  } finally {
+    rmSync(downloadTempDir, { recursive: true, force: true })
+  }
+}
+
+function warnDownloadFailure(error: DownloadTranslationsError): void {
+  switch (error.kind) {
+    case "downloadTranslationsFailed":
+      logger.warn(`POEditor API call failed for ${error.language}: ${stringifyCause(error.cause)}`)
+      break
+    case "noDownloadUrl":
+      logger.warn(`POEditor returned no download URL for ${error.language}`)
+      break
+    case "downloadTranslationsContentFailed":
+      logger.warn(
+        `Failed to fetch translation content for ${error.language} from ${error.url}: ${stringifyCause(error.cause)}`,
+      )
+      break
+  }
+  logger.info("Using extracted translations only")
 }
 
 function mergeTranslations({

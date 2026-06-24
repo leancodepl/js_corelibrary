@@ -1,3 +1,5 @@
+import { ok, Result } from "neverthrow"
+import type { CompileMjmlError } from "./MailTranslationError"
 import { compileMjml, MjmlParseError } from "./compileMjml"
 import { OutputMode } from "./config"
 import { generateOutputTemplates, OutputTemplate } from "./generateOutputTemplates"
@@ -37,39 +39,41 @@ export function processTemplate({
   defaultLanguage?: string
   kratosLanguageVariable?: string
   mailsPath: string
-}): ProcessedTemplate {
+}): Result<ProcessedTemplate, CompileMjmlError> {
   const availableLanguages = Object.keys(translationData)
   const languagesToProcess = availableLanguages.length > 0 ? availableLanguages : [defaultLanguage]
 
   const mjmlCompileResult = template.isPlaintext
-    ? undefined
+    ? ok(undefined)
     : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
 
-  const content = template.isPlaintext ? template.content : (mjmlCompileResult?.html ?? "")
+  return mjmlCompileResult.map(compiled => {
+    const content = template.isPlaintext ? template.content : (compiled?.html ?? "")
 
-  const translatedTemplates = languagesToProcess.map(language => {
-    const translations = language ? (translationData[language] ?? {}) : {}
+    const translatedTemplates = languagesToProcess.map(language => {
+      const translations = language ? (translationData[language] ?? {}) : {}
 
-    const translatedContent = processTranslations({ template: content, translations, language })
+      const translatedContent = processTranslations({ template: content, translations, language })
+
+      return {
+        name: template.name,
+        content: translatedContent,
+        isPlaintext: template.isPlaintext,
+        language,
+      }
+    })
+
+    const outputTemplates = generateOutputTemplates({
+      translatedTemplates,
+      outputMode,
+      defaultLanguage,
+      kratosLanguageVariable,
+    })
 
     return {
       name: template.name,
-      content: translatedContent,
-      isPlaintext: template.isPlaintext,
-      language,
+      mjmlParseErrors: compiled?.mjmlParseErrors ?? [],
+      outputTemplates,
     }
   })
-
-  const outputTemplates = generateOutputTemplates({
-    translatedTemplates,
-    outputMode,
-    defaultLanguage,
-    kratosLanguageVariable,
-  })
-
-  return {
-    name: template.name,
-    mjmlParseErrors: mjmlCompileResult?.mjmlParseErrors ?? [],
-    outputTemplates,
-  }
 }

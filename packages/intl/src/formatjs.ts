@@ -1,3 +1,4 @@
+import { Result } from "neverthrow"
 import { execSync } from "node:child_process"
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
@@ -11,29 +12,30 @@ export interface ExtractedMessage {
 
 export type ExtractedMessages = Record<string, ExtractedMessage>
 
-export function extractMessages(pattern = "src/**/*.{ts,tsx}"): ExtractedMessages {
+export function extractMessages(pattern = "src/**/*.{ts,tsx}"): Result<ExtractedMessages, Error> {
   const tempFile = join(tmpdir(), `messages-${Date.now()}.json`)
 
-  try {
-    const command = [
-      "npx",
-      "@formatjs/cli",
-      "extract",
-      `"${pattern}"`,
-      "--out-file",
-      `"${tempFile}"`,
-      "--preserve-whitespace",
-      "--extract-source-location",
-    ].join(" ")
+  return Result.fromThrowable(
+    () => {
+      const command = [
+        "npx",
+        "@formatjs/cli",
+        "extract",
+        `"${pattern}"`,
+        "--out-file",
+        `"${tempFile}"`,
+        "--preserve-whitespace",
+        "--extract-source-location",
+      ].join(" ")
 
-    execSync(command)
+      execSync(command)
 
-    const messagesText = readFileSync(tempFile, "utf-8")
-    rmSync(tempFile)
-    return JSON.parse(messagesText)
-  } catch (error) {
-    throw new Error(`Failed to extract messages. Error: ${error}`)
-  }
+      const messagesText = readFileSync(tempFile, "utf-8")
+      rmSync(tempFile)
+      return JSON.parse(messagesText) as ExtractedMessages
+    },
+    error => new Error(`Failed to extract messages. Error: ${error}`),
+  )()
 }
 
 export function compileTranslations({
@@ -44,24 +46,25 @@ export function compileTranslations({
   inputDir: string
   outputDir: string
   options?: { ast?: boolean; format?: string }
-}) {
+}): Result<void, Error> {
   const { ast = true, format = "simple" } = options
 
-  try {
-    const command = [
-      "npx",
-      "@formatjs/cli",
-      "compile-folder",
-      ...(ast ? ["--ast"] : []),
-      "--format",
-      format,
-      inputDir,
-      outputDir,
-    ].join(" ")
-    execSync(command)
-  } catch (error) {
-    throw new Error(`Failed to compile translations. Error: ${error}`)
-  }
+  return Result.fromThrowable(
+    () => {
+      const command = [
+        "npx",
+        "@formatjs/cli",
+        "compile-folder",
+        ...(ast ? ["--ast"] : []),
+        "--format",
+        format,
+        inputDir,
+        outputDir,
+      ].join(" ")
+      execSync(command)
+    },
+    error => new Error(`Failed to compile translations. Error: ${error}`),
+  )()
 }
 
 export function createTranslationsTempDir(prefix = "intl-"): string {

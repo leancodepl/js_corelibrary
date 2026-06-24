@@ -1,5 +1,6 @@
 export { ErrorCode } from "./lib/_utils/errors"
 export * from "./lib/_utils/tryUploadWithUploadParams"
+export { formatUploadError, type UploadError } from "./lib/_utils/UploadError"
 export * from "./lib/UploadImages"
 export * from "./lib/types"
 export { useUploadImages, type UseUploadImagesProps } from "./lib/_hooks/useUploadImages"
