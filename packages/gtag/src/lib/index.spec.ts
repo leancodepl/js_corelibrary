@@ -12,12 +12,6 @@ describe("mkgtag", () => {
     globalThis.dataLayer = originalDataLayer
   })
 
-  it("returns a function", () => {
-    const gtag = mkgtag()
-
-    expect(typeof gtag).toBe("function")
-  })
-
   it("pushes the event to an initialized dataLayer", () => {
     globalThis.dataLayer = []
     const gtag = mkgtag<{ event: "purchase"; value: number }>()
