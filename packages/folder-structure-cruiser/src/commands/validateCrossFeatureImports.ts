@@ -21,7 +21,7 @@ import { logger } from "../lib/logger.js"
  * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
  * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
  *
- * @returns Promise<number> - Number of detected violations
+ * @returns Promise<number> - Number of error-level violations
  *
  * @throws {Error} - Throws an error if the dependency analysis fails or configuration is invalid
  *
