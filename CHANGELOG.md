@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.4.0](https://github.com/leancodepl/js_corelibrary/compare/v10.3.1...v10.4.0) (2026-06-23)
+
+### Features
+
+- skip opaque segments and external dependencies in cross-feature-imports check
+  ([b2cb6dd](https://github.com/leancodepl/js_corelibrary/commit/b2cb6ddf79345444c5dd20bdaadcb8901c99e510))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.3.1](https://github.com/leancodepl/js_corelibrary/compare/v10.3.0...v10.3.1) (2026-05-20)
 
 ### Bug Fixes
