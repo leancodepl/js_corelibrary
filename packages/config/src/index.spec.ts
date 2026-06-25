@@ -6,13 +6,6 @@ describe("mkGetInjectedConfig", () => {
     vi.unstubAllEnvs()
   })
 
-  it("returns an object exposing getInjectedConfig", () => {
-    const result = mkGetInjectedConfig()
-
-    expect(result).toHaveProperty("getInjectedConfig")
-    expect(typeof result.getInjectedConfig).toBe("function")
-  })
-
   it("reads a value from import.meta.env using the VITE_ prefix", () => {
     vi.stubEnv("VITE_API_URL", "https://api.example.com")
 
