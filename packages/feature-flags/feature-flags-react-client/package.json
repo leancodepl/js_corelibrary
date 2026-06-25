@@ -19,6 +19,11 @@
     "@openfeature/react-sdk": "^0.4.5",
     "@openfeature/web-sdk": "^1.2.3"
   },
+  "devDependencies": {
+    "@testing-library/react": "*",
+    "react": "*",
+    "vitest": "*"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
