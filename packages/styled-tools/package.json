@@ -17,6 +17,11 @@
   "peerDependencies": {
     "styled-components": ">=6.0.0"
   },
+  "devDependencies": {
+    "@testing-library/react": "*",
+    "react": "*",
+    "vitest": "*"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
