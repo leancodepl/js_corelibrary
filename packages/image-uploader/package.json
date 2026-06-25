@@ -31,6 +31,11 @@
     "react": "*",
     "react-dom": "*"
   },
+  "devDependencies": {
+    "@testing-library/react": "*",
+    "react": "*",
+    "vitest": "*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leancodepl/js_corelibrary.git",
