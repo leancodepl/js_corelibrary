@@ -1,6 +1,7 @@
 import { IReporterOutput } from "dependency-cruiser"
 import { findCommonPathsPrefix, findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
 import { Message } from "./formatMessages.js"
+import { stripOpaqueSegments } from "./opaqueSegments.js"
 
 type CheckResult = { messages: Message[]; totalCruised: number }
 
@@ -37,14 +38,14 @@ export function checkSharedComponents(result: IReporterOutput): CheckResult {
       continue
     }
 
-    const pathParts = module.source.split("/")
+    const pathParts = stripOpaqueSegments(module.source.split("/"))
     const pathPartsLength = pathParts.length
 
     if (pathPartsLength <= 2) {
       continue
     }
 
-    const dependentPathParts = dependents.map(dep => dep.split("/"))
+    const dependentPathParts = dependents.map(dep => stripOpaqueSegments(dep.split("/")))
     const commonDependentPrefix = findCommonPathsPrefix(dependentPathParts)
 
     const commonPrefixLength = findCommonPathsPrefixLength([pathParts, commonDependentPrefix])
