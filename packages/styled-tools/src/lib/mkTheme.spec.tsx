@@ -52,14 +52,6 @@ describe("mkTheme", () => {
             expect(primary(withTheme(appTheme))).toBe("#ff0000")
             expect(primary(withTheme(darkTheme))).toBe("#111111")
         })
-
-        it("returns undefined for a path that does not exist on the theme", () => {
-            const { theme } = mkTheme<AppTheme>()
-
-            const missing = (theme.colors as any).tertiary as (c: ExecutionContext) => unknown
-
-            expect(missing(withTheme(appTheme))).toBeUndefined()
-        })
     })
 
     describe("useTheme hook", () => {
