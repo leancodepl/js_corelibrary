@@ -14,12 +14,22 @@ export interface MjmlCompileResult {
   mjmlParseErrors: MjmlParseError[]
 }
 
-export function compileMjml({ mjmlContent, filePath }: { mjmlContent: string; filePath: string }): MjmlCompileResult {
+export async function compileMjml({
+  mjmlContent,
+  filePath,
+}: {
+  mjmlContent: string
+  filePath: string
+}): Promise<MjmlCompileResult> {
   try {
-    const result = mjml2html(mjmlContent, {
+    // mjml 5's mjml2html is asynchronous and returns a Promise.
+    const result = await mjml2html(mjmlContent, {
       keepComments: false,
       validationLevel: "soft",
       filePath,
+      // mjml 5 ignores mj-include by default (CVE-2025-67898). Re-enable it so the
+      // templates' shared styles/logo/footer partials are resolved relative to filePath.
+      ignoreIncludes: false,
     })
 
     // js-beautify is used to format the HTML as beautify option is deprecated in mjml-core

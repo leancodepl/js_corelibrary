@@ -12,14 +12,16 @@ export async function generate(config: Omit<MailTranslationConfig, "outputPath">
     outputMode: config.outputMode,
   })
 
-  return [...mjmlTemplates, ...plaintextTemplates].map(template =>
-    processTemplate({
-      template,
-      translationData,
-      outputMode: config.outputMode,
-      defaultLanguage: config.defaultLanguage,
-      kratosLanguageVariable: config.kratosLanguageVariable,
-      mailsPath: config.mailsPath,
-    }),
+  return Promise.all(
+    [...mjmlTemplates, ...plaintextTemplates].map(template =>
+      processTemplate({
+        template,
+        translationData,
+        outputMode: config.outputMode,
+        defaultLanguage: config.defaultLanguage,
+        kratosLanguageVariable: config.kratosLanguageVariable,
+        mailsPath: config.mailsPath,
+      }),
+    ),
   )
 }

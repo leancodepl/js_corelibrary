@@ -104,7 +104,7 @@ exports[`generate function - Razor mode > should generate razor templates matchi
 
 <body style="word-spacing:normal;background-color:#f9fafb;">
 
-  <div aria-roledescription="email" style="background-color:#f9fafb;" role="article" lang="und" dir="auto">
+  <div aria-roledescription="email" role="article" lang="und" dir="auto" style="word-spacing:normal;background-color:#f9fafb;">
 
     <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="header-outlook" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
 
@@ -281,7 +281,6 @@ exports[`generate function - Razor mode > should generate razor templates matchi
     <!--[if mso | IE]></td></tr></table><![endif]-->
 
   </div>
-
 </body>
 
 </html>",
@@ -385,7 +384,7 @@ exports[`generate function - Razor mode > should generate razor templates matchi
 
 <body style="word-spacing:normal;background-color:#f9fafb;">
 
-  <div aria-roledescription="email" style="background-color:#f9fafb;" role="article" lang="und" dir="auto">
+  <div aria-roledescription="email" role="article" lang="und" dir="auto" style="word-spacing:normal;background-color:#f9fafb;">
 
     <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="header-outlook" role="presentation" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
 
@@ -562,7 +561,6 @@ exports[`generate function - Razor mode > should generate razor templates matchi
     <!--[if mso | IE]></td></tr></table><![endif]-->
 
   </div>
-
 </body>
 
 </html>",
