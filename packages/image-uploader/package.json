@@ -25,7 +25,7 @@
     "@leancodepl/utils": "10.4.0",
     "react-dropzone": "14.3.8",
     "react-easy-crop": "5.5.0",
-    "uuid": "11.1.0"
+    "uuid": "^14.0.1"
   },
   "peerDependencies": {
     "react": "*",
