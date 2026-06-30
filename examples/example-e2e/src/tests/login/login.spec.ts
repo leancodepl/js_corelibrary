@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { authenticator } from "otplib"
+import { generate } from "otplib"
 import { generateUserData, registerUser } from "../../helpers/users"
 import { IdentityPage } from "../../pageObjects/identity"
 import { LoginPage } from "../../pageObjects/login"
@@ -154,7 +154,7 @@ test.describe("login page", () => {
     await settingsPage.visit()
 
     const totpSecretKey = await settingsPage.getTotpSecretKey()
-    const totpCode = authenticator.generate(totpSecretKey)
+    const totpCode = await generate({ secret: totpSecretKey })
 
     await settingsPage.totpCodeInput.fill(totpCode)
     await settingsPage.verifyTotpButton.click()
@@ -170,7 +170,7 @@ test.describe("login page", () => {
     await loginPage.clickLogin()
 
     await expect(loginPage.secondFactorFormWrapper).toBeVisible()
-    const totpLoginCode = authenticator.generate(totpSecretKey)
+    const totpLoginCode = await generate({ secret: totpSecretKey })
     await loginPage.fillTotpInput(totpLoginCode)
     await loginPage.clickLogin()
 
