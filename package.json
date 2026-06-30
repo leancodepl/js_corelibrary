@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@tanstack/react-router": "1.128.0",
+    "@tanstack/react-router": "1.170.16",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
