@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@leancodepl/utils": "10.4.0",
-    "antd": "^5.0.0",
+    "antd": "^5.0.0 || ^6.0.0",
     "rxjs": ">=7.0.0",
     "zod": "^4.0.5"
   },
