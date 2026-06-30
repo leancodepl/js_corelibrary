@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@leancodepl/utils": "10.4.0",
-    "react-dropzone": "14.3.8",
+    "react-dropzone": "15.0.0",
     "react-easy-crop": "^6.0.0",
     "uuid": "^14.0.1"
   },
