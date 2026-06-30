@@ -24,10 +24,11 @@
     "commander": "^15.0.0"
   },
   "devDependencies": {
+    "dependency-cruiser": "^18.0.0",
     "vitest": "*"
   },
   "peerDependencies": {
-    "dependency-cruiser": "^17.0.0"
+    "dependency-cruiser": "^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public",
