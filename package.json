@@ -10,8 +10,8 @@
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@babel/preset-react": "^7.29.7",
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cli": "^21.1.0",
+    "@commitlint/config-conventional": "^21.1.0",
     "@faker-js/faker": "9.9.0",
     "@leancodepl/nx-plugins": "9.7.4",
     "@nx/devkit": "23.0.1",
