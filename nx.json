@@ -35,7 +35,6 @@
       "plugin": "@nx/vite/plugin",
       "options": {
         "buildTargetName": "build",
-        "testTargetName": "test",
         "typecheckTargetName": "typecheck"
       }
     },

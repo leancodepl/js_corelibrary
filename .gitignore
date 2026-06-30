@@ -50,3 +50,8 @@ vite.config.*.timestamp*
 vitest.config.*.timestamp*
 
 test-output
+
+.claude/worktrees
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
