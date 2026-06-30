@@ -59,7 +59,7 @@ export class FacebookClient {
   public login(callback?: (accessToken: string) => Promise<void>) {
     FB.login(
       response => {
-        if (response.status === "connected") {
+        if (response.status === "connected" && response.authResponse.accessToken != null) {
           this.isSignedIn = true
           this.token = response.authResponse.accessToken
           if (callback) {
@@ -75,7 +75,7 @@ export class FacebookClient {
 
   private getLoginStatus(callback?: (accessToken: string) => Promise<void>) {
     FB.getLoginStatus(response => {
-      if (response.status === "connected") {
+      if (response.status === "connected" && response.authResponse.accessToken != null) {
         this.isSignedIn = true
         this.token = response.authResponse.accessToken
         if (callback) {
