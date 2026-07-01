@@ -22,13 +22,14 @@ export async function compileMjml({
   filePath: string
 }): Promise<MjmlCompileResult> {
   try {
-    // mjml 5's mjml2html is asynchronous and returns a Promise.
     const result = await mjml2html(mjmlContent, {
       keepComments: false,
       validationLevel: "soft",
+      // `filePath` points at the templates root; templates use base-relative
+      // `mj-include` paths so partials resolve within it (mjml scopes includes to
+      // `filePath`/`includePath` and denies `..` escapes).
       filePath,
-      // mjml 5 ignores mj-include by default (CVE-2025-67898). Re-enable it so the
-      // templates' shared styles/logo/footer partials are resolved relative to filePath.
+      // mjml 5 disables `mj-include` by default; re-enable it to resolve shared partials.
       ignoreIncludes: false,
     })
 
