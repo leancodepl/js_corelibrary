@@ -18,7 +18,7 @@
     "@leancodepl/cqrs-client-base": "10.4.0"
   },
   "devDependencies": {
-    "sinon": "15.2.0"
+    "sinon": "^22.0.0"
   },
   "publishConfig": {
     "access": "public",

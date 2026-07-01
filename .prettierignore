@@ -6,3 +6,5 @@
 /.nx/workspace-data
 
 /packages/kratos/src/lib/kratos/api.generated/*
+
+.nx/self-healing

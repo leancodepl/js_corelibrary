@@ -100,6 +100,18 @@ templates/
     └── footer.mjml
 ```
 
+### Includes
+
+You can pull shared partials into a template with `mj-include`:
+
+```mjml
+<mj-include path="./components/styles.mjml" />
+```
+
+Any `.mjml` file inside your templates root can be included, referenced with a base-relative path such as
+`./components/styles.mjml`. Files outside the templates root are not allowed: paths cannot escape the root with `..`,
+and absolute paths outside it are rejected.
+
 ### Translation Files
 
 Create JSON translation files in your `translationsPath`:

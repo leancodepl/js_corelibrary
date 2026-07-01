@@ -23,7 +23,7 @@ export interface ProcessedTemplate {
   outputTemplates: OutputTemplate[]
 }
 
-export function processTemplate({
+export async function processTemplate({
   template,
   translationData,
   outputMode,
@@ -37,13 +37,13 @@ export function processTemplate({
   defaultLanguage?: string
   kratosLanguageVariable?: string
   mailsPath: string
-}): ProcessedTemplate {
+}): Promise<ProcessedTemplate> {
   const availableLanguages = Object.keys(translationData)
   const languagesToProcess = availableLanguages.length > 0 ? availableLanguages : [defaultLanguage]
 
   const mjmlCompileResult = template.isPlaintext
     ? undefined
-    : compileMjml({ mjmlContent: template.content, filePath: mailsPath })
+    : await compileMjml({ mjmlContent: template.content, filePath: mailsPath })
 
   const content = template.isPlaintext ? template.content : (mjmlCompileResult?.html ?? "")
 

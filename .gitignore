@@ -45,8 +45,13 @@ lerna-debug.log
 
 .nx/cache
 .nx/workspace-data
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 
 test-output
+
+.claude/worktrees
