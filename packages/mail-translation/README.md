@@ -112,8 +112,8 @@ Any `.mjml` file inside your templates root can be included, referenced with a b
 `./components/styles.mjml`. Files outside the templates root are not allowed: paths cannot escape the root with `..`,
 and absolute paths outside it are rejected.
 
-Partials that live outside the templates root aren't supported without extra configuration. See the
-[mjml documentation](https://documentation.mjml.io/#inside-node-js) for advanced setups.
+Only files inside the templates root can be included — there's no supported way to include files from outside it. See
+the [mjml `mj-include` docs](https://documentation.mjml.io/#mj-include) for the include syntax.
 
 ### Translation Files
 
