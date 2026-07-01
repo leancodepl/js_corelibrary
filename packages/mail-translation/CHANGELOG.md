@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.5.1](https://github.com/leancodepl/js_corelibrary/compare/v10.4.0...v10.5.1) (2026-07-01)
+
+### Bug Fixes
+
+- **mail-translation:** follow mjml include best practices + drop comment
+  ([f523436](https://github.com/leancodepl/js_corelibrary/commit/f523436d2df62553eb74d2be9804c534a22a7d02))
+- resolve pre-existing typecheck errors in logger affected set
+  ([9bb40cf](https://github.com/leancodepl/js_corelibrary/commit/9bb40cf62ffd84b55f1bb20a19aef1fcf7a15dff))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [10.4.0](https://github.com/leancodepl/js_corelibrary/compare/v10.3.1...v10.4.0) (2026-06-23)
 
 **Note:** Version bump only for package @leancodepl/mail-translation
