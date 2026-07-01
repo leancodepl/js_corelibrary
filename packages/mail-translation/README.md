@@ -102,20 +102,18 @@ templates/
 
 ### Includes
 
-Shared partials can be pulled in with `mj-include`. mjml resolves these relative to the templates root (`mailsPath`),
-which the package passes as mjml's `filePath` option:
+You can pull shared partials into a template with `mj-include`:
 
 ```mjml
 <mj-include path="./components/styles.mjml" />
 ```
 
-Since mjml 5, `mj-include` is ignored by default for security. This package re-enables it via `ignoreIncludes: false`
-and scopes it with `filePath`, so only files inside the templates root can be included. Includes must use base-relative
-paths (e.g. `./components/styles.mjml`); paths that escape the root with `..` or use absolute paths outside it are
-denied.
+Any `.mjml` file inside your templates root can be included, referenced with a base-relative path such as
+`./components/styles.mjml`. Files outside the templates root are not allowed: paths cannot escape the root with `..`,
+and absolute paths outside it are rejected.
 
-If you ever add shared partials that live outside the templates root, allowlist their folders through mjml's
-`includePath` option. See the [mjml documentation](https://documentation.mjml.io/#inside-node-js) for details.
+Partials that live outside the templates root aren't supported without extra configuration. See the
+[mjml documentation](https://documentation.mjml.io/#inside-node-js) for advanced setups.
 
 ### Translation Files
 
