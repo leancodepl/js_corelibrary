@@ -41,7 +41,24 @@ describe("shared-components validation", () => {
       configPath: configPath,
     })
 
-    expect(violationsCount).toBeGreaterThan(0)
+    expect(violationsCount).toBe(0)
     expect(consoleInfoSpy).toHaveBeenCalledWith(expect.anything(), expect.stringContaining("not-shared-level"))
+  })
+
+  it("should not flag a shared component placed correctly behind an opaque directory", async () => {
+    const dirname = import.meta.dirname
+    const testDir = join(dirname, "test-structure")
+    const configPath = join(dirname, "../.dependency-cruiser.json")
+
+    const violationsCount = await validateSharedComponent({
+      directories: [testDir],
+      configPath: configPath,
+    })
+
+    expect(violationsCount).toBe(0)
+    expect(consoleInfoSpy).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("gadgets/shared_/Widget"),
+    )
   })
 })

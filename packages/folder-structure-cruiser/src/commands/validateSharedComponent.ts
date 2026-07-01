@@ -20,7 +20,8 @@ import { logger } from "../lib/logger.js"
  * @param cruiseParams.tsConfigPath - Optional path to TypeScript configuration file for enhanced type resolution
  * @param cruiseParams.webpackConfigPath - Optional path to webpack configuration file for webpack alias resolution
  *
- * @returns Promise<number> - Number of detected violations
+ * @returns Promise<number> - Number of error-level violations. This rule is purely informational,
+ * so it always resolves to 0 and never fails the command, even when recommendations are reported.
  *
  * @throws {Error} - Throws an error if the dependency analysis fails or configuration is invalid
  *
@@ -75,5 +76,6 @@ export async function validateSharedComponent(cruiseParams: CruiseParams): Promi
     logger.info(`Found ${infoMessages.length} violation(s). ${totalCruised} modules cruised.`)
   }
 
-  return infoMessages.length
+  // Purely informational rule: it never produces error violations, so the command must not fail.
+  return 0
 }

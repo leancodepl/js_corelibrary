@@ -1,6 +1,7 @@
 import { IReporterOutput } from "dependency-cruiser"
 import { findCommonPathsPrefixLength } from "./findCommonPathsPrefix.js"
 import { Message } from "./formatMessages.js"
+import { stripOpaqueSegments } from "./opaqueSegments.js"
 
 type CheckResult = { messages: Message[]; totalCruised: number }
 
@@ -52,21 +53,4 @@ const maxNestedImportDepth = 2
 
 function isExternalDependency(dependencyTypes: string[] | undefined): boolean {
   return dependencyTypes?.some(type => type === "core" || type === "unknown" || type.startsWith("npm")) ?? false
-}
-
-/**
- * A directory whose name ends with a single underscore (e.g. `features_`) is
- * opaque: a transparent container that doesn't count toward the cross-feature
- * nesting depth.
- *
- * The single-trailing-underscore rule deliberately spares names like
- * `__tests__`, where the trailing underscore is part of the convention rather
- * than an opacity marker.
- */
-function isOpaqueSegment(segment: string): boolean {
-  return /[^_]_$/.test(segment)
-}
-
-function stripOpaqueSegments(segments: string[]): string[] {
-  return segments.filter(segment => !isOpaqueSegment(segment))
 }
