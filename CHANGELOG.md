@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.5.0](https://github.com/leancodepl/js_corelibrary/compare/v10.4.0...v10.5.0) (2026-07-01)
+
+### Bug Fixes
+
+- do not return exit code 1 for validateSharedComponent
+  ([ec5240e](https://github.com/leancodepl/js_corelibrary/commit/ec5240ee4733dbe32550e188c78b451894c873ee))
+- **logger:** add tsconfig.spec project reference to fix typecheck
+  ([88911da](https://github.com/leancodepl/js_corelibrary/commit/88911da2459efb5694d375602c3277f6ed819080))
+- resolve pre-existing typecheck errors in logger affected set
+  ([9bb40cf](https://github.com/leancodepl/js_corelibrary/commit/9bb40cf62ffd84b55f1bb20a19aef1fcf7a15dff))
+- strip opaque segments in checkSharedComponents
+  ([73b9fc7](https://github.com/leancodepl/js_corelibrary/commit/73b9fc71e875f9e7bbb9c58ee88387e424f7f53a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [10.4.0](https://github.com/leancodepl/js_corelibrary/compare/v10.3.1...v10.4.0) (2026-06-23)
 
 ### Features
