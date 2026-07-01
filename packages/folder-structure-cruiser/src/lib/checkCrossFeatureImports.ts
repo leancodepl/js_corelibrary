@@ -34,10 +34,10 @@ export function checkCrossFeatureImports(result: IReporterOutput): CheckResult {
           dependencyPath.length > commonPrefixPathLength + maxNestedImportDepth)
       ) {
         errorMessages.push({
-          source: module.source,
-          target: dependency.resolved,
           rule: "cross-feature-nested-imports",
           severity: "error",
+          importer: module.source,
+          imported: dependency.resolved,
         })
       }
     })
