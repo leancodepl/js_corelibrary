@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process"
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import * as path from "node:path"
 import { pathToFileURL } from "node:url"
@@ -40,25 +40,6 @@ afterAll(() => {
     rmSync(dir, { recursive: true, force: true })
   }
   tmpDirs = []
-})
-
-describe("built dist (cheap static gate)", () => {
-  it("preserves a literal `import.meta.env` in the emitted ESM", () => {
-    const code = readFileSync(distEntry, "utf8")
-
-    // variant A leaves no literal `import.meta.env` (it is replaced by an
-    // inlined/frozen snapshot at library build time).
-    expect(code).toContain("import.meta.env")
-  })
-
-  it("does not stash `import.meta` into a local binding (variant B shape)", () => {
-    const code = readFileSync(distEntry, "utf8")
-
-    // `const importMeta = import.meta` (or any `= import.meta` not immediately
-    // followed by `.env`) is the variant B shape that breaks consumer-side
-    // textual replacement.
-    expect(code).not.toMatch(/=\s*import\.meta\b(?!\.env)/)
-  })
 })
 
 describe("built dist consumed through a real Vite build", () => {
