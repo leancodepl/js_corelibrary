@@ -20,8 +20,7 @@ declare global {
  * ```
  */
 export function mkGetInjectedConfig<TConfigKey extends string>() {
-  const importMeta = import.meta // this preserves the import.meta object in the bundle
   return {
-    getInjectedConfig: (key: TConfigKey) => importMeta.env[`VITE_${key}`] as string | undefined,
+    getInjectedConfig: (key: TConfigKey) => import.meta.env[`VITE_${key}`] as string | undefined,
   }
 }
