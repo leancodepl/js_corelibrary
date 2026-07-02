@@ -1,40 +1,23 @@
 import { execSync } from "node:child_process"
-import { existsSync, mkdtempSync, readdirSync, rmSync } from "node:fs"
+import { existsSync, mkdtempSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import * as path from "node:path"
 import { pathToFileURL } from "node:url"
 import { build } from "vite"
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
 
-// This test validates the PUBLISHED artifact, not the source. The whole point
-// of `@leancodepl/config` is to defer `import.meta.env` resolution to the
-// consumer's Vite build, so the literal expression must survive into `dist` and
-// be textually replaced by a real consumer pipeline. The source-level specs in
-// `src/index.spec.ts` cannot catch this: they import from source and never
-// exercise the built output through Vite. Historical regressions this guards:
-//   - variant A (9.7.3-10.2.x): lib mode baked a frozen build-time snapshot into
-//     dist -> the consumer always sees `undefined`.
-//   - variant B (10.3.x-10.5.1): `const importMeta = import.meta` -> in the
-//     consumer this stays a bare `import.meta` (not textually replaced) whose
-//     `.env` is undefined -> `TypeError`.
-
 const testDir = import.meta.dirname
-const configPkgRoot = path.resolve(testDir, "..")
-const repoRoot = path.resolve(testDir, "../../..")
-const distEntry = path.join(configPkgRoot, "dist", "index.js")
-
-// A committed fixture that behaves like a downstream app depending on the built
-// package (see `entry.js` for why it imports dist by relative path).
 const fixtureDir = path.join(testDir, "fixtures", "vite-consumer")
+const distEntry = path.resolve(testDir, "..", "dist", "index.js")
 const expectedValue = "some-expected-value"
 
 let tmpDirs: string[] = []
 
 beforeAll(() => {
-  // `nx test config` builds dist first (project.json wires test -> dependsOn
-  // build). This fallback keeps the spec runnable via a bare `vitest` too.
+  // `nx test config` builds dist first (test -> ^build). This keeps a bare
+  // `vitest` run working too.
   if (!existsSync(distEntry)) {
-    execSync("npx nx build config", { cwd: repoRoot, stdio: "inherit" })
+    execSync("npx nx build config", { cwd: path.resolve(testDir, "../../.."), stdio: "inherit" })
   }
 }, 180_000)
 
@@ -50,29 +33,15 @@ describe("built dist consumed through a real Vite build", () => {
     const outDir = mkdtempSync(path.join(tmpdir(), "config-dist-consumer-"))
     tmpDirs.push(outDir)
 
+    // Real consumer pipeline: builds the fixture (which imports the built
+    // `@leancodepl/config` by name) and only redirects output to a temp dir.
     await build({
-      root: fixtureDir,
-      configFile: false,
-      logLevel: "silent",
-      build: {
-        outDir,
-        emptyOutDir: true,
-        minify: false,
-        lib: {
-          entry: path.join(fixtureDir, "entry.js"),
-          formats: ["es"],
-          fileName: () => "consumer.js",
-        },
-        rollupOptions: { external: [] },
-      },
+      configFile: path.join(fixtureDir, "build-config.ts"),
+      build: { outDir },
     })
 
-    const outFile = readdirSync(outDir).find(f => f.endsWith(".js") || f.endsWith(".mjs"))
-    if (!outFile) throw new Error("consumer build produced no ESM output")
+    const mod = await import(pathToFileURL(path.join(outDir, "consumer.js")).href)
 
-    const mod = await import(pathToFileURL(path.join(outDir, outFile)).href)
-
-    // variant A -> undefined; variant B -> a broken lookup (undefined/TypeError).
     expect(mod.result).toBe(expectedValue)
   }, 120_000)
 })

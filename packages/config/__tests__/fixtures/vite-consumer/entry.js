@@ -1,8 +1,7 @@
-// A downstream app that depends on the built `@leancodepl/config` package.
-// Importing the built `dist` by a relative path (rather than a bare specifier)
-// guarantees Vite bundles it, so the consumer's own pipeline is what must
-// textually replace `import.meta.env` -- exactly the real-world path.
-import { mkGetInjectedConfig } from "../../../dist"
+// A downstream app that depends on the built `@leancodepl/config` by its public
+// package name. The fixture's own Vite build must bundle dist and textually
+// replace `import.meta.env` -- exactly the real-world consumer path.
+import { mkGetInjectedConfig } from "@leancodepl/config"
 
 const { getInjectedConfig } = mkGetInjectedConfig()
 
