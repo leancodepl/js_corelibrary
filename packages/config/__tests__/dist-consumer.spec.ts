@@ -1,12 +1,12 @@
 import { execSync } from "node:child_process"
-import { existsSync, mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs"
+import { existsSync, mkdtempSync, readdirSync, rmSync } from "node:fs"
 import { tmpdir } from "node:os"
 import * as path from "node:path"
 import { pathToFileURL } from "node:url"
 import { build } from "vite"
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
 
-// These tests validate the PUBLISHED artifact, not the source. The whole point
+// This test validates the PUBLISHED artifact, not the source. The whole point
 // of `@leancodepl/config` is to defer `import.meta.env` resolution to the
 // consumer's Vite build, so the literal expression must survive into `dist` and
 // be textually replaced by a real consumer pipeline. The source-level specs in
@@ -23,6 +23,9 @@ const configPkgRoot = path.resolve(testDir, "..")
 const repoRoot = path.resolve(testDir, "../../..")
 const distEntry = path.join(configPkgRoot, "dist", "index.js")
 
+// A committed fixture that behaves like a downstream app depending on the built
+// package (see `entry.js` for why it imports dist by relative path).
+const fixtureDir = path.join(testDir, "fixtures", "vite-consumer")
 const expectedValue = "some-expected-value"
 
 let tmpDirs: string[] = []
@@ -44,35 +47,15 @@ afterAll(() => {
 
 describe("built dist consumed through a real Vite build", () => {
   it("resolves the consumer's env var at the consumer's build time", async () => {
-    const fixtureDir = mkdtempSync(path.join(tmpdir(), "config-dist-consumer-"))
-    tmpDirs.push(fixtureDir)
-
-    // A fixture that behaves like a downstream app depending on the built
-    // package. Importing the built `dist` by absolute path guarantees Vite
-    // bundles it (rather than externalising a bare specifier), so the
-    // consumer's pipeline is the thing that must textually replace
-    // `import.meta.env` -- exactly the real-world path.
-    writeFileSync(
-      path.join(fixtureDir, "package.json"),
-      JSON.stringify({ name: "config-dist-consumer-fixture", version: "0.0.0", type: "module" }),
-    )
-    writeFileSync(path.join(fixtureDir, ".env"), `VITE_FOO=${expectedValue}\n`)
-    writeFileSync(
-      path.join(fixtureDir, "entry.js"),
-      [
-        `import { mkGetInjectedConfig } from ${JSON.stringify(distEntry)}`,
-        "const { getInjectedConfig } = mkGetInjectedConfig()",
-        "export const result = getInjectedConfig('FOO')",
-        "",
-      ].join("\n"),
-    )
+    const outDir = mkdtempSync(path.join(tmpdir(), "config-dist-consumer-"))
+    tmpDirs.push(outDir)
 
     await build({
       root: fixtureDir,
       configFile: false,
       logLevel: "silent",
       build: {
-        outDir: path.join(fixtureDir, "out"),
+        outDir,
         emptyOutDir: true,
         minify: false,
         lib: {
@@ -84,7 +67,6 @@ describe("built dist consumed through a real Vite build", () => {
       },
     })
 
-    const outDir = path.join(fixtureDir, "out")
     const outFile = readdirSync(outDir).find(f => f.endsWith(".js") || f.endsWith(".mjs"))
     if (!outFile) throw new Error("consumer build produced no ESM output")
 
