@@ -23,7 +23,7 @@ import { FileWithId, UploadedFileWithId, UploadParams } from "../types"
  * ```
  */
 export async function tryUploadWithUploadParams(
-  image: FileWithId | UploadedFileWithId,
+  image: FileWithId,
   getUploadParams: (image: FileWithId) => Promise<UploadParams | null | undefined>,
 ): Promise<UploadedFileWithId> {
   if ("url" in image) {

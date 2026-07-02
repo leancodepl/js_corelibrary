@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode, useEffect, useState } from "react"
 import { getImagePreviewData } from "../_utils/getImagePreviewData"
-import { FileWithId, UploadFileItemChildProps } from "../types"
+import { UploadFileItemChildProps } from "../types"
 import { useUploadImagesContext } from "./Provider"
 
 /**
@@ -8,7 +8,7 @@ import { useUploadImagesContext } from "./Provider"
  */
 export type UploadImagesFileItemProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children: ((props: UploadFileItemChildProps) => ReactNode) | ReactNode
-  file: FileWithId
+  file: UploadFileItemChildProps["file"]
 }
 
 /**
@@ -42,19 +42,25 @@ export function UploadImagesFileItem({ children, file, ...props }: UploadImagesF
 
   const [previewData, setPreviewData] = useState<string>()
 
+  const url = "url" in file ? file.url : undefined
+
   useEffect(() => {
+    if (url) {
+      return
+    }
+
     const loadPreview = async () => {
       const preview = await getImagePreviewData(file.originalFile)
       setPreviewData(preview)
     }
 
     loadPreview()
-  }, [file.originalFile])
+  }, [url, file.originalFile])
 
   return (
     <div {...props}>
       {typeof children === "function"
-        ? children({ file, preview: previewData, remove: () => removeFile(file.id) })
+        ? children({ file, preview: url ?? previewData, remove: () => removeFile(file.id) })
         : children}
     </div>
   )
