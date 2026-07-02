@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
+
+### Bug Fixes
+
+- **config:** preserve literal import.meta.env in published dist
+  ([6230930](https://github.com/leancodepl/js_corelibrary/commit/623093083e8a14bfea5db24fa54406bf3674244a))
+- **image-uploader:** turn FileWithId into a union with all file states
+  ([4db50e9](https://github.com/leancodepl/js_corelibrary/commit/4db50e92a3bf9a65fc4b5099be1e9e179c8d1840))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.1](https://github.com/leancodepl/js_corelibrary/compare/v10.4.0...v10.5.1) (2026-07-01)
 
 ### Bug Fixes
