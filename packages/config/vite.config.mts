@@ -4,6 +4,7 @@ import { defineConfig, type Plugin } from "vite"
 import dts from "vite-plugin-dts"
 
 const importMetaEnvPlaceholder = "__preserved_import_meta_env__"
+const importMetaEnvCode = "import.meta.env"
 
 // This package's whole purpose is to defer `import.meta.env` lookups to the
 // consumer's Vite build. Vite resolves `import.meta.env` at build time (in lib
@@ -17,17 +18,15 @@ function preserveImportMetaEnv(): Plugin {
     enforce: "pre",
     apply: "build",
     transform(code) {
-      if (!code.includes("import.meta.env")) return
-      return { code: code.replaceAll("import.meta.env", importMetaEnvPlaceholder), map: null }
+      if (!code.includes(importMetaEnvCode)) return
+      return { code: code.replaceAll(importMetaEnvCode, importMetaEnvPlaceholder), map: null }
     },
     generateBundle(_options, bundle) {
       for (const chunk of Object.values(bundle)) {
         if (chunk.type !== "chunk") continue
-        chunk.code = chunk.code.replaceAll(importMetaEnvPlaceholder, "import.meta.env")
-        if (!chunk.code.includes("import.meta.env")) {
-          this.error(
-            `${chunk.fileName} must contain a literal \`import.meta.env\` — consumers' Vite replaces it textually, so without it every getInjectedConfig call returns undefined`,
-          )
+        chunk.code = chunk.code.replaceAll(importMetaEnvPlaceholder, importMetaEnvCode)
+        if (!chunk.code.includes(importMetaEnvCode)) {
+          this.error(`${chunk.fileName} must contain a literal \`${importMetaEnvCode}\``)
         }
       }
     },
