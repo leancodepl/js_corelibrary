@@ -1,13 +1,15 @@
 export type { Accept, FileRejection } from "react-dropzone"
 
-export type FileWithId = {
+type BaseFileWithId = {
   originalFile: File
   id: string
 }
 
-export type UploadedFileWithId = FileWithId & {
+export type UploadedFileWithId = BaseFileWithId & {
   url: string
 }
+
+export type FileWithId = BaseFileWithId | UploadedFileWithId
 
 export type UploadParams = {
   uri: string
