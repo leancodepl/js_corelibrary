@@ -37,6 +37,12 @@ function transformIndexHtml(plugin: ReturnType<typeof ViteFaviconsPlugin>, ctx: 
   return handler?.call(undefined as never, "", ctx as never)
 }
 
+function runGenerateBundle(plugin: ReturnType<typeof ViteFaviconsPlugin>, ctx: unknown, bundle: unknown) {
+  const hook = plugin.generateBundle
+  const handler = typeof hook === "function" ? hook : hook?.handler
+  return handler?.call(ctx as never, {} as never, bundle as never, false)
+}
+
 function captureMiddleware(plugin: ReturnType<typeof ViteFaviconsPlugin>) {
   let middleware: Connect.NextHandleFunction | undefined
   const hook = plugin.configureServer
@@ -175,6 +181,70 @@ describe("ViteFaviconsPlugin", () => {
         { tag: "link", attrs: { rel: "icon", href: "/assets/favicon-abc123.ico" } },
         { tag: "link", attrs: { rel: "manifest", href: "/assets/manifest-def456.webmanifest" } },
       ])
+    })
+
+    it("rewrites icon references inside generated manifest/config files to hashed names", async () => {
+      // favicons bakes pre-hash icon paths into the manifest/config contents;
+      // those must be rewritten to the hashed asset names, or the built
+      // manifests point at files that no longer exist.
+      faviconsMock.mockResolvedValue({
+        images: [
+          { name: "favicon-16x16.png", contents: Buffer.from("16") },
+          // Two names sharing a stem: the shorter must not corrupt the longer.
+          { name: "mstile-70x70.png", contents: Buffer.from("70") },
+          { name: "mstile-70x70@2x.png", contents: Buffer.from("70-2x") },
+        ],
+        files: [
+          {
+            name: "manifest.webmanifest",
+            contents: JSON.stringify({
+              icons: [{ src: "/favicon-16x16.png" }, { src: "/mstile-70x70.png" }, { src: "/mstile-70x70@2x.png" }],
+            }),
+          },
+        ],
+        html: [],
+      } satisfies FaviconResponse)
+
+      const plugin = ViteFaviconsPlugin({ logo: "logo.svg" })
+      resolveConfig(plugin, "build")
+      await runBuildStart(plugin, { addWatchFile: vi.fn(), emitFile: vi.fn() })
+
+      // The bundle exposes each emitted asset by its hashed name plus its
+      // original name(s), which is how the plugin resolves the mapping.
+      const bundle = {
+        "assets/favicon-16x16-aaa.png": {
+          type: "asset",
+          names: ["favicon-16x16.png"],
+          fileName: "assets/favicon-16x16-aaa.png",
+        },
+        "assets/mstile-70x70-bbb.png": {
+          type: "asset",
+          names: ["mstile-70x70.png"],
+          fileName: "assets/mstile-70x70-bbb.png",
+        },
+        "assets/mstile-70x70@2x-ccc.png": {
+          type: "asset",
+          names: ["mstile-70x70@2x.png"],
+          fileName: "assets/mstile-70x70@2x-ccc.png",
+        },
+        "assets/manifest-ddd.webmanifest": {
+          type: "asset",
+          names: ["manifest.webmanifest"],
+          fileName: "assets/manifest-ddd.webmanifest",
+          source: JSON.stringify({
+            icons: [{ src: "/favicon-16x16.png" }, { src: "/mstile-70x70.png" }, { src: "/mstile-70x70@2x.png" }],
+          }),
+        },
+      }
+      runGenerateBundle(plugin, undefined, bundle)
+
+      expect(JSON.parse(bundle["assets/manifest-ddd.webmanifest"].source)).toEqual({
+        icons: [
+          { src: "/assets/favicon-16x16-aaa.png" },
+          { src: "/assets/mstile-70x70-bbb.png" },
+          { src: "/assets/mstile-70x70@2x-ccc.png" },
+        ],
+      })
     })
   })
 })
