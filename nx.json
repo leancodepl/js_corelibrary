@@ -92,5 +92,6 @@
       }
     }
   },
-  "useInferencePlugins": true
+  "useInferencePlugins": true,
+  "analytics": false
 }

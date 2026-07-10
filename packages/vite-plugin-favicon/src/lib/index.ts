@@ -18,8 +18,12 @@ export type ViteFaviconsPluginOptions = {
   inject?: boolean
   /** Favicons configuration options.
    * See [favicons documentation](https://github.com/itgalaxy/favicons) for details.
+   *
+   * `path` is intentionally excluded: Vite hashes and relocates the generated
+   * assets, so the plugin always references them at the root and rewrites the
+   * injected tags to their final bundled locations.
    */
-  favicons?: Partial<FaviconOptions>
+  favicons?: Omit<Partial<FaviconOptions>, "path">
   /** Project root directory for metadata loading.
    * @default process.cwd()
    */
@@ -61,21 +65,56 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
   const logoPath = path.resolve(options.logo ?? path.join("assets", "logo.png"))
 
   let faviconResponse: FaviconResponse | undefined = undefined
+  let isBuild = false
+
+  let devAssetsByPath = new Map<string, { contents: Buffer | string; contentType: string }>()
+
+  const getDevAsset = (url: string | undefined) => {
+    const requestPath = url?.split("?")[0]
+    return requestPath ? devAssetsByPath.get(requestPath) : undefined
+  }
 
   const rebuildFavicons = async (ctx: PluginContext) => {
     ctx.addWatchFile(logoPath)
     faviconResponse = await favicons(logoPath, options.favicons)
 
-    for (const { name, contents } of [...faviconResponse.files, ...faviconResponse.images]) {
-      ctx.emitFile({ type: "asset", name, source: contents })
+    const assets = [...faviconResponse.images, ...faviconResponse.files]
+
+    // Generated assets are emitted into the bundle only during build; in dev
+    // they are served from memory
+    if (isBuild) {
+      for (const { name, contents } of assets) {
+        ctx.emitFile({ type: "asset", name, source: contents })
+      }
+    } else {
+      devAssetsByPath = new Map(
+        assets.map(({ name, contents }) => [`/${name}`, { contents, contentType: getContentType(name) }]),
+      )
     }
   }
 
   return {
     name: "vite-plugin-favicon",
-    apply: "build",
+    configResolved(config) {
+      isBuild = config.command === "build"
+    },
     async buildStart() {
       await rebuildFavicons(this)
+    },
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const asset = getDevAsset(req.url)
+
+        if (!asset) {
+          next()
+          return
+        }
+
+        res.statusCode = 200
+        res.setHeader("Content-Type", asset.contentType)
+        res.setHeader("Cache-Control", "no-cache")
+        res.end(asset.contents)
+      })
     },
     transformIndexHtml(_, ctx) {
       if (!options.inject || !faviconResponse) return
@@ -116,3 +155,14 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
     },
   }
 }
+
+const mimeTypesByExtension: Record<string, string> = {
+  ".ico": "image/x-icon",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".json": "application/json",
+  ".webmanifest": "application/manifest+json",
+  ".xml": "application/xml",
+}
+
+const getContentType = (name: string) => mimeTypesByExtension[path.extname(name)] ?? "application/octet-stream"
