@@ -53,7 +53,7 @@ describe("useSorting", () => {
       expect(result.current.isDescending).toBe(true)
     })
 
-    it("clears key and direction when onChange receives undefined sort data", () => {
+    it("falls back to the default key and direction when the sorter is cleared", () => {
       // arrange
       const { result } = renderHook(() =>
         useSorting<string, unknown>({ defaultSortKey: "name", defaultSortDirection: "ascend" }),
@@ -64,9 +64,9 @@ describe("useSorting", () => {
         result.current.sortData.onChange(undefined)
       })
 
-      // assert
-      expect(result.current.sortKey).toBeUndefined()
-      expect(result.current.sortDirection).toBeUndefined()
+      // assert - clearing resolves back to the configured default, not undefined
+      expect(result.current.sortKey).toBe("name")
+      expect(result.current.sortDirection).toBe("ascend")
       expect(result.current.isDescending).toBe(false)
     })
 
@@ -141,23 +141,6 @@ describe("useSorting", () => {
 
       // assert
       expect(onSortUpdate).toHaveBeenCalledWith("name", "descend")
-    })
-
-    it("reflects the query-state props instead of mirroring updates locally", () => {
-      // arrange - onSortUpdate does not propagate back into the props (mimics a no-op consumer)
-      const onSortUpdate = vi.fn()
-      const { result } = renderHook(() =>
-        useSorting<string, unknown>({ sortKey: "status", sortDirection: "ascend", onSortUpdate }),
-      )
-
-      // act
-      act(() => {
-        result.current.sortData.onChange({ columnKey: "name", order: "descend" })
-      })
-
-      // assert - the source of truth is the props, so sortData stays put until the props change
-      expect(result.current.sortKey).toBe("status")
-      expect(result.current.sortData.data).toEqual({ columnKey: "status", order: "ascend" })
     })
 
     it("tracks the query-state props as they change", () => {
