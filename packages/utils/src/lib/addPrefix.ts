@@ -1,4 +1,6 @@
-type PrefixWith<T, TPrefix extends string> = { [K in keyof T as K extends string ? `${TPrefix}${K}` : never]: T[K] }
+export type PrefixWith<T, TPrefix extends string> = {
+  [K in keyof T as K extends string ? `${TPrefix}${K}` : never]: T[K]
+}
 
 /**
  * Adds a prefix to all keys in an object, creating a new object with prefixed keys.
