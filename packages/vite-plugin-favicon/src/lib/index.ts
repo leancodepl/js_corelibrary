@@ -1,4 +1,4 @@
-import type { PluginContext } from "rollup"
+import type { OutputBundle, PluginContext } from "rollup"
 import type { HtmlTagDescriptor, Plugin } from "vite"
 import favicons, { FaviconOptions, FaviconResponse } from "favicons"
 import path from "node:path"
@@ -18,8 +18,12 @@ export type ViteFaviconsPluginOptions = {
   inject?: boolean
   /** Favicons configuration options.
    * See [favicons documentation](https://github.com/itgalaxy/favicons) for details.
+   *
+   * `path` is intentionally excluded: Vite hashes and relocates the generated
+   * assets, so the plugin always references them at the root and rewrites the
+   * injected tags to their final bundled locations.
    */
-  favicons?: Partial<FaviconOptions>
+  favicons?: Omit<Partial<FaviconOptions>, "path">
   /** Project root directory for metadata loading.
    * @default process.cwd()
    */
@@ -61,36 +65,88 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
   const logoPath = path.resolve(options.logo ?? path.join("assets", "logo.png"))
 
   let faviconResponse: FaviconResponse | undefined = undefined
+  let isBuild = false
+
+  let devAssetsByPath = new Map<string, { contents: Buffer | string; contentType: string }>()
+
+  const getDevAsset = (url: string | undefined) => {
+    const requestPath = url?.split("?")[0]
+    return requestPath ? devAssetsByPath.get(requestPath) : undefined
+  }
 
   const rebuildFavicons = async (ctx: PluginContext) => {
     ctx.addWatchFile(logoPath)
     faviconResponse = await favicons(logoPath, options.favicons)
 
-    for (const { name, contents } of [...faviconResponse.files, ...faviconResponse.images]) {
-      ctx.emitFile({ type: "asset", name, source: contents })
+    const assets = [...faviconResponse.images, ...faviconResponse.files]
+
+    // Generated assets are emitted into the bundle only during build; in dev
+    // they are served from memory
+    if (isBuild) {
+      for (const { name, contents } of assets) {
+        ctx.emitFile({ type: "asset", name, source: contents })
+      }
+    } else {
+      devAssetsByPath = new Map(
+        assets.map(({ name, contents }) => [`/${name}`, { contents, contentType: getContentType(name) }]),
+      )
     }
   }
 
   return {
     name: "vite-plugin-favicon",
-    apply: "build",
+    configResolved(config) {
+      isBuild = config.command === "build"
+    },
     async buildStart() {
       await rebuildFavicons(this)
+    },
+    // Rewrite the pre-hash icon paths baked into the generated manifest/config
+    // files to the hashed names Vite assigned, so they resolve to real assets.
+    generateBundle(_, bundle) {
+      if (!faviconResponse) return
+
+      const hashedNames = collectHashedNames(bundle)
+
+      const replacements = faviconResponse.images
+        .map(({ name }) => {
+          const hashedName = hashedNames.get(name)
+
+          return hashedName ? ([`/${name}`, `/${hashedName}`] as const) : undefined
+        })
+        .filter(entry => !!entry)
+
+      for (const { name } of faviconResponse.files) {
+        const hashedName = hashedNames.get(name)
+        const asset = hashedName ? bundle[hashedName] : undefined
+        if (asset?.type !== "asset" || typeof asset.source !== "string") continue
+
+        asset.source = replacements.reduce(
+          (source, [reference, hashedPath]) => source.split(reference).join(hashedPath),
+          asset.source,
+        )
+      }
+    },
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const asset = getDevAsset(req.url)
+
+        if (!asset) {
+          next()
+          return
+        }
+
+        res.statusCode = 200
+        res.setHeader("Content-Type", asset.contentType)
+        res.setHeader("Cache-Control", "no-cache")
+        res.end(asset.contents)
+      })
     },
     transformIndexHtml(_, ctx) {
       if (!options.inject || !faviconResponse) return
 
       const tags: HtmlTagDescriptor[] = []
-      const assetFileName = Object.values(ctx.bundle ?? {}).reduce(
-        (acc, v) => {
-          if (v.type !== "asset") return acc
-          for (const name of v.names) {
-            acc[name] = v.fileName
-          }
-          return acc
-        },
-        {} as Record<string, string | undefined>,
-      )
+      const hashedNames = collectHashedNames(ctx.bundle ?? {})
 
       for (const tag of faviconResponse.html) {
         const node = parseFragment(tag).childNodes[0]
@@ -100,9 +156,9 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
             tag: node.tagName,
             attrs: node.attrs.reduce(
               (acc, v) => {
-                const name = assetFileName[v.value.slice(1)]
+                const hashedName = hashedNames.get(v.value.slice(1))
 
-                acc[v.name] = name ? `/${name}` : v.value
+                acc[v.name] = hashedName ? `/${hashedName}` : v.value
 
                 return acc
               },
@@ -115,4 +171,25 @@ export function ViteFaviconsPlugin(options: FaviconsPluginArgs = {}): Plugin {
       return tags
     },
   }
+}
+
+const mimeTypesByExtension: Record<string, string> = {
+  ".ico": "image/x-icon",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".json": "application/json",
+  ".webmanifest": "application/manifest+json",
+  ".xml": "application/xml",
+}
+
+const getContentType = (name: string) => mimeTypesByExtension[path.extname(name)] ?? "application/octet-stream"
+
+// Maps each emitted asset's original name to its final hashed file name.
+const collectHashedNames = (bundle: OutputBundle) => {
+  const hashedNames = new Map<string, string>()
+  for (const output of Object.values(bundle)) {
+    if (output.type !== "asset") continue
+    for (const name of output.names) hashedNames.set(name, output.fileName)
+  }
+  return hashedNames
 }
