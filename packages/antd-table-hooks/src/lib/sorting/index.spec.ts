@@ -141,7 +141,58 @@ describe("useSorting", () => {
 
       // assert
       expect(onSortUpdate).toHaveBeenCalledWith("name", "descend")
+    })
+
+    it("reflects the query-state props instead of mirroring updates locally", () => {
+      // arrange - onSortUpdate does not propagate back into the props (mimics a no-op consumer)
+      const onSortUpdate = vi.fn()
+      const { result } = renderHook(() =>
+        useSorting<string, unknown>({ sortKey: "status", sortDirection: "ascend", onSortUpdate }),
+      )
+
+      // act
+      act(() => {
+        result.current.sortData.onChange({ columnKey: "name", order: "descend" })
+      })
+
+      // assert - the source of truth is the props, so sortData stays put until the props change
+      expect(result.current.sortKey).toBe("status")
+      expect(result.current.sortData.data).toEqual({ columnKey: "status", order: "ascend" })
+    })
+
+    it("tracks the query-state props as they change", () => {
+      // arrange
+      const onSortUpdate = vi.fn()
+      const { result, rerender } = renderHook(props => useSorting<string, unknown>(props), {
+        initialProps: { sortKey: "status", sortDirection: "ascend" as SortOrder, onSortUpdate },
+      })
+
+      // act
+      rerender({ sortKey: "name", sortDirection: "descend", onSortUpdate })
+
+      // assert
       expect(result.current.sortKey).toBe("name")
+      expect(result.current.sortData.data).toEqual({ columnKey: "name", order: "descend" })
+    })
+
+    it("returns to the resolved default on reset even when a dimension is unchanged", () => {
+      // arrange - emulate useTable: onSortUpdate(undefined) clears the URL, so the query state
+      // resolves back to the defaults. Here the default direction (descend) equals the
+      // pre-reset direction, which used to leave sortDirection stuck at undefined.
+      const defaultSortKey = "firstDay"
+      const defaultSortDirection: SortOrder = "descend"
+      const { result, rerender } = renderHook(props => useSorting<string, unknown>(props), {
+        initialProps: { sortKey: "lastDay", sortDirection: "descend" as SortOrder, onSortUpdate: vi.fn() },
+      })
+
+      // act - reset the sorter, then let the query state resolve back to the defaults
+      act(() => {
+        result.current.sortData.onChange(undefined)
+      })
+      rerender({ sortKey: defaultSortKey, sortDirection: defaultSortDirection, onSortUpdate: vi.fn() })
+
+      // assert - both dimensions reflect the resolved default, not a stale undefined
+      expect(result.current.sortData.data).toEqual({ columnKey: "firstDay", order: "descend" })
     })
   })
 })
