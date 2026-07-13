@@ -1,6 +1,5 @@
 import { Key, useMemo, useState } from "react"
 import { SortOrder } from "antd/es/table/interface"
-import { useSyncState } from "@leancodepl/utils"
 import { SortData } from "../types"
 
 type QueryStateSorting<TKey extends Key> = {
@@ -67,24 +66,24 @@ export function useSorting<TKey extends Key, TData>(
   sortDirection?: SortOrder
   isDescending: boolean
 } {
-  const { defaultSortKey, defaultSortDirection, onSortUpdate } = normalizeSortingProps(props)
+  const isControlled = isQueryStateSorting(props)
+  const onSortUpdate = props.onSortUpdate
 
-  const [sortKey, setSortKey] = useState(defaultSortKey)
-  const [sortDirection, setSortDirection] = useState(defaultSortDirection)
+  const [localSortKey, setLocalSortKey] = useState<TKey>()
+  const [localSortDirection, setLocalSortDirection] = useState<SortOrder>()
 
-  useSyncState(defaultSortKey, () => {
-    setSortKey(defaultSortKey)
-  })
-
-  useSyncState(defaultSortDirection, () => {
-    setSortDirection(defaultSortDirection)
-  })
+  // Controlled (query-state): read the caller's value directly, so an external URL change wins.
+  // Uncontrolled (standalone): keep the local pick, falling back to the default until the user sorts.
+  const sortKey = isControlled ? props.sortKey : (localSortKey ?? props.defaultSortKey)
+  const sortDirection = isControlled ? props.sortDirection : (localSortDirection ?? props.defaultSortDirection)
 
   const sortData = useMemo<SortData<TData>>(
     () => ({
       onChange: sortData => {
-        setSortKey(sortData?.columnKey as TKey | undefined)
-        setSortDirection(sortData?.order)
+        if (!isControlled) {
+          setLocalSortKey(sortData?.columnKey as TKey | undefined)
+          setLocalSortDirection(sortData?.order)
+        }
         onSortUpdate?.(sortData?.columnKey as TKey | undefined, sortData?.order)
       },
       data: {
@@ -92,7 +91,7 @@ export function useSorting<TKey extends Key, TData>(
         columnKey: sortKey,
       },
     }),
-    [onSortUpdate, sortDirection, sortKey],
+    [isControlled, onSortUpdate, sortDirection, sortKey],
   )
 
   return {
@@ -103,7 +102,7 @@ export function useSorting<TKey extends Key, TData>(
   }
 }
 
-function normalizeSortingProps<TKey extends Key>(
+function isQueryStateSorting<TKey extends Key>(
   props:
     | QueryStateSorting<TKey>
     | {
@@ -111,18 +110,6 @@ function normalizeSortingProps<TKey extends Key>(
         defaultSortDirection?: SortOrder
         onSortUpdate?: (sortKey?: TKey, sortDirection?: SortOrder) => void
       },
-): {
-  defaultSortKey?: TKey
-  defaultSortDirection?: SortOrder
-  onSortUpdate?: (sortKey?: TKey, sortDirection?: SortOrder) => void
-} {
-  if ("sortKey" in props && "sortDirection" in props && "onSortUpdate" in props) {
-    return {
-      defaultSortKey: props.sortKey,
-      defaultSortDirection: props.sortDirection,
-      onSortUpdate: props.onSortUpdate,
-    }
-  }
-
-  return props
+): props is QueryStateSorting<TKey> {
+  return "sortKey" in props && "sortDirection" in props && "onSortUpdate" in props
 }
