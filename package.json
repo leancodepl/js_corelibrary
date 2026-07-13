@@ -62,7 +62,7 @@
     "jiti": "2.7.0",
     "jsdom": "^29.1.1",
     "jsonc-eslint-parser": "^2.4.2",
-    "lerna": "^8.2.4",
+    "lerna": "^9.0.7",
     "lint-staged": "17.0.8",
     "nx": "23.0.2",
     "otplib": "13.4.1",
