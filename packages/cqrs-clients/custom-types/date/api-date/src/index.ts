@@ -1,23 +1,22 @@
-class AD {
+class ApiDateOnly {
   declare private _: never
 }
-class ADT {
+class ApiDateTime {
   declare private _: never
 }
-class ATS {
-  declare private _: never
-}
-
-class AT {
+class ApiTimeSpan {
   declare private _: never
 }
 
-class ADO {
+class ApiTimeOnly {
   declare private _: never
 }
 
-export type ApiDateOnly = AD
-export type ApiDateTime = ADT
-export type ApiTimeSpan = ATS
-export type ApiTimeOnly = AT
-export type ApiDateTimeOffset = ADO
+class ApiDateTimeOffset {
+  declare private _: never
+}
+
+// Type-only so the brands stay un-instantiable, while remaining nameable in
+// downstream declaration emit (avoids TS4094 when a consumer's public type
+// inlines one of these brands).
+export type { ApiDateOnly, ApiDateTime, ApiDateTimeOffset, ApiTimeOnly, ApiTimeSpan }
