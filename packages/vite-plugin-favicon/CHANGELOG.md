@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/leancodepl/js_corelibrary/compare/v10.5.2...v10.6.0) (2026-07-13)
+
+### Bug Fixes
+
+- **vite-plugin-favicon:** generate valid manifest file
+  ([31c586b](https://github.com/leancodepl/js_corelibrary/commit/31c586b0e9d9ef528ca26e3b38f6777a44d02b6b))
+
+### Features
+
+- add serving favicons during vite serve
+  ([7074f54](https://github.com/leancodepl/js_corelibrary/commit/7074f546977773a6dfc95c1181fdd67274d8cd03))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
 
 **Note:** Version bump only for package @leancodepl/vite-plugin-favicon

@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/leancodepl/js_corelibrary/compare/v10.5.2...v10.6.0) (2026-07-13)
+
+### Bug Fixes
+
+- **antd-table-hooks:** read query state directly in useSorting
+  ([398f5a7](https://github.com/leancodepl/js_corelibrary/commit/398f5a7d140c80339cc0832fde62656dcb3eb770))
+- **antd-table-hooks:** simplify useSorting to fall back to defaults on clear
+  ([76fc851](https://github.com/leancodepl/js_corelibrary/commit/76fc8518e1476324f2e5e558bb2b96a4924aef41))
+- **api-date:** make date brand classes nameable in downstream declaration emit
+  ([86e740b](https://github.com/leancodepl/js_corelibrary/commit/86e740b0b1dbb88891b4a05a150c91edec04d3f6))
+- peer dependency warnings from babel
+  ([172c32c](https://github.com/leancodepl/js_corelibrary/commit/172c32c0c920bf95cc8d06696f0f63b36528f79a))
+- **utils:** export the PrefixWith type from addPrefix
+  ([5dd3f66](https://github.com/leancodepl/js_corelibrary/commit/5dd3f664671ad95c6ba576bb465c97a9409cc048))
+- **vite-plugin-favicon:** generate valid manifest file
+  ([31c586b](https://github.com/leancodepl/js_corelibrary/commit/31c586b0e9d9ef528ca26e3b38f6777a44d02b6b))
+
+### Features
+
+- add serving favicons during vite serve
+  ([7074f54](https://github.com/leancodepl/js_corelibrary/commit/7074f546977773a6dfc95c1181fdd67274d8cd03))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
 
 ### Bug Fixes

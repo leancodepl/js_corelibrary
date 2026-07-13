@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/leancodepl/js_corelibrary/compare/v10.5.2...v10.6.0) (2026-07-13)
+
+### Bug Fixes
+
+- **antd-table-hooks:** read query state directly in useSorting
+  ([398f5a7](https://github.com/leancodepl/js_corelibrary/commit/398f5a7d140c80339cc0832fde62656dcb3eb770))
+- **antd-table-hooks:** simplify useSorting to fall back to defaults on clear
+  ([76fc851](https://github.com/leancodepl/js_corelibrary/commit/76fc8518e1476324f2e5e558bb2b96a4924aef41))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
 
 **Note:** Version bump only for package @leancodepl/antd-table-hooks
