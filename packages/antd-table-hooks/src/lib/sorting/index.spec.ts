@@ -100,6 +100,22 @@ describe("useSorting", () => {
       expect(result.current.sortDirection).toBe("descend")
     })
 
+    it("keeps the user's sort when the default changes after they have sorted", () => {
+      // arrange
+      const { result, rerender } = renderHook(props => useSorting<string, unknown>(props), {
+        initialProps: { defaultSortKey: "name", defaultSortDirection: "ascend" as SortOrder },
+      })
+
+      // act - the user picks a sort, then the caller changes the default underneath
+      act(() => {
+        result.current.sortData.onChange({ columnKey: "email", order: "descend" })
+      })
+      rerender({ defaultSortKey: "createdAt", defaultSortDirection: "ascend" })
+
+      // assert - the explicit selection persists; a default change does not override it
+      expect(result.current.sortData.data).toEqual({ columnKey: "email", order: "descend" })
+    })
+
     it("defaults to empty state when called with an empty options object", () => {
       // arrange / act
       const { result } = renderHook(() => useSorting<string, unknown>({}))
@@ -175,6 +191,25 @@ describe("useSorting", () => {
       rerender({ sortKey: defaultSortKey, sortDirection: defaultSortDirection, onSortUpdate: vi.fn() })
 
       // assert - both dimensions reflect the resolved default, not a stale undefined
+      expect(result.current.sortData.data).toEqual({ columnKey: "firstDay", order: "descend" })
+    })
+
+    it("reflects an external query-state change after the user has sorted", () => {
+      // arrange
+      const onSortUpdate = vi.fn()
+      const { result, rerender } = renderHook(props => useSorting<string, unknown>(props), {
+        initialProps: { sortKey: "firstDay", sortDirection: "descend" as SortOrder, onSortUpdate },
+      })
+
+      // act - the user sorts (a real consumer propagates it into the props), then the URL
+      // changes externally (e.g. browser back) without going through onChange
+      act(() => {
+        result.current.sortData.onChange({ columnKey: "lastDay", order: "ascend" })
+      })
+      rerender({ sortKey: "lastDay", sortDirection: "ascend", onSortUpdate })
+      rerender({ sortKey: "firstDay", sortDirection: "descend", onSortUpdate })
+
+      // assert - the query-state props win; no stale local value lingers
       expect(result.current.sortData.data).toEqual({ columnKey: "firstDay", order: "descend" })
     })
   })

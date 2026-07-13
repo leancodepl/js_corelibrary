@@ -1,6 +1,5 @@
 import { Key, useMemo, useState } from "react"
 import { SortOrder } from "antd/es/table/interface"
-import { useSyncState } from "@leancodepl/utils"
 import { SortData } from "../types"
 
 type QueryStateSorting<TKey extends Key> = {
@@ -67,31 +66,26 @@ export function useSorting<TKey extends Key, TData>(
   sortDirection?: SortOrder
   isDescending: boolean
 } {
-  const { defaultSortKey, defaultSortDirection, onSortUpdate } = normalizeSortingProps(props)
+  const isControlled = isQueryStateSorting(props)
+  const onSortUpdate = props.onSortUpdate
 
-  const [localSortKey, setLocalSortKey] = useState(defaultSortKey)
-  const [localSortDirection, setLocalSortDirection] = useState(defaultSortDirection)
+  const [localSortKey, setLocalSortKey] = useState<TKey>()
+  const [localSortDirection, setLocalSortDirection] = useState<SortOrder>()
 
-  useSyncState(defaultSortKey, () => {
-    setLocalSortKey(defaultSortKey)
-  })
-
-  useSyncState(defaultSortDirection, () => {
-    setLocalSortDirection(defaultSortDirection)
-  })
-
-  // Clearing a sorter writes `undefined` into local state; fall back to the configured default
-  // so the value resolves back to the default rather than sticking at `undefined`. In
-  // query-state mode `onSortUpdate(undefined)` clears the URL and the query resolves back to the
-  // same defaults, so the displayed sorter and the (now clean) URL stay in agreement.
-  const sortKey = localSortKey ?? defaultSortKey
-  const sortDirection = localSortDirection ?? defaultSortDirection
+  // Query-state mode is controlled: the caller (e.g. `useTable`) owns the value via the URL, so
+  // read it directly — an external URL change (e.g. browser back) must win over a stale local
+  // pick. Standalone mode is uncontrolled: the local pick is the source of truth and persists,
+  // falling back to the configured default until the user sorts.
+  const sortKey = isControlled ? props.sortKey : (localSortKey ?? props.defaultSortKey)
+  const sortDirection = isControlled ? props.sortDirection : (localSortDirection ?? props.defaultSortDirection)
 
   const sortData = useMemo<SortData<TData>>(
     () => ({
       onChange: sortData => {
-        setLocalSortKey(sortData?.columnKey as TKey | undefined)
-        setLocalSortDirection(sortData?.order)
+        if (!isControlled) {
+          setLocalSortKey(sortData?.columnKey as TKey | undefined)
+          setLocalSortDirection(sortData?.order)
+        }
         onSortUpdate?.(sortData?.columnKey as TKey | undefined, sortData?.order)
       },
       data: {
@@ -99,7 +93,7 @@ export function useSorting<TKey extends Key, TData>(
         columnKey: sortKey,
       },
     }),
-    [onSortUpdate, sortDirection, sortKey],
+    [isControlled, onSortUpdate, sortDirection, sortKey],
   )
 
   return {
@@ -110,7 +104,7 @@ export function useSorting<TKey extends Key, TData>(
   }
 }
 
-function normalizeSortingProps<TKey extends Key>(
+function isQueryStateSorting<TKey extends Key>(
   props:
     | QueryStateSorting<TKey>
     | {
@@ -118,18 +112,6 @@ function normalizeSortingProps<TKey extends Key>(
         defaultSortDirection?: SortOrder
         onSortUpdate?: (sortKey?: TKey, sortDirection?: SortOrder) => void
       },
-): {
-  defaultSortKey?: TKey
-  defaultSortDirection?: SortOrder
-  onSortUpdate?: (sortKey?: TKey, sortDirection?: SortOrder) => void
-} {
-  if ("sortKey" in props && "sortDirection" in props && "onSortUpdate" in props) {
-    return {
-      defaultSortKey: props.sortKey,
-      defaultSortDirection: props.sortDirection,
-      onSortUpdate: props.onSortUpdate,
-    }
-  }
-
-  return props
+): props is QueryStateSorting<TKey> {
+  return "sortKey" in props && "sortDirection" in props && "onSortUpdate" in props
 }
