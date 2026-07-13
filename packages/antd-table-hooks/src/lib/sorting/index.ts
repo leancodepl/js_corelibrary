@@ -72,10 +72,8 @@ export function useSorting<TKey extends Key, TData>(
   const [localSortKey, setLocalSortKey] = useState<TKey>()
   const [localSortDirection, setLocalSortDirection] = useState<SortOrder>()
 
-  // Query-state mode is controlled: the caller (e.g. `useTable`) owns the value via the URL, so
-  // read it directly — an external URL change (e.g. browser back) must win over a stale local
-  // pick. Standalone mode is uncontrolled: the local pick is the source of truth and persists,
-  // falling back to the configured default until the user sorts.
+  // Controlled (query-state): read the caller's value directly, so an external URL change wins.
+  // Uncontrolled (standalone): keep the local pick, falling back to the default until the user sorts.
   const sortKey = isControlled ? props.sortKey : (localSortKey ?? props.defaultSortKey)
   const sortDirection = isControlled ? props.sortDirection : (localSortDirection ?? props.defaultSortDirection)
 
