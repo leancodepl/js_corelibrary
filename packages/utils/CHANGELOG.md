@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/leancodepl/js_corelibrary/compare/v10.5.2...v10.6.0) (2026-07-13)
+
+### Bug Fixes
+
+- **utils:** export the PrefixWith type from addPrefix
+  ([5dd3f66](https://github.com/leancodepl/js_corelibrary/commit/5dd3f664671ad95c6ba576bb465c97a9409cc048))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
 
 **Note:** Version bump only for package @leancodepl/utils

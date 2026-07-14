@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.6.0](https://github.com/leancodepl/js_corelibrary/compare/v10.5.2...v10.6.0) (2026-07-13)
+
+### Bug Fixes
+
+- **api-date:** make date brand classes nameable in downstream declaration emit
+  ([86e740b](https://github.com/leancodepl/js_corelibrary/commit/86e740b0b1dbb88891b4a05a150c91edec04d3f6))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [10.5.2](https://github.com/leancodepl/js_corelibrary/compare/v10.5.1...v10.5.2) (2026-07-02)
 
 **Note:** Version bump only for package @leancodepl/api-date

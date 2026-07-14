@@ -1,6 +1,6 @@
 {
   "name": "@leancodepl/force-update",
-  "version": "10.5.2",
+  "version": "10.6.0",
   "license": "Apache-2.0",
   "type": "module",
   "main": "./dist/index.js",

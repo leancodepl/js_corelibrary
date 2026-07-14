@@ -90,7 +90,9 @@ if (outputPath) {
   // Get list of files that would be included in the npm package
   const packOutput = execSync("npm pack --dry-run --json", { encoding: "utf-8" })
   const packInfo = JSON.parse(packOutput)
-  const files = packInfo[0].files.map(f => f.path)
+  // npm <= 11 returns an array of pack results, npm >= 12 returns an object keyed by package name
+  const packPackages = Array.isArray(packInfo) ? packInfo : Object.values(packInfo)
+  const files = packPackages[0].files.map(f => f.path)
 
   for (const file of files) {
     const destPath = join(publishFolder, file)
