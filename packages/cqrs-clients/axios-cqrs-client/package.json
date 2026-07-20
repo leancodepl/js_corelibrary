@@ -25,7 +25,7 @@
     "@leancodepl/cqrs-client-base": "10.6.0",
     "@leancodepl/utils": "10.6.0",
     "@leancodepl/validation": "10.6.0",
-    "axios": ">=1.6.0"
+    "axios": "^1.18.0"
   },
   "repository": {
     "type": "git",
