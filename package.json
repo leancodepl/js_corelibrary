@@ -60,7 +60,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^9.1.7",
     "jiti": "2.7.0",
-    "jsdom": "^30.0.1",
+    "jsdom": "^29.1.1",
     "jsonc-eslint-parser": "^3.3.0",
     "lerna": "^10.0.0",
     "lint-staged": "17.3.0",
