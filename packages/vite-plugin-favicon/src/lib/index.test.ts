@@ -17,6 +17,7 @@ const faviconResponse: FaviconResponse = {
   images: [{ name: "favicon.ico", contents: Buffer.from("ico-bytes") }],
   files: [{ name: "manifest.webmanifest", contents: "{}" }],
   html: ['<link rel="icon" href="/favicon.ico">', '<link rel="manifest" href="/manifest.webmanifest">'],
+  htmlTags: [],
 }
 
 function resolveConfig(plugin: ReturnType<typeof ViteFaviconsPlugin>, command: ResolvedConfig["command"]) {
@@ -203,6 +204,7 @@ describe("ViteFaviconsPlugin", () => {
           },
         ],
         html: [],
+        htmlTags: [],
       } satisfies FaviconResponse)
 
       const plugin = ViteFaviconsPlugin({ logo: "logo.svg" })
