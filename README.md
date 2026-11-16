@@ -118,7 +118,8 @@ React component for image uploads.
 
 #### `@leancodepl/antd-table-hooks`
 
-React hooks for managing Ant Design table state — sorting, pagination, and filters — with optional URL query parameter persistence via Zod schemas.
+React hooks for managing Ant Design table state — sorting, pagination, and filters — with optional URL query parameter
+persistence via Zod schemas.
 
 ### Feature Management
 
@@ -140,6 +141,11 @@ Type-safe Google Tag Manager data layer integration for web analytics and event 
 #### `@leancodepl/cookie-consent`
 
 Cookie consent helper integrating `vanilla-cookieconsent` with Google Consent Mode.
+
+#### `@leancodepl/cookie-script`
+
+Reads CookieScript banner decisions. Reports whether a category is granted, denied, or still pending, and subscribes to
+later choices. Does not render the banner.
 
 ### Logging
 
@@ -175,7 +181,8 @@ Utility library for common development tasks including assertions, transformatio
 
 #### `@leancodepl/config`
 
-Utility for creating configuration getters that access Vite-injected values in development and environment variables in production.
+Utility for creating configuration getters that access Vite-injected values in development and environment variables in
+production.
 
 #### `@leancodepl/force-update`
 

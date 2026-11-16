@@ -116,6 +116,9 @@
     },
     {
       "path": "./packages/cyberware/cyberware-contract-generator-dart"
+    },
+    {
+      "path": "./packages/cookie-script"
     }
   ]
 }
